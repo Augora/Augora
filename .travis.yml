@@ -5,5 +5,6 @@ node_js:
 after_success:
   - yarn global add codecov
   - codecov
+cache: yarn
 notifications:
   slack: labetepolitique-team:NbzHhCF6cj1DOJhe8lGOg5ih
