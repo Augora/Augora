@@ -2,5 +2,8 @@ language: node_js
 node_js:
   - "7.7.2"
   - "6.10.0"
+after_success:
+  - yarn global add codecov
+  - codecov
 notifications:
   slack: labetepolitique-team:NbzHhCF6cj1DOJhe8lGOg5ih
