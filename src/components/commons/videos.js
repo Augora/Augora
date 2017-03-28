@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Axios from 'axios';
 import Video from './video.js';
 
@@ -21,15 +21,15 @@ class Videos extends Component {
     });
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     window.clearInterval(this.state.intervalId);
   }
 
   getLatestVideos() {
     const { urls } = this.props;
     const _this = this;
-    Axios.get(urls).then(function(result) {
-      _this.setState ({
+    Axios.get(urls).then((result) => {
+      _this.setState({
         videosIds: result.data.items.map(item => item.id.videoId),
       });
     });
@@ -37,16 +37,15 @@ class Videos extends Component {
 
   render() {
     console.log(this.state, this.props.urls);
-    if(this.state.videosIds.length === 0) {
+    if (this.state.videosIds.length === 0) {
       return <h2>Loading...</h2>;
-    } else {
-      return (
-        <div>
-          <h1>Videos</h1>
-          {this.state.videosIds.map(videoId => <Video key={videoId} id={videoId}/>)}
-        </div>
-      );
     }
+    return (
+      <div>
+        <h1>Videos</h1>
+        {this.state.videosIds.map(videoId => <Video key={videoId} id={videoId} />)}
+      </div>
+    );
   }
 }
 
