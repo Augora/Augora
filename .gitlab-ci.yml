@@ -2,6 +2,9 @@ image: node:6.11.2
 services:
   - docker:dind
 
+variables:
+  CONTAINER_TEST_IMAGE: registry.pimpmyowl.com/la-bete-politique/la-bete-politique:$CI_BUILD_REF_NAME
+
 stages:
   - unit
   - package
@@ -47,6 +50,7 @@ package:assets:
   <<: *deps
 
 build:
+  image: docker:latest
   stage: build
   script:
     - docker build --file="Dockerfile" --tag="$CONTAINER_TEST_IMAGE" .
