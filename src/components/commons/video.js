@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class Video extends Component {
   shouldComponentUpdate(nextProps) {
@@ -6,10 +6,10 @@ class Video extends Component {
   }
 
   render() {
-    console.log('Video:render')
+    console.log('Video:render');
     return (
       <div>
-        <iframe width="420" height="315" src={`https://www.youtube.com/embed/${this.props.id}`}></iframe>
+        <iframe width="420" height="315" src={`https://www.youtube.com/embed/${this.props.id}`} />
       </div>
     );
   }
