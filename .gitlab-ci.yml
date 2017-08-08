@@ -3,7 +3,7 @@ services:
   - docker:dind
 
 variables:
-  CONTAINER_TEST_IMAGE: registry.pimpmyowl.com/la-bete-politique/la-bete-politique:$CI_BUILD_REF_NAME
+  CONTAINER_TEST_IMAGE: registry.pimpmyowl.com/la-bete-politique/la-bete-politique:latest
 
 stages:
   - unit
