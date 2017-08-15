@@ -1,4 +1,6 @@
 image: node:6.11.2
+services: 
+  - docker:dind 
 
 variables:
   CONTAINER_TEST_IMAGE: registry.pimpmyowl.com/la-bete-politique/la-bete-politique:latest
