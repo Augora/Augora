@@ -5,6 +5,7 @@ variables:
   DOCKER_DRIVER: overlay
 
 stages:
+  - debug
   - unit
   - package
   - build
@@ -27,6 +28,12 @@ stages:
 .tests_template: &tests
   script:
     - yarn test
+
+debug:
+  image: docker:latest
+  stage: debug
+  script:
+    - docker info
 
 unit:current:
   image: node:8.2.1
@@ -52,7 +59,6 @@ build:
   image: docker:latest
   stage: build
   script:
-    - docker info
     - docker build --file="Dockerfile" --tag="$CONTAINER_TEST_IMAGE" .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker push $CONTAINER_TEST_IMAGE
