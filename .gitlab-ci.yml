@@ -4,6 +4,7 @@ services:
 
 variables:
   CONTAINER_TEST_IMAGE: registry.pimpmyowl.com/la-bete-politique/la-bete-politique:latest
+  DOCKER_DRIVER: overlay2
 
 stages:
   - debug
