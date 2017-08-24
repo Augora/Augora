@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/LaBetePolitique/la-bete-politique/branch/master/graph/badge.svg)](https://codecov.io/gh/LaBetePolitique/la-bete-politique)
+[![build status](https://gitlab.pimpmyowl.com/la-bete-politique/la-bete-politique/badges/develop/build.svg)](https://gitlab.pimpmyowl.com/la-bete-politique/la-bete-politique/commits/develop)
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
