@@ -24,7 +24,7 @@ stages:
     - yarn cache dir
   cache:
     paths:
-      - /root/.cache/yarn/
+      - /usr/local/share/.cache/yarn/
 
 .tests_template: &tests
   script:
