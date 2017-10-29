@@ -1,4 +1,4 @@
-image: node:6.11.2
+image: node:6.11.5
 services: 
   - docker:dind 
 
@@ -38,7 +38,7 @@ debug:
     - docker info
 
 unit:current:
-  image: node:8.2.1
+  image: node:8.8.1
   stage: unit
   <<: *deps
   <<: *tests
