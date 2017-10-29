@@ -7,7 +7,6 @@ variables:
   DOCKER_DRIVER: overlay2
 
 stages:
-  - debug
   - unit
   - package
   - build
@@ -30,12 +29,6 @@ stages:
 .tests_template: &tests
   script:
     - yarn test
-
-debug:
-  image: docker:latest
-  stage: debug
-  script:
-    - docker info
 
 unit:current:
   image: node:8.8.1
