@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import {
-  getDeputiesInOffice,
-} from 'lbp-wrapper';
+import React, { Component } from "react";
+import { getDeputiesInOffice } from "lbp-wrapper";
 
 class Home extends Component {
   render() {
-    getDeputiesInOffice().subscribe(d => console.log(d), err => console.error('Error:', err));
+    getDeputiesInOffice()
+      .then(d => console.log(d))
+      .catch(err => console.error("Error:", err));
     return <h1>Home</h1>;
   }
 }
