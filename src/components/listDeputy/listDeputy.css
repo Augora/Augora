@@ -1,8 +1,12 @@
-.depute {
-    background: grey;
-    display: inline-block;
+section {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     padding: 10px;
-    margin: 5px;
-    text-decoration: none;
-    color: white;
 }
