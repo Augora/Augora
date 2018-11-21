@@ -6,5 +6,14 @@
     margin-bottom: 5px;
     text-decoration: none;
     color: white;
+}
+.depute h2 {
+    margin: 0;
     text-align: center;
+    padding-bottom: 10px;
+    border-bottom: solid 1px white;
+    margin-bottom: 10px;
+}
+.depute h3 {
+    margin: 0;
 }
