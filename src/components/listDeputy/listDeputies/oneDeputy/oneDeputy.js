@@ -1,27 +1,87 @@
-import React, { Component } from "react"
-import DeputyInformation from "../../../deputyInformation/deputyInformation"
-import "./oneDeputy.css"
-import "../../../home/home.css"
-import twitter from "./twitter.svg"
+import React, { Component } from 'react'
+import DeputyInformation from '../../../deputyInformation/deputyInformation'
+import './oneDeputy.css'
+import '../../../home/home.css'
+import twitter from './twitter.svg'
+import envelope from './envelope.svg'
+
+const couleursGroupeParlementaire = {
+    "LREM": {
+        'couleur': 'hsl(199, 100%, 58%)',
+        'nom_complet': 'La République En Marche'
+    },
+    "LR": {
+        'couleur': 'hsl(223, 45%, 23%)',
+        'nom_complet': 'Les Républicains'
+    },
+    "MODEM": {
+        'couleur': 'hsl(25, 81%, 54%)',
+        'nom_complet': 'Mouvement Démocrate et apparentés'
+    },
+    "SOC": {
+        'couleur': 'hsl(354, 84%, 43%)',
+        'nom_complet': 'Socialistes et apparentés'
+    },
+    "UAI": {
+        'couleur': 'hsl(194, 81%, 55%)',
+        'nom_complet': 'UDI, Agir et Indépendants'
+    },
+    "LFI": {
+        'couleur': 'hsl(11, 66%, 47%)',
+        'nom_complet': 'La France insoumise'
+    },
+    "GDR": {
+        'couleur': 'hsl(0, 100%, 43%)',
+        'nom_complet': 'Gauche démocrate et républicaine'
+    },
+    "LT": {
+        'couleur': 'hsl(0, 0%, 50%)',
+        'nom_complet': 'Libertés et Territoires'
+    },
+    "NI": {
+        'couleur': 'hsl(0, 0%, 80%)',
+        'nom_complet': 'Non inscrits'
+    }
+}
 
 class OneDeputy extends Component {
     render() {
+        // DEBUG : Couleur parlementaire
+        // console.log(couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur)
         return <div
             href={this.props.data.url_an}
-            id={"depute-" + this.props.data.id} key={this.props.data.id}
-            className="depute"
-            target="_blank">
-                <h2 className="depute__name">{this.props.data.nom}</h2>
-                <a href={"https://twitter.com/" + this.props.data.twitter} className="depute__twitter" target="_blank">
+            id={'depute-' + this.props.data.id} key={this.props.data.id}
+            className='depute'
+            target='_blank'
+            style={{
+                backgroundColor: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur
+            }}>
+                <h2
+                    className="depute__name" style={{
+                        color: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur,
+                        borderBottomColor: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur
+                    }}>
+                    {this.props.data.nom}
+                </h2>
+                <h3
+                    style={{
+                        color: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur
+                    }}>
+                    {couleursGroupeParlementaire[this.props.data.groupe_sigle].nom_complet}
+                </h3>
+                <a href={"https://twitter.com/" + this.props.data.twitter} className="depute__twitter depute__rs" target="_blank">
                     <img src={twitter} />
+                </a>
+                <a href={"mailto:" + this.props.data.emails[0]} className="depute__email depute__rs">
+                    <img src={envelope} />
                 </a>
                 <DeputyInformation type="adresses" data={this.props.data} />
                 <DeputyInformation type="anciens_autres_mandats" data={this.props.data} />
                 <DeputyInformation type="anciens_mandats" data={this.props.data} />
                 {/* <DeputyInformation type="collaborateurs" data={this.props.data} /> */}
                 <DeputyInformation type="date_naissance" data={this.props.data} />
-                <DeputyInformation type="emails" data={this.props.data} />
-                <DeputyInformation type="groupe_sigle" data={this.props.data} />
+                {/* <DeputyInformation type="emails" data={this.props.data} /> */}
+                {/* <DeputyInformation type="groupe_sigle" data={this.props.data} /> */}
                 <DeputyInformation type="id_an" data={this.props.data} />
                 <DeputyInformation type="lieu_naissance" data={this.props.data} />
                 <DeputyInformation type="mandat_debut" data={this.props.data} />

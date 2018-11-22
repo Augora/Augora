@@ -34,7 +34,7 @@ const nameEquivalent = {
 class DeputyInformation extends Component {
     render() {
     return  <div className={"depute__" + this.props.type}>
-        <h3>{ nameEquivalent[this.props.type] }</h3>
+        <h3 className="depute__information-title">{ nameEquivalent[this.props.type] }</h3>
         { this.props.data[this.props.type] }
     </div>
     }
