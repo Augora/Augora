@@ -2,38 +2,50 @@
     position: relative;
     width: calc(25% - 10px);
     background: grey;
-    display: inline-block;
+    display: inline;
     padding: 10px;
     margin-bottom: 5px;
     text-decoration: none;
     color: white;
 }
-.depute h2 {
-    margin: 0;
+.depute > h2,
+.depute > h3 {
+    background: white;
+    margin: 0 20px;
     text-align: center;
-    padding-bottom: 10px;
-    border-bottom: solid 1px white;
-    margin-bottom: 10px;
+    padding: 10px;
+}
+.depute > h2 {
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.5;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+.depute > h3 {
+    opacity: 1;
 }
 
-/* Lien twitter */
-.depute .depute__twitter {
+/* Liens réseaux sociaux */
+.depute .depute__rs {
     display: flex;
     position: absolute;
     width: 30px;
     height: 30px;
-    padding: 3px;
+    padding: 6px;
     background: white;
     border-radius: 50%;
-    top: 0px; right: 0px;
+    right: -5px;
     justify-content: center;
     align-items: center;
 }
-.depute .depute__twitter img {
+.depute .depute__rs img {
     width: 100%;
 }
-
-/* Informations */
-.depute h3 {
-    margin: 0;
+.depute .depute__twitter {
+    top: -5px; 
+}
+.depute .depute__email {
+    top: 30px;
 }
