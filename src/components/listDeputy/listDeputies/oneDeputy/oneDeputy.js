@@ -2,15 +2,19 @@ import React, { Component } from "react"
 import DeputyInformation from "../../../deputyInformation/deputyInformation"
 import "./oneDeputy.css"
 import "../../../home/home.css"
+import twitter from "./twitter.svg"
 
 class OneDeputy extends Component {
     render() {
-        return <a
+        return <div
             href={this.props.data.url_an}
             id={"depute-" + this.props.data.id} key={this.props.data.id}
             className="depute"
             target="_blank">
                 <h2 className="depute__name">{this.props.data.nom}</h2>
+                <a href={"https://twitter.com/" + this.props.data.twitter} className="depute__twitter" target="_blank">
+                    <img src={twitter} />
+                </a>
                 <DeputyInformation type="adresses" data={this.props.data} />
                 <DeputyInformation type="anciens_autres_mandats" data={this.props.data} />
                 <DeputyInformation type="anciens_mandats" data={this.props.data} />
@@ -32,11 +36,11 @@ class OneDeputy extends Component {
                 <DeputyInformation type="prenom" data={this.props.data} />
                 <DeputyInformation type="sexe" data={this.props.data} />
                 {/* <DeputyInformation type="site_web" data={this.props.data} /> */}
-                <DeputyInformation type="twitter" data={this.props.data} />
+                {/* <DeputyInformation type="twitter" data={this.props.data} /> */}
                 <DeputyInformation type="url_an" data={this.props.data} />
                 <DeputyInformation type="url_nosdeputes" data={this.props.data} />
                 <DeputyInformation type="url_nosdeputes_api" data={this.props.data} />
-        </a>
+        </div>
     }
 }
 
