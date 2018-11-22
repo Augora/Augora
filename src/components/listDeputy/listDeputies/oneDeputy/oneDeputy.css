@@ -1,4 +1,5 @@
 .depute {
+    position: relative;
     width: calc(25% - 10px);
     background: grey;
     display: inline-block;
@@ -14,6 +15,25 @@
     border-bottom: solid 1px white;
     margin-bottom: 10px;
 }
+
+/* Lien twitter */
+.depute .depute__twitter {
+    display: flex;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    padding: 3px;
+    background: white;
+    border-radius: 50%;
+    top: 0px; right: 0px;
+    justify-content: center;
+    align-items: center;
+}
+.depute .depute__twitter img {
+    width: 100%;
+}
+
+/* Informations */
 .depute h3 {
     margin: 0;
 }
