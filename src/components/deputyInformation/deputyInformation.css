@@ -6,3 +6,6 @@
     margin-top: 10px;
     opacity: 0.5;
 }
+.depute--opened-false .depute__information {
+    display: none;
+}
