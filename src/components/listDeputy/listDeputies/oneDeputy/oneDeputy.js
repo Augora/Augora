@@ -4,6 +4,9 @@ import './oneDeputy.css'
 import '../../../home/home.css'
 import twitter from './twitter.svg'
 import envelope from './envelope.svg'
+import homme from './homme.svg'
+import femme from './femme.svg'
+import downArrow from './down-arrow.svg'
 
 const couleursGroupeParlementaire = {
     "LREM": {
@@ -43,38 +46,85 @@ const couleursGroupeParlementaire = {
         'nom_complet': 'Non inscrits'
     }
 }
+const sexSelector = {
+    'H': {
+        'nom_complet': 'Homme',
+        'svg': homme
+    },
+    'F': {
+        'nom_complet': 'Femme',
+        'svg': femme
+    }
+}
 
 class OneDeputy extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            opened: false,
+            actualColor: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur,
+            actualSigleComplet: couleursGroupeParlementaire[this.props.data.groupe_sigle].nom_complet,
+            actualSex: sexSelector[this.props.data.sexe].nom_complet,
+            actualSexSvg: sexSelector[this.props.data.sexe].svg
+        }
+        // const expand = function() {
+        //     this.setState.opened != this.setState.opened
+        // }
+    }
     render() {
         // DEBUG : Couleur parlementaire
         // console.log(couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur)
         return <div
             href={this.props.data.url_an}
             id={'depute-' + this.props.data.id} key={this.props.data.id}
-            className='depute'
+            className={'depute depute--opened-' + this.state.opened}
             target='_blank'
             style={{
-                backgroundColor: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur
+                backgroundColor: this.state.actualColor
             }}>
-                <h2
-                    className="depute__name" style={{
-                        color: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur,
-                        borderBottomColor: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur
-                    }}>
-                    {this.props.data.nom}
-                </h2>
+                <div className="depute__name-wrapper">
+                    <div className={'depute__' + this.state.actualSex + " depute__sex-wrapper"}>
+                        <img src={this.state.actualSexSvg} alt="Icône du sexe"/>
+                    </div>
+                    <h2
+                        className="depute__name"
+                        style={{
+                            color: this.state.actualColor
+                        }}>
+                        {this.props.data.nom}
+                    </h2>
+                </div>
                 <h3
                     style={{
-                        color: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur
+                        color: this.state.actualColor
                     }}>
-                    {couleursGroupeParlementaire[this.props.data.groupe_sigle].nom_complet}
+                    {this.state.actualSigleComplet}
                 </h3>
-                <a href={"https://twitter.com/" + this.props.data.twitter} className="depute__twitter depute__rs" target="_blank">
-                    <img src={twitter} />
+                <a 
+                    href={"https://twitter.com/" + this.props.data.twitter}
+                    className="depute__twitter depute__rs"
+                    target="_blank"
+                    style={{
+                        borderColor: this.state.actualColor
+                    }}>>
+                        <img src={twitter} alt="Icône twitter"/>
                 </a>
-                <a href={"mailto:" + this.props.data.emails[0]} className="depute__email depute__rs">
-                    <img src={envelope} />
+                <a 
+                    href={"mailto:" + this.props.data.emails[0]}
+                    className="depute__email depute__rs"
+                    style={{
+                        borderColor: this.state.actualColor
+                    }}>>
+                        <img src={envelope} alt="Icône envoyer un e-mail"/>
                 </a>
+                <div className="depute__link-wrapper">
+                    <a href={this.props.data.url_an} className="depute__link depute__an-link" target="_blank">
+                        Lien AN
+                    </a>
+                    <a href={this.props.data.url_nosdeputes} className="depute__link depute__nosdeputes-link" target="_blank">
+                        Lien nosdeputes.fr
+                    </a>
+                </div>
                 <DeputyInformation type="adresses" data={this.props.data} />
                 <DeputyInformation type="anciens_autres_mandats" data={this.props.data} />
                 <DeputyInformation type="anciens_mandats" data={this.props.data} />
@@ -94,12 +144,15 @@ class OneDeputy extends Component {
                 <DeputyInformation type="parti_ratt_financier" data={this.props.data} />
                 <DeputyInformation type="place_en_hemicycle" data={this.props.data} />
                 <DeputyInformation type="prenom" data={this.props.data} />
-                <DeputyInformation type="sexe" data={this.props.data} />
+                {/* <DeputyInformation type="sexe" data={this.props.data} /> */}
                 {/* <DeputyInformation type="site_web" data={this.props.data} /> */}
                 {/* <DeputyInformation type="twitter" data={this.props.data} /> */}
-                <DeputyInformation type="url_an" data={this.props.data} />
-                <DeputyInformation type="url_nosdeputes" data={this.props.data} />
-                <DeputyInformation type="url_nosdeputes_api" data={this.props.data} />
+                {/* <DeputyInformation type="url_an" data={this.props.data} /> */}
+                {/* <DeputyInformation type="url_nosdeputes" data={this.props.data} /> */}
+                {/* <DeputyInformation type="url_nosdeputes_api" data={this.props.data} /> */}
+                <button className="depute__open-btn btn">
+                    <img src={downArrow} alt="Icône flèche" />
+                </button>
         </div>
     }
 }
