@@ -57,23 +57,41 @@ const sexSelector = {
     }
 }
 
+let getAge = function(){}
+
 class OneDeputy extends Component {
     constructor(props) {
         super(props)
+        const that = this
         this.state = {
             opened: false,
             actualColor: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur,
             actualSigleComplet: couleursGroupeParlementaire[this.props.data.groupe_sigle].nom_complet,
             actualSex: sexSelector[this.props.data.sexe].nom_complet,
-            actualSexSvg: sexSelector[this.props.data.sexe].svg
+            actualSexSvg: sexSelector[this.props.data.sexe].svg,
+            actualBirthDate: new Date(this.props.data.date_naissance),
+            actualAge: 0
+        }
+        getAge = function getAge(birthdayDate) {
+            const dateToday = Date.now()
+            const ageDate = birthdayDate.getTime()
+            const age = Math.abs(
+                new Date(dateToday - ageDate).getUTCFullYear() - 1970
+            )
+            that.setState(function(state) {
+                return {
+                    actualAge: age,
+                }
+            })
         }
         // const expand = function() {
         //     this.setState.opened != this.setState.opened
         // }
     }
+    componentWillMount() {
+        getAge(this.state.actualBirthDate)
+    }
     render() {
-        // DEBUG : Couleur parlementaire
-        // console.log(couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur)
         return <div
             href={this.props.data.url_an}
             id={'depute-' + this.props.data.id} key={this.props.data.id}
@@ -92,6 +110,8 @@ class OneDeputy extends Component {
                             color: this.state.actualColor
                         }}>
                         {this.props.data.nom}
+                        <br/>
+                        <span className="depute__age">{this.state.actualAge}</span>
                     </h2>
                 </div>
                 <h3
