@@ -56,13 +56,11 @@ const sexSelector = {
         'svg': femme
     }
 }
-
-let getAge = function(){}
+let that
 
 class OneDeputy extends Component {
     constructor(props) {
         super(props)
-        const that = this
         this.state = {
             opened: false,
             actualColor: couleursGroupeParlementaire[this.props.data.groupe_sigle].couleur,
@@ -72,24 +70,31 @@ class OneDeputy extends Component {
             actualBirthDate: new Date(this.props.data.date_naissance),
             actualAge: 0
         }
-        getAge = function getAge(birthdayDate) {
-            const dateToday = Date.now()
-            const ageDate = birthdayDate.getTime()
-            const age = Math.abs(
-                new Date(dateToday - ageDate).getUTCFullYear() - 1970
-            )
-            that.setState(function(state) {
-                return {
-                    actualAge: age,
-                }
-            })
-        }
-        // const expand = function() {
-        //     this.setState.opened != this.setState.opened
-        // }
+        // Je redéfinis le contexte de this dans ma méthode (fonction déclarée à la racine de la class)
+        this.expand = this.expand.bind(this)
+    }
+    getAge(birthdayDate) {
+        const dateToday = Date.now()
+        const ageDate = birthdayDate.getTime()
+        const age = Math.abs(
+            new Date(dateToday - ageDate).getUTCFullYear() - 1970
+        )
+        this.setState(function(state) {
+            return {
+                actualAge: age,
+            }
+        })
+    }
+    expand(e) {
+        e.preventDefault()
+        this.setState(function(state) {
+            return {
+                opened: !this.state.opened
+            }
+        })
     }
     componentWillMount() {
-        getAge(this.state.actualBirthDate)
+        this.getAge(this.state.actualBirthDate)
     }
     render() {
         return <div
@@ -156,21 +161,23 @@ class OneDeputy extends Component {
                 <DeputyInformation type="lieu_naissance" data={this.props.data} />
                 <DeputyInformation type="mandat_debut" data={this.props.data} />
                 <DeputyInformation type="nb_mandats" data={this.props.data} />
-                <DeputyInformation type="nom" data={this.props.data} />
+                {/* <DeputyInformation type="nom" data={this.props.data} /> */}
                 <DeputyInformation type="nom_circo" data={this.props.data} />
-                <DeputyInformation type="nom_de_famille" data={this.props.data} />
+                {/* <DeputyInformation type="nom_de_famille" data={this.props.data} /> */}
                 <DeputyInformation type="num_circo" data={this.props.data} />
                 <DeputyInformation type="num_deptmt" data={this.props.data} />
                 <DeputyInformation type="parti_ratt_financier" data={this.props.data} />
                 <DeputyInformation type="place_en_hemicycle" data={this.props.data} />
-                <DeputyInformation type="prenom" data={this.props.data} />
+                {/* <DeputyInformation type="prenom" data={this.props.data} /> */}
                 {/* <DeputyInformation type="sexe" data={this.props.data} /> */}
                 {/* <DeputyInformation type="site_web" data={this.props.data} /> */}
                 {/* <DeputyInformation type="twitter" data={this.props.data} /> */}
                 {/* <DeputyInformation type="url_an" data={this.props.data} /> */}
                 {/* <DeputyInformation type="url_nosdeputes" data={this.props.data} /> */}
                 {/* <DeputyInformation type="url_nosdeputes_api" data={this.props.data} /> */}
-                <button className="depute__open-btn btn">
+                <button
+                    className="depute__open-btn btn"
+                    onClick={this.expand}>
                     <img src={downArrow} alt="Icône flèche" />
                 </button>
         </div>

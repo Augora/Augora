@@ -117,4 +117,9 @@
 }
 .depute > .btn > img {
     max-height: 20px;
+    transform: rotate(0deg);
+    transition: transform 0.2s ease-in-out;
+}
+.depute.depute--opened-true > .btn > img {
+    transform: rotate(180deg);
 }
