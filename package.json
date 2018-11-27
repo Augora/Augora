@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --coverage",
     "eject": "react-scripts eject",
-    "deploy-prod": "now alias --token=$NOW_TOKEN $(now ./out --static --no-clipboard --token=$NOW_TOKEN --public) la-bete-politique",
-    "deploy-qua": "now alias --token=$NOW_TOKEN $(now ./out --static --no-clipboard --token=$NOW_TOKEN --public) qua.la-bete-politique"
+    "deploy-prod": "now alias --token=$NOW_TOKEN $(now ./build --static --no-clipboard --token=$NOW_TOKEN --public) la-bete-politique",
+    "deploy-qua": "now alias --token=$NOW_TOKEN $(now ./build --static --no-clipboard --token=$NOW_TOKEN --public) qua.la-bete-politique"
   }
 }
