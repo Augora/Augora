@@ -10,12 +10,15 @@
     "redux": "^4.0.0"
   },
   "devDependencies": {
+    "now": "^12.1.6",
     "react-scripts": "1.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-prod": "now alias --token=$NOW_TOKEN $(now ./build --no-clipboard --token=$NOW_TOKEN --public) la-bete-politique",
+    "deploy-qua": "now alias --token=$NOW_TOKEN $(now ./build --no-clipboard --token=$NOW_TOKEN --public) preprod-la-bete-politique"
   }
 }
