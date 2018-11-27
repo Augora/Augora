@@ -1,10 +1,24 @@
 language: node_js
 node_js:
-  - "8.11.1"
-  - "10.0.0"
+  - "10.13.0"
+  - "11.2.0"
 after_success:
   - yarn global add codecov
   - codecov
+script: yarn run build 
+# deploy:
+#   provider: script
+#   script: npm run deploy-prod
+#   skip_cleanup: true
+#   on:
+#     branch: master
+deploy:
+  provider: script
+  script: npm run deploy-qua
+  skip_cleanup: true
+  on:
+    branch: develop
+    node: "11.2.0"
 cache: yarn
 notifications:
   slack: labetepolitique-team:NbzHhCF6cj1DOJhe8lGOg5ih
