@@ -114,7 +114,7 @@ class OneDeputy extends Component {
                         style={{
                             color: this.state.actualColor
                         }}>
-                        {this.props.data.nom}
+                        {this.props.data.nom} (id: {this.props.data.id_an})
                         <br/>
                         <span className="depute__age">{this.state.actualAge}</span>
                     </h2>
@@ -150,22 +150,25 @@ class OneDeputy extends Component {
                         Lien nosdeputes.fr
                     </a>
                 </div>
+                <div className="depute__circo">
+                    Circo : {this.props.data.nom_circo} ({this.props.data.num_deptmt} - {this.props.data.num_circo})
+                </div>
                 <DeputyInformation type="adresses" data={this.props.data} />
                 <DeputyInformation type="anciens_autres_mandats" data={this.props.data} />
                 <DeputyInformation type="anciens_mandats" data={this.props.data} />
                 {/* <DeputyInformation type="collaborateurs" data={this.props.data} /> */}
-                <DeputyInformation type="date_naissance" data={this.props.data} />
+                {/* <DeputyInformation type="date_naissance" data={this.props.data} /> */}
                 {/* <DeputyInformation type="emails" data={this.props.data} /> */}
                 {/* <DeputyInformation type="groupe_sigle" data={this.props.data} /> */}
-                <DeputyInformation type="id_an" data={this.props.data} />
+                {/* <DeputyInformation type="id_an" data={this.props.data} /> */}
                 <DeputyInformation type="lieu_naissance" data={this.props.data} />
                 <DeputyInformation type="mandat_debut" data={this.props.data} />
                 <DeputyInformation type="nb_mandats" data={this.props.data} />
                 {/* <DeputyInformation type="nom" data={this.props.data} /> */}
-                <DeputyInformation type="nom_circo" data={this.props.data} />
+                {/* <DeputyInformation type="nom_circo" data={this.props.data} /> */}
                 {/* <DeputyInformation type="nom_de_famille" data={this.props.data} /> */}
-                <DeputyInformation type="num_circo" data={this.props.data} />
-                <DeputyInformation type="num_deptmt" data={this.props.data} />
+                {/* <DeputyInformation type="num_circo" data={this.props.data} /> */}
+                {/* <DeputyInformation type="num_deptmt" data={this.props.data} /> */}
                 <DeputyInformation type="parti_ratt_financier" data={this.props.data} />
                 <DeputyInformation type="place_en_hemicycle" data={this.props.data} />
                 {/* <DeputyInformation type="prenom" data={this.props.data} /> */}
