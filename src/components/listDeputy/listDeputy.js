@@ -1,9 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
+import ListDeputies from "./listDeputies/listDeputies"
+import "./listDeputy.css"
+import "../home/home.css"
 
 class ListDeputy extends Component {
   render() {
-    return <h1>ListDeputy</h1>;
+    return (
+      <section className="deputes__wrapper">
+        <ListDeputies />
+      </section>
+    )
   }
 }
 
-export default ListDeputy;
+export default ListDeputy
