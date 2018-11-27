@@ -16,7 +16,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom --coverage",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy-prod": "now alias --token=$NOW_TOKEN $(now ./build --no-clipboard --token=$NOW_TOKEN --public) la-bete-politique",
     "deploy-qua": "now alias --token=$NOW_TOKEN $(now ./build --no-clipboard --token=$NOW_TOKEN --public) preprod-la-bete-politique"

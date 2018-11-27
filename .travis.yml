@@ -2,10 +2,9 @@ language: node_js
 node_js:
   - "10.13.0"
   - "11.2.0"
-after_success:
-  - yarn global add codecov
-  - codecov
-script: yarn run build 
+script:
+  - yarn run test
+  - yarn run build
 # deploy:
 #   provider: script
 #   script: npm run deploy-prod
