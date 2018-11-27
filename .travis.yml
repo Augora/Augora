@@ -18,6 +18,7 @@ deploy:
   skip_cleanup: true
   on:
     branch: develop
+    node: "11.2.0"
 cache: yarn
 notifications:
   slack: labetepolitique-team:NbzHhCF6cj1DOJhe8lGOg5ih
