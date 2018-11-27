@@ -6,12 +6,12 @@ after_success:
   - yarn global add codecov
   - codecov
 script: yarn run build 
-deploy:
-  provider: script
-  script: npm run deploy-prod
-  skip_cleanup: true
-  on:
-    branch: master
+# deploy:
+#   provider: script
+#   script: npm run deploy-prod
+#   skip_cleanup: true
+#   on:
+#     branch: master
 deploy:
   provider: script
   script: npm run deploy-qua
