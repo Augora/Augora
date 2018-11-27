@@ -17,7 +17,7 @@ deploy:
   script: npm run deploy-qua
   skip_cleanup: true
   on:
-    branch: feature/auto-deploy-now
+    branch: develop
 cache: yarn
 notifications:
   slack: labetepolitique-team:NbzHhCF6cj1DOJhe8lGOg5ih
