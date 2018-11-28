@@ -1,4 +1,4 @@
-FROM nginx:1.10.3
+FROM nginx:1.15.7
 
 # Copying conf & assets
 COPY config/nginx.conf /etc/nginx/nginx.conf
