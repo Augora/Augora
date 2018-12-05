@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import DeputyName from './deputyName/deputyName'
 import DeputySex from './deputySex/deputySex'
+import DeputyGroup from './deputyGroup/deputyGroup'
 import DeputyInformation from '../../../deputyInformation/deputyInformation'
 import './oneDeputy.css'
 import '../../../home/home.css'
@@ -120,12 +121,10 @@ class OneDeputy extends Component {
                         age={this.state.actualAge}
                     />
                 </div>
-                <h3
-                    style={{
-                        color: this.state.actualColor
-                    }}>
-                    {this.state.actualSigleComplet}
-                </h3>
+                <DeputyGroup
+                    color={this.state.actualColor}
+                    group={this.state.actualSigleComplet}
+                />
                 <a 
                     href={"https://twitter.com/" + this.props.data.twitter}
                     className="depute__twitter depute__rs"

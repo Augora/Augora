@@ -13,22 +13,13 @@
     /*  */
 }
 .depute--opened-true {
-
+    /*  */
 }
 
 /* Wrapper du nom */
 .depute__name-wrapper {
     display: flex;
     margin-bottom: 2px;
-}
-
-/* Groupe parlementaire */
-.depute > h3 {
-    background: white;
-    /* text-align: center; */
-    padding: 10px;
-    margin: 0;
-    opacity: 1;
 }
 
 /* Liens réseaux sociaux */
