@@ -56,7 +56,6 @@ const sexSelector = {
         'svg': femme
     }
 }
-let that
 
 class OneDeputy extends Component {
     constructor(props) {
