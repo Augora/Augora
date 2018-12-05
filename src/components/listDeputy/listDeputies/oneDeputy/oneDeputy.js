@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import DeputyName from './deputyName/deputyName'
+import DeputySex from './deputySex/deputySex'
+import DeputyGroup from './deputyGroup/deputyGroup'
 import DeputyInformation from '../../../deputyInformation/deputyInformation'
 import './oneDeputy.css'
 import '../../../home/home.css'
@@ -72,6 +75,7 @@ class OneDeputy extends Component {
         // Je redéfinis le contexte de this dans ma méthode (fonction déclarée à la racine de la class)
         this.expand = this.expand.bind(this)
     }
+    // My custom functions
     getAge(birthdayDate) {
         const dateToday = Date.now()
         const ageDate = birthdayDate.getTime()
@@ -92,6 +96,7 @@ class OneDeputy extends Component {
             }
         })
     }
+    // React functions
     componentWillMount() {
         this.getAge(this.state.actualBirthDate)
     }
@@ -105,25 +110,21 @@ class OneDeputy extends Component {
                 backgroundColor: this.state.actualColor
             }}>
                 <div className="depute__name-wrapper">
-                    <div className={'depute__' + this.state.actualSex + " depute__sex-wrapper"}>
-                        <img src={this.state.actualSexSvg} alt="Icône du sexe"/>
-                    </div>
-                    <h2
-                        className="depute__name"
-                        style={{
-                            color: this.state.actualColor
-                        }}>
-                        {this.props.data.nom} (id: {this.props.data.id_an})
-                        <br/>
-                        <span className="depute__age">{this.state.actualAge}</span>
-                    </h2>
+                    <DeputySex
+                        sex={this.state.actualSex}
+                        sexSvg={this.state.actualSexSvg}
+                    />
+                    <DeputyName
+                        color={this.state.actualColor}
+                        name={this.props.data.nom}
+                        idAn={this.props.data.id_an}
+                        age={this.state.actualAge}
+                    />
                 </div>
-                <h3
-                    style={{
-                        color: this.state.actualColor
-                    }}>
-                    {this.state.actualSigleComplet}
-                </h3>
+                <DeputyGroup
+                    color={this.state.actualColor}
+                    group={this.state.actualSigleComplet}
+                />
                 <a 
                     href={"https://twitter.com/" + this.props.data.twitter}
                     className="depute__twitter depute__rs"

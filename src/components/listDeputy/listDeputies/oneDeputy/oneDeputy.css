@@ -13,6 +13,7 @@
     /*  */
 }
 .depute--opened-true {
+<<<<<<< HEAD
 
 }
 
@@ -51,6 +52,16 @@
 .depute > h3 {
     opacity: 1;
 }
+=======
+    /*  */
+}
+
+/* Wrapper du nom */
+.depute__name-wrapper {
+    display: flex;
+    margin-bottom: 2px;
+}
+>>>>>>> hotfix/0.1.1
 
 /* Liens réseaux sociaux */
 .depute .depute__rs {
