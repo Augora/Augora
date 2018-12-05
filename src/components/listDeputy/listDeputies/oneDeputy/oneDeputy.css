@@ -13,46 +13,6 @@
     /*  */
 }
 .depute--opened-true {
-<<<<<<< HEAD
-
-}
-
-/* Wrapper du nom */
-.depute .depute__name-wrapper h2,
-.depute > h3 {
-    background: white;
-    /* text-align: center; */
-    padding: 10px;
-    margin: 0;
-}
-.depute .depute__name-wrapper {
-    display: flex;
-    margin-bottom: 2px;
-}
-.depute .depute__name-wrapper .depute__sex-wrapper {
-    width: 10%;
-    margin-right: 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-}
-.depute .depute__name-wrapper .depute__sex-wrapper img {
-    width: 75%;
-}
-.depute .depute__name-wrapper h2 {
-    width: calc(90% - 2px);
-    text-transform: uppercase;
-    font-size: 15px;
-    font-weight: bold;
-    line-height: 1.5;
-}
-
-/* Groupe parlementaire */
-.depute > h3 {
-    opacity: 1;
-}
-=======
     /*  */
 }
 
@@ -61,7 +21,6 @@
     display: flex;
     margin-bottom: 2px;
 }
->>>>>>> hotfix/0.1.1
 
 /* Liens réseaux sociaux */
 .depute .depute__rs {
