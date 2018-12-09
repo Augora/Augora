@@ -1,10 +1,15 @@
+//// Imports
+// React
 import React, { Component } from 'react'
 import DeputyName from './deputyName/deputyName'
 import DeputySex from './deputySex/deputySex'
 import DeputyGroup from './deputyGroup/deputyGroup'
+import DeputyBtnSocial from './deputyBtnSocial/deputyBtnSocial'
 import DeputyInformation from '../../../deputyInformation/deputyInformation'
+// Style
 import './oneDeputy.css'
 import '../../../home/home.css'
+// Images
 import twitter from './twitter.svg'
 import envelope from './envelope.svg'
 import homme from './homme.svg'
@@ -125,23 +130,22 @@ class OneDeputy extends Component {
                     color={this.state.actualColor}
                     group={this.state.actualSigleComplet}
                 />
-                <a 
-                    href={"https://twitter.com/" + this.props.data.twitter}
-                    className="depute__twitter depute__rs"
-                    target="_blank"
-                    style={{
-                        borderColor: this.state.actualColor
-                    }}>>
-                        <img src={twitter} alt="Icône twitter"/>
-                </a>
-                <a 
-                    href={"mailto:" + this.props.data.emails[0]}
-                    className="depute__email depute__rs"
-                    style={{
-                        borderColor: this.state.actualColor
-                    }}>>
-                        <img src={envelope} alt="Icône envoyer un e-mail"/>
-                </a>
+                <div className="depute__rs-wrapper">
+                    <DeputyBtnSocial
+                        type={'twitter'}
+                        startingUrl={'https://twitter.com/'}
+                        link={this.props.data.twitter}
+                        color={this.state.actualColor}
+                        image={twitter}
+                    />
+                    <DeputyBtnSocial
+                        type={'email'}
+                        startingUrl={'mailto:'}
+                        link={this.props.data.emails[0]}
+                        color={this.state.actualColor}
+                        image={envelope}
+                    />
+                </div>
                 <div className="depute__link-wrapper">
                     <a href={this.props.data.url_an} className="depute__link depute__an-link" target="_blank">
                         Lien AN
