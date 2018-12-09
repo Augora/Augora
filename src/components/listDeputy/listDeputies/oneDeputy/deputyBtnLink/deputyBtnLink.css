@@ -1,0 +1,16 @@
+.depute__link {
+    width: calc(50% - 1px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: rgba(255,255,255,0.25);
+    text-align: center;
+    padding: 5px;
+}
+.depute__an-link {
+    /*  */
+}
+.depute__nosdepute-link {
+    /*  */
+}

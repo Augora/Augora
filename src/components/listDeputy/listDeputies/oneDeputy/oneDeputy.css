@@ -32,26 +32,10 @@
 }
 
 /* Liens sites AN & nosdeputes.fr */
-.depute .depute__link-wrapper {
+.depute__link-wrapper {
     display: flex;
     justify-content: space-between;
     margin-top: 2px;
-}
-.depute .depute__link {
-    width: calc(50% - 1px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    background: rgba(255,255,255,0.25);
-    text-align: center;
-    padding: 5px;
-}
-.depute .depute__an-link {
-    /*  */
-}
-.depute .depute__nosdepute-link {
-    /*  */
 }
 
 /* Icône de flèche */

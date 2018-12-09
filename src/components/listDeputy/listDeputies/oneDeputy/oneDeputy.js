@@ -5,6 +5,7 @@ import DeputyName from './deputyName/deputyName'
 import DeputySex from './deputySex/deputySex'
 import DeputyGroup from './deputyGroup/deputyGroup'
 import DeputyBtnSocial from './deputyBtnSocial/deputyBtnSocial'
+import DeputyBtnLink from './deputyBtnLink/deputyBtnLink'
 import DeputyInformation from '../../../deputyInformation/deputyInformation'
 // Style
 import './oneDeputy.css'
@@ -147,12 +148,16 @@ class OneDeputy extends Component {
                     />
                 </div>
                 <div className="depute__link-wrapper">
-                    <a href={this.props.data.url_an} className="depute__link depute__an-link" target="_blank">
-                        Lien AN
-                    </a>
-                    <a href={this.props.data.url_nosdeputes} className="depute__link depute__nosdeputes-link" target="_blank">
-                        Lien nosdeputes.fr
-                    </a>
+                    <DeputyBtnLink
+                        type={'an'}
+                        link={this.props.data.url_an}
+                        content={'Lien AN'}
+                    />
+                    <DeputyBtnLink
+                        type={'nosdeputes'}
+                        link={this.props.data.url_nosdeputes}
+                        content={'Lien nosdeputes.fr'}
+                    />
                 </div>
                 <div className="depute__circo">
                     Circo : {this.props.data.nom_circo} ({this.props.data.num_deptmt} - {this.props.data.num_circo})
