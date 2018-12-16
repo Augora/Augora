@@ -6,6 +6,7 @@ import DeputySex from './deputySex/deputySex'
 import DeputyGroup from './deputyGroup/deputyGroup'
 import DeputyBtnSocial from './deputyBtnSocial/deputyBtnSocial'
 import DeputyBtnLink from './deputyBtnLink/deputyBtnLink'
+import ExpandBtn from './expandBtn/expandBtn'
 import DeputyInformation from '../../../deputyInformation/deputyInformation'
 // Style
 import './oneDeputy.css'
@@ -187,11 +188,10 @@ class OneDeputy extends Component {
                 {/* <DeputyInformation type="url_an" data={this.props.data} /> */}
                 {/* <DeputyInformation type="url_nosdeputes" data={this.props.data} /> */}
                 {/* <DeputyInformation type="url_nosdeputes_api" data={this.props.data} /> */}
-                <button
-                    className="depute__open-btn btn"
-                    onClick={this.expand}>
-                    <img src={downArrow} alt="Icône flèche" />
-                </button>
+                <ExpandBtn
+                    action={this.expand}
+                    icon={downArrow}
+                />
         </div>
     }
 }
