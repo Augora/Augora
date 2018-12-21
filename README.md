@@ -40,7 +40,7 @@ La branche _develop_ est actuellement utilisée pour mettre à jour la préprodu
 Pas encore disponible.
 
 # Comment contribuer ?
-Etant un projet open source sur GitHub les pull request sont ouvertes à qui le souhaite.
+Étant un projet open source sur GitHub les pull request sont ouvertes à qui le souhaite.
 
 # Comment reporter un bug ?
 Le système d'issue de GitHub permet à qui que ce soit de relever des bugs et de prévenir les développeurs du projet. Si vous avez les compétences, il est aussi possible de faire une pull request.
