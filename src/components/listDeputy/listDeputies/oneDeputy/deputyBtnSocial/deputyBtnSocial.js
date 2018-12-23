@@ -7,6 +7,7 @@ class DeputyBtnSocial extends Component {
             href={this.props.startingUrl + this.props.link}
             className={'depute__' + this.props.type + ' depute__rs'}
             target="_blank"
+            rel="noopener noreferrer"
             style={{
                 borderColor: this.props.color
             }}>>
