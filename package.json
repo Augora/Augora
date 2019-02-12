@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "now": "^12.1.6",
-    "react-scripts": "2.1.2"
+    "react-scripts": "2.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
