@@ -1,0 +1,25 @@
+.depute__rs {
+    display: flex;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    background: white;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.depute__rs img {
+    width: 100%;
+    position: relative;
+    left: -4px;
+}
+.depute__twitter {
+    margin-bottom: 5px;
+}
+.depute__email {
+    /*  */
+}

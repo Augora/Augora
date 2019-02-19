@@ -1,0 +1,39 @@
+/* Style du député */
+.depute {
+    position: relative;
+    width: calc(25% - 10px);
+    background: grey;
+    display: inline;
+    padding: 10px 10px 75px 10px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: white;
+}
+.depute--opened-false {
+    /*  */
+}
+.depute--opened-true {
+    /*  */
+}
+
+/* Wrapper du nom */
+.depute__name-wrapper {
+    display: flex;
+    margin-bottom: 2px;
+}
+
+/* Wrapper liens réseaux sociaux */
+.depute__rs-wrapper {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Liens sites AN & nosdeputes.fr */
+.depute__link-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2px;
+}
