@@ -10,7 +10,7 @@
     "redux": "^4.0.0"
   },
   "devDependencies": {
-    "now": "^14.0.0",
+    "now": "^15.0.0",
     "react-scripts": "2.1.5"
   },
   "scripts": {
