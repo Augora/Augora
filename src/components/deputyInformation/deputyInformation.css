@@ -1,11 +1,11 @@
 /* Informations */
 .depute__information-title {
-    margin: 0;
-    text-transform: uppercase;
-    font-size: 14px;
-    margin-top: 10px;
-    opacity: 0.5;
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  margin-top: 10px;
+  opacity: 0.5;
 }
 .depute--opened-false .depute__information {
-    display: none;
+  display: none;
 }

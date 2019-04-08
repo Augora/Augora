@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import { getDeputiesInOffice } from "lbp-wrapper";
+import React, { Component } from 'react';
+import { getDeputiesInOffice } from 'lbp-wrapper';
 import Helmet from 'react-helmet';
 import LoadingSpinner from '../loadingSpinner/loadingSpinner';
-import "./home.css";
+import './home.css';
 
 const content = (
   <div>
-  <Helmet>
-    <title>Accueil</title>
-  </Helmet>
+    <Helmet>
+      <title>Accueil</title>
+    </Helmet>
     <h1>Home</h1>
     <a href="/deputes">Liste des députés</a>
     <LoadingSpinner />
   </div>
-)
+);
 
 class Home extends Component {
   render() {
     getDeputiesInOffice()
       .then(d => console.log(d))
-      .catch(err => console.error("Error:", err));
-    return (content)
+      .catch(err => console.error('Error:', err));
+    return content;
   }
 }
 
