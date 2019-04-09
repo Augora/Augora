@@ -1,31 +1,32 @@
 {
-    "name": "la-bete-politique-front",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "lbp-wrapper": "^0.5.0",
-        "react": "^16.8.2",
-        "react-dom": "^16.8.2",
-        "react-helmet": "^5.2.0",
-        "react-router-dom": "^4.0.0",
-        "redux": "^4.0.0"
-    },
-    "devDependencies": {
-        "now": "^14.0.0",
-        "react-scripts": "2.1.5"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test --env=jsdom",
-        "eject": "react-scripts eject",
-        "deploy-prod": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) la-bete-politique",
-        "deploy-qua": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) preprod-la-bete-politique"
-    },
-    "browserslist": [
-        ">0.2%",
-        "not dead",
-        "not ie <= 11",
-        "not op_mini all"
-    ]
+  "name": "la-bete-politique-front",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "lbp-wrapper": "^0.5.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.0",
+    "react-router-dom": "^4.0.0",
+    "redux": "^4.0.0"
+  },
+  "devDependencies": {
+    "now": "^15.0.3",
+    "react-scripts": "2.1.8"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "now-build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "deploy-prod": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) la-bete-politique",
+    "deploy-qua": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) preprod-la-bete-politique"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
