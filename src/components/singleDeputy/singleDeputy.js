@@ -33,6 +33,7 @@ class SingleDeputy extends Component {
                 <h1>SingleDeputy: {this.props.match.params.id}</h1>
                 <img
                     src={this.state.data.entities.depute[1].imageDynamic(200)}
+                    alt=""
                 />
             </div>
         );
