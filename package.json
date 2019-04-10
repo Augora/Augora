@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "lbp-wrapper": "^0.5.0",
+    "lbp-wrapper": "^0.6.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.0",
-    "react-router-dom": "^4.0.0",
+    "react-router-dom": "^5.0.0",
     "redux": "^4.0.0"
   },
   "devDependencies": {
