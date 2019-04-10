@@ -5714,10 +5714,10 @@ lazy-cache@^1.0.3:
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
   integrity sha1-odePw6UEdMuAhF07O24dpJpEbo4=
 
-lbp-wrapper@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/lbp-wrapper/-/lbp-wrapper-0.5.0.tgz#5e2891f869d6f0f6f640be9cd73cdfcdfb2266a6"
-  integrity sha512-8C60nMfnCz33xkiwWcGu40zhbx99O3kOGgQAer2Pw7VWcKRKtrj6sjP+mQubGy/ndW7hQC7drwJM8OQvEhUEEQ==
+lbp-wrapper@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/lbp-wrapper/-/lbp-wrapper-0.6.0.tgz#c33d32c00e2af5db181f6e1f25dda1b16418be28"
+  integrity sha512-gjoTd8yQk4m1C3qsJ2zbilLAcYbao8SrxGZknivTnftZbM/7RTkBwRBtiQKTdNIujuIoEZNQk44cARyr0BLqXg==
   dependencies:
     axios "^0.18.0"
     lodash "^4.17.10"
@@ -6402,10 +6402,10 @@ normalizr@^3.2.3:
   resolved "https://registry.yarnpkg.com/normalizr/-/normalizr-3.3.0.tgz#6f44b95e8bf2201845a9e551920c4e5861166d27"
   integrity sha512-u8Us8Ms5KpY0mmNwML4OBxNKvlmSKeXfPBIXU9XmcejrZUjhIvUOd8RYBq62UL4JHxrcO4wqo2sL4s8B74Hadw==
 
-now@^14.0.0:
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/now/-/now-14.0.0.tgz#7fb7aff0c7c1465e534d84198c9e19d284f9cd59"
-  integrity sha512-zOdmN6+6dLTiHCDujp683KRWG4BE6OwIGU++aZXmss8C4GXuKuZU/Bp7czhwnzab/2qs8OtlaTW6eibcNNV0xA==
+now@^15.0.0:
+  version "15.0.3"
+  resolved "https://registry.yarnpkg.com/now/-/now-15.0.3.tgz#7fafc0f4a9aa85bfdc16153c8052e704ba2a25b0"
+  integrity sha512-fbvgxX934odHavABfXV4dnejY2Q1robSbT/cqO2gckeqRyRXxQRLC1XWaEMXEvbdpIrNXgabDpd6a6rAXw+mfg==
 
 npm-bundled@^1.0.1:
   version "1.0.6"
