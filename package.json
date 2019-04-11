@@ -11,8 +11,13 @@
     "redux": "^4.0.0"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "now": "^15.0.4",
     "react-scripts": "2.1.8"
+=======
+    "now": "^15.0.0",
+    "react-scripts": "2.1.5"
+>>>>>>> c29c30f0f0a8009771ad252917625f8f307d1c1d
   },
   "scripts": {
     "start": "react-scripts start",
