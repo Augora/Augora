@@ -3,7 +3,8 @@
     background: none;
     border: none;
     position: absolute;
-    bottom: 10px; left :0px;
+    bottom: 10px;
+    left: 0px;
     padding: 10px;
     display: flex;
     justify-content: center;
