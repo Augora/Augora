@@ -39,7 +39,7 @@ class DeputyInformation extends Component {
         <h3 className="depute__information-title">
           {nameEquivalent[this.props.type]}
         </h3>
-        {this.props.data[this.props.type]}
+        <p>{this.props.data[this.props.type]}</p>
       </div>
     );
   }
