@@ -7,7 +7,7 @@ import DeputyGroup from "./deputyGroup/deputyGroup";
 import DeputyBtnSocial from "./deputyBtnSocial/deputyBtnSocial";
 import DeputyBtnLink from "./deputyBtnLink/deputyBtnLink";
 import ExpandBtn from "./expandBtn/expandBtn";
-import DeputyInformation from "../../../deputyInformation/deputyInformation";
+import DeputyInformation from "../../../components/Commons/deputyInformation/deputyInformation";
 // Style
 import "./oneDeputy.css";
 import "../../../home/home.css";
@@ -70,6 +70,7 @@ const sexSelector = {
 class OneDeputy extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       opened: false,
       actualColor:

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './deputyInformation.css';
-import '../home/home.css';
+import '../../../home/home.css';
 
 const nameEquivalent = {
   adresses: 'Adresse physique',

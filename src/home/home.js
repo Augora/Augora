@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getDeputiesInOffice } from 'lbp-wrapper';
 import Helmet from 'react-helmet';
-import LoadingSpinner from '../loadingSpinner/loadingSpinner';
+import LoadingSpinner from '../components/Commons/loadingSpinner/loadingSpinner';
 import './home.css';
 
 const content = (

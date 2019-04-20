@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Home from './components/home/home';
-import ListDeputy from './components/listDeputy/listDeputy';
-import SingleDeputy from './components/singleDeputy/singleDeputy';
+import Home from './home/home';
+import ListDeputy from './listDeputy/listDeputy';
+import SingleDeputy from './singleDeputy/singleDeputy';
 
 const BasicExample = () => (
     <Router>
