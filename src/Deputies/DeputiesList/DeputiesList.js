@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { getDeputiesInOffice } from "lbp-wrapper";
-import OneDeputy from "./oneDeputy/oneDeputy";
-import "./listDeputies.css";
-import "../../home/home.css";
+import Deputy from "./Deputy/Deputy";
+import "./DeputiesList.css";
 
-class ListDeputies extends Component {
+class DeputiesList extends Component {
   constructor(...props) {
     super(...props);
     this.state = {
@@ -31,11 +30,11 @@ class ListDeputies extends Component {
       return null;
     } else {
       const listDeputies = this.state.deputes.map(function(depute) {
-        return <OneDeputy key={depute.id} data={depute} />;
+        return <Deputy key={depute.id} data={depute} />;
       });
       return listDeputies;
     }
   }
 }
 
-export default ListDeputies;
+export default DeputiesList;

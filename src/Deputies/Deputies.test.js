@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ListDeputy from './listDeputy';
+import ListDeputy from './DeputiesWrapper';
 
 it('renders ListDeputy without crashing', () => {
     const div = document.createElement('div');

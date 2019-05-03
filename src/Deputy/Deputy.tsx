@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { getDeputy } from "lbp-wrapper";
 
 // Define the state shape
-interface SingleDeputyState {
+interface DeputyState {
   isLoading: boolean;
   data: IDeputy | null;
 }
 
 // Define the props shape
-interface SingleDeputyProps {
+interface DeputyProps {
   match: {
     params: {
       id: string;
@@ -16,8 +16,8 @@ interface SingleDeputyProps {
   };
 }
 
-class SingleDeputy extends Component<SingleDeputyProps, SingleDeputyState> {
-  constructor(props: SingleDeputyProps) {
+class Deputy extends Component<DeputyProps, DeputyState> {
+  constructor(props: DeputyProps) {
     super(props);
 
     this.state = {
@@ -36,19 +36,16 @@ class SingleDeputy extends Component<SingleDeputyProps, SingleDeputyState> {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return <h1>Loading...</h1>;
-    }
-    if (this.state.data === null) {
+    if (this.state.isLoading || this.state.data === null) {
       return <h1>Loading...</h1>;
     }
     return (
       <div>
-        <h1>SingleDeputy: {this.props.match.params.id}</h1>
+        <h1>Deputy: {this.props.match.params.id}</h1>
         <img src={this.state.data.imageDynamic(200)} alt="" />
       </div>
     );
   }
 }
 
-export default SingleDeputy;
+export default Deputy;

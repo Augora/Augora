@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import ListDeputies from "./listDeputies/listDeputies";
+import DeputiesList from "./DeputiesList/DeputiesList";
 
-const DeputesWrapper = styled.section`
+const DeputiesStyles = styled.section`
   margin-top: 120px;
   display: flex;
   flex-wrap: wrap;
@@ -12,7 +12,7 @@ const DeputesWrapper = styled.section`
   padding: 10px;
 `;
 
-class ListDeputy extends Component {
+class Deputies extends Component {
   render() {
     return (
       <div className="pageListing">
@@ -20,12 +20,12 @@ class ListDeputy extends Component {
           <h1>Liste des députés</h1>
           <a href="/">Retour à l'accueil</a>
         </header>
-        <DeputesWrapper>
-          <ListDeputies />
-        </DeputesWrapper>
+        <DeputiesStyles>
+          <DeputiesList />
+        </DeputiesStyles>
       </div>
     );
   }
 }
 
-export default ListDeputy;
+export default Deputies;

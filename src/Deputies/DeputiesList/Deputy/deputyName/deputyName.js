@@ -24,7 +24,7 @@ class DeputyName extends Component {
   render() {
     return (
       <DeputyNameHeader>
-        <DeputyLink href={`/depute/${this.props.id}`} color={this.props.color}>
+        <DeputyLink href={`/deputy/${this.props.id}`} color={this.props.color}>
           {this.props.name} (id: {this.props.idAn})
         </DeputyLink>
         <br />
