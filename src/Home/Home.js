@@ -1,6 +1,6 @@
-import React, { Component } from "./node_modules/react";
-import { getDeputiesInOffice } from "./node_modules/lbp-wrapper";
-import Helmet from "./node_modules/react-helmet";
+import React, { Component } from "react";
+import { getDeputiesInOffice } from "lbp-wrapper";
+import Helmet from "react-helmet";
 import LoadingSpinner from "../Components/Spinners/LoadingSpinner/LoadingSpinner";
 import "./Home.css";
 
