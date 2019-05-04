@@ -7,16 +7,16 @@ import DeputyGroup from "./deputyGroup/deputyGroup";
 import DeputyBtnSocial from "./deputyBtnSocial/deputyBtnSocial";
 import DeputyBtnLink from "./deputyBtnLink/deputyBtnLink";
 import ExpandBtn from "./expandBtn/expandBtn";
-import DeputyInformation from "../../../deputyInformation/deputyInformation";
+import DeputyInformation from "../../../Components/Deputy/DeputyInformation/DeputyInformation";
 // Style
-import "./oneDeputy.css";
-import "../../../home/home.css";
+import "./Deputy.css";
+
 // Images
-import twitter from "./twitter.svg";
-import envelope from "./envelope.svg";
-import homme from "./homme.svg";
-import femme from "./femme.svg";
-import downArrow from "./down-arrow.svg";
+import twitter from "./Assets/twitter.svg";
+import envelope from "./Assets/envelope.svg";
+import homme from "./Assets/homme.svg";
+import femme from "./Assets/femme.svg";
+import downArrow from "./Assets/down-arrow.svg";
 
 const couleursGroupeParlementaire = {
   LREM: {
@@ -70,6 +70,7 @@ const sexSelector = {
 class OneDeputy extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       opened: false,
       actualColor:

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { getDeputiesInOffice } from "lbp-wrapper";
-import OneDeputy from "./oneDeputy/oneDeputy";
-import "./listDeputies.css";
-import "../../home/home.css";
+import Deputy from "./Deputy/Deputy";
+import LoadingSpinner from "../../Components/Spinners/LoadingSpinner/LoadingSpinner";
+import "./DeputiesList.css";
 
-class ListDeputies extends Component {
+class DeputiesList extends Component {
   constructor(...props) {
     super(...props);
     this.state = {
@@ -17,10 +17,10 @@ class ListDeputies extends Component {
     getDeputiesInOffice()
       .then(deputes =>
         this.setState(function(state) {
-          return {
+          return Object.assign({}, state, {
             loaded: true,
             deputes
-          };
+          });
         })
       )
       .catch(err => console.error("Error:", err));
@@ -28,14 +28,14 @@ class ListDeputies extends Component {
 
   render() {
     if (!this.state.loaded) {
-      return null;
+      return <LoadingSpinner />;
     } else {
       const listDeputies = this.state.deputes.map(function(depute) {
-        return <OneDeputy key={depute.id} data={depute} />;
+        return <Deputy key={depute.id} data={depute} />;
       });
       return listDeputies;
     }
   }
 }
 
-export default ListDeputies;
+export default DeputiesList;
