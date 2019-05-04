@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { getDeputiesInOffice } from "lbp-wrapper";
 import Deputy from "./Deputy/Deputy";
+import LoadingSpinner from "../../Components/Spinners/LoadingSpinner/LoadingSpinner";
 import "./DeputiesList.css";
 
 class DeputiesList extends Component {
@@ -16,10 +17,10 @@ class DeputiesList extends Component {
     getDeputiesInOffice()
       .then(deputes =>
         this.setState(function(state) {
-          return {
+          return Object.assign({}, state, {
             loaded: true,
             deputes
-          };
+          });
         })
       )
       .catch(err => console.error("Error:", err));
@@ -27,7 +28,7 @@ class DeputiesList extends Component {
 
   render() {
     if (!this.state.loaded) {
-      return null;
+      return <LoadingSpinner />;
     } else {
       const listDeputies = this.state.deputes.map(function(depute) {
         return <Deputy key={depute.id} data={depute} />;

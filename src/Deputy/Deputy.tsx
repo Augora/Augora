@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getDeputy } from "lbp-wrapper";
+import Helmet from "react-helmet";
 
-interface RouterProps<T> { 
+interface RouterProps<T> {
   match: {
     params: T;
   };
@@ -9,6 +10,14 @@ interface RouterProps<T> {
 
 interface RouterParams {
   id: string;
+}
+
+function getGender(deputy: IDeputy) {
+  if (deputy.sexe === "H") {
+    return "Député";
+  } else {
+    return "Députée";
+  }
 }
 
 function Deputy(props: RouterProps<RouterParams>): JSX.Element {
@@ -29,8 +38,22 @@ function Deputy(props: RouterProps<RouterParams>): JSX.Element {
 
   return (
     <div>
-      <h1>Deputy: {props.match.params.id}</h1>
+      <Helmet>
+        <title>
+          {deputy.prenom} {deputy.nom_de_famille} - {getGender(deputy)}{" "}
+          {deputy.groupe_sigle}
+        </title>
+      </Helmet>
       <img src={deputy.imageDynamic(200)} alt="" />
+      <h1>
+        {deputy.prenom} {deputy.nom_de_famille}
+      </h1>
+      <p>
+        {getGender(deputy)} {deputy.groupe_sigle}
+      </p>
+      <p>
+        {deputy.nom_circo} ({deputy.num_circo})
+      </p>
     </div>
   );
 }

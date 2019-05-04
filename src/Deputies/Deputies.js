@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 
 import DeputiesList from "./DeputiesList/DeputiesList";
 
@@ -16,6 +17,9 @@ class Deputies extends Component {
   render() {
     return (
       <div className="pageListing">
+        <Helmet>
+          <title>Liste des députés</title>
+        </Helmet>
         <header className="header">
           <h1>Liste des députés</h1>
           <a href="/">Retour à l'accueil</a>
