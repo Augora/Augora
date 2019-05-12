@@ -5684,13 +5684,13 @@ lazy-cache@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
 
-lbp-wrapper@^0.6.4:
-  version "0.6.4"
-  resolved "https://registry.yarnpkg.com/lbp-wrapper/-/lbp-wrapper-0.6.4.tgz#708cb12215e9c7dea8a4a99918c7f5068e51d01e"
+lbp-wrapper@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/lbp-wrapper/-/lbp-wrapper-0.7.0.tgz#0fc6b271f3bd7be90588d09e732e682b8ac5613b"
+  integrity sha512-Ho+BK3es4kMhbY7zET9TytfY8PDFeLK5UYGDBUiKmYkyQtGftplndoV7/p8YTxhssVjNXZylJTgoYfVmzNf2dw==
   dependencies:
     axios "^0.18.0"
     lodash "^4.17.10"
-    normalizr "^3.2.3"
 
 lcid@^2.0.0:
   version "2.0.0"
@@ -6266,10 +6266,6 @@ normalize-range@^0.1.2:
 normalize-url@^3.0.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
-
-normalizr@^3.2.3:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/normalizr/-/normalizr-3.3.0.tgz#6f44b95e8bf2201845a9e551920c4e5861166d27"
 
 now@^15.0.4:
   version "15.0.4"
