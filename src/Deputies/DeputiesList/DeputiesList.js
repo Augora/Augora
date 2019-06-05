@@ -15,14 +15,14 @@ class DeputiesList extends Component {
 
   componentDidMount() {
     getDeputiesInOffice()
-      .then(deputes =>
-        this.setState(function(state) {
+      .then(deputes => {
+        this.setState(state => {
           return Object.assign({}, state, {
             loaded: true,
             deputes
           });
-        })
-      )
+        });
+      })
       .catch(err => console.error("Error:", err));
   }
 

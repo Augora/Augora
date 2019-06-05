@@ -3,20 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/react": "^16.8.17",
+    "@types/react": "^16.8.19",
     "@types/react-helmet": "^5.0.8",
+    "@types/styled-components": "^4.1.16",
     "lbp-wrapper": "^0.7.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
-    "react-router-dom": "^5.0.0",
-    "redux": "^4.0.0",
-    "styled-components": "^4.2.0",
-    "typescript": "^3.4.5"
+    "react-router-dom": "^5.0.1",
+    "styled-components": "^4.2.1",
+    "typescript": "^3.5.1"
   },
   "devDependencies": {
-    "now": "^15.2.0",
-    "react-scripts": "3.0.1"
+    "now": "^15.3.0",
+    "react-scripts": "3.0.1",
+    "source-map-explorer": "^2.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -24,6 +25,7 @@
     "now-build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "deploy-prod": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) la-bete-politique",
     "deploy-qua": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) preprod-la-bete-politique"
   },

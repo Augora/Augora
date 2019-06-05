@@ -20,7 +20,7 @@ function getGender(deputy: IDeputy) {
   }
 }
 
-function Deputy(props: RouterProps<RouterParams>): JSX.Element {
+function Deputy(props: RouterProps<RouterParams>) {
   const [deputy, setDeputy] = useState<IDeputy | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
