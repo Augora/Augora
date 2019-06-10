@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { getDeputy } from "lbp-wrapper";
 import Helmet from "react-helmet";
+import GeneralInformation from "../Components/Deputy/GeneralInformation/GeneralInformation";
+import { RouterProps } from "../Utils/utils";
+import {
+  getGender,
+  getGeneralInformation,
+  getCoworkers
+} from "./Utils/Deputy.utils";
+import Coworkers from "../Components/Deputy/Coworkers/Coworkers";
+import styled from "styled-components";
 
-interface RouterProps<T> {
-  match: {
-    params: T;
-  };
-}
+const DeputyStyles = styled.div`
+`;
 
 interface RouterParams {
   id: string;
-}
-
-function getGender(deputy: IDeputy) {
-  if (deputy.sexe === "H") {
-    return "Député";
-  } else {
-    return "Députée";
-  }
 }
 
 function Deputy(props: RouterProps<RouterParams>) {
@@ -37,24 +35,16 @@ function Deputy(props: RouterProps<RouterParams>) {
   }
 
   return (
-    <div>
+    <DeputyStyles>
       <Helmet>
         <title>
           {deputy.prenom} {deputy.nom_de_famille} - {getGender(deputy)}{" "}
           {deputy.groupe_sigle}
         </title>
       </Helmet>
-      <img src={deputy.imageDynamic(200)} alt="" />
-      <h1>
-        {deputy.prenom} {deputy.nom_de_famille}
-      </h1>
-      <p>
-        {getGender(deputy)} {deputy.groupe_sigle}
-      </p>
-      <p>
-        {deputy.nom_circo} ({deputy.num_circo})
-      </p>
-    </div>
+      <GeneralInformation {...getGeneralInformation(deputy, 500)} />
+      {/* <Coworkers {...getCoworkers(deputy)} /> */}
+    </DeputyStyles>
   );
 }
 
