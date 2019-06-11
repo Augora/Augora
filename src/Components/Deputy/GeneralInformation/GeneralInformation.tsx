@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useState } from "react";
-import { RouterProps } from "../../../Utils/utils";
+import React from "react";
+// import { RouterProps } from "../../../Utils/utils";
 import styled from "styled-components";
 
 const Column = styled.div`

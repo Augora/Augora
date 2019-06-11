@@ -6,9 +6,9 @@ import { RouterProps } from "../Utils/utils";
 import {
   getGender,
   getGeneralInformation,
-  getCoworkers
+  // getCoworkers
 } from "./Utils/Deputy.utils";
-import Coworkers from "../Components/Deputy/Coworkers/Coworkers";
+// import Coworkers from "../Components/Deputy/Coworkers/Coworkers";
 import styled from "styled-components";
 
 const DeputyStyles = styled.div`

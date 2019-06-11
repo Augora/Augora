@@ -1,4 +1,3 @@
-import { RouterProps } from "../../Utils/utils";
 import { IGeneralInformation } from "../../Components/Deputy/GeneralInformation/GeneralInformation";
 import { ICoworkers } from "../../Components/Deputy/Coworkers/Coworkers";
 import { ICoworker } from "../../Components/Deputy/Coworkers/Coworker/Coworker";
