@@ -16,7 +16,7 @@ deploy:
   skip_cleanup: true
   on:
     branch: develop
-    node: "11.13.0"
+    node: "12.4.0"
 cache: yarn
 notifications:
   slack: augora:NbzHhCF6cj1DOJhe8lGOg5ih
