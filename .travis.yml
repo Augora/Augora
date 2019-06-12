@@ -19,4 +19,4 @@ deploy:
     node: "11.13.0"
 cache: yarn
 notifications:
-  slack: labetepolitique-team:NbzHhCF6cj1DOJhe8lGOg5ih
+  slack: augora:NbzHhCF6cj1DOJhe8lGOg5ih
