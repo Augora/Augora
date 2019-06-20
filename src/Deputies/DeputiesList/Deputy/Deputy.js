@@ -54,6 +54,10 @@ const couleursGroupeParlementaire = {
   NI: {
     couleur: "hsl(0, 0%, 80%)",
     nom_complet: "Non inscrits"
+  },
+  UDI: {
+    couleur: "hsl(261, 29%, 48%)",
+    nom_complet: "Union des démocrates et indépendants"
   }
 };
 const sexSelector = {
@@ -70,7 +74,6 @@ const sexSelector = {
 class OneDeputy extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       opened: false,
       actualColor:
