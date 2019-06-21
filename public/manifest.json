@@ -1,6 +1,6 @@
 {
-  "short_name": "LBP",
-  "name": "La Bete Politique",
+  "short_name": "Augora",
+  "name": "Augora",
   "start_url": "./index.html",
   "display": "standalone"
 }

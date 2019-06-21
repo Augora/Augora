@@ -12,7 +12,7 @@ export function getGender(deputy: IDeputy) {
 
 // TODO for each politic group, switch case
 export function getPoliticGroupPicture(politicGroup: string, imgPixel : number) {
-  return "/Images/Logos/partis politiques/lrem/lrem_grand.png";
+  return `${process.env.PUBLIC_URL}/Images/Logos/partis politiques/lrem/lrem_grand.png`;
 }
 
 export function getGeneralInformation(deputy: IDeputy, imgPixel : number) {
