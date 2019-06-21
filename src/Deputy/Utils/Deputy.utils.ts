@@ -1,6 +1,7 @@
 import { IGeneralInformation } from "../../Components/Deputy/GeneralInformation/GeneralInformation";
 import { ICoworkers } from "../../Components/Deputy/Coworkers/Coworkers";
 import { ICoworker } from "../../Components/Deputy/Coworkers/Coworker/Coworker";
+import lrem from '../../Assets/Logos/groupes parlementaires/lrem/lrem_grand.png';
 
 export function getGender(deputy: IDeputy) {
   if (deputy.sexe === "H") {
@@ -12,7 +13,7 @@ export function getGender(deputy: IDeputy) {
 
 // TODO for each politic group, switch case
 export function getPoliticGroupPicture(politicGroup: string, imgPixel : number) {
-  return `${process.env.PUBLIC_URL}/Images/Logos/partis politiques/lrem/lrem_grand.png`;
+  return lrem;
 }
 
 export function getGeneralInformation(deputy: IDeputy, imgPixel : number) {
