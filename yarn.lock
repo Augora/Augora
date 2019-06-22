@@ -6589,10 +6589,10 @@ normalize-url@^3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
-now@^15.3.0:
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/now/-/now-15.4.0.tgz#0a110f2e78c17be9b73dda4d18076b988e5532c7"
-  integrity sha512-OcTkBg7yKRSVRJME+olDslIULEu3ZRIC0ySOqnJLTnNlcbfjyM6EOffKJCUfFsxcFsPuVhjY12NxSXas9oQxKA==
+now@^15.6.0:
+  version "15.6.0"
+  resolved "https://registry.yarnpkg.com/now/-/now-15.6.0.tgz#cb6c8276d0d69b00d26665a8746e970d6aa0820b"
+  integrity sha512-qvZyBYOUs3Cr+J8CZNgGVOgU1SFp/OFnkDESpJf5O4TnaiZzAZfrOGy7aZdkXJj6SALS94gfctPqh9LczJ2ldA==
 
 npm-bundled@^1.0.1:
   version "1.0.6"
