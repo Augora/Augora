@@ -1868,10 +1868,10 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
   integrity sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
 
-axios@^0.18.0:
-  version "0.18.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.1.tgz#ff3f0de2e7b5d180e757ad98000f1081b87bcea3"
-  integrity sha512-0BfJq4NSfQXd+SkFdrvFbG7addhYSBA2mQwISr46pD6E5iqkWg02RAs8vyTT/j0RTnoYmeXauBuSv1qKwR179g==
+axios@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.0.tgz#8e09bff3d9122e133f7b8101c8fbdd00ed3d2ab8"
+  integrity sha512-1uvKqKQta3KBxIz14F2v06AEHZ/dIoeKfbTRkK1E5oqjDnuEerLmYTgJB5AiQZHJcljpg1TuRzdjDR06qNk0DQ==
   dependencies:
     follow-redirects "1.5.10"
     is-buffer "^2.0.2"
@@ -5917,12 +5917,12 @@ lazy-cache@^1.0.3:
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
   integrity sha1-odePw6UEdMuAhF07O24dpJpEbo4=
 
-lbp-wrapper@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/lbp-wrapper/-/lbp-wrapper-0.7.1.tgz#c8bc5bab72d8ae9b698acfa6fb0260a69626e4d7"
-  integrity sha512-sEkTGK0AdstAe820z9wVQcfYK99PXML+2PvOo41Cl6jZmc9fAfDqgpxDBLbRtLSmlLWPnD1K3kimqnpdmC4FEw==
+lbp-wrapper@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/lbp-wrapper/-/lbp-wrapper-0.8.2.tgz#8e7d9d0fd71320c3aacfeb499e116c27ceda4145"
+  integrity sha512-6ldqKZXHcY61F06x1/APJmyjVpUch/b64CTuBqWB0yqQPKvDbKqz/xTDmeKigRjWKve4yyAbObVyeZW8Qv/YNQ==
   dependencies:
-    axios "^0.18.0"
+    axios "^0.19.0"
     lodash "^4.17.10"
 
 lcid@^2.0.0:
@@ -6589,10 +6589,10 @@ normalize-url@^3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
-now@^15.6.0:
-  version "15.6.0"
-  resolved "https://registry.yarnpkg.com/now/-/now-15.6.0.tgz#cb6c8276d0d69b00d26665a8746e970d6aa0820b"
-  integrity sha512-qvZyBYOUs3Cr+J8CZNgGVOgU1SFp/OFnkDESpJf5O4TnaiZzAZfrOGy7aZdkXJj6SALS94gfctPqh9LczJ2ldA==
+now@^15.6.1:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/now/-/now-15.6.1.tgz#2a184205ce1541ef418a62b75a890a9f348d1abb"
+  integrity sha512-eJVNHyCVV37M9dRhZQkmKj0AQ62ikXti3tNuHgBmczGNHmsD1vVuqtaKD4HasFGbDqUAAz9ZB6WGPHUqoXDv5A==
 
 npm-bundled@^1.0.1:
   version "1.0.6"
