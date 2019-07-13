@@ -15,7 +15,7 @@
     "typescript": "^3.5.2"
   },
   "devDependencies": {
-    "now": "^15.6.2",
+    "now": "^15.8.0",
     "react-scripts": "3.0.1",
     "source-map-explorer": "^2.0.1"
   },
