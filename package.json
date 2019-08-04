@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/react": "^16.8.22",
+    "@types/react": "^16.8.24",
     "@types/react-helmet": "^5.0.8",
     "@types/styled-components": "^4.1.18",
     "lbp-wrapper": "^0.8.2",
