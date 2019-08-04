@@ -5,7 +5,7 @@
   "dependencies": {
     "@types/react": "^16.8.22",
     "@types/react-helmet": "^5.0.8",
-    "@types/styled-components": "^4.1.16",
+    "@types/styled-components": "^4.1.18",
     "lbp-wrapper": "^0.8.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
