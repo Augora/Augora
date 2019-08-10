@@ -6,11 +6,11 @@ import DeputiesList from "./DeputiesList/DeputiesList";
 
 const DeputiesStyles = styled.section`
   margin-top: 120px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 10px;
+  position: relative;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 100px 10px 10px 10px;
 `;
 
 class Deputies extends Component {

@@ -7,7 +7,8 @@ import DeputyGroup from "./deputyGroup/deputyGroup";
 import DeputyBtnSocial from "./deputyBtnSocial/deputyBtnSocial";
 import DeputyBtnLink from "./deputyBtnLink/deputyBtnLink";
 import ExpandBtn from "./expandBtn/expandBtn";
-import DeputyInformation from "../../../Components/Deputy/DeputyInformation/DeputyInformation";
+import DeputyInformatin from "../../../Components/Deputy/DeputyInformation/DeputyInformation";
+import { Link } from 'react-router-dom'
 // Style
 import "./Deputy.css";
 
@@ -115,17 +116,17 @@ class OneDeputy extends Component {
 
   render() {
     return (
-      <div
-        href={this.props.data.url_an}
+      <Link
+        to={`/deputy/${this.props.data.slug}`}
         id={"depute-" + this.props.data.id}
         key={this.props.data.id}
         className={"depute depute--opened-" + this.state.opened}
-        target="_blank"
         style={{
           backgroundColor: this.state.actualColor
         }}
       >
-        <div className="depute__name-wrapper">
+        <h2>{this.props.data.nom}</h2>
+        {/* <div className="depute__name-wrapper">
           <DeputySex
             sex={this.state.actualSex}
             sexSvg={this.state.actualSexSvg}
@@ -141,8 +142,8 @@ class OneDeputy extends Component {
         <DeputyGroup
           color={this.state.actualColor}
           group={this.state.actualSigleComplet}
-        />
-        <div className="depute__rs-wrapper">
+        /> */}
+        {/* <div className="depute__rs-wrapper">
           <DeputyBtnSocial
             type={"twitter"}
             startingUrl={"https://twitter.com/"}
@@ -178,23 +179,23 @@ class OneDeputy extends Component {
         <DeputyInformation
           type="anciens_autres_mandats"
           data={this.props.data}
-        />
-        <DeputyInformation type="anciens_mandats" data={this.props.data} />
+        /> */}
+        {/* <DeputyInformation type="anciens_mandats" data={this.props.data} /> */}
         {/* <DeputyInformation type="collaborateurs" data={this.props.data} /> */}
         {/* <DeputyInformation type="date_naissance" data={this.props.data} /> */}
         {/* <DeputyInformation type="emails" data={this.props.data} /> */}
         {/* <DeputyInformation type="groupe_sigle" data={this.props.data} /> */}
         {/* <DeputyInformation type="id_an" data={this.props.data} /> */}
-        <DeputyInformation type="lieu_naissance" data={this.props.data} />
-        <DeputyInformation type="mandat_debut" data={this.props.data} />
-        <DeputyInformation type="nb_mandats" data={this.props.data} />
+        {/* <DeputyInformation type="lieu_naissance" data={this.props.data} /> */}
+        {/* <DeputyInformation type="mandat_debut" data={this.props.data} /> */}
+        {/* <DeputyInformation type="nb_mandats" data={this.props.data} /> */}
         {/* <DeputyInformation type="nom" data={this.props.data} /> */}
         {/* <DeputyInformation type="nom_circo" data={this.props.data} /> */}
         {/* <DeputyInformation type="nom_de_famille" data={this.props.data} /> */}
         {/* <DeputyInformation type="num_circo" data={this.props.data} /> */}
         {/* <DeputyInformation type="num_deptmt" data={this.props.data} /> */}
-        <DeputyInformation type="parti_ratt_financier" data={this.props.data} />
-        <DeputyInformation type="place_en_hemicycle" data={this.props.data} />
+        {/* <DeputyInformation type="parti_ratt_financier" data={this.props.data} /> */}
+        {/* <DeputyInformation type="place_en_hemicycle" data={this.props.data} /> */}
         {/* <DeputyInformation type="prenom" data={this.props.data} /> */}
         {/* <DeputyInformation type="sexe" data={this.props.data} /> */}
         {/* <DeputyInformation type="site_web" data={this.props.data} /> */}
@@ -202,8 +203,8 @@ class OneDeputy extends Component {
         {/* <DeputyInformation type="url_an" data={this.props.data} /> */}
         {/* <DeputyInformation type="url_nosdeputes" data={this.props.data} /> */}
         {/* <DeputyInformation type="url_nosdeputes_api" data={this.props.data} /> */}
-        <ExpandBtn action={this.expand} icon={downArrow} />
-      </div>
+        {/* <ExpandBtn action={this.expand} icon={downArrow} /> */}
+      </Link>
     );
   }
 }

@@ -1,13 +1,17 @@
 /* Style du député */
 .depute {
+    grid-column-end: span 1;
     position: relative;
-    width: calc(25% - 10px);
+    width: 100%;
     background: grey;
     display: inline;
-    padding: 10px 10px 75px 10px;
-    margin-bottom: 5px;
+    padding: 10px;
     text-decoration: none;
     color: white;
+    height: calc(25vw - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .depute--opened-false {
     /*  */
@@ -36,4 +40,9 @@
     display: flex;
     justify-content: space-between;
     margin-top: 2px;
+}
+
+.depute h2 {
+    margin: 0;
+    text-align: center;
 }

@@ -9,8 +9,13 @@ class DeputiesList extends Component {
     super(...props);
     this.state = {
       loaded: false,
-      deputes: null
+      deputes: null,
+      searchValue: ''
     };
+  }
+
+  filterList(event) {
+    this.setState(Object.assign({}, this.state, {searchValue: event.target.value}))
   }
 
   componentDidMount() {
@@ -30,10 +35,24 @@ class DeputiesList extends Component {
     if (!this.state.loaded) {
       return <LoadingSpinner />;
     } else {
-      const listDeputies = this.state.deputes.map(function(depute) {
+      const listDeputies = this.state.deputes
+      const updatedList = listDeputies.filter(depute => {
+        return depute.nom.toLowerCase().search(this.state.searchValue.toLowerCase()) !== -1
+      }).map(depute => {
         return <Deputy key={depute.id} data={depute} />;
       });
-      return listDeputies;
+      return(
+        <>
+          <input
+            className="search"
+            type="text"
+            placeholder="Recherche"
+            value={this.state.searchValue}
+            onChange={this.filterList.bind(this)}
+          />
+          {updatedList}
+        </>
+      )
     }
   }
 }
