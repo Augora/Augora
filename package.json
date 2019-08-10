@@ -8,7 +8,7 @@
     "@types/styled-components": "^4.1.18",
     "lbp-wrapper": "^0.8.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react-dom": "^16.9.0",
     "react-helmet": "^5.2.1",
     "react-router-dom": "^5.0.1",
     "styled-components": "^4.3.2",
