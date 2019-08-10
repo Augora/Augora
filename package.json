@@ -3,16 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "lbp-wrapper": "^0.6.4",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.0",
-    "react-router-dom": "^5.0.0",
-    "redux": "^4.0.0"
+    "@types/react": "^16.9.1",
+    "@types/react-helmet": "^5.0.9",
+    "@types/styled-components": "^4.1.18",
+    "lbp-wrapper": "^0.8.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-helmet": "^5.2.1",
+    "react-router-dom": "^5.0.1",
+    "styled-components": "^4.3.2",
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
-    "now": "^15.0.4",
-    "react-scripts": "3.0.0"
+    "now": "^16.1.1",
+    "react-scripts": "3.1.0",
+    "source-map-explorer": "^2.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -20,8 +25,9 @@
     "now-build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy-prod": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) la-bete-politique",
-    "deploy-qua": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) preprod-la-bete-politique"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "deploy-prod": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) augora.fr",
+    "deploy-qua": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) preprod.augora.fr"
   },
   "browserslist": [
     ">0.2%",
