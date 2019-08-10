@@ -1,23 +1,23 @@
 //// Imports
 // React
 import React, { Component } from "react";
-import DeputyName from "./deputyName/deputyName";
-import DeputySex from "./deputySex/deputySex";
-import DeputyGroup from "./deputyGroup/deputyGroup";
-import DeputyBtnSocial from "./deputyBtnSocial/deputyBtnSocial";
-import DeputyBtnLink from "./deputyBtnLink/deputyBtnLink";
-import ExpandBtn from "./expandBtn/expandBtn";
-import DeputyInformatin from "../../../Components/Deputy/DeputyInformation/DeputyInformation";
+// import DeputyName from "./deputyName/deputyName";
+// import DeputySex from "./deputySex/deputySex";
+// import DeputyGroup from "./deputyGroup/deputyGroup";
+// import DeputyBtnSocial from "./deputyBtnSocial/deputyBtnSocial";
+// import DeputyBtnLink from "./deputyBtnLink/deputyBtnLink";
+// import ExpandBtn from "./expandBtn/expandBtn";
+// import DeputyInformatin from "../../../Components/Deputy/DeputyInformation/DeputyInformation";
 import { Link } from 'react-router-dom'
 // Style
 import "./Deputy.css";
 
 // Images
-import twitter from "./Assets/twitter.svg";
-import envelope from "./Assets/envelope.svg";
+// import twitter from "./Assets/twitter.svg";
+// import envelope from "./Assets/envelope.svg";
 import homme from "./Assets/homme.svg";
 import femme from "./Assets/femme.svg";
-import downArrow from "./Assets/down-arrow.svg";
+// import downArrow from "./Assets/down-arrow.svg";
 
 const couleursGroupeParlementaire = {
   LREM: {
