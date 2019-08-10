@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/react": "^16.8.24",
-    "@types/react-helmet": "^5.0.8",
+    "@types/react-helmet": "^5.0.9",
     "@types/styled-components": "^4.1.18",
     "lbp-wrapper": "^0.8.2",
     "react": "^16.8.6",
