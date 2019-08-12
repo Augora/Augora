@@ -2,36 +2,6 @@ import React from "react";
 // import { RouterProps } from "../../../Utils/utils";
 import styled from "styled-components";
 
-const Column = styled.div`
-  flex: 50%;
-  max-width: 50%;
-  padding: 0 4px;
-  text-align: center;
-
-  @media screen and (max-width: 1200px) {
-    flex: 50%;
-    max-width: 50%;
-  }
-
-  @media screen and (max-width: 600px) {
-    flex: 100%;
-    max-width: 100%;
-  }
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 4px;
-`;
-
-const Image = styled.img`
-  margin-top: 8px;
-  vertical-align: middle;
-  width: 25%;
-  text-align: center;
-`;
-
 export interface IGeneralInformation {
   id: number;
   firstName: string;
@@ -44,35 +14,87 @@ export interface IGeneralInformation {
   groupSymbol: string;
 }
 
-function GeneralInformation(props: IGeneralInformation) {
-  return (
-    <div>
-      <Row>
-        <Column>
-          <Image alt="deputy-photo" src={props.picture} />
-        </Column>
-        <Column>
-          <Image alt="deputy-group-photo" src={props.pictureGroup} />
-        </Column>
-      </Row>
-      <Row>
-
-        <Column>
-        <h1>
-        {" "}
-        {props.firstName} {props.lastName}{" "}
-      </h1>
-      <p>
-        {props.gender} {props.groupSymbol}
-      </p>
-      <p>
-        {props.circonscriptionName} ({props.circonscriptionNumber})
-      </p>
-
-        </Column>
-      </Row>
-    </div>
-  );
+export interface MyState {
+  blockSize: string;
 }
 
-export default GeneralInformation;
+export default class GeneralInformation extends React.Component<IGeneralInformation, MyState> {
+  constructor(props: IGeneralInformation) {
+    super(props)
+
+    this.state = {
+      blockSize: 'halfLine'
+    }
+  }
+
+  calculateBlockSize(size: string) {
+    switch (size) {
+      case 'line':
+        return 4;
+      case 'halfLine':
+        return 2;
+      case 'block':
+        return 1;
+      default:
+        return 1;
+    }
+  }
+
+  render() {
+    const Block = styled.div`
+      /* display: grid;
+      grid-gap: 20px;
+      grid-template-columns: repeat(${this.calculateBlockSize.bind(this, this.state.blockSize)}, 1fr); */
+      display: flex;
+      justify-content: space-between;
+      grid-column-end: span ${this.calculateBlockSize.bind(this, this.state.blockSize)};
+      background-color: rgba(0,0,0,0.15);
+      border: solid 2px rgba(0,0,0,0.25);
+      border-radius: 2px;
+      padding: 10px;
+    `;
+    const Photo = styled.img`
+      object-fit: contain;
+      width: 100%; width: calc(50% - 10px);
+    `;
+    const GeneralText = styled.div`
+      width: calc(50% - 10px);
+    `
+    const LogoGroup = styled.img`
+      object-fit: contain;
+      width: 100%; height: 50%;
+    `;
+    const Name = styled.h1`
+      margin: 0 0 10px;
+      line-height: 1;
+    `
+    const P = styled.p`
+      margin: 0;
+    `
+    return (
+      <Block className="deputy__block">
+        <Photo
+          className="single-deputy__photo"
+          src={this.props.picture}
+          alt="deputy-photo"
+        />
+        <GeneralText className="single-deputy__general-text">
+          <LogoGroup
+            className="single-deputy__logo-groupe"
+            src={this.props.pictureGroup}
+            alt="deputy-group-photo"
+          />
+          <Name className="single-deputy__name">
+            {this.props.firstName} {this.props.lastName}
+          </Name>
+          <P>
+            {this.props.gender} {this.props.groupSymbol}
+          </P>
+          <P>
+            {this.props.circonscriptionName} ({this.props.circonscriptionNumber})
+          </P>
+        </GeneralText>
+      </Block>
+    );
+  }
+}

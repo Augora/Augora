@@ -12,6 +12,12 @@ import {
 import styled from "styled-components";
 
 const DeputyStyles = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 25vw;
+  grid-gap: 20px;
+  padding: 20px;
+  min-height: 100vh;
 `;
 
 interface RouterParams {
@@ -35,7 +41,7 @@ function Deputy(props: RouterProps<RouterParams>) {
   }
 
   return (
-    <DeputyStyles>
+    <DeputyStyles className="single-deputy">
       <Helmet>
         <title>
           {deputy.prenom} {deputy.nom_de_famille} - {getGender(deputy)}{" "}
