@@ -40,6 +40,7 @@ function Deputy(props: RouterProps<RouterParams>) {
     return <h1>Loading...</h1>;
   }
 
+  // console.log(getGeneralInformation(deputy, 500))
   return (
     <DeputyStyles className="single-deputy">
       <Helmet>
