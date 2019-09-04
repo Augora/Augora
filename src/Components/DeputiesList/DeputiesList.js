@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { getDeputiesInOffice } from "lbp-wrapper"
 import Deputy from "./Deputy/Deputy"
 import LoadingSpinner from "../../Components/Spinners/LoadingSpinner/LoadingSpinner"
 import "./DeputiesList.css"
