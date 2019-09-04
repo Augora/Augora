@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Helmet from "react-helmet"
 import { graphql } from "gatsby"
 
-import DeputiesList from "../components/DeputiesList/DeputiesList"
+import DeputiesList from "../Components/DeputiesList/DeputiesList"
 import { DeputesQueryQuery } from "../../types/graphql-types"
 
 type DeputesQueryQueryProps = {
