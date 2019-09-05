@@ -2,21 +2,6 @@ language: node_js
 node_js:
   - "10.16.3"
   - "12.9.1"
-script:
-  - yarn run build
-# deploy:
-#   provider: script
-#   script: npm run deploy-prod
-#   skip_cleanup: true
-#   on:
-#     branch: master
-deploy:
-  provider: script
-  script: npm run deploy-qua
-  skip_cleanup: true
-  on:
-    branch: develop
-    node: "12.8.0"
 cache: yarn
 notifications:
   slack: augora:NbzHhCF6cj1DOJhe8lGOg5ih

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "Augora-frontend",
+  "name": "Augora",
   "builds": [
     {
       "src": "package.json",

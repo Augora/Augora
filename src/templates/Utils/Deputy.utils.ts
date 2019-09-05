@@ -20,7 +20,7 @@ export function getGender(deputy) {
   }
 }
 
-export function getPoliticGroupPicture(politicGroup: string, imgPixel: number) {
+export function getPoliticGroupPicture(politicGroup: string) {
   switch (politicGroup) {
     case "constructifs":
       return constructifs
@@ -59,7 +59,7 @@ export function getGeneralInformation(deputy: any, imgPixel: number) {
     lastName: deputy.nomDeFamille,
     firstName: deputy.prenom,
     picture: getImageDynamic(deputy.slug, imgPixel),
-    pictureGroup: getPoliticGroupPicture(deputy.groupeSigle, imgPixel),
+    pictureGroup: getPoliticGroupPicture(deputy.groupeSigle),
     groupSymbol: deputy.groupeSigle,
     gender: getGender(deputy),
   }
@@ -67,7 +67,7 @@ export function getGeneralInformation(deputy: any, imgPixel: number) {
   return props
 }
 
-export function getCoworkers(deputy: IDeputy): ICoworkers {
+export function getCoworkers(deputy: any): ICoworkers {
   const coworkers: Array<ICoworker> = deputy.collaborateurs.map(collab => {
     const coworker: ICoworker = {
       coworker: collab,
