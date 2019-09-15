@@ -1,4 +1,6 @@
 import React from "react";
+import calculateBlockSize from "../../../Utils/utils";
+import block from "../../../Utils/sc-utils";
 // import { RouterProps } from "../../../Utils/utils";
 import styled from "styled-components";
 
@@ -27,32 +29,8 @@ export default class GeneralInformation extends React.Component<IGeneralInformat
     }
   }
 
-  calculateBlockSize(size: string) {
-    switch (size) {
-      case 'line':
-        return 4;
-      case 'halfLine':
-        return 2;
-      case 'block':
-        return 1;
-      default:
-        return 1;
-    }
-  }
-
   render() {
-    const Block = styled.div`
-      /* display: grid;
-      grid-gap: 20px;
-      grid-template-columns: repeat(${this.calculateBlockSize.bind(this, this.state.blockSize)}, 1fr); */
-      display: flex;
-      justify-content: space-between;
-      grid-column-end: span ${this.calculateBlockSize.bind(this, this.state.blockSize)};
-      background-color: rgba(0,0,0,0.15);
-      border: solid 2px rgba(0,0,0,0.25);
-      border-radius: 2px;
-      padding: 10px;
-    `;
+    const Block = block(this);
     const Photo = styled.img`
       object-fit: contain;
       width: 100%; width: calc(50% - 10px);
