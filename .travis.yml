@@ -2,7 +2,7 @@ language: node_js
 
 node_js:
   - "10.16.3"
-  - "12.9.1"
+  - "12.10.0"
 
 cache: yarn
 
@@ -11,13 +11,12 @@ script:
   - npm run build
 
 deploy:
-  provider: scripts
+  provider: script
   skip_cleanup: true
   local_dir: public
-  scripts:
-    - npx now alias $(npx now -t $NOW_TOKEN) $TRAVIS_PULL_REQUEST_BRANCH
+  script: "npx now alias $(npx now -t $NOW_TOKEN) $TRAVIS_PULL_REQUEST_BRANCH"
   on:
-    branch: "/$feature\/.*/"
+    branch: /feature\/.*/
 
 notifications:
   slack: augora:NbzHhCF6cj1DOJhe8lGOg5ih
