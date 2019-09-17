@@ -16,7 +16,9 @@ deploy:
   local_dir: public
   script: "npx now alias $(npx now -t $NOW_TOKEN) $TRAVIS_PULL_REQUEST_BRANCH"
   on:
-    branch: /feature\/.*/
+    branches:
+      only:
+        - /feature\/.*/
 
 notifications:
   slack: augora:NbzHhCF6cj1DOJhe8lGOg5ih
