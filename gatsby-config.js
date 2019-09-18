@@ -35,9 +35,6 @@ module.exports = {
         url: "https://api.augora.fr/Handler/graphql.go",
       },
     },
-    `gatsby-plugin-styled-components`,
-    `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-plugin-graphql-codegen`,
       options: {
@@ -46,6 +43,8 @@ module.exports = {
         codegenDelay: 250,
       },
     },
+    `gatsby-plugin-styled-components`,
+    `gatsby-plugin-typescript`,
     `gatsby-plugin-offline`,
   ],
 }

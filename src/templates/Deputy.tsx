@@ -16,6 +16,7 @@ import { SingleDeputyQuery } from "../../types/graphql-types"
 type SingleDeputyQueryProps = {
   data: SingleDeputyQuery
 }
+
 const DeputyStyles = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
