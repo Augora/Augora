@@ -2,14 +2,15 @@ import React from "react"
 import Helmet from "react-helmet"
 import { graphql } from "gatsby"
 
+import styled from "styled-components"
+
 import GeneralInformation from "../Components/Deputy/GeneralInformation/GeneralInformation"
+import Coworkers from "../Components/Deputy/Coworkers/Coworkers"
 import {
   getGender,
   getGeneralInformation,
-  // getCoworkers
+  getCoworkers
 } from "./Utils/Deputy.utils"
-// import Coworkers from "../Components/Deputy/Coworkers/Coworkers";
-import styled from "styled-components"
 
 import { SingleDeputyQuery } from "../../types/graphql-types"
 
@@ -38,6 +39,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
         </title>
       </Helmet>
       <GeneralInformation {...getGeneralInformation(deputy, 500)} />
+      <Coworkers {...getCoworkers(deputy)} />
     </DeputyStyles>
   )
 }
@@ -64,6 +66,7 @@ export const query = graphql`
         sexe
         slug
         twitter
+        collaborateurs
       }
     }
   }
