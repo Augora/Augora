@@ -1,0 +1,66 @@
+name: CI/CD Staging
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+        node-version: [8.x, 10.x, 12.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: yarn install, build, and test
+        run: |
+          yarn install
+          yarn run build
+          yarn test
+        env:
+          CI: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: yarn install, build
+        env:
+          TARGET_ENV: "sandbox"
+        run: |
+          yarn install
+          yarn run build
+
+      - name: deploy
+        uses: mikeal/npx@master
+        env:
+          ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
+        with:
+          args: "now --token $ZEIT_TOKEN"
+
+      - name: Comment on PR
+        env:
+          ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
+        run: now --no-clipboard -t ${ZEIT_TOKEN} -m commit=${GITHUB_SHA} -m branch=${GITHUB_REF}
+
+      - name: Notify slack
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: pullreminders/slack-action@master
+        with:
+          args: '{\"channel\":\"C4H19LCN9\",\"text\":\"Augora deployed in staging environment :rocket:\"}'
+        if: success()

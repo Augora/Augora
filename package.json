@@ -1,38 +1,55 @@
 {
-  "name": "la-bete-politique-front",
-  "version": "0.1.0",
+  "name": "augora-frontend",
   "private": true,
+  "description": "",
+  "version": "0.2.0",
+  "author": "",
   "dependencies": {
-    "@types/react": "^16.9.2",
-    "@types/react-helmet": "^5.0.9",
-    "@types/styled-components": "^4.1.18",
-    "lbp-wrapper": "^0.8.3",
+    "@graphql-codegen/core": "^1.7.0",
+    "babel-plugin-styled-components": "^1.10.6",
+    "gatsby": "^2.15.3",
+    "gatsby-image": "^2.2.16",
+    "gatsby-plugin-graphql-codegen": "^2.0.1",
+    "gatsby-plugin-manifest": "^2.2.13",
+    "gatsby-plugin-offline": "^3.0.1",
+    "gatsby-plugin-react-helmet": "^3.1.6",
+    "gatsby-plugin-sharp": "^2.2.19",
+    "gatsby-plugin-styled-components": "^3.1.4",
+    "gatsby-plugin-typescript": "^2.1.6",
+    "gatsby-source-filesystem": "^2.1.19",
+    "gatsby-source-graphql-universal": "^3.1.7",
+    "gatsby-transformer-sharp": "^2.2.13",
+    "graphql": "^14.5.4",
+    "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-helmet": "^5.2.1",
-    "react-router-dom": "^5.0.1",
     "styled-components": "^4.3.2",
     "typescript": "^3.6.2"
   },
   "devDependencies": {
-    "now": "^16.1.1",
-    "react-scripts": "3.1.0",
-    "source-map-explorer": "^2.0.1"
+    "prettier": "^1.18.2"
   },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "now-build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "deploy-prod": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) augora.fr",
-    "deploy-qua": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) preprod.augora.fr"
+    "clean": "gatsby clean",
+    "build": "gatsby build",
+    "rebuild": "gatsby clean && gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
+    "deploy-qua": "now"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Augora/Augora"
+  },
+  "bugs": {
+    "url": "https://github.com/Augora/Augora/issues"
+  }
 }

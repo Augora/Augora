@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { RouterProps } from "../../../Utils/utils";
+import styled from "styled-components";
 import Coworker, { ICoworker } from "./Coworker/Coworker";
 
 // use it to resize the box as you wish, maybe with default values ?
@@ -12,14 +12,23 @@ export interface ICoworkers {
 function Coworkers(props : ICoworkers) {
   // Declare only one state, refresh all properties in once
 
+  const Block = styled.div`
+    display: flex;
+    flex-direction: column;
+    grid-column-end: span 1;
+    background-color: rgba(0,0,0,0.15);
+    border: solid 2px rgba(0,0,0,0.25);
+    border-radius: 2px;
+    padding: 10px;
+  `;
   return (
-    <div>
+    <Block>
       {props.coworkers.map((coworker: ICoworker) => {
         return (
           <Coworker {...coworker} />
         );
       })}
-    </div>
+    </Block>
   );
 };
 
