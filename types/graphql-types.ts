@@ -1955,10 +1955,12 @@ export type SitePageConnectionGroupArgs = {
 };
 
 export type SitePageContext = {
+  slug?: Maybe<Scalars['String']>,
   rootQuery?: Maybe<Scalars['String']>,
 };
 
 export type SitePageContextFilterInput = {
+  slug?: Maybe<StringQueryOperatorInput>,
   rootQuery?: Maybe<StringQueryOperatorInput>,
 };
 
@@ -2060,6 +2062,7 @@ export type SitePageFieldsEnum =
   'component' |
   'componentChunkName' |
   'isCreatedByStatefulCreatePages' |
+  'context___slug' |
   'context___rootQuery' |
   'pluginCreator___id' |
   'pluginCreator___parent___id' |
