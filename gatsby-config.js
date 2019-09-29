@@ -1,3 +1,6 @@
+var targetEnv = process.env.TARGET_ENV || 'sandbox';
+var targetAPIUrl = targetEnv === 'sandbox' ? 'sandbox.augora.fr' : 'api.augora.fr';
+
 module.exports = {
   siteMetadata: {
     title: `Augora`,
@@ -32,7 +35,7 @@ module.exports = {
       options: {
         typeName: "DeputesEnMandat",
         fieldName: "augora",
-        url: "https://api.augora.fr/Handler/graphql.go",
+        url: "https://" + targetAPIUrl + "/Handler/graphql.go",
       },
     },
     {

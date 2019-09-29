@@ -139,15 +139,13 @@ export type Directory = Node & {
   ext?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
   relativeDirectory?: Maybe<Scalars['String']>,
-  dev?: Maybe<Scalars['Int']>,
+  dev?: Maybe<Scalars['Float']>,
   mode?: Maybe<Scalars['Int']>,
   nlink?: Maybe<Scalars['Int']>,
   uid?: Maybe<Scalars['Int']>,
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
-  blksize?: Maybe<Scalars['Int']>,
   ino?: Maybe<Scalars['Float']>,
-  blocks?: Maybe<Scalars['Int']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
   ctimeMs?: Maybe<Scalars['Float']>,
@@ -358,9 +356,7 @@ export type DirectoryFieldsEnum =
   'uid' |
   'gid' |
   'rdev' |
-  'blksize' |
   'ino' |
-  'blocks' |
   'atimeMs' |
   'mtimeMs' |
   'ctimeMs' |
@@ -391,15 +387,13 @@ export type DirectoryFilterInput = {
   ext?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
   relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
+  dev?: Maybe<FloatQueryOperatorInput>,
   mode?: Maybe<IntQueryOperatorInput>,
   nlink?: Maybe<IntQueryOperatorInput>,
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
   ino?: Maybe<FloatQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -449,15 +443,13 @@ export type File = Node & {
   ext?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
   relativeDirectory?: Maybe<Scalars['String']>,
-  dev?: Maybe<Scalars['Int']>,
+  dev?: Maybe<Scalars['Float']>,
   mode?: Maybe<Scalars['Int']>,
   nlink?: Maybe<Scalars['Int']>,
   uid?: Maybe<Scalars['Int']>,
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
-  blksize?: Maybe<Scalars['Int']>,
   ino?: Maybe<Scalars['Float']>,
-  blocks?: Maybe<Scalars['Int']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
   ctimeMs?: Maybe<Scalars['Float']>,
@@ -581,9 +573,7 @@ export type FileFieldsEnum =
   'uid' |
   'gid' |
   'rdev' |
-  'blksize' |
   'ino' |
-  'blocks' |
   'atimeMs' |
   'mtimeMs' |
   'ctimeMs' |
@@ -788,15 +778,13 @@ export type FileFilterInput = {
   ext?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
   relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
+  dev?: Maybe<FloatQueryOperatorInput>,
   mode?: Maybe<IntQueryOperatorInput>,
   nlink?: Maybe<IntQueryOperatorInput>,
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
   ino?: Maybe<FloatQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1583,15 +1571,13 @@ export type QueryFileArgs = {
   ext?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
   relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
+  dev?: Maybe<FloatQueryOperatorInput>,
   mode?: Maybe<IntQueryOperatorInput>,
   nlink?: Maybe<IntQueryOperatorInput>,
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
   ino?: Maybe<FloatQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1728,15 +1714,13 @@ export type QueryDirectoryArgs = {
   ext?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
   relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
+  dev?: Maybe<FloatQueryOperatorInput>,
   mode?: Maybe<IntQueryOperatorInput>,
   nlink?: Maybe<IntQueryOperatorInput>,
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
   ino?: Maybe<FloatQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -2521,17 +2505,17 @@ export type StringQueryOperatorInput = {
   regex?: Maybe<Scalars['String']>,
   glob?: Maybe<Scalars['String']>,
 };
-export type DeputesQueryQueryVariables = {};
-
-
-export type DeputesQueryQuery = { augora: { Deputes: Array<Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'dateNaissance' | 'adresses' | 'collaborateurs' | 'emails' | 'sitesWeb'>> } };
-
 export type SingleDeputyQueryVariables = {
   slug: Scalars['DeputesEnMandat_string']
 };
 
 
-export type SingleDeputyQuery = { augora: { Depute: Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter'> } };
+export type SingleDeputyQuery = { augora: { Depute: Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'collaborateurs'> } };
+
+export type DeputesQueryQueryVariables = {};
+
+
+export type DeputesQueryQuery = { augora: { Deputes: Array<Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'dateNaissance' | 'adresses' | 'collaborateurs' | 'emails' | 'sitesWeb'>> } };
 
 export type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
