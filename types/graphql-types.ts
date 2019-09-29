@@ -1955,12 +1955,10 @@ export type SitePageConnectionGroupArgs = {
 };
 
 export type SitePageContext = {
-  slug?: Maybe<Scalars['String']>,
   rootQuery?: Maybe<Scalars['String']>,
 };
 
 export type SitePageContextFilterInput = {
-  slug?: Maybe<StringQueryOperatorInput>,
   rootQuery?: Maybe<StringQueryOperatorInput>,
 };
 
@@ -2062,7 +2060,6 @@ export type SitePageFieldsEnum =
   'component' |
   'componentChunkName' |
   'isCreatedByStatefulCreatePages' |
-  'context___slug' |
   'context___rootQuery' |
   'pluginCreator___id' |
   'pluginCreator___parent___id' |
@@ -2505,17 +2502,17 @@ export type StringQueryOperatorInput = {
   regex?: Maybe<Scalars['String']>,
   glob?: Maybe<Scalars['String']>,
 };
+export type DeputesQueryQueryVariables = {};
+
+
+export type DeputesQueryQuery = { augora: { Deputes: Array<Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'dateNaissance' | 'adresses' | 'collaborateurs' | 'emails' | 'sitesWeb'>> } };
+
 export type SingleDeputyQueryVariables = {
   slug: Scalars['DeputesEnMandat_string']
 };
 
 
 export type SingleDeputyQuery = { augora: { Depute: Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'collaborateurs'> } };
-
-export type DeputesQueryQueryVariables = {};
-
-
-export type DeputesQueryQuery = { augora: { Deputes: Array<Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'dateNaissance' | 'adresses' | 'collaborateurs' | 'emails' | 'sitesWeb'>> } };
 
 export type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
