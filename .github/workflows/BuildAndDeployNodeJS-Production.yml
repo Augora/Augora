@@ -20,6 +20,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: yarn install, build, and test
+        env:
+          TARGET_ENV: "production"
         run: |
           yarn install
           yarn run build
@@ -50,7 +52,7 @@ jobs:
         env:
           ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
         with:
-          args: "now --token $ZEIT_TOKEN --prod"
+          args: "npx now alias --token=$ZEIT_TOKEN $(npx now --no-clipboard --token=$ZEIT_TOKEN --public) augora.fr"
 
       - name: Notify slack
         env:
