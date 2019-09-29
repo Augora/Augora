@@ -35,7 +35,7 @@ module.exports = {
       options: {
         typeName: "DeputesEnMandat",
         fieldName: "augora",
-        url: "https://" + targetAPIUrl + "/Handler/graphql.go",
+        url: "https://" + targetAPIUrl + "/graphql",
       },
     },
     {
