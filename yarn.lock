@@ -826,18 +826,28 @@
     yargs "^9.0.0"
 
 "@graphql-codegen/core@^1.4.0", "@graphql-codegen/core@^1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/core/-/core-1.7.0.tgz#fdad4d3ea9de998f9effd0df492ac3c4c2633bbc"
-  integrity sha512-NghsdPhI4eqjOJvzC2f8sHPJL7vx4hMTXeg2U90YWtv07lQoxefsJwi4UND6dyALUoH5MdgMyxJl6LM9mYzOVA==
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/core/-/core-1.8.0.tgz#850371115aaf9270443ae9654c8486525440f454"
+  integrity sha512-sNUP03WSICVt+5PTrHnow7F/25mn9gJHm/ZE1Xx19HngY6WoU4L0ATikaPZQ/yS09wMbVXK42LrMUXVSv+w0Aw==
   dependencies:
-    "@graphql-codegen/plugin-helpers" "1.7.0"
-    graphql-toolkit "0.5.11"
+    "@graphql-codegen/plugin-helpers" "1.8.0"
+    graphql-toolkit "0.5.16"
     tslib "1.10.0"
 
 "@graphql-codegen/plugin-helpers@1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-1.7.0.tgz#b1870a166cf34b2c67c053f2a9ec77823f78ac2d"
   integrity sha512-lUWd5A9BQNbPqlMr38Gh5sLsBgMnn26n90/hyTw2J7CFCKFKSMnNBjxfCZU5AFHGxwi6rsNEpwBHRBx3OVWsTA==
+  dependencies:
+    change-case "3.1.0"
+    common-tags "1.8.0"
+    import-from "3.0.0"
+    tslib "1.10.0"
+
+"@graphql-codegen/plugin-helpers@1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-1.8.0.tgz#530a4df7d196541515a6000aec768f1f9e08c519"
+  integrity sha512-0rcAYVaxpNkA48f6gwXhsQ3zn7/nhsW//LZrhg1FK8JD1Ytr64KS0EfMq1zAp1PiHh6/8RmvI0cSeAtuNGkS9g==
   dependencies:
     change-case "3.1.0"
     common-tags "1.8.0"
@@ -6182,29 +6192,10 @@ graphql-tag@2.10.1, graphql-tag@^2.10.0, graphql-tag@^2.4.2:
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.10.1.tgz#10aa41f1cd8fae5373eaf11f1f67260a3cad5e02"
   integrity sha512-jApXqWBzNXQ8jYa/HLkZJaVw9jgwNqZkywa2zfFn16Iv1Zb7ELNHkJaXHR7Quvd5SIGsy6Ny7SUKATgnu05uEg==
 
-graphql-toolkit@0.5.11:
-  version "0.5.11"
-  resolved "https://registry.yarnpkg.com/graphql-toolkit/-/graphql-toolkit-0.5.11.tgz#f9adf1ecc4df455802d0cc223acbd35556f7d78e"
-  integrity sha512-CKYzzqcAUbG3mzeQ1+KDqggQMj1lcleanhU4h8EH9bKV2+IyY+vMXQcuxBuLF4BgxYeX04LQnPUfGi9F+lo0qw==
-  dependencies:
-    "@kamilkisiela/graphql-tools" "4.0.6"
-    "@types/glob" "7.1.1"
-    aggregate-error "3.0.0"
-    asyncro "^3.0.0"
-    cross-fetch "^3.0.4"
-    deepmerge "4.0.0"
-    globby "10.0.1"
-    graphql-import "0.7.1"
-    is-glob "4.0.1"
-    is-valid-path "0.1.1"
-    lodash "4.17.15"
-    tslib "^1.9.3"
-    valid-url "1.0.9"
-
-graphql-toolkit@^0.5.0:
-  version "0.5.15"
-  resolved "https://registry.yarnpkg.com/graphql-toolkit/-/graphql-toolkit-0.5.15.tgz#71730c9345a77069494e29285826d2d2f5c89de8"
-  integrity sha512-6+onKCKE9dleg57Eh+uP+ZlPNYXh5FgMLu7qr/MPiTS4ZuCvBh16nFJ6GlOKCWqTFD/chY8zapOqnPCMe4cASg==
+graphql-toolkit@0.5.16, graphql-toolkit@^0.5.0:
+  version "0.5.16"
+  resolved "https://registry.yarnpkg.com/graphql-toolkit/-/graphql-toolkit-0.5.16.tgz#7673364e4458a6e6bc561eb3b87b2bb0e8360059"
+  integrity sha512-J3rAlsO7A/TJTZ7kLcFYy4/sIvB2AxiosxXFQICdsXf8R9b//fy7jmXnNo38ml1mm//915V0U5HMuAvo/hYiWQ==
   dependencies:
     "@kamilkisiela/graphql-tools" "4.0.6"
     "@types/glob" "7.1.1"
