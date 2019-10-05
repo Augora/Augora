@@ -2535,6 +2535,7 @@ export type StringQueryOperatorInput = {
   regex?: Maybe<Scalars['String']>,
   glob?: Maybe<Scalars['String']>,
 };
+
 export type DeputesQueryQueryVariables = {};
 
 
