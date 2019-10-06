@@ -4,8 +4,7 @@
   "scope": "augora",
   "builds": [
     {
-      "src": "package.json",
-      "use": "@now/static-build",
+      "use": "@now/static",
       "config": {
         "distDir": "public"
       }

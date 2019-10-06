@@ -3,3 +3,8 @@
 
 # Gatsby cache
 .cache
+
+# Src files
+.github/
+src/
+types/
