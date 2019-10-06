@@ -52,7 +52,7 @@ jobs:
         env:
           ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
         with:
-          args: "npx now alias --token=$ZEIT_TOKEN $(npx now --no-clipboard --token=$ZEIT_TOKEN --public) preprod.augora.fr"
+          args: "npx now alias --token=$ZEIT_TOKEN $(npx now public/ --no-clipboard --token=$ZEIT_TOKEN --public) preprod.augora.fr"
 
       - name: Comment on PR
         env:
