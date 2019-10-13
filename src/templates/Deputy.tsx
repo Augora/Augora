@@ -4,15 +4,16 @@ import { graphql } from "gatsby"
 
 import styled from "styled-components"
 
-import GeneralInformation from "../Components/Deputy/GeneralInformation/GeneralInformation"
-import Coworkers from "../Components/Deputy/Coworkers/Coworkers"
+import GeneralInformation from "Components/Deputy/GeneralInformation/GeneralInformation"
+import Coworkers from "Components/Deputy/Coworkers/Coworkers"
 import {
   getGender,
   getGeneralInformation,
   getCoworkers
 } from "./Utils/Deputy.utils"
 
-import { SingleDeputyQuery } from "../../types/graphql-types"
+import { SingleDeputyQuery } from "types/graphql-types"
+import MapCirco from "Components/Deputy/MapCirco/MapCirco"
 
 type SingleDeputyQueryProps = {
   data: SingleDeputyQuery
@@ -40,6 +41,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
       </Helmet>
       <GeneralInformation {...getGeneralInformation(deputy, 500)} />
       <Coworkers {...getCoworkers(deputy)} />
+      <MapCirco {...getCoworkers(deputy)} />
     </DeputyStyles>
   )
 }
