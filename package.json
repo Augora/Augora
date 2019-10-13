@@ -39,8 +39,8 @@
     "build": "gatsby build",
     "rebuild": "gatsby clean && gatsby build",
     "develop": "gatsby develop",
+    "start": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
     "deploy-qua": "now"
