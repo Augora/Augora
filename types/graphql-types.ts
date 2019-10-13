@@ -159,9 +159,7 @@ export type Directory = Node & {
   uid?: Maybe<Scalars['Int']>,
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
-  blksize?: Maybe<Scalars['Int']>,
   ino?: Maybe<Scalars['Float']>,
-  blocks?: Maybe<Scalars['Int']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
   ctimeMs?: Maybe<Scalars['Float']>,
@@ -372,9 +370,7 @@ export type DirectoryFieldsEnum =
   'uid' |
   'gid' |
   'rdev' |
-  'blksize' |
   'ino' |
-  'blocks' |
   'atimeMs' |
   'mtimeMs' |
   'ctimeMs' |
@@ -411,9 +407,7 @@ export type DirectoryFilterInput = {
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
   ino?: Maybe<FloatQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -469,9 +463,7 @@ export type File = Node & {
   uid?: Maybe<Scalars['Int']>,
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
-  blksize?: Maybe<Scalars['Int']>,
   ino?: Maybe<Scalars['Float']>,
-  blocks?: Maybe<Scalars['Int']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
   ctimeMs?: Maybe<Scalars['Float']>,
@@ -595,9 +587,7 @@ export type FileFieldsEnum =
   'uid' |
   'gid' |
   'rdev' |
-  'blksize' |
   'ino' |
-  'blocks' |
   'atimeMs' |
   'mtimeMs' |
   'ctimeMs' |
@@ -808,9 +798,7 @@ export type FileFilterInput = {
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
   ino?: Maybe<FloatQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1603,9 +1591,7 @@ export type QueryFileArgs = {
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
   ino?: Maybe<FloatQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1707,6 +1693,8 @@ export type QuerySiteArgs = {
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
+  port?: Maybe<IntQueryOperatorInput>,
+  host?: Maybe<StringQueryOperatorInput>,
   polyfill?: Maybe<BooleanQueryOperatorInput>,
   pathPrefix?: Maybe<StringQueryOperatorInput>,
   buildTime?: Maybe<DateQueryOperatorInput>
@@ -1748,9 +1736,7 @@ export type QueryDirectoryArgs = {
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
   ino?: Maybe<FloatQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1793,6 +1779,8 @@ export type Site = Node & {
   children: Array<Node>,
   internal: Internal,
   siteMetadata?: Maybe<SiteSiteMetadata>,
+  port?: Maybe<Scalars['Int']>,
+  host?: Maybe<Scalars['String']>,
   polyfill?: Maybe<Scalars['Boolean']>,
   pathPrefix?: Maybe<Scalars['String']>,
   buildTime?: Maybe<Scalars['Date']>,
@@ -1923,6 +1911,8 @@ export type SiteFieldsEnum =
   'siteMetadata___title' |
   'siteMetadata___description' |
   'siteMetadata___author' |
+  'port' |
+  'host' |
   'polyfill' |
   'pathPrefix' |
   'buildTime';
@@ -1933,6 +1923,8 @@ export type SiteFilterInput = {
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
+  port?: Maybe<IntQueryOperatorInput>,
+  host?: Maybe<StringQueryOperatorInput>,
   polyfill?: Maybe<BooleanQueryOperatorInput>,
   pathPrefix?: Maybe<StringQueryOperatorInput>,
   buildTime?: Maybe<DateQueryOperatorInput>,
