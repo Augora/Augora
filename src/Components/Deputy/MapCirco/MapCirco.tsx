@@ -52,7 +52,7 @@ export default class MapCirco extends Component<ICirco> {
       return circo.properties.nom_dpt.toLowerCase() === this.props.nom.toLowerCase() && parseInt(circo.properties.num_circ) === this.props.num
     })
     
-    // Récupérer le NW et SE du(des) polygone(s) de la Circonscription (test)
+    // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
     let boxListOfLng = []
     let boxListOfLat = []
     if (selectedCirco.geometry.type === 'Polygon') {
