@@ -1,4 +1,4 @@
-import calculateBlockSize from "./utils";
+import { calculateBlockSize } from "./utils";
 // import { RouterProps } from "../../../Utils/utils";
 import styled from "styled-components";
 

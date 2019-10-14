@@ -3,6 +3,7 @@ import styled from "styled-components";
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import GEOJsonCirco from './listCirco.json';
+import { retirerAccentsFR } from 'Utils/utils';
 
 const Block = styled.div`
   display: flex;
@@ -47,14 +48,29 @@ export default class MapCirco extends Component<ICirco> {
       zoom: 2, // starting zoom
     });
 
+    // console.log('this.props.nom.toLowerCase()')
+    // console.log(retirerAccentsFR)
+    // console.log(retirerAccentsFR(this.props.nom.toLowerCase()))
+    // console.log('this.props.num')
+    // console.log(this.props.num)
+    // console.log('-------------------------')
+    
     // Récupérer la circonscription concernée
     const selectedCirco = GEOJsonCirco.features.find((circo) => {
-      return circo.properties.nom_dpt.toLowerCase() === this.props.nom.toLowerCase() && parseInt(circo.properties.num_circ) === this.props.num
+      // console.log('circo.properties.nom_dpt.toLowerCase()')
+      // console.log(circo.properties.nom_dpt.toLowerCase())
+      // console.log('parseInt(circo.properties.num_circ)')
+      // console.log(parseInt(circo.properties.num_circ))
+      return circo.properties.nom_dpt.toLowerCase() === retirerAccentsFR(this.props.nom).toLowerCase() && parseInt(circo.properties.num_circ) === this.props.num
     })
     
     // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
     let boxListOfLng = []
     let boxListOfLat = []
+    
+    console.log('selectedCirco : ')
+    console.log(selectedCirco)
+    // return;
     if (selectedCirco.geometry.type === 'Polygon') {
       selectedCirco.geometry.coordinates[0].forEach(coords => {
         boxListOfLng.push(coords[0])
@@ -93,7 +109,8 @@ export default class MapCirco extends Component<ICirco> {
         if (selectedCircoBox) {
           setTimeout(() => {
             map.fitBounds(selectedCircoBox,  {
-              padding: 10
+              padding: 10,
+              maxZoom: 9
             })
           }, 1000)
         }
