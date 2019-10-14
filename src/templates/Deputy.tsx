@@ -9,7 +9,8 @@ import Coworkers from "Components/Deputy/Coworkers/Coworkers"
 import {
   getGender,
   getGeneralInformation,
-  getCoworkers
+  getCoworkers,
+  getCirco
 } from "./Utils/Deputy.utils"
 
 import { SingleDeputyQuery } from "types/graphql-types"
@@ -30,6 +31,7 @@ const DeputyStyles = styled.div`
 
 function Deputy({ data }: SingleDeputyQueryProps) {
   const deputy = data.augora.Depute
+  // console.log(deputy)
   return (
     <DeputyStyles className="single-deputy">
       <Helmet>
@@ -41,7 +43,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
       </Helmet>
       <GeneralInformation {...getGeneralInformation(deputy, 500)} />
       <Coworkers {...getCoworkers(deputy)} />
-      <MapCirco {...getCoworkers(deputy)} />
+      <MapCirco {...getCirco(deputy)} />
     </DeputyStyles>
   )
 }
