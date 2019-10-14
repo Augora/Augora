@@ -20,6 +20,7 @@
     "gatsby-source-graphql-universal": "^3.1.7",
     "gatsby-transformer-sharp": "^2.2.20",
     "graphql": "^14.5.4",
+    "mapbox-gl": "^1.4.1",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
@@ -39,8 +40,8 @@
     "build": "gatsby build",
     "rebuild": "gatsby clean && gatsby build",
     "develop": "gatsby develop",
+    "start": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
     "deploy-qua": "now"

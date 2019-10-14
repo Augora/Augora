@@ -1,7 +1,5 @@
 import React from "react";
-import calculateBlockSize from "../../../Utils/utils";
-import block from "../../../Utils/sc-utils";
-// import { RouterProps } from "../../../Utils/utils";
+import block from "Utils/sc-utils";
 import styled from "styled-components";
 
 export interface IGeneralInformation {
