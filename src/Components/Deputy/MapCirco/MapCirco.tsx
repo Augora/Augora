@@ -68,9 +68,8 @@ export default class MapCirco extends Component<ICirco> {
     let boxListOfLng = []
     let boxListOfLat = []
     
-    console.log('selectedCirco : ')
-    console.log(selectedCirco)
-    // return;
+    // console.log('selectedCirco : ')
+    // console.log(selectedCirco)
     if (selectedCirco.geometry.type === 'Polygon') {
       selectedCirco.geometry.coordinates[0].forEach(coords => {
         boxListOfLng.push(coords[0])
