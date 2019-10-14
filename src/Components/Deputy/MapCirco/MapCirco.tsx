@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import GEOJsonCirco from './listCirco.json';
 
 const Block = styled.div`
   display: flex;
@@ -25,15 +26,17 @@ const France = {
 // use it to resize the box as you wish, maybe with default values ?
 interface CssValues {}
 interface ICirco {
-  circo: string;
+  nom: string,
+  num: number
+}
+interface MyState {
+  blockSize: string;
 }
 
 export default class MapCirco extends Component<ICirco> {
   mapRef: any;
   constructor(props: ICirco) {
     super(props)
-
-    console.log(props)
   }
   componentDidMount() {
     mapboxgl.accessToken = 'pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A';
@@ -42,18 +45,66 @@ export default class MapCirco extends Component<ICirco> {
       style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
       center: France.center, // starting position [lng, lat]
       zoom: 2, // starting zoom
-      fitBounds: [France.northWest, France.southEast]
     });
 
-    setTimeout(() => {
-      map.fitBounds([France.northWest, France.southEast])
-    }, 1000)
+    // Récupérer la circonscription concernée
+    const selectedCirco = GEOJsonCirco.features.find((circo) => {
+      return circo.properties.nom_dpt.toLowerCase() === this.props.nom.toLowerCase() && parseInt(circo.properties.num_circ) === this.props.num
+    })
+    
+    // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
+    let boxListOfLng = []
+    let boxListOfLat = []
+    if (selectedCirco.geometry.type === 'Polygon') {
+      selectedCirco.geometry.coordinates[0].forEach(coords => {
+        boxListOfLng.push(coords[0])
+        boxListOfLat.push(coords[1])
+      })
+    } else {
+      selectedCirco.geometry.coordinates.forEach(polygon => {
+        polygon[0].forEach(coords => {
+          boxListOfLng.push(coords[0])
+          boxListOfLat.push(coords[1])
+        })
+      })
+    }
+    const selectedCircoBox = [
+      [Math.min(...boxListOfLng), Math.max(...boxListOfLat)],
+      [Math.max(...boxListOfLng), Math.min(...boxListOfLat)]
+    ]
+
+    // Dessiner la circo
+    map.on('style.load', () => {
+      if (selectedCirco) {
+        map.addLayer({
+          'id': this.props.nom.toLowerCase() + '-' + this.props.num,
+          'type': 'fill',
+          'source': {
+            'type': 'geojson',
+            'data': selectedCirco
+          },
+          'layout': {},
+          'paint': {
+            'fill-color': '#fff',
+            'fill-opacity': 0.5,
+            'fill-outline-color': '#f00'
+          }
+        })
+        if (selectedCircoBox) {
+          setTimeout(() => {
+            map.fitBounds(selectedCircoBox,  {
+              padding: 10
+            })
+          }, 1000)
+        }
+      }
+    })
   }
 
   render = () => {
     return (
       <Block>
-          <p>{this.props.circo}</p>
+          <p>{this.props.nom}</p>
           <MapBlock ref={this.mapRef} className="map">
           </MapBlock>
       </Block>
