@@ -36,7 +36,11 @@ yarn start
 # Mettre à jour le dossier de projet
 
 ```shell
+yarn clean
+rm -rf node_modules/
+rm yark.lock
 git pull origin develop
+yarn install
 ```
 
 La branche _develop_ est actuellement utilisée pour mettre à jour la préproduction avant toute mise en ligne de modification.
