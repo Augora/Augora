@@ -1,4 +1,4 @@
-# La Bête politique
+# Augora
 
 Bienvenue sur le repo publique de La Bête Politique. Un projet open source basé sur les informations de l'API de [Regards Citoyens](https://www.regardscitoyens.org).
 Le but de ce projet est de clarifier l'accès aux données de nos députés. À terme, d'autres corps politiques seront intégrés. Cet accès se fait via une interface actuelle, informative et innovante de représentation des données publiques liées à nos représentants.
