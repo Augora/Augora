@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import styled from "styled-components";
 import Coworker, { ICoworker } from "./Coworker/Coworker";
+import { slugify } from 'Utils/utils'
 
 // use it to resize the box as you wish, maybe with default values ?
 interface CssValues {}
@@ -25,7 +26,10 @@ function Coworkers(props : ICoworkers) {
     <Block>
       {props.coworkers.map((coworker: ICoworker) => {
         return (
-          <Coworker {...coworker} />
+          <Coworker
+            key={slugify(coworker.coworker)}
+            {...coworker}
+          />
         );
       })}
     </Block>
