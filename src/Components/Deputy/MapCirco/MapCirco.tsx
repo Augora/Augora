@@ -36,12 +36,23 @@ interface MyState {
 
 export default class MapCirco extends Component<ICirco> {
   mapRef: any;
-  map: any
+  map: any;
+  selectedCirco: object;
+
   constructor(props: ICirco) {
     super(props)
   }
 
-  getSelectedCircoBox(selectedCirco) {
+  initMap() {
+    mapboxgl.accessToken = 'pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A';
+    this.map = new mapboxgl.Map({
+      container: document.querySelector('.map'), // container id
+      style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+      center: France.center, // starting position [lng, lat]
+      zoom: 2, // starting zoom
+    });
+  }
+  getSelectedCircoBox(selectedCirco = this.selectedCirco) {
     // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
     let boxListOfLng = []
     let boxListOfLat = []
@@ -99,20 +110,14 @@ export default class MapCirco extends Component<ICirco> {
   }
 
   componentDidMount() {
-    mapboxgl.accessToken = 'pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A';
-    this.map = new mapboxgl.Map({
-      container: document.querySelector('.map'), // container id
-      style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-      center: France.center, // starting position [lng, lat]
-      zoom: 2, // starting zoom
-    });
-
+    this.initMap()
+    
     // Récupérer la circonscription concernée
-    const selectedCirco = GEOJsonCirco.features.find((circo) => {
+    this.selectedCirco = GEOJsonCirco.features.find((circo) => {
       return circo.properties.nom_dpt.toLowerCase() === this.props.nom.toLowerCase() && parseInt(circo.properties.num_circ) === this.props.num
     })
 
-    this.getSelectedCircoBox(selectedCirco)
+    this.getSelectedCircoBox()
   }
 
   render = () => {
