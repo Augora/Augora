@@ -114,7 +114,7 @@ export default class MapCirco extends Component<ICirco> {
     
     // Récupérer la circonscription concernée
     this.selectedCirco = GEOJsonCirco.features.find((circo) => {
-      return circo.properties.nom_dpt.toLowerCase() === this.props.nom.toLowerCase() && parseInt(circo.properties.num_circ) === this.props.num
+      return circo.properties.nom_dpt.toLowerCase() === retirerAccentsFR(this.props.nom.toLowerCase()) && parseInt(circo.properties.num_circ) === this.props.num
     })
 
     this.getSelectedCircoBox()
