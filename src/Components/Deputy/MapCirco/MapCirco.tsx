@@ -35,23 +35,12 @@ interface MyState {
 
 export default class MapCirco extends Component<ICirco> {
   mapRef: any;
+  map: any
   constructor(props: ICirco) {
     super(props)
   }
-  componentDidMount() {
-    mapboxgl.accessToken = 'pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A';
-    var map = new mapboxgl.Map({
-      container: document.querySelector('.map'), // container id
-      style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-      center: France.center, // starting position [lng, lat]
-      zoom: 2, // starting zoom
-    });
 
-    // Récupérer la circonscription concernée
-    const selectedCirco = GEOJsonCirco.features.find((circo) => {
-      return circo.properties.nom_dpt.toLowerCase() === this.props.nom.toLowerCase() && parseInt(circo.properties.num_circ) === this.props.num
-    })
-    
+  getSelectedCircoBox(selectedCirco) {
     // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
     let boxListOfLng = []
     let boxListOfLat = []
@@ -73,15 +62,18 @@ export default class MapCirco extends Component<ICirco> {
       [Math.max(...boxListOfLng), Math.min(...boxListOfLat)]
     ]
 
+    this.drawSelectedCircoBox(this.map, selectedCirco, selectedCircoBox)
+  }
+  drawSelectedCircoBox(map = this.map, circo, box) {
     // Dessiner la circo
     map.on('style.load', () => {
-      if (selectedCirco) {
+      if (circo) {
         map.addLayer({
           'id': this.props.nom.toLowerCase() + '-' + this.props.num,
           'type': 'fill',
           'source': {
             'type': 'geojson',
-            'data': selectedCirco
+            'data': circo
           },
           'layout': {},
           'paint': {
@@ -90,15 +82,32 @@ export default class MapCirco extends Component<ICirco> {
             'fill-outline-color': '#f00'
           }
         })
-        if (selectedCircoBox) {
+        if (box) {
           setTimeout(() => {
-            map.fitBounds(selectedCircoBox,  {
+            map.fitBounds(box,  {
               padding: 10
             })
           }, 1000)
         }
       }
     })
+  }
+
+  componentDidMount() {
+    mapboxgl.accessToken = 'pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A';
+    this.map = new mapboxgl.Map({
+      container: document.querySelector('.map'), // container id
+      style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+      center: France.center, // starting position [lng, lat]
+      zoom: 2, // starting zoom
+    });
+
+    // Récupérer la circonscription concernée
+    const selectedCirco = GEOJsonCirco.features.find((circo) => {
+      return circo.properties.nom_dpt.toLowerCase() === this.props.nom.toLowerCase() && parseInt(circo.properties.num_circ) === this.props.num
+    })
+
+    this.getSelectedCircoBox(selectedCirco)
   }
 
   render = () => {
