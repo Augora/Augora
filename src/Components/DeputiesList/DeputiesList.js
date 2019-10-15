@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Deputy from "./Deputy/Deputy"
-import LoadingSpinner from "../../Components/Spinners/LoadingSpinner/LoadingSpinner"
+// import LoadingSpinner from "Components/Spinners/LoadingSpinner/LoadingSpinner"
 import "./DeputiesList.css"
 
 class DeputiesList extends Component {
