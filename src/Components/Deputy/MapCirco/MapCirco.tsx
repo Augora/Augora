@@ -41,26 +41,7 @@ export default class MapCirco extends Component<ICirco> {
     super(props)
   }
 
-<<<<<<< HEAD
   getSelectedCircoBox(selectedCirco) {
-=======
-    // console.log('this.props.nom.toLowerCase()')
-    // console.log(retirerAccentsFR)
-    // console.log(retirerAccentsFR(this.props.nom.toLowerCase()))
-    // console.log('this.props.num')
-    // console.log(this.props.num)
-    // console.log('-------------------------')
-    
-    // Récupérer la circonscription concernée
-    const selectedCirco = GEOJsonCirco.features.find((circo) => {
-      // console.log('circo.properties.nom_dpt.toLowerCase()')
-      // console.log(circo.properties.nom_dpt.toLowerCase())
-      // console.log('parseInt(circo.properties.num_circ)')
-      // console.log(parseInt(circo.properties.num_circ))
-      return circo.properties.nom_dpt.toLowerCase() === retirerAccentsFR(this.props.nom).toLowerCase() && parseInt(circo.properties.num_circ) === this.props.num
-    })
-    
->>>>>>> d6a33ab9da1a0f44e7128f5f76ead1764f5c7552
     // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
     let boxListOfLng = []
     let boxListOfLat = []
@@ -107,14 +88,9 @@ export default class MapCirco extends Component<ICirco> {
         })
         if (box) {
           setTimeout(() => {
-<<<<<<< HEAD
             map.fitBounds(box,  {
-              padding: 10
-=======
-            map.fitBounds(selectedCircoBox,  {
               padding: 10,
               maxZoom: 9
->>>>>>> d6a33ab9da1a0f44e7128f5f76ead1764f5c7552
             })
           }, 1000)
         }

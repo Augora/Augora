@@ -1,5 +1,5 @@
 import React from "react";
-import block from "Utils/sc-utils";
+import block from "src/Utils/sc-utils";
 import styled from "styled-components";
 
 export interface IGeneralInformation {
