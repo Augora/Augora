@@ -115,8 +115,8 @@ class OneDeputy extends Component {
     })
   }
 
-  componentWillMount() {
-    this.getAge(this.state.actualBirthDate)
+  getDerivedStateFromProps(props, state) {
+    this.getAge(state.actualBirthDate)
   }
 
   render() {
