@@ -1,5 +1,6 @@
-var targetEnv = process.env.TARGET_ENV || 'sandbox';
-var targetAPIUrl = targetEnv === 'sandbox' ? 'sandbox.augora.fr' : 'api.augora.fr';
+const targetEnv = process.env.TARGET_ENV || 'sandbox';
+const targetAPIUrl = targetEnv === 'sandbox' ? 'sandbox.augora.fr' : 'api.augora.fr';
+const path = require('path')
 
 module.exports = {
   siteMetadata: {
@@ -49,5 +50,12 @@ module.exports = {
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-typescript`,
     `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-plugin-root-import`,
+      options: {
+        src: path.join(__dirname, 'src'),
+        pages: path.join(__dirname, 'src/pages')
+      }
+    }
   ],
 }
