@@ -160,7 +160,11 @@ export type Directory = Node & {
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
   blksize?: Maybe<Scalars['Int']>,
+<<<<<<< Updated upstream
   ino?: Maybe<Scalars['Int']>,
+=======
+  ino?: Maybe<Scalars['Float']>,
+>>>>>>> Stashed changes
   blocks?: Maybe<Scalars['Int']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
@@ -412,7 +416,11 @@ export type DirectoryFilterInput = {
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
   blksize?: Maybe<IntQueryOperatorInput>,
+<<<<<<< Updated upstream
   ino?: Maybe<IntQueryOperatorInput>,
+=======
+  ino?: Maybe<FloatQueryOperatorInput>,
+>>>>>>> Stashed changes
   blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -470,7 +478,11 @@ export type File = Node & {
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
   blksize?: Maybe<Scalars['Int']>,
+<<<<<<< Updated upstream
   ino?: Maybe<Scalars['Int']>,
+=======
+  ino?: Maybe<Scalars['Float']>,
+>>>>>>> Stashed changes
   blocks?: Maybe<Scalars['Int']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
@@ -809,7 +821,11 @@ export type FileFilterInput = {
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
   blksize?: Maybe<IntQueryOperatorInput>,
+<<<<<<< Updated upstream
   ino?: Maybe<IntQueryOperatorInput>,
+=======
+  ino?: Maybe<FloatQueryOperatorInput>,
+>>>>>>> Stashed changes
   blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1604,7 +1620,11 @@ export type QueryFileArgs = {
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
   blksize?: Maybe<IntQueryOperatorInput>,
+<<<<<<< Updated upstream
   ino?: Maybe<IntQueryOperatorInput>,
+=======
+  ino?: Maybe<FloatQueryOperatorInput>,
+>>>>>>> Stashed changes
   blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1751,7 +1771,11 @@ export type QueryDirectoryArgs = {
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
   blksize?: Maybe<IntQueryOperatorInput>,
+<<<<<<< Updated upstream
   ino?: Maybe<IntQueryOperatorInput>,
+=======
+  ino?: Maybe<FloatQueryOperatorInput>,
+>>>>>>> Stashed changes
   blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -2562,7 +2586,7 @@ export type SingleDeputyQueryVariables = {
 };
 
 
-export type SingleDeputyQuery = { augora: { Depute: Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'collaborateurs'> } };
+export type SingleDeputyQuery = { augora: { Depute: Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'collaborateurs' | 'estEnMandat'> } };
 
 export type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 

@@ -4,13 +4,16 @@ import { graphql } from "gatsby"
 
 import styled from "styled-components"
 
-import GeneralInformation from "Components/Deputy/GeneralInformation/GeneralInformation"
-import Coworkers from "Components/Deputy/Coworkers/Coworkers"
+import GeneralInformation from "../Components/Deputy/GeneralInformation/GeneralInformation"
+import Coworkers from "../Components/Deputy/Coworkers/Coworkers"
+import CurrentMandate from "../Components/Deputy/CurrentMandate/CurrentMandate"
+
 import {
   getGender,
   getGeneralInformation,
   getCoworkers,
-  getCirco
+  getCirco,
+  getCurrentMandate
 } from "./Utils/Deputy.utils"
 
 import { SingleDeputyQuery } from "types/graphql-types"
@@ -44,6 +47,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
       <GeneralInformation {...getGeneralInformation(deputy, 500)} />
       <Coworkers {...getCoworkers(deputy)} />
       <MapCirco {...getCirco(deputy)} />
+      <CurrentMandate {...getCurrentMandate(deputy)} />
     </DeputyStyles>
   )
 }
@@ -71,6 +75,7 @@ export const query = graphql`
         slug
         twitter
         collaborateurs
+        estEnMandat
       }
     }
   }

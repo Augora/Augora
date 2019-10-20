@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import { IGeneralInformation } from "Components/Deputy/GeneralInformation/GeneralInformation"
 import { ICoworkers } from "Components/Deputy/Coworkers/Coworkers"
 import { ICoworker } from "Components/Deputy/Coworkers/Coworker/Coworker"
@@ -12,6 +13,22 @@ import modem from "images/Logos/groupes parlementaires/modem/modem_grand.png"
 import non_inscrits from "images/Logos/groupes parlementaires/non inscrits/non_inscrits_moyen.png"
 import ps from "images/Logos/groupes parlementaires/ps/ps_grand.png"
 import udi from "images/Logos/partis politiques/udi/udi_grand.png"
+=======
+import { IGeneralInformation } from "../../Components/Deputy/GeneralInformation/GeneralInformation"
+import { ICoworkers } from "../../Components/Deputy/Coworkers/Coworkers"
+import { ICoworker } from "../../Components/Deputy/Coworkers/Coworker/Coworker"
+import { ICurrentMandate} from "../../Components/Deputy/CurrentMandate/CurrentMandate"
+import constructifs from "../../images/Logos/groupes parlementaires/constructifs/constructifs_grand.png"
+import gdr from "../../images/Logos/groupes parlementaires/gdr/gdr_grand.png"
+import l_t from "../../images/Logos/groupes parlementaires/l_t/l_t_grand.png"
+import lfi from "../../images/Logos/groupes parlementaires/lfi/lfi_grand.png"
+import lr from "../../images/Logos/groupes parlementaires/lr/lr_grand.png"
+import lrem from "../../images/Logos/groupes parlementaires/lrem/lrem_grand.png"
+import modem from "../../images/Logos/groupes parlementaires/modem/modem_grand.png"
+import non_inscrits from "../../images/Logos/groupes parlementaires/non inscrits/non_inscrits_moyen.png"
+import ps from "../../images/Logos/groupes parlementaires/ps/ps_grand.png"
+import udi from "../../images/Logos/partis politiques/udi/udi_grand.png"
+>>>>>>> Stashed changes
 
 export function getGender(deputy) {
   if (deputy.sexe === "H") {
@@ -90,5 +107,12 @@ export function getCirco(deputy: any) {
     num: deputy.numCirco
   }
   
+export function getCurrentMandate(deputy: any): ICurrentMandate {
+  var props: ICurrentMandate = {
+    dateBegin : deputy.mandatDebut,
+    isInMandate : deputy.estEnMandat,
+    numberMandates : deputy.nombreMandats
+  }
+
   return props
 }
