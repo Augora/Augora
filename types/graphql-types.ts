@@ -60,45 +60,33 @@ export type DeputesEnMandatDeputeArgs = {
   slug: Scalars['DeputesEnMandat_string']
 };
 
-export type DeputesEnMandat_Activity = {
-  activityRefer: Scalars['DeputesEnMandat_uint'],
-  endDate?: Maybe<Scalars['DeputesEnMandat_Time']>,
+export type DeputesEnMandat_Activite = {
+  activiteRefer: Scalars['DeputesEnMandat_uint'],
+  dateDebut: Scalars['DeputesEnMandat_Time'],
+  dateFin: Scalars['DeputesEnMandat_Time'],
   model: DeputesEnMandat_Model,
+  numeroDeSemaine: Scalars['DeputesEnMandat_uint'],
   participationsCommission: Scalars['DeputesEnMandat_uint'],
   participationsHemicycle: Scalars['DeputesEnMandat_uint'],
   presencesCommission: Scalars['DeputesEnMandat_uint'],
   presencesHemicycle: Scalars['DeputesEnMandat_uint'],
   questions: Scalars['DeputesEnMandat_uint'],
-  startDate?: Maybe<Scalars['DeputesEnMandat_Time']>,
   vacances: Scalars['DeputesEnMandat_uint'],
-};
-
-export type DeputesEnMandat_AncienMandat = {
-  ancienMandat: Scalars['DeputesEnMandat_string'],
-  ancienMandatRefer: Scalars['DeputesEnMandat_uint'],
-  model: DeputesEnMandat_Model,
-};
-
-export type DeputesEnMandat_AutreMandat = {
-  autreMandat: Scalars['DeputesEnMandat_string'],
-  autreMandatRefer: Scalars['DeputesEnMandat_uint'],
-  model: DeputesEnMandat_Model,
 };
 
 
 /** A single depute. */
 export type DeputesEnMandat_Depute = {
-  activites: Array<DeputesEnMandat_Activity>,
+  activites: Array<DeputesEnMandat_Activite>,
   adresses: Array<Scalars['DeputesEnMandat_string']>,
-  anciensMandats: Array<DeputesEnMandat_AncienMandat>,
-  autresMandats: Array<DeputesEnMandat_AutreMandat>,
+  anciensMandats: Array<Scalars['DeputesEnMandat_string']>,
+  autresMandats: Array<Scalars['DeputesEnMandat_string']>,
   collaborateurs: Array<Scalars['DeputesEnMandat_string']>,
   dateNaissance: Scalars['DeputesEnMandat_string'],
   emails: Array<Scalars['DeputesEnMandat_string']>,
   estEnMandat: Scalars['DeputesEnMandat_bool'],
   groupeSigle: Scalars['DeputesEnMandat_string'],
   iDAN: Scalars['DeputesEnMandat_string'],
-  iDFromAPI: Scalars['DeputesEnMandat_uint'],
   lieuNaissance: Scalars['DeputesEnMandat_string'],
   mandatDebut: Scalars['DeputesEnMandat_string'],
   model: DeputesEnMandat_Model,
@@ -113,6 +101,7 @@ export type DeputesEnMandat_Depute = {
   prenom: Scalars['DeputesEnMandat_string'],
   profession: Scalars['DeputesEnMandat_string'],
   sexe: Scalars['DeputesEnMandat_string'],
+  sites: Array<DeputesEnMandat_Site>,
   sitesWeb: Array<Scalars['DeputesEnMandat_string']>,
   slug: Scalars['DeputesEnMandat_string'],
   twitter: Scalars['DeputesEnMandat_string'],
@@ -127,6 +116,12 @@ export type DeputesEnMandat_Model = {
   deletedAt?: Maybe<Scalars['DeputesEnMandat_Time']>,
   iD: Scalars['DeputesEnMandat_uint'],
   updatedAt: Scalars['DeputesEnMandat_Time'],
+};
+
+export type DeputesEnMandat_Site = {
+  model: DeputesEnMandat_Model,
+  site: Scalars['DeputesEnMandat_string'],
+  siteRefer: Scalars['DeputesEnMandat_uint'],
 };
 
 
@@ -153,18 +148,14 @@ export type Directory = Node & {
   ext?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
   relativeDirectory?: Maybe<Scalars['String']>,
-  dev?: Maybe<Scalars['Int']>,
+  dev?: Maybe<Scalars['Float']>,
   mode?: Maybe<Scalars['Int']>,
   nlink?: Maybe<Scalars['Int']>,
   uid?: Maybe<Scalars['Int']>,
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
   blksize?: Maybe<Scalars['Int']>,
-<<<<<<< Updated upstream
-  ino?: Maybe<Scalars['Int']>,
-=======
   ino?: Maybe<Scalars['Float']>,
->>>>>>> Stashed changes
   blocks?: Maybe<Scalars['Int']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
@@ -409,18 +400,14 @@ export type DirectoryFilterInput = {
   ext?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
   relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
+  dev?: Maybe<FloatQueryOperatorInput>,
   mode?: Maybe<IntQueryOperatorInput>,
   nlink?: Maybe<IntQueryOperatorInput>,
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
   blksize?: Maybe<IntQueryOperatorInput>,
-<<<<<<< Updated upstream
-  ino?: Maybe<IntQueryOperatorInput>,
-=======
   ino?: Maybe<FloatQueryOperatorInput>,
->>>>>>> Stashed changes
   blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -471,18 +458,14 @@ export type File = Node & {
   ext?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
   relativeDirectory?: Maybe<Scalars['String']>,
-  dev?: Maybe<Scalars['Int']>,
+  dev?: Maybe<Scalars['Float']>,
   mode?: Maybe<Scalars['Int']>,
   nlink?: Maybe<Scalars['Int']>,
   uid?: Maybe<Scalars['Int']>,
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
   blksize?: Maybe<Scalars['Int']>,
-<<<<<<< Updated upstream
-  ino?: Maybe<Scalars['Int']>,
-=======
   ino?: Maybe<Scalars['Float']>,
->>>>>>> Stashed changes
   blocks?: Maybe<Scalars['Int']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
@@ -814,18 +797,14 @@ export type FileFilterInput = {
   ext?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
   relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
+  dev?: Maybe<FloatQueryOperatorInput>,
   mode?: Maybe<IntQueryOperatorInput>,
   nlink?: Maybe<IntQueryOperatorInput>,
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
   blksize?: Maybe<IntQueryOperatorInput>,
-<<<<<<< Updated upstream
-  ino?: Maybe<IntQueryOperatorInput>,
-=======
   ino?: Maybe<FloatQueryOperatorInput>,
->>>>>>> Stashed changes
   blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -866,7 +845,7 @@ export type FloatQueryOperatorInput = {
   nin?: Maybe<Array<Maybe<Scalars['Float']>>>,
 };
 
-export type GraphQlSource = Node & {
+export type GraphQlSourceDeputesEnMandat = Node & {
   id: Scalars['ID'],
   parent?: Maybe<Node>,
   children: Array<Node>,
@@ -875,34 +854,34 @@ export type GraphQlSource = Node & {
   fieldName?: Maybe<Scalars['String']>,
 };
 
-export type GraphQlSourceConnection = {
+export type GraphQlSourceDeputesEnMandatConnection = {
   totalCount: Scalars['Int'],
-  edges: Array<GraphQlSourceEdge>,
-  nodes: Array<GraphQlSource>,
+  edges: Array<GraphQlSourceDeputesEnMandatEdge>,
+  nodes: Array<GraphQlSourceDeputesEnMandat>,
   pageInfo: PageInfo,
   distinct: Array<Scalars['String']>,
-  group: Array<GraphQlSourceGroupConnection>,
+  group: Array<GraphQlSourceDeputesEnMandatGroupConnection>,
 };
 
 
-export type GraphQlSourceConnectionDistinctArgs = {
-  field: GraphQlSourceFieldsEnum
+export type GraphQlSourceDeputesEnMandatConnectionDistinctArgs = {
+  field: GraphQlSourceDeputesEnMandatFieldsEnum
 };
 
 
-export type GraphQlSourceConnectionGroupArgs = {
+export type GraphQlSourceDeputesEnMandatConnectionGroupArgs = {
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>,
-  field: GraphQlSourceFieldsEnum
+  field: GraphQlSourceDeputesEnMandatFieldsEnum
 };
 
-export type GraphQlSourceEdge = {
-  next?: Maybe<GraphQlSource>,
-  node: GraphQlSource,
-  previous?: Maybe<GraphQlSource>,
+export type GraphQlSourceDeputesEnMandatEdge = {
+  next?: Maybe<GraphQlSourceDeputesEnMandat>,
+  node: GraphQlSourceDeputesEnMandat,
+  previous?: Maybe<GraphQlSourceDeputesEnMandat>,
 };
 
-export type GraphQlSourceFieldsEnum = 
+export type GraphQlSourceDeputesEnMandatFieldsEnum = 
   'id' |
   'parent___id' |
   'parent___parent___id' |
@@ -992,7 +971,7 @@ export type GraphQlSourceFieldsEnum =
   'typeName' |
   'fieldName';
 
-export type GraphQlSourceFilterInput = {
+export type GraphQlSourceDeputesEnMandatFilterInput = {
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -1001,17 +980,17 @@ export type GraphQlSourceFilterInput = {
   fieldName?: Maybe<StringQueryOperatorInput>,
 };
 
-export type GraphQlSourceGroupConnection = {
+export type GraphQlSourceDeputesEnMandatGroupConnection = {
   totalCount: Scalars['Int'],
-  edges: Array<GraphQlSourceEdge>,
-  nodes: Array<GraphQlSource>,
+  edges: Array<GraphQlSourceDeputesEnMandatEdge>,
+  nodes: Array<GraphQlSourceDeputesEnMandat>,
   pageInfo: PageInfo,
   field: Scalars['String'],
   fieldValue?: Maybe<Scalars['String']>,
 };
 
-export type GraphQlSourceSortInput = {
-  fields?: Maybe<Array<Maybe<GraphQlSourceFieldsEnum>>>,
+export type GraphQlSourceDeputesEnMandatSortInput = {
+  fields?: Maybe<Array<Maybe<GraphQlSourceDeputesEnMandatFieldsEnum>>>,
   order?: Maybe<Array<Maybe<SortOrderEnum>>>,
 };
 
@@ -1588,8 +1567,8 @@ export type Query = {
   allSite: SiteConnection,
   directory?: Maybe<Directory>,
   allDirectory: DirectoryConnection,
-  graphQlSource?: Maybe<GraphQlSource>,
-  allGraphQlSource: GraphQlSourceConnection,
+  graphQlSourceDeputesEnMandat?: Maybe<GraphQlSourceDeputesEnMandat>,
+  allGraphQlSourceDeputesEnMandat: GraphQlSourceDeputesEnMandatConnection,
   augora: DeputesEnMandat,
 };
 
@@ -1613,18 +1592,14 @@ export type QueryFileArgs = {
   ext?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
   relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
+  dev?: Maybe<FloatQueryOperatorInput>,
   mode?: Maybe<IntQueryOperatorInput>,
   nlink?: Maybe<IntQueryOperatorInput>,
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
   blksize?: Maybe<IntQueryOperatorInput>,
-<<<<<<< Updated upstream
-  ino?: Maybe<IntQueryOperatorInput>,
-=======
   ino?: Maybe<FloatQueryOperatorInput>,
->>>>>>> Stashed changes
   blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1764,18 +1739,14 @@ export type QueryDirectoryArgs = {
   ext?: Maybe<StringQueryOperatorInput>,
   name?: Maybe<StringQueryOperatorInput>,
   relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
+  dev?: Maybe<FloatQueryOperatorInput>,
   mode?: Maybe<IntQueryOperatorInput>,
   nlink?: Maybe<IntQueryOperatorInput>,
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
   blksize?: Maybe<IntQueryOperatorInput>,
-<<<<<<< Updated upstream
-  ino?: Maybe<IntQueryOperatorInput>,
-=======
   ino?: Maybe<FloatQueryOperatorInput>,
->>>>>>> Stashed changes
   blocks?: Maybe<IntQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1796,7 +1767,7 @@ export type QueryAllDirectoryArgs = {
 };
 
 
-export type QueryGraphQlSourceArgs = {
+export type QueryGraphQlSourceDeputesEnMandatArgs = {
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -1806,9 +1777,9 @@ export type QueryGraphQlSourceArgs = {
 };
 
 
-export type QueryAllGraphQlSourceArgs = {
-  filter?: Maybe<GraphQlSourceFilterInput>,
-  sort?: Maybe<GraphQlSourceSortInput>,
+export type QueryAllGraphQlSourceDeputesEnMandatArgs = {
+  filter?: Maybe<GraphQlSourceDeputesEnMandatFilterInput>,
+  sort?: Maybe<GraphQlSourceDeputesEnMandatSortInput>,
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
 };
@@ -2586,7 +2557,7 @@ export type SingleDeputyQueryVariables = {
 };
 
 
-export type SingleDeputyQuery = { augora: { Depute: Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'collaborateurs' | 'estEnMandat'> } };
+export type SingleDeputyQuery = { augora: { Depute: Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'collaborateurs' | 'estEnMandat' | 'anciensMandats' | 'autresMandats'> } };
 
 export type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 

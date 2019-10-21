@@ -4,14 +4,13 @@ import styled from "styled-components";
 import moment from "moment";
 import 'moment/locale/fr';
 
-export interface ICurrentMandate {
-    isInMandate: boolean;
-    dateBegin: string;
+export interface IOthersMandates {
+   othersMandates : [string]
 }
 
-class CurrentMandate extends React.Component<ICurrentMandate, MyState>{
+class OthersMandates extends React.Component<IOthersMandates, MyState>{
 
-    constructor(props: ICurrentMandate) {
+    constructor(props: IOthersMandates) {
         super(props)
     
         this.state = {
@@ -33,35 +32,31 @@ class CurrentMandate extends React.Component<ICurrentMandate, MyState>{
         
         const P = styled.p`
         margin: 0;
-        `
+        `;
 
-        const DateMandate = styled.p`
+        const OtherMandate = styled.p`
         margin: 0;
-        `
+        `;
 
        moment.locale('fr');
-       var dateToDisplay = moment(this.props.dateBegin).format('Do MMMM YYYY');
-        if(this.props.isInMandate === true) {
+    //    var dateToDisplay = moment(this.props.dateBegin).format('Do MMMM YYYY');
             return (
                 <Block>
                     <Title>
-                        Mandat en cours
+                        Autres mandats
                     </Title>
-                    <DateMandate>
-                        Depuis le {dateToDisplay} 
-                    </DateMandate>
+                    {this.props.othersMandates.map(otherMandate => {
+                        // deprecated after fix in backend, to change later
+                        var infos = otherMandate.split(" / ");
+                        return( 
+                        <OtherMandate>
+                          {infos[0]} - {infos[1]} - {infos[2]}
+                        </OtherMandate>);
+                    })}
                 </Block>
             );
-        } else {
-            return (
-                <Block>
-                    <Title>
-                        Pas de mandat en cours
-                    </Title>
-                </Block>
-            )
-        }
+        
     }
 }
 
-export default CurrentMandate;
+export default OthersMandates;

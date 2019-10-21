@@ -4,20 +4,26 @@ import { graphql } from "gatsby"
 
 import styled from "styled-components"
 
-import GeneralInformation from "../Components/Deputy/GeneralInformation/GeneralInformation"
-import Coworkers from "../Components/Deputy/Coworkers/Coworkers"
-import CurrentMandate from "../Components/Deputy/CurrentMandate/CurrentMandate"
+import GeneralInformation from "Components/Deputy/GeneralInformation/GeneralInformation"
+import Coworkers from "Components/Deputy/Coworkers/Coworkers"
+import MapCirco from "Components/Deputy/MapCirco/MapCirco"
+import CurrentMandate from "Components/Deputy/CurrentMandate/CurrentMandate"
+import OldMandates from "Components/Deputy/OldMandates/OldMandates"
+import OthersMandates from "Components/Deputy/OthersMandates/OthersMandates"
+import TotalMandates from "Components/Deputy/TotalMandates/TotalMandates"
+import { SingleDeputyQuery } from "types/graphql-types"
 
 import {
   getGender,
   getGeneralInformation,
   getCoworkers,
   getCirco,
-  getCurrentMandate
+  getCurrentMandate,
+  getOldMandates,
+  getOthersMandates,
+  getTotalMandates
 } from "./Utils/Deputy.utils"
 
-import { SingleDeputyQuery } from "types/graphql-types"
-import MapCirco from "Components/Deputy/MapCirco/MapCirco"
 
 type SingleDeputyQueryProps = {
   data: SingleDeputyQuery
@@ -34,7 +40,7 @@ const DeputyStyles = styled.div`
 
 function Deputy({ data }: SingleDeputyQueryProps) {
   const deputy = data.augora.Depute
-  // console.log(deputy)
+  console.log(deputy)
   return (
     <DeputyStyles className="single-deputy">
       <Helmet>
@@ -46,8 +52,11 @@ function Deputy({ data }: SingleDeputyQueryProps) {
       </Helmet>
       <GeneralInformation {...getGeneralInformation(deputy, 500)} />
       <Coworkers {...getCoworkers(deputy)} />
-      <MapCirco {...getCirco(deputy)} />
-      <CurrentMandate {...getCurrentMandate(deputy)} />
+       <MapCirco {...getCirco(deputy)} /> 
+       <CurrentMandate {...getCurrentMandate(deputy)} />
+       <OldMandates {...getOldMandates(deputy)} />
+       <OthersMandates {...getOthersMandates(deputy)} />
+       <TotalMandates {...getTotalMandates(deputy)} />
     </DeputyStyles>
   )
 }
@@ -76,6 +85,8 @@ export const query = graphql`
         twitter
         collaborateurs
         estEnMandat
+        anciensMandats
+        autresMandats
       }
     }
   }

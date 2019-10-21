@@ -1,5 +1,5 @@
 import React from "react";
-import block, {MyState} from "../../../Utils/sc-utils";
+import block, {MyState} from "Utils/sc-utils";
 
 // import { RouterProps } from "../../../Utils/utils";
 import styled from "styled-components";
