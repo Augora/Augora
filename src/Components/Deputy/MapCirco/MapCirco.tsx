@@ -30,9 +30,6 @@ interface ICirco {
   nom: string,
   num: number
 }
-interface MyState {
-  blockSize: string;
-}
 
 export default class MapCirco extends Component<ICirco> {
   mapRef: any;

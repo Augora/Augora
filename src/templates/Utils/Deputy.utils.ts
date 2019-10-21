@@ -2,6 +2,10 @@ import { IGeneralInformation } from "Components/Deputy/GeneralInformation/Genera
 import { ICoworkers } from "Components/Deputy/Coworkers/Coworkers"
 import { ICoworker } from "Components/Deputy/Coworkers/Coworker/Coworker"
 import { ICirco } from "Components/Deputy/MapCirco/MapCirco"
+import { ICurrentMandate} from "Components/Deputy/CurrentMandate/CurrentMandate"
+import { IOldMandates} from "Components/Deputy/OldMandates/OldMandates"
+import { IOthersMandates} from "Components/Deputy/OthersMandates/OthersMandates"
+import { ITotalMandates} from "Components/Deputy/TotalMandates/TotalMandates"
 import constructifs from "images/Logos/groupes parlementaires/constructifs/constructifs_grand.png"
 import gdr from "images/Logos/groupes parlementaires/gdr/gdr_grand.png"
 import l_t from "images/Logos/groupes parlementaires/l_t/l_t_grand.png"
@@ -74,14 +78,14 @@ export function getCoworkers(deputy: any): ICoworkers {
       coworker: collab,
     }
 
-    return coworker
+    return coworker;
   })
 
   const props: ICoworkers = {
     coworkers: coworkers,
   }
 
-  return props
+  return props;
 }
 
 export function getCirco(deputy: any) {
@@ -89,6 +93,40 @@ export function getCirco(deputy: any) {
     nom: deputy.nomCirco,
     num: deputy.numCirco
   }
+
+  return props;
+}
   
-  return props
+export function getCurrentMandate(deputy: any): ICurrentMandate {
+  var props: ICurrentMandate = {
+    dateBegin : deputy.mandatDebut,
+    isInMandate : deputy.estEnMandat,
+    numberMandates : deputy.nombreMandats
+  }
+
+  return props;
+}
+
+export function getOldMandates(deputy: any): IOldMandates {
+  var props: IOldMandates = {
+    oldMandates : deputy.anciensMandats
+  }
+
+  return props;
+}
+
+export function getOthersMandates(deputy: any): IOthersMandates {
+  var props: IOthersMandates = {
+    othersMandates : deputy.autresMandats
+  }
+
+  return props;
+}
+
+export function getTotalMandates(deputy: any): ITotalMandates {
+  var props: ITotalMandates = {
+    numberMandates : deputy.nombreMandats
+  }
+
+  return props;
 }
