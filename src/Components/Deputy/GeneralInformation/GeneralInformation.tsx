@@ -1,5 +1,7 @@
 import React from "react";
-import block from "src/Utils/sc-utils";
+import block, {MyState} from "Utils/sc-utils";
+
+// import { RouterProps } from "../../../Utils/utils";
 import styled from "styled-components";
 
 export interface IGeneralInformation {
@@ -12,10 +14,6 @@ export interface IGeneralInformation {
   circonscriptionName: string;
   gender: string;
   groupSymbol: string;
-}
-
-export interface MyState {
-  blockSize: string;
 }
 
 export default class GeneralInformation extends React.Component<IGeneralInformation, MyState> {

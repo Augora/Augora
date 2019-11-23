@@ -21,6 +21,7 @@
     "gatsby-transformer-sharp": "^2.2.20",
     "graphql": "^14.5.4",
     "mapbox-gl": "^1.4.1",
+    "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
