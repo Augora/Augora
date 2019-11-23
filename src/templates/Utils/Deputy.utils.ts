@@ -1,7 +1,7 @@
 import { IGeneralInformation } from "Components/Deputy/GeneralInformation/GeneralInformation"
 import { ICoworkers } from "Components/Deputy/Coworkers/Coworkers"
 import { ICoworker } from "Components/Deputy/Coworkers/Coworker/Coworker"
-import { ICirco } from "Components/Deputy/MapCirco/MapCirco"
+// import { ICirco } from "Components/Deputy/MapCirco/MapCirco"
 import constructifs from "images/Logos/groupes parlementaires/constructifs/constructifs_grand.png"
 import gdr from "images/Logos/groupes parlementaires/gdr/gdr_grand.png"
 import l_t from "images/Logos/groupes parlementaires/l_t/l_t_grand.png"

@@ -60,45 +60,33 @@ export type DeputesEnMandatDeputeArgs = {
   slug: Scalars['DeputesEnMandat_string']
 };
 
-export type DeputesEnMandat_Activity = {
-  activityRefer: Scalars['DeputesEnMandat_uint'],
-  endDate?: Maybe<Scalars['DeputesEnMandat_Time']>,
+export type DeputesEnMandat_Activite = {
+  activiteRefer: Scalars['DeputesEnMandat_uint'],
+  dateDebut: Scalars['DeputesEnMandat_Time'],
+  dateFin: Scalars['DeputesEnMandat_Time'],
   model: DeputesEnMandat_Model,
+  numeroDeSemaine: Scalars['DeputesEnMandat_uint'],
   participationsCommission: Scalars['DeputesEnMandat_uint'],
   participationsHemicycle: Scalars['DeputesEnMandat_uint'],
   presencesCommission: Scalars['DeputesEnMandat_uint'],
   presencesHemicycle: Scalars['DeputesEnMandat_uint'],
   questions: Scalars['DeputesEnMandat_uint'],
-  startDate?: Maybe<Scalars['DeputesEnMandat_Time']>,
   vacances: Scalars['DeputesEnMandat_uint'],
-};
-
-export type DeputesEnMandat_AncienMandat = {
-  ancienMandat: Scalars['DeputesEnMandat_string'],
-  ancienMandatRefer: Scalars['DeputesEnMandat_uint'],
-  model: DeputesEnMandat_Model,
-};
-
-export type DeputesEnMandat_AutreMandat = {
-  autreMandat: Scalars['DeputesEnMandat_string'],
-  autreMandatRefer: Scalars['DeputesEnMandat_uint'],
-  model: DeputesEnMandat_Model,
 };
 
 
 /** A single depute. */
 export type DeputesEnMandat_Depute = {
-  activites: Array<DeputesEnMandat_Activity>,
+  activites: Array<DeputesEnMandat_Activite>,
   adresses: Array<Scalars['DeputesEnMandat_string']>,
-  anciensMandats: Array<DeputesEnMandat_AncienMandat>,
-  autresMandats: Array<DeputesEnMandat_AutreMandat>,
+  anciensMandats: Array<Scalars['DeputesEnMandat_string']>,
+  autresMandats: Array<Scalars['DeputesEnMandat_string']>,
   collaborateurs: Array<Scalars['DeputesEnMandat_string']>,
   dateNaissance: Scalars['DeputesEnMandat_string'],
   emails: Array<Scalars['DeputesEnMandat_string']>,
   estEnMandat: Scalars['DeputesEnMandat_bool'],
   groupeSigle: Scalars['DeputesEnMandat_string'],
   iDAN: Scalars['DeputesEnMandat_string'],
-  iDFromAPI: Scalars['DeputesEnMandat_uint'],
   lieuNaissance: Scalars['DeputesEnMandat_string'],
   mandatDebut: Scalars['DeputesEnMandat_string'],
   model: DeputesEnMandat_Model,
@@ -113,6 +101,7 @@ export type DeputesEnMandat_Depute = {
   prenom: Scalars['DeputesEnMandat_string'],
   profession: Scalars['DeputesEnMandat_string'],
   sexe: Scalars['DeputesEnMandat_string'],
+  sites: Array<DeputesEnMandat_Site>,
   sitesWeb: Array<Scalars['DeputesEnMandat_string']>,
   slug: Scalars['DeputesEnMandat_string'],
   twitter: Scalars['DeputesEnMandat_string'],
@@ -127,6 +116,12 @@ export type DeputesEnMandat_Model = {
   deletedAt?: Maybe<Scalars['DeputesEnMandat_Time']>,
   iD: Scalars['DeputesEnMandat_uint'],
   updatedAt: Scalars['DeputesEnMandat_Time'],
+};
+
+export type DeputesEnMandat_Site = {
+  model: DeputesEnMandat_Model,
+  site: Scalars['DeputesEnMandat_string'],
+  siteRefer: Scalars['DeputesEnMandat_uint'],
 };
 
 
@@ -159,9 +154,7 @@ export type Directory = Node & {
   uid?: Maybe<Scalars['Int']>,
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
-  blksize?: Maybe<Scalars['Int']>,
-  ino?: Maybe<Scalars['Int']>,
-  blocks?: Maybe<Scalars['Int']>,
+  ino?: Maybe<Scalars['Float']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
   ctimeMs?: Maybe<Scalars['Float']>,
@@ -372,9 +365,7 @@ export type DirectoryFieldsEnum =
   'uid' |
   'gid' |
   'rdev' |
-  'blksize' |
   'ino' |
-  'blocks' |
   'atimeMs' |
   'mtimeMs' |
   'ctimeMs' |
@@ -411,9 +402,7 @@ export type DirectoryFilterInput = {
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
-  ino?: Maybe<IntQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
+  ino?: Maybe<FloatQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -469,9 +458,7 @@ export type File = Node & {
   uid?: Maybe<Scalars['Int']>,
   gid?: Maybe<Scalars['Int']>,
   rdev?: Maybe<Scalars['Int']>,
-  blksize?: Maybe<Scalars['Int']>,
-  ino?: Maybe<Scalars['Int']>,
-  blocks?: Maybe<Scalars['Int']>,
+  ino?: Maybe<Scalars['Float']>,
   atimeMs?: Maybe<Scalars['Float']>,
   mtimeMs?: Maybe<Scalars['Float']>,
   ctimeMs?: Maybe<Scalars['Float']>,
@@ -595,9 +582,7 @@ export type FileFieldsEnum =
   'uid' |
   'gid' |
   'rdev' |
-  'blksize' |
   'ino' |
-  'blocks' |
   'atimeMs' |
   'mtimeMs' |
   'ctimeMs' |
@@ -808,9 +793,7 @@ export type FileFilterInput = {
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
-  ino?: Maybe<IntQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
+  ino?: Maybe<FloatQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1603,9 +1586,7 @@ export type QueryFileArgs = {
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
-  ino?: Maybe<IntQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
+  ino?: Maybe<FloatQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
@@ -1750,9 +1731,7 @@ export type QueryDirectoryArgs = {
   uid?: Maybe<IntQueryOperatorInput>,
   gid?: Maybe<IntQueryOperatorInput>,
   rdev?: Maybe<IntQueryOperatorInput>,
-  blksize?: Maybe<IntQueryOperatorInput>,
-  ino?: Maybe<IntQueryOperatorInput>,
-  blocks?: Maybe<IntQueryOperatorInput>,
+  ino?: Maybe<FloatQueryOperatorInput>,
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
