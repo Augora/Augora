@@ -31,7 +31,7 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
         <a href="/">Retour à l'accueil</a>
       </header>
       <DeputiesStyles>
-        <DeputiesList data={data.augora.Deputes} />
+        <DeputiesList data={data.faunadb.Deputes.data} />
       </DeputiesStyles>
     </>
   )
@@ -42,7 +42,7 @@ export default IndexPage
 export const query = graphql`
   query DeputesQuery {
     faunadb {
-      Deputes {
+      Deputes (_size: 700) {
         data {
           SigleGroupePolitique
           LieuDeNaissance

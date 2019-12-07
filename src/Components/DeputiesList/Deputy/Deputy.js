@@ -83,12 +83,12 @@ class OneDeputy extends Component {
     this.state = {
       opened: false,
       actualColor:
-        couleursGroupeParlementaire[this.props.data.groupeSigle].couleur,
+        couleursGroupeParlementaire[this.props.data.SigleGroupePolitique].couleur,
       actualSigleComplet:
-        couleursGroupeParlementaire[this.props.data.groupeSigle].nom_complet,
-      actualSex: sexSelector[this.props.data.sexe].nom_complet,
-      actualSexSvg: sexSelector[this.props.data.sexe].svg,
-      actualBirthDate: new Date(this.props.data.dateNaissance),
+        couleursGroupeParlementaire[this.props.data.SigleGroupePolitique].nom_complet,
+      actualSex: sexSelector[this.props.data.Sexe].nom_complet,
+      actualSexSvg: sexSelector[this.props.data.Sexe].svg,
+      actualBirthDate: new Date(this.props.data.DateDeNaissance),
       actualAge: 0,
     }
 
@@ -99,7 +99,7 @@ class OneDeputy extends Component {
     const dateToday = Date.now()
     const ageDate = birthdayDate.getTime()
     const age = Math.abs(new Date(dateToday - ageDate).getUTCFullYear() - 1970)
-    this.setState(function(state) {
+    this.setState(function (state) {
       return {
         actualAge: age,
       }
@@ -108,7 +108,7 @@ class OneDeputy extends Component {
 
   expand(e) {
     e.preventDefault()
-    this.setState(function(state) {
+    this.setState(function (state) {
       return {
         opened: !this.state.opened,
       }
@@ -122,15 +122,15 @@ class OneDeputy extends Component {
   render() {
     return (
       <Link
-        to={`/deputy/${this.props.data.slug}`}
-        id={"depute-" + this.props.data.slug}
-        key={this.props.data.id}
+        to={`/deputy/${this.props.data.Slug}`}
+        id={"depute-" + this.props.data.Slug}
+        key={this.props.data.Slug}
         className={"depute depute--opened-" + this.state.opened}
         style={{
           backgroundColor: this.state.actualColor,
         }}
       >
-        <h2>{this.props.data.nom}</h2>
+        <h2>{this.props.data.Nom}</h2>
         {/* <div className="depute__name-wrapper">
           <DeputySex
             sex={this.state.actualSex}

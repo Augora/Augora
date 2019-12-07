@@ -22,13 +22,13 @@ class DeputiesList extends Component {
     const updatedList = listDeputies
       .filter(depute => {
         return (
-          depute.nom
+          depute.Nom
             .toLowerCase()
             .search(this.state.searchValue.toLowerCase()) !== -1
         )
       })
       .map(depute => {
-        return <Deputy key={depute.slug} data={depute} />
+        return <Deputy key={depute.Slug} data={depute} />
       })
     return (
       <>

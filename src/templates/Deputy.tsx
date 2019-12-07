@@ -40,7 +40,6 @@ const DeputyStyles = styled.div`
 
 function Deputy({ data }: SingleDeputyQueryProps) {
   const deputy = data.faunadb.Depute
-  console.log(deputy)
   return (
     <DeputyStyles className="single-deputy">
       <Helmet>

@@ -36,7 +36,7 @@ module.exports = {
         fieldName: "faunadb",
         url: "https://graphql.fauna.com/graphql",
         headers: {
-          Authorization: `bearer ${process.env.FAUNADB_TOKEN || 'fnADeicoVLACC4IE89RoLIStFuM3FHghq7k4KMtw'}`,
+          Authorization: `bearer ${process.env.FAUNADB_TOKEN || 'fnADfAgsI8ACAjFeHAg7T_nVrlqW7QjG85fB_K6Q'}`,
         },
       },
     },

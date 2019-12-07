@@ -109,7 +109,7 @@ export function getCurrentMandate(deputy: any): ICurrentMandate {
 
 export function getOldMandates(deputy: any): IOldMandates {
   var props: IOldMandates = {
-    oldMandates: deputy.AnciensMandats
+    oldMandates: deputy.AnciensMandats.data
   }
 
   return props;
@@ -117,7 +117,7 @@ export function getOldMandates(deputy: any): IOldMandates {
 
 export function getOthersMandates(deputy: any): IOthersMandates {
   var props: IOthersMandates = {
-    othersMandates: deputy.autresMandats
+    othersMandates: deputy.AutresMandats.data
   }
 
   return props;
@@ -125,7 +125,7 @@ export function getOthersMandates(deputy: any): IOthersMandates {
 
 export function getTotalMandates(deputy: any): ITotalMandates {
   var props: ITotalMandates = {
-    numberMandates: deputy.nombreMandats
+    numberMandates: deputy.NombreMandats
   }
 
   return props;
