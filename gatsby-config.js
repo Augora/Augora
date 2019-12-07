@@ -1,5 +1,3 @@
-const targetEnv = process.env.TARGET_ENV || 'sandbox';
-const targetAPIUrl = targetEnv === 'sandbox' ? 'sandbox.augora.fr' : 'api.augora.fr';
 const path = require('path')
 
 module.exports = {
@@ -34,9 +32,12 @@ module.exports = {
     {
       resolve: "gatsby-source-graphql-universal",
       options: {
-        typeName: "DeputesEnMandat",
-        fieldName: "augora",
-        url: "https://" + targetAPIUrl + "/graphql",
+        typeName: "FaunaDB",
+        fieldName: "faunadb",
+        url: "https://graphql.fauna.com/graphql",
+        headers: {
+          Authorization: `bearer ${process.env.FAUNADB_TOKEN || 'fnADeicoVLACC4IE89RoLIStFuM3FHghq7k4KMtw'}`,
+        },
       },
     },
     {

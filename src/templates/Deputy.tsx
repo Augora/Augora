@@ -39,24 +39,24 @@ const DeputyStyles = styled.div`
 `
 
 function Deputy({ data }: SingleDeputyQueryProps) {
-  const deputy = data.augora.Depute
+  const deputy = data.faunadb.Depute
   console.log(deputy)
   return (
     <DeputyStyles className="single-deputy">
       <Helmet>
         <meta name="robots" content="noindex,nofollow" />
         <title>
-          {deputy.prenom} {deputy.nomDeFamille} - {getGender(deputy)}{" "}
-          {deputy.groupeSigle}
+          {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy)}{" "}
+          {deputy.SigleGroupePolitique}
         </title>
       </Helmet>
       <GeneralInformation {...getGeneralInformation(deputy, 500)} />
       <Coworkers {...getCoworkers(deputy)} />
-       <MapCirco {...getCirco(deputy)} /> 
-       <CurrentMandate {...getCurrentMandate(deputy)} />
-       <OldMandates {...getOldMandates(deputy)} />
-       <OthersMandates {...getOthersMandates(deputy)} />
-       <TotalMandates {...getTotalMandates(deputy)} />
+      <MapCirco {...getCirco(deputy)} />
+      <CurrentMandate {...getCurrentMandate(deputy)} />
+      <OldMandates {...getOldMandates(deputy)} />
+      <OthersMandates {...getOthersMandates(deputy)} />
+      <TotalMandates {...getTotalMandates(deputy)} />
     </DeputyStyles>
   )
 }
@@ -64,29 +64,40 @@ function Deputy({ data }: SingleDeputyQueryProps) {
 export default Deputy
 
 export const query = graphql`
-  query SingleDeputy($slug: DeputesEnMandat_string!) {
-    augora {
-      Depute(slug: $slug) {
-        groupeSigle
-        lieuNaissance
-        mandatDebut
-        nom
-        nomCirco
-        nomDeFamille
-        nombreMandats
-        numCirco
-        numDepartement
-        partiRattFinancier
-        placeEnHemicyle
-        prenom
-        profession
-        sexe
-        slug
-        twitter
-        collaborateurs
-        estEnMandat
-        anciensMandats
-        autresMandats
+  query SingleDeputy($slug: String!) {
+    faunadb {
+      Depute(Slug: $slug) {
+        SigleGroupePolitique
+        LieuDeNaissance
+        DebutDuMandat
+        Nom
+        NomCirconscription
+        NomDeFamille
+        NombreMandats
+        NumeroCirconscription
+        NumeroDepartement
+        parti_ratt_financier
+        PlaceEnHemicycle
+        Prenom
+        Profession
+        Sexe
+        Slug
+        Twitter
+        Collaborateurs
+        AnciensMandats {
+          data {
+            DateDeDebut
+            DateDeFin
+            Intitule
+          }
+        }
+        AutresMandats {
+          data {
+            Institution
+            Localite
+            Intitule
+          }
+        }
       }
     }
   }
