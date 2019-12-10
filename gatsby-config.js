@@ -1,10 +1,10 @@
-const path = require('path')
+const path = require("path")
 
 module.exports = {
   siteMetadata: {
-    title: `Augora`,
+    title: `Ta mère`,
     description: ``,
-    author: `@gatsbyjs`,
+    author: `@Augora`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -36,14 +36,15 @@ module.exports = {
         fieldName: "faunadb",
         url: "https://graphql.fauna.com/graphql",
         headers: {
-          Authorization: `bearer ${process.env.FAUNADB_TOKEN || 'fnADfAgsI8ACAjFeHAg7T_nVrlqW7QjG85fB_K6Q'}`,
+          Authorization: `Bearer ${process.env.FAUNADB_TOKEN ||
+            "fnADfSg3DoACArVgM0hRPdR0z9hkcAOPazwAZAnw"}`,
         },
       },
     },
     {
       resolve: `gatsby-plugin-graphql-codegen`,
       options: {
-        fileName: `types/graphql-types.ts`,
+        fileName: `src/types/graphql-types.ts`,
         codegen: true,
         codegenDelay: 250,
       },
@@ -54,9 +55,9 @@ module.exports = {
     {
       resolve: `gatsby-plugin-root-import`,
       options: {
-        src: path.join(__dirname, 'src'),
-        pages: path.join(__dirname, 'src/pages')
-      }
-    }
+        src: path.join(__dirname, "src"),
+        pages: path.join(__dirname, "src/pages"),
+      },
+    },
   ],
 }

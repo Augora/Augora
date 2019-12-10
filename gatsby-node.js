@@ -38,7 +38,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const result = await graphql(`
     query DeputesQuery {
       faunadb {
-        Deputes (_size: 700) {
+        Deputes(_size: 700) {
           data {
             Slug
           }

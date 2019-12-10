@@ -58,9 +58,9 @@ export default class GeneralInformation extends React.Component<IGeneralInformat
             src={this.props.pictureGroup}
             alt="deputy-group-photo"
           />
-          <Name className="single-deputy__name">
+          {/* <Name className="single-deputy__name">
             {this.props.firstName} {this.props.lastName}
-          </Name>
+          </Name> */}
           <P>
             {this.props.gender} {this.props.groupSymbol}
           </P>

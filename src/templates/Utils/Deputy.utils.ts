@@ -1,7 +1,7 @@
 import { IGeneralInformation } from "Components/Deputy/GeneralInformation/GeneralInformation"
 import { ICoworkers } from "Components/Deputy/Coworkers/Coworkers"
 import { ICoworker } from "Components/Deputy/Coworkers/Coworker/Coworker"
-// import { ICirco } from "Components/Deputy/MapCirco/MapCirco"
+import { ICirco } from "Components/Deputy/MapCirco/MapCirco"
 import { ICurrentMandate } from "Components/Deputy/CurrentMandate/CurrentMandate"
 import { IOldMandates } from "Components/Deputy/OldMandates/OldMandates"
 import { IOthersMandates } from "Components/Deputy/OthersMandates/OthersMandates"
@@ -78,55 +78,54 @@ export function getCoworkers(deputy: any): ICoworkers {
       coworker: collab,
     }
 
-    return coworker;
+    return coworker
   })
 
   const props: ICoworkers = {
     coworkers: coworkers,
   }
 
-  return props;
+  return props
 }
 
 export function getCirco(deputy: any) {
   var props: ICirco = {
     nom: deputy.NomCirconscription,
-    num: deputy.NumeroCirconscription
+    num: deputy.NumeroCirconscription,
   }
 
-  return props;
+  return props
 }
 
 export function getCurrentMandate(deputy: any): ICurrentMandate {
   var props: ICurrentMandate = {
     dateBegin: deputy.DebutDuMandat,
     isInMandate: true,
-    numberMandates: deputy.NombreMandats
   }
 
-  return props;
+  return props
 }
 
 export function getOldMandates(deputy: any): IOldMandates {
   var props: IOldMandates = {
-    oldMandates: deputy.AnciensMandats.data
+    oldMandates: deputy.AnciensMandats.data,
   }
 
-  return props;
+  return props
 }
 
 export function getOthersMandates(deputy: any): IOthersMandates {
   var props: IOthersMandates = {
-    othersMandates: deputy.AutresMandats.data
+    othersMandates: deputy.AutresMandats.data,
   }
 
-  return props;
+  return props
 }
 
 export function getTotalMandates(deputy: any): ITotalMandates {
   var props: ITotalMandates = {
-    numberMandates: deputy.NombreMandats
+    numberMandates: deputy.NombreMandats,
   }
 
-  return props;
+  return props
 }
