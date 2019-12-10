@@ -1,12 +1,10 @@
-const targetEnv = process.env.TARGET_ENV || 'sandbox';
-const targetAPIUrl = targetEnv === 'sandbox' ? 'sandbox.augora.fr' : 'api.augora.fr';
-const path = require('path')
+const path = require("path")
 
 module.exports = {
   siteMetadata: {
-    title: `Augora`,
+    title: `Ta mère`,
     description: ``,
-    author: `@gatsbyjs`,
+    author: `@Augora`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -34,15 +32,19 @@ module.exports = {
     {
       resolve: "gatsby-source-graphql-universal",
       options: {
-        typeName: "DeputesEnMandat",
-        fieldName: "augora",
-        url: "https://" + targetAPIUrl + "/graphql",
+        typeName: "FaunaDB",
+        fieldName: "faunadb",
+        url: "https://graphql.fauna.com/graphql",
+        headers: {
+          Authorization: `Bearer ${process.env.FAUNADB_TOKEN ||
+            "fnADfSg3DoACArVgM0hRPdR0z9hkcAOPazwAZAnw"}`,
+        },
       },
     },
     {
       resolve: `gatsby-plugin-graphql-codegen`,
       options: {
-        fileName: `types/graphql-types.ts`,
+        fileName: `src/types/graphql-types.ts`,
         codegen: true,
         codegenDelay: 250,
       },
@@ -53,9 +55,9 @@ module.exports = {
     {
       resolve: `gatsby-plugin-root-import`,
       options: {
-        src: path.join(__dirname, 'src'),
-        pages: path.join(__dirname, 'src/pages')
-      }
-    }
+        src: path.join(__dirname, "src"),
+        pages: path.join(__dirname, "src/pages"),
+      },
+    },
   ],
 }

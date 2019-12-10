@@ -6,7 +6,7 @@ import { graphql } from "gatsby"
 import Layout from "Components/layout"
 
 import DeputiesList from "../Components/DeputiesList/DeputiesList"
-import { DeputesQueryQuery } from "../../types/graphql-types"
+import { DeputesQueryQuery } from "../types/graphql-types"
 
 type DeputesQueryQueryProps = {
   data: DeputesQueryQuery
@@ -23,7 +23,7 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
         <h1>Liste des députés</h1>
       </header>
       <div>
-        <DeputiesList data={data.augora.Deputes} />
+        <DeputiesList data={data.faunadb.Deputes.data} />
       </div>
     </Layout>
   )
@@ -33,29 +33,31 @@ export default IndexPage
 
 export const query = graphql`
   query DeputesQuery {
-    augora {
-      Deputes {
-        groupeSigle
-        lieuNaissance
-        mandatDebut
-        nom
-        nomCirco
-        nomDeFamille
-        nombreMandats
-        numCirco
-        numDepartement
-        partiRattFinancier
-        placeEnHemicyle
-        prenom
-        profession
-        sexe
-        slug
-        twitter
-        dateNaissance
-        adresses
-        collaborateurs
-        emails
-        sitesWeb
+    faunadb {
+      Deputes(_size: 700) {
+        data {
+          SigleGroupePolitique
+          LieuDeNaissance
+          DebutDuMandat
+          Nom
+          NomCirconscription
+          NomDeFamille
+          NombreMandats
+          NumeroCirconscription
+          NumeroDepartement
+          parti_ratt_financier
+          PlaceEnHemicycle
+          Prenom
+          Profession
+          Sexe
+          Slug
+          Twitter
+          DateDeNaissance
+          Adresses
+          Collaborateurs
+          Emails
+          SitesWeb
+        }
       }
     }
   }

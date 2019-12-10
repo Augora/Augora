@@ -37,19 +37,21 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
   const result = await graphql(`
     query DeputesQuery {
-      augora {
-        Deputes {
-          slug
+      faunadb {
+        Deputes(_size: 700) {
+          data {
+            Slug
+          }
         }
       }
     }
   `)
-  result.data.augora.Deputes.forEach(deputy => {
+  result.data.faunadb.Deputes.data.forEach(deputy => {
     createPage({
-      path: `/deputy/${deputy.slug}`,
+      path: `/deputy/${deputy.Slug}`,
       component: path.resolve(`./src/templates/Deputy.tsx`),
       context: {
-        slug: deputy.slug,
+        slug: deputy.Slug,
       },
     })
   })

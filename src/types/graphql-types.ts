@@ -11,11 +11,13 @@ export type Scalars = {
    * representation of dates and times using the Gregorian calendar.
  */
   Date: any,
-  DeputesEnMandat_string: any,
-  DeputesEnMandat_uint: any,
-  DeputesEnMandat_Time: any,
-  DeputesEnMandat_bool: any,
-  DeputesEnMandat_int: any,
+  /** 
+ * The `Long` scalar type represents non-fractional signed whole numeric values.
+   * Long can represent values between -(2^63) and 2^63 - 1.
+ */
+  FaunaDB_Long: any,
+  FaunaDB_Date: any,
+  FaunaDB_Time: any,
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any,
 };
@@ -49,120 +51,44 @@ export type DateQueryOperatorInput = {
   nin?: Maybe<Array<Maybe<Scalars['Date']>>>,
 };
 
-export type DeputesEnMandat = {
-  Depute: DeputesEnMandat_Depute,
-  Deputes: Array<DeputesEnMandat_Depute>,
-  DeputesEnMandat: Array<DeputesEnMandat_Depute>,
-};
-
-
-export type DeputesEnMandatDeputeArgs = {
-  slug: Scalars['DeputesEnMandat_string']
-};
-
-export type DeputesEnMandat_Activite = {
-  activiteRefer: Scalars['DeputesEnMandat_uint'],
-  dateDebut: Scalars['DeputesEnMandat_Time'],
-  dateFin: Scalars['DeputesEnMandat_Time'],
-  model: DeputesEnMandat_Model,
-  numeroDeSemaine: Scalars['DeputesEnMandat_uint'],
-  participationsCommission: Scalars['DeputesEnMandat_uint'],
-  participationsHemicycle: Scalars['DeputesEnMandat_uint'],
-  presencesCommission: Scalars['DeputesEnMandat_uint'],
-  presencesHemicycle: Scalars['DeputesEnMandat_uint'],
-  questions: Scalars['DeputesEnMandat_uint'],
-  vacances: Scalars['DeputesEnMandat_uint'],
-};
-
-
-/** A single depute. */
-export type DeputesEnMandat_Depute = {
-  activites: Array<DeputesEnMandat_Activite>,
-  adresses: Array<Scalars['DeputesEnMandat_string']>,
-  anciensMandats: Array<Scalars['DeputesEnMandat_string']>,
-  autresMandats: Array<Scalars['DeputesEnMandat_string']>,
-  collaborateurs: Array<Scalars['DeputesEnMandat_string']>,
-  dateNaissance: Scalars['DeputesEnMandat_string'],
-  emails: Array<Scalars['DeputesEnMandat_string']>,
-  estEnMandat: Scalars['DeputesEnMandat_bool'],
-  groupeSigle: Scalars['DeputesEnMandat_string'],
-  iDAN: Scalars['DeputesEnMandat_string'],
-  lieuNaissance: Scalars['DeputesEnMandat_string'],
-  mandatDebut: Scalars['DeputesEnMandat_string'],
-  model: DeputesEnMandat_Model,
-  nom: Scalars['DeputesEnMandat_string'],
-  nomCirco: Scalars['DeputesEnMandat_string'],
-  nomDeFamille: Scalars['DeputesEnMandat_string'],
-  nombreMandats: Scalars['DeputesEnMandat_int'],
-  numCirco: Scalars['DeputesEnMandat_int'],
-  numDepartement: Scalars['DeputesEnMandat_string'],
-  partiRattFinancier: Scalars['DeputesEnMandat_string'],
-  placeEnHemicyle: Scalars['DeputesEnMandat_string'],
-  prenom: Scalars['DeputesEnMandat_string'],
-  profession: Scalars['DeputesEnMandat_string'],
-  sexe: Scalars['DeputesEnMandat_string'],
-  sites: Array<DeputesEnMandat_Site>,
-  sitesWeb: Array<Scalars['DeputesEnMandat_string']>,
-  slug: Scalars['DeputesEnMandat_string'],
-  twitter: Scalars['DeputesEnMandat_string'],
-  urlAN: Scalars['DeputesEnMandat_string'],
-  urlNosDeputes: Scalars['DeputesEnMandat_string'],
-  urlNosDeputesAPI: Scalars['DeputesEnMandat_string'],
-};
-
-
-export type DeputesEnMandat_Model = {
-  createdAt: Scalars['DeputesEnMandat_Time'],
-  deletedAt?: Maybe<Scalars['DeputesEnMandat_Time']>,
-  iD: Scalars['DeputesEnMandat_uint'],
-  updatedAt: Scalars['DeputesEnMandat_Time'],
-};
-
-export type DeputesEnMandat_Site = {
-  model: DeputesEnMandat_Model,
-  site: Scalars['DeputesEnMandat_string'],
-  siteRefer: Scalars['DeputesEnMandat_uint'],
-};
-
-
-
-
 export type Directory = Node & {
+  sourceInstanceName: Scalars['String'],
+  absolutePath: Scalars['String'],
+  relativePath: Scalars['String'],
+  extension: Scalars['String'],
+  size: Scalars['Int'],
+  prettySize: Scalars['String'],
+  modifiedTime: Scalars['Date'],
+  accessTime: Scalars['Date'],
+  changeTime: Scalars['Date'],
+  birthTime: Scalars['Date'],
+  root: Scalars['String'],
+  dir: Scalars['String'],
+  base: Scalars['String'],
+  ext: Scalars['String'],
+  name: Scalars['String'],
+  relativeDirectory: Scalars['String'],
+  dev: Scalars['Int'],
+  mode: Scalars['Int'],
+  nlink: Scalars['Int'],
+  uid: Scalars['Int'],
+  gid: Scalars['Int'],
+  rdev: Scalars['Int'],
+  ino: Scalars['Float'],
+  atimeMs: Scalars['Float'],
+  mtimeMs: Scalars['Float'],
+  ctimeMs: Scalars['Float'],
+  atime: Scalars['Date'],
+  mtime: Scalars['Date'],
+  ctime: Scalars['Date'],
+  birthtime?: Maybe<Scalars['Date']>,
+  birthtimeMs?: Maybe<Scalars['Float']>,
+  blksize?: Maybe<Scalars['Int']>,
+  blocks?: Maybe<Scalars['Int']>,
   id: Scalars['ID'],
   parent?: Maybe<Node>,
   children: Array<Node>,
   internal: Internal,
-  sourceInstanceName?: Maybe<Scalars['String']>,
-  absolutePath?: Maybe<Scalars['String']>,
-  relativePath?: Maybe<Scalars['String']>,
-  extension?: Maybe<Scalars['String']>,
-  size?: Maybe<Scalars['Int']>,
-  prettySize?: Maybe<Scalars['String']>,
-  modifiedTime?: Maybe<Scalars['Date']>,
-  accessTime?: Maybe<Scalars['Date']>,
-  changeTime?: Maybe<Scalars['Date']>,
-  birthTime?: Maybe<Scalars['Date']>,
-  root?: Maybe<Scalars['String']>,
-  dir?: Maybe<Scalars['String']>,
-  base?: Maybe<Scalars['String']>,
-  ext?: Maybe<Scalars['String']>,
-  name?: Maybe<Scalars['String']>,
-  relativeDirectory?: Maybe<Scalars['String']>,
-  dev?: Maybe<Scalars['Int']>,
-  mode?: Maybe<Scalars['Int']>,
-  nlink?: Maybe<Scalars['Int']>,
-  uid?: Maybe<Scalars['Int']>,
-  gid?: Maybe<Scalars['Int']>,
-  rdev?: Maybe<Scalars['Int']>,
-  ino?: Maybe<Scalars['Float']>,
-  atimeMs?: Maybe<Scalars['Float']>,
-  mtimeMs?: Maybe<Scalars['Float']>,
-  ctimeMs?: Maybe<Scalars['Float']>,
-  birthtimeMs?: Maybe<Scalars['Float']>,
-  atime?: Maybe<Scalars['Date']>,
-  mtime?: Maybe<Scalars['Date']>,
-  ctime?: Maybe<Scalars['Date']>,
-  birthtime?: Maybe<Scalars['Date']>,
 };
 
 
@@ -221,14 +147,6 @@ export type DirectoryCtimeArgs = {
   locale?: Maybe<Scalars['String']>
 };
 
-
-export type DirectoryBirthtimeArgs = {
-  formatString?: Maybe<Scalars['String']>,
-  fromNow?: Maybe<Scalars['Boolean']>,
-  difference?: Maybe<Scalars['String']>,
-  locale?: Maybe<Scalars['String']>
-};
-
 export type DirectoryConnection = {
   totalCount: Scalars['Int'],
   edges: Array<DirectoryEdge>,
@@ -257,6 +175,39 @@ export type DirectoryEdge = {
 };
 
 export type DirectoryFieldsEnum = 
+  'sourceInstanceName' |
+  'absolutePath' |
+  'relativePath' |
+  'extension' |
+  'size' |
+  'prettySize' |
+  'modifiedTime' |
+  'accessTime' |
+  'changeTime' |
+  'birthTime' |
+  'root' |
+  'dir' |
+  'base' |
+  'ext' |
+  'name' |
+  'relativeDirectory' |
+  'dev' |
+  'mode' |
+  'nlink' |
+  'uid' |
+  'gid' |
+  'rdev' |
+  'ino' |
+  'atimeMs' |
+  'mtimeMs' |
+  'ctimeMs' |
+  'atime' |
+  'mtime' |
+  'ctime' |
+  'birthtime' |
+  'birthtimeMs' |
+  'blksize' |
+  'blocks' |
   'id' |
   'parent___id' |
   'parent___parent___id' |
@@ -342,44 +293,9 @@ export type DirectoryFieldsEnum =
   'internal___ignoreType' |
   'internal___mediaType' |
   'internal___owner' |
-  'internal___type' |
-  'sourceInstanceName' |
-  'absolutePath' |
-  'relativePath' |
-  'extension' |
-  'size' |
-  'prettySize' |
-  'modifiedTime' |
-  'accessTime' |
-  'changeTime' |
-  'birthTime' |
-  'root' |
-  'dir' |
-  'base' |
-  'ext' |
-  'name' |
-  'relativeDirectory' |
-  'dev' |
-  'mode' |
-  'nlink' |
-  'uid' |
-  'gid' |
-  'rdev' |
-  'ino' |
-  'atimeMs' |
-  'mtimeMs' |
-  'ctimeMs' |
-  'birthtimeMs' |
-  'atime' |
-  'mtime' |
-  'ctime' |
-  'birthtime';
+  'internal___type';
 
 export type DirectoryFilterInput = {
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
   sourceInstanceName?: Maybe<StringQueryOperatorInput>,
   absolutePath?: Maybe<StringQueryOperatorInput>,
   relativePath?: Maybe<StringQueryOperatorInput>,
@@ -406,11 +322,17 @@ export type DirectoryFilterInput = {
   atimeMs?: Maybe<FloatQueryOperatorInput>,
   mtimeMs?: Maybe<FloatQueryOperatorInput>,
   ctimeMs?: Maybe<FloatQueryOperatorInput>,
-  birthtimeMs?: Maybe<FloatQueryOperatorInput>,
   atime?: Maybe<DateQueryOperatorInput>,
   mtime?: Maybe<DateQueryOperatorInput>,
   ctime?: Maybe<DateQueryOperatorInput>,
   birthtime?: Maybe<DateQueryOperatorInput>,
+  birthtimeMs?: Maybe<FloatQueryOperatorInput>,
+  blksize?: Maybe<IntQueryOperatorInput>,
+  blocks?: Maybe<IntQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
 };
 
 export type DirectoryGroupConnection = {
@@ -433,38 +355,358 @@ export type DuotoneGradient = {
   opacity?: Maybe<Scalars['Int']>,
 };
 
+export type FaunaDb = {
+  DeputesEnMandat: FaunaDb_DeputePage,
+  /** Find a document from the collection of 'Activite' by its id. */
+  findActiviteByID?: Maybe<FaunaDb_Activite>,
+  Depute: FaunaDb_Depute,
+  /** Find a document from the collection of 'Depute' by its id. */
+  findDeputeByID?: Maybe<FaunaDb_Depute>,
+  Deputes: FaunaDb_DeputePage,
+  /** Find a document from the collection of 'AutreMandat' by its id. */
+  findAutreMandatByID?: Maybe<FaunaDb_AutreMandat>,
+  /** Find a document from the collection of 'AncienMandat' by its id. */
+  findAncienMandatByID?: Maybe<FaunaDb_AncienMandat>,
+};
+
+
+export type FaunaDbDeputesEnMandatArgs = {
+  _size?: Maybe<Scalars['Int']>,
+  _cursor?: Maybe<Scalars['String']>
+};
+
+
+export type FaunaDbFindActiviteByIdArgs = {
+  id: Scalars['ID']
+};
+
+
+export type FaunaDbDeputeArgs = {
+  Slug: Scalars['String']
+};
+
+
+export type FaunaDbFindDeputeByIdArgs = {
+  id: Scalars['ID']
+};
+
+
+export type FaunaDbDeputesArgs = {
+  _size?: Maybe<Scalars['Int']>,
+  _cursor?: Maybe<Scalars['String']>
+};
+
+
+export type FaunaDbFindAutreMandatByIdArgs = {
+  id: Scalars['ID']
+};
+
+
+export type FaunaDbFindAncienMandatByIdArgs = {
+  id: Scalars['ID']
+};
+
+export type FaunaDb_Activite = {
+  ParticipationEnHemicycle?: Maybe<Scalars['Int']>,
+  Question?: Maybe<Scalars['Int']>,
+  /** The document's ID. */
+  _id: Scalars['ID'],
+  NumeroDeSemaine?: Maybe<Scalars['Int']>,
+  DateDeDebut?: Maybe<Scalars['String']>,
+  Depute: FaunaDb_Depute,
+  PresenceEnHemicycle?: Maybe<Scalars['Int']>,
+  ParticipationsEnCommission?: Maybe<Scalars['Int']>,
+  PresencesEnCommission?: Maybe<Scalars['Int']>,
+  Vacances?: Maybe<Scalars['Int']>,
+  DateDeFin?: Maybe<Scalars['String']>,
+  /** The document's timestamp. */
+  _ts: Scalars['FaunaDB_Long'],
+};
+
+/** Allow manipulating the relationship between the types 'Activite' and 'Depute' using the field 'Activite.Depute'. */
+export type FaunaDb_ActiviteDeputeRelation = {
+  /** Create a document of type 'Depute' and associate it with the current document. */
+  create?: Maybe<FaunaDb_DeputeInput>,
+  /** Connect a document of type 'Depute' with the current document using its ID. */
+  connect?: Maybe<Scalars['ID']>,
+};
+
+/** 'Activite' input values */
+export type FaunaDb_ActiviteInput = {
+  DateDeDebut?: Maybe<Scalars['String']>,
+  DateDeFin?: Maybe<Scalars['String']>,
+  NumeroDeSemaine?: Maybe<Scalars['Int']>,
+  PresencesEnCommission?: Maybe<Scalars['Int']>,
+  PresenceEnHemicycle?: Maybe<Scalars['Int']>,
+  ParticipationsEnCommission?: Maybe<Scalars['Int']>,
+  ParticipationEnHemicycle?: Maybe<Scalars['Int']>,
+  Question?: Maybe<Scalars['Int']>,
+  Vacances?: Maybe<Scalars['Int']>,
+  Depute?: Maybe<FaunaDb_ActiviteDeputeRelation>,
+};
+
+/** The pagination object for elements of type 'Activite'. */
+export type FaunaDb_ActivitePage = {
+  /** The elements of type 'Activite' in this page. */
+  data: Array<Maybe<FaunaDb_Activite>>,
+  /** A cursor for elements coming after the current page. */
+  after?: Maybe<Scalars['String']>,
+  /** A cursor for elements coming before the current page. */
+  before?: Maybe<Scalars['String']>,
+};
+
+export type FaunaDb_AncienMandat = {
+  /** The document's ID. */
+  _id: Scalars['ID'],
+  DateDeDebut?: Maybe<Scalars['String']>,
+  Depute: FaunaDb_Depute,
+  Intitule?: Maybe<Scalars['String']>,
+  DateDeFin?: Maybe<Scalars['String']>,
+  /** The document's timestamp. */
+  _ts: Scalars['FaunaDB_Long'],
+};
+
+/** Allow manipulating the relationship between the types 'AncienMandat' and 'Depute' using the field 'AncienMandat.Depute'. */
+export type FaunaDb_AncienMandatDeputeRelation = {
+  /** Create a document of type 'Depute' and associate it with the current document. */
+  create?: Maybe<FaunaDb_DeputeInput>,
+  /** Connect a document of type 'Depute' with the current document using its ID. */
+  connect?: Maybe<Scalars['ID']>,
+};
+
+/** 'AncienMandat' input values */
+export type FaunaDb_AncienMandatInput = {
+  DateDeDebut?: Maybe<Scalars['String']>,
+  DateDeFin?: Maybe<Scalars['String']>,
+  Intitule?: Maybe<Scalars['String']>,
+  Depute?: Maybe<FaunaDb_AncienMandatDeputeRelation>,
+};
+
+/** The pagination object for elements of type 'AncienMandat'. */
+export type FaunaDb_AncienMandatPage = {
+  /** The elements of type 'AncienMandat' in this page. */
+  data: Array<Maybe<FaunaDb_AncienMandat>>,
+  /** A cursor for elements coming after the current page. */
+  after?: Maybe<Scalars['String']>,
+  /** A cursor for elements coming before the current page. */
+  before?: Maybe<Scalars['String']>,
+};
+
+export type FaunaDb_AutreMandat = {
+  Institution?: Maybe<Scalars['String']>,
+  /** The document's ID. */
+  _id: Scalars['ID'],
+  Depute: FaunaDb_Depute,
+  Localite?: Maybe<Scalars['String']>,
+  Intitule?: Maybe<Scalars['String']>,
+  /** The document's timestamp. */
+  _ts: Scalars['FaunaDB_Long'],
+};
+
+/** Allow manipulating the relationship between the types 'AutreMandat' and 'Depute' using the field 'AutreMandat.Depute'. */
+export type FaunaDb_AutreMandatDeputeRelation = {
+  /** Create a document of type 'Depute' and associate it with the current document. */
+  create?: Maybe<FaunaDb_DeputeInput>,
+  /** Connect a document of type 'Depute' with the current document using its ID. */
+  connect?: Maybe<Scalars['ID']>,
+};
+
+/** 'AutreMandat' input values */
+export type FaunaDb_AutreMandatInput = {
+  Localite?: Maybe<Scalars['String']>,
+  Institution?: Maybe<Scalars['String']>,
+  Intitule?: Maybe<Scalars['String']>,
+  Depute?: Maybe<FaunaDb_AutreMandatDeputeRelation>,
+};
+
+/** The pagination object for elements of type 'AutreMandat'. */
+export type FaunaDb_AutreMandatPage = {
+  /** The elements of type 'AutreMandat' in this page. */
+  data: Array<Maybe<FaunaDb_AutreMandat>>,
+  /** A cursor for elements coming after the current page. */
+  after?: Maybe<Scalars['String']>,
+  /** A cursor for elements coming before the current page. */
+  before?: Maybe<Scalars['String']>,
+};
+
+
+export type FaunaDb_Depute = {
+  LieuDeNaissance?: Maybe<Scalars['String']>,
+  SitesWeb?: Maybe<Array<Maybe<Scalars['String']>>>,
+  DebutDuMandat?: Maybe<Scalars['String']>,
+  NumeroDepartement?: Maybe<Scalars['String']>,
+  Slug: Scalars['String'],
+  parti_ratt_financier?: Maybe<Scalars['String']>,
+  URLNosdeputes?: Maybe<Scalars['String']>,
+  /** The document's ID. */
+  _id: Scalars['ID'],
+  Emails?: Maybe<Array<Maybe<Scalars['String']>>>,
+  URLNosdeputesAPI?: Maybe<Scalars['String']>,
+  Twitter?: Maybe<Scalars['String']>,
+  NomDeFamille?: Maybe<Scalars['String']>,
+  NomCirconscription?: Maybe<Scalars['String']>,
+  Profession?: Maybe<Scalars['String']>,
+  AutresMandats: FaunaDb_AutreMandatPage,
+  Activites: FaunaDb_ActivitePage,
+  NombreMandats?: Maybe<Scalars['Int']>,
+  Prenom?: Maybe<Scalars['String']>,
+  Nom?: Maybe<Scalars['String']>,
+  Sexe?: Maybe<FaunaDb_Sexe>,
+  DateDeNaissance?: Maybe<Scalars['String']>,
+  NumeroCirconscription?: Maybe<Scalars['Int']>,
+  PlaceEnHemicycle?: Maybe<Scalars['String']>,
+  IDAssembleeNationnale?: Maybe<Scalars['String']>,
+  Adresses?: Maybe<Array<Maybe<Scalars['String']>>>,
+  URLAssembleeNationnale?: Maybe<Scalars['String']>,
+  Collaborateurs?: Maybe<Array<Maybe<Scalars['String']>>>,
+  AnciensMandats: FaunaDb_AncienMandatPage,
+  /** The document's timestamp. */
+  _ts: Scalars['FaunaDB_Long'],
+  SigleGroupePolitique?: Maybe<FaunaDb_GroupeSigle>,
+};
+
+
+export type FaunaDb_DeputeAutresMandatsArgs = {
+  _size?: Maybe<Scalars['Int']>,
+  _cursor?: Maybe<Scalars['String']>
+};
+
+
+export type FaunaDb_DeputeActivitesArgs = {
+  _size?: Maybe<Scalars['Int']>,
+  _cursor?: Maybe<Scalars['String']>
+};
+
+
+export type FaunaDb_DeputeAnciensMandatsArgs = {
+  _size?: Maybe<Scalars['Int']>,
+  _cursor?: Maybe<Scalars['String']>
+};
+
+/** Allow manipulating the relationship between the types 'Depute' and 'Activite'. */
+export type FaunaDb_DeputeActivitesRelation = {
+  /** Create one or more documents of type 'Activite' and associate them with the current document. */
+  create?: Maybe<Array<Maybe<FaunaDb_ActiviteInput>>>,
+  /** Connect one or more documents of type 'Activite' with the current document using their IDs. */
+  connect?: Maybe<Array<Maybe<Scalars['ID']>>>,
+  /** Disconnect the given documents of type 'Activite' from the current document using their IDs. */
+  disconnect?: Maybe<Array<Maybe<Scalars['ID']>>>,
+};
+
+/** Allow manipulating the relationship between the types 'Depute' and 'AncienMandat'. */
+export type FaunaDb_DeputeAnciensMandatsRelation = {
+  /** Create one or more documents of type 'AncienMandat' and associate them with the current document. */
+  create?: Maybe<Array<Maybe<FaunaDb_AncienMandatInput>>>,
+  /** Connect one or more documents of type 'AncienMandat' with the current document using their IDs. */
+  connect?: Maybe<Array<Maybe<Scalars['ID']>>>,
+  /** Disconnect the given documents of type 'AncienMandat' from the current document using their IDs. */
+  disconnect?: Maybe<Array<Maybe<Scalars['ID']>>>,
+};
+
+/** Allow manipulating the relationship between the types 'Depute' and 'AutreMandat'. */
+export type FaunaDb_DeputeAutresMandatsRelation = {
+  /** Create one or more documents of type 'AutreMandat' and associate them with the current document. */
+  create?: Maybe<Array<Maybe<FaunaDb_AutreMandatInput>>>,
+  /** Connect one or more documents of type 'AutreMandat' with the current document using their IDs. */
+  connect?: Maybe<Array<Maybe<Scalars['ID']>>>,
+  /** Disconnect the given documents of type 'AutreMandat' from the current document using their IDs. */
+  disconnect?: Maybe<Array<Maybe<Scalars['ID']>>>,
+};
+
+/** 'Depute' input values */
+export type FaunaDb_DeputeInput = {
+  Slug: Scalars['String'],
+  Nom?: Maybe<Scalars['String']>,
+  NomDeFamille?: Maybe<Scalars['String']>,
+  Prenom?: Maybe<Scalars['String']>,
+  Sexe?: Maybe<FaunaDb_Sexe>,
+  DateDeNaissance?: Maybe<Scalars['String']>,
+  LieuDeNaissance?: Maybe<Scalars['String']>,
+  NumeroDepartement?: Maybe<Scalars['String']>,
+  NomCirconscription?: Maybe<Scalars['String']>,
+  NumeroCirconscription?: Maybe<Scalars['Int']>,
+  DebutDuMandat?: Maybe<Scalars['String']>,
+  SigleGroupePolitique?: Maybe<FaunaDb_GroupeSigle>,
+  parti_ratt_financier?: Maybe<Scalars['String']>,
+  Profession?: Maybe<Scalars['String']>,
+  PlaceEnHemicycle?: Maybe<Scalars['String']>,
+  URLAssembleeNationnale?: Maybe<Scalars['String']>,
+  IDAssembleeNationnale?: Maybe<Scalars['String']>,
+  URLNosdeputes?: Maybe<Scalars['String']>,
+  URLNosdeputesAPI?: Maybe<Scalars['String']>,
+  NombreMandats?: Maybe<Scalars['Int']>,
+  Twitter?: Maybe<Scalars['String']>,
+  SitesWeb?: Maybe<Array<Maybe<Scalars['String']>>>,
+  Emails?: Maybe<Array<Maybe<Scalars['String']>>>,
+  Adresses?: Maybe<Array<Maybe<Scalars['String']>>>,
+  Collaborateurs?: Maybe<Array<Maybe<Scalars['String']>>>,
+  AnciensMandats?: Maybe<FaunaDb_DeputeAnciensMandatsRelation>,
+  AutresMandats?: Maybe<FaunaDb_DeputeAutresMandatsRelation>,
+  Activites?: Maybe<FaunaDb_DeputeActivitesRelation>,
+};
+
+/** The pagination object for elements of type 'Depute'. */
+export type FaunaDb_DeputePage = {
+  /** The elements of type 'Depute' in this page. */
+  data: Array<Maybe<FaunaDb_Depute>>,
+  /** A cursor for elements coming after the current page. */
+  after?: Maybe<Scalars['String']>,
+  /** A cursor for elements coming before the current page. */
+  before?: Maybe<Scalars['String']>,
+};
+
+export type FaunaDb_GroupeSigle = 
+  'GDR' |
+  'LFI' |
+  'LR' |
+  'LREM' |
+  'LT' |
+  'MODEM' |
+  'NI' |
+  'NG' |
+  'SOC' |
+  'UAI';
+
+
+export type FaunaDb_Sexe = 
+  'F' |
+  'H';
+
+
 export type File = Node & {
+  sourceInstanceName: Scalars['String'],
+  absolutePath: Scalars['String'],
+  relativePath: Scalars['String'],
+  extension: Scalars['String'],
+  size: Scalars['Int'],
+  prettySize: Scalars['String'],
+  modifiedTime: Scalars['Date'],
+  accessTime: Scalars['Date'],
+  changeTime: Scalars['Date'],
+  birthTime: Scalars['Date'],
+  root: Scalars['String'],
+  dir: Scalars['String'],
+  base: Scalars['String'],
+  ext: Scalars['String'],
+  name: Scalars['String'],
+  relativeDirectory: Scalars['String'],
+  dev: Scalars['Int'],
+  mode: Scalars['Int'],
+  nlink: Scalars['Int'],
+  uid: Scalars['Int'],
+  gid: Scalars['Int'],
+  rdev: Scalars['Int'],
+  ino: Scalars['Float'],
+  atimeMs: Scalars['Float'],
+  mtimeMs: Scalars['Float'],
+  ctimeMs: Scalars['Float'],
+  atime: Scalars['Date'],
+  mtime: Scalars['Date'],
+  ctime: Scalars['Date'],
   birthtime?: Maybe<Scalars['Date']>,
   birthtimeMs?: Maybe<Scalars['Float']>,
-  sourceInstanceName?: Maybe<Scalars['String']>,
-  absolutePath?: Maybe<Scalars['String']>,
-  relativePath?: Maybe<Scalars['String']>,
-  extension?: Maybe<Scalars['String']>,
-  size?: Maybe<Scalars['Int']>,
-  prettySize?: Maybe<Scalars['String']>,
-  modifiedTime?: Maybe<Scalars['Date']>,
-  accessTime?: Maybe<Scalars['Date']>,
-  changeTime?: Maybe<Scalars['Date']>,
-  birthTime?: Maybe<Scalars['Date']>,
-  root?: Maybe<Scalars['String']>,
-  dir?: Maybe<Scalars['String']>,
-  base?: Maybe<Scalars['String']>,
-  ext?: Maybe<Scalars['String']>,
-  name?: Maybe<Scalars['String']>,
-  relativeDirectory?: Maybe<Scalars['String']>,
-  dev?: Maybe<Scalars['Int']>,
-  mode?: Maybe<Scalars['Int']>,
-  nlink?: Maybe<Scalars['Int']>,
-  uid?: Maybe<Scalars['Int']>,
-  gid?: Maybe<Scalars['Int']>,
-  rdev?: Maybe<Scalars['Int']>,
-  ino?: Maybe<Scalars['Float']>,
-  atimeMs?: Maybe<Scalars['Float']>,
-  mtimeMs?: Maybe<Scalars['Float']>,
-  ctimeMs?: Maybe<Scalars['Float']>,
-  atime?: Maybe<Scalars['Date']>,
-  mtime?: Maybe<Scalars['Date']>,
-  ctime?: Maybe<Scalars['Date']>,
+  blksize?: Maybe<Scalars['Int']>,
+  blocks?: Maybe<Scalars['Int']>,
   /** Copy file to static directory and return public url to it */
   publicURL?: Maybe<Scalars['String']>,
   childImageSharp?: Maybe<ImageSharp>,
@@ -558,8 +800,6 @@ export type FileEdge = {
 };
 
 export type FileFieldsEnum = 
-  'birthtime' |
-  'birthtimeMs' |
   'sourceInstanceName' |
   'absolutePath' |
   'relativePath' |
@@ -589,6 +829,10 @@ export type FileFieldsEnum =
   'atime' |
   'mtime' |
   'ctime' |
+  'birthtime' |
+  'birthtimeMs' |
+  'blksize' |
+  'blocks' |
   'publicURL' |
   'childImageSharp___fixed___base64' |
   'childImageSharp___fixed___tracedSVG' |
@@ -769,8 +1013,6 @@ export type FileFieldsEnum =
   'internal___type';
 
 export type FileFilterInput = {
-  birthtime?: Maybe<DateQueryOperatorInput>,
-  birthtimeMs?: Maybe<FloatQueryOperatorInput>,
   sourceInstanceName?: Maybe<StringQueryOperatorInput>,
   absolutePath?: Maybe<StringQueryOperatorInput>,
   relativePath?: Maybe<StringQueryOperatorInput>,
@@ -800,6 +1042,10 @@ export type FileFilterInput = {
   atime?: Maybe<DateQueryOperatorInput>,
   mtime?: Maybe<DateQueryOperatorInput>,
   ctime?: Maybe<DateQueryOperatorInput>,
+  birthtime?: Maybe<DateQueryOperatorInput>,
+  birthtimeMs?: Maybe<FloatQueryOperatorInput>,
+  blksize?: Maybe<IntQueryOperatorInput>,
+  blocks?: Maybe<IntQueryOperatorInput>,
   publicURL?: Maybe<StringQueryOperatorInput>,
   childImageSharp?: Maybe<ImageSharpFilterInput>,
   id?: Maybe<StringQueryOperatorInput>,
@@ -833,7 +1079,7 @@ export type FloatQueryOperatorInput = {
   nin?: Maybe<Array<Maybe<Scalars['Float']>>>,
 };
 
-export type GraphQlSourceDeputesEnMandat = Node & {
+export type GraphQlSourceFaunaDb = Node & {
   id: Scalars['ID'],
   parent?: Maybe<Node>,
   children: Array<Node>,
@@ -842,34 +1088,34 @@ export type GraphQlSourceDeputesEnMandat = Node & {
   fieldName?: Maybe<Scalars['String']>,
 };
 
-export type GraphQlSourceDeputesEnMandatConnection = {
+export type GraphQlSourceFaunaDbConnection = {
   totalCount: Scalars['Int'],
-  edges: Array<GraphQlSourceDeputesEnMandatEdge>,
-  nodes: Array<GraphQlSourceDeputesEnMandat>,
+  edges: Array<GraphQlSourceFaunaDbEdge>,
+  nodes: Array<GraphQlSourceFaunaDb>,
   pageInfo: PageInfo,
   distinct: Array<Scalars['String']>,
-  group: Array<GraphQlSourceDeputesEnMandatGroupConnection>,
+  group: Array<GraphQlSourceFaunaDbGroupConnection>,
 };
 
 
-export type GraphQlSourceDeputesEnMandatConnectionDistinctArgs = {
-  field: GraphQlSourceDeputesEnMandatFieldsEnum
+export type GraphQlSourceFaunaDbConnectionDistinctArgs = {
+  field: GraphQlSourceFaunaDbFieldsEnum
 };
 
 
-export type GraphQlSourceDeputesEnMandatConnectionGroupArgs = {
+export type GraphQlSourceFaunaDbConnectionGroupArgs = {
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>,
-  field: GraphQlSourceDeputesEnMandatFieldsEnum
+  field: GraphQlSourceFaunaDbFieldsEnum
 };
 
-export type GraphQlSourceDeputesEnMandatEdge = {
-  next?: Maybe<GraphQlSourceDeputesEnMandat>,
-  node: GraphQlSourceDeputesEnMandat,
-  previous?: Maybe<GraphQlSourceDeputesEnMandat>,
+export type GraphQlSourceFaunaDbEdge = {
+  next?: Maybe<GraphQlSourceFaunaDb>,
+  node: GraphQlSourceFaunaDb,
+  previous?: Maybe<GraphQlSourceFaunaDb>,
 };
 
-export type GraphQlSourceDeputesEnMandatFieldsEnum = 
+export type GraphQlSourceFaunaDbFieldsEnum = 
   'id' |
   'parent___id' |
   'parent___parent___id' |
@@ -959,7 +1205,7 @@ export type GraphQlSourceDeputesEnMandatFieldsEnum =
   'typeName' |
   'fieldName';
 
-export type GraphQlSourceDeputesEnMandatFilterInput = {
+export type GraphQlSourceFaunaDbFilterInput = {
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -968,17 +1214,17 @@ export type GraphQlSourceDeputesEnMandatFilterInput = {
   fieldName?: Maybe<StringQueryOperatorInput>,
 };
 
-export type GraphQlSourceDeputesEnMandatGroupConnection = {
+export type GraphQlSourceFaunaDbGroupConnection = {
   totalCount: Scalars['Int'],
-  edges: Array<GraphQlSourceDeputesEnMandatEdge>,
-  nodes: Array<GraphQlSourceDeputesEnMandat>,
+  edges: Array<GraphQlSourceFaunaDbEdge>,
+  nodes: Array<GraphQlSourceFaunaDb>,
   pageInfo: PageInfo,
   field: Scalars['String'],
   fieldValue?: Maybe<Scalars['String']>,
 };
 
-export type GraphQlSourceDeputesEnMandatSortInput = {
-  fields?: Maybe<Array<Maybe<GraphQlSourceDeputesEnMandatFieldsEnum>>>,
+export type GraphQlSourceFaunaDbSortInput = {
+  fields?: Maybe<Array<Maybe<GraphQlSourceFaunaDbFieldsEnum>>>,
   order?: Maybe<Array<Maybe<SortOrderEnum>>>,
 };
 
@@ -1558,21 +1804,121 @@ export type PotraceTurnPolicy =
   'TURNPOLICY_MAJORITY';
 
 export type Query = {
-  imageSharp?: Maybe<ImageSharp>,
-  allImageSharp: ImageSharpConnection,
   file?: Maybe<File>,
   allFile: FileConnection,
-  graphQlSourceDeputesEnMandat?: Maybe<GraphQlSourceDeputesEnMandat>,
-  allGraphQlSourceDeputesEnMandat: GraphQlSourceDeputesEnMandatConnection,
   directory?: Maybe<Directory>,
   allDirectory: DirectoryConnection,
+  imageSharp?: Maybe<ImageSharp>,
+  allImageSharp: ImageSharpConnection,
+  graphQlSourceFaunaDb?: Maybe<GraphQlSourceFaunaDb>,
+  allGraphQlSourceFaunaDb: GraphQlSourceFaunaDbConnection,
   site?: Maybe<Site>,
   allSite: SiteConnection,
   sitePlugin?: Maybe<SitePlugin>,
   allSitePlugin: SitePluginConnection,
   sitePage?: Maybe<SitePage>,
   allSitePage: SitePageConnection,
-  augora: DeputesEnMandat,
+  faunadb: FaunaDb,
+};
+
+
+export type QueryFileArgs = {
+  sourceInstanceName?: Maybe<StringQueryOperatorInput>,
+  absolutePath?: Maybe<StringQueryOperatorInput>,
+  relativePath?: Maybe<StringQueryOperatorInput>,
+  extension?: Maybe<StringQueryOperatorInput>,
+  size?: Maybe<IntQueryOperatorInput>,
+  prettySize?: Maybe<StringQueryOperatorInput>,
+  modifiedTime?: Maybe<DateQueryOperatorInput>,
+  accessTime?: Maybe<DateQueryOperatorInput>,
+  changeTime?: Maybe<DateQueryOperatorInput>,
+  birthTime?: Maybe<DateQueryOperatorInput>,
+  root?: Maybe<StringQueryOperatorInput>,
+  dir?: Maybe<StringQueryOperatorInput>,
+  base?: Maybe<StringQueryOperatorInput>,
+  ext?: Maybe<StringQueryOperatorInput>,
+  name?: Maybe<StringQueryOperatorInput>,
+  relativeDirectory?: Maybe<StringQueryOperatorInput>,
+  dev?: Maybe<IntQueryOperatorInput>,
+  mode?: Maybe<IntQueryOperatorInput>,
+  nlink?: Maybe<IntQueryOperatorInput>,
+  uid?: Maybe<IntQueryOperatorInput>,
+  gid?: Maybe<IntQueryOperatorInput>,
+  rdev?: Maybe<IntQueryOperatorInput>,
+  ino?: Maybe<FloatQueryOperatorInput>,
+  atimeMs?: Maybe<FloatQueryOperatorInput>,
+  mtimeMs?: Maybe<FloatQueryOperatorInput>,
+  ctimeMs?: Maybe<FloatQueryOperatorInput>,
+  atime?: Maybe<DateQueryOperatorInput>,
+  mtime?: Maybe<DateQueryOperatorInput>,
+  ctime?: Maybe<DateQueryOperatorInput>,
+  birthtime?: Maybe<DateQueryOperatorInput>,
+  birthtimeMs?: Maybe<FloatQueryOperatorInput>,
+  blksize?: Maybe<IntQueryOperatorInput>,
+  blocks?: Maybe<IntQueryOperatorInput>,
+  publicURL?: Maybe<StringQueryOperatorInput>,
+  childImageSharp?: Maybe<ImageSharpFilterInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>
+};
+
+
+export type QueryAllFileArgs = {
+  filter?: Maybe<FileFilterInput>,
+  sort?: Maybe<FileSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+export type QueryDirectoryArgs = {
+  sourceInstanceName?: Maybe<StringQueryOperatorInput>,
+  absolutePath?: Maybe<StringQueryOperatorInput>,
+  relativePath?: Maybe<StringQueryOperatorInput>,
+  extension?: Maybe<StringQueryOperatorInput>,
+  size?: Maybe<IntQueryOperatorInput>,
+  prettySize?: Maybe<StringQueryOperatorInput>,
+  modifiedTime?: Maybe<DateQueryOperatorInput>,
+  accessTime?: Maybe<DateQueryOperatorInput>,
+  changeTime?: Maybe<DateQueryOperatorInput>,
+  birthTime?: Maybe<DateQueryOperatorInput>,
+  root?: Maybe<StringQueryOperatorInput>,
+  dir?: Maybe<StringQueryOperatorInput>,
+  base?: Maybe<StringQueryOperatorInput>,
+  ext?: Maybe<StringQueryOperatorInput>,
+  name?: Maybe<StringQueryOperatorInput>,
+  relativeDirectory?: Maybe<StringQueryOperatorInput>,
+  dev?: Maybe<IntQueryOperatorInput>,
+  mode?: Maybe<IntQueryOperatorInput>,
+  nlink?: Maybe<IntQueryOperatorInput>,
+  uid?: Maybe<IntQueryOperatorInput>,
+  gid?: Maybe<IntQueryOperatorInput>,
+  rdev?: Maybe<IntQueryOperatorInput>,
+  ino?: Maybe<FloatQueryOperatorInput>,
+  atimeMs?: Maybe<FloatQueryOperatorInput>,
+  mtimeMs?: Maybe<FloatQueryOperatorInput>,
+  ctimeMs?: Maybe<FloatQueryOperatorInput>,
+  atime?: Maybe<DateQueryOperatorInput>,
+  mtime?: Maybe<DateQueryOperatorInput>,
+  ctime?: Maybe<DateQueryOperatorInput>,
+  birthtime?: Maybe<DateQueryOperatorInput>,
+  birthtimeMs?: Maybe<FloatQueryOperatorInput>,
+  blksize?: Maybe<IntQueryOperatorInput>,
+  blocks?: Maybe<IntQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>
+};
+
+
+export type QueryAllDirectoryArgs = {
+  filter?: Maybe<DirectoryFilterInput>,
+  sort?: Maybe<DirectorySortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
 };
 
 
@@ -1598,56 +1944,7 @@ export type QueryAllImageSharpArgs = {
 };
 
 
-export type QueryFileArgs = {
-  birthtime?: Maybe<DateQueryOperatorInput>,
-  birthtimeMs?: Maybe<FloatQueryOperatorInput>,
-  sourceInstanceName?: Maybe<StringQueryOperatorInput>,
-  absolutePath?: Maybe<StringQueryOperatorInput>,
-  relativePath?: Maybe<StringQueryOperatorInput>,
-  extension?: Maybe<StringQueryOperatorInput>,
-  size?: Maybe<IntQueryOperatorInput>,
-  prettySize?: Maybe<StringQueryOperatorInput>,
-  modifiedTime?: Maybe<DateQueryOperatorInput>,
-  accessTime?: Maybe<DateQueryOperatorInput>,
-  changeTime?: Maybe<DateQueryOperatorInput>,
-  birthTime?: Maybe<DateQueryOperatorInput>,
-  root?: Maybe<StringQueryOperatorInput>,
-  dir?: Maybe<StringQueryOperatorInput>,
-  base?: Maybe<StringQueryOperatorInput>,
-  ext?: Maybe<StringQueryOperatorInput>,
-  name?: Maybe<StringQueryOperatorInput>,
-  relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
-  mode?: Maybe<IntQueryOperatorInput>,
-  nlink?: Maybe<IntQueryOperatorInput>,
-  uid?: Maybe<IntQueryOperatorInput>,
-  gid?: Maybe<IntQueryOperatorInput>,
-  rdev?: Maybe<IntQueryOperatorInput>,
-  ino?: Maybe<FloatQueryOperatorInput>,
-  atimeMs?: Maybe<FloatQueryOperatorInput>,
-  mtimeMs?: Maybe<FloatQueryOperatorInput>,
-  ctimeMs?: Maybe<FloatQueryOperatorInput>,
-  atime?: Maybe<DateQueryOperatorInput>,
-  mtime?: Maybe<DateQueryOperatorInput>,
-  ctime?: Maybe<DateQueryOperatorInput>,
-  publicURL?: Maybe<StringQueryOperatorInput>,
-  childImageSharp?: Maybe<ImageSharpFilterInput>,
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>
-};
-
-
-export type QueryAllFileArgs = {
-  filter?: Maybe<FileFilterInput>,
-  sort?: Maybe<FileSortInput>,
-  skip?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
-export type QueryGraphQlSourceDeputesEnMandatArgs = {
+export type QueryGraphQlSourceFaunaDbArgs = {
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -1657,56 +1954,9 @@ export type QueryGraphQlSourceDeputesEnMandatArgs = {
 };
 
 
-export type QueryAllGraphQlSourceDeputesEnMandatArgs = {
-  filter?: Maybe<GraphQlSourceDeputesEnMandatFilterInput>,
-  sort?: Maybe<GraphQlSourceDeputesEnMandatSortInput>,
-  skip?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
-export type QueryDirectoryArgs = {
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
-  sourceInstanceName?: Maybe<StringQueryOperatorInput>,
-  absolutePath?: Maybe<StringQueryOperatorInput>,
-  relativePath?: Maybe<StringQueryOperatorInput>,
-  extension?: Maybe<StringQueryOperatorInput>,
-  size?: Maybe<IntQueryOperatorInput>,
-  prettySize?: Maybe<StringQueryOperatorInput>,
-  modifiedTime?: Maybe<DateQueryOperatorInput>,
-  accessTime?: Maybe<DateQueryOperatorInput>,
-  changeTime?: Maybe<DateQueryOperatorInput>,
-  birthTime?: Maybe<DateQueryOperatorInput>,
-  root?: Maybe<StringQueryOperatorInput>,
-  dir?: Maybe<StringQueryOperatorInput>,
-  base?: Maybe<StringQueryOperatorInput>,
-  ext?: Maybe<StringQueryOperatorInput>,
-  name?: Maybe<StringQueryOperatorInput>,
-  relativeDirectory?: Maybe<StringQueryOperatorInput>,
-  dev?: Maybe<IntQueryOperatorInput>,
-  mode?: Maybe<IntQueryOperatorInput>,
-  nlink?: Maybe<IntQueryOperatorInput>,
-  uid?: Maybe<IntQueryOperatorInput>,
-  gid?: Maybe<IntQueryOperatorInput>,
-  rdev?: Maybe<IntQueryOperatorInput>,
-  ino?: Maybe<FloatQueryOperatorInput>,
-  atimeMs?: Maybe<FloatQueryOperatorInput>,
-  mtimeMs?: Maybe<FloatQueryOperatorInput>,
-  ctimeMs?: Maybe<FloatQueryOperatorInput>,
-  birthtimeMs?: Maybe<FloatQueryOperatorInput>,
-  atime?: Maybe<DateQueryOperatorInput>,
-  mtime?: Maybe<DateQueryOperatorInput>,
-  ctime?: Maybe<DateQueryOperatorInput>,
-  birthtime?: Maybe<DateQueryOperatorInput>
-};
-
-
-export type QueryAllDirectoryArgs = {
-  filter?: Maybe<DirectoryFilterInput>,
-  sort?: Maybe<DirectorySortInput>,
+export type QueryAllGraphQlSourceFaunaDbArgs = {
+  filter?: Maybe<GraphQlSourceFaunaDbFilterInput>,
+  sort?: Maybe<GraphQlSourceFaunaDbSortInput>,
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
 };
@@ -1718,8 +1968,6 @@ export type QuerySiteArgs = {
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
-  port?: Maybe<IntQueryOperatorInput>,
-  host?: Maybe<StringQueryOperatorInput>,
   polyfill?: Maybe<BooleanQueryOperatorInput>,
   pathPrefix?: Maybe<StringQueryOperatorInput>,
   buildTime?: Maybe<DateQueryOperatorInput>
@@ -1789,8 +2037,6 @@ export type Site = Node & {
   children: Array<Node>,
   internal: Internal,
   siteMetadata?: Maybe<SiteSiteMetadata>,
-  port?: Maybe<Scalars['Int']>,
-  host?: Maybe<Scalars['String']>,
   polyfill?: Maybe<Scalars['Boolean']>,
   pathPrefix?: Maybe<Scalars['String']>,
   buildTime?: Maybe<Scalars['Date']>,
@@ -1921,8 +2167,6 @@ export type SiteFieldsEnum =
   'siteMetadata___title' |
   'siteMetadata___description' |
   'siteMetadata___author' |
-  'port' |
-  'host' |
   'polyfill' |
   'pathPrefix' |
   'buildTime';
@@ -1933,8 +2177,6 @@ export type SiteFilterInput = {
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
-  port?: Maybe<IntQueryOperatorInput>,
-  host?: Maybe<StringQueryOperatorInput>,
   polyfill?: Maybe<BooleanQueryOperatorInput>,
   pathPrefix?: Maybe<StringQueryOperatorInput>,
   buildTime?: Maybe<DateQueryOperatorInput>,
@@ -2148,6 +2390,7 @@ export type SitePageFieldsEnum =
   'pluginCreator___pluginOptions___typeName' |
   'pluginCreator___pluginOptions___fieldName' |
   'pluginCreator___pluginOptions___url' |
+  'pluginCreator___pluginOptions___headers___Authorization' |
   'pluginCreator___pluginOptions___fileName' |
   'pluginCreator___pluginOptions___codegen' |
   'pluginCreator___pluginOptions___codegenDelay' |
@@ -2351,6 +2594,7 @@ export type SitePluginFieldsEnum =
   'pluginOptions___typeName' |
   'pluginOptions___fieldName' |
   'pluginOptions___url' |
+  'pluginOptions___headers___Authorization' |
   'pluginOptions___fileName' |
   'pluginOptions___codegen' |
   'pluginOptions___codegenDelay' |
@@ -2483,6 +2727,7 @@ export type SitePluginPluginOptions = {
   typeName?: Maybe<Scalars['String']>,
   fieldName?: Maybe<Scalars['String']>,
   url?: Maybe<Scalars['String']>,
+  headers?: Maybe<SitePluginPluginOptionsHeaders>,
   fileName?: Maybe<Scalars['String']>,
   codegen?: Maybe<Scalars['Boolean']>,
   codegenDelay?: Maybe<Scalars['Int']>,
@@ -2503,12 +2748,21 @@ export type SitePluginPluginOptionsFilterInput = {
   typeName?: Maybe<StringQueryOperatorInput>,
   fieldName?: Maybe<StringQueryOperatorInput>,
   url?: Maybe<StringQueryOperatorInput>,
+  headers?: Maybe<SitePluginPluginOptionsHeadersFilterInput>,
   fileName?: Maybe<StringQueryOperatorInput>,
   codegen?: Maybe<BooleanQueryOperatorInput>,
   codegenDelay?: Maybe<IntQueryOperatorInput>,
   src?: Maybe<StringQueryOperatorInput>,
   pages?: Maybe<StringQueryOperatorInput>,
   pathCheck?: Maybe<BooleanQueryOperatorInput>,
+};
+
+export type SitePluginPluginOptionsHeaders = {
+  Authorization?: Maybe<Scalars['String']>,
+};
+
+export type SitePluginPluginOptionsHeadersFilterInput = {
+  Authorization?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePluginSortInput = {
@@ -2549,11 +2803,14 @@ export type StringQueryOperatorInput = {
 export type DeputesQueryQueryVariables = {};
 
 
-export type DeputesQueryQuery = { augora: { Deputes: Array<Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'dateNaissance' | 'adresses' | 'collaborateurs' | 'emails' | 'sitesWeb'>> } };
+export type DeputesQueryQuery = { faunadb: { Deputes: { data: Array<Maybe<Pick<FaunaDb_Depute, 'SigleGroupePolitique' | 'LieuDeNaissance' | 'DebutDuMandat' | 'Nom' | 'NomCirconscription' | 'NomDeFamille' | 'NombreMandats' | 'NumeroCirconscription' | 'NumeroDepartement' | 'parti_ratt_financier' | 'PlaceEnHemicycle' | 'Prenom' | 'Profession' | 'Sexe' | 'Slug' | 'Twitter' | 'DateDeNaissance' | 'Adresses' | 'Collaborateurs' | 'Emails' | 'SitesWeb'>>> } } };
 
 export type SingleDeputyQueryVariables = {
-  slug: Scalars['DeputesEnMandat_string']
+  slug: Scalars['String']
 };
 
 
-export type SingleDeputyQuery = { augora: { Depute: Pick<DeputesEnMandat_Depute, 'groupeSigle' | 'lieuNaissance' | 'mandatDebut' | 'nom' | 'nomCirco' | 'nomDeFamille' | 'nombreMandats' | 'numCirco' | 'numDepartement' | 'partiRattFinancier' | 'placeEnHemicyle' | 'prenom' | 'profession' | 'sexe' | 'slug' | 'twitter' | 'collaborateurs' | 'estEnMandat' | 'anciensMandats' | 'autresMandats'> } };
+export type SingleDeputyQuery = { faunadb: { Depute: (
+      Pick<FaunaDb_Depute, 'SigleGroupePolitique' | 'LieuDeNaissance' | 'DebutDuMandat' | 'Nom' | 'NomCirconscription' | 'NomDeFamille' | 'NombreMandats' | 'NumeroCirconscription' | 'NumeroDepartement' | 'parti_ratt_financier' | 'PlaceEnHemicycle' | 'Prenom' | 'Profession' | 'Sexe' | 'Slug' | 'Twitter' | 'Collaborateurs'>
+      & { AnciensMandats: { data: Array<Maybe<Pick<FaunaDb_AncienMandat, 'DateDeDebut' | 'DateDeFin' | 'Intitule'>>> }, AutresMandats: { data: Array<Maybe<Pick<FaunaDb_AutreMandat, 'Institution' | 'Localite' | 'Intitule'>>> } }
+    ) } };

@@ -23,9 +23,8 @@ import {
   getCurrentMandate,
   getOldMandates,
   getOthersMandates,
-  getTotalMandates
+  getTotalMandates,
 } from "./Utils/Deputy.utils"
-
 
 type SingleDeputyQueryProps = {
   data: SingleDeputyQuery
@@ -41,27 +40,28 @@ const DeputyStyles = styled.div`
 `
 
 function Deputy({ data }: SingleDeputyQueryProps) {
-  const deputy = data.augora.Depute
-  console.log(deputy)
+  const deputy = data.faunadb.Depute
   return (
-      <Layout>
-        <Helmet>
-          <meta name="robots" content="noindex,nofollow" />
-          <title>
-            {deputy.prenom} {deputy.nomDeFamille} - {getGender(deputy)}{" "}
-            {deputy.groupeSigle}
-          </title>
-        </Helmet>
-        <h1>{deputy.prenom} {deputy.nomDeFamille}</h1>
-        <DeputyStyles className="single-deputy">
-            <GeneralInformation {...getGeneralInformation(deputy, 500)} />
-            <Coworkers {...getCoworkers(deputy)} />
-            <MapCirco {...getCirco(deputy)} /> 
-            {/* <CurrentMandate {...getCurrentMandate(deputy)} /> */}
-            {/* <OldMandates {...getOldMandates(deputy)} /> */}
-            {/* <OthersMandates {...getOthersMandates(deputy)} /> */}
-            {/* <TotalMandates {...getTotalMandates(deputy)} /> */}
-        </DeputyStyles>
+    <Layout>
+      <Helmet>
+        <meta name="robots" content="noindex,nofollow" />
+        <title>
+          {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy)}{" "}
+          {deputy.SigleGroupePolitique}
+        </title>
+      </Helmet>
+      <h1>
+        {deputy.Prenom} {deputy.NomDeFamille}
+      </h1>
+      <DeputyStyles className="single-deputy">
+        <GeneralInformation {...getGeneralInformation(deputy, 500)} />
+        <Coworkers {...getCoworkers(deputy)} />
+        <MapCirco {...getCirco(deputy)} />
+        {/* <CurrentMandate {...getCurrentMandate(deputy)} /> */}
+        {/* <OldMandates {...getOldMandates(deputy)} /> */}
+        {/* <OthersMandates {...getOthersMandates(deputy)} /> */}
+        {/* <TotalMandates {...getTotalMandates(deputy)} /> */}
+      </DeputyStyles>
     </Layout>
   )
 }
@@ -69,29 +69,40 @@ function Deputy({ data }: SingleDeputyQueryProps) {
 export default Deputy
 
 export const query = graphql`
-  query SingleDeputy($slug: DeputesEnMandat_string!) {
-    augora {
-      Depute(slug: $slug) {
-        groupeSigle
-        lieuNaissance
-        mandatDebut
-        nom
-        nomCirco
-        nomDeFamille
-        nombreMandats
-        numCirco
-        numDepartement
-        partiRattFinancier
-        placeEnHemicyle
-        prenom
-        profession
-        sexe
-        slug
-        twitter
-        collaborateurs
-        estEnMandat
-        anciensMandats
-        autresMandats
+  query SingleDeputy($slug: String!) {
+    faunadb {
+      Depute(Slug: $slug) {
+        SigleGroupePolitique
+        LieuDeNaissance
+        DebutDuMandat
+        Nom
+        NomCirconscription
+        NomDeFamille
+        NombreMandats
+        NumeroCirconscription
+        NumeroDepartement
+        parti_ratt_financier
+        PlaceEnHemicycle
+        Prenom
+        Profession
+        Sexe
+        Slug
+        Twitter
+        Collaborateurs
+        AnciensMandats {
+          data {
+            DateDeDebut
+            DateDeFin
+            Intitule
+          }
+        }
+        AutresMandats {
+          data {
+            Institution
+            Localite
+            Intitule
+          }
+        }
       }
     }
   }

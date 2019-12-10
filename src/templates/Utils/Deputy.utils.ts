@@ -1,11 +1,11 @@
 import { IGeneralInformation } from "Components/Deputy/GeneralInformation/GeneralInformation"
 import { ICoworkers } from "Components/Deputy/Coworkers/Coworkers"
 import { ICoworker } from "Components/Deputy/Coworkers/Coworker/Coworker"
-// import { ICirco } from "Components/Deputy/MapCirco/MapCirco"
-import { ICurrentMandate} from "Components/Deputy/CurrentMandate/CurrentMandate"
-import { IOldMandates} from "Components/Deputy/OldMandates/OldMandates"
-import { IOthersMandates} from "Components/Deputy/OthersMandates/OthersMandates"
-import { ITotalMandates} from "Components/Deputy/TotalMandates/TotalMandates"
+import { ICirco } from "Components/Deputy/MapCirco/MapCirco"
+import { ICurrentMandate } from "Components/Deputy/CurrentMandate/CurrentMandate"
+import { IOldMandates } from "Components/Deputy/OldMandates/OldMandates"
+import { IOthersMandates } from "Components/Deputy/OthersMandates/OthersMandates"
+import { ITotalMandates } from "Components/Deputy/TotalMandates/TotalMandates"
 import constructifs from "images/Logos/groupes parlementaires/constructifs/constructifs_grand.png"
 import gdr from "images/Logos/groupes parlementaires/gdr/gdr_grand.png"
 import l_t from "images/Logos/groupes parlementaires/l_t/l_t_grand.png"
@@ -18,7 +18,7 @@ import ps from "images/Logos/groupes parlementaires/ps/ps_grand.png"
 import udi from "images/Logos/partis politiques/udi/udi_grand.png"
 
 export function getGender(deputy) {
-  if (deputy.sexe === "H") {
+  if (deputy.Sexe === "H") {
     return "Député"
   } else {
     return "Députée"
@@ -58,14 +58,14 @@ export function getImageDynamic(slug: string, height: number) {
 
 export function getGeneralInformation(deputy: any, imgPixel: number) {
   var props: IGeneralInformation = {
-    id: deputy.slug,
-    circonscriptionNumber: deputy.numCirco,
-    circonscriptionName: deputy.nomCirco,
-    lastName: deputy.nomDeFamille,
-    firstName: deputy.prenom,
-    picture: getImageDynamic(deputy.slug, imgPixel),
-    pictureGroup: getPoliticGroupPicture(deputy.groupeSigle),
-    groupSymbol: deputy.groupeSigle,
+    id: deputy.Slug,
+    circonscriptionNumber: deputy.NumeroCirconscription,
+    circonscriptionName: deputy.NomCirconscription,
+    lastName: deputy.NomDeFamille,
+    firstName: deputy.Prenom,
+    picture: getImageDynamic(deputy.Slug, imgPixel),
+    pictureGroup: getPoliticGroupPicture(deputy.SigleGroupePolitique),
+    groupSymbol: deputy.SigleGroupePolitique,
     gender: getGender(deputy),
   }
 
@@ -73,60 +73,59 @@ export function getGeneralInformation(deputy: any, imgPixel: number) {
 }
 
 export function getCoworkers(deputy: any): ICoworkers {
-  const coworkers: Array<ICoworker> = deputy.collaborateurs.map(collab => {
+  const coworkers: Array<ICoworker> = deputy.Collaborateurs.map(collab => {
     const coworker: ICoworker = {
       coworker: collab,
     }
 
-    return coworker;
+    return coworker
   })
 
   const props: ICoworkers = {
     coworkers: coworkers,
   }
 
-  return props;
+  return props
 }
 
 export function getCirco(deputy: any) {
   var props: ICirco = {
-    nom: deputy.nomCirco,
-    num: deputy.numCirco
+    nom: deputy.NomCirconscription,
+    num: deputy.NumeroCirconscription,
   }
 
-  return props;
+  return props
 }
-  
+
 export function getCurrentMandate(deputy: any): ICurrentMandate {
   var props: ICurrentMandate = {
-    dateBegin : deputy.mandatDebut,
-    isInMandate : deputy.estEnMandat,
-    numberMandates : deputy.nombreMandats
+    dateBegin: deputy.DebutDuMandat,
+    isInMandate: true,
   }
 
-  return props;
+  return props
 }
 
 export function getOldMandates(deputy: any): IOldMandates {
   var props: IOldMandates = {
-    oldMandates : deputy.anciensMandats
+    oldMandates: deputy.AnciensMandats.data,
   }
 
-  return props;
+  return props
 }
 
 export function getOthersMandates(deputy: any): IOthersMandates {
   var props: IOthersMandates = {
-    othersMandates : deputy.autresMandats
+    othersMandates: deputy.AutresMandats.data,
   }
 
-  return props;
+  return props
 }
 
 export function getTotalMandates(deputy: any): ITotalMandates {
   var props: ITotalMandates = {
-    numberMandates : deputy.nombreMandats
+    numberMandates: deputy.NombreMandats,
   }
 
-  return props;
+  return props
 }
