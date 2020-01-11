@@ -1,9 +1,12 @@
 import React, { useState } from "react"
+// import { graphql } from "gatsby"
 import Deputy from "./Deputy/Deputy"
+import Filters from "./Filters/Filters"
 // import LoadingSpinner from "Components/Spinners/LoadingSpinner/LoadingSpinner"
 import "./DeputiesList.css"
 
 const DeputiesList = props => {
+  // console.log(data)
   const [s_searchValue, setSearchValue] = useState("")
   const listDeputies = props.data
   const updatedList = listDeputies
@@ -27,6 +30,7 @@ const DeputiesList = props => {
         value={s_searchValue}
         onChange={e => filterList(e.target.value)}
       />
+      <Filters />
       <ul className="deputies__list">{updatedList}</ul>
     </>
   )
