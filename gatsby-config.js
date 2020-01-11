@@ -2,7 +2,7 @@ const path = require("path")
 
 module.exports = {
   siteMetadata: {
-    title: `Ta mère`,
+    title: `Augora`,
     description: ``,
     author: `@Augora`,
   },
@@ -45,6 +45,10 @@ module.exports = {
       resolve: `gatsby-plugin-graphql-codegen`,
       options: {
         fileName: `src/types/graphql-types.ts`,
+        documentPaths: [
+          `./src/**/*.{ts,tsx}`,
+          `./node_modules/gatsby-*/**/*.js`,
+        ],
         codegen: true,
         codegenDelay: 250,
       },
