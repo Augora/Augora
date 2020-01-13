@@ -5,17 +5,11 @@
   margin: 0;
 }
 .filters__groupe {
-  display: inline-flex;
-  /* flex-direction: column;
-  width: 200px;
-  height: 50px;
-  overflow: hidden;
-  margin-left: 20px; */
+  display: flex;
 }
-.groupe__visible {
-  /* width: 200px;
-  line-height: 50px;
-  background: red; */
+.groupes__allornone {
+  display: flex;
+  flex-direction: column;
 }
 
 .deputies__list {

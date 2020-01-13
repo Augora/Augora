@@ -23,6 +23,32 @@ const DeputiesList = props => {
   })
   const listDeputies = props.data
 
+  const calculateNbDepute = (type, value) => {
+    const filteredList = listDeputies.filter(depute => {
+      return depute.Nom.toLowerCase().search(s_searchValue.toLowerCase()) !== -1
+    })
+    switch (type) {
+      case "groupe":
+        return filteredList
+          .filter(depute => {
+            return s_sex[depute.Sexe] ? true : false
+          })
+          .filter(depute => {
+            return depute.SigleGroupePolitique === value.groupe ? true : false
+          }).length
+      case "sexe":
+        return filteredList
+          .filter(depute => {
+            return s_groupeValue[depute.SigleGroupePolitique] ? true : false
+          })
+          .filter(depute => {
+            return depute.Sexe === value ? true : false
+          }).length
+      default:
+        return filteredList.length
+    }
+  }
+
   const filterListByName = value => {
     setSearchValue(value)
   }
@@ -50,7 +76,7 @@ const DeputiesList = props => {
   const allGroupes = Object.keys(s_groupeValue).map(groupe => {
     return (
       <label className="groupe">
-        {groupe}
+        {groupe}({calculateNbDepute("groupe", { groupe })})
         <input
           type="checkbox"
           key={`groupe--${groupe}`}
@@ -79,20 +105,6 @@ const DeputiesList = props => {
         return <Deputy key={depute.Slug} data={depute} />
       })
   }
-  const calculateNbDepute = sexe => {
-    return listDeputies
-      .filter(depute => {
-        return (
-          depute.Nom.toLowerCase().search(s_searchValue.toLowerCase()) !== -1
-        )
-      })
-      .filter(depute => {
-        return s_groupeValue[depute.SigleGroupePolitique] ? true : false
-      })
-      .filter(depute => {
-        return depute.Sexe === sexe ? true : false
-      }).length
-  }
 
   return (
     <>
@@ -105,15 +117,20 @@ const DeputiesList = props => {
           onChange={e => filterListByName(e.target.value)}
         />
         <div className="filters__groupe">
-          <button onClick={e => clickOnAllGroupes(e.target, true)}>Tous</button>
-          <button onClick={e => clickOnAllGroupes(e.target, false)}>
-            Aucun
-          </button>
+          <div className="groupes__allornone">
+            <button onClick={e => clickOnAllGroupes(e.target, true)}>
+              Tous
+            </button>
+            <button onClick={e => clickOnAllGroupes(e.target, false)}>
+              Aucun
+            </button>
+          </div>
+          <br />
           {allGroupes}
         </div>
         <div className="filters__sexes">
           <label>
-            Homme({calculateNbDepute("H")})
+            Homme({calculateNbDepute("sexe", "H")})
             <input
               className="filters__sexe"
               type="checkbox"
@@ -123,7 +140,7 @@ const DeputiesList = props => {
             />
           </label>
           <label>
-            Femme({calculateNbDepute("F")})
+            Femme({calculateNbDepute("sexe", "F")})
             <input
               className="filters__sexe"
               type="checkbox"
