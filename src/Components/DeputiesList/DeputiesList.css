@@ -3,20 +3,44 @@
 }
 .filters__search {
   margin: 0;
+  width: 100%;
 }
 .filters__groupe {
   display: flex;
+  margin: 10px 0;
 }
 .groupes__allornone {
   display: flex;
   flex-direction: column;
 }
+.groupe {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+.filters__sexes {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-around;
+}
+.filters__sexes label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.deputies__number {
+  width: 100%;
+  text-align: center;
+}
 .deputies__list {
   position: relative;
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 25%);
   padding: 0px;
   margin: 0px;
 }
