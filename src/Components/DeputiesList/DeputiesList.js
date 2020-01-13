@@ -30,6 +30,13 @@ const DeputiesList = props => {
     )
   }
 
+  const clickOnAllGroupes = (target, bool) => {
+    const allGroupesNewValues = Object.keys(s_groupeValue).forEach(groupe => {
+      s_groupeValue[groupe] = bool
+    })
+    setGroupeValue(Object.assign({}, s_groupeValue, allGroupesNewValues))
+  }
+
   const allGroupes = Object.keys(s_groupeValue).map(groupe => {
     return (
       <label className="groupe">
@@ -38,7 +45,7 @@ const DeputiesList = props => {
           type="checkbox"
           key={`groupe--${groupe}`}
           name={groupe}
-          defaultChecked={s_groupeValue[groupe] ? "checked" : ""}
+          checked={s_groupeValue[groupe] ? "checked" : ""}
           onChange={clickOnGroupe}
         />
       </label>
@@ -66,7 +73,13 @@ const DeputiesList = props => {
           value={s_searchValue}
           onChange={e => filterList(e.target.value)}
         />
-        <div className="filters__groupe">{allGroupes}</div>
+        <div className="filters__groupe">
+          <button onClick={e => clickOnAllGroupes(e.target, true)}>Tous</button>
+          <button onClick={e => clickOnAllGroupes(e.target, false)}>
+            Aucun
+          </button>
+          {allGroupes}
+        </div>
         <div className="deputies__number">
           Nombre de député filtrés : {updatedList.length}
         </div>
