@@ -17,10 +17,20 @@ const DeputiesList = props => {
     UAI: true,
     NG: true,
   })
+  const [s_sex, setSex] = useState({
+    H: true,
+    F: true,
+  })
   const listDeputies = props.data
 
-  const filterList = value => {
+  const filterListByName = value => {
     setSearchValue(value)
+  }
+  const clickOnAllGroupes = (target, bool) => {
+    const allGroupesNewValues = Object.keys(s_groupeValue).forEach(groupe => {
+      s_groupeValue[groupe] = bool
+    })
+    setGroupeValue(Object.assign({}, s_groupeValue, allGroupesNewValues))
   }
   const clickOnGroupe = event => {
     setGroupeValue(
@@ -29,12 +39,12 @@ const DeputiesList = props => {
       })
     )
   }
-
-  const clickOnAllGroupes = (target, bool) => {
-    const allGroupesNewValues = Object.keys(s_groupeValue).forEach(groupe => {
-      s_groupeValue[groupe] = bool
-    })
-    setGroupeValue(Object.assign({}, s_groupeValue, allGroupesNewValues))
+  const clickOnSex = event => {
+    setSex(
+      Object.assign({}, s_sex, {
+        [event.target.name]: event.target.checked,
+      })
+    )
   }
 
   const allGroupes = Object.keys(s_groupeValue).map(groupe => {
@@ -59,6 +69,9 @@ const DeputiesList = props => {
     .filter(depute => {
       return s_groupeValue[depute.SigleGroupePolitique] ? true : false
     })
+    .filter(depute => {
+      return s_sex[depute.Sexe] ? true : false
+    })
     .map(depute => {
       return <Deputy key={depute.Slug} data={depute} />
     })
@@ -71,7 +84,7 @@ const DeputiesList = props => {
           type="text"
           placeholder="Recherche"
           value={s_searchValue}
-          onChange={e => filterList(e.target.value)}
+          onChange={e => filterListByName(e.target.value)}
         />
         <div className="filters__groupe">
           <button onClick={e => clickOnAllGroupes(e.target, true)}>Tous</button>
@@ -79,6 +92,28 @@ const DeputiesList = props => {
             Aucun
           </button>
           {allGroupes}
+        </div>
+        <div className="filters__sexes">
+          <label>
+            Homme
+            <input
+              className="filters__sexe"
+              type="checkbox"
+              name="H"
+              checked={s_sex.H ? "checked" : ""}
+              onChange={clickOnSex}
+            />
+          </label>
+          <label>
+            Femme
+            <input
+              className="filters__sexe"
+              type="checkbox"
+              name="F"
+              checked={s_sex.F ? "checked" : ""}
+              onChange={clickOnSex}
+            />
+          </label>
         </div>
         <div className="deputies__number">
           Nombre de député filtrés : {updatedList.length}
