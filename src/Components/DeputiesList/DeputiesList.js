@@ -62,19 +62,37 @@ const DeputiesList = props => {
     )
   })
 
-  const updatedList = listDeputies
-    .filter(depute => {
-      return depute.Nom.toLowerCase().search(s_searchValue.toLowerCase()) !== -1
-    })
-    .filter(depute => {
-      return s_groupeValue[depute.SigleGroupePolitique] ? true : false
-    })
-    .filter(depute => {
-      return s_sex[depute.Sexe] ? true : false
-    })
-    .map(depute => {
-      return <Deputy key={depute.Slug} data={depute} />
-    })
+  const filteredList = () => {
+    return listDeputies
+      .filter(depute => {
+        return (
+          depute.Nom.toLowerCase().search(s_searchValue.toLowerCase()) !== -1
+        )
+      })
+      .filter(depute => {
+        return s_groupeValue[depute.SigleGroupePolitique] ? true : false
+      })
+      .filter(depute => {
+        return s_sex[depute.Sexe] ? true : false
+      })
+      .map(depute => {
+        return <Deputy key={depute.Slug} data={depute} />
+      })
+  }
+  const calculateNbDepute = sexe => {
+    return listDeputies
+      .filter(depute => {
+        return (
+          depute.Nom.toLowerCase().search(s_searchValue.toLowerCase()) !== -1
+        )
+      })
+      .filter(depute => {
+        return s_groupeValue[depute.SigleGroupePolitique] ? true : false
+      })
+      .filter(depute => {
+        return depute.Sexe === sexe ? true : false
+      }).length
+  }
 
   return (
     <>
@@ -95,7 +113,7 @@ const DeputiesList = props => {
         </div>
         <div className="filters__sexes">
           <label>
-            Homme
+            Homme({calculateNbDepute("H")})
             <input
               className="filters__sexe"
               type="checkbox"
@@ -105,7 +123,7 @@ const DeputiesList = props => {
             />
           </label>
           <label>
-            Femme
+            Femme({calculateNbDepute("F")})
             <input
               className="filters__sexe"
               type="checkbox"
@@ -116,10 +134,10 @@ const DeputiesList = props => {
           </label>
         </div>
         <div className="deputies__number">
-          Nombre de député filtrés : {updatedList.length}
+          Nombre de député filtrés : {filteredList().length}
         </div>
       </div>
-      <ul className="deputies__list">{updatedList}</ul>
+      <ul className="deputies__list">{filteredList()}</ul>
     </>
   )
 }
