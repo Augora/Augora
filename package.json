@@ -7,6 +7,7 @@
   "dependencies": {
     "@graphql-codegen/core": "^1.8.0",
     "babel-plugin-styled-components": "^1.10.6",
+    "d3": "^5.15.0",
     "gatsby": "^2.15.29",
     "gatsby-image": "^2.2.24",
     "gatsby-plugin-graphql-codegen": "^2.0.1",
