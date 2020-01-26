@@ -1,7 +1,55 @@
 import React, { useState } from "react"
 import Deputy from "./Deputy/Deputy"
 import "./DeputiesList.css"
-import PieChart from './PieChart/PieChart'
+import BarChart from "./BarChart/BarChart"
+import PieChart from "./PieChart/PieChart"
+
+const couleursGroupeParlementaire = {
+  LREM: {
+    couleur: "hsl(199, 100%, 58%)",
+    nom_complet: "La République En Marche",
+  },
+  LR: {
+    couleur: "hsl(223, 45%, 23%)",
+    nom_complet: "Les Républicains",
+  },
+  MODEM: {
+    couleur: "hsl(25, 81%, 54%)",
+    nom_complet: "Mouvement Démocrate et apparentés",
+  },
+  SOC: {
+    couleur: "hsl(354, 84%, 43%)",
+    nom_complet: "Socialistes et apparentés",
+  },
+  UAI: {
+    couleur: "hsl(194, 81%, 55%)",
+    nom_complet: "UDI, Agir et Indépendants",
+  },
+  LFI: {
+    couleur: "hsl(11, 66%, 47%)",
+    nom_complet: "La France insoumise",
+  },
+  GDR: {
+    couleur: "hsl(0, 100%, 43%)",
+    nom_complet: "Gauche démocrate et républicaine",
+  },
+  LT: {
+    couleur: "hsl(0, 0%, 50%)",
+    nom_complet: "Libertés et Territoires",
+  },
+  NI: {
+    couleur: "hsl(0, 0%, 80%)",
+    nom_complet: "Non inscrits",
+  },
+  NG: {
+    couleur: "hsl(0, 0%, 80%)",
+    nom_complet: "Non inscrits",
+  },
+  UDI: {
+    couleur: "hsl(261, 29%, 48%)",
+    nom_complet: "Union des démocrates et indépendants",
+  },
+}
 
 const DeputiesList = props => {
   const [s_searchValue, setSearchValue] = useState("")
@@ -48,14 +96,18 @@ const DeputiesList = props => {
         return filteredList.length
     }
   }
-  
+
   const groupesData = Object.keys(s_groupeValue).map(groupe => {
-    return Object.assign({}, {
-      name: groupe,
-      value: s_groupeValue[groupe],
-      number: calculateNbDepute("groupe", { groupe })
-    })
-  });
+    return Object.assign(
+      {},
+      {
+        name: groupe,
+        value: s_groupeValue[groupe],
+        number: calculateNbDepute("groupe", { groupe }),
+        color: couleursGroupeParlementaire[groupe],
+      }
+    )
+  })
 
   const filterListByName = value => {
     setSearchValue(value)
@@ -95,14 +147,6 @@ const DeputiesList = props => {
     )
   })
 
-  const allGroupesPie = Object.keys(s_groupeValue).map(groupe => {
-    return (
-      <div className={`groupe groupe--${groupe}`} key={`pie--${groupe}`}>
-        {groupe}
-      </div>
-    )
-  })
-
   const filteredList = () => {
     return listDeputies
       .filter(depute => {
@@ -123,8 +167,8 @@ const DeputiesList = props => {
 
   return (
     <>
-      {/* <PieChart data={s_groupeValue} /> */}
-      <PieChart data={groupesData}/>
+      <PieChart data={groupesData} width={450} height={450} />
+      <BarChart data={groupesData} width={450} height={200} />
       <div className="filters">
         <input
           className="filters__search"
