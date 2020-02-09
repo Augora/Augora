@@ -2,7 +2,8 @@ import React, { useState } from "react"
 import Deputy from "./Deputy/Deputy"
 import "./DeputiesList.css"
 // import BarChart from "./BarChart/BarChart"
-// import PieChart from "./PieChart/PieChart"
+// import PieChart from "./PieChart/D3PieChart"
+import PieChart from "./PieChart/PieChart"
 import * as moment from "moment"
 import AgeSlider from "./Slider/Slider"
 
@@ -102,15 +103,9 @@ const calculateAgeDomain = list => {
   })
   return [Math.min(...listAge), Math.max(...listAge)]
 }
-// const calculateByGroupe = (list, groupe) => {
-//   const filteredList = list.filter(depute => {
-//     return depute.SigleGroupePolitique === groupe ? true : false
-//   })
-//   return filteredList.length
-// }
 
-const groupesArrayToObject = array => {
-  return array.reduce((a, b) => ((a[b] = true), a), {})
+const groupesArrayToObject = (array, value) => {
+  return array.reduce((a, b) => ((a[b] = value), a), {})
 }
 const filterList = (list, state) => {
   return list
@@ -143,18 +138,8 @@ const DeputiesList = props => {
   // States
   const [SearchValue, setSearchValue] = useState("")
   const [GroupeValue, setGroupeValue] = useState(
-    groupesArrayToObject(listGroupes)
+    groupesArrayToObject(listGroupes, true)
   )
-  // const [s_groupes, setGroupes] = useState(
-  //   initialGroupes.map(groupe => {
-  //     return Object.assign({
-  //       name: groupe,
-  //       value: true,
-  //       number: calculateByGroupe(props.data, groupe),
-  //       color: couleursGroupeParlementaire[groupe],
-  //     })
-  //   })
-  // )
   const [SexValue, setSexValue] = useState({
     H: true,
     F: true,
@@ -167,22 +152,20 @@ const DeputiesList = props => {
     AgeDomain,
   }
 
-  const groupesData = Object.keys(GroupeValue).map(groupe => {
-    return Object.assign(
-      {},
-      {
-        name: groupe,
-        value: GroupeValue[groupe],
-        number: calculateNbDepute(
-          listDeputies,
-          "groupe",
-          { groupe },
-          { SearchValue, SexValue, GroupeValue, AgeDomain }
-        ),
-        color: couleursGroupeParlementaire[groupe],
-      }
-    )
-  })
+  const groupesData = Object.keys(GroupeValue)
+    .filter(groupe => {
+      // Retire le groupe "NG" en attendant de savoir quoi en faire
+      return groupe === "NG" ? false : true
+    })
+    .map(groupe => {
+      return Object.assign({
+        id: groupe,
+        label: couleursGroupeParlementaire[groupe].nom_complet,
+        value: calculateNbDepute(listDeputies, "groupe", { groupe }, state),
+        color: couleursGroupeParlementaire[groupe].couleur,
+      })
+    })
+  console.log(groupesData)
 
   // Handlers
   const handleSearchValue = value => {
@@ -242,6 +225,9 @@ const DeputiesList = props => {
   return (
     <>
       <div className="filters">
+        <div className="piechart">
+          <PieChart data={groupesData} />
+        </div>
         <AgeSlider
           selectedDomain={AgeDomain}
           domain={calculateAgeDomain(listDeputies)}

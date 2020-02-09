@@ -6,6 +6,7 @@
   "author": "",
   "dependencies": {
     "@graphql-codegen/core": "^1.8.0",
+    "@nivo/pie": "^0.61.1",
     "babel-plugin-styled-components": "^1.10.6",
     "d3": "^5.15.0",
     "gatsby": "^2.15.29",

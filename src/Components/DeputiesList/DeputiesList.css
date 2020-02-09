@@ -44,3 +44,8 @@
   padding: 0px;
   margin: 0px;
 }
+
+.piechart {
+  height: 200px;
+  width: 50%;
+}
