@@ -112,11 +112,38 @@ const calculateAgeDomain = list => {
 const groupesArrayToObject = array => {
   return array.reduce((a, b) => ((a[b] = true), a), {})
 }
+const filterList = (list, state) => {
+  return list
+    .filter(depute => {
+      return (
+        depute.Nom.toLowerCase().search(state.SearchValue.toLowerCase()) !== -1
+      )
+    })
+    .filter(depute => {
+      return state.GroupeValue[depute.SigleGroupePolitique] ? true : false
+    })
+    .filter(depute => {
+      return state.SexValue[depute.Sexe] ? true : false
+    })
+    .filter(depute => {
+      return calculateAge(depute) >= state.AgeDomain[0] &&
+        calculateAge(depute) <= state.AgeDomain[1]
+        ? true
+        : false
+    })
+    .map(depute => {
+      return <Deputy key={depute.Slug} data={depute} />
+    })
+}
 
 const DeputiesList = props => {
+  // Aliases
+  const listDeputies = props.data.Deputes.data
+  const listGroupes = props.data.GroupesParlementaires
+  // States
   const [SearchValue, setSearchValue] = useState("")
   const [GroupeValue, setGroupeValue] = useState(
-    groupesArrayToObject(props.data.GroupesParlementaires)
+    groupesArrayToObject(listGroupes)
   )
   // const [s_groupes, setGroupes] = useState(
   //   initialGroupes.map(groupe => {
@@ -132,10 +159,13 @@ const DeputiesList = props => {
     H: true,
     F: true,
   })
-  const [AgeDomain, setAgeDomain] = useState(
-    calculateAgeDomain(props.data.Deputes.data)
-  )
-  const listDeputies = props.data.Deputes.data
+  const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(listDeputies))
+  const state = {
+    SearchValue,
+    SexValue,
+    GroupeValue,
+    AgeDomain,
+  }
 
   const groupesData = Object.keys(GroupeValue).map(groupe => {
     return Object.assign(
@@ -154,6 +184,7 @@ const DeputiesList = props => {
     )
   })
 
+  // Handlers
   const handleSearchValue = value => {
     setSearchValue(value)
   }
@@ -179,9 +210,9 @@ const DeputiesList = props => {
   }
   const handleReset = () => {
     setSearchValue("")
-    setGroupeValue(groupesArrayToObject(props.data.GroupesParlementaires))
+    setGroupeValue(groupesArrayToObject(listGroupes))
     setSexValue({ H: true, F: true })
-    setAgeDomain(calculateAgeDomain(props.data.Deputes.data))
+    setAgeDomain(calculateAgeDomain(listDeputies))
   }
   const handleAgeSelection = domain => {
     setAgeDomain(domain)
@@ -208,34 +239,12 @@ const DeputiesList = props => {
     )
   })
 
-  const filteredList = () => {
-    return listDeputies
-      .filter(depute => {
-        return depute.Nom.toLowerCase().search(SearchValue.toLowerCase()) !== -1
-      })
-      .filter(depute => {
-        return GroupeValue[depute.SigleGroupePolitique] ? true : false
-      })
-      .filter(depute => {
-        return SexValue[depute.Sexe] ? true : false
-      })
-      .filter(depute => {
-        return calculateAge(depute) >= AgeDomain[0] &&
-          calculateAge(depute) <= AgeDomain[1]
-          ? true
-          : false
-      })
-      .map(depute => {
-        return <Deputy key={depute.Slug} data={depute} />
-      })
-  }
-
   return (
     <>
       <div className="filters">
         <AgeSlider
           selectedDomain={AgeDomain}
-          domain={calculateAgeDomain(props.data.Deputes.data)}
+          domain={calculateAgeDomain(listDeputies)}
           callback={handleAgeSelection}
         />
         <input
@@ -260,12 +269,7 @@ const DeputiesList = props => {
         <div className="filters__sexes">
           <label>
             Homme(
-            {calculateNbDepute(listDeputies, "sexe", "H", {
-              SearchValue,
-              SexValue,
-              GroupeValue,
-              AgeDomain,
-            })}
+            {calculateNbDepute(listDeputies, "sexe", "H", state)}
             )
             <input
               className="filters__sexe"
@@ -277,12 +281,7 @@ const DeputiesList = props => {
           </label>
           <label>
             Femme(
-            {calculateNbDepute(listDeputies, "sexe", "F", {
-              SearchValue,
-              SexValue,
-              GroupeValue,
-              AgeDomain,
-            })}
+            {calculateNbDepute(listDeputies, "sexe", "F", state)}
             )
             <input
               className="filters__sexe"
@@ -294,12 +293,12 @@ const DeputiesList = props => {
           </label>
         </div>
         <div className="deputies__number">
-          Nombre de député filtrés : {filteredList().length}
+          Nombre de député filtrés : {filterList(listDeputies, state).length}
           <br />
           <button onClick={handleReset}>Réinitialiser</button>
         </div>
       </div>
-      <ul className="deputies__list">{filteredList()}</ul>
+      <ul className="deputies__list">{filterList(listDeputies, state)}</ul>
     </>
   )
 }
