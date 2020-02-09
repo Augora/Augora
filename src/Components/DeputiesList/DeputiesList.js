@@ -3,6 +3,8 @@ import Deputy from "./Deputy/Deputy"
 import "./DeputiesList.css"
 // import BarChart from "./BarChart/BarChart"
 // import PieChart from "./PieChart/PieChart"
+import * as moment from "moment"
+import AgeSlider from "./Slider/Slider"
 
 const couleursGroupeParlementaire = {
   LREM: {
@@ -54,14 +56,20 @@ const couleursGroupeParlementaire = {
 const calculateNbDepute = (list, type, value, state) => {
   const filteredList = list.filter(depute => {
     return (
-      depute.Nom.toLowerCase().search(state.s_searchValue.toLowerCase()) !== -1
+      depute.Nom.toLowerCase().search(state.SearchValue.toLowerCase()) !== -1
     )
   })
   switch (type) {
     case "groupe":
       return filteredList
         .filter(depute => {
-          return state.s_sex[depute.Sexe] ? true : false
+          return state.SexValue[depute.Sexe] ? true : false
+        })
+        .filter(depute => {
+          return calculateAge(depute) >= state.AgeDomain[0] &&
+            calculateAge(depute) <= state.AgeDomain[1]
+            ? true
+            : false
         })
         .filter(depute => {
           return depute.SigleGroupePolitique === value.groupe ? true : false
@@ -69,7 +77,13 @@ const calculateNbDepute = (list, type, value, state) => {
     case "sexe":
       return filteredList
         .filter(depute => {
-          return state.s_groupeValue[depute.SigleGroupePolitique] ? true : false
+          return state.GroupeValue[depute.SigleGroupePolitique] ? true : false
+        })
+        .filter(depute => {
+          return calculateAge(depute) >= state.AgeDomain[0] &&
+            calculateAge(depute) <= state.AgeDomain[1]
+            ? true
+            : false
         })
         .filter(depute => {
           return depute.Sexe === value ? true : false
@@ -77,6 +91,16 @@ const calculateNbDepute = (list, type, value, state) => {
     default:
       return filteredList.length
   }
+}
+const calculateAge = depute => {
+  return parseInt(moment(depute.DateDeNaissance).fromNow(true))
+}
+const calculateAgeDomain = list => {
+  let listAge = []
+  list.forEach(depute => {
+    listAge.push(calculateAge(depute))
+  })
+  return [Math.min(...listAge), Math.max(...listAge)]
 }
 // const calculateByGroupe = (list, groupe) => {
 //   const filteredList = list.filter(depute => {
@@ -90,8 +114,8 @@ const groupesArrayToObject = array => {
 }
 
 const DeputiesList = props => {
-  const [s_searchValue, setSearchValue] = useState("")
-  const [s_groupeValue, setGroupeValue] = useState(
+  const [SearchValue, setSearchValue] = useState("")
+  const [GroupeValue, setGroupeValue] = useState(
     groupesArrayToObject(props.data.GroupesParlementaires)
   )
   // const [s_groupes, setGroupes] = useState(
@@ -104,23 +128,26 @@ const DeputiesList = props => {
   //     })
   //   })
   // )
-  const [s_sex, setSex] = useState({
+  const [SexValue, setSexValue] = useState({
     H: true,
     F: true,
   })
+  const [AgeDomain, setAgeDomain] = useState(
+    calculateAgeDomain(props.data.Deputes.data)
+  )
   const listDeputies = props.data.Deputes.data
 
-  const groupesData = Object.keys(s_groupeValue).map(groupe => {
+  const groupesData = Object.keys(GroupeValue).map(groupe => {
     return Object.assign(
       {},
       {
         name: groupe,
-        value: s_groupeValue[groupe],
+        value: GroupeValue[groupe],
         number: calculateNbDepute(
           listDeputies,
           "groupe",
           { groupe },
-          { s_searchValue, s_sex, s_groupeValue }
+          { SearchValue, SexValue, GroupeValue, AgeDomain }
         ),
         color: couleursGroupeParlementaire[groupe],
       }
@@ -131,32 +158,36 @@ const DeputiesList = props => {
     setSearchValue(value)
   }
   const handleClickOnAllGroupes = (target, bool) => {
-    const allGroupesNewValues = Object.keys(s_groupeValue).forEach(groupe => {
-      s_groupeValue[groupe] = bool
+    const allGroupesNewValues = Object.keys(GroupeValue).forEach(groupe => {
+      GroupeValue[groupe] = bool
     })
-    setGroupeValue(Object.assign({}, s_groupeValue, allGroupesNewValues))
+    setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
   const handleClickOnGroupe = event => {
     setGroupeValue(
-      Object.assign({}, s_groupeValue, {
+      Object.assign({}, GroupeValue, {
         [event.target.name]: event.target.checked,
       })
     )
   }
   const handleClickOnSex = event => {
-    setSex(
-      Object.assign({}, s_sex, {
+    setSexValue(
+      Object.assign({}, SexValue, {
         [event.target.name]: event.target.checked,
       })
     )
   }
-  const handleReset = even => {
+  const handleReset = () => {
     setSearchValue("")
     setGroupeValue(groupesArrayToObject(props.data.GroupesParlementaires))
-    setSex({ H: true, F: true })
+    setSexValue({ H: true, F: true })
+    setAgeDomain(calculateAgeDomain(props.data.Deputes.data))
+  }
+  const handleAgeSelection = domain => {
+    setAgeDomain(domain)
   }
 
-  const allGroupes = Object.keys(s_groupeValue).map(groupe => {
+  const allGroupes = Object.keys(GroupeValue).map(groupe => {
     return (
       <label className={`groupe groupe--${groupe}`} key={`groupe--${groupe}`}>
         {groupe}(
@@ -164,13 +195,13 @@ const DeputiesList = props => {
           listDeputies,
           "groupe",
           { groupe },
-          { s_searchValue, s_sex, s_groupeValue }
+          { SearchValue, SexValue, GroupeValue, AgeDomain }
         )}
         )
         <input
           type="checkbox"
           name={groupe}
-          checked={s_groupeValue[groupe] ? "checked" : ""}
+          checked={GroupeValue[groupe] ? "checked" : ""}
           onChange={handleClickOnGroupe}
         />
       </label>
@@ -180,15 +211,19 @@ const DeputiesList = props => {
   const filteredList = () => {
     return listDeputies
       .filter(depute => {
-        return (
-          depute.Nom.toLowerCase().search(s_searchValue.toLowerCase()) !== -1
-        )
+        return depute.Nom.toLowerCase().search(SearchValue.toLowerCase()) !== -1
       })
       .filter(depute => {
-        return s_groupeValue[depute.SigleGroupePolitique] ? true : false
+        return GroupeValue[depute.SigleGroupePolitique] ? true : false
       })
       .filter(depute => {
-        return s_sex[depute.Sexe] ? true : false
+        return SexValue[depute.Sexe] ? true : false
+      })
+      .filter(depute => {
+        return calculateAge(depute) >= AgeDomain[0] &&
+          calculateAge(depute) <= AgeDomain[1]
+          ? true
+          : false
       })
       .map(depute => {
         return <Deputy key={depute.Slug} data={depute} />
@@ -197,14 +232,17 @@ const DeputiesList = props => {
 
   return (
     <>
-      {/* <PieChart data={groupesData} width={450} height={450} /> */}
-      {/* <BarChart data={groupesData} width={450} height={200} /> */}
       <div className="filters">
+        <AgeSlider
+          selectedDomain={AgeDomain}
+          domain={calculateAgeDomain(props.data.Deputes.data)}
+          callback={handleAgeSelection}
+        />
         <input
           className="filters__search"
           type="text"
           placeholder="Recherche"
-          value={s_searchValue}
+          value={SearchValue}
           onChange={e => handleSearchValue(e.target.value)}
         />
         <div className="filters__groupe">
@@ -223,32 +261,34 @@ const DeputiesList = props => {
           <label>
             Homme(
             {calculateNbDepute(listDeputies, "sexe", "H", {
-              s_searchValue,
-              s_sex,
-              s_groupeValue,
+              SearchValue,
+              SexValue,
+              GroupeValue,
+              AgeDomain,
             })}
             )
             <input
               className="filters__sexe"
               type="checkbox"
               name="H"
-              checked={s_sex.H ? "checked" : ""}
+              checked={SexValue.H ? "checked" : ""}
               onChange={handleClickOnSex}
             />
           </label>
           <label>
             Femme(
             {calculateNbDepute(listDeputies, "sexe", "F", {
-              s_searchValue,
-              s_sex,
-              s_groupeValue,
+              SearchValue,
+              SexValue,
+              GroupeValue,
+              AgeDomain,
             })}
             )
             <input
               className="filters__sexe"
               type="checkbox"
               name="F"
-              checked={s_sex.F ? "checked" : ""}
+              checked={SexValue.F ? "checked" : ""}
               onChange={handleClickOnSex}
             />
           </label>
