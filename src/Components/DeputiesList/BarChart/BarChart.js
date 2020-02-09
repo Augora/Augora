@@ -29,8 +29,6 @@ const drawBarChart = (data, wrapper, width, height) => {
     ])
     .range([0, height])
 
-  console.log(yScale(data[0].number))
-
   svgCanvas
     .selectAll("rect")
     .data(data)
@@ -58,7 +56,7 @@ export default function BarChart(props) {
   const barchart = useRef(null)
   useEffect(() => {
     drawBarChart(props.data, barchart.current, props.width, props.height)
-  }, [props.data])
+  }, [])
 
   return <div ref={barchart}></div>
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
 import { color } from "d3"
 
@@ -6,36 +6,47 @@ import { color } from "d3"
 // https://www.d3-graph-gallery.com/graph/pie_basic.html
 ///////////////////////////////////////////////////////////////////////////////////////
 
-const drawPieChart = (data, wrapper, width, height, halfDonut = false) => {
+const initPiechart = (props, wrapper, halfDonut = false) => {
   let ratio = 1
   if (halfDonut) {
     ratio = 0.5
   }
-
-  // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-  const radius = Math.min(width, height) / 2
-
   const svg = d3
     .select(wrapper)
     .append("svg")
-    .attr("width", width)
-    .attr("height", height * ratio)
+    .attr("width", props.width)
+    .attr("height", props.height * ratio)
     .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+    .attr(
+      "transform",
+      "translate(" + props.width / 2 + "," + props.height / 2 + ")"
+    )
 
+  // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+  const radius = Math.min(props.width, props.height) / 2
   const pie = d3
     .pie()
     .value(d => d.value.number)
+    .sort((a, b) => {
+      return d3.ascending(a.key, b.key)
+    })
     .startAngle(-ratio * Math.PI)
     .endAngle(ratio * Math.PI)
-  const arcGenerator = d3
+  const arc = d3
     .arc()
     .innerRadius(0)
     .outerRadius(radius)
 
-  const data_ready = pie(d3.entries(data))
+  return { svg, radius, pie, arc }
+}
 
-  svg
+const drawPieChart = (props, graph) => {
+  const newData = props.data.filter(groupe => {
+    return groupe.value
+  })
+  const data_ready = graph.pie(d3.entries(newData))
+
+  graph.svg
     .selectAll("groupe")
     .data(data_ready)
     .enter()
@@ -45,26 +56,52 @@ const drawPieChart = (data, wrapper, width, height, halfDonut = false) => {
       d3
         .arc()
         .innerRadius(0)
-        .outerRadius(radius)
+        .outerRadius(graph.radius)
     )
     .attr("fill", d => color(d.data.value.color.couleur))
+    .attr("class", d => {
+      if (d.data.value.value) {
+        return "enable"
+      } else {
+        return "disable"
+      }
+    })
 
-  svg
+  graph.svg
     .selectAll("groupe")
     .data(data_ready)
     .enter()
     .append("text")
     .text(d => d.data.value.name)
-    .attr("transform", d => "translate(" + arcGenerator.centroid(d) + ")")
+    .attr("transform", d => "translate(" + graph.arc.centroid(d) + ")")
     .style("text-anchor", "middle")
-    .style("font-size", 17)
+    .style("font-size", 12)
+
+  graph.svg
+    .selectAll("path")
+    .data(data_ready)
+    .exit()
+    .remove()
+
+  graph.svg
+    .selectAll("text")
+    .data(data_ready)
+    .exit()
+    .remove()
 }
 
 export default function PieChart(props) {
+  const [graph, setGraph] = useState(null)
   const piechart = useRef(null)
+
   useEffect(() => {
-    drawPieChart(props.data, piechart.current, props.width, props.height, true)
-  }, [props.data])
+    setGraph(initPiechart(props, piechart.current, true))
+  }, [])
+  useEffect(() => {
+    if (graph) {
+      drawPieChart(props, graph)
+    }
+  }, [graph, props.data2])
 
   return <div ref={piechart}></div>
 }
