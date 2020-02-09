@@ -920,7 +920,7 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@graphql-codegen/core@^1.4.0", "@graphql-codegen/core@^1.8.0":
+"@graphql-codegen/core@^1.12.2", "@graphql-codegen/core@^1.8.0":
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/core/-/core-1.12.2.tgz#85dcef3a9205f11aa910f0527c272967ed5c4427"
   integrity sha512-n7OENe0lXIg40AGokO0W5v/OKo+bd4gjdKCRVp8N9Pu0o0uYm11rtCoL1JESJqUSt/LESbq+FH14fUqdXU048Q==
@@ -946,7 +946,7 @@
     tslib "1.10.0"
     upper-case "2.0.1"
 
-"@graphql-codegen/typescript-operations@^1.4.0":
+"@graphql-codegen/typescript-operations@^1.12.2":
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-1.12.2.tgz#d5d495f237b1bb93839e28da0ddecc5f4ce9f877"
   integrity sha512-U4wp9H5sbCP3kWEXI5SbGYeXUyDKidHi2kBRoQochEdsTXugF+6dr5WuUY3IvLIYS9qNKHKq6dm/9nl3DpBD+Q==
@@ -957,7 +957,7 @@
     auto-bind "4.0.0"
     tslib "1.10.0"
 
-"@graphql-codegen/typescript@1.12.2", "@graphql-codegen/typescript@^1.4.0":
+"@graphql-codegen/typescript@1.12.2", "@graphql-codegen/typescript@^1.12.2":
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript/-/typescript-1.12.2.tgz#4b63ab80dcac7624711459e776201c6a5d0f7373"
   integrity sha512-G2H91ocAEcZ86TFNQWV2HZUdXSR7v/Ntjq0ChqDvz/a7PTJxa5Pe5j4sQ9q13vGR5CedAMbBZkZ8zTKLAqY5sg==
@@ -6077,13 +6077,13 @@ gatsby-page-utils@^0.0.39:
     micromatch "^3.1.10"
 
 gatsby-plugin-graphql-codegen@^2.0.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-graphql-codegen/-/gatsby-plugin-graphql-codegen-2.2.1.tgz#a124b7d0517765bfb7a0984171a95a3d79063d91"
-  integrity sha512-t+GaJ0wALzhem4dDYepVUn/Mnw+OwpZfGhpXeUnSJZSXyMCAOgRAoIpCutplgFrU/lAkdydciSFUsv6WnCY6vg==
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-graphql-codegen/-/gatsby-plugin-graphql-codegen-2.2.2.tgz#f53ea89110f56c2c7162ae66d76dd61c0d19167a"
+  integrity sha512-c+0JgKnx9mxeUIUPicoKbtye2PlZOyr078eC/HlWmsgTnWFXlstnXR9+ZNvMePnfBgvXaL2kzedpKN9MMYj7+A==
   dependencies:
-    "@graphql-codegen/core" "^1.4.0"
-    "@graphql-codegen/typescript" "^1.4.0"
-    "@graphql-codegen/typescript-operations" "^1.4.0"
+    "@graphql-codegen/core" "^1.12.2"
+    "@graphql-codegen/typescript" "^1.12.2"
+    "@graphql-codegen/typescript-operations" "^1.12.2"
     "@graphql-toolkit/code-file-loader" "^0.9.7"
     "@graphql-toolkit/common" "^0.9.7"
     "@graphql-toolkit/core" "^0.9.7"
