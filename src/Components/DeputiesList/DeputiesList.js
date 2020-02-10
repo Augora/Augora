@@ -1,7 +1,8 @@
 import React, { useState } from "react"
 import Deputy from "./Deputy/Deputy"
 import "./DeputiesList.css"
-// import BarChart from "./BarChart/BarChart"
+// import BarChart from "./BarChart/D3BarChart"
+import BarChart from "./BarChart/BarChart"
 // import PieChart from "./PieChart/D3PieChart"
 import PieChart from "./PieChart/PieChart"
 import * as moment from "moment"
@@ -165,7 +166,6 @@ const DeputiesList = props => {
         color: couleursGroupeParlementaire[groupe].couleur,
       })
     })
-  console.log(groupesData)
 
   // Handlers
   const handleSearchValue = value => {
@@ -222,11 +222,18 @@ const DeputiesList = props => {
     )
   })
 
+  console.log(groupesData)
+
   return (
     <>
       <div className="filters">
-        <div className="piechart">
-          <PieChart data={groupesData} />
+        <div className="chart-wrapper">
+          <div className="piechart chart">
+            <PieChart data={groupesData} />
+          </div>
+          <div className="barchart chart">
+            <BarChart data={groupesData} />
+          </div>
         </div>
         <AgeSlider
           selectedDomain={AgeDomain}
