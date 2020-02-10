@@ -45,7 +45,16 @@
   margin: 0px;
 }
 
+.chart-wrapper {
+  display: flex;
+  align-items: flex-end;
+}
+.chart {
+  width: 50%;
+}
 .piechart {
   height: 200px;
-  width: 50%;
+}
+.barchart {
+  height: 200px;
 }
