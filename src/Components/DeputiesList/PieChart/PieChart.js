@@ -11,7 +11,9 @@ const PieChart = props => {
       innerRadius={0.5}
       padAngle={0.7}
       cornerRadius={5}
-      colors={{ scheme: "nivo" }}
+      colors={groupe => {
+        return groupe.color
+      }}
       borderWidth={0}
       borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
       radialLabelsSkipAngle={1}

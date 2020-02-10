@@ -165,7 +165,6 @@ const DeputiesList = props => {
         color: couleursGroupeParlementaire[groupe].couleur,
       })
     })
-  console.log(groupesData)
 
   // Handlers
   const handleSearchValue = value => {
