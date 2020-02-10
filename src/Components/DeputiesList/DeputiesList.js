@@ -134,7 +134,7 @@ const filterList = (list, state) => {
 
 const DeputiesList = props => {
   // Aliases
-  const listDeputies = props.data.Deputes.data
+  const listDeputies = props.data.DeputesEnMandat.data
   const listGroupes = props.data.GroupesParlementaires
   // States
   const [SearchValue, setSearchValue] = useState("")

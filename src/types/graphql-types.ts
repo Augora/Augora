@@ -2817,7 +2817,7 @@ export type DeputesQueryQueryVariables = {};
 
 export type DeputesQueryQuery = { faunadb: (
     Pick<FaunaDb, 'GroupesParlementaires'>
-    & { Deputes: { data: Array<Maybe<Pick<FaunaDb_Depute, 'SigleGroupePolitique' | 'LieuDeNaissance' | 'DebutDuMandat' | 'Nom' | 'NomCirconscription' | 'NomDeFamille' | 'NombreMandats' | 'NumeroCirconscription' | 'NumeroDepartement' | 'parti_ratt_financier' | 'PlaceEnHemicycle' | 'Prenom' | 'Profession' | 'Sexe' | 'Slug' | 'Twitter' | 'DateDeNaissance' | 'Adresses' | 'Collaborateurs' | 'Emails' | 'SitesWeb'>>> } }
+    & { DeputesEnMandat: { data: Array<Maybe<Pick<FaunaDb_Depute, 'SigleGroupePolitique' | 'LieuDeNaissance' | 'DebutDuMandat' | 'Nom' | 'NomCirconscription' | 'NomDeFamille' | 'NombreMandats' | 'NumeroCirconscription' | 'NumeroDepartement' | 'parti_ratt_financier' | 'PlaceEnHemicycle' | 'Prenom' | 'Profession' | 'Sexe' | 'Slug' | 'Twitter' | 'DateDeNaissance' | 'Adresses' | 'Collaborateurs' | 'Emails' | 'SitesWeb'>>> } }
   ) };
 
 export type SingleDeputyQueryVariables = {
