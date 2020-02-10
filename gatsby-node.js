@@ -38,7 +38,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const result = await graphql(`
     query DeputesQuery {
       faunadb {
-        Deputes(_size: 700) {
+        DeputesEnMandat(EstEnMandat: true, _size: 700) {
           data {
             Slug
           }
@@ -46,7 +46,7 @@ exports.createPages = async ({ graphql, actions }) => {
       }
     }
   `)
-  result.data.faunadb.Deputes.data.forEach(deputy => {
+  result.data.faunadb.DeputesEnMandat.data.forEach(deputy => {
     createPage({
       path: `/deputy/${deputy.Slug}`,
       component: path.resolve(`./src/templates/Deputy.tsx`),

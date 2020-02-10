@@ -367,12 +367,14 @@ export type FaunaDb = {
   findAutreMandatByID?: Maybe<FaunaDb_AutreMandat>,
   /** Find a document from the collection of 'AncienMandat' by its id. */
   findAncienMandatByID?: Maybe<FaunaDb_AncienMandat>,
+  GroupesParlementaires?: Maybe<Array<Scalars['String']>>,
 };
 
 
 export type FaunaDbDeputesEnMandatArgs = {
   _size?: Maybe<Scalars['Int']>,
-  _cursor?: Maybe<Scalars['String']>
+  _cursor?: Maybe<Scalars['String']>,
+  EstEnMandat?: Maybe<Scalars['Boolean']>
 };
 
 
@@ -550,6 +552,7 @@ export type FaunaDb_Depute = {
   Activites: FaunaDb_ActivitePage,
   NombreMandats?: Maybe<Scalars['Int']>,
   Prenom?: Maybe<Scalars['String']>,
+  EstEnMandat?: Maybe<Scalars['Boolean']>,
   Nom?: Maybe<Scalars['String']>,
   Sexe?: Maybe<FaunaDb_Sexe>,
   DateDeNaissance?: Maybe<Scalars['String']>,
@@ -636,6 +639,7 @@ export type FaunaDb_DeputeInput = {
   URLNosdeputesAPI?: Maybe<Scalars['String']>,
   NombreMandats?: Maybe<Scalars['Int']>,
   Twitter?: Maybe<Scalars['String']>,
+  EstEnMandat?: Maybe<Scalars['Boolean']>,
   SitesWeb?: Maybe<Array<Maybe<Scalars['String']>>>,
   Emails?: Maybe<Array<Maybe<Scalars['String']>>>,
   Adresses?: Maybe<Array<Maybe<Scalars['String']>>>,
@@ -1808,6 +1812,8 @@ export type Query = {
   allFile: FileConnection,
   directory?: Maybe<Directory>,
   allDirectory: DirectoryConnection,
+  sitePage?: Maybe<SitePage>,
+  allSitePage: SitePageConnection,
   imageSharp?: Maybe<ImageSharp>,
   allImageSharp: ImageSharpConnection,
   graphQlSourceFaunaDb?: Maybe<GraphQlSourceFaunaDb>,
@@ -1816,8 +1822,6 @@ export type Query = {
   allSite: SiteConnection,
   sitePlugin?: Maybe<SitePlugin>,
   allSitePlugin: SitePluginConnection,
-  sitePage?: Maybe<SitePage>,
-  allSitePage: SitePageConnection,
   faunadb: FaunaDb,
 };
 
@@ -1922,6 +1926,32 @@ export type QueryAllDirectoryArgs = {
 };
 
 
+export type QuerySitePageArgs = {
+  path?: Maybe<StringQueryOperatorInput>,
+  component?: Maybe<StringQueryOperatorInput>,
+  internalComponentName?: Maybe<StringQueryOperatorInput>,
+  componentChunkName?: Maybe<StringQueryOperatorInput>,
+  matchPath?: Maybe<StringQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
+  isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
+  context?: Maybe<SitePageContextFilterInput>,
+  pluginCreator?: Maybe<SitePluginFilterInput>,
+  pluginCreatorId?: Maybe<StringQueryOperatorInput>,
+  componentPath?: Maybe<StringQueryOperatorInput>
+};
+
+
+export type QueryAllSitePageArgs = {
+  filter?: Maybe<SitePageFilterInput>,
+  sort?: Maybe<SitePageSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
 export type QueryImageSharpArgs = {
   fixed?: Maybe<ImageSharpFixedFilterInput>,
   resolutions?: Maybe<ImageSharpResolutionsFilterInput>,
@@ -1968,8 +1998,6 @@ export type QuerySiteArgs = {
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
-  port?: Maybe<IntQueryOperatorInput>,
-  host?: Maybe<StringQueryOperatorInput>,
   polyfill?: Maybe<BooleanQueryOperatorInput>,
   pathPrefix?: Maybe<StringQueryOperatorInput>,
   buildTime?: Maybe<DateQueryOperatorInput>
@@ -2008,39 +2036,12 @@ export type QueryAllSitePluginArgs = {
   limit?: Maybe<Scalars['Int']>
 };
 
-
-export type QuerySitePageArgs = {
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
-  path?: Maybe<StringQueryOperatorInput>,
-  internalComponentName?: Maybe<StringQueryOperatorInput>,
-  component?: Maybe<StringQueryOperatorInput>,
-  componentChunkName?: Maybe<StringQueryOperatorInput>,
-  isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
-  context?: Maybe<SitePageContextFilterInput>,
-  pluginCreator?: Maybe<SitePluginFilterInput>,
-  pluginCreatorId?: Maybe<StringQueryOperatorInput>,
-  componentPath?: Maybe<StringQueryOperatorInput>
-};
-
-
-export type QueryAllSitePageArgs = {
-  filter?: Maybe<SitePageFilterInput>,
-  sort?: Maybe<SitePageSortInput>,
-  skip?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
-};
-
 export type Site = Node & {
   id: Scalars['ID'],
   parent?: Maybe<Node>,
   children: Array<Node>,
   internal: Internal,
   siteMetadata?: Maybe<SiteSiteMetadata>,
-  port?: Maybe<Scalars['Int']>,
-  host?: Maybe<Scalars['String']>,
   polyfill?: Maybe<Scalars['Boolean']>,
   pathPrefix?: Maybe<Scalars['String']>,
   buildTime?: Maybe<Scalars['Date']>,
@@ -2171,8 +2172,6 @@ export type SiteFieldsEnum =
   'siteMetadata___title' |
   'siteMetadata___description' |
   'siteMetadata___author' |
-  'port' |
-  'host' |
   'polyfill' |
   'pathPrefix' |
   'buildTime';
@@ -2183,8 +2182,6 @@ export type SiteFilterInput = {
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
-  port?: Maybe<IntQueryOperatorInput>,
-  host?: Maybe<StringQueryOperatorInput>,
   polyfill?: Maybe<BooleanQueryOperatorInput>,
   pathPrefix?: Maybe<StringQueryOperatorInput>,
   buildTime?: Maybe<DateQueryOperatorInput>,
@@ -2200,14 +2197,15 @@ export type SiteGroupConnection = {
 };
 
 export type SitePage = Node & {
+  path: Scalars['String'],
+  component: Scalars['String'],
+  internalComponentName: Scalars['String'],
+  componentChunkName: Scalars['String'],
+  matchPath?: Maybe<Scalars['String']>,
   id: Scalars['ID'],
   parent?: Maybe<Node>,
   children: Array<Node>,
   internal: Internal,
-  path?: Maybe<Scalars['String']>,
-  internalComponentName?: Maybe<Scalars['String']>,
-  component?: Maybe<Scalars['String']>,
-  componentChunkName?: Maybe<Scalars['String']>,
   isCreatedByStatefulCreatePages?: Maybe<Scalars['Boolean']>,
   context?: Maybe<SitePageContext>,
   pluginCreator?: Maybe<SitePlugin>,
@@ -2253,6 +2251,11 @@ export type SitePageEdge = {
 };
 
 export type SitePageFieldsEnum = 
+  'path' |
+  'component' |
+  'internalComponentName' |
+  'componentChunkName' |
+  'matchPath' |
   'id' |
   'parent___id' |
   'parent___parent___id' |
@@ -2339,10 +2342,6 @@ export type SitePageFieldsEnum =
   'internal___mediaType' |
   'internal___owner' |
   'internal___type' |
-  'path' |
-  'internalComponentName' |
-  'component' |
-  'componentChunkName' |
   'isCreatedByStatefulCreatePages' |
   'context___slug' |
   'context___rootQuery' |
@@ -2401,6 +2400,8 @@ export type SitePageFieldsEnum =
   'pluginCreator___pluginOptions___headers___Authorization' |
   'pluginCreator___pluginOptions___fileName' |
   'pluginCreator___pluginOptions___documentPaths' |
+  'pluginCreator___pluginOptions___codegen' |
+  'pluginCreator___pluginOptions___codegenDelay' |
   'pluginCreator___pluginOptions___src' |
   'pluginCreator___pluginOptions___pages' |
   'pluginCreator___pluginOptions___pathCheck' |
@@ -2428,14 +2429,15 @@ export type SitePageFieldsEnum =
   'componentPath';
 
 export type SitePageFilterInput = {
+  path?: Maybe<StringQueryOperatorInput>,
+  component?: Maybe<StringQueryOperatorInput>,
+  internalComponentName?: Maybe<StringQueryOperatorInput>,
+  componentChunkName?: Maybe<StringQueryOperatorInput>,
+  matchPath?: Maybe<StringQueryOperatorInput>,
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
-  path?: Maybe<StringQueryOperatorInput>,
-  internalComponentName?: Maybe<StringQueryOperatorInput>,
-  component?: Maybe<StringQueryOperatorInput>,
-  componentChunkName?: Maybe<StringQueryOperatorInput>,
   isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
   context?: Maybe<SitePageContextFilterInput>,
   pluginCreator?: Maybe<SitePluginFilterInput>,
@@ -2604,6 +2606,8 @@ export type SitePluginFieldsEnum =
   'pluginOptions___headers___Authorization' |
   'pluginOptions___fileName' |
   'pluginOptions___documentPaths' |
+  'pluginOptions___codegen' |
+  'pluginOptions___codegenDelay' |
   'pluginOptions___src' |
   'pluginOptions___pages' |
   'pluginOptions___pathCheck' |
@@ -2736,6 +2740,8 @@ export type SitePluginPluginOptions = {
   headers?: Maybe<SitePluginPluginOptionsHeaders>,
   fileName?: Maybe<Scalars['String']>,
   documentPaths?: Maybe<Array<Maybe<Scalars['String']>>>,
+  codegen?: Maybe<Scalars['Boolean']>,
+  codegenDelay?: Maybe<Scalars['Int']>,
   src?: Maybe<Scalars['String']>,
   pages?: Maybe<Scalars['String']>,
   pathCheck?: Maybe<Scalars['Boolean']>,
@@ -2756,6 +2762,8 @@ export type SitePluginPluginOptionsFilterInput = {
   headers?: Maybe<SitePluginPluginOptionsHeadersFilterInput>,
   fileName?: Maybe<StringQueryOperatorInput>,
   documentPaths?: Maybe<StringQueryOperatorInput>,
+  codegen?: Maybe<BooleanQueryOperatorInput>,
+  codegenDelay?: Maybe<IntQueryOperatorInput>,
   src?: Maybe<StringQueryOperatorInput>,
   pages?: Maybe<StringQueryOperatorInput>,
   pathCheck?: Maybe<BooleanQueryOperatorInput>,
@@ -2807,7 +2815,10 @@ export type StringQueryOperatorInput = {
 export type DeputesQueryQueryVariables = {};
 
 
-export type DeputesQueryQuery = { faunadb: { Deputes: { data: Array<Maybe<Pick<FaunaDb_Depute, 'SigleGroupePolitique' | 'LieuDeNaissance' | 'DebutDuMandat' | 'Nom' | 'NomCirconscription' | 'NomDeFamille' | 'NombreMandats' | 'NumeroCirconscription' | 'NumeroDepartement' | 'parti_ratt_financier' | 'PlaceEnHemicycle' | 'Prenom' | 'Profession' | 'Sexe' | 'Slug' | 'Twitter' | 'DateDeNaissance' | 'Adresses' | 'Collaborateurs' | 'Emails' | 'SitesWeb'>>> } } };
+export type DeputesQueryQuery = { faunadb: (
+    Pick<FaunaDb, 'GroupesParlementaires'>
+    & { Deputes: { data: Array<Maybe<Pick<FaunaDb_Depute, 'SigleGroupePolitique' | 'LieuDeNaissance' | 'DebutDuMandat' | 'Nom' | 'NomCirconscription' | 'NomDeFamille' | 'NombreMandats' | 'NumeroCirconscription' | 'NumeroDepartement' | 'parti_ratt_financier' | 'PlaceEnHemicycle' | 'Prenom' | 'Profession' | 'Sexe' | 'Slug' | 'Twitter' | 'DateDeNaissance' | 'Adresses' | 'Collaborateurs' | 'Emails' | 'SitesWeb'>>> } }
+  ) };
 
 export type SingleDeputyQueryVariables = {
   slug: Scalars['String']
