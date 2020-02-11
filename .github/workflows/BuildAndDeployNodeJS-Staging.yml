@@ -52,7 +52,7 @@ jobs:
         env:
           ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
         with:
-          args: "npx now --prod"
+          args: "npx now --prod --token $ZEIT_TOKEN"
 
       - name: Notify slack
         env:
