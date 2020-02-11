@@ -105,7 +105,7 @@ const calculateAgeDomain = list => {
   return [Math.min(...listAge), Math.max(...listAge)]
 }
 
-const groupesArrayToObject = (array, value) => {
+const groupesArrayToObject = (array, value = true) => {
   return array.reduce((a, b) => ((a[b] = value), a), {})
 }
 const filterList = (list, state) => {
@@ -139,7 +139,7 @@ const DeputiesList = props => {
   // States
   const [SearchValue, setSearchValue] = useState("")
   const [GroupeValue, setGroupeValue] = useState(
-    groupesArrayToObject(listGroupes, true)
+    groupesArrayToObject(listGroupes)
   )
   const [SexValue, setSexValue] = useState({
     H: true,
@@ -221,8 +221,6 @@ const DeputiesList = props => {
       </label>
     )
   })
-
-  console.log(groupesData)
 
   return (
     <>
