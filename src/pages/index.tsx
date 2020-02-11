@@ -24,7 +24,8 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
       </header>
       <div>
         <DeputiesList
-          data={data.faunadb}
+          deputes={data.faunadb.DeputesEnMandat.data}
+          groupes={data.faunadb.GroupesParlementaires}
           // groupes={data.faunadb.GroupesParlementaires}
         />
       </div>

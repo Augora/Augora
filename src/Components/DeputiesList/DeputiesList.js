@@ -56,42 +56,46 @@ const couleursGroupeParlementaire = {
 }
 
 const calculateNbDepute = (list, type, value, state) => {
-  const filteredList = list.filter(depute => {
-    return (
-      depute.Nom.toLowerCase().search(state.SearchValue.toLowerCase()) !== -1
-    )
-  })
-  switch (type) {
-    case "groupe":
-      return filteredList
-        .filter(depute => {
-          return state.SexValue[depute.Sexe] ? true : false
-        })
-        .filter(depute => {
-          return calculateAge(depute) >= state.AgeDomain[0] &&
-            calculateAge(depute) <= state.AgeDomain[1]
-            ? true
-            : false
-        })
-        .filter(depute => {
-          return depute.SigleGroupePolitique === value.groupe ? true : false
-        }).length
-    case "sexe":
-      return filteredList
-        .filter(depute => {
-          return state.GroupeValue[depute.SigleGroupePolitique] ? true : false
-        })
-        .filter(depute => {
-          return calculateAge(depute) >= state.AgeDomain[0] &&
-            calculateAge(depute) <= state.AgeDomain[1]
-            ? true
-            : false
-        })
-        .filter(depute => {
-          return depute.Sexe === value ? true : false
-        }).length
-    default:
-      return filteredList.length
+  if (list.length > 0) {
+    const filteredList = list.filter(depute => {
+      return (
+        depute.Nom.toLowerCase().search(state.SearchValue.toLowerCase()) !== -1
+      )
+    })
+    switch (type) {
+      case "groupe":
+        return filteredList
+          .filter(depute => {
+            return state.SexValue[depute.Sexe] ? true : false
+          })
+          .filter(depute => {
+            return calculateAge(depute) >= state.AgeDomain[0] &&
+              calculateAge(depute) <= state.AgeDomain[1]
+              ? true
+              : false
+          })
+          .filter(depute => {
+            return depute.SigleGroupePolitique === value.groupe ? true : false
+          }).length
+      case "sexe":
+        return filteredList
+          .filter(depute => {
+            return state.GroupeValue[depute.SigleGroupePolitique] ? true : false
+          })
+          .filter(depute => {
+            return calculateAge(depute) >= state.AgeDomain[0] &&
+              calculateAge(depute) <= state.AgeDomain[1]
+              ? true
+              : false
+          })
+          .filter(depute => {
+            return depute.Sexe === value ? true : false
+          }).length
+      default:
+        return filteredList.length
+    }
+  } else {
+    return list
   }
 }
 const calculateAge = depute => {
@@ -127,25 +131,19 @@ const filterList = (list, state) => {
         ? true
         : false
     })
-    .map(depute => {
-      return <Deputy key={depute.Slug} data={depute} />
-    })
 }
 
 const DeputiesList = props => {
-  // Aliases
-  const listDeputies = props.data.DeputesEnMandat.data
-  const listGroupes = props.data.GroupesParlementaires
   // States
   const [SearchValue, setSearchValue] = useState("")
   const [GroupeValue, setGroupeValue] = useState(
-    groupesArrayToObject(listGroupes)
+    groupesArrayToObject(props.groupes)
   )
   const [SexValue, setSexValue] = useState({
     H: true,
     F: true,
   })
-  const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(listDeputies))
+  const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(props.deputes))
   const state = {
     SearchValue,
     SexValue,
@@ -162,7 +160,12 @@ const DeputiesList = props => {
       return Object.assign({
         id: groupe,
         label: couleursGroupeParlementaire[groupe].nom_complet,
-        value: calculateNbDepute(listDeputies, "groupe", { groupe }, state),
+        value: calculateNbDepute(
+          filterList(props.deputes, state),
+          "groupe",
+          { groupe },
+          state
+        ),
         color: couleursGroupeParlementaire[groupe].couleur,
       })
     })
@@ -193,9 +196,9 @@ const DeputiesList = props => {
   }
   const handleReset = () => {
     setSearchValue("")
-    setGroupeValue(groupesArrayToObject(listGroupes))
+    setGroupeValue(groupesArrayToObject(props.groupes))
     setSexValue({ H: true, F: true })
-    setAgeDomain(calculateAgeDomain(listDeputies))
+    setAgeDomain(calculateAgeDomain(props.deputes))
   }
   const handleAgeSelection = domain => {
     setAgeDomain(domain)
@@ -204,13 +207,7 @@ const DeputiesList = props => {
   const allGroupes = Object.keys(GroupeValue).map(groupe => {
     return (
       <label className={`groupe groupe--${groupe}`} key={`groupe--${groupe}`}>
-        {groupe}(
-        {calculateNbDepute(
-          listDeputies,
-          "groupe",
-          { groupe },
-          { SearchValue, SexValue, GroupeValue, AgeDomain }
-        )}
+        {groupe}({calculateNbDepute(props.deputes, "groupe", { groupe }, state)}
         )
         <input
           type="checkbox"
@@ -235,7 +232,7 @@ const DeputiesList = props => {
         </div>
         <AgeSlider
           selectedDomain={AgeDomain}
-          domain={calculateAgeDomain(listDeputies)}
+          domain={calculateAgeDomain(props.deputes)}
           callback={handleAgeSelection}
         />
         <input
@@ -260,7 +257,7 @@ const DeputiesList = props => {
         <div className="filters__sexes">
           <label>
             Homme(
-            {calculateNbDepute(listDeputies, "sexe", "H", state)}
+            {calculateNbDepute(props.deputes, "sexe", "H", state)}
             )
             <input
               className="filters__sexe"
@@ -272,7 +269,7 @@ const DeputiesList = props => {
           </label>
           <label>
             Femme(
-            {calculateNbDepute(listDeputies, "sexe", "F", state)}
+            {calculateNbDepute(props.deputes, "sexe", "F", state)}
             )
             <input
               className="filters__sexe"
@@ -284,12 +281,16 @@ const DeputiesList = props => {
           </label>
         </div>
         <div className="deputies__number">
-          Nombre de député filtrés : {filterList(listDeputies, state).length}
+          Nombre de député filtrés : {filterList(props.deputes, state).length}
           <br />
           <button onClick={handleReset}>Réinitialiser</button>
         </div>
       </div>
-      <ul className="deputies__list">{filterList(listDeputies, state)}</ul>
+      <ul className="deputies__list">
+        {filterList(props.deputes, state).map(depute => {
+          return <Deputy key={depute.Slug} data={depute} />
+        })}
+      </ul>
     </>
   )
 }
