@@ -37,7 +37,7 @@ export default IndexPage
 export const query = graphql`
   query DeputesQuery {
     faunadb {
-      Deputes(_size: 700) {
+      DeputesEnMandat(EstEnMandat: true, _size: 700) {
         data {
           SigleGroupePolitique
           LieuDeNaissance
