@@ -169,6 +169,7 @@ const DeputiesList = props => {
         color: couleursGroupeParlementaire[groupe].couleur,
       })
     })
+    .filter(groupe => groupe.value !== 0)
 
   // Handlers
   const handleSearchValue = value => {
