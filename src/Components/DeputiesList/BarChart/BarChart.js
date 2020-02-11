@@ -1,6 +1,6 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
-import { getColorLuminosity } from "Utils/utils"
+import { getColorLuminosity, getTextColorContrast } from "Utils/utils"
 
 export default function BarChart(props) {
   return (
@@ -25,13 +25,11 @@ export default function BarChart(props) {
       }}
       labelSkipWidth={12}
       labelSkipHeight={12}
-      labelTextColor={groupe => {
-        if (getColorLuminosity(groupe.color) < 50) {
-          return "rgba(255,255,255,0.8)"
-        } else {
-          return "rgba(0,0,0,0.8)"
-        }
-      }}
+      labelTextColor={groupe =>
+        getColorLuminosity(groupe.color) < 50
+          ? getTextColorContrast("light")
+          : getTextColorContrast("dark")
+      }
     />
   )
 }
