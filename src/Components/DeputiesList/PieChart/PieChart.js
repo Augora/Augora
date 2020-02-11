@@ -1,5 +1,6 @@
 import React from "react"
 import { ResponsivePie } from "@nivo/pie"
+import { getColorLuminosity } from "Utils/utils"
 
 const PieChart = props => {
   return (
@@ -12,6 +13,8 @@ const PieChart = props => {
       padAngle={0.7}
       cornerRadius={5}
       colors={groupe => {
+        // console.log(groupe.color)
+        console.log(getColorLuminosity(groupe.color))
         return groupe.color
       }}
       borderWidth={0}
@@ -25,7 +28,13 @@ const PieChart = props => {
       radialLabelsLinkStrokeWidth={1}
       radialLabelsLinkColor={{ from: "color" }}
       slicesLabelsSkipAngle={10}
-      slicesLabelsTextColor="#333333"
+      slicesLabelsTextColor={groupe => {
+        if (getColorLuminosity(groupe.color) < 50) {
+          return "rgba(255,255,255,0.8)"
+        } else {
+          return "rgba(0,0,0,0.8)"
+        }
+      }}
       animate={true}
       motionStiffness={90}
       motionDamping={15}
