@@ -53,7 +53,14 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
       }}
       {...getHandleProps(id)}
     >
-      <div style={{ fontFamily: "Roboto", fontSize: 11, marginTop: -35 }}>
+      <div
+        style={{
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+          fontSize: 11,
+          marginTop: -25,
+        }}
+      >
         {value}
       </div>
     </div>
@@ -65,7 +72,7 @@ const Tick = ({ tick, count }) => {
       <div
         style={{
           position: "absolute",
-          marginTop: 52,
+          marginTop: 42,
           marginLeft: -0.5,
           width: 1,
           height: 8,
@@ -75,8 +82,10 @@ const Tick = ({ tick, count }) => {
       />
       <div
         style={{
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
           position: "absolute",
-          marginTop: 60,
+          marginTop: 50,
           fontSize: 10,
           textAlign: "center",
           marginLeft: `${-(100 / count) / 2}%`,
