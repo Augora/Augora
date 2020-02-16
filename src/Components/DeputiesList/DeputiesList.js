@@ -7,6 +7,7 @@ import BarChart from "./BarChart/BarChart"
 import PieChart from "./PieChart/PieChart"
 import * as moment from "moment"
 import AgeSlider from "./Slider/Slider"
+import { calculatePercentage } from "Utils/utils"
 
 const couleursGroupeParlementaire = {
   LREM: {
@@ -166,6 +167,15 @@ const DeputiesList = props => {
           { groupe },
           state
         ),
+        percent: calculatePercentage(
+          props.deputes.length,
+          calculateNbDepute(
+            filterList(props.deputes, state),
+            "groupe",
+            { groupe },
+            state
+          )
+        ),
         color: couleursGroupeParlementaire[groupe].couleur,
       })
     })
@@ -205,20 +215,36 @@ const DeputiesList = props => {
     setAgeDomain(domain)
   }
 
-  const allGroupes = Object.keys(GroupeValue).map(groupe => {
-    return (
-      <label className={`groupe groupe--${groupe}`} key={`groupe--${groupe}`}>
-        {groupe}({calculateNbDepute(props.deputes, "groupe", { groupe }, state)}
-        )
-        <input
-          type="checkbox"
-          name={groupe}
-          checked={GroupeValue[groupe] ? "checked" : ""}
-          onChange={handleClickOnGroupe}
-        />
-      </label>
-    )
-  })
+  console.log(groupesData)
+
+  const allGroupes = Object.keys(GroupeValue)
+    .filter(groupe => groupe !== "NG")
+    .map(groupe => {
+      const indexInData = groupesData.findIndex(
+        element => element.id === groupe
+      )
+      return (
+        <label className={`groupe groupe--${groupe}`} key={`groupe--${groupe}`}>
+          {groupe}
+          <span style={{ display: "block" }}>
+            ({calculateNbDepute(props.deputes, "groupe", { groupe }, state)} -{" "}
+            {parseInt(
+              calculatePercentage(
+                props.deputes.length,
+                groupesData[indexInData].value
+              )
+            )}
+            %)
+          </span>
+          <input
+            type="checkbox"
+            name={groupe}
+            checked={GroupeValue[groupe] ? "checked" : ""}
+            onChange={handleClickOnGroupe}
+          />
+        </label>
+      )
+    })
 
   return (
     <>

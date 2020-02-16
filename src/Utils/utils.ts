@@ -69,3 +69,7 @@ export function getTextColorContrast(type: string) {
       return "rgba(0,0,0,0.8)"
   }
 }
+
+export function calculatePercentage(numerateur: number, denominateur: number) {
+  return (denominateur * 100) / numerateur
+}
