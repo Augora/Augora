@@ -5,132 +5,16 @@ import "./DeputiesList.css"
 import BarChart from "./BarChart/BarChart"
 // import PieChart from "./PieChart/D3PieChart"
 import PieChart from "./PieChart/PieChart"
-import * as moment from "moment"
 import AgeSlider from "./Slider/Slider"
 import { calculatePercentage } from "Utils/utils"
 
-const couleursGroupeParlementaire = {
-  LREM: {
-    couleur: "hsl(199, 100%, 58%)",
-    nom_complet: "La République En Marche",
-  },
-  LR: {
-    couleur: "hsl(223, 45%, 23%)",
-    nom_complet: "Les Républicains",
-  },
-  MODEM: {
-    couleur: "hsl(25, 81%, 54%)",
-    nom_complet: "Mouvement Démocrate et apparentés",
-  },
-  SOC: {
-    couleur: "hsl(354, 84%, 43%)",
-    nom_complet: "Socialistes et apparentés",
-  },
-  UAI: {
-    couleur: "hsl(194, 81%, 55%)",
-    nom_complet: "UDI, Agir et Indépendants",
-  },
-  LFI: {
-    couleur: "hsl(11, 66%, 47%)",
-    nom_complet: "La France insoumise",
-  },
-  GDR: {
-    couleur: "hsl(0, 100%, 43%)",
-    nom_complet: "Gauche démocrate et républicaine",
-  },
-  LT: {
-    couleur: "hsl(0, 0%, 50%)",
-    nom_complet: "Libertés et Territoires",
-  },
-  NI: {
-    couleur: "hsl(0, 0%, 80%)",
-    nom_complet: "Non inscrits",
-  },
-  NG: {
-    couleur: "hsl(0, 0%, 80%)",
-    nom_complet: "Non inscrits",
-  },
-  UDI: {
-    couleur: "hsl(261, 29%, 48%)",
-    nom_complet: "Union des démocrates et indépendants",
-  },
-}
-
-const calculateNbDepute = (list, type, value, state) => {
-  if (list.length > 0) {
-    const filteredList = list.filter(depute => {
-      return (
-        depute.Nom.toLowerCase().search(state.SearchValue.toLowerCase()) !== -1
-      )
-    })
-    switch (type) {
-      case "groupe":
-        return filteredList
-          .filter(depute => {
-            return state.SexValue[depute.Sexe] ? true : false
-          })
-          .filter(depute => {
-            return depute.Age >= state.AgeDomain[0] &&
-              depute.Age <= state.AgeDomain[1]
-              ? true
-              : false
-          })
-          .filter(depute => {
-            return depute.SigleGroupePolitique === value.groupe ? true : false
-          }).length
-      case "sexe":
-        return filteredList
-          .filter(depute => {
-            return state.GroupeValue[depute.SigleGroupePolitique] ? true : false
-          })
-          .filter(depute => {
-            return depute.Age >= state.AgeDomain[0] &&
-              depute.Age <= state.AgeDomain[1]
-              ? true
-              : false
-          })
-          .filter(depute => {
-            return depute.Sexe === value ? true : false
-          }).length
-      default:
-        return filteredList.length
-    }
-  } else {
-    return list
-  }
-}
-
-const calculateAgeDomain = list => {
-  let listAge = []
-  list.forEach(depute => {
-    listAge.push(depute.Age)
-  })
-  return [Math.min(...listAge), Math.max(...listAge)]
-}
-
-const groupesArrayToObject = (array, value = true) => {
-  return array.reduce((a, b) => ((a[b] = value), a), {})
-}
-const filterList = (list, state) => {
-  return list
-    .filter(depute => {
-      return (
-        depute.Nom.toLowerCase().search(state.SearchValue.toLowerCase()) !== -1
-      )
-    })
-    .filter(depute => {
-      return state.GroupeValue[depute.SigleGroupePolitique] ? true : false
-    })
-    .filter(depute => {
-      return state.SexValue[depute.Sexe] ? true : false
-    })
-    .filter(depute => {
-      return depute.Age >= state.AgeDomain[0] &&
-        depute.Age <= state.AgeDomain[1]
-        ? true
-        : false
-    })
-}
+import {
+  couleursGroupeParlementaire,
+  calculateAgeDomain,
+  calculateNbDepute,
+  filterList,
+  groupesArrayToObject
+} from './DeputiesListUtils'
 
 const DeputiesList = props => {
   // States
@@ -150,29 +34,26 @@ const DeputiesList = props => {
     AgeDomain,
   }
 
+  const filteredList = filterList(props.deputes, state)
+
   const groupesData = Object.keys(GroupeValue)
     .filter(groupe => {
       // Retire le groupe "NG" en attendant de savoir quoi en faire
       return groupe === "NG" ? false : true
     })
     .map(groupe => {
+      const nbDeputeGroup = calculateNbDepute(
+        filteredList,
+        "groupe",
+        { groupe }
+      )
       return Object.assign({
         id: groupe,
         label: couleursGroupeParlementaire[groupe].nom_complet,
-        value: calculateNbDepute(
-          filterList(props.deputes, state),
-          "groupe",
-          { groupe },
-          state
-        ),
+        value: nbDeputeGroup,
         percent: calculatePercentage(
           props.deputes.length,
-          calculateNbDepute(
-            filterList(props.deputes, state),
-            "groupe",
-            { groupe },
-            state
-          )
+          nbDeputeGroup
         ),
         color: couleursGroupeParlementaire[groupe].couleur,
       })
@@ -183,12 +64,14 @@ const DeputiesList = props => {
   const handleSearchValue = value => {
     setSearchValue(value)
   }
+
   const handleClickOnAllGroupes = (target, bool) => {
     const allGroupesNewValues = Object.keys(GroupeValue).forEach(groupe => {
       GroupeValue[groupe] = bool
     })
     setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
+
   const handleClickOnGroupe = event => {
     setGroupeValue(
       Object.assign({}, GroupeValue, {
@@ -196,6 +79,7 @@ const DeputiesList = props => {
       })
     )
   }
+
   const handleClickOnSex = event => {
     setSexValue(
       Object.assign({}, SexValue, {
@@ -203,12 +87,14 @@ const DeputiesList = props => {
       })
     )
   }
+
   const handleReset = () => {
     setSearchValue("")
     setGroupeValue(groupesArrayToObject(props.groupes))
     setSexValue({ H: true, F: true })
     setAgeDomain(calculateAgeDomain(props.deputes))
   }
+
   const handleAgeSelection = domain => {
     setAgeDomain(domain)
   }
@@ -221,23 +107,18 @@ const DeputiesList = props => {
       const indexInData = groupesData.findIndex(
         element => element.id === groupe
       )
+      const nbDeputeGroup = calculateNbDepute(filteredList, "groupe", { groupe })
+      const percentDeputeGroup = groupesData[indexInData] ? parseInt(groupesData[indexInData].percent) : 0
       return (
         <label className={`groupe groupe--${groupe}`} key={`groupe--${groupe}`}>
           {groupe}
           <span style={{ display: "block" }}>
-            ({calculateNbDepute(props.deputes, "groupe", { groupe }, state)} -{" "}
-            {parseInt(
-              calculatePercentage(
-                props.deputes.length,
-                groupesData[indexInData].value
-              )
-            )}
-            %)
+            ({nbDeputeGroup} - {percentDeputeGroup}%)
           </span>
           <input
             type="checkbox"
             name={groupe}
-            checked={GroupeValue[groupe] ? "checked" : ""}
+            checked={GroupeValue[groupe] ? true : false}
             onChange={handleClickOnGroupe}
           />
         </label>
@@ -282,37 +163,37 @@ const DeputiesList = props => {
         <div className="filters__sexes">
           <label>
             Homme(
-            {calculateNbDepute(props.deputes, "sexe", "H", state)}
+            {calculateNbDepute(filteredList, "sexe", "H")}
             )
             <input
               className="filters__sexe"
               type="checkbox"
               name="H"
-              checked={SexValue.H ? "checked" : ""}
+              checked={SexValue.H ? true : false}
               onChange={handleClickOnSex}
             />
           </label>
           <label>
             Femme(
-            {calculateNbDepute(props.deputes, "sexe", "F", state)}
+            {calculateNbDepute(filteredList, "sexe", "F")}
             )
             <input
               className="filters__sexe"
               type="checkbox"
               name="F"
-              checked={SexValue.F ? "checked" : ""}
+              checked={SexValue.F ? true : false}
               onChange={handleClickOnSex}
             />
           </label>
         </div>
         <div className="deputies__number">
-          Nombre de député filtrés : {filterList(props.deputes, state).length}
+          Nombre de député filtrés : {filteredList.length}
           <br />
           <button onClick={handleReset}>Réinitialiser</button>
         </div>
       </div>
       <ul className="deputies__list">
-        {filterList(props.deputes, state).map(depute => {
+        {filteredList.map(depute => {
           return <Deputy key={depute.Slug} data={depute} />
         })}
       </ul>
