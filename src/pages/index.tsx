@@ -26,7 +26,7 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
         <DeputiesList
           deputes={data.faunadb.DeputesEnMandat.data}
           groupes={data.faunadb.GroupesParlementaires}
-          // groupes={data.faunadb.GroupesParlementaires}
+        // groupes={data.faunadb.GroupesParlementaires}
         />
       </div>
     </Layout>
@@ -57,6 +57,7 @@ export const query = graphql`
           Slug
           Twitter
           DateDeNaissance
+          Age
           Adresses
           Collaborateurs
           Emails

@@ -70,8 +70,8 @@ const calculateNbDepute = (list, type, value, state) => {
             return state.SexValue[depute.Sexe] ? true : false
           })
           .filter(depute => {
-            return calculateAge(depute) >= state.AgeDomain[0] &&
-              calculateAge(depute) <= state.AgeDomain[1]
+            return depute.Age >= state.AgeDomain[0] &&
+              depute.Age <= state.AgeDomain[1]
               ? true
               : false
           })
@@ -84,8 +84,8 @@ const calculateNbDepute = (list, type, value, state) => {
             return state.GroupeValue[depute.SigleGroupePolitique] ? true : false
           })
           .filter(depute => {
-            return calculateAge(depute) >= state.AgeDomain[0] &&
-              calculateAge(depute) <= state.AgeDomain[1]
+            return depute.Age >= state.AgeDomain[0] &&
+              depute.Age <= state.AgeDomain[1]
               ? true
               : false
           })
@@ -99,13 +99,11 @@ const calculateNbDepute = (list, type, value, state) => {
     return list
   }
 }
-const calculateAge = depute => {
-  return parseInt(moment(depute.DateDeNaissance).fromNow(true))
-}
+
 const calculateAgeDomain = list => {
   let listAge = []
   list.forEach(depute => {
-    listAge.push(calculateAge(depute))
+    listAge.push(depute.Age)
   })
   return [Math.min(...listAge), Math.max(...listAge)]
 }
@@ -127,8 +125,8 @@ const filterList = (list, state) => {
       return state.SexValue[depute.Sexe] ? true : false
     })
     .filter(depute => {
-      return calculateAge(depute) >= state.AgeDomain[0] &&
-        calculateAge(depute) <= state.AgeDomain[1]
+      return depute.Age >= state.AgeDomain[0] &&
+        depute.Age <= state.AgeDomain[1]
         ? true
         : false
     })

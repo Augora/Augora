@@ -365,9 +365,12 @@ export type FaunaDb = {
   Deputes: FaunaDb_DeputePage,
   /** Find a document from the collection of 'AutreMandat' by its id. */
   findAutreMandatByID?: Maybe<FaunaDb_AutreMandat>,
+  GroupeParlementaire?: Maybe<FaunaDb_GroupeParlementaire>,
   /** Find a document from the collection of 'AncienMandat' by its id. */
   findAncienMandatByID?: Maybe<FaunaDb_AncienMandat>,
   GroupesParlementaires?: Maybe<Array<Scalars['String']>>,
+  /** Find a document from the collection of 'GroupeParlementaire' by its id. */
+  findGroupeParlementaireByID?: Maybe<FaunaDb_GroupeParlementaire>,
 };
 
 
@@ -404,7 +407,17 @@ export type FaunaDbFindAutreMandatByIdArgs = {
 };
 
 
+export type FaunaDbGroupeParlementaireArgs = {
+  Sigle: Scalars['String']
+};
+
+
 export type FaunaDbFindAncienMandatByIdArgs = {
+  id: Scalars['ID']
+};
+
+
+export type FaunaDbFindGroupeParlementaireByIdArgs = {
   id: Scalars['ID']
 };
 
@@ -548,10 +561,12 @@ export type FaunaDb_Depute = {
   NomDeFamille?: Maybe<Scalars['String']>,
   NomCirconscription?: Maybe<Scalars['String']>,
   Profession?: Maybe<Scalars['String']>,
+  Age?: Maybe<Scalars['Int']>,
   AutresMandats: FaunaDb_AutreMandatPage,
   Activites: FaunaDb_ActivitePage,
   NombreMandats?: Maybe<Scalars['Int']>,
   Prenom?: Maybe<Scalars['String']>,
+  GroupeParlementaire: FaunaDb_GroupeParlementaire,
   EstEnMandat?: Maybe<Scalars['Boolean']>,
   Nom?: Maybe<Scalars['String']>,
   Sexe?: Maybe<FaunaDb_Sexe>,
@@ -616,6 +631,17 @@ export type FaunaDb_DeputeAutresMandatsRelation = {
   disconnect?: Maybe<Array<Maybe<Scalars['ID']>>>,
 };
 
+/** 
+ * Allow manipulating the relationship between the types 'Depute' and
+ * 'GroupeParlementaire' using the field 'Depute.GroupeParlementaire'.
+ */
+export type FaunaDb_DeputeGroupeParlementaireRelation = {
+  /** Create a document of type 'GroupeParlementaire' and associate it with the current document. */
+  create?: Maybe<FaunaDb_GroupeParlementaireInput>,
+  /** Connect a document of type 'GroupeParlementaire' with the current document using its ID. */
+  connect?: Maybe<Scalars['ID']>,
+};
+
 /** 'Depute' input values */
 export type FaunaDb_DeputeInput = {
   Slug: Scalars['String'],
@@ -640,10 +666,12 @@ export type FaunaDb_DeputeInput = {
   NombreMandats?: Maybe<Scalars['Int']>,
   Twitter?: Maybe<Scalars['String']>,
   EstEnMandat?: Maybe<Scalars['Boolean']>,
+  Age?: Maybe<Scalars['Int']>,
   SitesWeb?: Maybe<Array<Maybe<Scalars['String']>>>,
   Emails?: Maybe<Array<Maybe<Scalars['String']>>>,
   Adresses?: Maybe<Array<Maybe<Scalars['String']>>>,
   Collaborateurs?: Maybe<Array<Maybe<Scalars['String']>>>,
+  GroupeParlementaire?: Maybe<FaunaDb_DeputeGroupeParlementaireRelation>,
   AnciensMandats?: Maybe<FaunaDb_DeputeAnciensMandatsRelation>,
   AutresMandats?: Maybe<FaunaDb_DeputeAutresMandatsRelation>,
   Activites?: Maybe<FaunaDb_DeputeActivitesRelation>,
@@ -657,6 +685,45 @@ export type FaunaDb_DeputePage = {
   after?: Maybe<Scalars['String']>,
   /** A cursor for elements coming before the current page. */
   before?: Maybe<Scalars['String']>,
+};
+
+export type FaunaDb_GroupeParlementaire = {
+  URLImage?: Maybe<Scalars['String']>,
+  /** The document's ID. */
+  _id: Scalars['ID'],
+  Sigle: Scalars['String'],
+  NomComplet?: Maybe<Scalars['String']>,
+  Deputes: FaunaDb_DeputePage,
+  Ordre?: Maybe<Scalars['Int']>,
+  Couleur?: Maybe<Scalars['String']>,
+  /** The document's timestamp. */
+  _ts: Scalars['FaunaDB_Long'],
+};
+
+
+export type FaunaDb_GroupeParlementaireDeputesArgs = {
+  _size?: Maybe<Scalars['Int']>,
+  _cursor?: Maybe<Scalars['String']>
+};
+
+/** Allow manipulating the relationship between the types 'GroupeParlementaire' and 'Depute'. */
+export type FaunaDb_GroupeParlementaireDeputesRelation = {
+  /** Create one or more documents of type 'Depute' and associate them with the current document. */
+  create?: Maybe<Array<Maybe<FaunaDb_DeputeInput>>>,
+  /** Connect one or more documents of type 'Depute' with the current document using their IDs. */
+  connect?: Maybe<Array<Maybe<Scalars['ID']>>>,
+  /** Disconnect the given documents of type 'Depute' from the current document using their IDs. */
+  disconnect?: Maybe<Array<Maybe<Scalars['ID']>>>,
+};
+
+/** 'GroupeParlementaire' input values */
+export type FaunaDb_GroupeParlementaireInput = {
+  Sigle: Scalars['String'],
+  NomComplet?: Maybe<Scalars['String']>,
+  Couleur?: Maybe<Scalars['String']>,
+  URLImage?: Maybe<Scalars['String']>,
+  Ordre?: Maybe<Scalars['Int']>,
+  Deputes?: Maybe<FaunaDb_GroupeParlementaireDeputesRelation>,
 };
 
 export type FaunaDb_GroupeSigle = 
@@ -2817,7 +2884,7 @@ export type DeputesQueryQueryVariables = {};
 
 export type DeputesQueryQuery = { faunadb: (
     Pick<FaunaDb, 'GroupesParlementaires'>
-    & { DeputesEnMandat: { data: Array<Maybe<Pick<FaunaDb_Depute, 'SigleGroupePolitique' | 'LieuDeNaissance' | 'DebutDuMandat' | 'Nom' | 'NomCirconscription' | 'NomDeFamille' | 'NombreMandats' | 'NumeroCirconscription' | 'NumeroDepartement' | 'parti_ratt_financier' | 'PlaceEnHemicycle' | 'Prenom' | 'Profession' | 'Sexe' | 'Slug' | 'Twitter' | 'DateDeNaissance' | 'Adresses' | 'Collaborateurs' | 'Emails' | 'SitesWeb'>>> } }
+    & { DeputesEnMandat: { data: Array<Maybe<Pick<FaunaDb_Depute, 'SigleGroupePolitique' | 'LieuDeNaissance' | 'DebutDuMandat' | 'Nom' | 'NomCirconscription' | 'NomDeFamille' | 'NombreMandats' | 'NumeroCirconscription' | 'NumeroDepartement' | 'parti_ratt_financier' | 'PlaceEnHemicycle' | 'Prenom' | 'Profession' | 'Sexe' | 'Slug' | 'Twitter' | 'DateDeNaissance' | 'Age' | 'Adresses' | 'Collaborateurs' | 'Emails' | 'SitesWeb'>>> } }
   ) };
 
 export type SingleDeputyQueryVariables = {
