@@ -15,7 +15,7 @@ import lrem from "images/Logos/groupes parlementaires/lrem/lrem_grand.png"
 import modem from "images/Logos/groupes parlementaires/modem/modem_grand.png"
 import non_inscrits from "images/Logos/groupes parlementaires/non inscrits/non_inscrits_moyen.png"
 import ps from "images/Logos/groupes parlementaires/ps/ps_grand.png"
-import udi from "images/Logos/partis politiques/udi/udi_grand.png"
+import uai from "images/Logos/groupes parlementaires/constructifs/constructifs_grand.png"
 
 export function getGender(deputy) {
   if (deputy.Sexe === "H") {
@@ -31,7 +31,7 @@ export function getPoliticGroupPicture(politicGroup: string) {
       return constructifs
     case "GDR":
       return gdr
-    case "l_t":
+    case "LT":
       return l_t
     case "LFI":
       return lfi
@@ -45,8 +45,8 @@ export function getPoliticGroupPicture(politicGroup: string) {
       return non_inscrits
     case "SOC":
       return ps
-    case "UDI":
-      return udi
+    case "UAI":
+      return uai
     default:
       return non_inscrits
   }
@@ -56,7 +56,7 @@ export function getImageDynamic(slug: string, height: number) {
   return `https://www.nosdeputes.fr/depute/photo/${slug}/${height}`
 }
 
-export function getGeneralInformation(deputy: any, imgPixel: number) {
+export function getOldGeneralInformation(deputy: any, imgPixel: number) {
   var props: IGeneralInformation = {
     id: deputy.Slug,
     circonscriptionNumber: deputy.NumeroCirconscription,
@@ -67,6 +67,23 @@ export function getGeneralInformation(deputy: any, imgPixel: number) {
     pictureGroup: getPoliticGroupPicture(deputy.SigleGroupePolitique),
     groupSymbol: deputy.SigleGroupePolitique,
     gender: getGender(deputy),
+  }
+
+  return props
+}
+
+export function getGeneralInformation(deputy: any, imgPixel: number) {
+  const props: IGeneralInformation = {
+    id: deputy.Slug,
+    lastName: deputy.NomDeFamille,
+    firstName: deputy.Prenom,
+    picture: getImageDynamic(deputy.Slug, imgPixel),
+    pictureGroup: getPoliticGroupPicture(deputy.SigleGroupePolitique),
+    groupe: deputy.SigleGroupePolitique,
+    age: deputy.Age,
+    job: deputy.Profession,
+    website: deputy.SitesWeb,
+    twitter: deputy.twitter,
   }
 
   return props
