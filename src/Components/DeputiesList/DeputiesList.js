@@ -2,7 +2,8 @@ import React, { useState } from "react"
 import Deputy from "./Deputy/Deputy"
 import "./DeputiesList.css"
 // import BarChart from "./BarChart/D3BarChart"
-import BarChart from "./BarChart/BarChart"
+// import BarChart from "./BarChart/BarChart"
+import ComplexBarChart from "./ComplexBarChart/ComplexBarChart"
 // import PieChart from "./PieChart/D3PieChart"
 import PieChart from "./PieChart/PieChart"
 import AgeSlider from "./Slider/Slider"
@@ -13,8 +14,8 @@ import {
   calculateAgeDomain,
   calculateNbDepute,
   filterList,
-  groupesArrayToObject
-} from './DeputiesListUtils'
+  groupesArrayToObject,
+} from "./DeputiesListUtils"
 
 const DeputiesList = props => {
   // States
@@ -42,19 +43,13 @@ const DeputiesList = props => {
       return groupe === "NG" ? false : true
     })
     .map(groupe => {
-      const nbDeputeGroup = calculateNbDepute(
-        filteredList,
-        "groupe",
-        { groupe }
-      )
+      const nbDeputeGroup = calculateNbDepute(filteredList, "groupe", {
+        groupe,
+      })
       return Object.assign({
         id: groupe,
         label: couleursGroupeParlementaire[groupe].nom_complet,
         value: nbDeputeGroup,
-        percent: calculatePercentage(
-          props.deputes.length,
-          nbDeputeGroup
-        ),
         color: couleursGroupeParlementaire[groupe].couleur,
       })
     })
@@ -99,21 +94,30 @@ const DeputiesList = props => {
     setAgeDomain(domain)
   }
 
-  console.log(groupesData)
-
   const allGroupes = Object.keys(GroupeValue)
     .filter(groupe => groupe !== "NG")
     .map(groupe => {
       const indexInData = groupesData.findIndex(
         element => element.id === groupe
       )
-      const nbDeputeGroup = calculateNbDepute(filteredList, "groupe", { groupe })
-      const percentDeputeGroup = groupesData[indexInData] ? parseInt(groupesData[indexInData].percent) : 0
+      const nbDeputeGroup = calculateNbDepute(filteredList, "groupe", {
+        groupe,
+      })
+      const deputePercent =
+        Math.round(
+          calculatePercentage(
+            filteredList.length,
+            calculateNbDepute(filteredList, "groupe", {
+              groupe,
+            })
+          ) * 10
+        ) / 10
       return (
         <label className={`groupe groupe--${groupe}`} key={`groupe--${groupe}`}>
           {groupe}
           <span style={{ display: "block" }}>
-            ({nbDeputeGroup} - {percentDeputeGroup}%)
+            ({nbDeputeGroup} - {deputePercent}
+            %)
           </span>
           <input
             type="checkbox"
@@ -125,6 +129,44 @@ const DeputiesList = props => {
       )
     })
 
+  let ages = []
+  for (
+    let i = calculateAgeDomain(props.deputes)[0];
+    i <= calculateAgeDomain(props.deputes)[1];
+    i++
+  ) {
+    ages.push(i)
+  }
+  const groupesByAge = ages.map(age => {
+    const valueOfDeputesByAge = props.deputes.filter(depute => {
+      return depute.Age === age
+    })
+    const groupeValueByAge = () =>
+      Object.keys(GroupeValue).reduce((acc, groupe) => {
+        return Object.assign(acc, {
+          [groupe]: valueOfDeputesByAge.filter(
+            depute => depute.GroupeParlementaire.Sigle === groupe
+          ).length,
+        })
+      }, {})
+    const groupeColorByAge = () =>
+      Object.keys(GroupeValue).reduce((acc, groupe) => {
+        return Object.assign(acc, {
+          [groupe + "Color"]: props.groupesDetails.data.filter(
+            groupeFiltered => groupeFiltered.Sigle === groupe
+          )[0].Couleur,
+        })
+      }, {})
+    return Object.assign(
+      {},
+      {
+        age: age,
+        ...groupeValueByAge(),
+        ...groupeColorByAge(),
+      }
+    )
+  })
+
   return (
     <>
       <div className="filters">
@@ -132,8 +174,11 @@ const DeputiesList = props => {
           <div className="piechart chart">
             <PieChart data={groupesData} />
           </div>
-          <div className="barchart chart">
+          {/* <div className="barchart chart">
             <BarChart data={groupesData} />
+          </div> */}
+          <div className="barchart chart">
+            <ComplexBarChart data={groupesByAge} ageDomain={AgeDomain} />
           </div>
         </div>
         <AgeSlider
@@ -163,8 +208,14 @@ const DeputiesList = props => {
         <div className="filters__sexes">
           <label>
             Homme(
-            {calculateNbDepute(filteredList, "sexe", "H")}
-            )
+            {calculateNbDepute(filteredList, "sexe", "H")} /{" "}
+            {Math.round(
+              calculatePercentage(
+                filteredList.length,
+                calculateNbDepute(filteredList, "sexe", "H")
+              ) * 10
+            ) / 10}
+            %)
             <input
               className="filters__sexe"
               type="checkbox"
@@ -175,8 +226,14 @@ const DeputiesList = props => {
           </label>
           <label>
             Femme(
-            {calculateNbDepute(filteredList, "sexe", "F")}
-            )
+            {calculateNbDepute(filteredList, "sexe", "F")} /{" "}
+            {Math.round(
+              calculatePercentage(
+                filteredList.length,
+                calculateNbDepute(filteredList, "sexe", "F")
+              ) * 10
+            ) / 10}
+            %)
             <input
               className="filters__sexe"
               type="checkbox"
@@ -187,7 +244,11 @@ const DeputiesList = props => {
           </label>
         </div>
         <div className="deputies__number">
-          Nombre de député filtrés : {filteredList.length}
+          Nombre de député filtrés : {filteredList.length} /{" "}
+          {Math.round(
+            calculatePercentage(props.deputes.length, filteredList.length) * 10
+          ) / 10}
+          %
           <br />
           <button onClick={handleReset}>Réinitialiser</button>
         </div>
