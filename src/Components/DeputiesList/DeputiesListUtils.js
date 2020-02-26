@@ -79,11 +79,6 @@ export const groupesArrayToObject = (array, value = true) => {
 export const filterList = (list, state) => {
   return list
     .filter(depute => {
-      return (
-        depute.Nom.toLowerCase().search(state.SearchValue.toLowerCase()) !== -1
-      )
-    })
-    .filter(depute => {
       return state.GroupeValue[depute.SigleGroupePolitique] ? true : false
     })
     .filter(depute => {

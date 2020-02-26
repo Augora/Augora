@@ -8,6 +8,7 @@ import ComplexBarChart from "./ComplexBarChart/ComplexBarChart"
 import PieChart from "./PieChart/PieChart"
 import AgeSlider from "./Slider/Slider"
 import { calculatePercentage } from "Utils/utils"
+import { useFuzzy } from 'react-use-fuzzy';
 
 import {
   couleursGroupeParlementaire,
@@ -19,7 +20,6 @@ import {
 
 const DeputiesList = props => {
   // States
-  const [SearchValue, setSearchValue] = useState("")
   const [GroupeValue, setGroupeValue] = useState(
     groupesArrayToObject(props.groupes)
   )
@@ -28,14 +28,17 @@ const DeputiesList = props => {
     F: true,
   })
   const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(props.deputes))
+  const { result, keyword, search } = useFuzzy(props.deputes, {
+    keys: ['Nom'],
+  });
+
   const state = {
-    SearchValue,
     SexValue,
     GroupeValue,
     AgeDomain,
   }
 
-  const filteredList = filterList(props.deputes, state)
+  const filteredList = filterList(result, state)
 
   const groupesData = Object.keys(GroupeValue)
     .filter(groupe => {
@@ -57,7 +60,7 @@ const DeputiesList = props => {
 
   // Handlers
   const handleSearchValue = value => {
-    setSearchValue(value)
+    search(value)
   }
 
   const handleClickOnAllGroupes = (target, bool) => {
@@ -84,7 +87,7 @@ const DeputiesList = props => {
   }
 
   const handleReset = () => {
-    setSearchValue("")
+    search("")
     setGroupeValue(groupesArrayToObject(props.groupes))
     setSexValue({ H: true, F: true })
     setAgeDomain(calculateAgeDomain(props.deputes))
@@ -190,7 +193,7 @@ const DeputiesList = props => {
           className="filters__search"
           type="text"
           placeholder="Recherche"
-          value={SearchValue}
+          value={keyword}
           onChange={e => handleSearchValue(e.target.value)}
         />
         <div className="filters__groupe">
