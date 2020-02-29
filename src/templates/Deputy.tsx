@@ -1,11 +1,13 @@
 import React from "react"
 import Helmet from "react-helmet"
 import { graphql } from "gatsby"
+import "./Deputy.css"
 
 import styled from "styled-components"
 
 import Layout from "Components/layout"
 
+// import OldGeneralInformation from "Components/Deputy/GeneralInformation/OldGeneralInformation"
 import GeneralInformation from "Components/Deputy/GeneralInformation/GeneralInformation"
 import Coworkers from "Components/Deputy/Coworkers/Coworkers"
 import MapCirco from "Components/Deputy/MapCirco/MapCirco"
@@ -18,12 +20,14 @@ import { SingleDeputyQuery } from "types/graphql-types"
 import {
   getGender,
   getGeneralInformation,
+  getOldGeneralInformation,
   getCoworkers,
   getCirco,
   getCurrentMandate,
   getOldMandates,
   getOthersMandates,
   getTotalMandates,
+  getGroupeColor,
 } from "./Utils/Deputy.utils"
 
 type SingleDeputyQueryProps = {
@@ -41,6 +45,7 @@ const DeputyStyles = styled.div`
 
 function Deputy({ data }: SingleDeputyQueryProps) {
   const deputy = data.faunadb.Depute
+  const color = deputy.GroupeParlementaire.Couleur
   return (
     <Layout>
       <Helmet>
@@ -54,9 +59,13 @@ function Deputy({ data }: SingleDeputyQueryProps) {
         {deputy.Prenom} {deputy.NomDeFamille}
       </h1>
       <DeputyStyles className="single-deputy">
-        <GeneralInformation {...getGeneralInformation(deputy, 500)} />
-        <Coworkers {...getCoworkers(deputy)} />
-        <MapCirco {...getCirco(deputy)} />
+        {/* <OldGeneralInformation {...getOldGeneralInformation(deputy, 500)} /> */}
+        <GeneralInformation
+          {...getGeneralInformation(deputy, 500)}
+          color={color}
+        />
+        <Coworkers {...getCoworkers(deputy)} color={color} />
+        <MapCirco {...getCirco(deputy)} color={color} />
         {/* <CurrentMandate {...getCurrentMandate(deputy)} /> */}
         {/* <OldMandates {...getOldMandates(deputy)} /> */}
         {/* <OthersMandates {...getOthersMandates(deputy)} /> */}
@@ -72,9 +81,12 @@ export const query = graphql`
   query SingleDeputy($slug: String!) {
     faunadb {
       Depute(Slug: $slug) {
-        SigleGroupePolitique
+        Age
         LieuDeNaissance
         DebutDuMandat
+        GroupeParlementaire {
+          Couleur
+        }
         Nom
         NomCirconscription
         NomDeFamille
@@ -86,6 +98,8 @@ export const query = graphql`
         Prenom
         Profession
         Sexe
+        SigleGroupePolitique
+        SitesWeb
         Slug
         Twitter
         Collaborateurs

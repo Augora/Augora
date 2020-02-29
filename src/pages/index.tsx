@@ -26,7 +26,7 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
         <DeputiesList
           deputes={data.faunadb.DeputesEnMandat.data}
           groupes={data.faunadb.GroupesParlementaires}
-        // groupes={data.faunadb.GroupesParlementaires}
+          groupesDetails={data.faunadb.GroupesParlementairesDetails}
         />
       </div>
     </Layout>
@@ -43,6 +43,10 @@ export const query = graphql`
           SigleGroupePolitique
           LieuDeNaissance
           DebutDuMandat
+          GroupeParlementaire {
+            Couleur
+            Sigle
+          }
           Nom
           NomCirconscription
           NomDeFamille
@@ -65,6 +69,12 @@ export const query = graphql`
         }
       }
       GroupesParlementaires
+      GroupesParlementairesDetails {
+        data {
+          Couleur
+          Sigle
+        }
+      }
     }
   }
 `
