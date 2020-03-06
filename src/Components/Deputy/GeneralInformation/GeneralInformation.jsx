@@ -6,13 +6,22 @@ export default function GeneralInformation(props) {
     <Block
       className="deputy__block deputy__general"
       title="Informations Générales"
+      type="general"
+      color={props.color}
     >
-      <div className="main">
-        <img src={props.picture} alt={props.id} />
-        <img src={props.pictureGroup} alt={props.groupe} />
+      <div className={`block__main general__main`}>
+        <div className="main__picture">
+          <img src={props.picture} alt={props.id} />
+        </div>
+        <div className="main__info">
+          <img src={props.pictureGroup} alt={props.groupe} />
+          <div className="main__age">
+            {props.age}
+            <div>ans</div>
+          </div>
+        </div>
       </div>
-      <div className="blocks">
-        <div className="age">{props.age}</div>
+      <div className="general__job">
         <div className="job">{props.job}</div>
       </div>
     </Block>

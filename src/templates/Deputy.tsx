@@ -54,6 +54,10 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy)}{" "}
           {deputy.SigleGroupePolitique}
         </title>
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        ></link>
       </Helmet>
       <h1>
         {deputy.Prenom} {deputy.NomDeFamille}
@@ -61,7 +65,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
       <DeputyStyles className="single-deputy">
         {/* <OldGeneralInformation {...getOldGeneralInformation(deputy, 500)} /> */}
         <GeneralInformation
-          {...getGeneralInformation(deputy, 500)}
+          {...getGeneralInformation(deputy, 150)}
           color={color}
         />
         <Coworkers {...getCoworkers(deputy)} color={color} />
