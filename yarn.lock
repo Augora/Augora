@@ -6202,9 +6202,9 @@ gatsby-page-utils@^0.0.39:
     micromatch "^3.1.10"
 
 gatsby-plugin-graphql-codegen@^2.0.1:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-graphql-codegen/-/gatsby-plugin-graphql-codegen-2.2.3.tgz#58cdcf5a85b16eab13ca372576031a5dda91049f"
-  integrity sha512-M6MTIoPJWBF7li2HRMjbpt1u0TOHxGvRDfIa5u4gizQx59ujJNWudyOJnLO9YuIX4xsYKuGnaWAeMf+IDn8dwA==
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-graphql-codegen/-/gatsby-plugin-graphql-codegen-2.4.0.tgz#7e57c74e8fc3ddff3dbc69adcbe13075988ab068"
+  integrity sha512-jl8U3JZC2QILnVLCXhC9ouviX2DkhCCD5S6ZhHXPObVat63rWsQSTzbvKLIFok+H7WvvjCiwpmLKdb57GlTtqg==
   dependencies:
     "@graphql-codegen/core" "^1.12.2"
     "@graphql-codegen/typescript" "^1.12.2"
