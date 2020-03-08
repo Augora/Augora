@@ -5,7 +5,7 @@ import { ICirco } from "Components/Deputy/MapCirco/MapCirco"
 import { IMandate } from "Components/Deputy/CurrentMandate/CurrentMandate"
 import constructifs from "images/Logos/groupes_parlementaires/constructifs/constructifs_grand.png"
 import gdr from "images/Logos/groupes_parlementaires/gdr/gdr_grand.png"
-import l_t from "images/Logos/groupes_parlementaires/l_t/l_t_grand.png"
+import lt from "images/Logos/groupes_parlementaires/lt/lt_grand.png"
 import lfi from "images/Logos/groupes_parlementaires/lfi/lfi_grand.png"
 import lr from "images/Logos/groupes_parlementaires/lr/lr_grand.png"
 import lrem from "images/Logos/groupes_parlementaires/lrem/lrem_grand.png"
@@ -29,7 +29,7 @@ export function getPoliticGroupPicture(politicGroup: string) {
     case "GDR":
       return gdr
     case "LT":
-      return l_t
+      return lt
     case "LFI":
       return lfi
     case "LR":
