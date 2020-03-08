@@ -18,12 +18,20 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
       <Helmet>
         <meta name="robots" content="noindex,nofollow" />
         <title>Liste des députés</title>
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        ></link>
       </Helmet>
       <header className="header">
         <h1>Liste des députés</h1>
       </header>
       <div>
-        <DeputiesList data={data.faunadb.Deputes.data} />
+        <DeputiesList
+          deputes={data.faunadb.DeputesEnMandat.data}
+          groupes={data.faunadb.GroupesParlementaires}
+          groupesDetails={data.faunadb.GroupesParlementairesDetails}
+        />
       </div>
     </Layout>
   )
@@ -34,11 +42,15 @@ export default IndexPage
 export const query = graphql`
   query DeputesQuery {
     faunadb {
-      Deputes(_size: 700) {
+      DeputesEnMandat(EstEnMandat: true, _size: 700) {
         data {
           SigleGroupePolitique
           LieuDeNaissance
           DebutDuMandat
+          GroupeParlementaire {
+            Couleur
+            Sigle
+          }
           Nom
           NomCirconscription
           NomDeFamille
@@ -53,10 +65,18 @@ export const query = graphql`
           Slug
           Twitter
           DateDeNaissance
+          Age
           Adresses
           Collaborateurs
           Emails
           SitesWeb
+        }
+      }
+      GroupesParlementaires
+      GroupesParlementairesDetails {
+        data {
+          Couleur
+          Sigle
         }
       }
     }

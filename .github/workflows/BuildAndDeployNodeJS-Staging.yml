@@ -12,7 +12,7 @@ jobs:
       matrix:
         # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
         os: [macOS-latest, windows-latest, ubuntu-latest]
-        node-version: [10.x, 12.x]
+        node-version: [12.x, 13.x]
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
@@ -34,10 +34,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Use Node.js 12.x
+      - name: Use Node.js 13.x
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 13.x
 
       - name: yarn install, build
         env:
@@ -52,12 +52,7 @@ jobs:
         env:
           ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
         with:
-          args: "npx now alias --token=$ZEIT_TOKEN $(npx now public/ --no-clipboard --token=$ZEIT_TOKEN --public) preprod.augora.fr"
-
-      - name: Comment on PR
-        env:
-          ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
-        run: now --no-clipboard -t ${ZEIT_TOKEN} -m commit=${GITHUB_SHA} -m branch=${GITHUB_REF}
+          args: "npx now alias --token=$ZEIT_TOKEN $(npx now --token=$ZEIT_TOKEN) preprod.augora.fr"
 
       - name: Notify slack
         env:

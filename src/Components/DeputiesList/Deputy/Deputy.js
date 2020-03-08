@@ -97,16 +97,16 @@ class OneDeputy extends Component {
     this.expand = this.expand.bind(this)
   }
 
-  getAge(birthdayDate) {
-    const dateToday = Date.now()
-    const ageDate = birthdayDate.getTime()
-    const age = Math.abs(new Date(dateToday - ageDate).getUTCFullYear() - 1970)
-    this.setState(function(state) {
-      return {
-        actualAge: age,
-      }
-    })
-  }
+  // getAge(birthdayDate) {
+  //   const dateToday = Date.now()
+  //   const ageDate = birthdayDate.getTime()
+  //   const age = Math.abs(new Date(dateToday - ageDate).getUTCFullYear() - 1970)
+  //   this.setState(function(state) {
+  //     return {
+  //       actualAge: age,
+  //     }
+  //   })
+  // }
 
   expand(e) {
     e.preventDefault()
@@ -117,9 +117,9 @@ class OneDeputy extends Component {
     })
   }
 
-  getDerivedStateFromProps(props, state) {
-    this.getAge(state.actualBirthDate)
-  }
+  // getDerivedStateFromProps(props, state) {
+  //   this.getAge(state.actualBirthDate)
+  // }
 
   render() {
     return (

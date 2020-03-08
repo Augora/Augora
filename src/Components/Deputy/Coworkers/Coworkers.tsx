@@ -1,39 +1,30 @@
-import React, { FunctionComponent, useState } from "react";
-import styled from "styled-components";
-import Coworker, { ICoworker } from "./Coworker/Coworker";
-import { slugify } from 'Utils/utils'
+import React from "react"
+import Coworker from "./Coworker/Coworker"
+import { slugify } from "Utils/utils"
+import Block from "../_Block/_Block"
 
 // use it to resize the box as you wish, maybe with default values ?
 interface CssValues {}
 
-export interface ICoworkers {
-  coworkers: Array<ICoworker>;
+// export interface ICoworkers {
+//   coworkers: Array<ICoworker>
+// }
+
+function Coworkers(props) {
+  return (
+    <Block
+      className="deputy__block deputy__coworkers"
+      title="Assistants"
+      type="coworkers"
+      color={props.color}
+    >
+      <div className="deputy__coworkers">
+        {props.coworkers.map(coworker => {
+          return <Coworker key={slugify(coworker.coworker)} {...coworker} />
+        })}
+      </div>
+    </Block>
+  )
 }
 
-function Coworkers(props : ICoworkers) {
-  // Declare only one state, refresh all properties in once
-
-  const Block = styled.div`
-    display: flex;
-    flex-direction: column;
-    grid-column-end: span 1;
-    background-color: rgba(0,0,0,0.15);
-    border: solid 2px rgba(0,0,0,0.25);
-    border-radius: 2px;
-    padding: 10px;
-  `;
-  return (
-    <Block>
-      {props.coworkers.map((coworker: ICoworker) => {
-        return (
-          <Coworker
-            key={slugify(coworker.coworker)}
-            {...coworker}
-          />
-        );
-      })}
-    </Block>
-  );
-};
-
-export default Coworkers;
+export default Coworkers
