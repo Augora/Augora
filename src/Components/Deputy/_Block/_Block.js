@@ -4,10 +4,6 @@ import Header from "templates/Utils/DeputyHeader"
 export default function _Block(props) {
   return (
     <div className={`deputy__block block__${props.type}`}>
-      <span className="block__close">
-        <span></span>
-        <span></span>
-      </span>
       <Header type={props.type} title={props.title} color={props.color} />
       {props.type === "general" ? (
         <div
@@ -17,7 +13,9 @@ export default function _Block(props) {
       ) : (
         <div className={`block__background ${props.type}__background`}></div>
       )}
-      {props.children}
+      <div className={`block__content ${props.type}__content`}>
+        {props.children}
+      </div>
     </div>
   )
 }

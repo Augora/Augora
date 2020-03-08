@@ -2,10 +2,7 @@ import { IGeneralInformation } from "Components/Deputy/GeneralInformation/Genera
 import { ICoworkers } from "Components/Deputy/Coworkers/Coworkers"
 import { ICoworker } from "Components/Deputy/Coworkers/Coworker/Coworker"
 import { ICirco } from "Components/Deputy/MapCirco/MapCirco"
-import { ICurrentMandate } from "Components/Deputy/CurrentMandate/CurrentMandate"
-import { IOldMandates } from "Components/Deputy/OldMandates/OldMandates"
-import { IOthersMandates } from "Components/Deputy/OthersMandates/OthersMandates"
-import { ITotalMandates } from "Components/Deputy/TotalMandates/TotalMandates"
+import { IMandate } from "Components/Deputy/CurrentMandate/CurrentMandate"
 import constructifs from "images/Logos/groupes parlementaires/constructifs/constructifs_grand.png"
 import gdr from "images/Logos/groupes parlementaires/gdr/gdr_grand.png"
 import l_t from "images/Logos/groupes parlementaires/l_t/l_t_grand.png"
@@ -114,34 +111,13 @@ export function getCirco(deputy: any) {
   return props
 }
 
-export function getCurrentMandate(deputy: any): ICurrentMandate {
-  var props: ICurrentMandate = {
+export function getMandate(deputy: any): IMandate {
+  var props: IMandate = {
     dateBegin: deputy.DebutDuMandat,
     isInMandate: true,
-  }
-
-  return props
-}
-
-export function getOldMandates(deputy: any): IOldMandates {
-  var props: IOldMandates = {
-    oldMandates: deputy.AnciensMandats.data,
-  }
-
-  return props
-}
-
-export function getOthersMandates(deputy: any): IOthersMandates {
-  var props: IOthersMandates = {
-    othersMandates: deputy.AutresMandats.data,
-  }
-
-  return props
-}
-
-export function getTotalMandates(deputy: any): ITotalMandates {
-  var props: ITotalMandates = {
     numberMandates: deputy.NombreMandats,
+    othersMandates: deputy.AutresMandats.data,
+    oldMandates: deputy.AnciensMandats.data,
   }
 
   return props

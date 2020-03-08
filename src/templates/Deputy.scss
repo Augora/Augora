@@ -1,0 +1,205 @@
+// Règles générales
+.deputy__block {
+  position: relative;
+  border-radius: 10px;
+  /* padding: 10px 30px; */
+  font-family: "Open Sans";
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .block__background {
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  .block__content {
+    height: calc(100% - 75px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}
+
+.block__header {
+  position: relative;
+  /* padding: 10px 30px 0; */
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .header__background {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    opacity: 0.15;
+    border-radius: 10px 10px 0 0;
+  }
+  .header__title {
+    position: relative;
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    text-transform: uppercase;
+    margin: 0;
+    z-index: 1;
+  }
+  .block__close {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1;
+    transform: translate(0, -50%);
+    /* Hidden */
+    display: none;
+    span {
+      height: 4px;
+      width: 75%;
+      background-color: white;
+      border-radius: 3px;
+      position: absolute;
+      pointer-events: none;
+      &:first-child {
+        transform: rotate(45deg);
+      }
+      &:last-child {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+}
+
+// Règles Blocs par Blocs
+.block__general {
+  .general__background {
+    opacity: 0.75;
+  }
+  .general__header {
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 20px;
+      width: calc(100% - 40px);
+      height: 1px;
+      background-color: white;
+    }
+  }
+  .general__main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & > * {
+      width: 50%;
+    }
+    .main__picture {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        margin-bottom: 0px;
+      }
+    }
+    .main__info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      img {
+        width: 100px;
+      }
+      .main__age {
+        font-size: 50px;
+        color: white;
+        font-family: "Open Sans";
+        font-weight: 900;
+        div {
+          font-size: 18px;
+          margin-top: 10px;
+          text-align: center;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+  .general__job {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    height: 20%;
+  }
+}
+.block__mandate {
+  .mandate__content {
+    align-items: center;
+    .mandate__number {
+      .number__holder {
+        font-size: 82px;
+        font-weight: 800;
+        line-height: 1;
+      }
+      .number__title {
+        color: black;
+        opacity: 0.5;
+        text-transform: uppercase;
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+  }
+}
+.block__coworkers {
+  .coworkers__header {
+    //
+  }
+  .deputy__coworkers {
+    text-align: center;
+    .coworker__name {
+      margin: 0;
+    }
+    .coworker__name-title {
+      display: block;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+  }
+}
+.block__map {
+  .map__content {
+    .map__title {
+      display: inline-block;
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      font-family: "Open Sans";
+      bottom: 10px;
+      margin: 0;
+      font-size: 25px;
+      font-weight: bold;
+      white-space: nowrap;
+      transform: translate(-50%, 0);
+      opacity: 0.85;
+    }
+    .map__container {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 0 0 10px 10px;
+    }
+  }
+}

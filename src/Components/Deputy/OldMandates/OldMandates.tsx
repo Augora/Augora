@@ -1,8 +1,8 @@
-import React from "react";
-import block, { MyState } from "Utils/sc-utils";
-import styled from "styled-components";
-import moment from "moment";
-import 'moment/locale/fr';
+import React from "react"
+import block, { MyState } from "Utils/sc-utils"
+import styled from "styled-components"
+import moment from "moment"
+import "moment/locale/fr"
 
 export interface IOldMandate {
   DateDeDebut: String
@@ -14,13 +14,12 @@ export interface IOldMandates {
   oldMandates: [IOldMandate]
 }
 
-class OldMandates extends React.Component<IOldMandates, MyState>{
-
+class OldMandates extends React.Component<IOldMandates, MyState> {
   constructor(props: IOldMandates) {
     super(props)
 
     this.state = {
-      blockSize: 'block'
+      blockSize: "block",
     }
   }
 
@@ -29,12 +28,12 @@ class OldMandates extends React.Component<IOldMandates, MyState>{
       display: flex;
       flex-direction: column;
       grid-column-end: span 1;
-      background-color: rgba(0,0,0,0.15);
-      border: solid 2px rgba(0,0,0,0.25);
+      background-color: rgba(0, 0, 0, 0.15);
+      border: solid 2px rgba(0, 0, 0, 0.25);
       border-radius: 2px;
       padding: 10px;
-    `;
-    const Title = styled.h2``;
+    `
+    const Title = styled.h2``
 
     const P = styled.p`
       margin: 0;
@@ -44,9 +43,7 @@ class OldMandates extends React.Component<IOldMandates, MyState>{
       margin: 0;
     `
 
-    console.log(this.props.oldMandates);
-
-    moment.locale('fr');
+    moment.locale("fr")
     //    var dateToDisplay = moment(this.props.dateBegin).format('Do MMMM YYYY');
     return (
       <Block>
@@ -54,15 +51,15 @@ class OldMandates extends React.Component<IOldMandates, MyState>{
         {this.props.oldMandates.map(oldMandate => {
           return (
             <DateMandate>
-              Du {moment(oldMandate.DateDeDebut).format('Do MMMM YYYY')} au {moment(oldMandate.DateDeFin).format('Do MMMM YYYY')} : {oldMandate.Intitule}
+              Du {moment(oldMandate.DateDeDebut).format("Do MMMM YYYY")} au{" "}
+              {moment(oldMandate.DateDeFin).format("Do MMMM YYYY")} :{" "}
+              {oldMandate.Intitule}
             </DateMandate>
-          );
-
+          )
         })}
       </Block>
-    );
-
+    )
   }
 }
 
-export default OldMandates;
+export default OldMandates

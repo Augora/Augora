@@ -8,7 +8,7 @@ import ComplexBarChart from "./ComplexBarChart/ComplexBarChart"
 import PieChart from "./PieChart/PieChart"
 import AgeSlider from "./Slider/Slider"
 import { calculatePercentage } from "Utils/utils"
-import { useFuzzy } from 'react-use-fuzzy';
+import { useFuzzy } from "react-use-fuzzy"
 
 import {
   couleursGroupeParlementaire,
@@ -29,8 +29,8 @@ const DeputiesList = props => {
   })
   const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(props.deputes))
   const { result, keyword, search } = useFuzzy(props.deputes, {
-    keys: ['Nom'],
-  });
+    keys: ["Nom"],
+  })
 
   const state = {
     SexValue,
@@ -100,9 +100,6 @@ const DeputiesList = props => {
   const allGroupes = Object.keys(GroupeValue)
     .filter(groupe => groupe !== "NG")
     .map(groupe => {
-      const indexInData = groupesData.findIndex(
-        element => element.id === groupe
-      )
       const nbDeputeGroup = calculateNbDepute(filteredList, "groupe", {
         groupe,
       })

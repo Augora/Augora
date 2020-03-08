@@ -50,15 +50,13 @@ export const calculateNbDepute = (list, type, value) => {
     const filteredList = list
     switch (type) {
       case "groupe":
-        return filteredList
-          .filter(depute => {
-            return depute.SigleGroupePolitique === value.groupe ? true : false
-          }).length
+        return filteredList.filter(depute => {
+          return depute.SigleGroupePolitique === value.groupe ? true : false
+        }).length
       case "sexe":
-        return filteredList
-          .filter(depute => {
-            return depute.Sexe === value ? true : false
-          }).length
+        return filteredList.filter(depute => {
+          return depute.Sexe === value ? true : false
+        }).length
       default:
         return filteredList.length
     }
@@ -68,12 +66,12 @@ export const calculateNbDepute = (list, type, value) => {
 }
 
 export const calculateAgeDomain = list => {
-  const listAge = list.map(depute => depute.Age);
+  const listAge = list.map(depute => depute.Age)
   return [Math.min(...listAge), Math.max(...listAge)]
 }
 
 export const groupesArrayToObject = (array, value = true) => {
-  return array.reduce((a, b) => ((a[b] = value), a), {})
+  return array.reduce((a, b) => ((a[b] = value), a), {}) // eslint-disable-line
 }
 
 export const filterList = (list, state) => {
@@ -85,6 +83,8 @@ export const filterList = (list, state) => {
       return state.SexValue[depute.Sexe] ? true : false
     })
     .filter(depute => {
-      return depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
+      return (
+        depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
+      )
     })
 }

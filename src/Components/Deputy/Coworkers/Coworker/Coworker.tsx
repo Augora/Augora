@@ -1,19 +1,17 @@
-import React, { FunctionComponent, useState } from "react";
-import { RouterProps } from "../../../../Utils/utils";
+import React from "react"
 
-// use it to resize the box as you wish, maybe with default values ?
-interface CssValues {}
-
-export interface ICoworker {
-  coworker: string;
-}
-
-function Coworker(props: ICoworker) {
+function Coworker(props) {
+  const nameArray = props.coworker.split(" ")
   return (
-    <div>
-      <p> {props.coworker}</p>
+    <div className="coworkers__coworker">
+      <p className="coworker__name">
+        <span className="coworker__name-title" style={{ color: props.color }}>
+          {nameArray[0]}
+        </span>
+        {nameArray[1]} {nameArray[2]}
+      </p>
     </div>
-  );
+  )
 }
 
-export default Coworker;
+export default Coworker

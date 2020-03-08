@@ -4,21 +4,7 @@ import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonCirco from "./listCirco.json"
 import { retirerAccentsFR } from "Utils/utils"
-
-const Block = styled.div`
-  display: flex;
-  flex-direction: column;
-  grid-column-end: span 1;
-  background-color: rgba(0, 0, 0, 0.15);
-  border: solid 2px rgba(0, 0, 0, 0.25);
-  border-radius: 2px;
-  padding: 10px;
-`
-
-const MapBlock = styled.div`
-  width: 100%;
-  height: 100%;
-`
+import Block from "../_Block/_Block"
 
 const France = {
   center: { lng: 1.88, lat: 46.6 },
@@ -82,7 +68,7 @@ const initMap = props => {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
   const map = new mapboxgl.Map({
-    container: document.querySelector(".map"), // container id
+    container: document.querySelector(".map__container"), // container id
     style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
     center: France.center, // starting position [lng, lat]
     zoom: 2, // starting zoom
@@ -106,9 +92,9 @@ const MapCirco = props => {
   }, [props])
 
   return (
-    <Block>
-      <p>{props.nom}</p>
-      <MapBlock className="map"></MapBlock>
+    <Block title="Circonscription" type="map" color={props.color}>
+      <p className="map__title">{props.nom}</p>
+      <div className="map__container"></div>
     </Block>
   )
 }

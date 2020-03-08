@@ -1,7 +1,6 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { patternLinesDef } from "@nivo/core"
-import { getColorLuminosity, getTextColorContrast } from "Utils/utils"
 
 const generateTooltip = tooltip => {
   return (
@@ -49,7 +48,6 @@ export default function ComplexBarChart(props) {
       innerPadding={2}
       borderRadius={5}
       colors={data => {
-        console.log(data)
         if (
           data.indexValue < props.ageDomain[0] ||
           data.indexValue > props.ageDomain[1]

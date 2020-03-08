@@ -1,7 +1,7 @@
 import React from "react"
 import Helmet from "react-helmet"
 import { graphql } from "gatsby"
-import "./Deputy.css"
+import "./Deputy.scss"
 
 import styled from "styled-components"
 
@@ -11,6 +11,7 @@ import Layout from "Components/layout"
 import GeneralInformation from "Components/Deputy/GeneralInformation/GeneralInformation"
 import Coworkers from "Components/Deputy/Coworkers/Coworkers"
 import MapCirco from "Components/Deputy/MapCirco/MapCirco"
+import Mandate from "Components/Deputy/Mandate/Mandate"
 // import CurrentMandate from "Components/Deputy/CurrentMandate/CurrentMandate"
 // import OldMandates from "Components/Deputy/OldMandates/OldMandates"
 // import OthersMandates from "Components/Deputy/OthersMandates/OthersMandates"
@@ -20,14 +21,11 @@ import { SingleDeputyQuery } from "types/graphql-types"
 import {
   getGender,
   getGeneralInformation,
-  getOldGeneralInformation,
+  // getOldGeneralInformation,
   getCoworkers,
   getCirco,
-  getCurrentMandate,
-  getOldMandates,
-  getOthersMandates,
-  getTotalMandates,
-  getGroupeColor,
+  getMandate,
+  // getGroupeColor,
 } from "./Utils/Deputy.utils"
 
 type SingleDeputyQueryProps = {
@@ -55,9 +53,9 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           {deputy.SigleGroupePolitique}
         </title>
         <link
-          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Playfair+Display:400,500,600,700,800,900&display=swap"
           rel="stylesheet"
-        ></link>
+        />
       </Helmet>
       <h1>
         {deputy.Prenom} {deputy.NomDeFamille}
@@ -67,13 +65,17 @@ function Deputy({ data }: SingleDeputyQueryProps) {
         <GeneralInformation
           {...getGeneralInformation(deputy, 150)}
           color={color}
+          size="medium"
         />
-        <Coworkers {...getCoworkers(deputy)} color={color} />
-        <MapCirco {...getCirco(deputy)} color={color} />
-        {/* <CurrentMandate {...getCurrentMandate(deputy)} /> */}
-        {/* <OldMandates {...getOldMandates(deputy)} /> */}
-        {/* <OthersMandates {...getOthersMandates(deputy)} /> */}
-        {/* <TotalMandates {...getTotalMandates(deputy)} /> */}
+        <Mandate
+          {...getMandate(deputy)}
+          // {...getOthersMandates(deputy)}
+          // {...getTotalMandates(deputy)}
+          color={color}
+          size="small"
+        />
+        <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
+        <MapCirco {...getCirco(deputy)} color={color} size="medium" />
       </DeputyStyles>
     </Layout>
   )

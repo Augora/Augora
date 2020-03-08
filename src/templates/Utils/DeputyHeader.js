@@ -25,6 +25,10 @@ export default function DeputyHeader(props) {
           {props.title}
         </h2>
       )}
+      <span className="block__close">
+        <span></span>
+        <span></span>
+      </span>
     </div>
   )
 }

@@ -7,11 +7,6 @@ import { color } from "d3"
 ///////////////////////////////////////////////////////////////////////////////////////
 
 const drawBarChart = (data, wrapper, width, height) => {
-  // Il faut retirer les barchart déjà existants...
-  // console.log(wrapper.children)
-  // if (wrapper.children > 0) {
-  //   d3.selectAll("svg").remove()
-  // }
   const barWidth = width / data.length
   const svgCanvas = d3
     .select(wrapper)

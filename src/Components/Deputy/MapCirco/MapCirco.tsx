@@ -55,8 +55,6 @@ export default class MapCirco extends Component<ICirco> {
     let boxListOfLng = []
     let boxListOfLat = []
 
-    // console.log('selectedCirco : ')
-    // console.log(selectedCirco)
     if (selectedCirco.geometry.type === "Polygon") {
       selectedCirco.geometry.coordinates[0].forEach(coords => {
         boxListOfLng.push(coords[0])
@@ -108,7 +106,6 @@ export default class MapCirco extends Component<ICirco> {
   }
 
   componentDidMount() {
-    console.log("componentDidMount MapCirco:", this.props)
     this.initMap()
 
     // Récupérer la circonscription concernée
