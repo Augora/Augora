@@ -63,5 +63,6 @@ module.exports = {
         pages: path.join(__dirname, "src/pages"),
       },
     },
+    `gatsby-plugin-sass`,
   ],
 }
