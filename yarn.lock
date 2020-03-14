@@ -6329,12 +6329,12 @@ gatsby-plugin-graphql-codegen@^2.0.1:
     lodash.debounce "^4.0.8"
 
 gatsby-plugin-manifest@^2.2.13:
-  version "2.2.44"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-2.2.44.tgz#1902972d14144ff7b071f13aab3cd9a25d265b30"
-  integrity sha512-Mhq7sXAiFZG0xL8RFqLYEZK9/RBVtn2ubIiIWA5jS4PRfxSx8szvmAbu7H7VvOJTvh/ArGKUbGPEQ0mbJmX1AA==
+  version "2.2.47"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-2.2.47.tgz#f13c17c67fba6ec597e0ef333974ab8238c925bd"
+  integrity sha512-k1wC6PQsa1THHtSXLlCbAynPo0U7MZfL//wj0Xy2ZprpPbDwJKICKK/sZLbBb7JrFqnXtOMgo4S50p9Hq2AhaQ==
   dependencies:
     "@babel/runtime" "^7.7.6"
-    gatsby-core-utils "^1.0.30"
+    gatsby-core-utils "^1.0.33"
     semver "^5.7.1"
     sharp "^0.23.4"
 
