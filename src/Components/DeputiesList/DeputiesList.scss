@@ -1,14 +1,16 @@
 .filters {
   margin-bottom: 20px;
+  // Contenu
+  &__search {
+    margin: 0;
+    width: 100%;
+  }
+  &__groupe {
+    display: flex;
+    margin: 10px 0;
+  }
 }
-.filters__search {
-  margin: 0;
-  width: 100%;
-}
-.filters__groupe {
-  display: flex;
-  margin: 10px 0;
-}
+
 .groupes__allornone {
   display: flex;
   flex-direction: column;
@@ -24,12 +26,12 @@
   margin: 10px 0;
   display: flex;
   justify-content: space-around;
-}
-.filters__sexes label {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .deputies__number {
@@ -39,8 +41,8 @@
 .deputies__list {
   position: relative;
   display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(4, 25%);
+  grid-gap: 40px;
+  grid-template-columns: repeat(6, auto);
   padding: 0px;
   margin: 0px;
 }

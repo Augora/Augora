@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Deputy from "./Deputy/Deputy"
-import "./DeputiesList.css"
+import "./DeputiesList.scss"
 // import BarChart from "./BarChart/D3BarChart"
 // import BarChart from "./BarChart/BarChart"
 import ComplexBarChart from "./ComplexBarChart/ComplexBarChart"
@@ -19,6 +19,7 @@ import {
 } from "./DeputiesListUtils"
 
 const DeputiesList = props => {
+  console.log(props.deputes)
   // States
   const [GroupeValue, setGroupeValue] = useState(
     groupesArrayToObject(props.groupes)

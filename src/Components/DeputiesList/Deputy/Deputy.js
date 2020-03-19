@@ -11,7 +11,7 @@ import React, { Component } from "react"
 import { Link } from "gatsby"
 
 // Style
-import "./Deputy.css"
+import "./Deputy.scss"
 
 // Images
 // import twitter from "./Assets/twitter.svg";
@@ -97,17 +97,6 @@ class OneDeputy extends Component {
     this.expand = this.expand.bind(this)
   }
 
-  // getAge(birthdayDate) {
-  //   const dateToday = Date.now()
-  //   const ageDate = birthdayDate.getTime()
-  //   const age = Math.abs(new Date(dateToday - ageDate).getUTCFullYear() - 1970)
-  //   this.setState(function(state) {
-  //     return {
-  //       actualAge: age,
-  //     }
-  //   })
-  // }
-
   expand(e) {
     e.preventDefault()
     this.setState(function(state) {
@@ -116,10 +105,6 @@ class OneDeputy extends Component {
       }
     })
   }
-
-  // getDerivedStateFromProps(props, state) {
-  //   this.getAge(state.actualBirthDate)
-  // }
 
   render() {
     return (
@@ -133,6 +118,7 @@ class OneDeputy extends Component {
         }}
       >
         <h2>{this.props.data.Nom}</h2>
+        <img className="deputy__photo" src={this.props.data.URLPhotoAssembleeNationnale} alt={this.props.data.Slug} />
       </Link>
     )
   }
