@@ -9,6 +9,7 @@ import PieChart from "./PieChart/PieChart"
 import AgeSlider from "./Slider/Slider"
 import { calculatePercentage } from "Utils/utils"
 import { useFuzzy } from "react-use-fuzzy"
+import { deburr } from "lodash"
 
 import {
   couleursGroupeParlementaire,
@@ -29,9 +30,14 @@ const DeputiesList = props => {
     F: true,
   })
   const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(props.deputes))
-  const { result, keyword, search } = useFuzzy(props.deputes, {
-    keys: ["Nom"],
-  })
+  const { result, keyword, search } = useFuzzy(
+    props.deputes.map(d =>
+      Object.assign({}, d, { NomToSearch: deburr(d.Nom) })
+    ),
+    {
+      keys: ["NomToSearch"],
+    }
+  )
 
   const state = {
     SexValue,
