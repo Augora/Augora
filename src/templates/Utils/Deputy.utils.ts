@@ -10,7 +10,7 @@ import lfi from "images/Logos/groupes_parlementaires/lfi/lfi_grand.png"
 import lr from "images/Logos/groupes_parlementaires/lr/lr_grand.png"
 import lrem from "images/Logos/groupes_parlementaires/lrem/lrem_grand.png"
 import modem from "images/Logos/groupes_parlementaires/modem/modem_grand.png"
-import non_inscrits from "images/Logos/groupes_parlementaires/non inscrits/non_inscrits_moyen.png"
+import non_inscrits from "images/Logos/groupes_parlementaires/ni/ni_grand.png"
 import ps from "images/Logos/groupes_parlementaires/ps/ps_grand.png"
 import uai from "images/Logos/groupes_parlementaires/constructifs/constructifs_grand.png"
 

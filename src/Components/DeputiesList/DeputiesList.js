@@ -15,11 +15,10 @@ import {
   calculateAgeDomain,
   calculateNbDepute,
   filterList,
-  groupesArrayToObject,
+  groupesArrayToObject
 } from "./DeputiesListUtils"
 
 const DeputiesList = props => {
-  console.log(props.deputes)
   // States
   const [GroupeValue, setGroupeValue] = useState(
     groupesArrayToObject(props.groupes)
