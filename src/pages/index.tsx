@@ -2,9 +2,9 @@ import React from "react"
 import Helmet from "react-helmet"
 import { graphql } from "gatsby"
 
-import Layout from "Components/layout"
+import Layout from "components/layout"
 
-import DeputiesList from "../Components/DeputiesList/DeputiesList"
+import DeputiesList from "../components/deputies-list/DeputiesList"
 import { DeputesQueryQuery } from "../types/graphql-types"
 
 type DeputesQueryQueryProps = {

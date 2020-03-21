@@ -1,7 +1,7 @@
 import React from "react"
-import Coworker from "./Coworker/Coworker"
-import { slugify } from "Utils/utils"
-import Block from "../_Block/_Block"
+import Coworker from "./coworker/Coworker"
+import { slugify } from "utils/utils"
+import Block from "../_block/_Block"
 
 function Coworkers(props) {
   return (

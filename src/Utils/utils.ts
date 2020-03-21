@@ -4,36 +4,6 @@ export interface RouterProps<T> {
   }
 }
 
-export function calculateBlockSize(size: string) {
-  switch (size) {
-    case "line":
-      return 4
-    case "halfLine":
-      return 2
-    case "block":
-      return 1
-    default:
-      return 1
-  }
-}
-
-export function retirerAccentsFR(string: string) {
-  return string
-    .replace(/[ÀÁÂÃÄÅ]/g, "A")
-    .replace(/[àáâãäå]/g, "a")
-    .replace(/[ÈÉÊË]/g, "E")
-    .replace(/[èéêë]/g, "e")
-    .replace(/[Î]/g, "I")
-    .replace(/[î]/g, "i")
-    .replace(/[Ô]/g, "O")
-    .replace(/[ô]/g, "o")
-    .replace(/[Ù]/g, "U")
-    .replace(/[ù]/g, "u")
-    .replace(/[Ç]/g, "C")
-    .replace(/[ç]/g, "c")
-    .replace(/[^a-z0-9']/gi, "-") // final clean up
-}
-
 export function slugify(string: string) {
   const a =
     "àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;"
@@ -53,23 +23,3 @@ export function slugify(string: string) {
     .replace(/-+$/, "") // Trim - from end of text
 }
 
-export function getColorLuminosity(string: string) {
-  return string.includes("hsl")
-    ? parseInt(string.split(",")[2].split("%")[0])
-    : null
-}
-
-export function getTextColorContrast(type: string) {
-  switch (type) {
-    case "light":
-      return "rgba(255,255,255,0.8)"
-    case "dark":
-      return "rgba(0,0,0,0.8)"
-    default:
-      return "rgba(0,0,0,0.8)"
-  }
-}
-
-export function calculatePercentage(numerateur: number, denominateur: number) {
-  return (denominateur * 100) / numerateur
-}
