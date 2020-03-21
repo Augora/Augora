@@ -6,7 +6,6 @@ import "./deputies-list.scss"
 import { useFuzzy } from "react-use-fuzzy"
 
 import {
-  couleursGroupeParlementaire,
   calculateAgeDomain,
   calculateNbDepute,
   filterList,
@@ -21,7 +20,7 @@ import Deputy from "./deputy/Deputy"
 const DeputiesList = props => {
   // States
   const [GroupeValue, setGroupeValue] = useState(
-    groupesArrayToObject(props.groupes)
+    groupesArrayToObject(props.groupesDetails.data.map(g => g.Sigle))
   )
   const [SexValue, setSexValue] = useState({
     H: true,
@@ -40,20 +39,18 @@ const DeputiesList = props => {
 
   const filteredList = filterList(result, state)
 
-  const groupesData = Object.keys(GroupeValue)
-    .filter(groupe => {
-      // Retire le groupe "NG" en attendant de savoir quoi en faire
-      return groupe === "NG" ? false : true
-    })
+  const groupesData = props.groupesDetails.data
     .map(groupe => {
-      const nbDeputeGroup = calculateNbDepute(filteredList, "groupe", {
-        groupe,
-      })
+      const nbDeputeGroup = calculateNbDepute(
+        filteredList,
+        "groupe",
+        groupe.Sigle
+      )
       return Object.assign({
-        id: groupe,
-        label: couleursGroupeParlementaire[groupe].nom_complet,
+        id: groupe.Sigle,
+        label: groupe.NomComplet,
         value: nbDeputeGroup,
-        color: couleursGroupeParlementaire[groupe].couleur,
+        color: groupe.Couleur,
       })
     })
     .filter(groupe => groupe.value !== 0)
@@ -97,37 +94,38 @@ const DeputiesList = props => {
     setAgeDomain(domain)
   }
 
-  const allGroupes = Object.keys(GroupeValue)
-    .filter(groupe => groupe !== "NG")
-    .map(groupe => {
-      const nbDeputeGroup = calculateNbDepute(filteredList, "groupe", {
-        groupe,
-      })
-      const deputePercent =
-        Math.round(
-          calculatePercentage(
-            filteredList.length,
-            calculateNbDepute(filteredList, "groupe", {
-              groupe,
-            })
-          ) * 10
-        ) / 10
-      return (
-        <label className={`groupe groupe--${groupe}`} key={`groupe--${groupe}`}>
-          {groupe}
-          <span style={{ display: "block" }}>
-            ({nbDeputeGroup} - {deputePercent}
-            %)
-          </span>
-          <input
-            type="checkbox"
-            name={groupe}
-            checked={GroupeValue[groupe] ? true : false}
-            onChange={handleClickOnGroupe}
-          />
-        </label>
-      )
-    })
+  const allGroupes = props.groupesDetails.data.map(groupe => {
+    const nbDeputeGroup = calculateNbDepute(
+      filteredList,
+      "groupe",
+      groupe.Sigle
+    )
+    const deputePercent =
+      Math.round(
+        calculatePercentage(
+          filteredList.length,
+          calculateNbDepute(filteredList, "groupe", groupe.Sigle)
+        ) * 10
+      ) / 10
+    return (
+      <label
+        className={`groupe groupe--${groupe.Sigle}`}
+        key={`groupe--${groupe.Sigle}`}
+      >
+        {groupe.Sigle}
+        <span style={{ display: "block" }}>
+          ({nbDeputeGroup} - {deputePercent}
+          %)
+        </span>
+        <input
+          type="checkbox"
+          name={groupe.Sigle}
+          checked={GroupeValue[groupe.Sigle] ? true : false}
+          onChange={handleClickOnGroupe}
+        />
+      </label>
+    )
+  })
 
   let ages = []
   for (

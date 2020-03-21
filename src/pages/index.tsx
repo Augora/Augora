@@ -28,7 +28,6 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
       <div>
         <DeputiesList
           deputes={data.faunadb.DeputesEnMandat.data}
-          groupes={data.faunadb.GroupesParlementaires}
           groupesDetails={data.faunadb.GroupesParlementairesDetails}
         />
       </div>
@@ -72,7 +71,6 @@ export const query = graphql`
           URLPhotoAssembleeNationnale
         }
       }
-      GroupesParlementaires
       GroupesParlementairesDetails {
         data {
           Couleur

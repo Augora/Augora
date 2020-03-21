@@ -8,60 +8,13 @@ import modem from "images/logos/groupes-parlementaires/modem/modem_blanc.png"
 import ni from "images/logos/groupes-parlementaires/ni/ni_moyen.png"
 import ps from "images/logos/groupes-parlementaires/ps/ps_blanc.png"
 
-export const couleursGroupeParlementaire = {
-  LREM: {
-    couleur: "hsl(199, 100%, 58%)",
-    nom_complet: "La République En Marche",
-  },
-  LR: {
-    couleur: "hsl(223, 45%, 23%)",
-    nom_complet: "Les Républicains",
-  },
-  MODEM: {
-    couleur: "hsl(25, 81%, 54%)",
-    nom_complet: "Mouvement Démocrate et apparentés",
-  },
-  SOC: {
-    couleur: "hsl(354, 84%, 43%)",
-    nom_complet: "Socialistes et apparentés",
-  },
-  UAI: {
-    couleur: "hsl(194, 81%, 55%)",
-    nom_complet: "UDI, Agir et Indépendants",
-  },
-  LFI: {
-    couleur: "hsl(11, 66%, 47%)",
-    nom_complet: "La France insoumise",
-  },
-  GDR: {
-    couleur: "hsl(0, 100%, 43%)",
-    nom_complet: "Gauche démocrate et républicaine",
-  },
-  LT: {
-    couleur: "hsl(0, 0%, 50%)",
-    nom_complet: "Libertés et Territoires",
-  },
-  NI: {
-    couleur: "hsl(0, 0%, 80%)",
-    nom_complet: "Non inscrits",
-  },
-  NG: {
-    couleur: "hsl(0, 0%, 80%)",
-    nom_complet: "Non inscrits",
-  },
-  UDI: {
-    couleur: "hsl(261, 29%, 48%)",
-    nom_complet: "Union des démocrates et indépendants",
-  },
-}
-
 export const calculateNbDepute = (list, type, value) => {
   if (list.length > 0) {
     const filteredList = list
     switch (type) {
       case "groupe":
         return filteredList.filter(depute => {
-          return depute.SigleGroupePolitique === value.groupe ? true : false
+          return depute.SigleGroupePolitique === value ? true : false
         }).length
       case "sexe":
         return filteredList.filter(depute => {
@@ -99,41 +52,41 @@ export const filterList = (list, state) => {
     })
 }
 
-export const groupeIconByDeputy = (deputy) => {
+export const groupeIconByDeputy = deputy => {
   const selectedGroupe = deputy.GroupeParlementaire.Sigle
 
   let selectedGroupeIcon = ni
   switch (selectedGroupe) {
-    case 'LFI':
+    case "LFI":
       selectedGroupeIcon = lfi
-      break;
-    case 'GDR':
+      break
+    case "GDR":
       selectedGroupeIcon = gdr
-      break;
-    case 'LT':
+      break
+    case "LT":
       selectedGroupeIcon = lt
-      break;
-    case 'MODEM':
+      break
+    case "MODEM":
       selectedGroupeIcon = modem
-      break;
-    case 'SOC':
+      break
+    case "SOC":
       selectedGroupeIcon = ps
-      break;
-    case 'LR':
+      break
+    case "LR":
       selectedGroupeIcon = lr
-      break;
-    case 'LREM':
+      break
+    case "LREM":
       selectedGroupeIcon = lrem
-      break;
-    case 'UDI':
+      break
+    case "UDI":
       selectedGroupeIcon = constructifs
-      break;
-    case 'UAI':
+      break
+    case "UAI":
       selectedGroupeIcon = constructifs
-      break;
+      break
     default:
       selectedGroupeIcon = ni
-      break;
+      break
   }
 
   return selectedGroupeIcon
