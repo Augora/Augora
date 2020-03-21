@@ -10,7 +10,7 @@ function Head(props: HeadProps) {
   return (
     <head>
       <title> {props.titleContent} </title>
-      <base href="../../Assets/Logos" />
+      <base href="../../assets/logos" />
       <link rel="icon" type="image/png" href={props.titleLogoSrc} />
     </head>
   )

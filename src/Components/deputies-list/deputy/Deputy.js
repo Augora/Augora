@@ -8,12 +8,12 @@ import {
 // Style
 import "./deputy.scss"
 
-// Images
-// import twitter from "./Assets/twitter.svg";
-// import envelope from "./Assets/envelope.svg";
+// images
+// import twitter from "./assets/twitter.svg";
+// import envelope from "./assets/envelope.svg";
 import homme from "./assets/homme.svg"
 import femme from "./assets/femme.svg"
-// import downArrow from "./Assets/down-arrow.svg";
+// import downArrow from "./assets/down-arrow.svg";
 
 const couleursGroupeParlementaire = {
   LREM: {

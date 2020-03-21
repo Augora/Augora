@@ -1,12 +1,12 @@
-import constructifs from "images/Logos/groupes_parlementaires/constructifs/constructifs_blanc.png"
-import gdr from "images/Logos/groupes_parlementaires/gdr/gdr_grand.png"
-import lfi from "images/Logos/groupes_parlementaires/lfi/lfi_blanc.png"
-import lr from "images/Logos/groupes_parlementaires/lr/lr_blanc.png"
-import lrem from "images/Logos/groupes_parlementaires/lrem/lrem_blanc.png"
-import lt from "images/Logos/groupes_parlementaires/lt/lt_blanc.png"
-import modem from "images/Logos/groupes_parlementaires/modem/modem_blanc.png"
-import ni from "images/Logos/groupes_parlementaires/ni/ni_moyen.png"
-import ps from "images/Logos/groupes_parlementaires/ps/ps_blanc.png"
+import constructifs from "images/logos/groupes-parlementaires/constructifs/constructifs_blanc.png"
+import gdr from "images/logos/groupes-parlementaires/gdr/gdr_grand.png"
+import lfi from "images/logos/groupes-parlementaires/lfi/lfi_blanc.png"
+import lr from "images/logos/groupes-parlementaires/lr/lr_blanc.png"
+import lrem from "images/logos/groupes-parlementaires/lrem/lrem_blanc.png"
+import lt from "images/logos/groupes-parlementaires/lt/lt_blanc.png"
+import modem from "images/logos/groupes-parlementaires/modem/modem_blanc.png"
+import ni from "images/logos/groupes-parlementaires/ni/ni_moyen.png"
+import ps from "images/logos/groupes-parlementaires/ps/ps_blanc.png"
 
 export const couleursGroupeParlementaire = {
   LREM: {

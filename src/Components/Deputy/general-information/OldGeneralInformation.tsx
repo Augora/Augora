@@ -1,5 +1,5 @@
 import React from "react";
-import block, {MyState} from "Utils/StyledComponents/block";
+import block, {MyState} from "utils/styled-components/block";
 
 // import { RouterProps } from "../../../Utils/utils";
 import styled from "styled-components";
