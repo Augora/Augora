@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./deputies-list.css"
+import "./deputies-list.scss"
 // import BarChart from "./BarChart/D3BarChart"
 // import BarChart from "./BarChart/BarChart"
 // import PieChart from "./PieChart/D3PieChart"
