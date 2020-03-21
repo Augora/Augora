@@ -1,24 +1,11 @@
-//// Imports
-// React
 import React, { Component } from "react"
-// import DeputyName from "./deputyName/deputyName";
-// import DeputySex from "./deputySex/deputySex";
-// import DeputyGroup from "./deputyGroup/deputyGroup";
-// import DeputyBtnSocial from "./deputyBtnSocial/deputyBtnSocial";
-// import DeputyBtnLink from "./deputyBtnLink/deputyBtnLink";
-// import ExpandBtn from "./expandBtn/expandBtn";
-// import DeputyInformatin from "../../../Components/Deputy/DeputyInformation/DeputyInformation";
 import { Link } from "gatsby"
-
-// Style
-import "./Deputy.css"
-
-// Images
-// import twitter from "./Assets/twitter.svg";
-// import envelope from "./Assets/envelope.svg";
+import {
+  groupeIconByDeputy,
+} from "../DeputiesListUtils"
+import "./Deputy.scss"
 import homme from "./Assets/homme.svg"
 import femme from "./Assets/femme.svg"
-// import downArrow from "./Assets/down-arrow.svg";
 
 const couleursGroupeParlementaire = {
   LREM: {
@@ -97,17 +84,6 @@ class OneDeputy extends Component {
     this.expand = this.expand.bind(this)
   }
 
-  // getAge(birthdayDate) {
-  //   const dateToday = Date.now()
-  //   const ageDate = birthdayDate.getTime()
-  //   const age = Math.abs(new Date(dateToday - ageDate).getUTCFullYear() - 1970)
-  //   this.setState(function(state) {
-  //     return {
-  //       actualAge: age,
-  //     }
-  //   })
-  // }
-
   expand(e) {
     e.preventDefault()
     this.setState(function(state) {
@@ -116,10 +92,6 @@ class OneDeputy extends Component {
       }
     })
   }
-
-  // getDerivedStateFromProps(props, state) {
-  //   this.getAge(state.actualBirthDate)
-  // }
 
   render() {
     return (
@@ -133,6 +105,10 @@ class OneDeputy extends Component {
         }}
       >
         <h2>{this.props.data.Nom}</h2>
+        <img className="deputy__photo" src={this.props.data.URLPhotoAssembleeNationnale} alt={this.props.data.Slug} />
+        <div className="deputy__icon-container">
+          <img className="deputy__groupe-icon" src={groupeIconByDeputy(this.props.data)} alt={`Icône du groupe ${this.props.data.GroupeParlementaire.Sigle}`} />
+        </div>
       </Link>
     )
   }

@@ -37,7 +37,8 @@ module.exports = {
         url: "https://graphql.fauna.com/graphql",
         headers: {
           Authorization: `Bearer ${process.env.FAUNADB_TOKEN ||
-            "fnADfSg3DoACArVgM0hRPdR0z9hkcAOPazwAZAnw"}`,
+            "fnADnUGjaLACC37ZGjw9dwMr7cY2AFZn312KFOdW"
+          }`,
         },
       },
     },
@@ -49,7 +50,7 @@ module.exports = {
           `./src/**/*.{ts,tsx}`,
           `./node_modules/gatsby-*/**/*.js`,
         ],
-        codegen: true,
+        codegen: false,
         codegenDelay: 250,
       },
     },

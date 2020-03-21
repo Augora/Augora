@@ -69,6 +69,7 @@ export const query = graphql`
           Collaborateurs
           Emails
           SitesWeb
+          URLPhotoAssembleeNationnale
         }
       }
       GroupesParlementaires

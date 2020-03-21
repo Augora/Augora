@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Deputy from "./Deputy/Deputy"
-import "./DeputiesList.css"
+import "./DeputiesList.scss"
 // import BarChart from "./BarChart/D3BarChart"
 // import BarChart from "./BarChart/BarChart"
 import ComplexBarChart from "./ComplexBarChart/ComplexBarChart"
@@ -15,7 +15,7 @@ import {
   calculateAgeDomain,
   calculateNbDepute,
   filterList,
-  groupesArrayToObject,
+  groupesArrayToObject
 } from "./DeputiesListUtils"
 
 const DeputiesList = props => {

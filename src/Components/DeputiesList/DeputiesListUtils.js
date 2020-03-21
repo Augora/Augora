@@ -1,3 +1,13 @@
+import constructifs from "images/Logos/groupes_parlementaires/constructifs/constructifs_blanc.png"
+import gdr from "images/Logos/groupes_parlementaires/gdr/gdr_grand.png"
+import lfi from "images/Logos/groupes_parlementaires/lfi/lfi_blanc.png"
+import lr from "images/Logos/groupes_parlementaires/lr/lr_blanc.png"
+import lrem from "images/Logos/groupes_parlementaires/lrem/lrem_blanc.png"
+import lt from "images/Logos/groupes_parlementaires/lt/lt_blanc.png"
+import modem from "images/Logos/groupes_parlementaires/modem/modem_blanc.png"
+import ni from "images/Logos/groupes_parlementaires/ni/ni_moyen.png"
+import ps from "images/Logos/groupes_parlementaires/ps/ps_blanc.png"
+
 export const couleursGroupeParlementaire = {
   LREM: {
     couleur: "hsl(199, 100%, 58%)",
@@ -87,4 +97,44 @@ export const filterList = (list, state) => {
         depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
       )
     })
+}
+
+export const groupeIconByDeputy = (deputy) => {
+  const selectedGroupe = deputy.GroupeParlementaire.Sigle
+
+  let selectedGroupeIcon = ni
+  switch (selectedGroupe) {
+    case 'LFI':
+      selectedGroupeIcon = lfi
+      break;
+    case 'GDR':
+      selectedGroupeIcon = gdr
+      break;
+    case 'LT':
+      selectedGroupeIcon = lt
+      break;
+    case 'MODEM':
+      selectedGroupeIcon = modem
+      break;
+    case 'SOC':
+      selectedGroupeIcon = ps
+      break;
+    case 'LR':
+      selectedGroupeIcon = lr
+      break;
+    case 'LREM':
+      selectedGroupeIcon = lrem
+      break;
+    case 'UDI':
+      selectedGroupeIcon = constructifs
+      break;
+    case 'UAI':
+      selectedGroupeIcon = constructifs
+      break;
+    default:
+      selectedGroupeIcon = ni
+      break;
+  }
+
+  return selectedGroupeIcon
 }
