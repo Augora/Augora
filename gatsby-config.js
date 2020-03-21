@@ -26,7 +26,7 @@ module.exports = {
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/Logos/Projet/augora-logo.png`,
+        icon: `src/images/logos/projet/augora-logo.png`,
       },
     },
     {
@@ -37,7 +37,7 @@ module.exports = {
         url: "https://graphql.fauna.com/graphql",
         headers: {
           Authorization: `Bearer ${process.env.FAUNADB_TOKEN ||
-            "fnADfSg3DoACArVgM0hRPdR0z9hkcAOPazwAZAnw"}`,
+            "fnADnUGjaLACC37ZGjw9dwMr7cY2AFZn312KFOdW"}`,
         },
       },
     },

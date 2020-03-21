@@ -1,5 +1,5 @@
 import React from "react"
-import Header from "templates/Utils/DeputyHeader"
+import Header from "components/header"
 
 export default function _Block(props) {
   return (
