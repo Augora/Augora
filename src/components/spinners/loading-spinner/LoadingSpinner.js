@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "./loading-spinner.css";
+import React, { Component } from "react"
+import "./loading-spinner.css"
 
 class LoadingSpinner extends Component {
   render() {
@@ -49,8 +49,8 @@ class LoadingSpinner extends Component {
           </svg>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default LoadingSpinner;
+export default LoadingSpinner

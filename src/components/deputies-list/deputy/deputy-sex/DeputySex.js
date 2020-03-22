@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "./deputy-sex.css";
+import React, { Component } from "react"
+import "./deputy-sex.css"
 
 class DeputySex extends Component {
   render() {
@@ -7,8 +7,8 @@ class DeputySex extends Component {
       <div className={"depute__" + this.props.sex + " depute__sex-wrapper"}>
         <img src={this.props.sexSvg} alt="Icône du sexe" />
       </div>
-    );
+    )
   }
 }
 
-export default DeputySex;
+export default DeputySex

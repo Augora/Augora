@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "./deputy-group.css";
+import React, { Component } from "react"
+import "./deputy-group.css"
 
 class DeputyGroup extends Component {
   render() {
@@ -7,8 +7,8 @@ class DeputyGroup extends Component {
       <h3 className="depute__groupe" style={{ color: this.props.color }}>
         {this.props.group}
       </h3>
-    );
+    )
   }
 }
 
-export default DeputyGroup;
+export default DeputyGroup

@@ -4,7 +4,7 @@ import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonCirco from "./list-circo.json"
 import Block from "../_block/_Block"
-import { retirerAccentsFR } from './../../../utils/string-format/accent';
+import { retirerAccentsFR } from "./../../../utils/string-format/accent"
 const France = {
   center: { lng: 1.88, lat: 46.6 },
   northWest: { lng: -6.864165, lat: 50.839888 },

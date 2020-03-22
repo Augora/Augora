@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "./expand-btn.css";
+import React, { Component } from "react"
+import "./expand-btn.css"
 
 class ExpandBtn extends Component {
   render() {
@@ -7,8 +7,8 @@ class ExpandBtn extends Component {
       <button className="depute__open-btn btn" onClick={this.props.action}>
         <img src={this.props.icon} alt="Icône flèche" />
       </button>
-    );
+    )
   }
 }
 
-export default ExpandBtn;
+export default ExpandBtn

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "./deputy-btn-social.css";
+import React, { Component } from "react"
+import "./deputy-btn-social.css"
 
 class DeputyBtnSocial extends Component {
   render() {
@@ -10,14 +10,14 @@ class DeputyBtnSocial extends Component {
         target="_blank"
         rel="noopener noreferrer"
         style={{
-          borderColor: this.props.color
+          borderColor: this.props.color,
         }}
       >
         >
         <img src={this.props.image} alt="" />
       </a>
-    );
+    )
   }
 }
 
-export default DeputyBtnSocial;
+export default DeputyBtnSocial

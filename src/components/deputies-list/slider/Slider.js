@@ -6,7 +6,7 @@ const sliderStyle = {
   position: "relative",
   width: "calc(100% - 30px)",
   height: 80,
-  left: 15
+  left: 15,
 }
 const railStyle = {
   position: "absolute",
