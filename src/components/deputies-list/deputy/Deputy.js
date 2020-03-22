@@ -1,10 +1,8 @@
 //// Imports
 // React
-import React, { Component } from "react";
+import React, { Component } from "react"
 import { Link } from "gatsby"
-import {
-  groupeIconByDeputy,
-} from "../deputies-list-utils"
+import { groupeIconByDeputy } from "../deputies-list-utils"
 // Style
 import "./deputy.scss"
 
@@ -113,9 +111,17 @@ class OneDeputy extends Component {
         }}
       >
         <h2>{this.props.data.Nom}</h2>
-        <img className="deputy__photo" src={this.props.data.URLPhotoAssembleeNationnale} alt={this.props.data.Slug} />
+        <img
+          className="deputy__photo"
+          src={this.props.data.URLPhotoAugora}
+          alt={this.props.data.Slug}
+        />
         <div className="deputy__icon-container">
-          <img className="deputy__groupe-icon" src={groupeIconByDeputy(this.props.data)} alt={`Icône du groupe ${this.props.data.GroupeParlementaire.Sigle}`} />
+          <img
+            className="deputy__groupe-icon"
+            src={groupeIconByDeputy(this.props.data)}
+            alt={`Icône du groupe ${this.props.data.GroupeParlementaire.Sigle}`}
+          />
         </div>
       </Link>
     )
