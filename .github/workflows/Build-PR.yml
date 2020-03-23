@@ -9,18 +9,45 @@ jobs:
       matrix:
         # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
         os: [macOS-latest, windows-latest, ubuntu-latest]
-        node-version: [10.x, 12.x]
+        node-version: [12.x, 13.x]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: yarn install, build, and test
         env:
-          CI: true
-          TARGET_ENV: "sandbox"
+          CI: "true"
         run: |
           yarn install
           yarn run build
           yarn test
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 13.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13.x
+
+      - name: yarn install, build
+        run: |
+          yarn install
+          yarn run build
+
+      - uses: amondnet/now-deployment@v2
+        env:
+          BRANCH: ${{ github.base_ref }}
+        with:
+          zeit-token: ${{ secrets.ZEIT_TOKEN }} # Required
+          github-token: ${{ secrets.GITHUB_TOKEN }} #Optional
+          now-org-id: ${{ secrets.ORG_ID }} #Required
+          zeit-team-id: ${{ secrets.ORG_ID }} #Required
+          now-project-id: ${{ secrets.PROJECT_ID }} #Required
