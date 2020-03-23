@@ -51,4 +51,3 @@ jobs:
           now-org-id: ${{ secrets.ORG_ID }} #Required
           zeit-team-id: ${{ secrets.ORG_ID }} #Required
           now-project-id: ${{ secrets.PROJECT_ID }} #Required
-          now-args: "-m githubCommitRef=$BRANCH"
