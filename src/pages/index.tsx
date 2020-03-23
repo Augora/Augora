@@ -2,9 +2,9 @@ import React from "react"
 import Helmet from "react-helmet"
 import { graphql } from "gatsby"
 
-import Layout from "Components/layout"
+import Layout from "components/layout"
 
-import DeputiesList from "../Components/DeputiesList/DeputiesList"
+import DeputiesList from "../components/deputies-list/DeputiesList"
 import { DeputesQueryQuery } from "../types/graphql-types"
 
 type DeputesQueryQueryProps = {
@@ -28,7 +28,6 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
       <div>
         <DeputiesList
           deputes={data.faunadb.DeputesEnMandat.data}
-          groupes={data.faunadb.GroupesParlementaires}
           groupesDetails={data.faunadb.GroupesParlementairesDetails}
         />
       </div>
@@ -69,10 +68,9 @@ export const query = graphql`
           Collaborateurs
           Emails
           SitesWeb
-          URLPhotoAssembleeNationnale
+          URLPhotoAugora
         }
       }
-      GroupesParlementaires
       GroupesParlementairesDetails {
         data {
           Couleur
