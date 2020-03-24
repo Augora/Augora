@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function DeputyHeader(props) {
+export default function Header(props) {
   return (
     <div className={`${props.type}__header block__header`}>
       {props.type === "general" ? (
