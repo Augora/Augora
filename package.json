@@ -32,7 +32,7 @@
     "prop-types": "15.7.2",
     "react": "16.10.2",
     "react-compound-slider": "2.5.0",
-    "react-dom": "16.10.2",
+    "react-dom": "16.13.0",
     "react-helmet": "5.2.1",
     "react-use-fuzzy": "1.0.4",
     "styled-components": "4.4.1",
