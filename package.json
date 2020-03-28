@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "gatsby-plugin-root-import": "2.0.5",
-    "prettier": "1.18.2"
+    "prettier": "2.0.2"
   },
   "resolutions": {
     "graphql": "14.6.0"
