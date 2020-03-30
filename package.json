@@ -35,12 +35,12 @@
     "react-dom": "16.13.1",
     "react-helmet": "5.2.1",
     "react-use-fuzzy": "1.0.4",
-    "styled-components": "4.3.2",
+    "styled-components": "5.0.1",
     "typescript": "3.8.3"
   },
   "devDependencies": {
     "gatsby-plugin-root-import": "2.0.5",
-    "prettier": "1.18.2"
+    "prettier": "2.0.2"
   },
   "resolutions": {
     "graphql": "14.6.0"
