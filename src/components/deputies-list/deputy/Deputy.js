@@ -2,7 +2,7 @@
 // React
 import React, { Component } from "react"
 import { Link } from "gatsby"
-import { groupeIconByDeputy } from "../deputies-list-utils"
+import { groupeIconByGroupeSigle } from "../deputies-list-utils"
 // Style
 import "./deputy.scss"
 
@@ -119,7 +119,7 @@ class OneDeputy extends Component {
         <div className="deputy__icon-container">
           <img
             className="deputy__groupe-icon"
-            src={groupeIconByDeputy(this.props.data)}
+            src={groupeIconByGroupeSigle(this.props.data.GroupeParlementaire.Sigle)}
             alt={`Icône du groupe ${this.props.data.GroupeParlementaire.Sigle}`}
           />
         </div>

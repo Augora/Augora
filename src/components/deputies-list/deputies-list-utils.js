@@ -52,11 +52,9 @@ export const filterList = (list, state) => {
     })
 }
 
-export const groupeIconByDeputy = deputy => {
-  const selectedGroupe = deputy.GroupeParlementaire.Sigle
-
+export const groupeIconByGroupeSigle = groupe => {
   let selectedGroupeIcon = ni
-  switch (selectedGroupe) {
+  switch (groupe) {
     case "LFI":
       selectedGroupeIcon = lfi
       break

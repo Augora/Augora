@@ -5,12 +5,15 @@ import "./deputies-list.scss"
 // import PieChart from "./PieChart/D3PieChart"
 import { useFuzzy } from "react-use-fuzzy"
 import { deburr } from "lodash"
+import svgOk from '../../images/ui-kit/iconok.svg'
+import svgClose from '../../images/ui-kit/iconclose.svg'
 
 import {
   calculateAgeDomain,
   calculateNbDepute,
   filterList,
   groupesArrayToObject,
+  groupeIconByGroupeSigle
 } from "./deputies-list-utils"
 import { calculatePercentage } from "utils/math/percentage"
 import PieChart from "./pie-chart/PieChart"
@@ -73,10 +76,11 @@ const DeputiesList = props => {
     setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
 
-  const handleClickOnGroupe = event => {
+  const handleClickOnGroupe = (sigle, event) => {
+    const actualValueOfGroupe = GroupeValue[sigle]
     setGroupeValue(
       Object.assign({}, GroupeValue, {
-        [event.target.name]: event.target.checked,
+        [sigle]: !actualValueOfGroupe,
       })
     )
   }
@@ -101,35 +105,33 @@ const DeputiesList = props => {
   }
 
   const allGroupes = props.groupesDetails.data.map(groupe => {
-    const nbDeputeGroup = calculateNbDepute(
-      filteredList,
-      "groupe",
-      groupe.Sigle
-    )
-    const deputePercent =
-      Math.round(
-        calculatePercentage(
-          filteredList.length,
-          calculateNbDepute(filteredList, "groupe", groupe.Sigle)
-        ) * 10
-      ) / 10
+    // const nbDeputeGroup = calculateNbDepute(
+    //   filteredList,
+    //   "groupe",
+    //   groupe.Sigle
+    // )
+    // const deputePercent =
+    //   Math.round(
+    //     calculatePercentage(
+    //       filteredList.length,
+    //       calculateNbDepute(filteredList, "groupe", groupe.Sigle)
+    //     ) * 10
+    //   ) / 10
     return (
-      <label
-        className={`groupe groupe--${groupe.Sigle}`}
+      <button
+        className={`groupe groupe--${groupe.Sigle} ${GroupeValue[groupe.Sigle] ? 'selected' : ''}`}
         key={`groupe--${groupe.Sigle}`}
+        onClick={e => handleClickOnGroupe(groupe.Sigle, e)}
+        style={{ backgroundColor: groupe.Couleur }}
       >
-        {groupe.Sigle}
-        <span style={{ display: "block" }}>
+        <div className="groupe__img-container">
+          <img src={groupeIconByGroupeSigle(groupe.Sigle)} alt={`Icône groupe parlementaire ${groupe.Sigle}`} />
+        </div>
+        {/* <span>
           ({nbDeputeGroup} - {deputePercent}
           %)
-        </span>
-        <input
-          type="checkbox"
-          name={groupe.Sigle}
-          checked={GroupeValue[groupe.Sigle] ? true : false}
-          onChange={handleClickOnGroupe}
-        />
-      </label>
+        </span> */}
+      </button>
     )
   })
 
@@ -200,10 +202,10 @@ const DeputiesList = props => {
         <div className="filters__groupe">
           <div className="groupes__allornone">
             <button onClick={e => handleClickOnAllGroupes(e.target, true)}>
-              Tous
+              Tous <img className="groupe__svg" src={svgOk} alt="icon ok"/>
             </button>
             <button onClick={e => handleClickOnAllGroupes(e.target, false)}>
-              Aucun
+              Aucun <img className="groupe__svg" src={svgClose} alt="icon close"/>
             </button>
           </div>
           <br />
