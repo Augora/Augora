@@ -45,6 +45,23 @@
   grid-template-columns: repeat(6, auto);
   padding: 0px;
   margin: 0px;
+  @media (max-width: 1500px) {
+    grid-template-columns: repeat(5, auto);
+  }
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 2vw;
+  }
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(3, auto);
+  }
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, auto);
+  }
+  @media (max-width: 400px) {
+    grid-template-columns: repeat(1, auto);
+    grid-gap: 20px;
+  }
 }
 
 .chart-wrapper {
