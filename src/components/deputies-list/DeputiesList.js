@@ -122,11 +122,14 @@ const DeputiesList = props => {
         className={`groupe groupe--${groupe.Sigle} ${GroupeValue[groupe.Sigle] ? 'selected' : ''}`}
         key={`groupe--${groupe.Sigle}`}
         onClick={e => handleClickOnGroupe(groupe.Sigle, e)}
-        style={{ backgroundColor: groupe.Couleur }}
       >
         <div className="groupe__img-container">
           <img src={groupeIconByGroupeSigle(groupe.Sigle)} alt={`Icône groupe parlementaire ${groupe.Sigle}`} />
         </div>
+        <div
+          className={`groupe__background-color ${GroupeValue[groupe.Sigle] ? 'selected' : ''}`}
+          style={{ backgroundColor: groupe.Couleur }}
+        ></div>
         {/* <span>
           ({nbDeputeGroup} - {deputePercent}
           %)

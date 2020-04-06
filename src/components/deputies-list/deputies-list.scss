@@ -10,6 +10,7 @@
     justify-content: center;
     margin: 10px 0;
     position: relative;
+    overflow: hidden;
     .groupes__allornone {
       position: absolute;
       top: 50%; right: 0px;
@@ -40,35 +41,78 @@
       margin-left: 10px;
       border: none;
       padding: 0px;
-      border-radius: 5px;
       cursor: pointer;
-      box-shadow: 0px 0px 5px rgba(0,0,0,0.25);
-      transform: scale(1);
-      transition: opacity 0.225s linear,
-                  transform 0.225s linear,
-                  border-radius 0.05s linear;
-      opacity: 0.25;
-
+      background: none;
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      transition: border-radius 0.05s linear;
+      overflow: hidden;
       &__img-container {
         height: 75px;
         width: 150px;
+        position: relative;
+        z-index: 2;
         img {
           object-fit: contain;
           height: 100%; width: 100%;
           margin: 0px;
         }
       }
-      &:hover {
-        transform: scale(1.05);
+      &__background-color {
+        position: absolute;
+        top: 0px; left: 0px;
+        width: 100%; height: 100%;
+        z-index: 1;
+        opacity: 1;
+        border-radius: 20px;
+        filter: grayscale(0);
+        transition: opacity 0.225s linear,
+                    filter 0.225s linear,
+                    border-radius 0.1s linear;
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.25);
+        &:not(.selected) {
+          opacity: 0.15 !important;
+          border-radius: 5px !important;
+          filter: grayscale(1);
+        }
       }
-
+      &:hover {
+        .groupe__background-color {
+          opacity: 0.5;
+        }
+      }
       &:focus {
         outline: none;
         border: none;
       }
-      &.selected {
-        opacity: 1;
-        border-radius: 20px;
+      &::before,
+      &::after {
+        z-index: 3;
+        content:"";
+        position: absolute;
+        top: 0px;
+        width: 0%; height: 10px;
+        background: white;
+      }
+      &::after {
+        right: 0px;
+        transform-origin: top right;
+        transform: rotate(-23deg);
+        transition: width 0.225s ease-in-out;
+      }
+      &::before {
+        left: 0px;
+        transform-origin: top left;
+        transform: rotate(23deg);
+        transition: width 0.4s ease-in-out;
+      }
+      &:not(.selected) {
+        // border-radius: 5px;
+        &::after,
+        &::before {
+          width: 200%;
+        }
       }
     }
     &::after {
