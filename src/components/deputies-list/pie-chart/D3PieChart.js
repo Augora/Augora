@@ -1,10 +1,6 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-} from "components/DeputiesList/PieChart/node_modules/react"
-import * as d3 from "components/DeputiesList/PieChart/node_modules/d3"
-import { color } from "components/DeputiesList/PieChart/node_modules/d3"
+import React, { useEffect, useRef, useState } from "react"
+import * as d3 from "d3"
+import { color } from "d3"
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // https://www.d3-graph-gallery.com/graph/pie_basic.html

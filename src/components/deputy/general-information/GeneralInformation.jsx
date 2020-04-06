@@ -1,6 +1,10 @@
 import React from "react"
 import Block from "../_block/_Block"
 
+/**
+ * Return deputy's general information in a Block component
+ * @param {*} props
+ */
 export default function GeneralInformation(props) {
   return (
     <Block
