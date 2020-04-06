@@ -1,26 +1,12 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
+import { Tooltip } from "components/tooltip/Tooltip"
 
-const generateTooltip = tooltip => {
-  return (
-    <div className="tooltip" style={{ whiteSpace: "pre" }}>
-      <span
-        style={{
-          display: "inline-block",
-          width: "12px",
-          height: "12px",
-          background: `${tooltip.data.color}`,
-          marginRight: "7px",
-        }}
-      ></span>
-      <span>
-        {tooltip.data.label} - {tooltip.data.value}
-      </span>
-    </div>
-  )
-}
-
+/**
+ * Return a barchart block in a ResponsiveBar component
+ * @param {*} props
+ */
 export default function BarChart(props) {
   return (
     <ResponsiveBar
@@ -49,7 +35,7 @@ export default function BarChart(props) {
           ? getTextColorContrast("light")
           : getTextColorContrast("dark")
       }
-      tooltip={tooltip => generateTooltip(tooltip)}
+      tooltip={tooltip => Tooltip(tooltip)}
     />
   )
 }

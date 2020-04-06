@@ -1,5 +1,9 @@
 import React from "react"
 
+/**
+ * Return coworker information in a div
+ * @param props
+ */
 function Coworker(props) {
   const nameArray = props.coworker.split(" ")
   return (

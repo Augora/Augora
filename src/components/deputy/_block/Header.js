@@ -1,5 +1,9 @@
 import React from "react"
 
+/**
+ * Return header block in a div
+ * @param {*} props
+ */
 export default function Header(props) {
   return (
     <div className={`${props.type}__header block__header`}>

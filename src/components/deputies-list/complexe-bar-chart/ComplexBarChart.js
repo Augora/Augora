@@ -1,26 +1,7 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { patternLinesDef } from "@nivo/core"
-
-const generateTooltip = tooltip => {
-  return (
-    <div className="tooltip" style={{ whiteSpace: "pre" }}>
-      <span
-        style={{
-          display: "inline-block",
-          width: "12px",
-          height: "12px",
-          background: `${tooltip.data.color}`,
-          marginRight: "7px",
-        }}
-      ></span>
-      <span>
-        {tooltip.data.label} - {tooltip.data.value}
-      </span>
-    </div>
-  )
-}
-
+import { Tooltip } from "components/tooltip/Tooltip"
 export default function ComplexBarChart(props) {
   const keys = Object.keys(props.data[0])
     .filter(key => key !== "age")
@@ -75,7 +56,7 @@ export default function ComplexBarChart(props) {
       animate={true}
       motionStiffness={90}
       motionDamping={15}
-      tooltip={tooltip => generateTooltip(tooltip)}
+      tooltip={tooltip => Tooltip(tooltip)}
     />
   )
 }

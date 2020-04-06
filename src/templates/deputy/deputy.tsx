@@ -6,19 +6,13 @@ import "./deputy.scss"
 import styled from "styled-components"
 import Layout from "components/layout"
 
-// import OldGeneralInformation from "Components/Deputy/GeneralInformation/OldGeneralInformation"
 import Coworkers from "components/deputy/coworkers/Coworkers"
-import MapCirco from "components/deputy/map-circo/MapCirco"
-// import CurrentMandate from "Components/Deputy/CurrentMandate/CurrentMandate"
-// import OldMandates from "Components/Deputy/OldMandates/OldMandates"
-// import OthersMandates from "Components/Deputy/OthersMandates/OthersMandates"
-// import TotalMandates from "Components/Deputy/TotalMandates/TotalMandates"
+import MapDistrict from "components/deputy/map-district/MapDistrict"
 import { SingleDeputyQuery } from "types/graphql-types"
 import { getGender } from "../../utils/augora-objects/deputy/gender"
 import { getGeneralInformation } from "../../utils/augora-objects/deputy/information"
 import { getMandate } from "../../utils/augora-objects/deputy/mandate"
 import { getCoworkers } from "../../utils/augora-objects/deputy/coworker"
-import { getDistrict } from "../../utils/augora-objects/deputy/district";
 import GeneralInformation from "components/deputy/general-information/GeneralInformation"
 import Mandate from "components/deputy/mandate/Mandate"
 
@@ -43,7 +37,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
       <Helmet>
         <meta name="robots" content="noindex,nofollow" />
         <title>
-          {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy)}{" "}
+          {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy.Sexe)}{" "}
           {deputy.SigleGroupePolitique}
         </title>
         <link
@@ -55,7 +49,6 @@ function Deputy({ data }: SingleDeputyQueryProps) {
         {deputy.Prenom} {deputy.NomDeFamille}
       </h1>
       <DeputyStyles className="single-deputy">
-        {/* <OldGeneralInformation {...getOldGeneralInformation(deputy, 500)} /> */}
         <GeneralInformation
           {...getGeneralInformation(deputy, 150)}
           color={color}
@@ -69,7 +62,12 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           size="small"
         />
         <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
-        <MapCirco {...getDistrict(deputy)} color={color} size="medium" />
+        <MapDistrict
+          nom={deputy.NomCirconscription}
+          num={deputy.NumeroCirconscription}
+          color={color}
+          size="medium"
+        />
       </DeputyStyles>
     </Layout>
   )

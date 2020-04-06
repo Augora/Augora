@@ -2,49 +2,62 @@ import React, { useEffect } from "react"
 // import styled from "styled-components"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
-import GEOJsonCirco from "./list-circo.json"
+import GEOJsonDistrict from "./list-district.json"
 import Block from "../_block/_Block"
-import { retirerAccentsFR } from "./../../../utils/string-format/accent"
+import { retirerAccentsFR } from "../../../utils/string-format/accent"
 const France = {
   center: { lng: 1.88, lat: 46.6 },
   northWest: { lng: -6.864165, lat: 50.839888 },
   southEast: { lng: 13.089067, lat: 41.284012 },
 }
 
-const getSelectedCircoBox = (map, selectedCirco, props) => {
+/**
+ * Retrieve the selected district box in the param map
+ * @param {mapboxgl.Map} map : filled in the function
+ * @param {*} selectedDistrict : the selected district found in GEOJsonDistrict file
+ * @param {*} props
+ */
+const getSelectedDistrictBox = (map, selectedDistrict, props) => {
   // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
   let boxListOfLng = []
   let boxListOfLat = []
 
-  if (selectedCirco.geometry.type === "Polygon") {
-    selectedCirco.geometry.coordinates[0].forEach(coords => {
+  if (selectedDistrict.geometry.type === "Polygon") {
+    selectedDistrict.geometry.coordinates[0].forEach(coords => {
       boxListOfLng.push(coords[0])
       boxListOfLat.push(coords[1])
     })
   } else {
-    selectedCirco.geometry.coordinates.forEach(polygon => {
+    selectedDistrict.geometry.coordinates.forEach(polygon => {
       polygon[0].forEach(coords => {
         boxListOfLng.push(coords[0])
         boxListOfLat.push(coords[1])
       })
     })
   }
-  const selectedCircoBox = [
+  const selectedDistrictBox = [
     [Math.min(...boxListOfLng), Math.max(...boxListOfLat)],
     [Math.max(...boxListOfLng), Math.min(...boxListOfLat)],
   ]
 
-  drawSelectedCircoBox(map, selectedCirco, selectedCircoBox, props)
+  drawSelectedDistrictBox(map, selectedDistrict, selectedDistrictBox, props)
 }
 
-const drawSelectedCircoBox = (map, circo, box, props) => {
-  // Dessiner la circo
+/**
+ * Draw the selected district box in the "map" object
+ * @param {*} map  : filled in the function
+ * @param {*} district : the district found in GEOJsonDistrict file
+ * @param {*} box : the district's box to draw
+ * @param {*} props
+ */
+const drawSelectedDistrictBox = (map, district, box, props) => {
+  // Dessiner la circonscription
   map.addLayer({
     id: props.nom.toLowerCase() + "-" + props.num,
     type: "fill",
     source: {
       type: "geojson",
-      data: circo,
+      data: district,
     },
     layout: {},
     paint: {
@@ -63,7 +76,11 @@ const drawSelectedCircoBox = (map, circo, box, props) => {
   }
 }
 
-const initMap = props => {
+/**
+ * Initialize map for the deputy's district
+ * @param {*} props
+ */
+const initializeMap = props => {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
   const map = new mapboxgl.Map({
@@ -74,20 +91,20 @@ const initMap = props => {
   })
   map.on("style.load", () => {
     // Récupérer la circonscription concernée
-    const selectedCirco = GEOJsonCirco.features.find(circo => {
+    const selectedDistrict = GEOJsonDistrict.features.find(district => {
       return (
-        circo.properties.nom_dpt.toLowerCase() ===
+        district.properties.nom_dpt.toLowerCase() ===
           retirerAccentsFR(props.nom.toLowerCase()) &&
-        parseInt(circo.properties.num_circ) === props.num
+        parseInt(district.properties.num_circ) === props.num
       )
     })
-    getSelectedCircoBox(map, selectedCirco, props)
+    getSelectedDistrictBox(map, selectedDistrict, props)
   })
 }
 
-const MapCirco = props => {
+const MapDistrict = props => {
   useEffect(() => {
-    initMap(props)
+    initializeMap(props)
   }, [props])
 
   return (
@@ -98,4 +115,4 @@ const MapCirco = props => {
   )
 }
 
-export default MapCirco
+export default MapDistrict

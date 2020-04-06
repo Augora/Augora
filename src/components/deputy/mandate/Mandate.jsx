@@ -1,6 +1,10 @@
 import React from "react"
 import Block from "../_block/_Block"
 
+/**
+ * Return deputy's mandate in a Block component
+ * @param {*} props
+ */
 export default function Mandate(props) {
   let numberComplement = ""
   props.numberMandates < 2
