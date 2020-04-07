@@ -2,6 +2,8 @@ import React from "react"
 import Header from "./Header"
 
 export default function _Block(props) {
+  console.log(props.type)
+  console.log(props.color)
   return (
     <div className={`deputy__block block__${props.type}`}>
       <Header type={props.type} title={props.title} color={props.color} />

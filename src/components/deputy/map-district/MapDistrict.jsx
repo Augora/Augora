@@ -23,13 +23,13 @@ const getSelectedDistrictBox = (map, selectedDistrict, props) => {
   let boxListOfLat = []
 
   if (selectedDistrict.geometry.type === "Polygon") {
-    selectedDistrict.geometry.coordinates[0].forEach(coords => {
+    selectedDistrict.geometry.coordinates[0].forEach((coords) => {
       boxListOfLng.push(coords[0])
       boxListOfLat.push(coords[1])
     })
   } else {
-    selectedDistrict.geometry.coordinates.forEach(polygon => {
-      polygon[0].forEach(coords => {
+    selectedDistrict.geometry.coordinates.forEach((polygon) => {
+      polygon[0].forEach((coords) => {
         boxListOfLng.push(coords[0])
         boxListOfLat.push(coords[1])
       })
@@ -80,7 +80,7 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
  * Initialize map for the deputy's district
  * @param {*} props
  */
-const initializeMap = props => {
+const initializeMap = (props) => {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
   const map = new mapboxgl.Map({
@@ -91,7 +91,7 @@ const initializeMap = props => {
   })
   map.on("style.load", () => {
     // Récupérer la circonscription concernée
-    const selectedDistrict = GEOJsonDistrict.features.find(district => {
+    const selectedDistrict = GEOJsonDistrict.features.find((district) => {
       return (
         district.properties.nom_dpt.toLowerCase() ===
           retirerAccentsFR(props.nom.toLowerCase()) &&
@@ -102,14 +102,14 @@ const initializeMap = props => {
   })
 }
 
-const MapDistrict = props => {
+const MapDistrict = (props) => {
   useEffect(() => {
     initializeMap(props)
   }, [props])
-
   return (
     <Block title="Circonscription" type="map" color={props.color}>
       <p className="map__title">{props.nom}</p>
+      <p className="map__number">{props.num}</p>
       <div className="map__container"></div>
     </Block>
   )

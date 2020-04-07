@@ -35,6 +35,10 @@
           opacity: 0.5;
           margin: 0 0 0 5px;
         }
+        &:focus {
+          outline: none;
+          border: none;
+        }
       }
     }
     .groupe {
@@ -80,6 +84,11 @@
       &:hover {
         .groupe__background-color {
           opacity: 0.5;
+          &:not(.selected) {
+            opacity: 0.15 !important;
+            border-radius: 5px !important;
+            filter: grayscale(0.15);
+          }
         }
       }
       &:focus {
@@ -106,6 +115,7 @@
         transform-origin: top left;
         transform: rotate(23deg);
         transition: width 0.4s ease-in-out;
+        display: none;
       }
       &:not(.selected) {
         // border-radius: 5px;
