@@ -204,13 +204,13 @@ const DeputiesList = (props) => {
           )}
           <div className="complex-barchart chart">
             <ComplexBarChart data={groupesByAge} ageDomain={AgeDomain} />
+            <AgeSlider
+              selectedDomain={AgeDomain}
+              domain={calculateAgeDomain(props.deputes)}
+              callback={handleAgeSelection}
+            />
           </div>
         </div>
-        <AgeSlider
-          selectedDomain={AgeDomain}
-          domain={calculateAgeDomain(props.deputes)}
-          callback={handleAgeSelection}
-        />
         <input
           className="filters__search"
           type="text"

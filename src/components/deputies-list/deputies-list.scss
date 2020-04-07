@@ -155,6 +155,7 @@
 
   .chart-wrapper {
     display: flex;
+    margin-bottom: 40px;
     .chart {
       height: 350px;
       border-radius: 20px;
@@ -171,6 +172,7 @@
       }
       &.complex-barchart {
         width: 70%;
+        position: relative;
       }
     }
   }

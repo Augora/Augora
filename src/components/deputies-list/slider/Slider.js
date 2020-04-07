@@ -1,17 +1,23 @@
 import React from "react"
 import { Slider, Rail, Handles, Tracks, Ticks } from "react-compound-slider"
 
+const barHeight = 10
+const marginTop = 35
+const handleSize = 25
+
 const sliderStyle = {
   // Give the slider some width
-  position: "relative",
-  width: "calc(100% - 30px)",
+  position: "absolute",
+  width: "calc(95%)",
   height: 80,
-  left: 15,
+  right: "2.5%",
+  bottom: -40,
+  // transform: "translate(50%, 0)",
 }
 const railStyle = {
   position: "absolute",
   width: "100%",
-  height: 10,
+  height: barHeight,
   marginTop: 35,
   borderRadius: 5,
   backgroundColor: "#8B9CB6",
@@ -22,9 +28,9 @@ const Track = ({ source, target, getTrackProps }) => {
     <div
       style={{
         position: "absolute",
-        height: 10,
+        height: barHeight,
         zIndex: 1,
-        marginTop: 35,
+        marginTop: marginTop,
         backgroundColor: "#546C91",
         borderRadius: 5,
         cursor: "pointer",
@@ -40,11 +46,11 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
       style={{
         left: `${percent}%`,
         position: "absolute",
-        marginLeft: -15,
-        marginTop: 25,
+        marginLeft: -handleSize / 2,
+        marginTop: marginTop - handleSize / 2 + barHeight / 2,
         zIndex: 2,
-        width: 30,
-        height: 30,
+        width: handleSize,
+        height: handleSize,
         border: 0,
         textAlign: "center",
         cursor: "pointer",
@@ -58,8 +64,13 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
         style={{
           fontFamily:
             "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
-          fontSize: 11,
-          marginTop: -25,
+          fontSize: 12,
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          color: "white",
+          fontWeight: "bold",
+          transform: "translate(-50%, -50%)",
         }}
       >
         {value}
@@ -101,6 +112,7 @@ const Tick = ({ tick, count }) => {
 }
 
 export default function AgeSlider(props) {
+  console.log(props)
   return (
     <Slider
       rootStyle={sliderStyle}
@@ -108,7 +120,7 @@ export default function AgeSlider(props) {
       step={1}
       mode={2}
       values={props.selectedDomain}
-      onChange={e => props.callback(e)}
+      onChange={(e) => props.callback(e)}
     >
       <Rail>
         {({ getRailProps }) => <div style={railStyle} {...getRailProps()} />}
@@ -116,7 +128,7 @@ export default function AgeSlider(props) {
       <Handles>
         {({ handles, getHandleProps }) => (
           <div className="slider-handles">
-            {handles.map(handle => (
+            {handles.map((handle) => (
               <Handle
                 key={handle.id}
                 handle={handle}
@@ -140,10 +152,16 @@ export default function AgeSlider(props) {
           </div>
         )}
       </Tracks>
-      <Ticks count={15 /* generate approximately 15 ticks within the domain */}>
+      <Ticks
+        count={
+          props.domain[1] -
+          props
+            .domain[0] /* generate approximately 15 ticks within the domain */
+        }
+      >
         {({ ticks }) => (
           <div className="slider-ticks">
-            {ticks.map(tick => (
+            {ticks.map((tick) => (
               <Tick key={tick.id} tick={tick} count={ticks.length} />
             ))}
           </div>
