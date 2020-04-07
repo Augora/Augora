@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import "./deputies-list.scss"
 // import BarChart from "./BarChart/D3BarChart"
-// import BarChart from "./BarChart/BarChart"
 // import PieChart from "./PieChart/D3PieChart"
 import { useFuzzy } from "react-use-fuzzy"
 import { deburr } from "lodash"
@@ -17,6 +16,7 @@ import {
 } from "./deputies-list-utils"
 import { calculatePercentage } from "utils/math/percentage"
 import PieChart from "./pie-chart/PieChart"
+import BarChart from "./bar-chart/BarChart"
 import ComplexBarChart from "./complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "./slider/Slider"
 import Deputy from "./deputy/Deputy"
@@ -31,6 +31,7 @@ const DeputiesList = (props) => {
     F: true,
   })
   const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(props.deputes))
+  const [HasPieChart, setHasPieChart] = useState(true)
   const { result, keyword, search } = useFuzzy(
     props.deputes.map((d) =>
       Object.assign({}, d, { NomToSearch: deburr(d.Nom) })
@@ -102,6 +103,10 @@ const DeputiesList = (props) => {
 
   const handleAgeSelection = (domain) => {
     setAgeDomain(domain)
+  }
+
+  const handleChartSelection = (event) => {
+    setHasPieChart(!HasPieChart)
   }
 
   const allGroupes = props.groupesDetails.map((groupe) => {
@@ -188,13 +193,16 @@ const DeputiesList = (props) => {
     <>
       <div className="filters">
         <div className="chart-wrapper">
-          <div className="piechart chart">
-            <PieChart data={groupesData} />
-          </div>
-          {/* <div className="barchart chart">
-            <BarChart data={groupesData} />
-          </div> */}
-          <div className="barchart chart">
+          {HasPieChart ? (
+            <div className="piechart chart" onClick={handleChartSelection}>
+              <PieChart data={groupesData} />
+            </div>
+          ) : (
+            <div className="barchart chart" onClick={handleChartSelection}>
+              <BarChart data={groupesData} />
+            </div>
+          )}
+          <div className="complex-barchart chart">
             <ComplexBarChart data={groupesByAge} ageDomain={AgeDomain} />
           </div>
         </div>
