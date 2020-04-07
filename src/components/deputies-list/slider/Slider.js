@@ -112,7 +112,6 @@ const Tick = ({ tick, count }) => {
 }
 
 export default function AgeSlider(props) {
-  console.log(props)
   return (
     <Slider
       rootStyle={sliderStyle}
