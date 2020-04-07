@@ -12,8 +12,6 @@ export default function ComplexBarChart(props) {
       keys={keys}
       indexBy="age"
       defs={[
-        // using helpers (cannot be used with http rendering API)
-        // will use color from current element
         patternLinesDef("lines-pattern", {
           spacing: 5,
           rotation: -45,
@@ -21,8 +19,6 @@ export default function ComplexBarChart(props) {
           background: "#ffffff",
           color: "inherit",
         }),
-        // using plain object
-        // { id: 'custom', type: 'patternLinesDef', size: 24 },
       ]}
       margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
       padding={0.15}
@@ -56,7 +52,18 @@ export default function ComplexBarChart(props) {
       animate={true}
       motionStiffness={90}
       motionDamping={15}
-      tooltip={(tooltip) => Tooltip(tooltip)}
+      tooltip={(tooltipInfo) => {
+        return Tooltip(tooltipInfo, props.totalNumberDeputies)
+      }}
+      theme={{
+        tooltip: {
+          container: {
+            background: "transparent",
+            padding: 0,
+            boxShadow: "none",
+          },
+        },
+      }}
     />
   )
 }

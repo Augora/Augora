@@ -203,7 +203,11 @@ const DeputiesList = (props) => {
             </div>
           )}
           <div className="complex-barchart chart">
-            <ComplexBarChart data={groupesByAge} ageDomain={AgeDomain} />
+            <ComplexBarChart
+              data={groupesByAge}
+              ageDomain={AgeDomain}
+              totalNumberDeputies={props.deputes.length}
+            />
             <AgeSlider
               selectedDomain={AgeDomain}
               domain={calculateAgeDomain(props.deputes)}
