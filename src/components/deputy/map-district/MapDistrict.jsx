@@ -110,7 +110,10 @@ const MapDistrict = (props) => {
     <Block title="Circonscription" type="map" color={props.color}>
       <div className="map__text-wrapper">
         <p className="map__title">{props.nom}</p>
-        <p className="map__number">{props.num}ème circonscription</p>
+        <p className="map__number">
+          {props.num}
+          {props.num < 2 ? "ère" : "ème"} circonscription
+        </p>
       </div>
       <div className="map__container"></div>
     </Block>
