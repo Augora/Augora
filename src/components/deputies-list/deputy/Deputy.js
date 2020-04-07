@@ -6,24 +6,6 @@ import { groupeIconByGroupeSigle } from "../deputies-list-utils"
 // Style
 import "./deputy.scss"
 
-// images
-// import twitter from "./assets/twitter.svg";
-// import envelope from "./assets/envelope.svg";
-// import homme from "./assets/homme.svg"
-// import femme from "./assets/femme.svg"
-// import downArrow from "./assets/down-arrow.svg";
-
-// const sexSelector = {
-//   H: {
-//     nom_complet: "Homme",
-//     svg: homme,
-//   },
-//   F: {
-//     nom_complet: "Femme",
-//     svg: femme,
-//   },
-// }
-
 class OneDeputy extends Component {
   constructor(props) {
     super(props)
@@ -31,10 +13,6 @@ class OneDeputy extends Component {
       opened: false,
       color: this.props.data.GroupeParlementaire.Couleur,
       sigle: this.props.data.GroupeParlementaire.NomComplet,
-      // actualSex: sexSelector[this.props.data.Sexe].nom_complet,
-      // actualSexSvg: sexSelector[this.props.data.Sexe].svg,
-      // actualBirthDate: new Date(this.props.data.DateDeNaissance),
-      // actualAge: 0,
     }
 
     this.expand = this.expand.bind(this)
@@ -42,7 +20,7 @@ class OneDeputy extends Component {
 
   expand(e) {
     e.preventDefault()
-    this.setState(function (state) {
+    this.setState((state) => {
       return {
         opened: !this.state.opened,
       }
