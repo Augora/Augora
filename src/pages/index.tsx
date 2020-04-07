@@ -12,6 +12,9 @@ type DeputesQueryQueryProps = {
 }
 
 const IndexPage = ({ data }: DeputesQueryQueryProps) => {
+  const orderedGroupes = data.faunadb.GroupesParlementairesDetails.data.sort(
+    (a, b) => a.Ordre - b.Ordre
+  )
   return (
     <Layout>
       <Helmet>
@@ -28,7 +31,7 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
       <div>
         <DeputiesList
           deputes={data.faunadb.DeputesEnMandat.data}
-          groupesDetails={data.faunadb.GroupesParlementairesDetails}
+          groupesDetails={orderedGroupes}
         />
       </div>
     </Layout>
@@ -48,6 +51,7 @@ export const query = graphql`
           GroupeParlementaire {
             Couleur
             Sigle
+            NomComplet
           }
           Nom
           NomCirconscription
@@ -75,6 +79,7 @@ export const query = graphql`
         data {
           Couleur
           Sigle
+          Ordre
         }
       }
     }

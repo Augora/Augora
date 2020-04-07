@@ -181,19 +181,30 @@
 }
 .block__map {
   .map__content {
-    .map__title {
-      display: inline-block;
+    .map__text-wrapper {
       position: absolute;
       z-index: 1;
       left: 50%;
-      font-family: "Open Sans";
-      bottom: 10px;
-      margin: 0;
-      font-size: 25px;
-      font-weight: bold;
-      white-space: nowrap;
+      top: 75px;
       transform: translate(-50%, 0);
-      opacity: 0.85;
+      width: 100%;
+      padding: 10px 0;
+      white-space: nowrap;
+      background: rgba(white, 0.3);
+      .map__title,
+      .map__number {
+        font-family: "Open Sans";
+        font-weight: bold;
+        margin: 0;
+        text-align: center;
+        color: rgba(black, 0.8);
+      }
+      .map__title {
+        font-size: 25px;
+      }
+      .map__number {
+        font-size: 20px;
+      }
     }
     .map__container {
       width: 100%;

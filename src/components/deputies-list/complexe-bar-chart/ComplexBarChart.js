@@ -26,8 +26,8 @@ export default function ComplexBarChart(props) {
       ]}
       margin={{ top: 50, right: 50, bottom: 20, left: 50 }}
       padding={0.15}
-      innerPadding={2}
-      borderRadius={5}
+      innerPadding={0}
+      borderRadius={0}
       colors={data => {
         if (
           data.indexValue < props.ageDomain[0] ||

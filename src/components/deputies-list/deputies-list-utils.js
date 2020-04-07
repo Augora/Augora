@@ -1,11 +1,11 @@
 import constructifs from "images/logos/groupes-parlementaires/constructifs/constructifs_blanc.png"
-import gdr from "images/logos/groupes-parlementaires/gdr/gdr_grand.png"
+import gdr from "images/logos/groupes-parlementaires/gdr/gdr_blanc.png"
 import lfi from "images/logos/groupes-parlementaires/lfi/lfi_blanc.png"
 import lr from "images/logos/groupes-parlementaires/lr/lr_blanc.png"
 import lrem from "images/logos/groupes-parlementaires/lrem/lrem_blanc.png"
 import lt from "images/logos/groupes-parlementaires/lt/lt_blanc.png"
 import modem from "images/logos/groupes-parlementaires/modem/modem_blanc.png"
-import ni from "images/logos/groupes-parlementaires/ni/ni_moyen.png"
+import ni from "images/logos/groupes-parlementaires/ni/ni_blanc.png"
 import ps from "images/logos/groupes-parlementaires/ps/ps_blanc.png"
 
 export const calculateNbDepute = (list, type, value) => {
@@ -52,11 +52,9 @@ export const filterList = (list, state) => {
     })
 }
 
-export const groupeIconByDeputy = deputy => {
-  const selectedGroupe = deputy.GroupeParlementaire.Sigle
-
+export const groupeIconByGroupeSigle = groupe => {
   let selectedGroupeIcon = ni
-  switch (selectedGroupe) {
+  switch (groupe) {
     case "LFI":
       selectedGroupeIcon = lfi
       break

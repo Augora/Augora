@@ -5,12 +5,15 @@ import "./deputies-list.scss"
 // import PieChart from "./PieChart/D3PieChart"
 import { useFuzzy } from "react-use-fuzzy"
 import { deburr } from "lodash"
+import svgOk from "../../images/ui-kit/iconok.svg"
+import svgClose from "../../images/ui-kit/iconclose.svg"
 
 import {
   calculateAgeDomain,
   calculateNbDepute,
   filterList,
   groupesArrayToObject,
+  groupeIconByGroupeSigle,
 } from "./deputies-list-utils"
 import { calculatePercentage } from "utils/math/percentage"
 import PieChart from "./pie-chart/PieChart"
@@ -18,10 +21,10 @@ import ComplexBarChart from "./complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "./slider/Slider"
 import Deputy from "./deputy/Deputy"
 
-const DeputiesList = props => {
+const DeputiesList = (props) => {
   // States
   const [GroupeValue, setGroupeValue] = useState(
-    groupesArrayToObject(props.groupesDetails.data.map(g => g.Sigle))
+    groupesArrayToObject(props.groupesDetails.map((g) => g.Sigle))
   )
   const [SexValue, setSexValue] = useState({
     H: true,
@@ -29,7 +32,7 @@ const DeputiesList = props => {
   })
   const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(props.deputes))
   const { result, keyword, search } = useFuzzy(
-    props.deputes.map(d =>
+    props.deputes.map((d) =>
       Object.assign({}, d, { NomToSearch: deburr(d.Nom) })
     ),
     {
@@ -45,8 +48,8 @@ const DeputiesList = props => {
 
   const filteredList = filterList(result, state)
 
-  const groupesData = props.groupesDetails.data
-    .map(groupe => {
+  const groupesData = props.groupesDetails
+    .map((groupe) => {
       const nbDeputeGroup = calculateNbDepute(
         filteredList,
         "groupe",
@@ -59,29 +62,30 @@ const DeputiesList = props => {
         color: groupe.Couleur,
       })
     })
-    .filter(groupe => groupe.value !== 0)
+    .filter((groupe) => groupe.value !== 0)
 
   // Handlers
-  const handleSearchValue = value => {
+  const handleSearchValue = (value) => {
     search(value)
   }
 
   const handleClickOnAllGroupes = (target, bool) => {
-    const allGroupesNewValues = Object.keys(GroupeValue).forEach(groupe => {
+    const allGroupesNewValues = Object.keys(GroupeValue).forEach((groupe) => {
       GroupeValue[groupe] = bool
     })
     setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
 
-  const handleClickOnGroupe = event => {
+  const handleClickOnGroupe = (sigle, event) => {
+    const actualValueOfGroupe = GroupeValue[sigle]
     setGroupeValue(
       Object.assign({}, GroupeValue, {
-        [event.target.name]: event.target.checked,
+        [sigle]: !actualValueOfGroupe,
       })
     )
   }
 
-  const handleClickOnSex = event => {
+  const handleClickOnSex = (event) => {
     setSexValue(
       Object.assign({}, SexValue, {
         [event.target.name]: event.target.checked,
@@ -96,40 +100,49 @@ const DeputiesList = props => {
     setAgeDomain(calculateAgeDomain(props.deputes))
   }
 
-  const handleAgeSelection = domain => {
+  const handleAgeSelection = (domain) => {
     setAgeDomain(domain)
   }
 
-  const allGroupes = props.groupesDetails.data.map(groupe => {
-    const nbDeputeGroup = calculateNbDepute(
-      filteredList,
-      "groupe",
-      groupe.Sigle
-    )
-    const deputePercent =
-      Math.round(
-        calculatePercentage(
-          filteredList.length,
-          calculateNbDepute(filteredList, "groupe", groupe.Sigle)
-        ) * 10
-      ) / 10
+  const allGroupes = props.groupesDetails.map((groupe) => {
+    // const nbDeputeGroup = calculateNbDepute(
+    //   filteredList,
+    //   "groupe",
+    //   groupe.Sigle
+    // )
+    // const deputePercent =
+    //   Math.round(
+    //     calculatePercentage(
+    //       filteredList.length,
+    //       calculateNbDepute(filteredList, "groupe", groupe.Sigle)
+    //     ) * 10
+    //   ) / 10
     return (
-      <label
-        className={`groupe groupe--${groupe.Sigle}`}
+      <button
+        className={`groupe groupe--${groupe.Sigle} ${
+          GroupeValue[groupe.Sigle] ? "selected" : ""
+        }`}
         key={`groupe--${groupe.Sigle}`}
+        onClick={(e) => handleClickOnGroupe(groupe.Sigle, e)}
+        style={{ order: groupe.Ordre }}
       >
-        {groupe.Sigle}
-        <span style={{ display: "block" }}>
+        <div className="groupe__img-container">
+          <img
+            src={groupeIconByGroupeSigle(groupe.Sigle)}
+            alt={`Icône groupe parlementaire ${groupe.Sigle}`}
+          />
+        </div>
+        <div
+          className={`groupe__background-color ${
+            GroupeValue[groupe.Sigle] ? "selected" : ""
+          }`}
+          style={{ backgroundColor: groupe.Couleur }}
+        ></div>
+        {/* <span>
           ({nbDeputeGroup} - {deputePercent}
           %)
-        </span>
-        <input
-          type="checkbox"
-          name={groupe.Sigle}
-          checked={GroupeValue[groupe.Sigle] ? true : false}
-          onChange={handleClickOnGroupe}
-        />
-      </label>
+        </span> */}
+      </button>
     )
   })
 
@@ -141,23 +154,23 @@ const DeputiesList = props => {
   ) {
     ages.push(i)
   }
-  const groupesByAge = ages.map(age => {
-    const valueOfDeputesByAge = props.deputes.filter(depute => {
+  const groupesByAge = ages.map((age) => {
+    const valueOfDeputesByAge = props.deputes.filter((depute) => {
       return depute.Age === age
     })
     const groupeValueByAge = () =>
       Object.keys(GroupeValue).reduce((acc, groupe) => {
         return Object.assign(acc, {
           [groupe]: valueOfDeputesByAge.filter(
-            depute => depute.GroupeParlementaire.Sigle === groupe
+            (depute) => depute.GroupeParlementaire.Sigle === groupe
           ).length,
         })
       }, {})
     const groupeColorByAge = () =>
       Object.keys(GroupeValue).reduce((acc, groupe) => {
         return Object.assign(acc, {
-          [groupe + "Color"]: props.groupesDetails.data.filter(
-            groupeFiltered => groupeFiltered.Sigle === groupe
+          [groupe + "Color"]: props.groupesDetails.filter(
+            (groupeFiltered) => groupeFiltered.Sigle === groupe
           )[0].Couleur,
         })
       }, {})
@@ -195,15 +208,16 @@ const DeputiesList = props => {
           type="text"
           placeholder="Recherche"
           value={keyword}
-          onChange={e => handleSearchValue(e.target.value)}
+          onChange={(e) => handleSearchValue(e.target.value)}
         />
         <div className="filters__groupe">
           <div className="groupes__allornone">
-            <button onClick={e => handleClickOnAllGroupes(e.target, true)}>
-              Tous
+            <button onClick={(e) => handleClickOnAllGroupes(e.target, true)}>
+              Tous <img className="groupe__svg" src={svgOk} alt="icon ok" />
             </button>
-            <button onClick={e => handleClickOnAllGroupes(e.target, false)}>
-              Aucun
+            <button onClick={(e) => handleClickOnAllGroupes(e.target, false)}>
+              Aucun{" "}
+              <img className="groupe__svg" src={svgClose} alt="icon close" />
             </button>
           </div>
           <br />
@@ -258,7 +272,7 @@ const DeputiesList = props => {
         </div>
       </div>
       <ul className="deputies__list">
-        {filteredList.map(depute => {
+        {filteredList.map((depute) => {
           return <Deputy key={depute.Slug} data={depute} />
         })}
       </ul>
