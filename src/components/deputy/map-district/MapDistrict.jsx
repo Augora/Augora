@@ -109,7 +109,14 @@ const MapDistrict = props => {
 
   return (
     <Block title="Circonscription" type="map" color={props.color}>
+<<<<<<< Updated upstream
       <p className="map__title">{props.nom}</p>
+=======
+      <div className="map__text-wrapper">
+        <p className="map__title">{props.nom}</p>
+        <p className="map__number">{props.num}ème circonscription</p>
+      </div>
+>>>>>>> Stashed changes
       <div className="map__container"></div>
     </Block>
   )
