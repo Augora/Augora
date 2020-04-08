@@ -631,3 +631,6 @@ pre tt:after {
   display: flex;
   align-items: center;
 }
+.icon-wrapper svg {
+  width: 100%;
+}

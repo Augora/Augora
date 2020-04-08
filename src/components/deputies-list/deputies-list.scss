@@ -1,9 +1,36 @@
 .filters {
   margin-bottom: 20px;
   // Contenu
-  &__search {
-    margin: 0;
-    width: 100%;
+  &__line {
+    display: flex;
+    align-items: center;
+    &--advanced {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  &__charts {
+    display: flex;
+    margin-bottom: 40px;
+    .chart {
+      height: 350px;
+      border-radius: 20px;
+      padding-bottom: 20px;
+      &.piechart,
+      &.barchart {
+        width: 30%;
+        background: rgba(black, 0);
+        transition: 0.225s linear;
+        cursor: pointer;
+        &:hover {
+          background: rgba(black, 0.05);
+        }
+      }
+      &.complex-barchart {
+        width: 70%;
+        position: relative;
+      }
+    }
   }
   &__groupe {
     display: flex;
@@ -138,6 +165,29 @@
       opacity: 0.25;
     }
   }
+  &__search {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    .search {
+      &__icon {
+        width: 30px;
+        height: 30px;
+        opacity: 0.75;
+      }
+      &__input {
+        padding: 10px;
+        width: 100%;
+        margin: 0;
+        border: none;
+        font-family: "Open Sans";
+        font-weight: bold;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
   &__sexes {
     margin: 10px 0;
     display: flex;
@@ -149,36 +199,16 @@
       align-items: center;
     }
   }
-
-  .chart-wrapper {
-    display: flex;
-    margin-bottom: 40px;
-    .chart {
-      height: 350px;
-      border-radius: 20px;
-      padding-bottom: 20px;
-      &.piechart,
-      &.barchart {
-        width: 30%;
-        background: rgba(black, 0);
-        transition: 0.225s linear;
-        cursor: pointer;
-        &:hover {
-          background: rgba(black, 0.05);
-        }
-      }
-      &.complex-barchart {
-        width: 70%;
-        position: relative;
-      }
-    }
+  &__order {
+    width: 25%;
+    background: grey;
+  }
+  &__reset {
+    width: 100%;
+    text-align: center;
   }
 }
 
-.deputies__number {
-  width: 100%;
-  text-align: center;
-}
 .deputies__list {
   position: relative;
   display: grid;
