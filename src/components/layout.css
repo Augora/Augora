@@ -8,6 +8,11 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+#___gatsby {
+  height: 100%;
+  position: relative;
 }
 article,
 aside,
@@ -620,4 +625,9 @@ pre tt:after {
   html {
     font-size: 100%;
   }
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
 }

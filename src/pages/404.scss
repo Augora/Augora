@@ -1,0 +1,13 @@
+.page__404 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 200px);
+  h1 {
+    margin-bottom: 0px;
+  }
+  p {
+    font-family: "Open Sans";
+  }
+}

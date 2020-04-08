@@ -15,18 +15,25 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header siteTitle={"Augora"} />
-      <div
+      <section
+        className="layout"
         style={{
-          padding: `0px 20px`,
+          padding: `120px 20px 0 20px`,
         }}
       >
         <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
+      </section>
+      <footer
+        style={{
+          height: 200,
+          padding: `20px`,
+          backgroundColor: `black`,
+          color: `white`,
+          marginTop: 100,
+        }}
+      >
+        © {new Date().getFullYear()} Augora
+      </footer>
     </>
   )
 }
