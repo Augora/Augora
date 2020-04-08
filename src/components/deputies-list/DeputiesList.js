@@ -353,9 +353,13 @@ const DeputiesList = (props) => {
         </section>
       </div>
       <section className="deputies__list">
-        {filteredList.map((depute) => {
-          return <Deputy key={depute.Slug} data={depute} />
-        })}
+        {filteredList.length > 0 ? (
+          filteredList.map((depute) => {
+            return <Deputy key={depute.Slug} data={depute} />
+          })
+        ) : (
+          <>Rien à voir ici</>
+        )}
       </section>
     </>
   )
