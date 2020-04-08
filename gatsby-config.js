@@ -36,8 +36,10 @@ module.exports = {
         fieldName: "faunadb",
         url: "https://graphql.fauna.com/graphql",
         headers: {
-          Authorization: `Bearer ${process.env.FAUNADB_TOKEN ||
-            "fnADnUGjaLACC37ZGjw9dwMr7cY2AFZn312KFOdW"}`,
+          Authorization: `Bearer ${
+            process.env.FAUNADB_TOKEN ||
+            "fnADnUGjaLACC37ZGjw9dwMr7cY2AFZn312KFOdW"
+          }`,
         },
       },
     },
@@ -64,5 +66,13 @@ module.exports = {
       },
     },
     `gatsby-plugin-sass`,
+    {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /\.inline\.svg$/, // See below to configure properly
+        },
+      },
+    },
   ],
 }
