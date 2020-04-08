@@ -10,6 +10,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 }
+#___gatsby {
+  height: 100%;
+  position: relative;
+}
 article,
 aside,
 details,
