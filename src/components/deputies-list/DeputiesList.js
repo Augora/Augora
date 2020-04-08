@@ -7,6 +7,10 @@ import { deburr } from "lodash"
 import IconOk from "../../images/ui-kit/iconok.svg"
 import IconClose from "../../images/ui-kit/iconclose.svg"
 import IconSearch from "../../images/ui-kit/iconloupe.svg"
+import IconMale from "../../images/ui-kit/iconpersontie.svg"
+import IconMaleSymbol from "../../images/ui-kit/iconmale.svg"
+import IconFemale from "../../images/ui-kit/iconpersonw.svg"
+import IconFemaleSymbol from "../../images/ui-kit/iconfemale.svg"
 
 import {
   calculateAgeDomain,
@@ -87,10 +91,16 @@ const DeputiesList = (props) => {
     )
   }
 
-  const handleClickOnSex = (event) => {
+  const handleClickOnSex = (clickedSex, event) => {
+    // setSexValue(
+    //   Object.assign({}, SexValue, {
+    //     [event.target.name]: event.target.checked,
+    //   })
+    // )
+    const actualValueOfSex = SexValue[clickedSex]
     setSexValue(
       Object.assign({}, SexValue, {
-        [event.target.name]: event.target.checked,
+        [clickedSex]: !actualValueOfSex,
       })
     )
   }
@@ -253,54 +263,91 @@ const DeputiesList = (props) => {
             />
           </div>
           <div className="filters__sexes">
-            <label>
-              Homme(
-              {calculateNbDepute(filteredList, "sexe", "H")} /{" "}
-              {Math.round(
-                calculatePercentage(
-                  filteredList.length,
-                  calculateNbDepute(filteredList, "sexe", "H")
-                ) * 10
-              ) / 10}
-              %)
-              <input
-                className="filters__sexe"
-                type="checkbox"
-                name="H"
-                checked={SexValue.H ? true : false}
-                onChange={handleClickOnSex}
-              />
-            </label>
-            <label>
-              Femme(
-              {calculateNbDepute(filteredList, "sexe", "F")} /{" "}
-              {Math.round(
-                calculatePercentage(
-                  filteredList.length,
-                  calculateNbDepute(filteredList, "sexe", "F")
-                ) * 10
-              ) / 10}
-              %)
-              <input
-                className="filters__sexe"
-                type="checkbox"
-                name="F"
-                checked={SexValue.F ? true : false}
-                onChange={handleClickOnSex}
-              />
-            </label>
+            <button
+              className={`sexes__btn sexes_btn--female ${
+                SexValue["F"] ? "selected" : ""
+              }`}
+              onClick={(e) => handleClickOnSex("F", e)}
+            >
+              <div className="sexe__icon--female-symbol icon-wrapper">
+                <IconFemaleSymbol />
+              </div>
+              <div className="sexe__icon--female icon-wrapper">
+                <IconFemale />
+              </div>
+              <div className="sexe__tooltip">
+                <h2>Femmes</h2>
+                <p className="sexe__numbers">
+                  <div className="sexe__number">
+                    <strong>
+                      {calculateNbDepute(filteredList, "sexe", "F")}
+                    </strong>{" "}
+                    Députés
+                  </div>
+                  <div className="sexe__percentage">
+                    {Math.round(
+                      calculatePercentage(
+                        filteredList.length,
+                        calculateNbDepute(filteredList, "sexe", "F")
+                      ) * 10
+                    ) / 10}
+                    %
+                  </div>
+                </p>
+              </div>
+            </button>
+            <div className="filters__total-results">
+              <h2>
+                <strong>{filteredList.length}</strong> Députés
+              </h2>
+              <div className="total-results__tooltip">
+                {Math.round(
+                  calculatePercentage(
+                    props.deputes.length,
+                    filteredList.length
+                  ) * 10
+                ) / 10}
+                %
+              </div>
+            </div>
+            <button
+              className={`sexes__btn sexes_btn--male ${
+                SexValue["H"] ? "selected" : ""
+              }`}
+              onClick={(e) => handleClickOnSex("H", e)}
+            >
+              <div className="sexe__icon--male icon-wrapper">
+                <IconMale />
+              </div>
+              <div className="sexe__icon--male-symbol icon-wrapper">
+                <IconMaleSymbol />
+              </div>
+              <div className="sexe__tooltip">
+                <h2>Hommes</h2>
+                <p className="sexe__numbers">
+                  <div className="sexe__number">
+                    <strong>
+                      {calculateNbDepute(filteredList, "sexe", "H")}
+                    </strong>{" "}
+                    Députés
+                  </div>
+                  <div className="sexe__percentage">
+                    {Math.round(
+                      calculatePercentage(
+                        filteredList.length,
+                        calculateNbDepute(filteredList, "sexe", "H")
+                      ) * 10
+                    ) / 10}
+                    %
+                  </div>
+                </p>
+              </div>
+            </button>
           </div>
           <div className="filters__order">Trier par :</div>
         </section>
         <section className="filters__line filters__line--">
           <div className="filters__reset">
-            Nombre de député filtrés : {filteredList.length} /{" "}
-            {Math.round(
-              calculatePercentage(props.deputes.length, filteredList.length) *
-                10
-            ) / 10}
-            %
-            <br />
             <button onClick={handleReset}>Réinitialiser</button>
           </div>
         </section>

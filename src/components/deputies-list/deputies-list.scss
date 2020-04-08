@@ -7,6 +7,7 @@
     &--advanced {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 20px;
     }
   }
   &__charts {
@@ -199,11 +200,135 @@
     margin: 10px 0;
     display: flex;
     justify-content: space-around;
-    label {
+    .sexes {
+      &__btn {
+        background: transparent;
+        border: none;
+        display: flex;
+        position: relative;
+        z-index: 1;
+        cursor: pointer;
+        .icon-wrapper {
+          opacity: 1;
+          transition: 0.225s linear;
+        }
+        .sexe {
+          &__icon {
+            &--female {
+              width: 25px;
+            }
+            &--male {
+              width: 30px;
+            }
+            &--female-symbol,
+            &--male-symbol {
+              width: 25px;
+              height: 25px;
+              svg {
+                height: 100%;
+                width: 100%;
+              }
+            }
+          }
+          &__tooltip {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%);
+            background-color: white;
+            box-shadow: 0px 5px 5px rgba(black, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 300px;
+            font-family: "Open Sans";
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.225s linear;
+            h2 {
+              font-weight: normal;
+            }
+          }
+          &__numbers {
+            display: flex;
+            justify-content: space-between;
+            opacity: 0.5;
+            margin-bottom: 0px;
+          }
+          &__number {
+            display: flex;
+            align-items: center;
+            strong {
+              font-size: 30px;
+              padding-right: 10px;
+            }
+          }
+          &__percentage {
+            font-size: 30px;
+            font-weight: bold;
+          }
+        }
+        &:not(.selected) {
+          .icon-wrapper {
+            opacity: 0.25;
+          }
+        }
+        &:focus {
+          outline: none;
+        }
+        &:hover {
+          .sexe__tooltip {
+            top: calc(100% + 10px);
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  &__total-results {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0 50px;
+    font-family: "Open Sans";
+    cursor: default;
+    h2 {
+      margin-bottom: 0px;
+      font-weight: normal;
+      font-size: 14px;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      strong {
+        font-size: 40px;
+        font-weight: bold;
+        padding-right: 5px;
+      }
+    }
+    .total-results {
+      &__tooltip {
+        position: absolute;
+        top: calc(100%);
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 100%;
+        padding: 20px;
+        background: white;
+        z-index: 1;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 30px;
+        box-shadow: 0px 5px 5px rgba(black, 0.15);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.225s linear;
+      }
+    }
+    &:hover {
+      .total-results {
+        &__tooltip {
+          top: calc(100% + 10px);
+          opacity: 1;
+        }
+      }
     }
   }
   &__order {
