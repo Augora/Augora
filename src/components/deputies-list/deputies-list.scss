@@ -30,11 +30,8 @@
         justify-content: flex-end;
         align-items: center;
         cursor: pointer;
-        img {
-          pointer-events: none;
-          width: 12px;
-          opacity: 0.5;
-          margin: 0 0 0 5px;
+        svg {
+          width: 100%;
         }
         &:focus {
           outline: none;

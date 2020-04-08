@@ -4,8 +4,8 @@ import "./deputies-list.scss"
 // import PieChart from "./PieChart/D3PieChart"
 import { useFuzzy } from "react-use-fuzzy"
 import { deburr } from "lodash"
-import svgOk from "../../images/ui-kit/iconok.svg"
-import svgClose from "../../images/ui-kit/iconclose.svg"
+import IconOk from "../../images/ui-kit/iconok.svg"
+import IconClose from "../../images/ui-kit/iconclose.svg"
 
 import {
   calculateAgeDomain,
@@ -225,11 +225,33 @@ const DeputiesList = (props) => {
         <div className="filters__groupe">
           <div className="groupes__allornone">
             <button onClick={(e) => handleClickOnAllGroupes(e.target, true)}>
-              Tous <img className="groupe__svg" src={svgOk} alt="icon ok" />
+              Tous
+              <div
+                className="icon-wrapper"
+                style={{
+                  pointerEvents: `none`,
+                  width: 12,
+                  height: 12,
+                  opacity: `0.5`,
+                  margin: `0 0 0 5px`,
+                }}
+              >
+                <IconOk />
+              </div>
             </button>
             <button onClick={(e) => handleClickOnAllGroupes(e.target, false)}>
               Aucun{" "}
-              <img className="groupe__svg" src={svgClose} alt="icon close" />
+              <div
+                className="icon-wrapper"
+                style={{
+                  pointerEvents: `none`,
+                  width: 12,
+                  opacity: `0.5`,
+                  margin: `0 0 0 5px`,
+                }}
+              >
+                <IconClose />
+              </div>
             </button>
           </div>
           <br />

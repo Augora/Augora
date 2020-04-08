@@ -626,3 +626,8 @@ pre tt:after {
     font-size: 100%;
   }
 }
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+}
