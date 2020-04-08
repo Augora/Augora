@@ -38,7 +38,7 @@ module.exports = {
         headers: {
           Authorization: `Bearer ${
             process.env.FAUNADB_TOKEN ||
-            "fnADnUGjaLACC37ZGjw9dwMr7cY2AFZn312KFOdW"
+            "fnADo661jIACAoSIc9sbNNQMWkI5nD9Nu-pkstXm"
           }`,
         },
       },
