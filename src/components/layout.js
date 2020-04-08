@@ -29,6 +29,7 @@ const Layout = ({ children }) => {
           padding: `20px`,
           backgroundColor: `black`,
           color: `white`,
+          marginTop: 100,
         }}
       >
         © {new Date().getFullYear()} Augora
