@@ -111,18 +111,6 @@ const DeputiesList = (props) => {
   }
 
   const allGroupes = props.groupesDetails.map((groupe) => {
-    // const nbDeputeGroup = calculateNbDepute(
-    //   filteredList,
-    //   "groupe",
-    //   groupe.Sigle
-    // )
-    // const deputePercent =
-    //   Math.round(
-    //     calculatePercentage(
-    //       filteredList.length,
-    //       calculateNbDepute(filteredList, "groupe", groupe.Sigle)
-    //     ) * 10
-    //   ) / 10
     return (
       <button
         className={`groupe groupe--${groupe.Sigle} ${
@@ -144,10 +132,6 @@ const DeputiesList = (props) => {
           }`}
           style={{ backgroundColor: groupe.Couleur }}
         ></div>
-        {/* <span>
-          ({nbDeputeGroup} - {deputePercent}
-          %)
-        </span> */}
       </button>
     )
   })
@@ -193,7 +177,7 @@ const DeputiesList = (props) => {
   return (
     <>
       <div className="filters">
-        <section className="filters__line">
+        <section className="filters__line filters__line--charts">
           <div className="filters__charts">
             {HasPieChart ? (
               <div className="piechart chart" onClick={handleChartSelection}>
@@ -218,7 +202,7 @@ const DeputiesList = (props) => {
             </div>
           </div>
         </section>
-        <section className="filters__line">
+        <section className="filters__line filters__line--groupe">
           <div className="filters__groupe">
             <div className="groupes__allornone">
               <button onClick={(e) => handleClickOnAllGroupes(e.target, true)}>
@@ -308,7 +292,7 @@ const DeputiesList = (props) => {
           </div>
           <div className="filters__order">Trier par :</div>
         </section>
-        <section className="filters__line">
+        <section className="filters__line filters__line--">
           <div className="filters__reset">
             Nombre de député filtrés : {filteredList.length} /{" "}
             {Math.round(

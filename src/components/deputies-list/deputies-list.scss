@@ -10,6 +10,7 @@
     }
   }
   &__charts {
+    width: 100%;
     display: flex;
     margin-bottom: 40px;
     .chart {
@@ -33,6 +34,7 @@
     }
   }
   &__groupe {
+    width: 100%;
     display: flex;
     justify-content: center;
     margin: 10px 0;
@@ -176,14 +178,19 @@
         opacity: 0.75;
       }
       &__input {
+        display: block;
         padding: 10px;
-        width: 100%;
+        width: calc(100% - 10px);
+        margin-left: 10px;
         margin: 0;
         border: none;
         font-family: "Open Sans";
         font-weight: bold;
+        background-color: rgba(black, 0);
+        transition: 0.225s linear;
         &:focus {
           outline: none;
+          background-color: rgba(black, 0.15);
         }
       }
     }
