@@ -6,6 +6,11 @@ import { useFuzzy } from "react-use-fuzzy"
 import { deburr } from "lodash"
 import IconOk from "../../images/ui-kit/iconok.svg"
 import IconClose from "../../images/ui-kit/iconclose.svg"
+import IconSearch from "../../images/ui-kit/iconloupe.svg"
+import IconMale from "../../images/ui-kit/iconpersontie.svg"
+import IconMaleSymbol from "../../images/ui-kit/iconmale.svg"
+import IconFemale from "../../images/ui-kit/iconpersonw.svg"
+import IconFemaleSymbol from "../../images/ui-kit/iconfemale.svg"
 
 import {
   calculateAgeDomain,
@@ -86,10 +91,16 @@ const DeputiesList = (props) => {
     )
   }
 
-  const handleClickOnSex = (event) => {
+  const handleClickOnSex = (clickedSex, event) => {
+    // setSexValue(
+    //   Object.assign({}, SexValue, {
+    //     [event.target.name]: event.target.checked,
+    //   })
+    // )
+    const actualValueOfSex = SexValue[clickedSex]
     setSexValue(
       Object.assign({}, SexValue, {
-        [event.target.name]: event.target.checked,
+        [clickedSex]: !actualValueOfSex,
       })
     )
   }
@@ -110,18 +121,6 @@ const DeputiesList = (props) => {
   }
 
   const allGroupes = props.groupesDetails.map((groupe) => {
-    // const nbDeputeGroup = calculateNbDepute(
-    //   filteredList,
-    //   "groupe",
-    //   groupe.Sigle
-    // )
-    // const deputePercent =
-    //   Math.round(
-    //     calculatePercentage(
-    //       filteredList.length,
-    //       calculateNbDepute(filteredList, "groupe", groupe.Sigle)
-    //     ) * 10
-    //   ) / 10
     return (
       <button
         className={`groupe groupe--${groupe.Sigle} ${
@@ -143,10 +142,6 @@ const DeputiesList = (props) => {
           }`}
           style={{ backgroundColor: groupe.Couleur }}
         ></div>
-        {/* <span>
-          ({nbDeputeGroup} - {deputePercent}
-          %)
-        </span> */}
       </button>
     )
   })
@@ -192,124 +187,180 @@ const DeputiesList = (props) => {
   return (
     <>
       <div className="filters">
-        <div className="chart-wrapper">
-          {HasPieChart ? (
-            <div className="piechart chart" onClick={handleChartSelection}>
-              <PieChart data={groupesData} />
+        <section className="filters__line filters__line--charts">
+          <div className="filters__charts">
+            {HasPieChart ? (
+              <div className="piechart chart" onClick={handleChartSelection}>
+                <PieChart data={groupesData} />
+              </div>
+            ) : (
+              <div className="barchart chart" onClick={handleChartSelection}>
+                <BarChart data={groupesData} />
+              </div>
+            )}
+            <div className="complex-barchart chart">
+              <ComplexBarChart
+                data={groupesByAge}
+                ageDomain={AgeDomain}
+                totalNumberDeputies={props.deputes.length}
+              />
+              <AgeSlider
+                selectedDomain={AgeDomain}
+                domain={calculateAgeDomain(props.deputes)}
+                callback={handleAgeSelection}
+              />
             </div>
-          ) : (
-            <div className="barchart chart" onClick={handleChartSelection}>
-              <BarChart data={groupesData} />
+          </div>
+        </section>
+        <section className="filters__line filters__line--groupe">
+          <div className="filters__groupe">
+            <div className="groupes__allornone">
+              <button onClick={(e) => handleClickOnAllGroupes(e.target, true)}>
+                Tous
+                <div
+                  className="icon-wrapper"
+                  style={{
+                    pointerEvents: `none`,
+                    width: 12,
+                    height: 12,
+                    opacity: `0.5`,
+                    margin: `0 0 0 5px`,
+                  }}
+                >
+                  <IconOk />
+                </div>
+              </button>
+              <button onClick={(e) => handleClickOnAllGroupes(e.target, false)}>
+                Aucun{" "}
+                <div
+                  className="icon-wrapper"
+                  style={{
+                    pointerEvents: `none`,
+                    width: 12,
+                    opacity: `0.5`,
+                    margin: `0 0 0 5px`,
+                  }}
+                >
+                  <IconClose />
+                </div>
+              </button>
             </div>
-          )}
-          <div className="complex-barchart chart">
-            <ComplexBarChart
-              data={groupesByAge}
-              ageDomain={AgeDomain}
-              totalNumberDeputies={props.deputes.length}
-            />
-            <AgeSlider
-              selectedDomain={AgeDomain}
-              domain={calculateAgeDomain(props.deputes)}
-              callback={handleAgeSelection}
+            <br />
+            {allGroupes}
+          </div>
+        </section>
+        <section className="filters__line filters__line--advanced">
+          <div className="filters__search">
+            <div className="search__icon icon-wrapper">
+              <IconSearch />
+            </div>
+            <input
+              className="search__input"
+              type="text"
+              placeholder="Chercher..."
+              value={keyword}
+              onChange={(e) => handleSearchValue(e.target.value)}
             />
           </div>
-        </div>
-        <input
-          className="filters__search"
-          type="text"
-          placeholder="Recherche"
-          value={keyword}
-          onChange={(e) => handleSearchValue(e.target.value)}
-        />
-        <div className="filters__groupe">
-          <div className="groupes__allornone">
-            <button onClick={(e) => handleClickOnAllGroupes(e.target, true)}>
-              Tous
-              <div
-                className="icon-wrapper"
-                style={{
-                  pointerEvents: `none`,
-                  width: 12,
-                  height: 12,
-                  opacity: `0.5`,
-                  margin: `0 0 0 5px`,
-                }}
-              >
-                <IconOk />
+          <div className="filters__sexes">
+            <button
+              className={`sexes__btn sexes_btn--female ${
+                SexValue["F"] ? "selected" : ""
+              }`}
+              onClick={(e) => handleClickOnSex("F", e)}
+            >
+              <div className="sexe__icon--female-symbol icon-wrapper">
+                <IconFemaleSymbol />
+              </div>
+              <div className="sexe__icon--female icon-wrapper">
+                <IconFemale />
+              </div>
+              <div className="sexe__tooltip">
+                <h2>Femmes</h2>
+                <p className="sexe__numbers">
+                  <div className="sexe__number">
+                    <strong>
+                      {calculateNbDepute(filteredList, "sexe", "F")}
+                    </strong>{" "}
+                    Députés
+                  </div>
+                  <div className="sexe__percentage">
+                    {Math.round(
+                      calculatePercentage(
+                        filteredList.length,
+                        calculateNbDepute(filteredList, "sexe", "F")
+                      ) * 10
+                    ) / 10}
+                    %
+                  </div>
+                </p>
               </div>
             </button>
-            <button onClick={(e) => handleClickOnAllGroupes(e.target, false)}>
-              Aucun{" "}
-              <div
-                className="icon-wrapper"
-                style={{
-                  pointerEvents: `none`,
-                  width: 12,
-                  opacity: `0.5`,
-                  margin: `0 0 0 5px`,
-                }}
-              >
-                <IconClose />
+            <div className="filters__total-results">
+              <h2>
+                <strong>{filteredList.length}</strong> Députés
+              </h2>
+              <div className="total-results__tooltip">
+                {Math.round(
+                  calculatePercentage(
+                    props.deputes.length,
+                    filteredList.length
+                  ) * 10
+                ) / 10}
+                %
+              </div>
+            </div>
+            <button
+              className={`sexes__btn sexes_btn--male ${
+                SexValue["H"] ? "selected" : ""
+              }`}
+              onClick={(e) => handleClickOnSex("H", e)}
+            >
+              <div className="sexe__icon--male icon-wrapper">
+                <IconMale />
+              </div>
+              <div className="sexe__icon--male-symbol icon-wrapper">
+                <IconMaleSymbol />
+              </div>
+              <div className="sexe__tooltip">
+                <h2>Hommes</h2>
+                <p className="sexe__numbers">
+                  <div className="sexe__number">
+                    <strong>
+                      {calculateNbDepute(filteredList, "sexe", "H")}
+                    </strong>{" "}
+                    Députés
+                  </div>
+                  <div className="sexe__percentage">
+                    {Math.round(
+                      calculatePercentage(
+                        filteredList.length,
+                        calculateNbDepute(filteredList, "sexe", "H")
+                      ) * 10
+                    ) / 10}
+                    %
+                  </div>
+                </p>
               </div>
             </button>
           </div>
-          <br />
-          {allGroupes}
-        </div>
-        <div className="filters__sexes">
-          <label>
-            Homme(
-            {calculateNbDepute(filteredList, "sexe", "H")} /{" "}
-            {Math.round(
-              calculatePercentage(
-                filteredList.length,
-                calculateNbDepute(filteredList, "sexe", "H")
-              ) * 10
-            ) / 10}
-            %)
-            <input
-              className="filters__sexe"
-              type="checkbox"
-              name="H"
-              checked={SexValue.H ? true : false}
-              onChange={handleClickOnSex}
-            />
-          </label>
-          <label>
-            Femme(
-            {calculateNbDepute(filteredList, "sexe", "F")} /{" "}
-            {Math.round(
-              calculatePercentage(
-                filteredList.length,
-                calculateNbDepute(filteredList, "sexe", "F")
-              ) * 10
-            ) / 10}
-            %)
-            <input
-              className="filters__sexe"
-              type="checkbox"
-              name="F"
-              checked={SexValue.F ? true : false}
-              onChange={handleClickOnSex}
-            />
-          </label>
-        </div>
-        <div className="deputies__number">
-          Nombre de député filtrés : {filteredList.length} /{" "}
-          {Math.round(
-            calculatePercentage(props.deputes.length, filteredList.length) * 10
-          ) / 10}
-          %
-          <br />
-          <button onClick={handleReset}>Réinitialiser</button>
-        </div>
+          <div className="filters__order">Trier par :</div>
+        </section>
+        <section className="filters__line filters__line--">
+          <div className="filters__reset">
+            <button onClick={handleReset}>Réinitialiser</button>
+          </div>
+        </section>
       </div>
-      <ul className="deputies__list">
-        {filteredList.map((depute) => {
-          return <Deputy key={depute.Slug} data={depute} />
-        })}
-      </ul>
+      <section className="deputies__list">
+        {filteredList.length > 0 ? (
+          filteredList.map((depute) => {
+            return <Deputy key={depute.Slug} data={depute} />
+          })
+        ) : (
+          <>Rien à voir ici</>
+        )}
+      </section>
     </>
   )
 }
