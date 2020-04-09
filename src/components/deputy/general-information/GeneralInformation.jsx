@@ -12,6 +12,7 @@ export default function GeneralInformation(props) {
       title="Informations Générales"
       type="general"
       color={props.color}
+      size={props.size}
     >
       <div className={`block__main general__main`}>
         <div className="main__picture">

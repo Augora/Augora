@@ -1,7 +1,7 @@
 import React from "react"
 import block, { MyState } from "utils/styled-components/block"
 import styled from "styled-components"
-import moment from "moment"
+import moment from "moment-with-locale-es6"
 import "moment/locale/fr"
 
 export interface IOldMandate {
@@ -48,7 +48,7 @@ class OldMandates extends React.Component<IOldMandates, MyState> {
     return (
       <Block>
         <Title>Anciens mandats</Title>
-        {this.props.oldMandates.map(oldMandate => {
+        {this.props.oldMandates.map((oldMandate) => {
           return (
             <DateMandate>
               Du {moment(oldMandate.DateDeDebut).format("Do MMMM YYYY")} au{" "}

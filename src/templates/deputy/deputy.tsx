@@ -22,8 +22,8 @@ type SingleDeputyQueryProps = {
 
 const DeputyStyles = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 25vw;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 500px;
   grid-gap: 20px;
   padding: 0px;
   min-height: 100vh;

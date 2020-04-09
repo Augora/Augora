@@ -9,9 +9,14 @@ import Block from "../_block/_Block"
  */
 function Coworkers(props) {
   return (
-    <Block title="Assistants" type="coworkers" color={props.color}>
+    <Block
+      title="Assistants"
+      type="coworkers"
+      color={props.color}
+      size={props.size}
+    >
       <div className="deputy__coworkers">
-        {props.coworkers.map(coworker => {
+        {props.coworkers.map((coworker) => {
           return (
             <Coworker
               key={slugify(coworker.coworker)}

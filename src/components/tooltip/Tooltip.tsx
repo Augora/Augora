@@ -1,7 +1,6 @@
 import React from "react"
 
 export const Tooltip = (tooltip, total) => {
-  console.log(tooltip)
   return (
     <div
       className="tooltip"

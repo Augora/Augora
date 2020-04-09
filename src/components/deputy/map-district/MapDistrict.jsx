@@ -107,7 +107,12 @@ const MapDistrict = (props) => {
     initializeMap(props)
   }, [props])
   return (
-    <Block title="Circonscription" type="map" color={props.color}>
+    <Block
+      title="Circonscription"
+      type="map"
+      color={props.color}
+      size={props.size}
+    >
       <div className="map__text-wrapper">
         <p className="map__title">{props.nom}</p>
         <p className="map__number">
