@@ -348,7 +348,7 @@ const DeputiesList = (props) => {
           </div>
           <div className="filters__order">Trier par :</div>
         </section>
-        <section className="filters__line filters__line--">
+        <section className="filters__line filters__line--reset">
           <div className="filters__reset">
             <button onClick={handleReset}>Réinitialiser</button>
           </div>
