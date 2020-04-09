@@ -107,7 +107,9 @@ const DeputiesList = (props) => {
 
   const handleReset = () => {
     search("")
-    setGroupeValue(groupesArrayToObject(props.groupes))
+    setGroupeValue(
+      groupesArrayToObject(props.groupesDetails.map((g) => g.Sigle))
+    )
     setSexValue({ H: true, F: true })
     setAgeDomain(calculateAgeDomain(props.deputes))
   }
