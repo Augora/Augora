@@ -360,7 +360,9 @@ const DeputiesList = (props) => {
             return <Deputy key={depute.Slug} data={depute} />
           })
         ) : (
-          <>Rien à voir ici</>
+          <div className="deputies__no-result">
+            Aucun résultat ne correspond à votre recherche
+          </div>
         )}
       </section>
     </>

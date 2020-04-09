@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
       <section
         className="layout"
         style={{
-          padding: `120px 20px 0 20px`,
+          padding: `120px 20px 100px 20px`,
         }}
       >
         <main>{children}</main>
@@ -29,7 +29,6 @@ const Layout = ({ children }) => {
           padding: `20px`,
           backgroundColor: `black`,
           color: `white`,
-          marginTop: 100,
         }}
       >
         © {new Date().getFullYear()} Augora
