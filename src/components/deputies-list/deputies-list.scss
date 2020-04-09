@@ -366,3 +366,10 @@
     grid-gap: 20px;
   }
 }
+.deputies__no-result {
+  min-height: 25vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
