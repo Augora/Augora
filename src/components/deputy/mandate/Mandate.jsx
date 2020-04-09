@@ -67,7 +67,9 @@ export default function Mandate(props) {
           <p className="begin__day-month">
             <span style={{ color: props.color }}>{Date.day}</span> {Date.month}
           </p>
-          <p className="begin__year">{Date.year}</p>
+          <p className="begin__year" style={{ color: props.color }}>
+            {Date.year}
+          </p>
         </div>
       </div>
     </Block>

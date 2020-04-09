@@ -7,6 +7,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: default;
+  transform: scale(1);
+  transition: 0.15s ease-in-out;
+  transform-style: preserve-3d;
   .block__background {
     border-radius: 10px;
     background-color: #f7f7f7;
@@ -18,7 +22,7 @@
     z-index: -1;
   }
   .block__content {
-    padding: 50px 20px;
+    padding: 20px 20px;
     min-height: calc(100% - 75px);
     display: flex;
     flex-direction: column;
@@ -37,6 +41,9 @@
   }
   &--large {
     grid-column-end: span 12;
+  }
+  &:hover {
+    transform: scale(1.05);
   }
 }
 
@@ -163,16 +170,18 @@
   .mandate {
     &__content {
       align-items: center;
+      & > *:not(.block__separator) {
+        height: 50%;
+      }
     }
     &__number {
-      height: 50%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       .number {
         &__holder {
-          font-size: 82px;
+          font-size: 70px;
           font-weight: 800;
           line-height: 1;
         }
@@ -187,38 +196,42 @@
     }
     &__dates {
       width: 100%;
-      height: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
       & > div {
         position: absolute;
-        width: 50%;
+        width: 60%;
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        transition: 0.225s linear;
       }
     }
     &__since {
-      display: none !important;
+      opacity: 1;
+      pointer-events: all;
       p {
         display: flex;
         align-items: center;
         text-transform: uppercase;
         font-size: 20px;
+        margin-bottom: 10px;
         span {
-          font-size: 75px;
+          font-size: 50px;
           font-weight: 900;
           display: inline-block;
           margin-right: 10px;
-          line-height: 0.7;
+          line-height: 1;
         }
       }
     }
     &__begin {
+      opacity: 0;
+      pointer-events: none;
       h3 {
         font-size: 20px;
         font-weight: bold;
@@ -235,6 +248,18 @@
           font-weight: 900;
           margin: 0;
         }
+      }
+    }
+  }
+  &:hover {
+    .mandate {
+      &__since {
+        opacity: 0;
+        pointer-events: none;
+      }
+      &__begin {
+        opacity: 1;
+        pointer-events: all;
       }
     }
   }
