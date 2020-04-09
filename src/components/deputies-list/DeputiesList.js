@@ -11,6 +11,7 @@ import IconMale from "../../images/ui-kit/iconpersontie.svg"
 import IconMaleSymbol from "../../images/ui-kit/iconmale.svg"
 import IconFemale from "../../images/ui-kit/iconpersonw.svg"
 import IconFemaleSymbol from "../../images/ui-kit/iconfemale.svg"
+import IconReset from "../../images/ui-kit/iconrefresh.svg"
 
 import {
   calculateAgeDomain,
@@ -350,7 +351,9 @@ const DeputiesList = (props) => {
         </section>
         <section className="filters__line filters__line--reset">
           <div className="filters__reset">
-            <button onClick={handleReset}>Réinitialiser</button>
+            <button onClick={handleReset}>
+              Réinitialiser <IconReset />
+            </button>
           </div>
         </section>
       </div>

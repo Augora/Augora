@@ -4,10 +4,10 @@
   &__line {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
     &--advanced {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 20px;
     }
   }
   &__charts {
@@ -337,7 +337,37 @@
   }
   &__reset {
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    button {
+      background-color: rgba(black, 0.05);
+      border: solid 2px rgba(black, 0);
+      font-family: "Open Sans";
+      padding: 10px 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      color: black;
+      transition: 0.225s linear;
+      cursor: pointer;
+      &:focus {
+        outline: none;
+      }
+      &:hover {
+        background-color: rgba(black, 0);
+        border-color: rgba(black, 0.5);
+        svg {
+          animation: rotate 2s ease-in-out infinite;
+        }
+      }
+      svg {
+        width: 16px;
+        margin-left: 10px;
+        transform-origin: center;
+        transform: rotate(0deg);
+        transition: 0.225s linear;
+      }
+    }
   }
 }
 
@@ -364,5 +394,14 @@
   @media (max-width: 400px) {
     grid-template-columns: repeat(1, auto);
     grid-gap: 20px;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
   }
 }
