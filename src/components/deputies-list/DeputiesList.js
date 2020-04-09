@@ -352,7 +352,7 @@ const DeputiesList = (props) => {
         <section className="filters__line filters__line--reset">
           <div className="filters__reset">
             <button onClick={handleReset}>
-              Réinitialiser <IconReset />
+              Réinitialiser les filtres <IconReset />
             </button>
           </div>
         </section>
