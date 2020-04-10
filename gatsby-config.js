@@ -1,3 +1,6 @@
+const mainColor = require("./src/utils/variables").colors[0]
+const bgColor = require("./src/utils/variables").colors[2]
+
 const path = require("path")
 
 module.exports = {
@@ -23,8 +26,8 @@ module.exports = {
         name: `Augora`,
         short_name: `Augora`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: bgColor,
+        theme_color: mainColor,
         display: `minimal-ui`,
         icon: `src/images/logos/projet/augora-logo.png`,
       },
