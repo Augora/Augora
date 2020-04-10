@@ -2,7 +2,6 @@ import React from "react"
 import Header from "./Header"
 
 export default function _Block(props) {
-  console.log(props.size)
   return (
     <div
       className={`deputy__block block__${props.type} deputy__block--${
