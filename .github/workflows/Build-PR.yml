@@ -20,7 +20,8 @@ jobs:
 
       - name: yarn install, build, and test
         env:
-          CI: "true"
+          CI: true
+          NODE_ENV: "pull_request"
         run: |
           yarn install
           yarn run build
@@ -38,6 +39,9 @@ jobs:
           node-version: 13.x
 
       - name: yarn install, build
+        env:
+          CI: true
+          NODE_ENV: "pull_request"
         run: |
           yarn install
           yarn run build

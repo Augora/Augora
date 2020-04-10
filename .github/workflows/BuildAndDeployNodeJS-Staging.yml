@@ -22,7 +22,7 @@ jobs:
       - name: yarn install, build, and test
         env:
           CI: true
-          TARGET_ENV: "sandbox"
+          NODE_ENV: "staging"
         run: |
           yarn install
           yarn run build
@@ -42,7 +42,7 @@ jobs:
       - name: yarn install, build
         env:
           CI: true
-          TARGET_ENV: "sandbox"
+          NODE_ENV: "staging"
         run: |
           yarn install
           yarn run build
