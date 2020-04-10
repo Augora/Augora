@@ -3,13 +3,12 @@ name: CI/CD Production
 on:
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 1
       matrix:
         # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
         os: [macOS-latest, windows-latest, ubuntu-latest]
@@ -22,8 +21,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: yarn install, build, and test
         env:
-          CI: true
-          TARGET_ENV: "sandbox"
+          CI: "true"
+          NODE_ENV: "production"
+          TARGET_ENV: "production"
         run: |
           yarn install
           yarn run build
@@ -42,6 +42,8 @@ jobs:
 
       - name: yarn install, build
         env:
+          CI: "true"
+          NODE_ENV: "production"
           TARGET_ENV: "production"
         run: |
           yarn install
@@ -59,5 +61,5 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: pullreminders/slack-action@master
         with:
-          args: '{\"channel\":\"C4H19LCN9\",\"text\":\"Augora deployed in product environment :rocket:\"}'
+          args: '{\"channel\":\"C4H19LCN9\",\"text\":\"Augora deployed in production environment :rocket:\"}'
         if: success()

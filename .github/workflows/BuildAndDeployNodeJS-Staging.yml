@@ -21,8 +21,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: yarn install, build, and test
         env:
-          CI: true
-          TARGET_ENV: "sandbox"
+          CI: "true"
+          NODE_ENV: "staging"
+          TARGET_ENV: "staging"
         run: |
           yarn install
           yarn run build
@@ -41,8 +42,9 @@ jobs:
 
       - name: yarn install, build
         env:
-          CI: true
-          TARGET_ENV: "sandbox"
+          CI: "true"
+          NODE_ENV: "staging"
+          TARGET_ENV: "staging"
         run: |
           yarn install
           yarn run build

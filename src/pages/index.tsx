@@ -18,7 +18,9 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
   return (
     <Layout>
       <Helmet>
-        <meta name="robots" content="noindex,nofollow" />
+        {process.env.TARGET_ENV !== "production" ? (
+          <meta name="robots" content="noindex,nofollow" />
+        ) : null}
         <title>Liste des députés</title>
         <link
           href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
