@@ -3,7 +3,11 @@ import Header from "./Header"
 
 export default function _Block(props) {
   return (
-    <div className={`deputy__block block__${props.type}`}>
+    <div
+      className={`deputy__block block__${props.type} deputy__block--${
+        props.size ? props.size : "medium"
+      }`}
+    >
       <Header type={props.type} title={props.title} color={props.color} />
       {props.type === "general" ? (
         <div
