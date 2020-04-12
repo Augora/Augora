@@ -53,7 +53,8 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Playfair+Display:400,500,600,700,800,900&display=swap"
           rel="stylesheet"
         />
-        <style>{`:root {\n${allColors.join("")}}`}</style>
+        <style>{`:root {\n${allColors.join("")}
+      --groupe-color: ${color};}`}</style>
       </Helmet>
       <h1>
         {deputy.Prenom} {deputy.NomDeFamille}

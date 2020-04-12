@@ -35,15 +35,36 @@ header#header.header {
       }
       p {
         position: absolute;
-        top: 50%;
+        top: calc(50% + 2px);
         transform: translate(0, -50%);
-        font-family: "Open Sans";
+        font-family: "Augora", "Open Sans";
         text-transform: uppercase;
         left: calc(100%);
         opacity: 0;
-        font-size: 30px;
+        font-size: 25px;
         transition: 0.225s ease-in-out;
         margin-bottom: 0px;
+        font-weight: 900;
+        letter-spacing: 3px;
+        opacity: 0;
+        line-height: 1;
+      }
+    }
+  }
+  &:not(.small) {
+    .header__home-btn {
+      .header__logo-wrapper {
+        p {
+          opacity: 0.5;
+          left: calc(100% + 20px);
+        }
+      }
+      &:hover {
+        .header__logo-wrapper {
+          p {
+            opacity: 1;
+          }
+        }
       }
     }
   }
@@ -64,6 +85,7 @@ header#header.header {
         height: 25px;
         p {
           font-size: 16px;
+          letter-spacing: 1px;
         }
       }
     }

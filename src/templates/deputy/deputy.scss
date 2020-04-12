@@ -358,18 +358,70 @@
   //
 }
 .block__contact {
-  .contact__adresse {
-    position: relative;
-    &:not(:last-child) {
-      &::after {
-        content: "";
-        width: 50%;
-        height: 1px;
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, 0);
+  position: relative;
+  .contact {
+    &__adresse {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      button,
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        border: none;
+        margin: 0 auto;
+        text-align: center;
+        cursor: pointer;
+        position: relative;
+        padding: 0;
+        text-decoration: none;
+        transition: 0.225s ease-in-out;
+        &.contact__tel {
+          color: var(--groupe-color);
+          font-weight: bold;
+          font-size: 20px;
+          opacity: 0.9;
+          margin-top: 20px;
+        }
+        .tel__icon {
+          content: "";
+          position: absolute;
+          right: -10px;
+          top: 50%;
+          display: block;
+          margin-left: 10px;
+          width: 24px;
+          height: 24px;
+          transform: translate(100%, 0%);
+          opacity: 0;
+          transition: 0.225s linear;
+          svg {
+            width: 100%;
+            path {
+              fill: var(--groupe-color);
+            }
+          }
+        }
+        &:focus {
+          outline: none;
+        }
+        &:hover {
+          .tel__icon {
+            transform: translate(100%, -50%);
+            opacity: 0.75;
+          }
+        }
       }
+    }
+    &__separator {
+      width: 50%;
+      height: 1px;
+      top: 100%;
+      margin: 0 auto;
+      // transform: translate(-50%, 0);
+      background-color: var(--theme-black-color);
     }
   }
 }

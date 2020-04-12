@@ -67,5 +67,14 @@ module.exports = {
     },
     `gatsby-plugin-sass`,
     `gatsby-plugin-react-svg`,
+    {
+      resolve: `gatsby-plugin-web-font-loader`,
+      options: {
+        custom: {
+          families: ["Augora"],
+          urls: ["src/components/fonts/font.css"],
+        },
+      },
+    },
   ],
 }
