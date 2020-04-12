@@ -15,6 +15,8 @@ import { getMandate } from "../../utils/augora-objects/deputy/mandate"
 import { getCoworkers } from "../../utils/augora-objects/deputy/coworker"
 import GeneralInformation from "components/deputy/general-information/GeneralInformation"
 import Mandate from "components/deputy/mandate/Mandate"
+import Contact from "components/deputy/contact/Contact"
+import Presence from "components/deputy/presence/Presence"
 
 type SingleDeputyQueryProps = {
   data: SingleDeputyQuery
@@ -70,6 +72,12 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           color={color}
           size="medium"
         />
+        <Presence color={color} size="large" wip={true} />
+        <Contact
+          color={color}
+          size="medium"
+          adresses={deputy.AdressesDetails.data}
+        />
       </DeputyStyles>
     </Layout>
   )
@@ -115,6 +123,13 @@ export const query = graphql`
             Institution
             Localite
             Intitule
+          }
+        }
+        AdressesDetails {
+          data {
+            Adresse
+            CodePostal
+            Telephone
           }
         }
       }

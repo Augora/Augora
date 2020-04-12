@@ -14,6 +14,7 @@ function Coworkers(props) {
       type="coworkers"
       color={props.color}
       size={props.size}
+      wip={props.wip ? props.wip : false}
     >
       <div className="deputy__coworkers">
         {props.coworkers.map((coworker) => {
