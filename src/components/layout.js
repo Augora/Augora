@@ -7,20 +7,24 @@
 
 import React from "react"
 import PropTypes from "prop-types"
+import Helmet from "react-helmet"
+import { colors } from "utils/variables"
 
 import Header from "./header"
 import "./layout.css"
 
+const allColors = colors.map((color) => {
+  return "--" + color.name + "-color :" + color.hex + ";\n"
+})
+
 const Layout = ({ children }) => {
   return (
     <>
+      <Helmet>
+        <style>{`:root {\n${allColors.join("")}}`}</style>
+      </Helmet>
       <Header siteTitle={"Augora"} />
-      <section
-        className="layout"
-        style={{
-          padding: `120px 20px 100px 20px`,
-        }}
-      >
+      <section className="layout" style={{ padding: "120px 20px 100px 20px" }}>
         <main>{children}</main>
       </section>
       <footer
