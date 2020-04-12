@@ -1,5 +1,6 @@
 import React from "react"
 import Helmet from "react-helmet"
+import { colors } from "utils/variables"
 import { graphql } from "gatsby"
 import "./deputy.scss"
 
@@ -17,6 +18,10 @@ import GeneralInformation from "components/deputy/general-information/GeneralInf
 import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
+
+const allColors = colors.map((color) => {
+  return "--" + color.name + "-color :" + color.hex + ";\n"
+})
 
 type SingleDeputyQueryProps = {
   data: SingleDeputyQuery
@@ -48,6 +53,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Playfair+Display:400,500,600,700,800,900&display=swap"
           rel="stylesheet"
         />
+        <style>{`:root {\n${allColors.join("")}}`}</style>
       </Helmet>
       <h1>
         {deputy.Prenom} {deputy.NomDeFamille}
