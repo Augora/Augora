@@ -1,8 +1,11 @@
-import React from "react"
+import React, { memo } from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { patternLinesDef } from "@nivo/core"
 import { Tooltip } from "components/tooltip/Tooltip"
-export default function ComplexBarChart(props) {
+
+import { memoize } from "lodash"
+
+function ComplexBarChart(props) {
   const keys = Object.keys(props.data[0])
     .filter((key) => key !== "age")
     .filter((key) => !key.includes("Color"))
@@ -67,3 +70,8 @@ export default function ComplexBarChart(props) {
     />
   )
 }
+
+export default memoize(
+  ComplexBarChart,
+  (props) => props.ageDomain[0] + props.ageDomain[1]
+)

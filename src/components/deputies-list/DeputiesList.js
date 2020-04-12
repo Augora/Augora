@@ -359,9 +359,21 @@ const DeputiesList = (props) => {
       </div>
       <section className="deputies__list">
         {filteredList.length > 0 ? (
-          filteredList.map((depute) => {
-            return <Deputy key={depute.Slug} data={depute} />
-          })
+          filteredList
+            .filter((_, i) => i < 20)
+            .map((depute) => {
+              return (
+                <Deputy
+                  Nom={depute.Nom}
+                  Slug={depute.Slug}
+                  URLPhotoAugora={depute.URLPhotoAugora}
+                  GroupeParlementaire={{
+                    Sigle: depute.GroupeParlementaire.Sigle,
+                    Couleur: depute.GroupeParlementaire.Couleur,
+                  }}
+                />
+              )
+            })
         ) : (
           <div className="deputies__no-result">
             Aucun résultat ne correspond à votre recherche
