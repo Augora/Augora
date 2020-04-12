@@ -358,5 +358,18 @@
   //
 }
 .block__contact {
-  //
+  .contact__adresse {
+    position: relative;
+    &:not(:last-child) {
+      &::after {
+        content: "";
+        width: 50%;
+        height: 1px;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+    }
+  }
 }
