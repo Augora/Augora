@@ -25,6 +25,7 @@ import PieChart from "./pie-chart/PieChart"
 import BarChart from "./bar-chart/BarChart"
 import ComplexBarChart from "./complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "./slider/Slider"
+import DeputiesGrid from "./deputies-grid/DeputiesGrid"
 import Deputy from "./deputy/Deputy"
 
 const DeputiesList = (props) => {
@@ -359,21 +360,7 @@ const DeputiesList = (props) => {
       </div>
       <section className="deputies__list">
         {filteredList.length > 0 ? (
-          filteredList
-            .filter((_, i) => i < 20)
-            .map((depute) => {
-              return (
-                <Deputy
-                  Nom={depute.Nom}
-                  Slug={depute.Slug}
-                  URLPhotoAugora={depute.URLPhotoAugora}
-                  GroupeParlementaire={{
-                    Sigle: depute.GroupeParlementaire.Sigle,
-                    Couleur: depute.GroupeParlementaire.Couleur,
-                  }}
-                />
-              )
-            })
+          <DeputiesGrid deputies={filteredList} />
         ) : (
           <div className="deputies__no-result">
             Aucun résultat ne correspond à votre recherche

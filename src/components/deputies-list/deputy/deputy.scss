@@ -2,13 +2,13 @@
 .depute {
   grid-column-end: span 1;
   position: relative;
-  width: 100%;
+  width: 90%;
   background: grey;
   display: inline;
   padding: 10px;
   text-decoration: none;
   color: white;
-  height: calc((100vw / 6) - 30px);
+  height: 290px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,19 +89,19 @@
   }
 
   // Responsive
-  @media (max-width: 1500px) {
-    height: calc((100vw / 5) - 30px);
-  }
-  @media (max-width: 1200px) {
-    height: calc((100vw / 4) - 30px);
-  }
-  @media (max-width: 900px) {
-    height: calc((100vw / 3) - 30px);
-  }
-  @media (max-width: 600px) {
-    height: calc((100vw / 2) - 30px);
-  }
-  @media (max-width: 400px) {
-    height: calc((100vw / 1) - 30px);
-  }
+  // @media (max-width: 1500px) {
+  //   height: calc((100vw / 5) - 30px);
+  // }
+  // @media (max-width: 1200px) {
+  //   height: calc((100vw / 4) - 30px);
+  // }
+  // @media (max-width: 900px) {
+  //   height: calc((100vw / 3) - 30px);
+  // }
+  // @media (max-width: 600px) {
+  //   height: calc((100vw / 2) - 30px);
+  // }
+  // @media (max-width: 400px) {
+  //   height: calc((100vw / 1) - 30px);
+  // }
 }
