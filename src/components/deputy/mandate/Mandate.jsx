@@ -43,7 +43,13 @@ export default function Mandate(props) {
     ? (numberComplement = "er")
     : (numberComplement = "eme")
   return (
-    <Block title="Mandats" type="mandate" color={props.color} size={props.size}>
+    <Block
+      title="Mandats"
+      type="mandate"
+      color={props.color}
+      size={props.size}
+      wip={props.wip ? props.wip : false}
+    >
       <div className="mandate__number" style={{ color: props.color }}>
         <div className="number__holder">
           {props.numberMandates}

@@ -1,5 +1,6 @@
 import React from "react"
 import Helmet from "react-helmet"
+import { colors } from "utils/variables"
 import { graphql } from "gatsby"
 import "./deputy.scss"
 
@@ -15,6 +16,12 @@ import { getMandate } from "../../utils/augora-objects/deputy/mandate"
 import { getCoworkers } from "../../utils/augora-objects/deputy/coworker"
 import GeneralInformation from "components/deputy/general-information/GeneralInformation"
 import Mandate from "components/deputy/mandate/Mandate"
+import Contact from "components/deputy/contact/Contact"
+import Presence from "components/deputy/presence/Presence"
+
+const allColors = colors.map((color) => {
+  return "--" + color.name + "-color :" + color.hex + ";\n"
+})
 
 type SingleDeputyQueryProps = {
   data: SingleDeputyQuery
@@ -46,6 +53,8 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Playfair+Display:400,500,600,700,800,900&display=swap"
           rel="stylesheet"
         />
+        <style>{`:root {\n${allColors.join("")}
+      --groupe-color: ${color};}`}</style>
       </Helmet>
       <h1>
         {deputy.Prenom} {deputy.NomDeFamille}
@@ -69,6 +78,12 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           num={deputy.NumeroCirconscription}
           color={color}
           size="medium"
+        />
+        <Presence color={color} size="large" wip={true} />
+        <Contact
+          color={color}
+          size="medium"
+          adresses={deputy.AdressesDetails.data}
         />
       </DeputyStyles>
     </Layout>
@@ -115,6 +130,13 @@ export const query = graphql`
             Institution
             Localite
             Intitule
+          }
+        }
+        AdressesDetails {
+          data {
+            Adresse
+            CodePostal
+            Telephone
           }
         }
       }
