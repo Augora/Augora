@@ -1,38 +1,72 @@
 {
-  "name": "la-bete-politique-front",
-  "version": "0.1.0",
+  "name": "augora-frontend",
   "private": true,
+  "description": "",
+  "version": "0.2.0",
+  "author": "",
   "dependencies": {
-    "@types/react": "^16.9.1",
-    "@types/react-helmet": "^5.0.9",
-    "@types/styled-components": "^4.1.18",
-    "lbp-wrapper": "^0.8.3",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-helmet": "^5.2.1",
-    "react-router-dom": "^5.0.1",
-    "styled-components": "^4.3.2",
-    "typescript": "^3.5.3"
+    "@graphql-codegen/core": "1.13.1",
+    "@nivo/bar": "0.61.1",
+    "@nivo/pie": "0.61.1",
+    "babel-plugin-styled-components": "1.10.7",
+    "d3": "5.15.0",
+    "fuse.js": "3.4.6",
+    "gatsby": "2.20.9",
+    "gatsby-image": "2.3.1",
+    "gatsby-plugin-graphql-codegen": "2.7.0",
+    "gatsby-plugin-manifest": "2.3.3",
+    "gatsby-plugin-offline": "3.1.2",
+    "gatsby-plugin-react-helmet": "3.2.1",
+    "gatsby-plugin-react-svg": "^3.0.0",
+    "gatsby-plugin-sass": "2.2.1",
+    "gatsby-plugin-sharp": "2.5.3",
+    "gatsby-plugin-styled-components": "3.2.1",
+    "gatsby-plugin-typescript": "2.3.1",
+    "gatsby-plugin-web-font-loader": "^1.0.4",
+    "gatsby-source-filesystem": "2.2.2",
+    "gatsby-source-graphql-universal": "3.1.11",
+    "gatsby-transformer-sharp": "2.4.3",
+    "graphql": "14.6.0",
+    "lodash": "4.17.15",
+    "mapbox-gl": "1.9.0",
+    "moment-with-locales-es6": "^1.0.1",
+    "node-sass": "4.13.1",
+    "prop-types": "15.7.2",
+    "react": "16.13.1",
+    "react-compound-slider": "2.5.0",
+    "react-dom": "16.13.1",
+    "react-helmet": "5.2.1",
+    "react-use-fuzzy": "1.0.4",
+    "styled-components": "5.0.1",
+    "typescript": "3.8.3"
   },
   "devDependencies": {
-    "now": "^16.1.1",
-    "react-scripts": "3.1.0",
-    "source-map-explorer": "^2.0.1"
+    "gatsby-plugin-root-import": "2.0.5",
+    "prettier": "2.0.2"
   },
+  "resolutions": {
+    "graphql": "14.6.0"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "now-build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "deploy-prod": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) augora.fr",
-    "deploy-qua": "now alias --token=$NOW_TOKEN $(now --no-clipboard --token=$NOW_TOKEN --public) preprod.augora.fr"
+    "clean": "gatsby clean",
+    "build": "gatsby build",
+    "rebuild": "gatsby clean && gatsby build",
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "serve": "gatsby serve",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
+    "deploy-qua": "now"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Augora/Augora"
+  },
+  "bugs": {
+    "url": "https://github.com/Augora/Augora/issues"
+  }
 }

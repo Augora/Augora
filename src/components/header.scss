@@ -1,0 +1,93 @@
+header#header.header {
+  background: white;
+  margin-bottom: 40px;
+  position: fixed;
+  width: 100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  .header {
+    &__wrapper {
+      padding: 20px;
+      width: 100%;
+      transition: 0.225s ease-in-out;
+    }
+    &__home-btn {
+      display: inline-block;
+      color: black;
+      text-decoration: none;
+      &:hover {
+        p {
+          left: calc(100% + 20px);
+          opacity: 1;
+        }
+      }
+    }
+    &__logo-wrapper {
+      width: 50px;
+      height: 50px;
+      transition: 0.225s linear;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        width: 100%;
+      }
+      p {
+        position: absolute;
+        top: calc(50% + 2px);
+        transform: translate(0, -50%);
+        font-family: "Augora", "Open Sans";
+        text-transform: uppercase;
+        left: calc(100%);
+        opacity: 0;
+        font-size: 25px;
+        transition: 0.225s ease-in-out;
+        margin-bottom: 0px;
+        font-weight: 900;
+        letter-spacing: 3px;
+        opacity: 0;
+        line-height: 1;
+      }
+    }
+  }
+  &:not(.small) {
+    .header__home-btn {
+      .header__logo-wrapper {
+        p {
+          opacity: 0.5;
+          left: calc(100% + 20px);
+        }
+      }
+      &:hover {
+        .header__logo-wrapper {
+          p {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  &.small {
+    .header {
+      &__wrapper {
+        padding: 10px 20px;
+      }
+      &__home-btn {
+        &:hover {
+          p {
+            left: calc(100% + 10px);
+          }
+        }
+      }
+      &__logo-wrapper {
+        width: 25px;
+        height: 25px;
+        p {
+          font-size: 16px;
+          letter-spacing: 1px;
+        }
+      }
+    }
+  }
+}
