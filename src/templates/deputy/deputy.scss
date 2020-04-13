@@ -64,6 +64,7 @@ $headerHeight: 75px;
       opacity: 0.05;
       z-index: 0;
       transform: translate(0%, calc(-50% - (#{$headerHeight} / 2)));
+      pointer-events: none;
       svg {
         height: 100%;
       }
@@ -196,6 +197,7 @@ $headerHeight: 75px;
       width: 100%;
       overflow: hidden;
       top: -50px;
+      left: 0%;
       z-index: -1;
       transform: translate(0%, 0%);
       opacity: 0.1;
@@ -248,16 +250,41 @@ $headerHeight: 75px;
         width: 100px;
       }
       .main__age {
-        font-size: 50px;
-        color: white;
-        font-family: "Open Sans";
-        font-weight: 900;
-        div {
-          font-size: 18px;
-          margin-top: 10px;
-          text-align: center;
-          text-transform: uppercase;
-          font-weight: 700;
+        position: relative;
+        min-width: 100px;
+        text-align: center;
+        color: var(--generic-white-color);
+        & > div {
+          transition: 0.225s linear;
+        }
+        .main__age-date {
+          font-size: 50px;
+          font-family: "Open Sans";
+          font-weight: 900;
+          opacity: 1;
+          pointer-events: all;
+          div {
+            font-size: 18px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+          }
+        }
+        .main__birthday {
+          opacity: 0;
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          top: 0px;
+          left: 0px;
+          pointer-events: none;
+          p {
+            margin: 0;
+          }
+          h3 {
+            text-transform: uppercase;
+            margin-bottom: 10px;
+          }
         }
       }
     }
@@ -267,6 +294,25 @@ $headerHeight: 75px;
     font-weight: bold;
     color: white;
     height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &:hover {
+    .general__main {
+      .main__info {
+        .main__age {
+          .main__age-date {
+            opacity: 0;
+            pointer-events: none;
+          }
+          .main__birthday {
+            opacity: 1;
+            pointer-events: all;
+          }
+        }
+      }
+    }
   }
 }
 .block__mandate {

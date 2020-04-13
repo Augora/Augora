@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
         <style>{`:root {\n${allColors.join("")}}`}</style>
       </Helmet>
       <Header siteTitle={"Augora"} />
-      <section className="layout" style={{ padding: "120px 20px 100px 20px" }}>
+      <section className="layout" style={{ padding: "120px 30px 100px" }}>
         <main>{children}</main>
       </section>
       <footer

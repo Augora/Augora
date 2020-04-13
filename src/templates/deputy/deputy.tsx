@@ -31,7 +31,7 @@ const DeputyStyles = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-auto-rows: 500px;
-  grid-gap: 20px;
+  grid-gap: 30px;
   padding: 0px;
   min-height: 100vh;
 `
@@ -53,6 +53,10 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Playfair+Display:400,500,600,700,800,900&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
+          rel="stylesheet"
+        />
         <style>{`:root {\n${allColors.join("")}
       --groupe-color: ${color};}`}</style>
       </Helmet>
@@ -65,13 +69,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           color={color}
           size="medium"
         />
-        <Mandate
-          {...getMandate(deputy)}
-          // {...getOthersMandates(deputy)}
-          // {...getTotalMandates(deputy)}
-          color={color}
-          size="small"
-        />
+        <Mandate {...getMandate(deputy)} color={color} size="small" />
         <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
         <MapDistrict
           nom={deputy.NomCirconscription}

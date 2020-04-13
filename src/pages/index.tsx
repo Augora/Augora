@@ -26,6 +26,10 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
           href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
           rel="stylesheet"
         ></link>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
+          rel="stylesheet"
+        />
       </Helmet>
       <header className="header">
         <h1>Liste des députés</h1>
