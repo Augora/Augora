@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import block, { MyState } from "utils/styled-components/block"
 import styled from "styled-components"
 import moment from "moment"
 import "moment/locale/fr"
