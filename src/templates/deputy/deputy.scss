@@ -34,7 +34,14 @@
     background-color: rgba(black, 0.5);
   }
   &:hover {
-    transform: scale(1.05);
+    z-index: 2;
+    &:not(.deputy__black--xlarge) {
+      transform: scale(1.05);
+      border-width: 2px;
+    }
+    &.deputy__block--large {
+      transform: scale(1.025);
+    }
   }
   // Grid system
   @media (min-width: 1401px) {
