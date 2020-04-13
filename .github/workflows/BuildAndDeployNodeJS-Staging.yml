@@ -23,7 +23,7 @@ jobs:
         env:
           CI: "true"
           NODE_ENV: "staging"
-          TARGET_ENV: "staging"
+          GATSBY_TARGET_ENV: "staging"
         run: |
           yarn install
           yarn run build
@@ -44,7 +44,7 @@ jobs:
         env:
           CI: "true"
           NODE_ENV: "staging"
-          TARGET_ENV: "staging"
+          GATSBY_TARGET_ENV: "staging"
         run: |
           yarn install
           yarn run build
