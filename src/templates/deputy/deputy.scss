@@ -35,7 +35,6 @@
     height: 1px;
     background-color: rgba(black, 0.5);
   }
-<<<<<<< HEAD
   &:hover {
     z-index: 2;
     &:not(.deputy__black--xlarge) {
@@ -45,12 +44,6 @@
     &.deputy__block--large {
       transform: scale(1.025);
     }
-=======
-  &:hover:not(.deputy__black--xlarge) {
-    z-index: 2;
-    transform: scale(1.05);
-    border-width: 2px;
->>>>>>> develop
   }
   // Grid system
   @media (min-width: 1401px) {
