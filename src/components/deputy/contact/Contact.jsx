@@ -1,6 +1,7 @@
 import React from "react"
 import Block from "../_block/_Block"
 import IconCopy from "images/ui-kit/iconcopy.svg"
+import IconMail from "images/ui-kit/iconmail.svg"
 
 const formatAddress = (address, codepostal) => {
   const splitedAddress = address.split(codepostal)
@@ -30,6 +31,9 @@ const Contact = (props) => {
       {props.adresses.map((adresseDetails, index, array) => {
         return (
           <>
+            <div className="icon-wrapper">
+              <IconMail />
+            </div>
             <div className="contact__adresse">
               <button
                 role="copy"

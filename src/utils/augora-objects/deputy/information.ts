@@ -12,7 +12,8 @@ export function getGeneralInformation(deputy: any, imgPixel: number) {
     age: deputy.Age,
     job: deputy.Profession,
     website: deputy.SitesWeb,
-    twitter: deputy.twitter,
+    twitter: deputy.Twitter,
+    sexe: deputy.Sexe,
   }
 
   return props

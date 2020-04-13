@@ -1,3 +1,4 @@
+$headerHeight: 75px;
 // Règles générales
 .deputy__block {
   position: relative;
@@ -25,7 +26,7 @@
   }
   .block__content {
     padding: 20px 20px;
-    min-height: calc(100% - 75px);
+    min-height: calc(100% - #{$headerHeight});
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -52,6 +53,19 @@
             }
           }
         }
+      }
+    }
+    & > .icon-wrapper {
+      width: 90%;
+      height: calc(90% - #{$headerHeight});
+      position: absolute;
+      top: calc(50% + #{$headerHeight});
+      left: 5%;
+      opacity: 0.05;
+      z-index: 0;
+      transform: translate(0%, calc(-50% - (#{$headerHeight} / 2)));
+      svg {
+        height: 100%;
       }
     }
   }
@@ -117,7 +131,7 @@
 .block__header {
   position: relative;
   /* padding: 10px 30px 0; */
-  height: 75px;
+  height: $headerHeight;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -174,6 +188,28 @@
 
 // Règles Blocs par Blocs
 .block__general {
+  .general__content {
+    position: relative;
+    & > .icon-wrapper {
+      height: calc(100% + 50px);
+      max-height: none;
+      width: 100%;
+      overflow: hidden;
+      top: -50px;
+      z-index: -1;
+      transform: translate(0%, 0%);
+      opacity: 0.1;
+      svg {
+        position: absolute;
+        top: 0;
+        height: 125%;
+        path,
+        circle {
+          fill: white;
+        }
+      }
+    }
+  }
   .general__background {
     opacity: 0.75;
   }
