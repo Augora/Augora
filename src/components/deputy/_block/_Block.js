@@ -12,6 +12,7 @@ const BlockBackground = styled.div`
 `
 
 export default function _Block(props) {
+  console.log(props.icon)
   return (
     <BlockFrame
       color={props.color}
@@ -28,7 +29,7 @@ export default function _Block(props) {
 
       <div
         className={`block__content ${props.type}__content ${
-          props.wip ? "block__content--wip" : null
+          props.wip ? "block__content--wip" : ""
         }`}
       >
         {!props.wip ? (

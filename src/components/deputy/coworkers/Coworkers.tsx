@@ -2,6 +2,7 @@ import React from "react"
 import Coworker from "./coworker/Coworker"
 import { slugify } from "utils/utils"
 import Block from "../_block/_Block"
+import IconGroupe from "images/ui-kit/icongroup.svg"
 
 /**
  * Return deputy's coworkers in a Block component
@@ -16,6 +17,9 @@ function Coworkers(props) {
       size={props.size}
       wip={props.wip ? props.wip : false}
     >
+      <div className="icon-wrapper">
+        <IconGroupe />
+      </div>
       <div className="deputy__coworkers">
         {props.coworkers.map((coworker) => {
           return (

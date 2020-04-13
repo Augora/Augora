@@ -1,5 +1,7 @@
 import React from "react"
 import Block from "../_block/_Block"
+import IconMale from "images/ui-kit/iconpersontie.svg"
+import IconFemale from "images/ui-kit/iconpersonw.svg"
 
 /**
  * Return deputy's general information in a Block component
@@ -15,6 +17,9 @@ export default function GeneralInformation(props) {
       size={props.size}
       wip={props.wip ? props.wip : false}
     >
+      <div className="icon-wrapper">
+        {props.sexe === "F" ? <IconFemale /> : <IconMale />}
+      </div>
       <div className={`block__main general__main`}>
         <div className="main__picture">
           <img src={props.picture} alt={props.id} />

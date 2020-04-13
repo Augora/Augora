@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Block from "../_block/_Block"
 import moment from "moment-with-locales-es6"
+import IconMandat from "images/ui-kit/iconmandat.svg"
 
 const getDates = (date) => {
   moment.locale("fr")
@@ -50,6 +51,9 @@ export default function Mandate(props) {
       size={props.size}
       wip={props.wip ? props.wip : false}
     >
+      <div className="icon-wrapper">
+        <IconMandat />
+      </div>
       <div className="mandate__number" style={{ color: props.color }}>
         <div className="number__holder">
           {props.numberMandates}
