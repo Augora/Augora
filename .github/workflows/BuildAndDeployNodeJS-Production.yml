@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: build-${{ matrix.os }}-${{ matrix.node-version }}
-          path: build
+          path: public
 
   deploy:
     needs: build
@@ -46,7 +46,7 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: build-ubuntu-latest-13.x
-          path: public/
+          path: public
 
       - name: deploy
         uses: mikeal/npx@master

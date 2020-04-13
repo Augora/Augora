@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
         os: [macOS-latest, windows-latest, ubuntu-latest]
         node-version: [12.x, 13.x]
     steps:
@@ -33,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: build-${{ matrix.os }}-${{ matrix.node-version }}
-          path: build
+          path: public
 
   deploy:
     needs: build
@@ -44,7 +43,7 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: build-ubuntu-latest-13.x
-          path: public/
+          path: public
 
       - uses: amondnet/now-deployment@v2
         env:

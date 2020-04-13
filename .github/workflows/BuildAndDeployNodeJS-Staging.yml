@@ -46,7 +46,7 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: build-ubuntu-latest-13.x
-          path: public/
+          path: public
 
       - name: deploy
         uses: mikeal/npx@master
