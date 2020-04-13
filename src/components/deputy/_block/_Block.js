@@ -7,7 +7,8 @@ const BlockFrame = styled.div`
   border-color: ${(props) => props.color};
 `
 const BlockBackground = styled.div`
-  background-color: ${(props) => props.color};
+  background-color: ${(props) =>
+    props.type === "general" ? props.color : "#f3f3f3"};
 `
 
 export default function _Block(props) {
@@ -19,12 +20,11 @@ export default function _Block(props) {
       }`}
     >
       <Header type={props.type} title={props.title} color={props.color} />
-      {props.type === "general" ? (
-        <BlockBackground
-          color={props.color}
-          className={`block__background ${props.type}__background`}
-        />
-      ) : null}
+      <BlockBackground
+        type={props.type}
+        color={props.color}
+        className={`block__background ${props.type}__background`}
+      />
 
       <div
         className={`block__content ${props.type}__content ${
