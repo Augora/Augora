@@ -7,7 +7,7 @@ export default function _Block(props) {
     border-color: ${props.color};
   `
   const BlockBackground = styled.div`
-    background-color: ${props.type === "general" ? props.color : "#f7f7f7"};
+    background-color: ${props.color};
   `
   return (
     <Block
@@ -16,9 +16,12 @@ export default function _Block(props) {
       }`}
     >
       <Header type={props.type} title={props.title} color={props.color} />
-      <BlockBackground
-        className={`block__background ${props.type}__background`}
-      />
+      {props.type === "general" ? (
+        <BlockBackground
+          className={`block__background ${props.type}__background`}
+        />
+      ) : null}
+
       <div className={`block__content ${props.type}__content`}>
         {!props.wip ? props.children : <div>Work in progress</div>}
       </div>
