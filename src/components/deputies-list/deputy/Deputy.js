@@ -30,7 +30,7 @@ class OneDeputy extends Component {
   render() {
     return (
       <Link
-        to={`/deputy/${this.props.data.Slug}`}
+        to={`/depute/${this.props.data.Slug}`}
         id={"depute-" + this.props.data.Slug}
         key={this.props.data.Slug}
         className={"depute depute--opened-" + this.state.opened}

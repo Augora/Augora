@@ -46,9 +46,9 @@ exports.createPages = async ({ graphql, actions }) => {
       }
     }
   `)
-  result.data.faunadb.DeputesEnMandat.data.forEach(deputy => {
+  result.data.faunadb.DeputesEnMandat.data.forEach((deputy) => {
     createPage({
-      path: `/deputy/${deputy.Slug}`,
+      path: `/depute/${deputy.Slug}`,
       component: path.resolve(`./src/templates/deputy/deputy.tsx`),
       context: {
         slug: deputy.Slug,
