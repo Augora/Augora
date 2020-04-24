@@ -12,6 +12,8 @@ const sliderStyle = {
   height: 80,
   right: "2.5%",
   bottom: -40,
+  pointerEvents: "none",
+  zIndex: 10,
   // transform: "translate(50%, 0)",
 }
 const railStyle = {
@@ -21,6 +23,7 @@ const railStyle = {
   marginTop: 35,
   borderRadius: 5,
   backgroundColor: "#8B9CB6",
+  pointerEvents: "all",
 }
 
 const Track = ({ source, target, getTrackProps }) => {
@@ -36,6 +39,7 @@ const Track = ({ source, target, getTrackProps }) => {
         cursor: "pointer",
         left: `${source.percent}%`,
         width: `${target.percent - source.percent}%`,
+        pointerEvents: "all",
       }}
     />
   )
@@ -57,6 +61,7 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
         borderRadius: "50%",
         backgroundColor: "#2C4870",
         color: "#333",
+        pointerEvents: "all",
       }}
       {...getHandleProps(id)}
     >
