@@ -14,7 +14,6 @@ const sliderStyle = {
   bottom: -40,
   pointerEvents: "none",
   zIndex: 10,
-  // transform: "translate(50%, 0)",
 }
 const railStyle = {
   position: "absolute",
@@ -23,7 +22,6 @@ const railStyle = {
   marginTop: 35,
   borderRadius: 5,
   backgroundColor: "#8B9CB6",
-  pointerEvents: "all",
 }
 
 const Track = ({ source, target, getTrackProps }) => {
@@ -39,7 +37,6 @@ const Track = ({ source, target, getTrackProps }) => {
         cursor: "pointer",
         left: `${source.percent}%`,
         width: `${target.percent - source.percent}%`,
-        pointerEvents: "all",
       }}
     />
   )
