@@ -22,7 +22,8 @@ import Presence from "components/deputy/presence/Presence"
 import IconMail from "images/ui-kit/iconmail.svg"
 import IconWebsite from "images/ui-kit/iconweb.svg"
 // import IconFacebook from 'images/ui-kit/iconfacebook.svg'
-// import IconTwitter from 'images/ui-kit/icontwitter.svg'
+import IconTwitter from "images/ui-kit/icontwitter.svg"
+console.log(IconMail)
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
@@ -71,24 +72,32 @@ function Deputy({ data }: SingleDeputyQueryProps) {
         </h1>
         <div className="deputy__contact">
           <a href={`mailto:${deputy.Emails[0]}`} className="btn btn--mail">
-            <img src="" alt="Icône mail" />
+            <div className="deputy__icon">
+              <IconMail />
+            </div>
           </a>
           <a
             href={deputy.SitesWeb[0]}
             className="btn btn--website"
             target="_blank"
           >
-            <img src="" alt="Icône site web" />
+            <div className="deputy__icon">
+              <IconWebsite />
+            </div>
           </a>
           {/* <a href="" className="btn btn--facebook">
-            <img src="" alt="Icône mail"/>
+            <div className="deputy__icon">
+              <IconFacebook />
+            </div>
           </a> */}
           <a
             href={`https://twitter.com/${deputy.Twitter}`}
             className="btn btn--twitter"
             target="_blank"
           >
-            <img src="" alt="Icône twitter" />
+            <div className="deputy__icon">
+              <IconTwitter />
+            </div>
           </a>
         </div>
       </div>

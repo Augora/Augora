@@ -1,3 +1,39 @@
+.deputy {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 0 50px;
+    h1 {
+      margin: 0;
+    }
+  }
+
+  &__contact {
+    display: flex;
+    align-items: center;
+    .btn {
+      margin-left: 20px;
+    }
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    svg {
+      height: 100%;
+      width: auto;
+      path {
+        fill: var(--groupe-color);
+      }
+    }
+  }
+}
+
 $headerHeight: 75px;
 // Règles générales
 .deputy__block {
