@@ -19,6 +19,11 @@ import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 
+import IconMail from "images/ui-kit/iconmail.svg"
+import IconWebsite from "images/ui-kit/iconweb.svg"
+// import IconFacebook from 'images/ui-kit/iconfacebook.svg'
+// import IconTwitter from 'images/ui-kit/icontwitter.svg'
+
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
@@ -60,9 +65,33 @@ function Deputy({ data }: SingleDeputyQueryProps) {
         <style>{`:root {\n${allColors.join("")}
       --groupe-color: ${color};}`}</style>
       </Helmet>
-      <h1>
-        {deputy.Prenom} {deputy.NomDeFamille}
-      </h1>
+      <div className="deputy__header">
+        <h1>
+          {deputy.Prenom} {deputy.NomDeFamille}
+        </h1>
+        <div className="deputy__contact">
+          <a href={`mailto:${deputy.Emails[0]}`} className="btn btn--mail">
+            <img src="" alt="Icône mail" />
+          </a>
+          <a
+            href={deputy.SitesWeb[0]}
+            className="btn btn--website"
+            target="_blank"
+          >
+            <img src="" alt="Icône site web" />
+          </a>
+          {/* <a href="" className="btn btn--facebook">
+            <img src="" alt="Icône mail"/>
+          </a> */}
+          <a
+            href={`https://twitter.com/${deputy.Twitter}`}
+            className="btn btn--twitter"
+            target="_blank"
+          >
+            <img src="" alt="Icône twitter" />
+          </a>
+        </div>
+      </div>
       <DeputyStyles className="single-deputy">
         <GeneralInformation
           {...getGeneralInformation(deputy, 150)}
@@ -97,6 +126,7 @@ export const query = graphql`
         Age
         LieuDeNaissance
         DebutDuMandat
+        Emails
         GroupeParlementaire {
           Couleur
         }
