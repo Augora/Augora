@@ -212,6 +212,8 @@ const DeputiesList = (props) => {
                 domain={calculateAgeDomain(props.deputes)}
                 callback={handleAgeSelection}
               />
+              <p className="axis xValue">Âge</p>
+              <p className="axis yValue">Nombre de députés</p>
             </div>
           </div>
         </section>

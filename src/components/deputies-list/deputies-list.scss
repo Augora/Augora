@@ -1,6 +1,6 @@
 .filters {
   margin-bottom: 20px;
-  // Contenu
+  // Lines
   &__line {
     display: flex;
     align-items: center;
@@ -10,30 +10,50 @@
       justify-content: space-between;
     }
   }
+
+  // Charts (Graphiques)
   &__charts {
     width: 100%;
     display: flex;
-    margin-bottom: 40px;
-    .chart {
-      height: 350px;
-      border-radius: 20px;
-      padding-bottom: 20px;
-      &.piechart,
-      &.barchart {
-        width: 30%;
-        background: rgba(black, 0);
-        transition: 0.225s linear;
-        cursor: pointer;
-        &:hover {
-          background: rgba(black, 0.05);
-        }
-      }
-      &.complex-barchart {
-        width: 70%;
-        position: relative;
+    margin-bottom: 80px;
+  }
+  .chart {
+    height: 350px;
+    border-radius: 20px;
+    padding-bottom: 20px;
+    &.piechart,
+    &.barchart {
+      width: 30%;
+      background: rgba(black, 0);
+      transition: 0.225s linear;
+      cursor: pointer;
+      &:hover {
+        background: rgba(black, 0.05);
       }
     }
+    &.complex-barchart {
+      width: 70%;
+      position: relative;
+    }
   }
+  .axis {
+    position: absolute;
+    text-align: center;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    &.xValue {
+      bottom: -100px;
+      width: 100%;
+    }
+    &.yValue {
+      transform: rotate(-90deg) translateY(-50%);
+      top: 50%;
+      left: -30px;
+    }
+  }
+
+  // Blocks
   &__groupe {
     width: 100%;
     display: flex;

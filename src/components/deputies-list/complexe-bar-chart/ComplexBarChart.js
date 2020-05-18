@@ -2,6 +2,7 @@ import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { patternLinesDef } from "@nivo/core"
 import { Tooltip } from "components/tooltip/Tooltip"
+
 export default function ComplexBarChart(props) {
   const keys = Object.keys(props.data[0])
     .filter((key) => key !== "age")
