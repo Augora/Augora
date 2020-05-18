@@ -9,84 +9,46 @@ header#header.header {
     &__wrapper {
       padding: 20px;
       width: 100%;
-      transition: 0.225s ease-in-out;
+      transition: 0.225s linear;
     }
     &__home-btn {
-      display: inline-block;
-      color: black;
+      width: 20px;
       text-decoration: none;
+      color: black;
       &:hover {
-        p {
-          left: calc(100% + 20px);
+        .header__site-name {
           opacity: 1;
+          transform: translate3d(0px, 0, 0);
         }
       }
     }
     &__logo-wrapper {
-      width: 50px;
-      height: 50px;
-      transition: 0.225s linear;
-      position: relative;
       display: flex;
       align-items: center;
-      justify-content: center;
-      svg {
-        width: 100%;
-      }
-      p {
-        position: absolute;
-        top: calc(50% + 2px);
-        transform: translate(0, -50%);
-        font-family: "Augora", "Open Sans";
-        text-transform: uppercase;
-        left: calc(100%);
-        opacity: 0;
-        font-size: 25px;
-        transition: 0.225s ease-in-out;
-        margin-bottom: 0px;
-        font-weight: 900;
-        letter-spacing: 3px;
-        opacity: 0;
-        line-height: 1;
-      }
+    }
+    &__svg-wrapper {
+      width: 50px;
+      transition: width 0.2s linear;
+    }
+    &__site-name {
+      font-size: 22px;
+      margin-left: 20px;
+      text-transform: uppercase;
+      font-family: "Augora", "Open Sans";
+      transform: translate3d(-10px, 0, 0);
+      opacity: 0;
+      transition: transform 0.2s linear, opacity 0.2s linear;
     }
   }
-  &:not(.small) {
-    .header__home-btn {
-      .header__logo-wrapper {
-        p {
-          opacity: 0.5;
-          left: calc(100% + 20px);
-        }
-      }
-      &:hover {
-        .header__logo-wrapper {
-          p {
-            opacity: 1;
-          }
-        }
-      }
-    }
-  }
+
   &.small {
     .header {
-      &__wrapper {
-        padding: 10px 20px;
+      &__svg-wrapper {
+        width: 30px;
       }
-      &__home-btn {
-        &:hover {
-          p {
-            left: calc(100% + 10px);
-          }
-        }
-      }
-      &__logo-wrapper {
-        width: 25px;
-        height: 25px;
-        p {
-          font-size: 16px;
-          letter-spacing: 1px;
-        }
+      &__site-name {
+        transform: translate3d(0px, 0, 0);
+        opacity: 1;
       }
     }
   }

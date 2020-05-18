@@ -197,7 +197,7 @@ $headerHeight: 75px;
     position: relative;
     font-weight: bold;
     text-align: center;
-    font-size: 20px;
+    font-size: 25px;
     color: white;
     text-transform: uppercase;
     margin: 0;
@@ -278,6 +278,7 @@ $headerHeight: 75px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 66%;
     & > * {
       width: 50%;
     }
@@ -285,7 +286,9 @@ $headerHeight: 75px;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100%;
       img {
+        height: 100%;
         margin-bottom: 0px;
       }
     }
@@ -294,7 +297,7 @@ $headerHeight: 75px;
       flex-direction: column;
       align-items: center;
       img {
-        width: 100px;
+        width: 150px;
       }
       .main__age {
         position: relative;
@@ -305,14 +308,14 @@ $headerHeight: 75px;
           transition: 0.225s linear;
         }
         .main__age-date {
-          font-size: 50px;
+          font-size: 75px;
           font-family: "Open Sans";
           font-weight: 900;
           opacity: 1;
           pointer-events: all;
           div {
-            font-size: 18px;
-            margin-top: 10px;
+            font-size: 30px;
+            margin-top: 30px;
             text-transform: uppercase;
             font-weight: 700;
           }
@@ -366,9 +369,10 @@ $headerHeight: 75px;
   .mandate {
     &__content {
       align-items: center;
-      & > *:not(.block__separator) {
-        height: 50%;
-      }
+    }
+    &__number,
+    &__dates {
+      height: 50%;
     }
     &__number {
       display: flex;
@@ -511,13 +515,14 @@ $headerHeight: 75px;
       color: rgba(black, 0.8);
       text-shadow: 0px 0px 2px rgba(white, 1);
       background: rgba(white, 0.75);
+      text-transform: uppercase;
     }
     &__title {
       font-size: 25px;
-      text-transform: uppercase;
+      color: rgba(black, 0.5);
     }
     &__number {
-      font-size: 20px;
+      font-size: 16px;
       opacity: 0;
       transition: opacity 0.225s linear;
     }

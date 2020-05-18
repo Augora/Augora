@@ -29,8 +29,10 @@ const Header = ({ siteTitle }) => {
       <div className="header__wrapper wrapper">
         <Link to="/" className="header__home-btn">
           <div className={`header__logo-wrapper `}>
-            <Logo />
-            <p>Augora</p>
+            <div className="header__svg-wrapper">
+              <Logo />
+            </div>
+            <span className="header__site-name">Augora</span>
           </div>
         </Link>
       </div>
