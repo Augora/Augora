@@ -48,11 +48,9 @@ jobs:
           yarn install
           yarn run build
 
-      - uses: amondnet/now-deployment@v2
-        env:
-          BRANCH: ${{ github.base_ref }}
+      - uses: amondnet/vercel-action@v19
         with:
-          zeit-token: ${{ secrets.ZEIT_TOKEN }} # Required
-          github-token: ${{ secrets.GITHUB_TOKEN }} #Optional
-          now-org-id: ${{ secrets.ORG_ID }} #Required
-          now-project-id: ${{ secrets.PROJECT_ID }} #Required
+          vercel-token: ${{ secrets.ZEIT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID}}
+          vercel-project-id: ${{ secrets.PROJECT_ID}}
