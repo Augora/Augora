@@ -524,11 +524,11 @@ $headerHeight: 75px;
       text-transform: uppercase;
     }
     &__title {
-      font-size: 25px;
       color: rgba(black, 0.5);
+      transition: color 0.2s linear;
     }
     &__number {
-      font-size: 16px;
+      font-size: 14px;
       opacity: 0;
       transition: opacity 0.225s linear;
     }
@@ -545,8 +545,13 @@ $headerHeight: 75px;
     }
   }
   &:hover {
-    .map__number {
-      opacity: 1;
+    .map {
+      &__title {
+        color: rgba(black, 1);
+      }
+      &__number {
+        opacity: 1;
+      }
     }
   }
 }
