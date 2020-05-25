@@ -1,0 +1,392 @@
+.filters {
+  margin-bottom: 20px;
+  // Lines
+  &__line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    &--advanced {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  // Charts (Graphiques)
+  &__charts {
+    width: 100%;
+    display: flex;
+    margin-bottom: 80px;
+  }
+  .chart {
+    height: 350px;
+    border-radius: 20px;
+    padding-bottom: 20px;
+    &.piechart,
+    &.barchart {
+      width: 30%;
+      background: rgba(black, 0);
+      transition: 0.225s linear;
+      cursor: pointer;
+      &:hover {
+        background: rgba(black, 0.05);
+      }
+    }
+    &.complex-barchart {
+      width: 70%;
+      position: relative;
+    }
+  }
+  .axis {
+    position: absolute;
+    text-align: center;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    &.xValue {
+      bottom: -100px;
+      width: 100%;
+    }
+    &.yValue {
+      transform: rotate(-90deg) translateY(-50%);
+      top: 50%;
+      left: -30px;
+    }
+  }
+
+  // Blocks
+  &__groupe {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    position: relative;
+    overflow: hidden;
+    .groupes__allornone {
+      position: absolute;
+      top: 50%;
+      right: 0px;
+      display: flex;
+      flex-direction: column;
+      transform: translate(0%, -50%);
+      button {
+        background: none;
+        color: #808080;
+        border: none;
+        font-family: "Open Sans";
+        font-size: 12px;
+        font-weight: bold;
+        padding: 0px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        cursor: pointer;
+        svg {
+          width: 100%;
+        }
+        &:focus {
+          outline: none;
+          border: none;
+        }
+      }
+    }
+    .groupe {
+      margin-left: 10px;
+      border: none;
+      padding: 0px;
+      cursor: pointer;
+      background: none;
+      position: relative;
+      background: white;
+      border-radius: 20px;
+      transition: border-radius 0.05s linear;
+      overflow: hidden;
+      &__img-container {
+        height: 75px;
+        width: 150px;
+        position: relative;
+        z-index: 2;
+        img {
+          object-fit: contain;
+          height: 100%;
+          width: 100%;
+          margin: 0px;
+        }
+      }
+      &__background-color {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 1;
+        border-radius: 20px;
+        filter: grayscale(0);
+        transition: opacity 0.225s linear, filter 0.225s linear,
+          border-radius 0.1s linear;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+        &:not(.selected) {
+          opacity: 0.15 !important;
+          border-radius: 5px !important;
+          filter: grayscale(1);
+        }
+      }
+      &:hover {
+        .groupe__background-color {
+          opacity: 0.5;
+          &:not(.selected) {
+            opacity: 0.15 !important;
+            border-radius: 5px !important;
+            filter: grayscale(0.15);
+          }
+        }
+      }
+      &:focus {
+        outline: none;
+        border: none;
+      }
+      &::before,
+      &::after {
+        z-index: 3;
+        content: "";
+        position: absolute;
+        top: 0px;
+        width: 0%;
+        height: 10px;
+        background: white;
+      }
+      &::after {
+        right: 0px;
+        transform-origin: top right;
+        transform: rotate(-23deg);
+        transition: width 0.225s ease-in-out;
+      }
+      &::before {
+        left: 0px;
+        transform-origin: top left;
+        transform: rotate(23deg);
+        transition: width 0.4s ease-in-out;
+        display: none;
+      }
+      &:not(.selected) {
+        // border-radius: 5px;
+        &::after,
+        &::before {
+          width: 200%;
+        }
+      }
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0px;
+      height: 1px;
+      width: 100%;
+      background-color: black;
+      z-index: -1;
+      opacity: 0.25;
+    }
+  }
+  &__search {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    .search {
+      &__icon {
+        width: 30px;
+        height: 30px;
+        opacity: 0.75;
+      }
+      &__input {
+        display: block;
+        padding: 10px;
+        width: calc(100% - 10px);
+        margin-left: 10px;
+        margin: 0;
+        border: none;
+        font-family: "Open Sans";
+        font-weight: bold;
+        background-color: rgba(black, 0);
+        transition: 0.225s linear;
+        &:focus {
+          outline: none;
+          background-color: rgba(black, 0.15);
+        }
+      }
+    }
+  }
+  &__sexes {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-around;
+    .sexes {
+      &__btn {
+        background: transparent;
+        border: none;
+        display: flex;
+        position: relative;
+        z-index: 1;
+        cursor: pointer;
+        .icon-wrapper {
+          opacity: 1;
+          transition: 0.225s linear;
+        }
+        .sexe {
+          &__icon {
+            &--female {
+              width: 25px;
+            }
+            &--male {
+              width: 30px;
+            }
+            &--female-symbol,
+            &--male-symbol {
+              width: 25px;
+              height: 25px;
+              svg {
+                height: 100%;
+                width: 100%;
+              }
+            }
+          }
+          &__tooltip {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%);
+            background-color: white;
+            box-shadow: 0px 5px 5px rgba(black, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 300px;
+            font-family: "Open Sans";
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.225s linear;
+            h2 {
+              font-weight: normal;
+            }
+          }
+          &__numbers {
+            display: flex;
+            justify-content: space-between;
+            opacity: 0.5;
+            margin-bottom: 0px;
+          }
+          &__number {
+            display: flex;
+            align-items: center;
+            strong {
+              font-size: 30px;
+              padding-right: 10px;
+            }
+          }
+          &__percentage {
+            font-size: 30px;
+            font-weight: bold;
+          }
+        }
+        &:not(.selected) {
+          .icon-wrapper {
+            opacity: 0.25;
+          }
+        }
+        &:focus {
+          outline: none;
+        }
+        &:hover {
+          .sexe__tooltip {
+            top: calc(100% + 10px);
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  &__total-results {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0 50px;
+    font-family: "Open Sans";
+    cursor: default;
+    h2 {
+      margin-bottom: 0px;
+      font-weight: normal;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      strong {
+        font-size: 40px;
+        font-weight: bold;
+        padding-right: 5px;
+      }
+    }
+    .total-results {
+      &__tooltip {
+        position: absolute;
+        top: calc(100%);
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 100%;
+        padding: 20px;
+        background: white;
+        z-index: 1;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 30px;
+        box-shadow: 0px 5px 5px rgba(black, 0.15);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.225s linear;
+      }
+    }
+    &:hover {
+      .total-results {
+        &__tooltip {
+          top: calc(100% + 10px);
+          opacity: 1;
+        }
+      }
+    }
+  }
+  &__order {
+    width: 25%;
+    background: grey;
+  }
+  &__reset {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    button {
+      background-color: rgba(black, 0.05);
+      border: solid 2px rgba(black, 0);
+      font-family: "Open Sans";
+      padding: 10px 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      color: black;
+      transition: 0.225s linear;
+      cursor: pointer;
+      &:focus {
+        outline: none;
+      }
+      &:hover {
+        background-color: rgba(black, 0);
+        border-color: rgba(black, 0.5);
+        svg {
+          animation: rotate 2s ease-in-out infinite;
+        }
+      }
+      svg {
+        width: 16px;
+        margin-left: 10px;
+        transform-origin: center;
+        transform: rotate(0deg);
+        transition: 0.225s linear;
+      }
+    }
+  }
+}
