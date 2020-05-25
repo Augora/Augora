@@ -1,17 +1,20 @@
 import React from "react"
 import Block from "../_block/_Block"
-import IconCopy from "images/ui-kit/iconcopy.svg"
-import IconMail from "images/ui-kit/iconmail.svg"
+import IconCopy from "images/ui-kit/icon-copy.svg"
+import IconMail from "images/ui-kit/icon-mail.svg"
 
-const formatAddress = (address, codepostal) => {
+const formatAddress = (address, codepostal) =>
+{
   const splitedAddress = address.split(codepostal)
   return [splitedAddress[0], codepostal + splitedAddress[1]]
 }
-const formatTelephoneNumber = (number) => {
+const formatTelephoneNumber = (number) =>
+{
   return number.match(/.{1,2}/g).join(" ")
 }
 
-const handleClick = (content) => {
+const handleClick = (content) =>
+{
   navigator.clipboard.writeText(content)
 }
 
@@ -19,7 +22,8 @@ const handleClick = (content) => {
  * Return deputy's contact info in a Block component
  * @param {*} props
  */
-const Contact = (props) => {
+const Contact = (props) =>
+{
   return (
     <Block
       title="Contact"
@@ -28,7 +32,8 @@ const Contact = (props) => {
       size={props.size}
       wip={props.wip ? props.wip : false}
     >
-      {props.adresses.map((adresseDetails, index, array) => {
+      {props.adresses.map((adresseDetails, index, array) =>
+      {
         return (
           <>
             <div className="icon-wrapper">

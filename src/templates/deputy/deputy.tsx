@@ -19,13 +19,14 @@ import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 
-import IconMail from "images/ui-kit/iconmail.svg"
-import IconWebsite from "images/ui-kit/iconweb.svg"
-// import IconFacebook from 'images/ui-kit/iconfacebook.svg'
-import IconTwitter from "images/ui-kit/icontwitter.svg"
+import IconMail from "images/ui-kit/icon-mail.svg"
+import IconWebsite from "images/ui-kit/icon-web.svg"
+// import IconFacebook from 'images/ui-kit/icon-facebook.svg'
+import IconTwitter from "images/ui-kit/icon-twitter.svg"
 console.log(IconMail)
 
-const allColors = colors.map((color) => {
+const allColors = colors.map((color) =>
+{
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
 
@@ -42,7 +43,8 @@ const DeputyStyles = styled.div`
   min-height: 100vh;
 `
 
-function Deputy({ data }: SingleDeputyQueryProps) {
+function Deputy({ data }: SingleDeputyQueryProps)
+{
   const deputy = data.faunadb.Depute
   const color = deputy.GroupeParlementaire.Couleur
   return (

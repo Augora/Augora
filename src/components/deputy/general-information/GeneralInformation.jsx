@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react"
 import moment from "moment-with-locales-es6"
 import Block from "../_block/_Block"
-import IconMale from "images/ui-kit/iconpersontie.svg"
-import IconFemale from "images/ui-kit/iconpersonw.svg"
+import IconMale from "images/ui-kit/icon-persontie.svg"
+import IconFemale from "images/ui-kit/icon-personw.svg"
 
-const getDates = (date) => {
+const getDates = (date) =>
+{
   moment.locale("fr")
   const now = moment()
   const formatedDate = moment(date)
@@ -23,7 +24,8 @@ const getDates = (date) => {
  * Return deputy's general information in a Block component
  * @param {*} props
  */
-export default function GeneralInformation(props) {
+export default function GeneralInformation(props)
+{
   const [Date, setDate] = useState({
     day: "01",
     month: "janvier",
@@ -31,7 +33,8 @@ export default function GeneralInformation(props) {
     yearsPassed: "1",
     monthsPassed: "1",
   })
-  useEffect(() => {
+  useEffect(() =>
+  {
     setDate(getDates(props.dateBegin))
   }, [props.dateBegin])
   return (
