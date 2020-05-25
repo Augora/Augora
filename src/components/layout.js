@@ -12,6 +12,7 @@ import { colors } from "utils/variables"
 
 import Header from "./header"
 import "./layout.css"
+import "../styles/app.scss"
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"

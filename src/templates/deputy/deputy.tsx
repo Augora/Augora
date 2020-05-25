@@ -2,7 +2,6 @@ import React from "react"
 import Helmet from "react-helmet"
 import { colors } from "utils/variables"
 import { graphql } from "gatsby"
-import "../../styles/app.scss"
 
 import styled from "styled-components"
 import Layout from "components/layout"

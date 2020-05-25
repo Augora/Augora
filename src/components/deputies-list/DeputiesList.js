@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import "../../styles/app.scss"
 
 // import BarChart from "./BarChart/D3BarChart"
 // import PieChart from "./PieChart/D3PieChart"
