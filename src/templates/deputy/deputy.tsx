@@ -163,7 +163,6 @@ export const query = graphql`
             Intitule
           }
         }
-
         AutresMandats {
           data {
             Institution
