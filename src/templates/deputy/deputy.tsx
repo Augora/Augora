@@ -105,6 +105,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
           {...getGeneralInformation(deputy, 150)}
           color={color}
           size="medium"
+          dateBegin={deputy.DateDeNaissance}
         />
         <Mandate {...getMandate(deputy)} color={color} size="small" />
         <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
@@ -154,6 +155,7 @@ export const query = graphql`
         Slug
         Twitter
         Collaborateurs
+        DateDeNaissance
         AnciensMandats {
           data {
             DateDeDebut
@@ -161,6 +163,7 @@ export const query = graphql`
             Intitule
           }
         }
+
         AutresMandats {
           data {
             Institution
