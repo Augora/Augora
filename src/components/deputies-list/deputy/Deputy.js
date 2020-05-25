@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import { Link } from "gatsby"
 import { groupeIconByGroupeSigle } from "../deputies-list-utils"
 // Style
-import "./deputy.scss"
+import "../../../styles/app.scss"
 
 class OneDeputy extends Component {
   constructor(props) {

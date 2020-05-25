@@ -2,7 +2,7 @@ import React from "react"
 import Helmet from "react-helmet"
 import { colors } from "utils/variables"
 import { graphql } from "gatsby"
-import "./deputy.scss"
+import "../../styles/app.scss"
 
 import styled from "styled-components"
 import Layout from "components/layout"
@@ -25,8 +25,7 @@ import IconWebsite from "images/ui-kit/icon-web.svg"
 import IconTwitter from "images/ui-kit/icon-twitter.svg"
 console.log(IconMail)
 
-const allColors = colors.map((color) =>
-{
+const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
 
@@ -43,8 +42,7 @@ const DeputyStyles = styled.div`
   min-height: 100vh;
 `
 
-function Deputy({ data }: SingleDeputyQueryProps)
-{
+function Deputy({ data }: SingleDeputyQueryProps) {
   const deputy = data.faunadb.Depute
   const color = deputy.GroupeParlementaire.Couleur
   return (
