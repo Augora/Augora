@@ -32,7 +32,7 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
         />
       </Helmet>
       <header className="header">
-        <h1>Liste des députés</h1>
+        <h1 style={{ textAlign: "center" }}>Liste des députés</h1>
       </header>
       <div>
         <DeputiesList
