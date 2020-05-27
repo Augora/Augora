@@ -11,6 +11,7 @@
       button,
       a {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         background: none;
@@ -21,7 +22,12 @@
         position: relative;
         padding: 0;
         text-decoration: none;
-        transition: 0.225s ease-in-out;
+
+        p {
+          margin: 0;
+          transition: color 0.2s linear;
+        }
+
         &.contact__tel {
           color: var(--groupe-color);
           font-weight: bold;
@@ -52,6 +58,9 @@
           outline: none;
         }
         &:hover {
+          p {
+            color: var(--groupe-color);
+          }
           .tel__icon {
             transform: translate(100%, -50%);
             opacity: 0.75;
