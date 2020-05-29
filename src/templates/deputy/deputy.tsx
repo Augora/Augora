@@ -8,7 +8,6 @@ import Layout from "components/layout"
 
 import Coworkers from "components/deputy/coworkers/Coworkers"
 import MapDistrict from "components/deputy/map-district/MapDistrict"
-import { SingleDeputyQuery } from "types/graphql-types"
 import { getGender } from "../../utils/augora-objects/deputy/gender"
 import { getGeneralInformation } from "../../utils/augora-objects/deputy/information"
 import { getMandate } from "../../utils/augora-objects/deputy/mandate"
@@ -28,10 +27,6 @@ const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
 
-type SingleDeputyQueryProps = {
-  data: SingleDeputyQuery
-}
-
 const DeputyStyles = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -41,7 +36,7 @@ const DeputyStyles = styled.div`
   min-height: 100vh;
 `
 
-function Deputy({ data }: SingleDeputyQueryProps) {
+function Deputy({ data }) {
   const deputy = data.faunadb.Depute
   const color = deputy.GroupeParlementaire.Couleur
   return (

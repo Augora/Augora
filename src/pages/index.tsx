@@ -5,13 +5,8 @@ import { graphql } from "gatsby"
 import Layout from "components/layout"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
-import { DeputesQueryQuery } from "../types/graphql-types"
 
-type DeputesQueryQueryProps = {
-  data: DeputesQueryQuery
-}
-
-const IndexPage = ({ data }: DeputesQueryQueryProps) => {
+const IndexPage = ({ data }) => {
   const orderedGroupes = data.faunadb.GroupesParlementairesDetails.data.sort(
     (a, b) => a.Ordre - b.Ordre
   )
