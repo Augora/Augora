@@ -52,7 +52,7 @@ function Deputy({ data }: SingleDeputyQueryProps) {
         ) : null}
         <title>
           {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy.Sexe)}{" "}
-          {deputy.SigleGroupePolitique}
+          {deputy.GroupeParlementaire.Sigle}
         </title>
         <link
           href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Playfair+Display:400,500,600,700,800,900&display=swap"
@@ -138,6 +138,7 @@ export const query = graphql`
         Emails
         GroupeParlementaire {
           Couleur
+          Sigle
         }
         Nom
         NomCirconscription
@@ -150,7 +151,6 @@ export const query = graphql`
         Prenom
         Profession
         Sexe
-        SigleGroupePolitique
         SitesWeb
         Slug
         Twitter

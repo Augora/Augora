@@ -51,7 +51,6 @@ export const query = graphql`
     faunadb {
       DeputesEnMandat(EstEnMandat: true, _size: 700) {
         data {
-          SigleGroupePolitique
           LieuDeNaissance
           DebutDuMandat
           GroupeParlementaire {
@@ -74,7 +73,6 @@ export const query = graphql`
           Twitter
           DateDeNaissance
           Age
-          Adresses
           Collaborateurs
           Emails
           SitesWeb

@@ -13,11 +13,11 @@ export const calculateNbDepute = (list, type, value) => {
     const filteredList = list
     switch (type) {
       case "groupe":
-        return filteredList.filter(depute => {
-          return depute.SigleGroupePolitique === value ? true : false
+        return filteredList.filter((depute) => {
+          return depute.GroupeParlementaire.Sigle === value ? true : false
         }).length
       case "sexe":
-        return filteredList.filter(depute => {
+        return filteredList.filter((depute) => {
           return depute.Sexe === value ? true : false
         }).length
       default:
@@ -28,8 +28,8 @@ export const calculateNbDepute = (list, type, value) => {
   }
 }
 
-export const calculateAgeDomain = list => {
-  const listAge = list.map(depute => depute.Age)
+export const calculateAgeDomain = (list) => {
+  const listAge = list.map((depute) => depute.Age)
   return [Math.min(...listAge), Math.max(...listAge)]
 }
 
@@ -39,20 +39,20 @@ export const groupesArrayToObject = (array, value = true) => {
 
 export const filterList = (list, state) => {
   return list
-    .filter(depute => {
-      return state.GroupeValue[depute.SigleGroupePolitique] ? true : false
+    .filter((depute) => {
+      return state.GroupeValue[depute.GroupeParlementaire.Sigle] ? true : false
     })
-    .filter(depute => {
+    .filter((depute) => {
       return state.SexValue[depute.Sexe] ? true : false
     })
-    .filter(depute => {
+    .filter((depute) => {
       return (
         depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
       )
     })
 }
 
-export const groupeIconByGroupeSigle = groupe => {
+export const groupeIconByGroupeSigle = (groupe) => {
   let selectedGroupeIcon = ni
   switch (groupe) {
     case "LFI":
