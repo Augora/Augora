@@ -7,7 +7,7 @@ import Layout from "components/layout"
 import DeputiesList from "../components/deputies-list/DeputiesList"
 
 const IndexPage = ({ data }) => {
-  const orderedGroupes = data.faunadb.GroupesParlementairesDetails.data.sort(
+  const orderedGroupes = data.faunadb.GroupesParlementairesDetailsActifs.data.sort(
     (a, b) => a.Ordre - b.Ordre
   )
   return (
@@ -74,7 +74,7 @@ export const query = graphql`
           URLPhotoAugora
         }
       }
-      GroupesParlementairesDetails {
+      GroupesParlementairesDetailsActifs(Actif: true) {
         data {
           Couleur
           Sigle

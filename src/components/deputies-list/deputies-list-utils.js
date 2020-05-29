@@ -7,6 +7,8 @@ import lt from "images/logos/groupes-parlementaires/lt/lt_blanc.png"
 import modem from "images/logos/groupes-parlementaires/modem/modem_blanc.png"
 import ni from "images/logos/groupes-parlementaires/ni/ni_blanc.png"
 import ps from "images/logos/groupes-parlementaires/ps/ps_blanc.png"
+import eds from "images/logos/groupes-parlementaires/eds/eds_blanc.png"
+import ae from "images/logos/groupes-parlementaires/ae/ae_blanc.png"
 
 export const calculateNbDepute = (list, type, value) => {
   if (list.length > 0) {
@@ -81,6 +83,12 @@ export const groupeIconByGroupeSigle = (groupe) => {
       break
     case "UAI":
       selectedGroupeIcon = constructifs
+      break
+    case "EDS":
+      selectedGroupeIcon = eds
+      break
+    case "AE":
+      selectedGroupeIcon = ae
       break
     default:
       selectedGroupeIcon = ni
