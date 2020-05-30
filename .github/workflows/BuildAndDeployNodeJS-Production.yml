@@ -45,6 +45,7 @@ jobs:
           CI: "true"
           NODE_ENV: "production"
           GATSBY_TARGET_ENV: "production"
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_PRODUCTION }}
         run: |
           yarn install
           yarn run build

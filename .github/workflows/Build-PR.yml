@@ -23,6 +23,7 @@ jobs:
           CI: "true"
           NODE_ENV: "pull_request"
           GATSBY_TARGET_ENV: "pull_request"
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
         run: |
           yarn install
           yarn run build
@@ -44,6 +45,7 @@ jobs:
           CI: "true"
           NODE_ENV: "pull_request"
           GATSBY_TARGET_ENV: "pull_request"
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
         run: |
           yarn install
           yarn run build
