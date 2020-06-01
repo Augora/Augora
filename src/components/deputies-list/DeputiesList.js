@@ -349,14 +349,12 @@ const DeputiesList = (props) => {
               </div>
             </button>
           </div>
-          {/* <div className="filters__order">Trier par :</div> */}
-        </section>
-        <section className="filters__line filters__line--reset">
           <div className="filters__reset">
             <button onClick={handleReset}>
               Réinitialiser les filtres <IconReset />
             </button>
           </div>
+          {/* <div className="filters__order">Trier par :</div> */}
         </section>
       </div>
       <section className="deputies__list">
