@@ -90,6 +90,7 @@
       }
     }
     .groupe {
+      $border-radius: 10px;
       margin-left: 10px;
       border: none;
       padding: 0px;
@@ -97,7 +98,7 @@
       background: none;
       position: relative;
       background: white;
-      border-radius: 20px;
+      border-radius: $border-radius;
       transition: border-radius 0.05s linear;
       overflow: hidden;
       &__img-container {
@@ -120,7 +121,7 @@
         height: 100%;
         z-index: 1;
         opacity: 1;
-        border-radius: 20px;
+        border-radius: $border-radius;
         filter: grayscale(0);
         transition: opacity 0.225s linear, filter 0.225s linear,
           border-radius 0.1s linear;
