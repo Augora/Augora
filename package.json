@@ -5,8 +5,8 @@
   "version": "0.2.0",
   "author": "",
   "dependencies": {
-    "@nivo/bar": "0.61.1",
-    "@nivo/pie": "0.61.1",
+    "@nivo/bar": "0.62.0",
+    "@nivo/pie": "0.62.0",
     "babel-plugin-styled-components": "1.10.7",
     "d3": "5.16.0",
     "fuse.js": "3.4.6",
