@@ -30,19 +30,34 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-source-graphql-universal",
+      resolve: "gatsby-source-graphql",
       options: {
         typeName: "FaunaDB",
         fieldName: "faunadb",
         url: "https://graphql.fauna.com/graphql",
         headers: {
           Authorization: `Bearer ${
-            process.env.FAUNADB_TOKEN ||
+            // process.env.FAUNADB_TOKEN ||
             "fnADtFRXPrACB6WCFPNkcNwEOSCfXW574OOspy5t"
           }`,
         },
+        fetchOptions: {},
       },
     },
+    // {
+    //   resolve: "gatsby-source-graphql-universal",
+    //   options: {
+    //     typeName: "FaunaDB",
+    //     fieldName: "faunadb",
+    //     url: "https://graphql.fauna.com/graphql",
+    //     headers: {
+    //       Authorization: `Bearer ${
+    //         process.env.FAUNADB_TOKEN ||
+    //         "fnADo661jIACAoSIc9sbNNQMWkI5nD9Nu-pkstXm"
+    //       }`,
+    //     },
+    //   },
+    // },
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-typescript`,
     `gatsby-plugin-offline`,
