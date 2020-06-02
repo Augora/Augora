@@ -21,7 +21,6 @@ import IconMail from "images/ui-kit/icon-mail.svg"
 import IconWebsite from "images/ui-kit/icon-web.svg"
 // import IconFacebook from 'images/ui-kit/icon-facebook.svg'
 import IconTwitter from "images/ui-kit/icon-twitter.svg"
-console.log(IconMail)
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
