@@ -1,4 +1,4 @@
-import constructifs from "images/logos/groupes-parlementaires/constructifs/constructifs_blanc.png"
+import udi from "images/logos/groupes-parlementaires/udi/udi_blanc.png"
 import gdr from "images/logos/groupes-parlementaires/gdr/gdr_blanc.png"
 import lfi from "images/logos/groupes-parlementaires/lfi/lfi_blanc.png"
 import lr from "images/logos/groupes-parlementaires/lr/lr_blanc.png"
@@ -10,53 +10,67 @@ import ps from "images/logos/groupes-parlementaires/ps/ps_blanc.png"
 import eds from "images/logos/groupes-parlementaires/eds/eds_blanc.png"
 import ae from "images/logos/groupes-parlementaires/ae/ae_blanc.png"
 
-export const calculateNbDepute = (list, type, value) => {
-  if (list.length > 0) {
+export const calculateNbDepute = (list, type, value) =>
+{
+  if (list.length > 0)
+  {
     const filteredList = list
-    switch (type) {
+    switch (type)
+    {
       case "groupe":
-        return filteredList.filter((depute) => {
+        return filteredList.filter((depute) =>
+        {
           return depute.GroupeParlementaire.Sigle === value ? true : false
         }).length
       case "sexe":
-        return filteredList.filter((depute) => {
+        return filteredList.filter((depute) =>
+        {
           return depute.Sexe === value ? true : false
         }).length
       default:
         return filteredList.length
     }
-  } else {
+  } else
+  {
     return list
   }
 }
 
-export const calculateAgeDomain = (list) => {
+export const calculateAgeDomain = (list) =>
+{
   const listAge = list.map((depute) => depute.Age)
   return [Math.min(...listAge), Math.max(...listAge)]
 }
 
-export const groupesArrayToObject = (array, value = true) => {
+export const groupesArrayToObject = (array, value = true) =>
+{
   return array.reduce((a, b) => ((a[b] = value), a), {}) // eslint-disable-line
 }
 
-export const filterList = (list, state) => {
+export const filterList = (list, state) =>
+{
   return list
-    .filter((depute) => {
+    .filter((depute) =>
+    {
       return state.GroupeValue[depute.GroupeParlementaire.Sigle] ? true : false
     })
-    .filter((depute) => {
+    .filter((depute) =>
+    {
       return state.SexValue[depute.Sexe] ? true : false
     })
-    .filter((depute) => {
+    .filter((depute) =>
+    {
       return (
         depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
       )
     })
 }
 
-export const groupeIconByGroupeSigle = (groupe) => {
+export const groupeIconByGroupeSigle = (groupe) =>
+{
   let selectedGroupeIcon = ni
-  switch (groupe) {
+  switch (groupe)
+  {
     case "LFI":
       selectedGroupeIcon = lfi
       break
@@ -79,10 +93,10 @@ export const groupeIconByGroupeSigle = (groupe) => {
       selectedGroupeIcon = lrem
       break
     case "UDI":
-      selectedGroupeIcon = constructifs
+      selectedGroupeIcon = udi
       break
     case "UAI":
-      selectedGroupeIcon = constructifs
+      selectedGroupeIcon = udi
       break
     case "EDS":
       selectedGroupeIcon = eds
