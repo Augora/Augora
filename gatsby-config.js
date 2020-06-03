@@ -46,13 +46,7 @@ module.exports = {
           }`,
         },
         fetchOptions: {},
-        fetch: (uri, options = {}) => {
-          const req = fetch(uri, { ...options, headers: options.headers })
-            .then((d) => {
-              return d
-            })
-            .catch((err) => console.error(err))
-          return req
+        fetch: (uri, options = {}) => fetch(uri, { ...options, headers: options.headers })
         },
       },
     },
