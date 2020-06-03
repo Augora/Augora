@@ -56,7 +56,7 @@ module.exports = {
             })
             .catch((err) => {
               GetLogger().error(err)
-              return err
+              throw new Error(err)
             })
           return req
         },
