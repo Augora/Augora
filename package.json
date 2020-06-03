@@ -41,7 +41,8 @@
     "react-use-fuzzy": "1.0.4",
     "styled-components": "5.1.1",
     "typescript": "3.9.3",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "winston-transport-sentry-node": "^0.3.1"
   },
   "resolutions": {
     "graphql": "14.6.0"
