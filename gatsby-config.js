@@ -46,8 +46,8 @@ module.exports = {
           }`,
         },
         fetchOptions: {},
-        fetch: (uri, options = {}) => fetch(uri, { ...options, headers: options.headers })
-        },
+        fetch: (uri, options = {}) =>
+          fetch(uri, { ...options, headers: options.headers }),
       },
     },
     // {
