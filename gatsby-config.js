@@ -1,5 +1,7 @@
 const path = require("path")
 
+console.log("process.env.FAUNADB_TOKEN", process.env.FAUNADB_TOKEN)
+
 module.exports = {
   siteMetadata: {
     title: `Augora`,
@@ -37,7 +39,7 @@ module.exports = {
         url: "https://graphql.fauna.com/graphql",
         headers: {
           Authorization: `Bearer ${
-            process.env.FAUNADB_TOKEN ||
+            // process.env.FAUNADB_TOKEN ||
             "fnADtFRXPrACB6WCFPNkcNwEOSCfXW574OOspy5t"
           }`,
         },
