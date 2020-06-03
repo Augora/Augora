@@ -2,6 +2,8 @@ const path = require("path")
 require("es6-promise").polyfill()
 require("isomorphic-fetch")
 
+const { GetLogger } = require("./logger.js")
+
 console.log("process.env.FAUNADB_TOKEN", process.env.FAUNADB_TOKEN)
 
 module.exports = {
@@ -46,8 +48,18 @@ module.exports = {
           }`,
         },
         fetchOptions: {},
-        fetch: (uri, options = {}) =>
-          fetch(uri, { ...options, headers: options.headers }),
+        fetch: (uri, options = {}) => {
+          const req = fetch(uri, { ...options, headers: options.headers })
+            .then((d) => {
+              GetLogger().info(d)
+              return d
+            })
+            .catch((err) => {
+              GetLogger().error(err)
+              return err
+            })
+          return req
+        },
       },
     },
     // {

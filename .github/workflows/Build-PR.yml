@@ -29,6 +29,12 @@ jobs:
           yarn run build
           yarn test
 
+      - name: Upload logs as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: logs-${{ matrix.os }}-${{ matrix.node-version }}
+          path: logs
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -49,6 +55,12 @@ jobs:
         run: |
           yarn install
           yarn run build
+
+      - name: Upload logs as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: logs
+          path: logs
 
       - uses: amondnet/vercel-action@v19
         with:
