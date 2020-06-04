@@ -30,6 +30,7 @@ jobs:
           yarn test
 
       - name: Upload logs as artifact
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v1
         with:
           name: logs-${{ matrix.os }}-${{ matrix.node-version }}
@@ -57,6 +58,7 @@ jobs:
           yarn run build
 
       - name: Upload logs as artifact
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v1
         with:
           name: logs
