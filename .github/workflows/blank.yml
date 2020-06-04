@@ -33,12 +33,6 @@ jobs:
           yarn install
           yarn run build
           yarn test
-      
-      - name: Upload logs as artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: logs-${{ matrix.os }}-${{ matrix.node-version }}
-          path: logs
 
       - name: Notify slack
         if: ${{ failure() }}
@@ -47,3 +41,9 @@ jobs:
         uses: pullreminders/slack-action@master
         with:
           args: '{\"channel\":\"C4H19LCN9\",\"text\":\"An error occured on stress test :sob:\"}'
+
+      - name: Upload logs as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: logs-${{ matrix.os }}-${{ matrix.node-version }}
+          path: logs
