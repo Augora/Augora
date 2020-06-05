@@ -1,6 +1,7 @@
 const path = require("path")
 require("es6-promise").polyfill()
 require("isomorphic-fetch")
+const uuidV4 = require("uuid").v4
 
 const { GetLogger } = require("./logger.js")
 
@@ -49,13 +50,15 @@ module.exports = {
         },
         fetchOptions: {},
         fetch: (uri, options = {}) => {
+          const uuid = uuidV4()
+          GetLogger().info(Object.assign({}, options, { uri, uuid }))
           const req = fetch(uri, { ...options, headers: options.headers })
             .then((d) => {
-              GetLogger().info(d)
+              GetLogger().info(Object.assign({}, d, { uuid }))
               return d
             })
             .catch((err) => {
-              GetLogger().error(err)
+              GetLogger().error(Object.assign({}, err, { uuid }))
               throw new Error(err)
             })
           return req
