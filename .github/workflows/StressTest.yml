@@ -8,10 +8,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
         os: [macOS-latest, windows-latest, ubuntu-latest]
-        node-version: [12.x, 14.x]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v2
