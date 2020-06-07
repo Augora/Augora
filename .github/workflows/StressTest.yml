@@ -1,0 +1,51 @@
+name: Stress Test
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: feature/move-to-gatsby-source-graphql
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: yarn install, build, and test
+        env:
+          CI: "true"
+          NODE_ENV: "pull_request"
+          GATSBY_TARGET_ENV: "pull_request"
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
+        run: |
+          yarn install
+          yarn run build
+          yarn test
+
+      - name: Notify slack
+        if: ${{ failure() }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: pullreminders/slack-action@v1.0.9
+        with:
+          args: '{\"channel\":\"C4H19LCN9\",\"text\":\"An error occured on stress test :sob:\"}'
+
+      - name: Upload logs as artifact
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: logs-${{ matrix.os }}-${{ matrix.node-version }}
+          path: logs
