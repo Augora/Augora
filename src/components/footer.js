@@ -1,9 +1,11 @@
 // import { Link } from "gatsby"
-import React, { useState, useEffect } from "react"
+import React from "react"
 
 const Menu = (title, items) => {
   return (
-    <div className="menu footer__menu">
+    <div
+      className={`menu footer__menu ${items.length > 0 ? "" : "menu--empty"}`}
+    >
       {items.length > 0 ? (
         <>
           <h2>{title}</h2>
@@ -26,6 +28,7 @@ const Footer = () => {
         backgroundColor: `#262626`,
         color: `white`,
       }}
+      className="footer"
     >
       <div className="wrapper footer__wrapper">
         <div className="footer__menus">
