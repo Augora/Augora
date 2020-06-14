@@ -11,6 +11,7 @@ import Helmet from "react-helmet"
 import { colors } from "utils/variables"
 
 import Header from "./header"
+import Footer from "./footer"
 import "./layout.css"
 import "../styles/app.scss"
 
@@ -28,16 +29,7 @@ const Layout = ({ children }) => {
       <section className="layout" style={{ padding: "120px 30px 100px" }}>
         <main>{children}</main>
       </section>
-      <footer
-        style={{
-          height: 200,
-          padding: `20px`,
-          backgroundColor: `black`,
-          color: `white`,
-        }}
-      >
-        © {new Date().getFullYear()} Augora
-      </footer>
+      <Footer />
     </>
   )
 }

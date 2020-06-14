@@ -1,0 +1,51 @@
+footer {
+  font-family: "Open Sans";
+  .wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+.footer {
+  &__menus {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__menu {
+    display: flex;
+    flex-direction: column;
+    h2 {
+      font-size: 20px;
+      text-transform: uppercase;
+      color: #808080;
+      position: relative;
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 75px;
+        height: 1px;
+        top: calc(100% + 10px);
+        left: 0;
+        background-color: #808080;
+      }
+    }
+    a {
+      display: block;
+      color: white;
+      font-family: "Open Sans";
+      text-decoration: none;
+      color: #808080;
+      transition: color 0.2s linear;
+      &:hover {
+        color: white;
+      }
+    }
+  }
+  &__credentials {
+    margin-top: 100px;
+    font-size: 14px;
+    text-align: center;
+  }
+}
