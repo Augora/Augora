@@ -42,7 +42,6 @@ export const groupesArrayToObject = (array, value = true) => {
 export const filterList = (list, state) => {
   return list
     .filter((depute) => {
-      console.log(depute)
       return state.GroupeValue[depute.GroupeParlementaire.Sigle] ? true : false
     })
     .filter((depute) => {
