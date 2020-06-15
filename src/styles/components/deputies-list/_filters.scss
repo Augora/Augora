@@ -9,6 +9,10 @@
       display: flex;
       justify-content: center;
     }
+
+    @media (max-width: 1000px) {
+      flex-direction: column;
+    }
   }
 
   // Charts (Graphiques)
@@ -16,6 +20,11 @@
     width: 100%;
     display: flex;
     margin-bottom: 80px;
+
+    @media (max-width: 1400px) {
+      flex-direction: column;
+      margin-bottom: 50px;
+    }
   }
   .chart {
     height: 350px;
@@ -34,6 +43,30 @@
     &.complex-barchart {
       width: 70%;
       position: relative;
+    }
+    .chart-wrapper {
+      height: 100%;
+    }
+
+    @media (max-width: 1400px) {
+      &.piechart,
+      &.barchart,
+      &.complex-barchart {
+        width: 100%;
+        height: 250px;
+      }
+      &.complex-barchart {
+        height: auto;
+      }
+      .chart-wrapper {
+        display: none;
+      }
+      .yValue {
+        display: none;
+      }
+      .axis.xValue {
+        bottom: -100%;
+      }
     }
   }
   .axis {
@@ -57,8 +90,10 @@
   &__groupe {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     margin: 10px 0;
+    padding: 0 75px;
     position: relative;
     overflow: hidden;
     .groupes__allornone {
@@ -102,11 +137,14 @@
       transition: border-radius 0.05s linear;
       overflow: hidden;
       &__img-container {
-        height: 75px;
+        padding-bottom: percentage(9 / 16);
         width: 150px;
         position: relative;
         z-index: 2;
         img {
+          position: absolute;
+          top: 0;
+          left: 0;
           object-fit: contain;
           height: 100%;
           width: 100%;
@@ -188,6 +226,35 @@
       z-index: -1;
       opacity: 0.25;
     }
+
+    @media (max-width: 2000px) {
+      padding-left: 0px;
+      justify-content: flex-start;
+      &::after {
+        display: none;
+      }
+      .groupe {
+        top: 5px;
+        margin-bottom: 10px;
+        &__img-container {
+          width: 100px;
+        }
+      }
+    }
+    @media (max-width: 600px) {
+      padding-right: 0px;
+      justify-content: center;
+      .groupe {
+        &__img-container {
+          width: 80px;
+        }
+      }
+      .groupes {
+        &__allornone {
+          display: none;
+        }
+      }
+    }
   }
   &__search {
     width: 33%;
@@ -198,13 +265,14 @@
         width: 30px;
         height: 30px;
         opacity: 0.75;
+        margin-left: 10px;
       }
       &__input {
         display: block;
         padding: 10px;
         width: calc(100% - 10px);
-        margin-left: 10px;
         margin: 0;
+        margin-left: 20px;
         border: none;
         font-family: "Open Sans";
         font-weight: bold;
@@ -212,9 +280,15 @@
         transition: 0.225s linear;
         &:focus {
           outline: none;
-          background-color: rgba(black, 0.15);
+          background-color: rgba(black, 0.1);
         }
       }
+    }
+
+    @media (max-width: 1000px) {
+      width: 100%;
+      border: solid 1px rgba(0, 0, 0, 0.15);
+      padding: 0 0 0 10px;
     }
   }
   &__sexes {
@@ -352,6 +426,10 @@
         }
       }
     }
+
+    @media (max-width: 500px) {
+      padding: 0 25px;
+    }
   }
   &__order {
     width: 25%;
@@ -389,6 +467,14 @@
         transform: rotate(0deg);
         transition: 0.225s linear;
       }
+    }
+
+    @media (max-width: 1000px) {
+      width: 50%;
+      justify-content: center;
+    }
+    @media (max-width: 600px) {
+      width: 100%;
     }
   }
 }

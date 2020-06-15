@@ -154,11 +154,14 @@ export default function AgeSlider(props) {
         )}
       </Tracks>
       <Ticks
-        count={
-          props.domain[1] -
-          props
-            .domain[0] /* generate approximately 15 ticks within the domain */
-        }
+        // count={
+        //   window.innerWidth > 1500
+        //     ? props.domain[1] -
+        //       props
+        //         .domain[0] /* generate approximately 15 ticks within the domain */
+        //     : 10
+        // }
+        count={10}
       >
         {({ ticks }) => (
           <div className="slider-ticks">

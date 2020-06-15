@@ -83,7 +83,7 @@ const DeputiesList = (props) => {
     setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
 
-  const handleClickOnGroupe = (sigle, event) => {
+  const handleClickOnGroupe = (sigle) => {
     const actualValueOfGroupe = GroupeValue[sigle]
     setGroupeValue(
       Object.assign({}, GroupeValue, {
@@ -92,12 +92,7 @@ const DeputiesList = (props) => {
     )
   }
 
-  const handleClickOnSex = (clickedSex, event) => {
-    // setSexValue(
-    //   Object.assign({}, SexValue, {
-    //     [event.target.name]: event.target.checked,
-    //   })
-    // )
+  const handleClickOnSex = (clickedSex) => {
     const actualValueOfSex = SexValue[clickedSex]
     setSexValue(
       Object.assign({}, SexValue, {
@@ -202,16 +197,20 @@ const DeputiesList = (props) => {
               </div>
             )}
             <div className="complex-barchart chart">
-              <ComplexBarChart
-                data={groupesByAge}
-                ageDomain={AgeDomain}
-                totalNumberDeputies={props.deputes.length}
-              />
-              <AgeSlider
-                selectedDomain={AgeDomain}
-                domain={calculateAgeDomain(props.deputes)}
-                callback={handleAgeSelection}
-              />
+              <div className="chart-wrapper">
+                <ComplexBarChart
+                  data={groupesByAge}
+                  ageDomain={AgeDomain}
+                  totalNumberDeputies={props.deputes.length}
+                />
+              </div>
+              <div className="slider-wrapper">
+                <AgeSlider
+                  selectedDomain={AgeDomain}
+                  domain={calculateAgeDomain(props.deputes)}
+                  callback={handleAgeSelection}
+                />
+              </div>
               <p className="axis xValue">Âge</p>
               <p className="axis yValue">Nombre de députés</p>
             </div>

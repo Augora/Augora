@@ -52,4 +52,16 @@ header#header.header {
       }
     }
   }
+
+  @media (max-width: 1000px) {
+    .header {
+      &__svg-wrapper {
+        width: 30px;
+      }
+      &__site-name {
+        transform: translate3d(0px, 0, 0);
+        opacity: 1;
+      }
+    }
+  }
 }
