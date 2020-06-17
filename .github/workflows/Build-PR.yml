@@ -25,10 +25,7 @@ jobs:
           GATSBY_TARGET_ENV: "pull_request"
           FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
         run: |
-          rm -rf node_modules
-          rm yarn.lock
           yarn install
-          yarn clean
           yarn build
           yarn test
 
