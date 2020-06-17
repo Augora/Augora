@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react"
 import Block from "../_block/_Block"
-import moment from "moment-with-locales-es6"
+import moment from "moment"
 import IconMandat from "images/ui-kit/icon-mandat.svg"
 
-const getDates = (date) =>
-{
-  moment.locale("fr")
+const getDates = (date) => {
   const now = moment()
   const formatedDate = moment(date)
   const dateDay = formatedDate.day("").format("DD")
@@ -28,8 +26,7 @@ const getDates = (date) =>
  * Return deputy's mandate in a Block component
  * @param {*} props
  */
-export default function Mandate(props)
-{
+export default function Mandate(props) {
   const [Date, setDate] = useState({
     day: "01",
     month: "janvier",
@@ -37,8 +34,7 @@ export default function Mandate(props)
     yearsPassed: "1",
     monthsPassed: "1",
   })
-  useEffect(() =>
-  {
+  useEffect(() => {
     setDate(getDates(props.dateBegin))
   }, [props.dateBegin])
 
