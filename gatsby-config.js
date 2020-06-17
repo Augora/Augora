@@ -1,11 +1,6 @@
 const path = require("path")
 
 module.exports = {
-  siteMetadata: {
-    title: `Augora`,
-    description: ``,
-    author: `Augora`,
-  },
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
