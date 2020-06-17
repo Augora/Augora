@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react"
-import moment from "moment"
+import moment from "moment-with-locales-es6"
 import Block from "../_block/_Block"
 import IconMale from "images/ui-kit/icon-persontie.svg"
 import IconFemale from "images/ui-kit/icon-personw.svg"
 
 const getDates = (date) => {
+  moment.locale("fr")
   const now = moment()
   const formatedDate = moment(date)
   const dateDay = formatedDate.day("").format("DD")
