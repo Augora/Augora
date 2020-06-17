@@ -3,32 +3,6 @@ name: CI Pull Request
 on: pull_request
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
-        os: [macOS-latest, windows-latest, ubuntu-latest]
-        node-version: [14.x]
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: yarn install, build, and test
-        env:
-          CI: "true"
-          NODE_ENV: "pull_request"
-          GATSBY_TARGET_ENV: "pull_request"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
-        run: |
-          yarn install
-          yarn build
-          yarn test
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
