@@ -26,6 +26,7 @@ jobs:
           FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
         run: |
           yarn install
+          yarn clean
           yarn run build
           yarn test
 
