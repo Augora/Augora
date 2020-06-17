@@ -45,7 +45,7 @@ module.exports = {
     },
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-typescript`,
-    `gatsby-plugin-offline`,
+    // `gatsby-plugin-offline`,
     {
       resolve: `gatsby-plugin-root-import`,
       options: {
