@@ -12,7 +12,8 @@ const sliderStyle = {
   height: 80,
   right: "2.5%",
   bottom: -40,
-  // transform: "translate(50%, 0)",
+  pointerEvents: "none",
+  zIndex: 10,
 }
 const railStyle = {
   position: "absolute",
@@ -57,6 +58,7 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
         borderRadius: "50%",
         backgroundColor: "#2C4870",
         color: "#333",
+        pointerEvents: "all",
       }}
       {...getHandleProps(id)}
     >
@@ -152,11 +154,14 @@ export default function AgeSlider(props) {
         )}
       </Tracks>
       <Ticks
-        count={
-          props.domain[1] -
-          props
-            .domain[0] /* generate approximately 15 ticks within the domain */
-        }
+        // count={
+        //   window.innerWidth > 1500
+        //     ? props.domain[1] -
+        //       props
+        //         .domain[0] /* generate approximately 15 ticks within the domain */
+        //     : 10
+        // }
+        count={10}
       >
         {({ ticks }) => (
           <div className="slider-ticks">

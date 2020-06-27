@@ -1,0 +1,61 @@
+.deputy {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 0 50px;
+    h1 {
+      margin: 0;
+    }
+  }
+
+  &__contact {
+    display: flex;
+    align-items: center;
+    .btn {
+      margin-left: 20px;
+    }
+  }
+
+  // Icônes de contact
+  &__icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    svg {
+      height: 100%;
+      width: auto;
+      path {
+        fill: var(--groupe-color);
+      }
+    }
+  }
+}
+
+$headerHeight: 75px;
+// Règles générales
+@import "general/global.scss";
+
+// Partials
+@import "partials/header";
+@import "partials/wip";
+
+// Règles Blocs par Blocs
+@import "blocks/block-general";
+@import "blocks/block-mandate";
+@import "blocks/block-coworkers";
+@import "blocks/block-map";
+@import "blocks/block-presence";
+@import "blocks/block-contact";
+
+@keyframes full-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    trasnform: rotate(360deg);
+  }
+}

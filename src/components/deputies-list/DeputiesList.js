@@ -1,17 +1,17 @@
 import React, { useState } from "react"
-import "./deputies-list.scss"
+
 // import BarChart from "./BarChart/D3BarChart"
 // import PieChart from "./PieChart/D3PieChart"
 import { useFuzzy } from "react-use-fuzzy"
 import { deburr } from "lodash"
-import IconOk from "../../images/ui-kit/iconok.svg"
-import IconClose from "../../images/ui-kit/iconclose.svg"
-import IconSearch from "../../images/ui-kit/iconloupe.svg"
-import IconMale from "../../images/ui-kit/iconpersontie.svg"
-import IconMaleSymbol from "../../images/ui-kit/iconmale.svg"
-import IconFemale from "../../images/ui-kit/iconpersonw.svg"
-import IconFemaleSymbol from "../../images/ui-kit/iconfemale.svg"
-import IconReset from "../../images/ui-kit/iconrefresh.svg"
+import IconOk from "../../images/ui-kit/icon-ok.svg"
+import IconClose from "../../images/ui-kit/icon-close.svg"
+import IconSearch from "../../images/ui-kit/icon-loupe.svg"
+import IconMale from "../../images/ui-kit/icon-persontie.svg"
+import IconMaleSymbol from "../../images/ui-kit/icon-male.svg"
+import IconFemale from "../../images/ui-kit/icon-personw.svg"
+import IconFemaleSymbol from "../../images/ui-kit/icon-female.svg"
+import IconReset from "../../images/ui-kit/icon-refresh.svg"
 
 import {
   calculateAgeDomain,
@@ -83,7 +83,7 @@ const DeputiesList = (props) => {
     setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
 
-  const handleClickOnGroupe = (sigle, event) => {
+  const handleClickOnGroupe = (sigle) => {
     const actualValueOfGroupe = GroupeValue[sigle]
     setGroupeValue(
       Object.assign({}, GroupeValue, {
@@ -92,12 +92,7 @@ const DeputiesList = (props) => {
     )
   }
 
-  const handleClickOnSex = (clickedSex, event) => {
-    // setSexValue(
-    //   Object.assign({}, SexValue, {
-    //     [event.target.name]: event.target.checked,
-    //   })
-    // )
+  const handleClickOnSex = (clickedSex) => {
     const actualValueOfSex = SexValue[clickedSex]
     setSexValue(
       Object.assign({}, SexValue, {
@@ -202,16 +197,22 @@ const DeputiesList = (props) => {
               </div>
             )}
             <div className="complex-barchart chart">
-              <ComplexBarChart
-                data={groupesByAge}
-                ageDomain={AgeDomain}
-                totalNumberDeputies={props.deputes.length}
-              />
-              <AgeSlider
-                selectedDomain={AgeDomain}
-                domain={calculateAgeDomain(props.deputes)}
-                callback={handleAgeSelection}
-              />
+              <div className="chart-wrapper">
+                <ComplexBarChart
+                  data={groupesByAge}
+                  ageDomain={AgeDomain}
+                  totalNumberDeputies={props.deputes.length}
+                />
+              </div>
+              <div className="slider-wrapper">
+                <AgeSlider
+                  selectedDomain={AgeDomain}
+                  domain={calculateAgeDomain(props.deputes)}
+                  callback={handleAgeSelection}
+                />
+              </div>
+              <p className="axis xValue">Âge</p>
+              <p className="axis yValue">Nombre de députés</p>
             </div>
           </div>
         </section>
@@ -347,14 +348,12 @@ const DeputiesList = (props) => {
               </div>
             </button>
           </div>
-          <div className="filters__order">Trier par :</div>
-        </section>
-        <section className="filters__line filters__line--reset">
           <div className="filters__reset">
             <button onClick={handleReset}>
               Réinitialiser les filtres <IconReset />
             </button>
           </div>
+          {/* <div className="filters__order">Trier par :</div> */}
         </section>
       </div>
       <section className="deputies__list">

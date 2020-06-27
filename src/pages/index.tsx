@@ -5,14 +5,9 @@ import { graphql } from "gatsby"
 import Layout from "components/layout"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
-import { DeputesQueryQuery } from "../types/graphql-types"
 
-type DeputesQueryQueryProps = {
-  data: DeputesQueryQuery
-}
-
-const IndexPage = ({ data }: DeputesQueryQueryProps) => {
-  const orderedGroupes = data.faunadb.GroupesParlementairesDetails.data.sort(
+const IndexPage = ({ data }) => {
+  const orderedGroupes = data.faunadb.GroupesParlementairesDetailsActifs.data.sort(
     (a, b) => a.Ordre - b.Ordre
   )
   return (
@@ -26,9 +21,13 @@ const IndexPage = ({ data }: DeputesQueryQueryProps) => {
           href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
           rel="stylesheet"
         ></link>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
+          rel="stylesheet"
+        />
       </Helmet>
       <header className="header">
-        <h1>Liste des députés</h1>
+        <h1 style={{ textAlign: "center" }}>Liste des députés</h1>
       </header>
       <div>
         <DeputiesList
@@ -47,7 +46,6 @@ export const query = graphql`
     faunadb {
       DeputesEnMandat(EstEnMandat: true, _size: 700) {
         data {
-          SigleGroupePolitique
           LieuDeNaissance
           DebutDuMandat
           GroupeParlementaire {
@@ -70,14 +68,13 @@ export const query = graphql`
           Twitter
           DateDeNaissance
           Age
-          Adresses
           Collaborateurs
           Emails
           SitesWeb
           URLPhotoAugora
         }
       }
-      GroupesParlementairesDetails {
+      GroupesParlementairesDetailsActifs(Actif: true) {
         data {
           Couleur
           Sigle

@@ -9,7 +9,7 @@ jobs:
       matrix:
         # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
         os: [macOS-latest, windows-latest, ubuntu-latest]
-        node-version: [12.x, 13.x]
+        node-version: [14.x]
     steps:
       - uses: actions/checkout@v2
 
@@ -23,9 +23,10 @@ jobs:
           CI: "true"
           NODE_ENV: "pull_request"
           GATSBY_TARGET_ENV: "pull_request"
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
         run: |
           yarn install
-          yarn run build
+          yarn rebuild
           yarn test
 
   deploy:
@@ -34,25 +35,25 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js 13.x
+      - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
-          node-version: 13.x
+          node-version: 14.x
 
       - name: yarn install, build
         env:
           CI: "true"
           NODE_ENV: "pull_request"
           GATSBY_TARGET_ENV: "pull_request"
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
         run: |
           yarn install
           yarn run build
 
-      - uses: amondnet/now-deployment@v2
-        env:
-          BRANCH: ${{ github.base_ref }}
+      - uses: amondnet/vercel-action@v19
         with:
-          zeit-token: ${{ secrets.ZEIT_TOKEN }} # Required
-          github-token: ${{ secrets.GITHUB_TOKEN }} #Optional
-          now-org-id: ${{ secrets.ORG_ID }} #Required
-          now-project-id: ${{ secrets.PROJECT_ID }} #Required
+          vercel-token: ${{ secrets.ZEIT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID}}
+          vercel-project-id: ${{ secrets.PROJECT_ID}}
+          scope: augora

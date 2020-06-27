@@ -1,4 +1,3 @@
 export function calculatePercentage(numerateur: number, denominateur: number) {
-    return (denominateur * 100) / numerateur
-  }
-  
+  return numerateur !== 0 ? (denominateur * 100) / numerateur : 0
+}

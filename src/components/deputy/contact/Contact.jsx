@@ -1,7 +1,7 @@
 import React from "react"
 import Block from "../_block/_Block"
-import IconCopy from "images/ui-kit/iconcopy.svg"
-import IconMail from "images/ui-kit/iconmail.svg"
+import IconCopy from "images/ui-kit/icon-copy.svg"
+import IconMail from "images/ui-kit/icon-mail.svg"
 
 const formatAddress = (address, codepostal) => {
   const splitedAddress = address.split(codepostal)
@@ -29,6 +29,10 @@ const Contact = (props) => {
       wip={props.wip ? props.wip : false}
     >
       {props.adresses.map((adresseDetails, index, array) => {
+        const formatedAddress = formatAddress(
+          adresseDetails.Adresse,
+          adresseDetails.CodePostal
+        )
         return (
           <>
             <div className="icon-wrapper">
@@ -39,19 +43,8 @@ const Contact = (props) => {
                 role="copy"
                 onClick={() => handleClick(adresseDetails.Adresse)}
               >
-                {
-                  formatAddress(
-                    adresseDetails.Adresse,
-                    adresseDetails.CodePostal
-                  )[0]
-                }
-                <br />
-                {
-                  formatAddress(
-                    adresseDetails.Adresse,
-                    adresseDetails.CodePostal
-                  )[1]
-                }
+                <p>{formatedAddress[0]}</p>
+                <p>{formatedAddress[1]}</p>
                 <div className="tel__icon icon-wrapper">
                   <IconCopy />
                 </div>
