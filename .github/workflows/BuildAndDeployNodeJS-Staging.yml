@@ -12,7 +12,7 @@ jobs:
       matrix:
         # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
         os: [macOS-latest, windows-latest, ubuntu-latest]
-        node-version: [12.x, 13.x]
+        node-version: [14.x]
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
@@ -24,6 +24,7 @@ jobs:
           CI: "true"
           NODE_ENV: "staging"
           GATSBY_TARGET_ENV: "staging"
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
         run: |
           yarn install
           yarn run build
@@ -35,16 +36,17 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Use Node.js 13.x
+      - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
-          node-version: 13.x
+          node-version: 14.x
 
       - name: yarn install, build
         env:
           CI: "true"
           NODE_ENV: "staging"
           GATSBY_TARGET_ENV: "staging"
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
         run: |
           yarn install
           yarn run build

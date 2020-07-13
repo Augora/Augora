@@ -2,14 +2,12 @@ import React from "react"
 import Helmet from "react-helmet"
 import { colors } from "utils/variables"
 import { graphql } from "gatsby"
-import "./deputy.scss"
 
 import styled from "styled-components"
 import Layout from "components/layout"
 
 import Coworkers from "components/deputy/coworkers/Coworkers"
 import MapDistrict from "components/deputy/map-district/MapDistrict"
-import { SingleDeputyQuery } from "types/graphql-types"
 import { getGender } from "../../utils/augora-objects/deputy/gender"
 import { getGeneralInformation } from "../../utils/augora-objects/deputy/information"
 import { getMandate } from "../../utils/augora-objects/deputy/mandate"
@@ -19,24 +17,25 @@ import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 
+import IconMail from "images/ui-kit/icon-mail.svg"
+import IconWebsite from "images/ui-kit/icon-web.svg"
+// import IconFacebook from 'images/ui-kit/icon-facebook.svg'
+import IconTwitter from "images/ui-kit/icon-twitter.svg"
+
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
-
-type SingleDeputyQueryProps = {
-  data: SingleDeputyQuery
-}
 
 const DeputyStyles = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-auto-rows: 500px;
-  grid-gap: 20px;
+  grid-gap: 30px;
   padding: 0px;
   min-height: 100vh;
 `
 
-function Deputy({ data }: SingleDeputyQueryProps) {
+function Deputy({ data }) {
   const deputy = data.faunadb.Depute
   const color = deputy.GroupeParlementaire.Couleur
   return (
@@ -47,31 +46,62 @@ function Deputy({ data }: SingleDeputyQueryProps) {
         ) : null}
         <title>
           {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy.Sexe)}{" "}
-          {deputy.SigleGroupePolitique}
+          {deputy.GroupeParlementaire.Sigle}
         </title>
         <link
           href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Playfair+Display:400,500,600,700,800,900&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
+          rel="stylesheet"
+        />
         <style>{`:root {\n${allColors.join("")}
       --groupe-color: ${color};}`}</style>
       </Helmet>
-      <h1>
-        {deputy.Prenom} {deputy.NomDeFamille}
-      </h1>
+      <div className="deputy__header">
+        <h1>
+          {deputy.Prenom} {deputy.NomDeFamille}
+        </h1>
+        <div className="deputy__contact">
+          <a href={`mailto:${deputy.Emails[0]}`} className="btn btn--mail">
+            <div className="deputy__icon">
+              <IconMail />
+            </div>
+          </a>
+          <a
+            href={deputy.SitesWeb[0]}
+            className="btn btn--website"
+            target="_blank"
+          >
+            <div className="deputy__icon">
+              <IconWebsite />
+            </div>
+          </a>
+          {/* <a href="" className="btn btn--facebook">
+            <div className="deputy__icon">
+              <IconFacebook />
+            </div>
+          </a> */}
+          <a
+            href={`https://twitter.com/${deputy.Twitter}`}
+            className="btn btn--twitter"
+            target="_blank"
+          >
+            <div className="deputy__icon">
+              <IconTwitter />
+            </div>
+          </a>
+        </div>
+      </div>
       <DeputyStyles className="single-deputy">
         <GeneralInformation
           {...getGeneralInformation(deputy, 150)}
           color={color}
           size="medium"
+          dateBegin={deputy.DateDeNaissance}
         />
-        <Mandate
-          {...getMandate(deputy)}
-          // {...getOthersMandates(deputy)}
-          // {...getTotalMandates(deputy)}
-          color={color}
-          size="small"
-        />
+        <Mandate {...getMandate(deputy)} color={color} size="small" />
         <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
         <MapDistrict
           nom={deputy.NomCirconscription}
@@ -99,8 +129,10 @@ export const query = graphql`
         Age
         LieuDeNaissance
         DebutDuMandat
+        Emails
         GroupeParlementaire {
           Couleur
+          Sigle
         }
         Nom
         NomCirconscription
@@ -113,11 +145,11 @@ export const query = graphql`
         Prenom
         Profession
         Sexe
-        SigleGroupePolitique
         SitesWeb
         Slug
         Twitter
         Collaborateurs
+        DateDeNaissance
         AnciensMandats {
           data {
             DateDeDebut

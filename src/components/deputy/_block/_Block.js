@@ -1,7 +1,7 @@
 import React from "react"
 import Header from "./Header"
 import styled from "styled-components"
-import IconWIP from "images/ui-kit/iconwip.svg"
+import IconWIP from "images/ui-kit/icon-wip.svg"
 
 const BlockFrame = styled.div`
   border-color: ${(props) => props.color};
@@ -12,7 +12,6 @@ const BlockBackground = styled.div`
 `
 
 export default function _Block(props) {
-  console.log(props.icon)
   return (
     <BlockFrame
       color={props.color}

@@ -1,0 +1,119 @@
+/*----------------------------------------------------*/
+// Block Mandat
+/*----------------------------------------------------*/
+.block__mandate {
+  .mandate {
+    &__content {
+      align-items: center;
+    }
+    &__number,
+    &__dates {
+      height: 50%;
+    }
+    &__number {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .number {
+        &__holder {
+          font-size: 70px;
+          font-weight: 800;
+          line-height: 1;
+        }
+        &__title {
+          color: black;
+          opacity: 0.5;
+          text-transform: uppercase;
+          text-align: center;
+          font-weight: bold;
+          transition: opacity 0.225s linear;
+        }
+      }
+    }
+    &__dates {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      & > div {
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translate3d(-50%, 0px, 0px);
+
+        width: 60%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        transition: 0.225s linear;
+      }
+    }
+    &__since {
+      opacity: 1;
+      pointer-events: all;
+      p {
+        display: flex;
+        align-items: center;
+        text-transform: uppercase;
+        font-size: 20px;
+        margin-bottom: 10px;
+        strong {
+          opacity: 0.5;
+        }
+        span {
+          font-size: 50px;
+          font-weight: 900;
+          display: inline-block;
+          margin-right: 10px;
+          line-height: 1;
+        }
+      }
+    }
+    &__begin {
+      opacity: 0;
+      pointer-events: none;
+      h3 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      p {
+        &.begin__day-month {
+          font-size: 20px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+        &.begin__year {
+          font-size: 40px;
+          font-weight: 900;
+          margin: 0;
+        }
+      }
+    }
+  }
+  &:hover {
+    .mandate {
+      &__number {
+        .number {
+          &__title {
+            opacity: 1;
+          }
+        }
+      }
+      &__since {
+        opacity: 0;
+        pointer-events: none;
+      }
+      &__begin {
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Block from "../_block/_Block"
 import moment from "moment-with-locales-es6"
-import IconMandat from "images/ui-kit/iconmandat.svg"
+import IconMandat from "images/ui-kit/icon-mandat.svg"
 
 const getDates = (date) => {
   moment.locale("fr")
@@ -65,12 +65,16 @@ export default function Mandate(props) {
       <div className="mandate__dates">
         <div className="mandate__since">
           <p>
-            <span style={{ color: props.color }}>{Date.yearsPassed}</span> Ans
+            <span style={{ color: props.color }}>{Date.yearsPassed}</span>{" "}
+            <strong>Ans</strong>
           </p>
           <p>
-            <span style={{ color: props.color }}>{Date.monthsPassed}</span> Mois
+            <span style={{ color: props.color }}>{Date.monthsPassed}</span>{" "}
+            <strong>Mois</strong>
           </p>
-          <p>d'activité</p>
+          <p>
+            <strong>d'activité</strong>
+          </p>
         </div>
         <div className="mandate__begin">
           <h3>Depuis le</h3>

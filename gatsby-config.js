@@ -1,11 +1,6 @@
 const path = require("path")
 
 module.exports = {
-  siteMetadata: {
-    title: `Augora`,
-    description: ``,
-    author: `@Augora`,
-  },
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
@@ -38,26 +33,14 @@ module.exports = {
         headers: {
           Authorization: `Bearer ${
             process.env.FAUNADB_TOKEN ||
-            "fnADo661jIACAoSIc9sbNNQMWkI5nD9Nu-pkstXm"
+            "fnADtFRXPrACB6WCFPNkcNwEOSCfXW574OOspy5t"
           }`,
         },
       },
     },
-    {
-      resolve: `gatsby-plugin-graphql-codegen`,
-      options: {
-        fileName: `src/types/graphql-types.ts`,
-        documentPaths: [
-          `./src/**/*.{ts,tsx}`,
-          `./node_modules/gatsby-*/**/*.js`,
-        ],
-        codegen: false,
-        codegenDelay: 250,
-      },
-    },
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-typescript`,
-    `gatsby-plugin-offline`,
+    // `gatsby-plugin-offline`,
     {
       resolve: `gatsby-plugin-root-import`,
       options: {

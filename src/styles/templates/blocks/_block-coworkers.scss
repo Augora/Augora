@@ -1,0 +1,19 @@
+/*----------------------------------------------------*/
+// Block Collaborateurs
+/*----------------------------------------------------*/
+.block__coworkers {
+  .coworkers__header {
+    //
+  }
+  .deputy__coworkers {
+    text-align: center;
+    .coworker__name {
+      margin: 0;
+    }
+    .coworker__name-title {
+      display: block;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+  }
+}
