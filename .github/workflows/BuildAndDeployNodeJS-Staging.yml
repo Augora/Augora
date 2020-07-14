@@ -1,6 +1,8 @@
 name: CI/CD Staging
 
 on:
+  repository_dispatch:
+    types: build-website-staging
   push:
     branches:
       - develop
