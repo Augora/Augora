@@ -1,6 +1,8 @@
 name: CI/CD Production
 
 on:
+  repository_dispatch:
+    types: build-website-production
   push:
     branches:
       - master
