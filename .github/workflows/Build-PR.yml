@@ -29,6 +29,13 @@ jobs:
           yarn rebuild
           yarn test
 
+      - name: Upload build output as artifact
+        if: ${{ matrix.os == "ubuntu-latest" && matrix.node-version == "14.x" }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: public
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -40,15 +47,10 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: yarn install, build
-        env:
-          CI: "true"
-          NODE_ENV: "pull_request"
-          GATSBY_TARGET_ENV: "pull_request"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
-        run: |
-          yarn install
-          yarn run build
+      - uses: actions/download-artifact@v1
+        with:
+          name: build
+          path: public
 
       - uses: amondnet/vercel-action@v19
         with:
