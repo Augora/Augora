@@ -41,11 +41,11 @@ const Header = ({ siteTitle }) => {
       <meta property="og:description" content="">
       <meta property="og:image" content="https://augora.fr/icons/icon-512x512.png" />
       <meta property="og:image:alt" content="Icône de l'association Augora" />
-      <meta property="twitter:url" content="https://augora.fr">
-      <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:title" content="Site web Augora">
-      <meta name="twitter:description" content="">
-      <meta name="twitter:image" content="https://augora.fr/icons/icon-512x512.png">
+      <meta property="twitter:url" content="https://augora.fr" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="Site web Augora" />
+      <meta name="twitter:description" content="" />
+      <meta name="twitter:image" content="https://augora.fr/icons/icon-512x512.png" />
     </header>
   )
 }
