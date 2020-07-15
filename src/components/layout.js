@@ -26,17 +26,15 @@ const Layout = ({ children }) => {
         <style>{`:root {\n${allColors.join("")}}`}</style>
 	<meta property="og:url" content="https://augora.fr" />
         <meta property="og:type" content="website" />
-        <meta property="og:type" content="website" />
         <meta property="og:title" content="Site web Augora" />
         <meta property="og:description" content="" />
-        <meta property="og:description" content="" />
-        <meta property="og:image" content="https://augora.fr/icons/icon-512x512.png" />
+        <meta property="og:image" content="/icons/icon-512x512.png" />
         <meta property="og:image:alt" content="Icône de l'association Augora" />
         <meta property="twitter:url" content="https://augora.fr" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Site web Augora" />
         <meta name="twitter:description" content="" />
-        <meta name="twitter:image" content="https://augora.fr/icons/icon-512x512.png" />
+        <meta name="twitter:image" content="/icons/icon-512x512.png" />
       </Helmet>
       <Header siteTitle={"Augora"} />
       <section className="layout" style={{ padding: "120px 30px 100px" }}>
