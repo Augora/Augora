@@ -25,10 +25,10 @@ const Layout = ({ children }) => {
       <Helmet>
         <style>{`:root {\n${allColors.join("")}}`}</style>
 	<meta property="og:url" content="https://augora.fr" />
-        <meta property="og:type" content="website">
+        <meta property="og:type" content="website" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Site web Augora" />
-        <meta property="og:description" content="">
+        <meta property="og:description" content="" />
         <meta property="og:description" content="" />
         <meta property="og:image" content="https://augora.fr/icons/icon-512x512.png" />
         <meta property="og:image:alt" content="Icône de l'association Augora" />
