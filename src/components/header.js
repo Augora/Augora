@@ -34,6 +34,10 @@ const Header = ({ siteTitle }) => {
             <span className="header__site-name">Augora</span>
           </div>
         </Link>
+        <meta property="og:title" content="Site web Augora" />
+        <meta property="og:url" content="https://augora.fr" />
+        <meta property="og:image" content="https://augora.fr/icons/icon-384x384.png" />
+        <meta property="og:image:alt" content="Icône de l'association Augora" />
       </div>
     </header>
   )
