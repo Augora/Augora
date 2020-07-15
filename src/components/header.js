@@ -34,11 +34,19 @@ const Header = ({ siteTitle }) => {
             <span className="header__site-name">Augora</span>
           </div>
         </Link>
-        <meta property="og:title" content="Site web Augora" />
-        <meta property="og:url" content="https://augora.fr" />
-        <meta property="og:image" content="https://augora.fr/icons/icon-384x384.png" />
-        <meta property="og:image:alt" content="Icône de l'association Augora" />
       </div>
+      <meta property="og:url" content="https://augora.fr" />
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="Site web Augora" />
+      <meta property="og:description" content="">
+      <meta property="og:image" content="https://augora.fr/icons/icon-512x512.png" />
+      <meta property="og:image:alt" content="Icône de l'association Augora" />
+      <!-- Twitter Meta Tags -->
+      <meta property="twitter:url" content="https://augora.fr">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="Site web Augora">
+      <meta name="twitter:description" content="">
+      <meta name="twitter:image" content="https://augora.fr/icons/icon-512x512.png">
     </header>
   )
 }
