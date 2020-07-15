@@ -30,7 +30,7 @@ jobs:
           yarn test
 
       - name: Upload build output as artifact
-        if: ${{ matrix.os == "ubuntu-latest" && matrix.node-version == "14.x" }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x' }}
         uses: actions/upload-artifact@v1
         with:
           name: build
