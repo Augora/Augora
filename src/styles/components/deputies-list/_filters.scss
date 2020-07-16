@@ -445,7 +445,7 @@
     display: flex;
     justify-content: flex-end;
     button {
-      background-color: rgba(black, 0.05);
+      // background-color: rgba(black, 0.05);
       border: solid 2px rgba(black, 0);
       font-family: "Open Sans";
       padding: 10px 20px;
@@ -454,6 +454,7 @@
       align-items: center;
       color: black;
       transition: 0.225s linear;
+      opacity: 0.75;
       cursor: pointer;
       &:focus {
         outline: none;
@@ -461,6 +462,7 @@
       &:hover {
         background-color: rgba(black, 0);
         border-color: rgba(black, 0.5);
+        opacity: 1;
         svg {
           animation: rotate 2s ease-in-out infinite;
         }
