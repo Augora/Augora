@@ -24,6 +24,7 @@ jobs:
           NODE_ENV: "pull_request"
           GATSBY_TARGET_ENV: "pull_request"
           FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
+          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 20
         run: |
           yarn install
           yarn rebuild
