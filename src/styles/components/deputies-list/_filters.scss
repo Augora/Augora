@@ -390,6 +390,8 @@
     position: relative;
     padding: 0 50px;
     font-family: "Open Sans";
+    color: black;
+    opacity: 0.75;
     cursor: default;
     h2 {
       margin-bottom: 0px;
@@ -401,7 +403,6 @@
         font-size: 40px;
         font-weight: bold;
         padding-right: 5px;
-        opacity: 0.9;
       }
     }
     .total-results {
@@ -424,6 +425,8 @@
       }
     }
     &:hover {
+      opacity: 1;
+      
       .total-results {
         &__tooltip {
           top: calc(100% + 10px);
