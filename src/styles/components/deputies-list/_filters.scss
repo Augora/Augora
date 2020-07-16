@@ -105,7 +105,7 @@
       transform: translate(0%, -50%);
       button {
         background: none;
-        color: #808080;
+        // color: #a8a4a4;
         border: none;
         font-family: "Open Sans";
         font-size: 12px;
@@ -114,6 +114,7 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        opacity: 0.75;
         cursor: pointer;
         svg {
           width: 100%;
