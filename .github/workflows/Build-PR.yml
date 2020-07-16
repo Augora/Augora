@@ -36,18 +36,18 @@ jobs:
         id: gatsby-cache-folder
         with:
           path: .cache
-          key: ${{ runner.os }}-cache-gatsby
+          key: ${{ matrix.os }}-cache-gatsby
           restore-keys: |
-            ${{ runner.os }}-cache-gatsby
+            ${{ matrix.os }}-cache-gatsby
 
       - name: Gatsby Public Folder
         uses: actions/cache@v1
         id: gatsby-public-folder
         with:
           path: public/
-          key: ${{ runner.os }}-public-gatsby
+          key: ${{ matrix.os }}-public-gatsby
           restore-keys: |
-            ${{ runner.os }}-public-gatsby
+            ${{ matrix.os }}-public-gatsby
 
       - name: yarn install, build, and test
         env:
@@ -59,7 +59,7 @@ jobs:
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: |
           yarn install
-          yarn rebuild
+          yarn build
           yarn test
 
       - name: Upload build output as artifact
