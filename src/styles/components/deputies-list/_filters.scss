@@ -306,24 +306,21 @@
         z-index: 1;
         cursor: pointer;
         .icon-wrapper {
-          opacity: 1;
+          opacity: 0.75;
           transition: 0.225s linear;
         }
         .sexe {
           &__icon {
             &--female {
               width: 25px;
-              opacity: 0.75;
             }
             &--male {
               width: 30px;
-              opacity: 0.75;
             }
             &--female-symbol,
             &--male-symbol {
               width: 25px;
               height: 25px;
-              opacity: 0.75;
               svg {
                 height: 100%;
                 width: 100%;
@@ -376,6 +373,9 @@
           outline: none;
         }
         &:hover {
+          .icon-wrapper {
+            opacity: 1;
+          }
           .sexe__tooltip {
             top: calc(100% + 10px);
             opacity: 1;
