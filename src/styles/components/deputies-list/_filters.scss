@@ -312,14 +312,17 @@
           &__icon {
             &--female {
               width: 25px;
+              opacity: 0.75;
             }
             &--male {
               width: 30px;
+              opacity: 0.75;
             }
             &--female-symbol,
             &--male-symbol {
               width: 25px;
               height: 25px;
+              opacity: 0.75;
               svg {
                 height: 100%;
                 width: 100%;
