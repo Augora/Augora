@@ -119,6 +119,9 @@
         svg {
           width: 100%;
         }
+        &:hover {
+          opacity: 1;
+        }
         &:focus {
           outline: none;
           border: none;
