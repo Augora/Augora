@@ -269,6 +269,7 @@
         height: 30px;
         opacity: 0.75;
         margin-left: 10px;
+        pointer-events: none;
       }
       &__input {
         display: block;
@@ -311,15 +312,18 @@
           transition: 0.225s linear;
         }
         .sexe {
-          &__icon {
+          &__icon {            
             &--female {
               width: 25px;
+              pointer-events: none;
             }
             &--male {
               width: 30px;
+              pointer-events: none;
             }
             &--female-symbol,
             &--male-symbol {
+              pointer-events: none;
               width: 25px;
               height: 25px;
               svg {
@@ -478,6 +482,7 @@
         transform-origin: center;
         transform: rotate(0deg);
         transition: 0.225s linear;
+        pointer-events: none;
       }
     }
 

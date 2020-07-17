@@ -23,6 +23,7 @@ header#header.header {
         }
         .header__svg-wrapper{
           opacity: 1;
+          pointer-events: none;
           svg {
             path, rect {
               fill:#08c9c4;
