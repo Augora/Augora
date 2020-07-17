@@ -105,7 +105,6 @@
       transform: translate(0%, -50%);
       button {
         background: none;
-        // color: #a8a4a4;
         border: none;
         font-family: "Open Sans";
         font-size: 12px;
@@ -273,7 +272,6 @@
       }
       &__input {
         display: block;
-        // padding: 10px;
         width: calc(100% - 10px);
         margin: 0;
         margin-left: 20px;
@@ -281,12 +279,10 @@
         font-family: "Open Sans";
         font-size: 24px;
         line-height: normal;
-        // font-weight: bold;
         background-color: rgba(black, 0);
         transition: 0.225s linear;
         &:focus {
           outline: none;
-          // background-color: rgba(black, 0.1);
         }
       }
     }
@@ -419,7 +415,6 @@
         top: calc(100%);
         left: 50%;
         transform: translate(-50%, 0);
-        // width: 100%;
         padding: 15px;
         background: white;
         z-index: 1;
@@ -456,7 +451,6 @@
     display: flex;
     justify-content: flex-end;
     button {
-      // background-color: rgba(black, 0.05);
       border: solid 2px rgba(black, 0);
       font-family: "Open Sans";
       padding: 10px 20px;
