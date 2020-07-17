@@ -14,13 +14,13 @@ import IconFemaleSymbol from "../../images/ui-kit/icon-female.svg"
 import IconReset from "../../images/ui-kit/icon-refresh.svg"
 
 import
-  {
-    calculateAgeDomain,
-    calculateNbDepute,
-    filterList,
-    groupesArrayToObject,
-    groupeIconByGroupeSigle,
-  } from "./deputies-list-utils"
+{
+  calculateAgeDomain,
+  calculateNbDepute,
+  filterList,
+  groupesArrayToObject,
+  groupeIconByGroupeSigle,
+} from "./deputies-list-utils"
 import { calculatePercentage } from "utils/math/percentage"
 import PieChart from "./pie-chart/PieChart"
 import BarChart from "./bar-chart/BarChart"
@@ -244,7 +244,6 @@ const DeputiesList = (props) =>
                     pointerEvents: `none`,
                     width: 12,
                     height: 12,
-                    // opacity: `0.5`,
                     margin: `0 0 0 5px`,
                   }}
                 >
@@ -258,7 +257,6 @@ const DeputiesList = (props) =>
                   style={{
                     pointerEvents: `none`,
                     width: 12,
-                    // opacity: `0.5`,
                     margin: `0 0 0 5px`,
                   }}
                 >
