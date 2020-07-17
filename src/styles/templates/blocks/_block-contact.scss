@@ -4,6 +4,12 @@
 .block__contact {
   position: relative;
   .contact {
+    &__content {
+      & > .icon-wrapper {
+        height: calc(75% - 75px);
+        opacity: 0.03;
+      }
+    }
     &__adresse {
       display: flex;
       flex-direction: column;
