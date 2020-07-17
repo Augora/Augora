@@ -339,33 +339,36 @@
             transform: translate(-50%);
             background-color: white;
             box-shadow: 0px 5px 5px rgba(black, 0.15);
-            border-radius: 10px;
-            padding: 15px;
-            min-width: 300px;
+            border-radius: 5px;
+            padding: 10px;
+            min-width: 220px;
             font-family: "Open Sans";
             opacity: 0;
             pointer-events: none;
             transition: 0.225s linear;
             h2 {
               font-weight: normal;
+              font-size: 24px;
+              margin-bottom: 0.75rem;
             }
           }
           &__numbers {
             display: flex;
             justify-content: space-between;
-            opacity: 0.5;
+            opacity: 0.75;
             margin-bottom: 0px;
           }
           &__number {
             display: flex;
             align-items: center;
+            font-size: 13px;
             strong {
-              font-size: 30px;
+              font-size: 24px;
               padding-right: 10px;
             }
           }
           &__percentage {
-            font-size: 30px;
+            font-size: 24px;
             font-weight: bold;
           }
         }
@@ -416,13 +419,13 @@
         top: calc(100%);
         left: 50%;
         transform: translate(-50%, 0);
-        width: 100%;
-        padding: 20px;
+        // width: 100%;
+        padding: 15px;
         background: white;
         z-index: 1;
         text-align: center;
         border-radius: 10px;
-        font-size: 30px;
+        font-size: 24px;
         box-shadow: 0px 5px 5px rgba(black, 0.15);
         opacity: 0;
         pointer-events: none;
