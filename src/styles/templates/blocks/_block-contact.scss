@@ -31,7 +31,6 @@
 
         p {
           margin: 0;
-          transition: color 0.2s linear;
         }
 
         &.contact__tel {
@@ -66,6 +65,7 @@
         &:hover {
           p {
             color: var(--groupe-color);
+            font-weight: bold;
           }
           .tel__icon {
             transform: translate(100%, -50%);
