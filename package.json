@@ -23,7 +23,7 @@
     "gatsby-plugin-typescript": "2.4.3",
     "gatsby-plugin-web-font-loader": "^1.0.4",
     "gatsby-source-filesystem": "2.3.8",
-    "gatsby-source-graphql-universal": "3.3.0",
+    "gatsby-source-graphql": "^2.6.2",
     "gatsby-transformer-sharp": "2.5.3",
     "graphql": "14.6.0",
     "lodash": "4.17.15",

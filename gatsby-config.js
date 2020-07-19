@@ -25,11 +25,12 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-source-graphql-universal",
+      resolve: "gatsby-source-graphql",
       options: {
         typeName: "FaunaDB",
         fieldName: "faunadb",
         url: "https://graphql.fauna.com/graphql",
+        batch: true,
         headers: {
           Authorization: `Bearer ${
             process.env.FAUNADB_TOKEN ||
