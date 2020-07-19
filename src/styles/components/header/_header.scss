@@ -42,7 +42,7 @@ header#header.header {
       opacity: 0.75;
       svg {
         path, rect {
-          transition: fill 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+          transition: fill 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
         }
       }
     }
@@ -53,7 +53,7 @@ header#header.header {
       font-family: "Augora", "Open Sans";
       transform: translate3d(-10px, 0, 0);
       opacity: 0;
-      transition: transform 0.2s linear, opacity 0.2s linear, color 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+      transition: transform 0.2s linear, opacity 0.2s linear, color 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
     }
   }
 
