@@ -11,7 +11,9 @@ import Helmet from "react-helmet"
 import { colors } from "utils/variables"
 
 import Header from "./header"
+import Footer from "./footer"
 import "./layout.css"
+import "../styles/app.scss"
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
@@ -24,19 +26,10 @@ const Layout = ({ children }) => {
         <style>{`:root {\n${allColors.join("")}}`}</style>
       </Helmet>
       <Header siteTitle={"Augora"} />
-      <section className="layout" style={{ padding: "120px 20px 100px 20px" }}>
+      <section className="layout" style={{ padding: "120px 30px 100px" }}>
         <main>{children}</main>
       </section>
-      <footer
-        style={{
-          height: 200,
-          padding: `20px`,
-          backgroundColor: `black`,
-          color: `white`,
-        }}
-      >
-        © {new Date().getFullYear()} Augora
-      </footer>
+      <Footer />
     </>
   )
 }

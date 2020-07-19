@@ -1,0 +1,117 @@
+/*----------------------------------------------------*/
+// Règles général des blocks
+/*----------------------------------------------------*/
+.deputy__block {
+  position: relative;
+  border-radius: 10px;
+  font-family: "Open Sans";
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: default;
+  transform: scale(1);
+  transition: 0.15s ease-in-out;
+  transform-style: preserve-3d;
+  border-width: 0px;
+  border-style: solid;
+  z-index: 1;
+  box-shadow: 0px 3px 5px rgba(black, 0.15);
+  .block__background {
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  .block__content {
+    padding: 20px 20px;
+    min-height: calc(100% - #{$headerHeight});
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    & > .icon-wrapper {
+      width: 90%;
+      height: calc(90% - #{$headerHeight});
+      position: absolute;
+      top: calc(50% + #{$headerHeight});
+      left: 5%;
+      opacity: 0.05;
+      z-index: 0;
+      transform: translate(0%, calc(-50% - (#{$headerHeight} / 2)));
+      pointer-events: none;
+      svg {
+        height: 100%;
+      }
+    }
+  }
+  .block__separator {
+    width: 50%;
+    height: 1px;
+    background-color: rgba(black, 0.5);
+  }
+  &:hover {
+    &::before {
+      opacity: 1;
+    }
+  }
+  &::before {
+    $width: 3px;
+    content: "";
+    display: block;
+    position: absolute;
+    top: -$width;
+    bottom: -$width;
+    left: -$width;
+    right: -$width;
+    color: inherit;
+    border: solid $width var(--groupe-color);
+    border-radius: $width * 5;
+    pointer-events: none;
+    transition: opacity 0.225s linear;
+    opacity: 0;
+  }
+  // Grid system
+  @media (min-width: 1401px) {
+    &--small {
+      grid-column-end: span 2;
+    }
+    &--medium {
+      grid-column-end: span 4;
+    }
+    &--large {
+      grid-column-end: span 8;
+    }
+    &--xlarge {
+      grid-column-end: span 12;
+    }
+  }
+  @media (max-width: 1400px) {
+    &--small {
+      grid-column-end: span 3;
+    }
+    &--medium {
+      grid-column-end: span 6;
+    }
+    &--large {
+      grid-column-end: span 9;
+    }
+  }
+  @media (max-width: 1000px) {
+    &--small {
+      grid-column-end: span 6;
+    }
+    &--medium {
+      grid-column-end: span 12;
+    }
+    &--large {
+      grid-column-end: span 12;
+    }
+  }
+  @media (max-width: 600px) {
+    &--small {
+      grid-column-end: span 12;
+    }
+  }
+}
