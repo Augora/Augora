@@ -66,14 +66,12 @@ const Contact = (props) =>
             {index + 1 < array.length ? (
               <div className="contact__separator"></div>
             ) : null}
-            {index < 1 ? (
-              <div className="icon-wrapper">
-                <IconMail />
-              </div>
-            ) : null}
           </>
         )
       })}
+      <div className="icon-wrapper">
+        <IconMail />
+      </div>
     </Block>
   )
 }
