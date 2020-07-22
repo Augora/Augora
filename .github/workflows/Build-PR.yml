@@ -99,7 +99,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           status: custom
-          fields: workflow,job,commit,repo,took
+          fields: workflow,job,commit
           custom_payload: |
             {
               username: 'Github Actions',
@@ -107,7 +107,7 @@ jobs:
               attachments: [
                 {
                   color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-                  text: '${{ job.status }}' === 'success' ? `${process.env.AS_WORKFLOW} (${process.env.AS_COMMIT})\nPull request deployment succeeded!` : `${process.env.AS_WORKFLOW} (${process.env.AS_COMMIT})\nPull request deployment failed!`,
+                  text: '${{ job.status }}' === 'success' ? `${process.env.AS_WORKFLOW} (${process.env.AS_COMMIT})\nPull request deployment succeeded!` : `${process.env.AS_WORKFLOW} (${process.env.AS_COMMIT})\nPull request deployment failed...`,
                 }
               ]
             }
