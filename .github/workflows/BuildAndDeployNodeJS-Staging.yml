@@ -26,7 +26,7 @@ jobs:
           CI: "true"
           NODE_ENV: "staging"
           GATSBY_TARGET_ENV: "staging"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
         run: |
           yarn install
           yarn run build
