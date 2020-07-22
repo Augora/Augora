@@ -103,11 +103,11 @@ jobs:
           custom_payload: |
             {
               username: 'Github Actions',
-              icon_emoji: ':octocat:',
+              icon_emoji: ':rocket:',
               attachments: [
                 {
                   color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-                  text: `${process.env.AS_WORKFLOW}\nPull request deployment (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}\n${{ job.status }} in ${process.env.AS_TOOK} :rocket:`,
+                  text: '${{ job.status }}' === 'success' ? `${process.env.AS_WORKFLOW} (${process.env.AS_COMMIT})\nPull request deployment succeeded!` : `${process.env.AS_WORKFLOW} (${process.env.AS_COMMIT})\nPull request deployment failed!`,
                 }
               ]
             }
