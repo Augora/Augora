@@ -473,9 +473,9 @@
     display: flex;
     justify-content: flex-end;
     button {
-      border: solid 2px rgba(black, 0);
+      border: none;
       font-family: $font;
-      padding: 10px 20px;
+      padding: 13px 20px;
       border-radius: 5px;
       display: flex;
       align-items: center;
@@ -487,15 +487,15 @@
         outline: none;
       }
       &:hover {
-        background-color: rgba(black, 0);
-        border-color: rgba(black, 1);
+        background: transparent;
+        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
         opacity: 1;
         svg {
           animation: rotate 2s ease-in-out infinite;
         }
       }
       svg {
-        width: 16px;
+        width: 24px;
         margin-left: 10px;
         transform-origin: center;
         transform: rotate(0deg);
