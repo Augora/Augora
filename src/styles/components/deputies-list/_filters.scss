@@ -72,7 +72,7 @@
   .axis {
     position: absolute;
     text-align: center;
-    font-family: "Open Sans", sans-serif;
+    font-family: $font;
     font-weight: bold;
     font-size: 12px;
     &.xValue {
@@ -106,7 +106,7 @@
       button {
         background: none;
         border: none;
-        font-family: "Open Sans";
+        font-family: $font;
         font-size: 12px;
         font-weight: bold;
         padding: 0px;
@@ -279,7 +279,7 @@
         padding: 10px;
         border: none;
         border-radius: 5px;
-        font-family: "Open Sans";
+        font-family: $font;
         font-size: 24px;
         line-height: normal;
         background-color: rgba(black, 0);
@@ -356,7 +356,7 @@
             border-radius: 5px;
             padding: 10px;
             min-width: 220px;
-            font-family: "Open Sans";
+            font-family: $font;
             opacity: 0;
             pointer-events: none;
             transition: 0.225s linear;
@@ -411,7 +411,7 @@
     align-items: center;
     position: relative;
     padding: 0 50px;
-    font-family: "Open Sans";
+    font-family: $font;
     color: black;
     opacity: 0.75;
     cursor: default;
@@ -470,7 +470,7 @@
     justify-content: flex-end;
     button {
       border: solid 2px rgba(black, 0);
-      font-family: "Open Sans";
+      font-family: $font;
       padding: 10px 20px;
       border-radius: 5px;
       display: flex;
