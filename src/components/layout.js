@@ -12,7 +12,6 @@ import { colors } from "utils/variables"
 
 import Header from "./header"
 import Footer from "./footer"
-import "./layout.css"
 import "../styles/app.scss"
 
 const allColors = colors.map((color) => {

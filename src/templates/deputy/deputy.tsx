@@ -48,14 +48,6 @@ function Deputy({ data }) {
           {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy.Sexe)}{" "}
           {deputy.GroupeParlementaire.Sigle}
         </title>
-        <link
-          href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap"
-          rel="stylesheet"
-        />
         <style>{`:root {\n${allColors.join("")}
       --groupe-color: ${color};}`}</style>
       </Helmet>

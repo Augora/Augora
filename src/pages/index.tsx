@@ -17,14 +17,6 @@ const IndexPage = ({ data }) => {
           <meta name="robots" content="noindex,nofollow" />
         ) : null}
         <title>Liste des députés</title>
-        <link
-          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
-          rel="stylesheet"
-        ></link>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap"
-          rel="stylesheet"
-        />
       </Helmet>
       <header className="header">
         <h1 style={{ textAlign: "center" }}>Liste des députés</h1>

@@ -25,7 +25,7 @@
 
     display: flex;
     align-items: center;
-    
+
     pointer-events: none;
     svg {
       height: 100%;
@@ -39,7 +39,7 @@
 
 $headerHeight: 75px;
 // Règles générales
-@import "general/global.scss";
+@import "global/global";
 
 // Partials
 @import "partials/header";
