@@ -328,7 +328,7 @@
         z-index: 1;
         cursor: pointer;
         .icon-wrapper {
-          opacity: 0.75;
+          fill: $text-color;
           transition: 0.225s linear;
         }
         .sexe {
@@ -358,6 +358,7 @@
             left: 50%;
             transform: translate(-50%, 0);
             background-color: white;
+            color: $text-color;
             box-shadow: 0px 5px 5px rgba(black, 0.15);
             border-radius: 5px;
             padding: 10px;
@@ -375,7 +376,6 @@
           &__numbers {
             display: flex;
             justify-content: space-between;
-            opacity: 0.75;
             margin-bottom: 0px;
           }
           &__number {
@@ -403,7 +403,7 @@
         }
         &:hover {
           .icon-wrapper {
-            opacity: 1;
+            fill: black;
           }
           .sexe__tooltip {
             top: calc(100% + 10px);
