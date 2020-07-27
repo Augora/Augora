@@ -312,7 +312,7 @@
           transition: 0.225s linear;
         }
         .sexe {
-          &__icon {            
+          &__icon {
             &--female {
               width: 25px;
               pointer-events: none;
@@ -433,7 +433,7 @@
     }
     &:hover {
       opacity: 1;
-      
+
       .total-results {
         &__tooltip {
           top: calc(100% + 10px);
@@ -458,7 +458,7 @@
       border: solid 2px rgba(black, 0);
       font-family: "Open Sans";
       padding: 10px 20px;
-      border-radius: 10px;
+      border-radius: 5px;
       display: flex;
       align-items: center;
       color: black;
