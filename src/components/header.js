@@ -34,6 +34,11 @@ const Header = ({ siteTitle }) => {
             <span className="header__site-name">Augora</span>
           </div>
         </Link>
+        <div className="header__menu">
+          <a href="/about" className="menu__item">
+            A propos de nous
+          </a>
+        </div>
       </div>
     </header>
   )
