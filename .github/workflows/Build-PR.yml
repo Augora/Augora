@@ -92,3 +92,5 @@ jobs:
           vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
           vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
           scope: augora
+          alias-domains: |
+            {{PR_NUMBER}}.pullrequests.augora.fr

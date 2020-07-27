@@ -16,27 +16,31 @@ jobs:
         os: [macOS-latest, windows-latest, ubuntu-latest]
         node-version: [14.x]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: yarn install, build, and test
         env:
           CI: "true"
           NODE_ENV: "staging"
           GATSBY_TARGET_ENV: "staging"
           FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
+          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 20
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: |
           yarn install
-          yarn run build
+          yarn build
           yarn test
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
@@ -49,18 +53,22 @@ jobs:
           NODE_ENV: "staging"
           GATSBY_TARGET_ENV: "staging"
           FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
+          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 20
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: |
           yarn install
           yarn run build
 
-      - name: deploy
-        uses: mikeal/npx@master
-        env:
-          VERCEL_ORG_ID: ${{ secrets.ZEIT_ORGID_AUGORA }}
-          VERCEL_PROJECT_ID: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
-          ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
+      - uses: amondnet/vercel-action@v19
         with:
-          args: "npx now alias --token=$ZEIT_TOKEN $(npx now --token=$ZEIT_TOKEN) preprod.augora.fr"
+          vercel-token: ${{ secrets.ZEIT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-comment: false
+          vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
+          vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
+          scope: augora
+          alias-domains: |
+            preprod.augora.fr
 
       - name: Notify slack
         env:
