@@ -23,7 +23,7 @@
         }
         &__title {
           color: black;
-          opacity: 0.5;
+          opacity: 0.6;
           text-transform: uppercase;
           text-align: center;
           font-weight: bold;
@@ -40,8 +40,6 @@
       & > div {
         position: absolute;
         top: 0px;
-        left: 50%;
-        transform: translate3d(-50%, 0px, 0px);
 
         width: 60%;
         height: 100%;
@@ -61,10 +59,10 @@
         display: flex;
         align-items: center;
         text-transform: uppercase;
-        font-size: 20px;
         margin-bottom: 10px;
         strong {
-          opacity: 0.5;
+          color: black;
+          opacity: 0.6;
         }
         span {
           font-size: 50px;

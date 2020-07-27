@@ -7,7 +7,7 @@ header#header.header {
   z-index: 100;
   .header {
     &__wrapper {
-      padding: 20px;
+      padding: 15px 15px 15px 30px;
       width: 100%;
       transition: 0.225s linear;
     }
@@ -18,7 +18,17 @@ header#header.header {
       &:hover {
         .header__site-name {
           opacity: 1;
+          color: #08c9c4;
           transform: translate3d(0px, 0, 0);
+        }
+        .header__svg-wrapper{
+          opacity: 1;
+          pointer-events: none;
+          svg {
+            path, rect {
+              fill:#08c9c4;
+            }
+          }
         }
       }
     }
@@ -29,26 +39,35 @@ header#header.header {
     &__svg-wrapper {
       width: 50px;
       transition: width 0.2s linear;
+      opacity: 0.75;
+      svg {
+        path, rect {
+          transition: fill 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        }
+      }
     }
     &__site-name {
       font-size: 22px;
       margin-left: 20px;
       text-transform: uppercase;
-      font-family: "Augora", "Open Sans";
+      font-family: "Augora", $font;
       transform: translate3d(-10px, 0, 0);
       opacity: 0;
-      transition: transform 0.2s linear, opacity 0.2s linear;
+      transition: transform 0.2s linear, opacity 0.2s linear, color 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
     }
   }
 
   &.small {
     .header {
+      &__wrapper {
+        padding: 10px 10px 10px 30px;
+      }
       &__svg-wrapper {
-        width: 30px;
+        width: 35px;
       }
       &__site-name {
         transform: translate3d(0px, 0, 0);
-        opacity: 1;
+        opacity: 0.75;
       }
     }
   }

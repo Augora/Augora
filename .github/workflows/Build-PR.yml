@@ -54,7 +54,7 @@ jobs:
           CI: "true"
           NODE_ENV: "pull_request"
           GATSBY_TARGET_ENV: "pull_request"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
           GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 20
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: |
@@ -89,9 +89,11 @@ jobs:
         with:
           vercel-token: ${{ secrets.ZEIT_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID}}
-          vercel-project-id: ${{ secrets.PROJECT_ID}}
+          vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
+          vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
           scope: augora
+          alias-domains: |
+            {{PR_NUMBER}}.pullrequests.augora.fr
 
       - uses: 8398a7/action-slack@v3
         env:
