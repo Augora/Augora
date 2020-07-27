@@ -2,22 +2,15 @@
 // Imports
 /*----------------------------------------------------*/
 
-<<<<<<< Updated upstream
 // Variables
 // -----------------------------------------------------
 @import "global/variables";
 
-=======
-// Page
-/*----------------------------------------------------*/
-@import "pages/404";
->>>>>>> Stashed changes
 // Fonts
 // -----------------------------------------------------
-@import "templates/general/font.scss";
+@import "global/font";
 
 // Layout
-<<<<<<< Updated upstream
 // -----------------------------------------------------
 @import "layout/layout";
 
@@ -25,19 +18,11 @@
 // -----------------------------------------------------
 @import "pages/404";
 
-=======
-/*----------------------------------------------------*/
-@import "layout/layout";
->>>>>>> Stashed changes
 // Components
 // -----------------------------------------------------
 @import "components/header/header";
 @import "components/deputies-list/deputies-list";
 @import "components/footer/footer";
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 // Templates
 // -----------------------------------------------------
 @import "templates/deputy";
