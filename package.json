@@ -54,6 +54,7 @@
     "develop": "gatsby develop",
     "start": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "prettier-scss": "prettier --write \"**/*.scss\"",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
     "deploy-qua": "now"

@@ -21,12 +21,13 @@ header#header.header {
           color: #08c9c4;
           transform: translate3d(0px, 0, 0);
         }
-        .header__svg-wrapper{
+        .header__svg-wrapper {
           opacity: 1;
           pointer-events: none;
           svg {
-            path, rect {
-              fill:#08c9c4;
+            path,
+            rect {
+              fill: #08c9c4;
             }
           }
         }
@@ -41,7 +42,8 @@ header#header.header {
       transition: width 0.2s linear;
       opacity: 0.75;
       svg {
-        path, rect {
+        path,
+        rect {
           transition: fill 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
         }
       }
@@ -53,7 +55,8 @@ header#header.header {
       font-family: "Augora", $font;
       transform: translate3d(-10px, 0, 0);
       opacity: 0;
-      transition: transform 0.2s linear, opacity 0.2s linear, color 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+      transition: transform 0.2s linear, opacity 0.2s linear,
+        color 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
     }
   }
 
