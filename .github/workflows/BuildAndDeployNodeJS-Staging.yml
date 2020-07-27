@@ -29,7 +29,7 @@ jobs:
           NODE_ENV: "staging"
           GATSBY_TARGET_ENV: "staging"
           FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
-          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 20
+          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: |
           yarn install
@@ -53,7 +53,7 @@ jobs:
           NODE_ENV: "staging"
           GATSBY_TARGET_ENV: "staging"
           FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
-          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 20
+          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: |
           yarn install
