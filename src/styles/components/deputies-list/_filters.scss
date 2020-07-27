@@ -350,7 +350,7 @@
             position: absolute;
             top: 80%;
             left: 50%;
-            transform: translate(-50%);
+            transform: translate(-50%, 0);
             background-color: white;
             box-shadow: 0px 5px 5px rgba(black, 0.15);
             border-radius: 5px;
@@ -378,6 +378,7 @@
             font-size: 13px;
             strong {
               font-size: 24px;
+              font-weight: bold;
               padding-right: 10px;
             }
           }
@@ -422,6 +423,7 @@
       display: flex;
       align-items: center;
       strong {
+        font-family: $roboto;
         font-size: 40px;
         font-weight: bold;
         padding-right: 5px;
@@ -439,6 +441,8 @@
         text-align: center;
         border-radius: 10px;
         font-size: 24px;
+        font-weight: bold;
+        color: rgba(black, 0.75);
         box-shadow: 0px 5px 5px rgba(black, 0.15);
         opacity: 0;
         pointer-events: none;
@@ -469,9 +473,9 @@
     display: flex;
     justify-content: flex-end;
     button {
-      border: solid 2px rgba(black, 0);
+      border: none;
       font-family: $font;
-      padding: 10px 20px;
+      padding: 13px 20px;
       border-radius: 5px;
       display: flex;
       align-items: center;
@@ -483,15 +487,15 @@
         outline: none;
       }
       &:hover {
-        background-color: rgba(black, 0);
-        border-color: rgba(black, 1);
+        background: transparent;
+        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
         opacity: 1;
         svg {
           animation: rotate 2s ease-in-out infinite;
         }
       }
       svg {
-        width: 16px;
+        width: 24px;
         margin-left: 10px;
         transform-origin: center;
         transform: rotate(0deg);
