@@ -1,6 +1,7 @@
 import React from "react"
 import Block from "../_block/_Block"
 import IconCopy from "images/ui-kit/icon-copy.svg"
+import IconTel from "images/ui-kit/icon-phone.svg"
 import IconMail from "images/ui-kit/icon-mail.svg"
 
 const formatAddress = (address, codepostal) => {
@@ -35,9 +36,6 @@ const Contact = (props) => {
         )
         return (
           <>
-            <div className="icon-wrapper">
-              <IconMail />
-            </div>
             <div className="contact__adresse">
               <button
                 role="copy"
@@ -45,7 +43,7 @@ const Contact = (props) => {
               >
                 <p>{formatedAddress[0]}</p>
                 <p>{formatedAddress[1]}</p>
-                <div className="tel__icon icon-wrapper">
+                <div className="copy__icon icon-wrapper">
                   <IconCopy />
                 </div>
               </button>
@@ -56,7 +54,7 @@ const Contact = (props) => {
                 >
                   {formatTelephoneNumber(adresseDetails.Telephone)}
                   <div className="tel__icon icon-wrapper">
-                    <IconCopy />
+                    <IconTel />
                   </div>
                 </a>
               ) : null}
@@ -67,6 +65,9 @@ const Contact = (props) => {
           </>
         )
       })}
+      <div className="icon-wrapper">
+        <IconMail />
+      </div>
     </Block>
   )
 }
