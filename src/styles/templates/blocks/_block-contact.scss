@@ -40,6 +40,8 @@
           opacity: 0.9;
           margin-top: 20px;
         }
+
+        .copy__icon,
         .tel__icon {
           content: "";
           position: absolute;
@@ -65,11 +67,14 @@
         &:hover {
           p {
             color: var(--groupe-color);
-            font-weight: bold;
           }
-          .tel__icon {
+          .tel__icon,
+          .copy__icon {
             transform: translate(100%, -50%);
             opacity: 0.75;
+          }
+          &.contact__tel {
+            opacity: 1;
           }
         }
       }
