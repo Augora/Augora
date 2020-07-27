@@ -34,7 +34,7 @@ header#header.header {
       font-size: 22px;
       margin-left: 20px;
       text-transform: uppercase;
-      font-family: "Augora", "Open Sans";
+      font-family: "Augora", $font;
       transform: translate3d(-10px, 0, 0);
       opacity: 0;
       transition: transform 0.2s linear, opacity 0.2s linear;
