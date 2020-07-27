@@ -18,16 +18,56 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Yarn cache directory
+        id: yarn-cache-dir
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Yarn cache
+        uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ matrix.os }}-yarn-
+
+      - name: Gatsby Cache Folder
+        uses: actions/cache@v1
+        id: gatsby-cache-folder
+        with:
+          path: .cache
+          key: ${{ matrix.os }}-cache-gatsby
+          restore-keys: |
+            ${{ matrix.os }}-cache-gatsby
+
+      - name: Gatsby Public Folder
+        uses: actions/cache@v1
+        id: gatsby-public-folder
+        with:
+          path: public/
+          key: ${{ matrix.os }}-public-gatsby
+          restore-keys: |
+            ${{ matrix.os }}-public-gatsby
+
       - name: yarn install, build, and test
         env:
           CI: "true"
           NODE_ENV: "pull_request"
           GATSBY_TARGET_ENV: "pull_request"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
+          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
+          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 20
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: |
           yarn install
-          yarn rebuild
+          yarn build
           yarn test
+
+      - name: Upload build output as artifact
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x' }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: public
 
   deploy:
     needs: build
@@ -40,20 +80,15 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: yarn install, build
-        env:
-          CI: "true"
-          NODE_ENV: "pull_request"
-          GATSBY_TARGET_ENV: "pull_request"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_STAGING }}
-        run: |
-          yarn install
-          yarn run build
+      - uses: actions/download-artifact@v1
+        with:
+          name: build
+          path: public
 
       - uses: amondnet/vercel-action@v19
         with:
           vercel-token: ${{ secrets.ZEIT_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.ORG_ID}}
-          vercel-project-id: ${{ secrets.PROJECT_ID}}
+          vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
+          vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
           scope: augora

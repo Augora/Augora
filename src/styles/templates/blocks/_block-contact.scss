@@ -4,6 +4,12 @@
 .block__contact {
   position: relative;
   .contact {
+    &__content {
+      & > .icon-wrapper {
+        height: calc(75% - 75px);
+        opacity: 0.04;
+      }
+    }
     &__adresse {
       display: flex;
       flex-direction: column;
@@ -25,7 +31,6 @@
 
         p {
           margin: 0;
-          transition: color 0.2s linear;
         }
 
         &.contact__tel {
@@ -60,6 +65,7 @@
         &:hover {
           p {
             color: var(--groupe-color);
+            font-weight: bold;
           }
           .tel__icon {
             transform: translate(100%, -50%);

@@ -1,10 +1,10 @@
 .filters {
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   // Lines
   &__line {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     &--advanced {
       display: flex;
       justify-content: center;
@@ -105,7 +105,6 @@
       transform: translate(0%, -50%);
       button {
         background: none;
-        color: #808080;
         border: none;
         font-family: $font;
         font-size: 12px;
@@ -114,9 +113,13 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        opacity: 0.75;
         cursor: pointer;
         svg {
           width: 100%;
+        }
+        &:hover {
+          opacity: 1;
         }
         &:focus {
           outline: none;
@@ -224,7 +227,7 @@
       width: 100%;
       background-color: black;
       z-index: -1;
-      opacity: 0.25;
+      opacity: 0.5;
     }
 
     @media (max-width: 2000px) {
@@ -266,21 +269,21 @@
         height: 30px;
         opacity: 0.75;
         margin-left: 10px;
+        pointer-events: none;
       }
       &__input {
         display: block;
-        padding: 10px;
         width: calc(100% - 10px);
         margin: 0;
         margin-left: 20px;
         border: none;
         font-family: $font;
-        font-weight: bold;
+        font-size: 24px;
+        line-height: normal;
         background-color: rgba(black, 0);
         transition: 0.225s linear;
         &:focus {
           outline: none;
-          background-color: rgba(black, 0.1);
         }
       }
     }
@@ -305,19 +308,22 @@
         z-index: 1;
         cursor: pointer;
         .icon-wrapper {
-          opacity: 1;
+          opacity: 0.75;
           transition: 0.225s linear;
         }
         .sexe {
           &__icon {
             &--female {
               width: 25px;
+              pointer-events: none;
             }
             &--male {
               width: 30px;
+              pointer-events: none;
             }
             &--female-symbol,
             &--male-symbol {
+              pointer-events: none;
               width: 25px;
               height: 25px;
               svg {
@@ -333,33 +339,36 @@
             transform: translate(-50%);
             background-color: white;
             box-shadow: 0px 5px 5px rgba(black, 0.15);
-            border-radius: 10px;
-            padding: 15px;
-            min-width: 300px;
+            border-radius: 5px;
+            padding: 10px;
+            min-width: 220px;
             font-family: $font;
             opacity: 0;
             pointer-events: none;
             transition: 0.225s linear;
             h2 {
               font-weight: normal;
+              font-size: 24px;
+              margin-bottom: 0.75rem;
             }
           }
           &__numbers {
             display: flex;
             justify-content: space-between;
-            opacity: 0.5;
+            opacity: 0.75;
             margin-bottom: 0px;
           }
           &__number {
             display: flex;
             align-items: center;
+            font-size: 13px;
             strong {
-              font-size: 30px;
+              font-size: 24px;
               padding-right: 10px;
             }
           }
           &__percentage {
-            font-size: 30px;
+            font-size: 24px;
             font-weight: bold;
           }
         }
@@ -372,6 +381,9 @@
           outline: none;
         }
         &:hover {
+          .icon-wrapper {
+            opacity: 1;
+          }
           .sexe__tooltip {
             top: calc(100% + 10px);
             opacity: 1;
@@ -386,6 +398,8 @@
     position: relative;
     padding: 0 50px;
     font-family: $font;
+    color: black;
+    opacity: 0.75;
     cursor: default;
     h2 {
       margin-bottom: 0px;
@@ -405,13 +419,12 @@
         top: calc(100%);
         left: 50%;
         transform: translate(-50%, 0);
-        width: 100%;
-        padding: 20px;
+        padding: 15px;
         background: white;
         z-index: 1;
         text-align: center;
         border-radius: 10px;
-        font-size: 30px;
+        font-size: 24px;
         box-shadow: 0px 5px 5px rgba(black, 0.15);
         opacity: 0;
         pointer-events: none;
@@ -419,6 +432,8 @@
       }
     }
     &:hover {
+      opacity: 1;
+
       .total-results {
         &__tooltip {
           top: calc(100% + 10px);
@@ -440,7 +455,6 @@
     display: flex;
     justify-content: flex-end;
     button {
-      background-color: rgba(black, 0.05);
       border: solid 2px rgba(black, 0);
       font-family: $font;
       padding: 10px 20px;
@@ -449,13 +463,15 @@
       align-items: center;
       color: black;
       transition: 0.225s linear;
+      opacity: 0.75;
       cursor: pointer;
       &:focus {
         outline: none;
       }
       &:hover {
         background-color: rgba(black, 0);
-        border-color: rgba(black, 0.5);
+        border-color: rgba(black, 1);
+        opacity: 1;
         svg {
           animation: rotate 2s ease-in-out infinite;
         }
@@ -466,6 +482,7 @@
         transform-origin: center;
         transform: rotate(0deg);
         transition: 0.225s linear;
+        pointer-events: none;
       }
     }
 
