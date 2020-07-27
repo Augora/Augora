@@ -23,6 +23,20 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Yarn cache directory
+        id: yarn-cache-dir
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Yarn cache
+        uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+            ${{ matrix.os }}-yarn-
+
       - name: yarn install
         env:
           CI: "true"
@@ -59,6 +73,20 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
+
+      - name: Yarn cache directory
+        id: yarn-cache-dir
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Yarn cache
+        uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+            ${{ matrix.os }}-yarn-
 
       - name: yarn install
         env:
