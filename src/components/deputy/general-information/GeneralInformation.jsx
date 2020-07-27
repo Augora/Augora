@@ -6,7 +6,7 @@ import IconFemale from "images/ui-kit/icon-personw.svg"
 
 const getDates = (date) => {
   moment.locale("fr")
-  const now = moment()
+  const now = moment() // eslint-disable-line
   const formatedDate = moment(date)
   const dateDay = formatedDate.day("").format("DD")
   const dateMonth = formatedDate.month("").format("MMMM")
