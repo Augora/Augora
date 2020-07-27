@@ -72,7 +72,6 @@ jobs:
           github-comment: false
           vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
           vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
-          vercel-args: --prod
           scope: augora
           alias-domains: |
             augora.fr
