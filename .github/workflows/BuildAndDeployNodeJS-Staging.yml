@@ -83,10 +83,10 @@ jobs:
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ubuntu-latest-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-            ${{ matrix.os }}-yarn-
+            ubuntu-latest-yarn-${{ hashFiles('**/yarn.lock') }}
+            ubuntu-latest-yarn-
 
       - name: yarn install
         env:
