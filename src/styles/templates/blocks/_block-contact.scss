@@ -51,9 +51,12 @@
           margin-left: 10px;
           width: 24px;
           height: 24px;
+
           transform: translate(100%, 0%);
           opacity: 0;
-          transition: 0.225s linear;
+
+          transition: 1s $ease-out-expo;
+          transition-delay: 0.225s;
           svg {
             width: 100%;
             pointer-events: none;
@@ -71,6 +74,8 @@
           }
           .tel__icon,
           .copy__icon {
+            transition-delay: 0s;
+            transition: 0.225s $ease-out-back;
             transform: translate(100%, -50%);
             opacity: 0.75;
           }
