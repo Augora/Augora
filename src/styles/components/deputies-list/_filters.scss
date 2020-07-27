@@ -106,6 +106,7 @@
       button {
         background: none;
         border: none;
+        color: $text-color;
         font-family: $font;
         font-size: 13px;
         font-weight: bold;
@@ -113,13 +114,16 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        opacity: 0.75;
         cursor: pointer;
         svg {
           width: 100%;
+          fill: $text-color;
         }
         &:hover {
-          opacity: 1;
+          color: black;
+          svg {
+            fill: black;
+          }
         }
         &:focus {
           outline: none;
