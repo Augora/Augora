@@ -7,47 +7,33 @@ header#header.header {
   z-index: 100;
   .header {
     &__wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
       padding: 15px 15px 15px 30px;
       width: 100%;
+
       transition: 0.225s linear;
     }
     &__home-btn {
-      width: 20px;
+      display: block;
       text-decoration: none;
       color: $text-color;
-      &:hover {
-        .header__site-name {
-          opacity: 1;
-          background: linear-gradient(to right, $main-color, $secondary-color);
-          background-clip: text;
-          color: $main-color;
-          -webkit-text-fill-color: transparent;
-          transform: translate3d(0px, 0, 0);
-        }
-        .header__svg-wrapper {
-          opacity: 1;
-          pointer-events: none;
-          svg {
-            path,
-            rect {
-              fill: $main-color;
-            }
-          }
-        }
-      }
     }
     &__logo-wrapper {
       display: flex;
       align-items: center;
     }
     &__svg-wrapper {
-      width: 50px;
       transition: width 0.2s linear;
       svg {
+        width: 50px;
         path,
         rect {
           fill: $text-color;
-          transition: fill 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+          transition: fill 1s $ease-out-quad;
+          transition-delay: 0.5s;
         }
       }
     }
@@ -56,10 +42,14 @@ header#header.header {
       margin-left: 20px;
       text-transform: uppercase;
       font-family: "Augora", $font;
-      transform: translate3d(-10px, 0, 0);
+      background: linear-gradient(to right, $main-color, $secondary-color);
+      background-clip: text;
+      color: $main-color;
+      -webkit-text-fill-color: transparent;
+      transform: translate(-10px);
       opacity: 0;
-      transition: transform 0.2s linear, opacity 0.2s linear,
-        color 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+      transition: transform 0.4s $ease-out-quad, opacity 0.4s $ease-out-quad;
+      transition-delay: 0.5s;
     }
   }
 
@@ -69,11 +59,36 @@ header#header.header {
         padding: 10px 10px 10px 30px;
       }
       &__svg-wrapper {
-        width: 35px;
+        svg {
+          width: 35px;
+        }
       }
       &__site-name {
         transform: translate3d(0px, 0, 0);
         opacity: 0.75;
+      }
+    }
+  }
+
+  // hover
+  .header__home-btn:hover {
+    .header__site-name {
+      opacity: 1;
+      transform: translate(0);
+
+      transition: transform 0.2s $ease-out-back, opacity 0.2s $ease-out-quad;
+      transition-delay: 0s;
+    }
+    .header__svg-wrapper {
+      opacity: 1;
+      pointer-events: none;
+      svg {
+        path,
+        rect {
+          fill: $main-color;
+          transition: fill 0.2s $ease-out-quad;
+          transition-delay: 0s;
+        }
       }
     }
   }
