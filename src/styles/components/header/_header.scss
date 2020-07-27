@@ -14,11 +14,14 @@ header#header.header {
     &__home-btn {
       width: 20px;
       text-decoration: none;
-      color: black;
+      color: $text-color;
       &:hover {
         .header__site-name {
           opacity: 1;
-          color: #08c9c4;
+          background: linear-gradient(to right, $main-color, $secondary-color);
+          background-clip: text;
+          color: $main-color;
+          -webkit-text-fill-color: transparent;
           transform: translate3d(0px, 0, 0);
         }
         .header__svg-wrapper {
@@ -27,7 +30,7 @@ header#header.header {
           svg {
             path,
             rect {
-              fill: #08c9c4;
+              fill: $main-color;
             }
           }
         }
@@ -40,10 +43,10 @@ header#header.header {
     &__svg-wrapper {
       width: 50px;
       transition: width 0.2s linear;
-      opacity: 0.75;
       svg {
         path,
         rect {
+          fill: $text-color;
           transition: fill 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
         }
       }

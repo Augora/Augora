@@ -180,7 +180,7 @@ textarea {
 }
 ::-webkit-input-placeholder {
   color: inherit;
-  opacity: 0.54;
+  opacity: 0.6;
 }
 ::-webkit-file-upload-button {
   -webkit-appearance: button;
@@ -201,7 +201,7 @@ html {
   box-sizing: inherit;
 }
 body {
-  color: hsla(0, 0%, 0%, 0.75);
+  color: $text-color;
   font-family: georgia, serif;
   font-weight: normal;
   word-wrap: break-word;

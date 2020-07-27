@@ -106,6 +106,7 @@
       button {
         background: none;
         border: none;
+        color: $text-color;
         font-family: $font;
         font-size: 13px;
         font-weight: bold;
@@ -113,13 +114,16 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        opacity: 0.75;
         cursor: pointer;
         svg {
           width: 100%;
+          fill: $text-color;
         }
         &:hover {
-          opacity: 1;
+          color: black;
+          svg {
+            fill: black;
+          }
         }
         &:focus {
           outline: none;
@@ -225,7 +229,7 @@
       left: 0px;
       height: 1px;
       width: 100%;
-      background-color: black;
+      background-color: $text-color;
       z-index: -1;
       opacity: 0.5;
     }
@@ -267,9 +271,11 @@
       &__icon {
         width: 30px;
         height: 30px;
-        opacity: 0.75;
         margin-left: 10px;
         pointer-events: none;
+        svg {
+          fill: $text-color;
+        }
       }
       &__input {
         display: block;
@@ -322,7 +328,7 @@
         z-index: 1;
         cursor: pointer;
         .icon-wrapper {
-          opacity: 0.75;
+          fill: $text-color;
           transition: 0.225s linear;
         }
         .sexe {
@@ -352,6 +358,7 @@
             left: 50%;
             transform: translate(-50%, 0);
             background-color: white;
+            color: $text-color;
             box-shadow: 0px 5px 5px rgba(black, 0.15);
             border-radius: 5px;
             padding: 10px;
@@ -369,7 +376,6 @@
           &__numbers {
             display: flex;
             justify-content: space-between;
-            opacity: 0.75;
             margin-bottom: 0px;
           }
           &__number {
@@ -397,7 +403,7 @@
         }
         &:hover {
           .icon-wrapper {
-            opacity: 1;
+            fill: black;
           }
           .sexe__tooltip {
             top: calc(100% + 10px);
@@ -413,8 +419,6 @@
     position: relative;
     padding: 0 50px;
     font-family: $font;
-    color: black;
-    opacity: 0.75;
     cursor: default;
     h2 {
       margin-bottom: 0px;
@@ -442,7 +446,7 @@
         border-radius: 10px;
         font-size: 24px;
         font-weight: bold;
-        color: rgba(black, 0.75);
+        color: $text-color;
         box-shadow: 0px 5px 5px rgba(black, 0.15);
         opacity: 0;
         pointer-events: none;
@@ -450,7 +454,7 @@
       }
     }
     &:hover {
-      opacity: 1;
+      color: black;
 
       .total-results {
         &__tooltip {
@@ -474,14 +478,14 @@
     justify-content: flex-end;
     button {
       border: none;
+      background-color: rgba(0, 0, 0, 0.05);
       font-family: $font;
       padding: 13px 20px;
       border-radius: 5px;
       display: flex;
       align-items: center;
-      color: black;
+      color: $text-color;
       transition: 0.225s linear;
-      opacity: 0.75;
       cursor: pointer;
       &:focus {
         outline: none;
@@ -489,12 +493,15 @@
       &:hover {
         background: transparent;
         box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
+        color: black;
         opacity: 1;
         svg {
+          fill: black;
           animation: rotate 2s ease-in-out infinite;
         }
       }
       svg {
+        fill: $text-color;
         width: 24px;
         margin-left: 10px;
         transform-origin: center;
