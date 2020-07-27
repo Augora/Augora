@@ -18,7 +18,10 @@ header#header.header {
       &:hover {
         .header__site-name {
           opacity: 1;
+          background: linear-gradient(to right, $main-color, $secondary-color);
+          background-clip: text;
           color: $main-color;
+          -webkit-text-fill-color: transparent;
           transform: translate3d(0px, 0, 0);
         }
         .header__svg-wrapper {
