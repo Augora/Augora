@@ -40,6 +40,7 @@ const Contact = (props) => {
               <button
                 role="copy"
                 onClick={() => handleClick(adresseDetails.Adresse)}
+                title="Copier"
               >
                 <p>{formatedAddress[0]}</p>
                 <p>{formatedAddress[1]}</p>
@@ -51,6 +52,7 @@ const Contact = (props) => {
                 <a
                   className="contact__tel"
                   href={`tel: ${adresseDetails.Telephone}`}
+                  title="Appeler le numéro"
                 >
                   {formatTelephoneNumber(adresseDetails.Telephone)}
                   <div className="tel__icon icon-wrapper">

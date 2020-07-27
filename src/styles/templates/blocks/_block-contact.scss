@@ -56,6 +56,7 @@
           transition: 0.225s linear;
           svg {
             width: 100%;
+            pointer-events: none;
             path {
               fill: var(--groupe-color);
             }
