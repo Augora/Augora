@@ -5,6 +5,7 @@
   position: relative;
   .contact {
     &__content {
+      align-items: center;
       & > .icon-wrapper {
         height: calc(75% - 75px);
         opacity: 0.04;
@@ -14,6 +15,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
 
       max-width: calc(100% - 50px);
       button,
@@ -24,13 +26,11 @@
         align-items: center;
         background: none;
         border: none;
-        margin: 0 auto;
         text-align: center;
         cursor: pointer;
         position: relative;
         padding: 0;
         text-decoration: none;
-
         p {
           margin: 0;
         }
@@ -50,7 +50,6 @@
           right: -10px;
           top: 50%;
           display: block;
-          margin-left: 10px;
           width: 24px;
           height: 24px;
 
