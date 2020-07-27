@@ -56,7 +56,11 @@ function Deputy({ data }) {
           {deputy.Prenom} {deputy.NomDeFamille}
         </h1>
         <div className="deputy__contact">
-          <a href={`mailto:${deputy.Emails[0]}`} className="btn btn--mail">
+          <a
+            href={`mailto:${deputy.Emails[0]}`}
+            className="btn btn--mail"
+            title="Adresse e-mail"
+          >
             <div className="deputy__icon">
               <IconMail />
             </div>
@@ -65,6 +69,7 @@ function Deputy({ data }) {
             href={deputy.SitesWeb[0]}
             className="btn btn--website"
             target="_blank"
+            title="Site Web"
           >
             <div className="deputy__icon">
               <IconWebsite />
@@ -79,6 +84,7 @@ function Deputy({ data }) {
             href={`https://twitter.com/${deputy.Twitter}`}
             className="btn btn--twitter"
             target="_blank"
+            title="Twitter"
           >
             <div className="deputy__icon">
               <IconTwitter />
