@@ -28,12 +28,13 @@
   }
   .chart {
     height: 350px;
-    border-radius: 20px;
+    border-radius: 10px;
     padding-bottom: 20px;
     &.piechart,
     &.barchart {
       width: 30%;
       background: rgba(black, 0);
+      margin-right: 30px;
       transition: 0.225s linear;
       cursor: pointer;
       &:hover {
