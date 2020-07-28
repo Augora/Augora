@@ -5,10 +5,11 @@ import SEO from "../components/seo"
 
 const About = () => (
   <Layout>
-    <SEO title="A propos de nous" />
-    <div className="page page__about">
-      <h1>A propos d'Augora</h1>
-      <p>Nous sommes une association</p>
+    <SEO title="FAQ" />
+    <div className="page page__faq">
+      <h1>FAQ</h1>
+      <h2>Cékoi Augora ?</h2>
+      <p>Un super site</p>
     </div>
   </Layout>
 )
