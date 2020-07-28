@@ -5,49 +5,37 @@ header#header.header {
   width: 100%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   z-index: 100;
+
+  // Global rules
   .header {
     &__wrapper {
-      padding: 15px 15px 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 15px 30px 15px 30px;
       width: 100%;
+
       transition: 0.225s linear;
     }
     &__home-btn {
-      width: 20px;
+      display: block;
       text-decoration: none;
       color: $text-color;
-      &:hover {
-        .header__site-name {
-          opacity: 1;
-          background: linear-gradient(to right, $main-color, $secondary-color);
-          background-clip: text;
-          color: $main-color;
-          -webkit-text-fill-color: transparent;
-          transform: translate3d(0px, 0, 0);
-        }
-        .header__svg-wrapper {
-          opacity: 1;
-          pointer-events: none;
-          svg {
-            path,
-            rect {
-              fill: $main-color;
-            }
-          }
-        }
-      }
     }
     &__logo-wrapper {
       display: flex;
       align-items: center;
     }
     &__svg-wrapper {
-      width: 50px;
       transition: width 0.2s linear;
       svg {
+        width: 50px;
         path,
         rect {
           fill: $text-color;
-          transition: fill 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+          transition: fill 1s $ease-out-quad;
+          transition-delay: 0.5s;
         }
       }
     }
@@ -56,24 +44,106 @@ header#header.header {
       margin-left: 20px;
       text-transform: uppercase;
       font-family: "Augora", $font;
-      transform: translate3d(-10px, 0, 0);
+      background: linear-gradient(to right, $main-color, $secondary-color);
+      background-clip: text;
+      color: $main-color;
+      -webkit-text-fill-color: transparent;
+      transform: translate(-10px);
       opacity: 0;
-      transition: transform 0.2s linear, opacity 0.2s linear,
-        color 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+      transition: transform 0.4s $ease-out-quad, opacity 0.4s $ease-out-quad;
+      transition-delay: 0.5s;
+    }
+
+    // Menu
+    &__menu {
+      .menu__item {
+        position: relative;
+
+        color: $black;
+        text-decoration: none;
+        font-family: $font;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+
+        margin-right: 20px;
+
+        transition: color 0.3s $ease-out-expo;
+
+        &:last-child {
+          margin-right: 0px;
+        }
+
+        &::after {
+          content: "";
+
+          position: absolute;
+          top: calc(100% + 0px);
+          left: 0;
+
+          width: 100%;
+          height: 3px;
+
+          // background-color: $black;
+          background: linear-gradient(to right, $main-color, $secondary-color);
+
+          transform: scaleX(0);
+          transform-origin: center right;
+
+          transition: transform 0.4s $ease-out-expo;
+        }
+
+        // hover
+        &:hover {
+          color: $main-color;
+          &::after {
+            transform: scaleX(1);
+            transform-origin: center left;
+            transition: transform 0.225s $ease-in-out-quart;
+            transition-delay: 0s;
+          }
+        }
+      }
     }
   }
 
+  // Small (scrolled)
   &.small {
     .header {
       &__wrapper {
         padding: 10px 10px 10px 30px;
       }
       &__svg-wrapper {
-        width: 35px;
+        svg {
+          width: 35px;
+        }
       }
       &__site-name {
         transform: translate3d(0px, 0, 0);
         opacity: 1;
+      }
+    }
+  }
+
+  // hover
+  .header__home-btn:hover {
+    .header__site-name {
+      opacity: 1;
+      transform: translate(0);
+
+      transition: transform 0.2s $ease-out-back, opacity 0.2s $ease-out-quad;
+      transition-delay: 0s;
+    }
+    .header__svg-wrapper {
+      opacity: 1;
+      pointer-events: none;
+      svg {
+        path,
+        rect {
+          fill: $main-color;
+          transition: fill 0.2s $ease-out-quad;
+          transition-delay: 0s;
+        }
       }
     }
   }

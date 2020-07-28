@@ -9,9 +9,6 @@
   flex-direction: column;
   justify-content: space-between;
   cursor: default;
-  transform: scale(1);
-  transition: 0.15s ease-in-out;
-  transform-style: preserve-3d;
   border-width: 0px;
   border-style: solid;
   z-index: 1;
@@ -55,6 +52,7 @@
   &:hover {
     &::before {
       opacity: 1;
+      transition: opacity 0.4s $ease-out-expo;
     }
   }
   &::before {
@@ -70,7 +68,8 @@
     border: solid $width var(--groupe-color);
     border-radius: $width * 5;
     pointer-events: none;
-    transition: opacity 0.225s linear;
+    transition: opacity 0.4s $ease-out-quad;
+    transition-delay: 0.15s;
     opacity: 0;
   }
   // Grid system
