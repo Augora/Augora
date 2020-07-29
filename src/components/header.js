@@ -35,12 +35,12 @@ const Header = ({ siteTitle }) => {
           </div>
         </Link>
         <div className="header__menu menu">
-          <a href="/about" className="menu__item">
+          <Link to="/about" className="menu__item">
             A propos de nous
-          </a>
-          <a href="/faq" className="menu__item">
+          </Link>
+          <Link to="/faq" className="menu__item">
             FAQ
-          </a>
+          </Link>
         </div>
       </div>
     </header>
