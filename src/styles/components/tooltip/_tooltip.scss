@@ -1,5 +1,6 @@
 // Age chart tooltip
-.complex__tooltip {
+.complex__tooltip,
+.bar-pie__tooltip {
   white-space: pre;
   background-color: white;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.15);
@@ -38,6 +39,7 @@
       font-size: 24px;
       font-weight: bold;
       .tooltip__value {
+        display: flex;
         align-items: center;
         font-size: 13px;
         font-weight: normal;
@@ -49,4 +51,8 @@
       }
     }
   }
+}
+
+.bar-pie__tooltip {
+  min-width: 220px;
 }

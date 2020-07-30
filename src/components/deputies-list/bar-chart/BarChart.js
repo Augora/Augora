@@ -1,6 +1,7 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
+import { Tooltip } from "components/tooltip/BarPieChartTooltip"
 
 /**
  * Return a barchart block in a ResponsiveBar component
@@ -34,6 +35,18 @@ export default function BarChart(props) {
           ? getTextColorContrast("light")
           : getTextColorContrast("dark")
       }
+      tooltip={(tooltipInfo) => {
+        return Tooltip(tooltipInfo, props.totalNumberDeputies)
+      }}
+      theme={{
+        tooltip: {
+          container: {
+            background: "transparent",
+            padding: 0,
+            boxShadow: "none",
+          },
+        },
+      }}
     />
   )
 }

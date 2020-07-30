@@ -1,8 +1,9 @@
 import React from "react"
 import { ResponsivePie } from "@nivo/pie"
 import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
+import { Tooltip } from "components/tooltip/BarPieChartTooltip"
 
-const PieChart = props => {
+const PieChart = (props) => {
   return (
     <ResponsivePie
       data={props.data}
@@ -12,7 +13,7 @@ const PieChart = props => {
       innerRadius={0.5}
       padAngle={0.7}
       cornerRadius={5}
-      colors={groupe => {
+      colors={(groupe) => {
         return groupe.color
       }}
       borderWidth={0}
@@ -26,7 +27,7 @@ const PieChart = props => {
       radialLabelsLinkStrokeWidth={1}
       radialLabelsLinkColor={{ from: "color" }}
       slicesLabelsSkipAngle={10}
-      slicesLabelsTextColor={groupe =>
+      slicesLabelsTextColor={(groupe) =>
         getColorLuminosity(groupe.color) < 50
           ? getTextColorContrast("light")
           : getTextColorContrast("dark")
@@ -34,6 +35,18 @@ const PieChart = props => {
       animate={true}
       motionStiffness={90}
       motionDamping={15}
+      tooltip={(tooltipInfo) => {
+        return Tooltip(tooltipInfo, props.totalNumberDeputies)
+      }}
+      theme={{
+        tooltip: {
+          container: {
+            background: "transparent",
+            padding: 0,
+            boxShadow: "none",
+          },
+        },
+      }}
     />
   )
 }
