@@ -1,0 +1,52 @@
+// Age chart tooltip
+.complex__tooltip {
+  white-space: pre;
+  background-color: white;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  border-radius: 5px;
+  font-family: $font;
+  min-width: 200px;
+
+  .tooltip {
+    &__age {
+      font-size: 24px;
+      display: flex;
+      margin-bottom: 0.75rem;
+      justify-content: center;
+      span {
+        font-weight: bold;
+        padding-right: 10px;
+      }
+    }
+
+    &__groupe {
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &--color {
+        width: 12px;
+        height: 12px;
+        margin-right: 7px;
+      }
+    }
+
+    &__numbers {
+      display: flex;
+      justify-content: space-between;
+      font-size: 24px;
+      font-weight: bold;
+      .tooltip__value {
+        align-items: center;
+        font-size: 13px;
+        font-weight: normal;
+        span {
+          font-size: 24px;
+          font-weight: bold;
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+}

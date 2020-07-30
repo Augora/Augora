@@ -1,7 +1,7 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { patternLinesDef } from "@nivo/core"
-import { Tooltip } from "components/tooltip/Tooltip"
+import { Tooltip } from "components/tooltip/ComplexBarChartTooltip"
 
 export default function ComplexBarChart(props) {
   const keys = Object.keys(props.data[0])

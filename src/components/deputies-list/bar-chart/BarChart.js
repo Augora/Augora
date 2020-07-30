@@ -1,7 +1,6 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
-import { Tooltip } from "components/tooltip/Tooltip"
 
 /**
  * Return a barchart block in a ResponsiveBar component
@@ -14,7 +13,7 @@ export default function BarChart(props) {
       indexBy="id"
       margin={{ top: 50, right: 50, bottom: 20, left: 50 }}
       padding={0.1}
-      colors={groupe => {
+      colors={(groupe) => {
         return groupe.data.color
       }}
       borderRadius={5}
@@ -30,12 +29,11 @@ export default function BarChart(props) {
       }}
       labelSkipWidth={12}
       labelSkipHeight={12}
-      labelTextColor={groupe =>
+      labelTextColor={(groupe) =>
         getColorLuminosity(groupe.color) < 50
           ? getTextColorContrast("light")
           : getTextColorContrast("dark")
       }
-      tooltip={tooltip => Tooltip(tooltip)}
     />
   )
 }
