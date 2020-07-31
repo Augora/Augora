@@ -24,13 +24,13 @@ const Layout = ({ children }) => {
     <>
       <Helmet>
         <style>{`:root {\n${allColors.join("")}}`}</style>
-	<meta property="og:url" content="https://augora.fr" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Site web Augora" />
-        <meta property="og:description" content="" />
-        <meta property="og:image" content="/icons/icon-512x512.png" />
-        <meta property="og:image:alt" content="Icône de l'association Augora" />
-        <meta property="twitter:url" content="https://augora.fr" />
+	<meta name="og:url" content="https://augora.fr" />
+        <meta name="og:type" content="website" />
+        <meta name="og:title" content="Site web Augora" />
+        <meta name="og:description" content="" />
+        <meta name="og:image" content="/icons/icon-512x512.png" />
+        <meta name="og:image:alt" content="Icône de l'association Augora" />
+        <meta name="twitter:url" content="https://augora.fr" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Site web Augora" />
         <meta name="twitter:description" content="" />
