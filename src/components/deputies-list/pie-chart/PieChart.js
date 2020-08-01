@@ -27,11 +27,12 @@ const PieChart = (props) => {
       radialLabelsLinkStrokeWidth={1}
       radialLabelsLinkColor={{ from: "color" }}
       slicesLabelsSkipAngle={10}
-      slicesLabelsTextColor={(groupe) =>
-        getColorLuminosity(groupe.color) < 50
-          ? getTextColorContrast("light")
-          : getTextColorContrast("dark")
-      }
+      // slicesLabelsTextColor={(groupe) =>
+      //   getColorLuminosity(groupe.color) < 50
+      //     ? getTextColorContrast("light")
+      //     : getTextColorContrast("dark")
+      // }
+      slicesLabelsTextColor="white"
       animate={true}
       motionStiffness={90}
       motionDamping={15}
@@ -39,6 +40,12 @@ const PieChart = (props) => {
         return Tooltip(tooltipInfo, props.totalNumberDeputies)
       }}
       theme={{
+        labels: {
+          text: {
+            fontSize: 16,
+            fontFamily: "Open sans, sans-serif",
+          },
+        },
         tooltip: {
           container: {
             background: "transparent",

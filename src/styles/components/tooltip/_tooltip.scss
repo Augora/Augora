@@ -7,13 +7,13 @@
   padding: 10px;
   border-radius: 5px;
   font-family: $font;
-  min-width: 200px;
+  min-width: 190px;
 
   .tooltip {
     &__age {
       font-size: 24px;
       display: flex;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
       justify-content: center;
       span {
         font-weight: bold;
@@ -22,7 +22,7 @@
     }
 
     &__groupe {
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
