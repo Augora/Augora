@@ -95,13 +95,6 @@
   }
   &:hover {
     .mandate {
-      &__number {
-        .number {
-          &__title {
-            color: black;
-          }
-        }
-      }
       &__since {
         opacity: 0;
         pointer-events: none;
