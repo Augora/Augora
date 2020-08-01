@@ -1,11 +1,10 @@
 import React from "react"
 
-import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { Link } from "gatsby"
 
 const About = () => (
-  <Layout>
+  <>
     <SEO title="FAQ" />
     <div className="page page__faq">
       <h1>FAQ</h1>
@@ -85,7 +84,7 @@ const About = () => (
 
       <h2></h2>
     </div>
-  </Layout>
+  </>
 )
 
 export default About
