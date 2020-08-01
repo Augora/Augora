@@ -2,8 +2,6 @@ import React from "react"
 import Helmet from "react-helmet"
 import { graphql } from "gatsby"
 
-import Layout from "components/layout"
-
 import DeputiesList from "../components/deputies-list/DeputiesList"
 
 const IndexPage = ({ data }) => {
@@ -11,7 +9,7 @@ const IndexPage = ({ data }) => {
     (a, b) => a.Ordre - b.Ordre
   )
   return (
-    <Layout>
+    <>
       <Helmet>
         {process.env.GATSBY_TARGET_ENV !== "production" ? (
           <meta name="robots" content="noindex,nofollow" />
@@ -27,7 +25,7 @@ const IndexPage = ({ data }) => {
           groupesDetails={orderedGroupes}
         />
       </div>
-    </Layout>
+    </>
   )
 }
 

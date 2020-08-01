@@ -1,29 +1,9 @@
 const path = require("path")
+console.log(require.resolve(`./src/components/layout.js`))
 
 module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
-      },
-    },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `Augora`,
-        short_name: `Augora`,
-        start_url: `/`,
-        background_color: `#11999e`,
-        theme_color: `#30e3ca`,
-        display: `minimal-ui`,
-        icon: `src/images/logos/projet/augora-logo.png`,
-      },
-    },
     {
       resolve: "gatsby-source-graphql",
       options: {
@@ -41,12 +21,13 @@ module.exports = {
     },
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-typescript`,
-    // `gatsby-plugin-offline`,
     {
       resolve: `gatsby-plugin-root-import`,
       options: {
         src: path.join(__dirname, "src"),
         pages: path.join(__dirname, "src/pages"),
+        utils: path.join(__dirname, "src/utils"),
+        images: path.join(__dirname, "src/images"),
       },
     },
     `gatsby-plugin-sass`,
@@ -54,10 +35,19 @@ module.exports = {
     {
       resolve: `gatsby-plugin-web-font-loader`,
       options: {
+        google: {
+          families: ["Open Sans", "Roboto Slab"],
+        },
         custom: {
           families: ["Augora"],
-          urls: ["src/components/fonts/font.css"],
+          urls: ["src/styles/global/_font.scss"],
         },
+      },
+    },
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve(`./src/components/layout.js`),
       },
     },
   ],
