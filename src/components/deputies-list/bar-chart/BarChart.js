@@ -1,7 +1,7 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
-import { Tooltip } from "components/tooltip/BarPieChartTooltip"
+import { Tooltip } from "components/tooltip/ChartTooltip"
 
 var nbTicks = [0, 50, 100, 150, 200, 250, 300]
 /**
@@ -25,8 +25,8 @@ export default function BarChart(props) {
         tickRotation: 0,
       }}
       axisLeft={{
-        tickSize: 5,
-        tickPadding: 5,
+        tickSize: 0,
+        tickPadding: 10,
         tickRotation: 0,
         tickValues: nbTicks,
       }}
@@ -40,6 +40,7 @@ export default function BarChart(props) {
       // }
       labelTextColor="white"
       tooltip={(tooltipInfo) => {
+        tooltipInfo.id = tooltipInfo.indexValue
         return Tooltip(tooltipInfo, props.totalNumberDeputies)
       }}
       theme={{

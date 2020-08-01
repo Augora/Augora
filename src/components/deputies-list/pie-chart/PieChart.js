@@ -1,7 +1,7 @@
 import React from "react"
 import { ResponsivePie } from "@nivo/pie"
 import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
-import { Tooltip } from "components/tooltip/BarPieChartTooltip"
+import { Tooltip } from "components/tooltip/ChartTooltip"
 
 const PieChart = (props) => {
   return (

@@ -1,13 +1,12 @@
 // Age chart tooltip
-.complex__tooltip,
-.bar-pie__tooltip {
+.graph__tooltip {
   white-space: pre;
   background-color: white;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.15);
   padding: 10px;
   border-radius: 5px;
   font-family: $font;
-  min-width: 190px;
+  min-width: 220px;
 
   .tooltip {
     &__age {
@@ -51,8 +50,4 @@
       }
     }
   }
-}
-
-.bar-pie__tooltip {
-  min-width: 220px;
 }
