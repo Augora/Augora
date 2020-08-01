@@ -18,6 +18,9 @@ const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
 
+// Dynamic header current page
+// TODO : Get current route to give state to Header ?
+
 const Layout = ({ children }) => {
   return (
     <>

@@ -4,7 +4,6 @@ import { colors } from "utils/variables"
 import { graphql } from "gatsby"
 
 import styled from "styled-components"
-import Layout from "components/layout"
 
 import Coworkers from "components/deputy/coworkers/Coworkers"
 import MapDistrict from "components/deputy/map-district/MapDistrict"
@@ -39,7 +38,7 @@ function Deputy({ data }) {
   const deputy = data.faunadb.Depute
   const color = deputy.GroupeParlementaire.Couleur
   return (
-    <Layout>
+    <>
       <Helmet>
         {process.env.GATSBY_TARGET_ENV !== "production" ? (
           <meta name="robots" content="noindex,nofollow" />
@@ -114,7 +113,7 @@ function Deputy({ data }) {
           adresses={deputy.AdressesDetails.data}
         />
       </DeputyStyles>
-    </Layout>
+    </>
   )
 }
 
