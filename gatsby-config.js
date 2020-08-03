@@ -5,6 +5,18 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Augora`,
+        short_name: `Augora`,
+        start_url: `/`,
+        background_color: `#11999e`,
+        theme_color: `#30e3ca`,
+        display: `minimal-ui`,
+        icon: `src/images/logos/projet/augora-logo.png`,
+      },
+    },
+    {
       resolve: "gatsby-source-graphql",
       options: {
         typeName: "FaunaDB",
@@ -36,11 +48,14 @@ module.exports = {
       resolve: `gatsby-plugin-web-font-loader`,
       options: {
         google: {
-          families: ["Open Sans", "Roboto Slab"],
+          families: [
+            "Open Sans:100,200,300,400,500,600,700,800,900",
+            "Roboto Slab:100,200,300,400,500,600,700,800,900",
+          ],
         },
         custom: {
           families: ["Augora"],
-          urls: ["src/styles/global/_font.scss"],
+          urls: ["./font.css"],
         },
       },
     },
