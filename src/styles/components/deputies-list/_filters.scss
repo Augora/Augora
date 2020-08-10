@@ -73,9 +73,6 @@
       .yValue {
         display: none;
       }
-      .axis.xValue {
-        bottom: -100%;
-      }
     }
   }
   .axis {
@@ -83,15 +80,15 @@
     text-align: center;
     font-family: $font;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 14px;
     &.xValue {
       bottom: -100px;
       width: 100%;
     }
     &.yValue {
-      transform: rotate(-90deg) translateY(-50%);
+      transform: rotate(90deg) translateY(-50%);
       top: 50%;
-      left: -30px;
+      right: -20px;
     }
   }
 

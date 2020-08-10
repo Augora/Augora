@@ -1,9 +1,9 @@
 import React from "react"
 import { Slider, Rail, Handles, Tracks, Ticks } from "react-compound-slider"
 
-const barHeight = 10
-const marginTop = 35
-const handleSize = 25
+const barHeight = 12
+const marginTop = 25
+const handleSize = 28
 
 const sliderStyle = {
   // Give the slider some width
@@ -19,9 +19,10 @@ const railStyle = {
   position: "absolute",
   width: "100%",
   height: barHeight,
-  marginTop: 35,
+  marginTop: marginTop,
   borderRadius: 5,
-  backgroundColor: "#8B9CB6",
+  backgroundColor: "#4d4d4d",
+  opacity: 0.5,
 }
 
 const Track = ({ source, target, getTrackProps }) => {
@@ -32,7 +33,7 @@ const Track = ({ source, target, getTrackProps }) => {
         height: barHeight,
         zIndex: 1,
         marginTop: marginTop,
-        backgroundColor: "#546C91",
+        backgroundColor: "#4d4d4d",
         borderRadius: 5,
         cursor: "pointer",
         left: `${source.percent}%`,
@@ -56,7 +57,7 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
         textAlign: "center",
         cursor: "pointer",
         borderRadius: "50%",
-        backgroundColor: "#2C4870",
+        backgroundColor: "#4d4d4d",
         color: "#333",
         pointerEvents: "all",
       }}
@@ -64,9 +65,8 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
     >
       <div
         style={{
-          fontFamily:
-            "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
-          fontSize: 12,
+          fontFamily: "Open Sans, sans-serif",
+          fontSize: 14,
           position: "absolute",
           top: "50%",
           left: "50%",
@@ -86,7 +86,7 @@ const Tick = ({ tick, count }) => {
       <div
         style={{
           position: "absolute",
-          marginTop: 42,
+          marginTop: 37,
           marginLeft: -0.5,
           width: 1,
           height: 8,
@@ -96,11 +96,10 @@ const Tick = ({ tick, count }) => {
       />
       <div
         style={{
-          fontFamily:
-            "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif",
+          fontFamily: "Open Sans, sans-serif",
           position: "absolute",
-          marginTop: 50,
-          fontSize: 10,
+          marginTop: 45,
+          fontSize: 14,
           textAlign: "center",
           marginLeft: `${-(100 / count) / 2}%`,
           width: `${100 / count}%`,
