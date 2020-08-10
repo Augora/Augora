@@ -13,12 +13,12 @@ export default function BarChart(props) {
     <ResponsiveBar
       data={props.data}
       indexBy="id"
-      margin={{ top: 50, right: 50, bottom: 20, left: 50 }}
+      margin={{ top: 50, right: 50, bottom: 25, left: 50 }}
       padding={0.1}
       colors={(groupe) => {
         return groupe.data.color
       }}
-      borderRadius={5}
+      borderRadius={3}
       axisBottom={{
         tickSize: 5,
         tickPadding: 5,
@@ -32,7 +32,7 @@ export default function BarChart(props) {
       }}
       gridYValues={nbTicks}
       labelSkipWidth={12}
-      labelSkipHeight={12}
+      labelSkipHeight={20}
       // labelTextColor={(groupe) =>
       //   getColorLuminosity(groupe.color) < 50
       //     ? getTextColorContrast("light")
@@ -46,9 +46,17 @@ export default function BarChart(props) {
       theme={{
         labels: {
           text: {
-            fontSize: 14,
+            fontSize: 18,
             fontFamily: "Open sans, sans-serif",
             fontWeight: "bold",
+          },
+        },
+        axis: {
+          ticks: {
+            text: {
+              fontSize: 14,
+              fontFamily: "Open sans, sans-serif",
+            },
           },
         },
         tooltip: {

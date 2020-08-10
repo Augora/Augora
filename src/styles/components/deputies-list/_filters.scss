@@ -41,6 +41,14 @@
         background: rgba(black, 0.05);
       }
     }
+    &.piechart {
+      svg g text {
+        &[text-anchor="middle"] {
+          font-size: 22px !important;
+          font-weight: bold;
+        }
+      }
+    }
     &.complex-barchart {
       width: 70%;
       position: relative;

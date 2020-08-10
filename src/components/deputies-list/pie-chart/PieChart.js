@@ -42,7 +42,7 @@ const PieChart = (props) => {
       theme={{
         labels: {
           text: {
-            fontSize: 16,
+            fontSize: 14,
             fontFamily: "Open sans, sans-serif",
           },
         },
