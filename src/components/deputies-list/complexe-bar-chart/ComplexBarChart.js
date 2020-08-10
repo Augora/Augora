@@ -3,6 +3,8 @@ import { ResponsiveBar } from "@nivo/bar"
 import { patternLinesDef } from "@nivo/core"
 import { Tooltip } from "components/tooltip/ChartTooltip"
 
+var nbTicks = [0, 5, 10, 15, 20, 25]
+
 export default function ComplexBarChart(props) {
   const keys = Object.keys(props.data[0])
     .filter((key) => key !== "age")
@@ -21,7 +23,7 @@ export default function ComplexBarChart(props) {
           color: "inherit",
         }),
       ]}
-      margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+      margin={{ top: 0, right: 25, bottom: 7, left: 0 }}
       padding={0.15}
       innerPadding={0}
       borderRadius={0}
@@ -37,15 +39,17 @@ export default function ComplexBarChart(props) {
       }}
       colorBy="id"
       axisBottom={{
-        tickSize: 5,
+        tickSize: 0,
         tickPadding: 5,
         tickRotation: 0,
       }}
-      axisLeft={{
-        tickSize: 5,
-        tickPadding: 5,
+      axisRight={{
+        tickSize: 0,
+        tickPadding: 8,
         tickRotation: 0,
+        tickValues: nbTicks,
       }}
+      gridYValues={nbTicks}
       enableLabel={false}
       // labelSkipWidth={0}
       // labelSkipHeight={0}
@@ -57,6 +61,14 @@ export default function ComplexBarChart(props) {
         return Tooltip(tooltipInfo, props.totalNumberDeputies, true)
       }}
       theme={{
+        axis: {
+          ticks: {
+            text: {
+              fontSize: 14,
+              fontFamily: "Open sans, sans-serif",
+            },
+          },
+        },
         tooltip: {
           container: {
             background: "transparent",
