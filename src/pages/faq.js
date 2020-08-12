@@ -3,6 +3,9 @@ import React from "react"
 import SEO from "../components/seo"
 import { Link } from "gatsby"
 
+// Graphics
+import GradientBanner from "components/graphics/GradientBanner"
+
 const About = () => (
   <>
     <SEO title="FAQ" />
@@ -10,6 +13,7 @@ const About = () => (
       <h1>FAQ</h1>
 
       <div className="faq__question">
+        <GradientBanner />
         <h2>Qu’est-ce qu’un groupe parlementaire ?</h2>
         <p>
           Un groupe parlementaire c'est pas parti politique à proprement parler.
