@@ -38,4 +38,8 @@ const Header = ({ siteTitle }) => {
   )
 }
 
+Header.defaultProps = {
+  siteTitle: ``,
+}
+
 export default Header
