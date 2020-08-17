@@ -45,7 +45,7 @@ function Deputy({ data }) {
         ) : null}
         <title>
           {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy.Sexe)}{" "}
-          {deputy.GroupeParlementaire.Sigle}
+          {deputy.GroupeParlementaire.Sigle} | Augora
         </title>
         <style>{`:root {\n${allColors.join("")}
       --groupe-color: ${color};}`}</style>

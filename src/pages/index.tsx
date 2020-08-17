@@ -14,7 +14,7 @@ const IndexPage = ({ data }) => {
         {process.env.GATSBY_TARGET_ENV !== "production" ? (
           <meta name="robots" content="noindex,nofollow" />
         ) : null}
-        <title>Liste des députés</title>
+        <title>Liste des députés | Augora</title>
       </Helmet>
       <header className="header">
         <h1 style={{ textAlign: "center" }}>Liste des députés</h1>
