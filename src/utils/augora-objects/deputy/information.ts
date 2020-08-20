@@ -1,12 +1,11 @@
-import { getDeputyPhotoURL, getPoliticGroupPhotoImport } from "./image"
-import { getGender } from "./gender"
+import { getPoliticGroupPhotoImport } from "./image"
 
-export function getGeneralInformation(deputy: any, imgPixel: number) {
+export function getGeneralInformation(deputy: any) {
   const props = {
     id: deputy.Slug,
     lastName: deputy.NomDeFamille,
     firstName: deputy.Prenom,
-    picture: getDeputyPhotoURL(deputy.Slug, imgPixel),
+    picture: deputy.URLPhotoAugora,
     pictureGroup: getPoliticGroupPhotoImport(deputy.GroupeParlementaire.Sigle),
     groupe: deputy.GroupeParlementaire.Sigle,
     age: deputy.Age,
