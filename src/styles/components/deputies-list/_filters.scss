@@ -101,7 +101,6 @@
     margin: 10px 0;
     padding: 0 75px;
     position: relative;
-    overflow: hidden;
     .groupes__allornone {
       position: absolute;
       top: 50%;
@@ -148,7 +147,6 @@
       background: white;
       border-radius: $border-radius;
       transition: border-radius 0.05s linear;
-      overflow: hidden;
       &__img-container {
         padding-bottom: percentage(9 / 16);
         width: 150px;
@@ -183,6 +181,48 @@
           filter: grayscale(1);
         }
       }
+      &__tooltip {
+        position: absolute;
+        width: 100%;
+        min-width: 200px;
+        top: 80%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        border-radius: 5px;
+        padding: 10px;
+        font-family: $font;
+        color: $text-color;
+        z-index: 3;
+        box-shadow: 0px 2px 5px rgba(black, 0.15);
+        background: $white;
+        pointer-events: none;
+        opacity: 0;
+        transition: 0.225s linear;
+        h2 {
+          font-size: 24px;
+          font-weight: normal;
+          margin-bottom: 0.75rem;
+        }
+      }
+      &__numbers {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0px;
+      }
+      &__number {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        strong {
+          font-size: 24px;
+          font-weight: bold;
+          padding-right: 10px;
+        }
+      }
+      &__percentage {
+        font-size: 24px;
+        font-weight: bold;
+      }
       &:hover {
         .groupe__background-color {
           opacity: 0.5;
@@ -191,6 +231,10 @@
             border-radius: 5px;
             filter: grayscale(0.15);
           }
+        }
+        .groupe__tooltip {
+          opacity: 1;
+          top: calc(100% + 10px);
         }
       }
       &:focus {
@@ -224,7 +268,7 @@
         // border-radius: 5px;
         &::after,
         &::before {
-          width: 200%;
+          width: 112%;
         }
       }
     }

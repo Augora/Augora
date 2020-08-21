@@ -140,6 +140,32 @@ const DeputiesList = (props) => {
           }`}
           style={{ backgroundColor: groupe.Couleur }}
         ></div>
+        <div className="groupe__tooltip">
+          <h2
+            style={{
+              color: `${groupe.Couleur}`,
+            }}
+          >
+            {groupe.NomComplet}
+          </h2>
+          <p className="groupe__numbers">
+            <div className="groupe__number">
+              <strong>
+                {calculateNbDepute(filteredList, "groupe", groupe.Sigle)}
+              </strong>{" "}
+              Députés
+            </div>
+            <div className="groupe__percentage">
+              {Math.round(
+                calculatePercentage(
+                  filteredList.length,
+                  calculateNbDepute(filteredList, "groupe", groupe.Sigle)
+                ) * 10
+              ) / 10}
+              %
+            </div>
+          </p>
+        </div>
       </button>
     )
   })
