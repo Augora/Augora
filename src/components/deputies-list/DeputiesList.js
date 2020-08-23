@@ -218,6 +218,7 @@ const DeputiesList = (props) => {
                 <PieChart
                   data={groupesData}
                   totalNumberDeputies={props.deputes.length}
+                  groupesDetails={props.groupesDetails}
                 />
               </div>
             ) : (
@@ -225,6 +226,7 @@ const DeputiesList = (props) => {
                 <BarChart
                   data={groupesData}
                   totalNumberDeputies={props.deputes.length}
+                  groupesDetails={props.groupesDetails}
                 />
               </div>
             )}
@@ -234,6 +236,7 @@ const DeputiesList = (props) => {
                   data={groupesByAge}
                   ageDomain={AgeDomain}
                   totalNumberDeputies={props.deputes.length}
+                  groupesDetails={props.groupesDetails}
                 />
               </div>
               <div className="slider-wrapper">

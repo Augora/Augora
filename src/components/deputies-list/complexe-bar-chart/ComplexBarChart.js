@@ -58,7 +58,13 @@ export default function ComplexBarChart(props) {
       motionStiffness={90}
       motionDamping={15}
       tooltip={(tooltipInfo) => {
-        return Tooltip(tooltipInfo, props.totalNumberDeputies, true)
+        let currentGroup = props.groupesDetails.find(
+          (g) => g.Sigle === tooltipInfo.id
+        )
+        let tooltipInfoPlus = Object.assign({}, tooltipInfo, {
+          id: currentGroup.NomComplet,
+        })
+        return Tooltip(tooltipInfoPlus, props.totalNumberDeputies)
       }}
       theme={{
         axis: {

@@ -37,7 +37,13 @@ const PieChart = (props) => {
       motionStiffness={90}
       motionDamping={15}
       tooltip={(tooltipInfo) => {
-        return Tooltip(tooltipInfo, props.totalNumberDeputies)
+        let currentGroup = props.groupesDetails.find(
+          (g) => g.Sigle === tooltipInfo.id
+        )
+        let tooltipInfoPlus = Object.assign({}, tooltipInfo, {
+          id: currentGroup.NomComplet,
+        })
+        return Tooltip(tooltipInfoPlus, props.totalNumberDeputies)
       }}
       theme={{
         labels: {

@@ -40,8 +40,13 @@ export default function BarChart(props) {
       // }
       labelTextColor="white"
       tooltip={(tooltipInfo) => {
-        tooltipInfo.id = tooltipInfo.indexValue
-        return Tooltip(tooltipInfo, props.totalNumberDeputies)
+        let currentGroup = props.groupesDetails.find(
+          (g) => g.Sigle === tooltipInfo.indexValue
+        )
+        let tooltipInfoPlus = Object.assign({}, tooltipInfo, {
+          id: currentGroup.NomComplet,
+        })
+        return Tooltip(tooltipInfoPlus, props.totalNumberDeputies)
       }}
       theme={{
         labels: {

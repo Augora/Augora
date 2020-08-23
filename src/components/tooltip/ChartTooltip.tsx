@@ -1,22 +1,21 @@
 import React from "react"
 
-export const Tooltip = (tooltip, total, isAgeTooltip = false) => {
+export const Tooltip = (tooltip, total) => {
   return (
     <div className="graph__tooltip">
-      {isAgeTooltip ? (
+      {tooltip.indexValue != null && tooltip.indexValue >= 0 ? (
         <div className="tooltip__age">
           <span>{tooltip.indexValue}</span>
           Ans
         </div>
       ) : null}
-      <div className="tooltip__groupe">
-        <span
-          className="tooltip__groupe--color"
-          style={{
-            background: `${tooltip.color}`,
-          }}
-        ></span>
-        <span>{tooltip.id}</span>
+      <div
+        className="tooltip__groupe"
+        style={{
+          color: `${tooltip.color}`,
+        }}
+      >
+        {tooltip.id}
       </div>
       <div className="tooltip__numbers">
         <div className="tooltip__value">
