@@ -1,7 +1,7 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
-import { Tooltip } from "components/tooltip/ChartTooltip"
+import { Tooltip } from "components/tooltip/Tooltip"
 
 var nbTicks = [0, 50, 100, 150, 200, 250, 300]
 /**
@@ -43,10 +43,12 @@ export default function BarChart(props) {
         let currentGroup = props.groupesDetails.find(
           (g) => g.Sigle === tooltipInfo.indexValue
         )
-        let tooltipInfoPlus = Object.assign({}, tooltipInfo, {
-          id: currentGroup.NomComplet,
+        return Tooltip({
+          title: currentGroup.NomComplet,
+          nbDeputes: tooltipInfo.value,
+          totalDeputes: props.totalNumberDeputies,
+          color: tooltipInfo.color,
         })
-        return Tooltip(tooltipInfoPlus, props.totalNumberDeputies)
       }}
       theme={{
         labels: {

@@ -183,26 +183,13 @@
       }
       &__tooltip {
         position: absolute;
-        width: 100%;
-        min-width: 200px;
-        top: 80%;
+        transform: translateX(-50%);
         left: 50%;
-        transform: translate(-50%, 0);
-        border-radius: 5px;
-        padding: 10px;
-        font-family: $font;
-        color: $text-color;
         z-index: 3;
-        box-shadow: 0px 2px 5px rgba(black, 0.15);
-        background: $white;
+        top: 80%;
         pointer-events: none;
         opacity: 0;
         transition: 0.225s linear;
-        h2 {
-          font-size: 24px;
-          font-weight: normal;
-          margin-bottom: 0.75rem;
-        }
       }
       &__numbers {
         display: flex;
@@ -407,21 +394,9 @@
             top: 80%;
             left: 50%;
             transform: translate(-50%, 0);
-            background-color: white;
-            color: $text-color;
-            box-shadow: 0px 5px 5px rgba(black, 0.15);
-            border-radius: 5px;
-            padding: 10px;
-            min-width: 220px;
-            font-family: $font;
             opacity: 0;
             pointer-events: none;
             transition: 0.225s linear;
-            h2 {
-              font-weight: normal;
-              font-size: 24px;
-              margin-bottom: 0.75rem;
-            }
           }
           &__numbers {
             display: flex;
@@ -489,18 +464,10 @@
         top: calc(100%);
         left: 50%;
         transform: translate(-50%, 0);
-        padding: 15px;
-        background: white;
-        z-index: 1;
-        text-align: center;
-        border-radius: 10px;
-        font-size: 24px;
-        font-weight: bold;
-        color: $text-color;
-        box-shadow: 0px 5px 5px rgba(black, 0.15);
         opacity: 0;
         pointer-events: none;
         transition: 0.225s linear;
+        z-index: 2;
       }
     }
     &:hover {

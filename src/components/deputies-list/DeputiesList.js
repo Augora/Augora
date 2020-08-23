@@ -26,6 +26,7 @@ import BarChart from "./bar-chart/BarChart"
 import ComplexBarChart from "./complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "./slider/Slider"
 import Deputy from "./deputy/Deputy"
+import { Tooltip } from "components/tooltip/Tooltip"
 
 const DeputiesList = (props) => {
   // States
@@ -141,30 +142,12 @@ const DeputiesList = (props) => {
           style={{ backgroundColor: groupe.Couleur }}
         ></div>
         <div className="groupe__tooltip">
-          <h2
-            style={{
-              color: `${groupe.Couleur}`,
-            }}
-          >
-            {groupe.NomComplet}
-          </h2>
-          <p className="groupe__numbers">
-            <div className="groupe__number">
-              <strong>
-                {calculateNbDepute(filteredList, "groupe", groupe.Sigle)}
-              </strong>{" "}
-              Députés
-            </div>
-            <div className="groupe__percentage">
-              {Math.round(
-                calculatePercentage(
-                  filteredList.length,
-                  calculateNbDepute(filteredList, "groupe", groupe.Sigle)
-                ) * 10
-              ) / 10}
-              %
-            </div>
-          </p>
+          <Tooltip
+            title={groupe.NomComplet}
+            nbDeputes={calculateNbDepute(filteredList, "groupe", groupe.Sigle)}
+            totalDeputes={props.deputes.length}
+            color={groupe.Couleur}
+          />
         </div>
       </button>
     )
@@ -313,24 +296,11 @@ const DeputiesList = (props) => {
                 <IconFemale />
               </div>
               <div className="sexe__tooltip">
-                <h2>Femmes</h2>
-                <p className="sexe__numbers">
-                  <div className="sexe__number">
-                    <strong>
-                      {calculateNbDepute(filteredList, "sexe", "F")}
-                    </strong>{" "}
-                    Députés
-                  </div>
-                  <div className="sexe__percentage">
-                    {Math.round(
-                      calculatePercentage(
-                        filteredList.length,
-                        calculateNbDepute(filteredList, "sexe", "F")
-                      ) * 10
-                    ) / 10}
-                    %
-                  </div>
-                </p>
+                <Tooltip
+                  title="Femmes"
+                  nbDeputes={calculateNbDepute(filteredList, "sexe", "F")}
+                  totalDeputes={props.deputes.length}
+                />
               </div>
             </button>
             <div className="filters__total-results">
@@ -338,13 +308,11 @@ const DeputiesList = (props) => {
                 <strong>{filteredList.length}</strong> Députés
               </h2>
               <div className="total-results__tooltip">
-                {Math.round(
-                  calculatePercentage(
-                    props.deputes.length,
-                    filteredList.length
-                  ) * 10
-                ) / 10}
-                %
+                <Tooltip
+                  nbDeputes={filteredList.length}
+                  totalDeputes={props.deputes.length}
+                  hideNbDeputes={true}
+                />
               </div>
             </div>
             <button
@@ -360,24 +328,11 @@ const DeputiesList = (props) => {
                 <IconMaleSymbol />
               </div>
               <div className="sexe__tooltip">
-                <h2>Hommes</h2>
-                <p className="sexe__numbers">
-                  <div className="sexe__number">
-                    <strong>
-                      {calculateNbDepute(filteredList, "sexe", "H")}
-                    </strong>{" "}
-                    Députés
-                  </div>
-                  <div className="sexe__percentage">
-                    {Math.round(
-                      calculatePercentage(
-                        filteredList.length,
-                        calculateNbDepute(filteredList, "sexe", "H")
-                      ) * 10
-                    ) / 10}
-                    %
-                  </div>
-                </p>
+                <Tooltip
+                  title="Hommes"
+                  nbDeputes={calculateNbDepute(filteredList, "sexe", "H")}
+                  totalDeputes={props.deputes.length}
+                />
               </div>
             </button>
           </div>
