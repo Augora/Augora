@@ -4,9 +4,6 @@ import SEO from "../components/seo"
 import { Link } from "gatsby"
 import Question from "components/faq/Question"
 
-// Graphics
-import GradientBanner from "components/graphics/GradientBanner"
-
 // Content
 const contentAbout = [
   {
