@@ -6,17 +6,17 @@
   font-family: $opensans;
 
   &__question {
-    p {
-      font-family: $opensans;
-      font-weight: bold;
-    }
-    &:hover {
+    &--opened {
       svg rect {
         transform: skew(-25deg) translate3d(0, 0, 0) !important;
         transition: transform 1s $ease-in-out-cubic;
       }
+      .faq__description {
+        display: block;
+      }
     }
   }
+
   &__title-container {
     background: linear-gradient(to right, #30e3ca, #19dde3);
     position: relative;
@@ -35,6 +35,11 @@
       text-transform: uppercase;
       font-size: 40px;
     }
+  }
+  &__description {
+    font-family: $opensans;
+    font-weight: bold;
+    display: none;
   }
 }
 

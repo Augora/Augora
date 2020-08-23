@@ -35,9 +35,9 @@ const Header = ({ siteTitle }) => {
           </div>
         </Link>
         <div className="header__menu menu">
-          <Link to="/about" className="menu__item">
+          {/* <Link to="/about" className="menu__item">
             A propos de nous
-          </Link>
+          </Link> */}
           <Link to="/faq" className="menu__item">
             FAQ
           </Link>

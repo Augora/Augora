@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useRef } from "react"
 
 import SEO from "../components/seo"
 import { Link } from "gatsby"
+import Question from "components/faq/Question"
 
 // Graphics
 import GradientBanner from "components/graphics/GradientBanner"
@@ -97,23 +98,23 @@ const contentAbout = [
   },
 ]
 
-const About = () => (
-  <>
-    <SEO title="FAQ" />
-    <div className="page page__faq">
-      <h1>FAQ</h1>
+const About = () => {
+  return (
+    <>
+      <SEO title="FAQ" />
+      <div className="page page__faq">
+        <h1>FAQ</h1>
 
-      {contentAbout.map((question) => (
-        <div className="faq__question">
-          <div className="faq__title-container">
-            <GradientBanner />
-            <h2>{question.title}</h2>
-          </div>
-          {question.description}
-        </div>
-      ))}
-    </div>
-  </>
-)
+        {contentAbout.map((question, index) => (
+          <Question
+            key={`faq-question-${index}`}
+            title={question.title}
+            description={question.description}
+          />
+        ))}
+      </div>
+    </>
+  )
+}
 
 export default About
