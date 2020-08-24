@@ -1,0 +1,18 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+      [
+        [
+          [9.53, 47.27],
+          [9.6, 47.06],
+          [9.47, 47.06],
+          [9.53, 47.27]
+        ]
+      ]
+    ]
+  },
+  "properties": { "name": "Liechtenstein" },
+  "id": "LI"
+}

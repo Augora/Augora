@@ -1,5 +1,6 @@
 {
   "type": "Feature",
+  "properties": { "name": "Barbados" },
   "geometry": {
     "type": "Polygon",
     "coordinates": [

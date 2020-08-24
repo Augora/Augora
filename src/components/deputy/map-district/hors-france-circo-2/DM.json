@@ -1,0 +1,18 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+      [
+        [
+          [-61.36, 15.2],
+          [-61.45, 15.63],
+          [-61.25, 15.46],
+          [-61.36, 15.2]
+        ]
+      ]
+    ]
+  },
+  "properties": { "name": "Dominica" },
+  "id": "DM"
+}

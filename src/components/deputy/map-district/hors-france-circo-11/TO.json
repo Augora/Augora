@@ -1,0 +1,18 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+      [
+        [
+          [-175.15, -21.18],
+          [-175.36, -21.1],
+          [-175.05, -21.14],
+          [-175.15, -21.18]
+        ]
+      ]
+    ]
+  },
+  "properties": { "name": "Tonga" },
+  "id": "TO"
+}

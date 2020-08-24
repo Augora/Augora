@@ -1,0 +1,18 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+      [
+        [
+          [55.54, -4.76],
+          [55.38, -4.63],
+          [55.46, -4.55],
+          [55.54, -4.76]
+        ]
+      ]
+    ]
+  },
+  "properties": { "name": "Seychelles" },
+  "id": "SC"
+}

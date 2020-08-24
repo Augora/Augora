@@ -1,0 +1,18 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+      [
+        [
+          [103.99, 1.38],
+          [103.64, 1.32],
+          [103.71, 1.43],
+          [103.99, 1.38]
+        ]
+      ]
+    ]
+  },
+  "properties": { "name": "Singapore" },
+  "id": "SG"
+}

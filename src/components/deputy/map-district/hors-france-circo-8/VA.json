@@ -1,0 +1,18 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+      [
+        [
+          [12.45, 41.9],
+          [12.45, 41.91],
+          [12.46, 41.9],
+          [12.45, 41.9]
+        ]
+      ]
+    ]
+  },
+  "properties": { "name": "Holy See (Vatican City)" },
+  "id": "VA"
+}

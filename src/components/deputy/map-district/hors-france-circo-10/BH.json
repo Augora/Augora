@@ -1,0 +1,18 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+      [
+        [
+          [50.53, 26.23],
+          [50.57, 25.81],
+          [50.46, 25.97],
+          [50.53, 26.23]
+        ]
+      ]
+    ]
+  },
+  "properties": { "name": "Bahrain" },
+  "id": "BH"
+}
