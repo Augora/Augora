@@ -16,6 +16,8 @@ import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 
+import { isEmpty } from "lodash"
+
 import IconMail from "images/ui-kit/icon-mail.svg"
 import IconWebsite from "images/ui-kit/icon-web.svg"
 // import IconFacebook from 'images/ui-kit/icon-facebook.svg'
@@ -45,7 +47,7 @@ function Deputy({ data }) {
         ) : null}
         <title>
           {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy.Sexe)}{" "}
-          {deputy.GroupeParlementaire.Sigle}
+          {deputy.GroupeParlementaire.Sigle} | Augora
         </title>
         <style>{`:root {\n${allColors.join("")}
       --groupe-color: ${color};}`}</style>
@@ -55,40 +57,46 @@ function Deputy({ data }) {
           {deputy.Prenom} {deputy.NomDeFamille}
         </h1>
         <div className="deputy__contact">
-          <a
-            href={`mailto:${deputy.Emails[0]}`}
-            className="btn btn--mail"
-            title="Adresse e-mail"
-          >
-            <div className="deputy__icon">
-              <IconMail />
-            </div>
-          </a>
-          <a
-            href={deputy.SitesWeb[0]}
-            className="btn btn--website"
-            target="_blank"
-            title="Site Web"
-          >
-            <div className="deputy__icon">
-              <IconWebsite />
-            </div>
-          </a>
+          {deputy.Emails.length > 0 ? (
+            <a
+              href={`mailto:${deputy.Emails[0]}`}
+              className="btn btn--mail"
+              title="Adresse e-mail"
+            >
+              <div className="deputy__icon">
+                <IconMail />
+              </div>
+            </a>
+          ) : null}
+          {deputy.SitesWeb.length > 0 ? (
+            <a
+              href={deputy.SitesWeb[0]}
+              className="btn btn--website"
+              target="_blank"
+              title="Site Web"
+            >
+              <div className="deputy__icon">
+                <IconWebsite />
+              </div>
+            </a>
+          ) : null}
           {/* <a href="" className="btn btn--facebook">
             <div className="deputy__icon">
               <IconFacebook />
             </div>
           </a> */}
-          <a
-            href={`https://twitter.com/${deputy.Twitter}`}
-            className="btn btn--twitter"
-            target="_blank"
-            title="Twitter"
-          >
-            <div className="deputy__icon">
-              <IconTwitter />
-            </div>
-          </a>
+          {!isEmpty(deputy.Twitter) ? (
+            <a
+              href={`https://twitter.com/${deputy.Twitter}`}
+              className="btn btn--twitter"
+              target="_blank"
+              title="Twitter"
+            >
+              <div className="deputy__icon">
+                <IconTwitter />
+              </div>
+            </a>
+          ) : null}
         </div>
       </div>
       <DeputyStyles className="single-deputy">
