@@ -1,5 +1,5 @@
 {
-  "type": ["FeatureCollection"],
+  "type": "FeatureCollection",
   "features": [
     {
       "properties": { "name": "Circo1" },
