@@ -1,8 +1,9 @@
 import React from "react"
 import { ResponsivePie } from "@nivo/pie"
 import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
+import { Tooltip } from "components/tooltip/Tooltip"
 
-const PieChart = props => {
+const PieChart = (props) => {
   return (
     <ResponsivePie
       data={props.data}
@@ -12,7 +13,7 @@ const PieChart = props => {
       innerRadius={0.5}
       padAngle={0.7}
       cornerRadius={5}
-      colors={groupe => {
+      colors={(groupe) => {
         return groupe.color
       }}
       borderWidth={0}
@@ -26,14 +27,41 @@ const PieChart = props => {
       radialLabelsLinkStrokeWidth={1}
       radialLabelsLinkColor={{ from: "color" }}
       slicesLabelsSkipAngle={10}
-      slicesLabelsTextColor={groupe =>
-        getColorLuminosity(groupe.color) < 50
-          ? getTextColorContrast("light")
-          : getTextColorContrast("dark")
-      }
+      // slicesLabelsTextColor={(groupe) =>
+      //   getColorLuminosity(groupe.color) < 50
+      //     ? getTextColorContrast("light")
+      //     : getTextColorContrast("dark")
+      // }
+      slicesLabelsTextColor="white"
       animate={true}
       motionStiffness={90}
       motionDamping={15}
+      tooltip={(tooltipInfo) => {
+        let currentGroup = props.groupesDetails.find(
+          (g) => g.Sigle === tooltipInfo.id
+        )
+        return Tooltip({
+          title: currentGroup.NomComplet,
+          nbDeputes: tooltipInfo.value,
+          totalDeputes: props.totalNumberDeputies,
+          color: tooltipInfo.color,
+        })
+      }}
+      theme={{
+        labels: {
+          text: {
+            fontSize: 14,
+            fontFamily: "Open sans, sans-serif",
+          },
+        },
+        tooltip: {
+          container: {
+            background: "transparent",
+            padding: 0,
+            boxShadow: "none",
+          },
+        },
+      }}
     />
   )
 }

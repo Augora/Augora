@@ -27,7 +27,7 @@
     min-height: calc(100% - #{$headerHeight});
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     & > .icon-wrapper {
       width: 90%;
       height: calc(90% - #{$headerHeight});
@@ -46,7 +46,8 @@
   .block__separator {
     width: 50%;
     height: 1px;
-    background-color: rgba(black, 0.5);
+    background-color: $text-color;
+    opacity: 0.5;
   }
   &:hover {
     &::before {

@@ -22,8 +22,7 @@
           line-height: 1;
         }
         &__title {
-          color: black;
-          opacity: 0.6;
+          color: $text-color;
           text-transform: uppercase;
           text-align: center;
           font-weight: bold;
@@ -61,8 +60,7 @@
         text-transform: uppercase;
         margin-bottom: 10px;
         strong {
-          color: black;
-          opacity: 0.6;
+          color: $text-color;
         }
         span {
           font-size: 50px;
@@ -97,13 +95,6 @@
   }
   &:hover {
     .mandate {
-      &__number {
-        .number {
-          &__title {
-            opacity: 1;
-          }
-        }
-      }
       &__since {
         opacity: 0;
         pointer-events: none;

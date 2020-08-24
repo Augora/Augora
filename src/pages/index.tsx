@@ -69,6 +69,7 @@ export const query = graphql`
           Couleur
           Sigle
           Ordre
+          NomComplet
         }
       }
     }

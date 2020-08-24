@@ -13,8 +13,7 @@ import IconFemale from "../../images/ui-kit/icon-personw.svg"
 import IconFemaleSymbol from "../../images/ui-kit/icon-female.svg"
 import IconReset from "../../images/ui-kit/icon-refresh.svg"
 
-import
-{
+import {
   calculateAgeDomain,
   calculateNbDepute,
   filterList,
@@ -27,9 +26,9 @@ import BarChart from "./bar-chart/BarChart"
 import ComplexBarChart from "./complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "./slider/Slider"
 import Deputy from "./deputy/Deputy"
+import { Tooltip } from "components/tooltip/Tooltip"
 
-const DeputiesList = (props) =>
-{
+const DeputiesList = (props) => {
   // States
   const [GroupeValue, setGroupeValue] = useState(
     groupesArrayToObject(props.groupesDetails.map((g) => g.Sigle))
@@ -58,8 +57,7 @@ const DeputiesList = (props) =>
   const filteredList = filterList(result, state)
 
   const groupesData = props.groupesDetails
-    .map((groupe) =>
-    {
+    .map((groupe) => {
       const nbDeputeGroup = calculateNbDepute(
         filteredList,
         "groupe",
@@ -75,22 +73,18 @@ const DeputiesList = (props) =>
     .filter((groupe) => groupe.value !== 0)
 
   // Handlers
-  const handleSearchValue = (value) =>
-  {
+  const handleSearchValue = (value) => {
     search(value)
   }
 
-  const handleClickOnAllGroupes = (target, bool) =>
-  {
-    const allGroupesNewValues = Object.keys(GroupeValue).forEach((groupe) =>
-    {
+  const handleClickOnAllGroupes = (target, bool) => {
+    const allGroupesNewValues = Object.keys(GroupeValue).forEach((groupe) => {
       GroupeValue[groupe] = bool
     })
     setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
 
-  const handleClickOnGroupe = (sigle) =>
-  {
+  const handleClickOnGroupe = (sigle) => {
     const actualValueOfGroupe = GroupeValue[sigle]
     setGroupeValue(
       Object.assign({}, GroupeValue, {
@@ -99,8 +93,7 @@ const DeputiesList = (props) =>
     )
   }
 
-  const handleClickOnSex = (clickedSex) =>
-  {
+  const handleClickOnSex = (clickedSex) => {
     const actualValueOfSex = SexValue[clickedSex]
     setSexValue(
       Object.assign({}, SexValue, {
@@ -109,8 +102,7 @@ const DeputiesList = (props) =>
     )
   }
 
-  const handleReset = () =>
-  {
+  const handleReset = () => {
     search("")
     setGroupeValue(
       groupesArrayToObject(props.groupesDetails.map((g) => g.Sigle))
@@ -119,23 +111,20 @@ const DeputiesList = (props) =>
     setAgeDomain(calculateAgeDomain(props.deputes))
   }
 
-  const handleAgeSelection = (domain) =>
-  {
+  const handleAgeSelection = (domain) => {
     setAgeDomain(domain)
   }
 
-  const handleChartSelection = (event) =>
-  {
+  const handleChartSelection = (event) => {
     setHasPieChart(!HasPieChart)
   }
 
-  const allGroupes = props.groupesDetails.map((groupe) =>
-  {
+  const allGroupes = props.groupesDetails.map((groupe) => {
     return (
       <button
         className={`groupe groupe--${groupe.Sigle} ${
           GroupeValue[groupe.Sigle] ? "selected" : ""
-          }`}
+        }`}
         key={`groupe--${groupe.Sigle}`}
         onClick={(e) => handleClickOnGroupe(groupe.Sigle, e)}
         style={{ order: groupe.Ordre }}
@@ -149,9 +138,15 @@ const DeputiesList = (props) =>
         <div
           className={`groupe__background-color ${
             GroupeValue[groupe.Sigle] ? "selected" : ""
-            }`}
+          }`}
           style={{ backgroundColor: groupe.Couleur }}
         ></div>
+        <Tooltip
+          title={groupe.NomComplet}
+          nbDeputes={calculateNbDepute(filteredList, "groupe", groupe.Sigle)}
+          totalDeputes={props.deputes.length}
+          color={groupe.Couleur}
+        />
       </button>
     )
   })
@@ -161,19 +156,15 @@ const DeputiesList = (props) =>
     let i = calculateAgeDomain(props.deputes)[0];
     i <= calculateAgeDomain(props.deputes)[1];
     i++
-  )
-  {
+  ) {
     ages.push(i)
   }
-  const groupesByAge = ages.map((age) =>
-  {
-    const valueOfDeputesByAge = props.deputes.filter((depute) =>
-    {
+  const groupesByAge = ages.map((age) => {
+    const valueOfDeputesByAge = props.deputes.filter((depute) => {
       return depute.Age === age
     })
     const groupeValueByAge = () =>
-      Object.keys(GroupeValue).reduce((acc, groupe) =>
-      {
+      Object.keys(GroupeValue).reduce((acc, groupe) => {
         return Object.assign(acc, {
           [groupe]: valueOfDeputesByAge.filter(
             (depute) => depute.GroupeParlementaire.Sigle === groupe
@@ -181,8 +172,7 @@ const DeputiesList = (props) =>
         })
       }, {})
     const groupeColorByAge = () =>
-      Object.keys(GroupeValue).reduce((acc, groupe) =>
-      {
+      Object.keys(GroupeValue).reduce((acc, groupe) => {
         return Object.assign(acc, {
           [groupe + "Color"]: props.groupesDetails.filter(
             (groupeFiltered) => groupeFiltered.Sigle === groupe
@@ -206,19 +196,28 @@ const DeputiesList = (props) =>
           <div className="filters__charts">
             {HasPieChart ? (
               <div className="piechart chart" onClick={handleChartSelection}>
-                <PieChart data={groupesData} />
+                <PieChart
+                  data={groupesData}
+                  totalNumberDeputies={props.deputes.length}
+                  groupesDetails={props.groupesDetails}
+                />
               </div>
             ) : (
-                <div className="barchart chart" onClick={handleChartSelection}>
-                  <BarChart data={groupesData} />
-                </div>
-              )}
+              <div className="barchart chart" onClick={handleChartSelection}>
+                <BarChart
+                  data={groupesData}
+                  totalNumberDeputies={props.deputes.length}
+                  groupesDetails={props.groupesDetails}
+                />
+              </div>
+            )}
             <div className="complex-barchart chart">
               <div className="chart-wrapper">
                 <ComplexBarChart
                   data={groupesByAge}
                   ageDomain={AgeDomain}
                   totalNumberDeputies={props.deputes.length}
+                  groupesDetails={props.groupesDetails}
                 />
               </div>
               <div className="slider-wrapper">
@@ -285,7 +284,7 @@ const DeputiesList = (props) =>
             <button
               className={`sexes__btn sexes_btn--female ${
                 SexValue["F"] ? "selected" : ""
-                }`}
+              }`}
               onClick={(e) => handleClickOnSex("F", e)}
             >
               <div className="sexe__icon--female-symbol icon-wrapper">
@@ -294,45 +293,26 @@ const DeputiesList = (props) =>
               <div className="sexe__icon--female icon-wrapper">
                 <IconFemale />
               </div>
-              <div className="sexe__tooltip">
-                <h2>Femmes</h2>
-                <p className="sexe__numbers">
-                  <div className="sexe__number">
-                    <strong>
-                      {calculateNbDepute(filteredList, "sexe", "F")}
-                    </strong>{" "}
-                    Députés
-                  </div>
-                  <div className="sexe__percentage">
-                    {Math.round(
-                      calculatePercentage(
-                        filteredList.length,
-                        calculateNbDepute(filteredList, "sexe", "F")
-                      ) * 10
-                    ) / 10}
-                    %
-                  </div>
-                </p>
-              </div>
+              <Tooltip
+                title="Femmes"
+                nbDeputes={calculateNbDepute(filteredList, "sexe", "F")}
+                totalDeputes={props.deputes.length}
+              />
             </button>
             <div className="filters__total-results">
               <h2>
                 <strong>{filteredList.length}</strong> Députés
               </h2>
-              <div className="total-results__tooltip">
-                {Math.round(
-                  calculatePercentage(
-                    props.deputes.length,
-                    filteredList.length
-                  ) * 10
-                ) / 10}
-                %
-              </div>
+              <Tooltip
+                nbDeputes={filteredList.length}
+                totalDeputes={props.deputes.length}
+                hideNbDeputes={true}
+              />
             </div>
             <button
               className={`sexes__btn sexes_btn--male ${
                 SexValue["H"] ? "selected" : ""
-                }`}
+              }`}
               onClick={(e) => handleClickOnSex("H", e)}
             >
               <div className="sexe__icon--male icon-wrapper">
@@ -341,26 +321,11 @@ const DeputiesList = (props) =>
               <div className="sexe__icon--male-symbol icon-wrapper">
                 <IconMaleSymbol />
               </div>
-              <div className="sexe__tooltip">
-                <h2>Hommes</h2>
-                <p className="sexe__numbers">
-                  <div className="sexe__number">
-                    <strong>
-                      {calculateNbDepute(filteredList, "sexe", "H")}
-                    </strong>{" "}
-                    Députés
-                  </div>
-                  <div className="sexe__percentage">
-                    {Math.round(
-                      calculatePercentage(
-                        filteredList.length,
-                        calculateNbDepute(filteredList, "sexe", "H")
-                      ) * 10
-                    ) / 10}
-                    %
-                  </div>
-                </p>
-              </div>
+              <Tooltip
+                title="Hommes"
+                nbDeputes={calculateNbDepute(filteredList, "sexe", "H")}
+                totalDeputes={props.deputes.length}
+              />
             </button>
           </div>
           <div className="filters__reset">
@@ -373,15 +338,14 @@ const DeputiesList = (props) =>
       </div>
       <section className="deputies__list">
         {filteredList.length > 0 ? (
-          filteredList.map((depute) =>
-          {
+          filteredList.map((depute) => {
             return <Deputy key={depute.Slug} data={depute} />
           })
         ) : (
-            <div className="deputies__no-result">
-              Aucun résultat ne correspond à votre recherche
-            </div>
-          )}
+          <div className="deputies__no-result">
+            Aucun résultat ne correspond à votre recherche
+          </div>
+        )}
       </section>
     </>
   )

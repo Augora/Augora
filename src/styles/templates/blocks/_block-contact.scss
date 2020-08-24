@@ -33,6 +33,7 @@
         text-decoration: none;
         p {
           margin: 0;
+          color: $text-color;
         }
 
         &.contact__tel {
@@ -87,12 +88,13 @@
       }
     }
     &__separator {
-      width: 50%;
+      width: 40%;
       height: 1px;
       top: 100%;
       margin: 0 auto;
       // transform: translate(-50%, 0);
-      background-color: var(--theme-black-color);
+      background-color: $text-color;
+      opacity: 0.5;
     }
   }
 }

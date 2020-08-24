@@ -1,40 +1,52 @@
 import React from "react"
 
-export const Tooltip = (tooltip, total) => {
+// {
+//   title: "lrem",
+//   nbDeputes: 15,
+//   totalDeputes: 300,
+//   color: "blue",
+//   age: 42,
+//   hideNbDeputes: false,
+// }
+
+export function Tooltip(props) {
   return (
-    <div
-      className="tooltip"
-      style={{
-        whiteSpace: "pre",
-        backgroundColor: "white",
-        padding: 10,
-        borderRadius: 10,
-        fontFamily: "Open Sans",
-      }}
-    >
-      <div className="tooltip__age">
-        <span>{tooltip.indexValue}</span> Ans
-      </div>
-      <div className="tooltip__groupe">
-        <span
+    <div className="tooltip">
+      {props.age ? (
+        <div className="tooltip__age">
+          <span>{props.age}</span>
+          Ans
+        </div>
+      ) : null}
+      {props.title ? (
+        <div
+          className="tooltip__groupe"
           style={{
-            display: "inline-block",
-            width: "12px",
-            height: "12px",
-            background: `${tooltip.color}`,
-            marginRight: "7px",
+            color: `${props.color ? props.color : "#4d4d4d"}`,
           }}
-        ></span>
-        <span>{tooltip.id}</span>
-      </div>
-      <div className="tooltip__numbers">
-        <div className="tooltip__value">
-          <span>{tooltip.value}</span> Députés
+        >
+          {props.title}
         </div>
-        <div className="tooltip__percentage">
-          {Math.round(((tooltip.value * 100) / total) * 100) / 100}%
+      ) : null}
+      {props.nbDeputes != undefined && props.totalDeputes ? (
+        <div
+          className={`tooltip__numbers ${
+            props.hideNbDeputes ? "tooltip__numbers--centered" : ""
+          }`}
+        >
+          {!props.hideNbDeputes ? (
+            <div className="tooltip__value">
+              <span>{props.nbDeputes}</span>
+              Députés
+            </div>
+          ) : null}
+          <div className="tooltip__percentage">
+            {Math.round(((props.nbDeputes * 100) / props.totalDeputes) * 10) /
+              10}
+            %
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   )
 }

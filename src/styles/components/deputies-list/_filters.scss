@@ -28,16 +28,25 @@
   }
   .chart {
     height: 350px;
-    border-radius: 20px;
+    border-radius: 10px;
     padding-bottom: 20px;
     &.piechart,
     &.barchart {
       width: 30%;
       background: rgba(black, 0);
+      margin-right: 30px;
       transition: 0.225s linear;
       cursor: pointer;
       &:hover {
         background: rgba(black, 0.05);
+      }
+    }
+    &.piechart {
+      svg g text {
+        &[text-anchor="middle"] {
+          font-size: 22px !important;
+          font-weight: bold;
+        }
       }
     }
     &.complex-barchart {
@@ -64,9 +73,6 @@
       .yValue {
         display: none;
       }
-      .axis.xValue {
-        bottom: -100%;
-      }
     }
   }
   .axis {
@@ -74,15 +80,15 @@
     text-align: center;
     font-family: $font;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 14px;
     &.xValue {
       bottom: -100px;
       width: 100%;
     }
     &.yValue {
-      transform: rotate(-90deg) translateY(-50%);
+      transform: rotate(90deg) translateY(-50%);
       top: 50%;
-      left: -30px;
+      right: -20px;
     }
   }
 
@@ -95,7 +101,6 @@
     margin: 10px 0;
     padding: 0 75px;
     position: relative;
-    overflow: hidden;
     .groupes__allornone {
       position: absolute;
       top: 50%;
@@ -142,7 +147,6 @@
       background: white;
       border-radius: $border-radius;
       transition: border-radius 0.05s linear;
-      overflow: hidden;
       &__img-container {
         padding-bottom: percentage(9 / 16);
         width: 150px;
@@ -177,6 +181,15 @@
           filter: grayscale(1);
         }
       }
+      .tooltip {
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        z-index: 3;
+        top: 80%;
+        opacity: 0;
+        min-width: 200px;
+      }
       &:hover {
         .groupe__background-color {
           opacity: 0.5;
@@ -185,6 +198,10 @@
             border-radius: 5px;
             filter: grayscale(0.15);
           }
+        }
+        .tooltip {
+          opacity: 1;
+          top: calc(100% + 10px);
         }
       }
       &:focus {
@@ -218,7 +235,7 @@
         // border-radius: 5px;
         &::after,
         &::before {
-          width: 200%;
+          width: 112%;
         }
       }
     }
@@ -352,46 +369,14 @@
               }
             }
           }
-          &__tooltip {
-            position: absolute;
-            top: 80%;
-            left: 50%;
-            transform: translate(-50%, 0);
-            background-color: white;
-            color: $text-color;
-            box-shadow: 0px 5px 5px rgba(black, 0.15);
-            border-radius: 5px;
-            padding: 10px;
-            min-width: 220px;
-            font-family: $font;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.225s linear;
-            h2 {
-              font-weight: normal;
-              font-size: 24px;
-              margin-bottom: 0.75rem;
-            }
-          }
-          &__numbers {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0px;
-          }
-          &__number {
-            display: flex;
-            align-items: center;
-            font-size: 13px;
-            strong {
-              font-size: 24px;
-              font-weight: bold;
-              padding-right: 10px;
-            }
-          }
-          &__percentage {
-            font-size: 24px;
-            font-weight: bold;
-          }
+        }
+        .tooltip {
+          position: absolute;
+          top: 80%;
+          left: 50%;
+          transform: translate(-50%, 0);
+          opacity: 0;
+          min-width: 220px;
         }
         &:not(.selected) {
           .icon-wrapper {
@@ -405,7 +390,7 @@
           .icon-wrapper {
             fill: black;
           }
-          .sexe__tooltip {
+          .tooltip {
             top: calc(100% + 10px);
             opacity: 1;
           }
@@ -433,34 +418,18 @@
         padding-right: 5px;
       }
     }
-    .total-results {
-      &__tooltip {
-        position: absolute;
-        top: calc(100%);
-        left: 50%;
-        transform: translate(-50%, 0);
-        padding: 15px;
-        background: white;
-        z-index: 1;
-        text-align: center;
-        border-radius: 10px;
-        font-size: 24px;
-        font-weight: bold;
-        color: $text-color;
-        box-shadow: 0px 5px 5px rgba(black, 0.15);
-        opacity: 0;
-        pointer-events: none;
-        transition: 0.225s linear;
-      }
+    .tooltip {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      opacity: 0;
     }
     &:hover {
       color: black;
-
-      .total-results {
-        &__tooltip {
-          top: calc(100% + 10px);
-          opacity: 1;
-        }
+      .tooltip {
+        top: 90%;
+        opacity: 1;
       }
     }
 
