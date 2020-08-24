@@ -181,34 +181,14 @@
           filter: grayscale(1);
         }
       }
-      &__tooltip {
+      .tooltip {
         position: absolute;
         transform: translateX(-50%);
         left: 50%;
         z-index: 3;
         top: 80%;
-        pointer-events: none;
         opacity: 0;
-        transition: 0.225s linear;
-      }
-      &__numbers {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0px;
-      }
-      &__number {
-        display: flex;
-        align-items: center;
-        font-size: 13px;
-        strong {
-          font-size: 24px;
-          font-weight: bold;
-          padding-right: 10px;
-        }
-      }
-      &__percentage {
-        font-size: 24px;
-        font-weight: bold;
+        min-width: 200px;
       }
       &:hover {
         .groupe__background-color {
@@ -219,7 +199,7 @@
             filter: grayscale(0.15);
           }
         }
-        .groupe__tooltip {
+        .tooltip {
           opacity: 1;
           top: calc(100% + 10px);
         }
@@ -389,34 +369,14 @@
               }
             }
           }
-          &__tooltip {
-            position: absolute;
-            top: 80%;
-            left: 50%;
-            transform: translate(-50%, 0);
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.225s linear;
-          }
-          &__numbers {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0px;
-          }
-          &__number {
-            display: flex;
-            align-items: center;
-            font-size: 13px;
-            strong {
-              font-size: 24px;
-              font-weight: bold;
-              padding-right: 10px;
-            }
-          }
-          &__percentage {
-            font-size: 24px;
-            font-weight: bold;
-          }
+        }
+        .tooltip {
+          position: absolute;
+          top: 80%;
+          left: 50%;
+          transform: translate(-50%, 0);
+          opacity: 0;
+          min-width: 220px;
         }
         &:not(.selected) {
           .icon-wrapper {
@@ -430,7 +390,7 @@
           .icon-wrapper {
             fill: black;
           }
-          .sexe__tooltip {
+          .tooltip {
             top: calc(100% + 10px);
             opacity: 1;
           }
@@ -458,26 +418,18 @@
         padding-right: 5px;
       }
     }
-    .total-results {
-      &__tooltip {
-        position: absolute;
-        top: calc(100%);
-        left: 50%;
-        transform: translate(-50%, 0);
-        opacity: 0;
-        pointer-events: none;
-        transition: 0.225s linear;
-        z-index: 2;
-      }
+    .tooltip {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      opacity: 0;
     }
     &:hover {
       color: black;
-
-      .total-results {
-        &__tooltip {
-          top: calc(100% + 10px);
-          opacity: 1;
-        }
+      .tooltip {
+        top: 90%;
+        opacity: 1;
       }
     }
 

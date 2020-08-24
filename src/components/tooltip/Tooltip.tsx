@@ -41,8 +41,8 @@ export function Tooltip(props) {
             </div>
           ) : null}
           <div className="tooltip__percentage">
-            {Math.round(((props.nbDeputes * 100) / props.totalDeputes) * 100) /
-              100}
+            {Math.round(((props.nbDeputes * 100) / props.totalDeputes) * 10) /
+              10}
             %
           </div>
         </div>

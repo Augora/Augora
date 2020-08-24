@@ -141,14 +141,12 @@ const DeputiesList = (props) => {
           }`}
           style={{ backgroundColor: groupe.Couleur }}
         ></div>
-        <div className="groupe__tooltip">
-          <Tooltip
-            title={groupe.NomComplet}
-            nbDeputes={calculateNbDepute(filteredList, "groupe", groupe.Sigle)}
-            totalDeputes={props.deputes.length}
-            color={groupe.Couleur}
-          />
-        </div>
+        <Tooltip
+          title={groupe.NomComplet}
+          nbDeputes={calculateNbDepute(filteredList, "groupe", groupe.Sigle)}
+          totalDeputes={props.deputes.length}
+          color={groupe.Couleur}
+        />
       </button>
     )
   })
@@ -295,25 +293,21 @@ const DeputiesList = (props) => {
               <div className="sexe__icon--female icon-wrapper">
                 <IconFemale />
               </div>
-              <div className="sexe__tooltip">
-                <Tooltip
-                  title="Femmes"
-                  nbDeputes={calculateNbDepute(filteredList, "sexe", "F")}
-                  totalDeputes={props.deputes.length}
-                />
-              </div>
+              <Tooltip
+                title="Femmes"
+                nbDeputes={calculateNbDepute(filteredList, "sexe", "F")}
+                totalDeputes={props.deputes.length}
+              />
             </button>
             <div className="filters__total-results">
               <h2>
                 <strong>{filteredList.length}</strong> Députés
               </h2>
-              <div className="total-results__tooltip">
-                <Tooltip
-                  nbDeputes={filteredList.length}
-                  totalDeputes={props.deputes.length}
-                  hideNbDeputes={true}
-                />
-              </div>
+              <Tooltip
+                nbDeputes={filteredList.length}
+                totalDeputes={props.deputes.length}
+                hideNbDeputes={true}
+              />
             </div>
             <button
               className={`sexes__btn sexes_btn--male ${
@@ -327,13 +321,11 @@ const DeputiesList = (props) => {
               <div className="sexe__icon--male-symbol icon-wrapper">
                 <IconMaleSymbol />
               </div>
-              <div className="sexe__tooltip">
-                <Tooltip
-                  title="Hommes"
-                  nbDeputes={calculateNbDepute(filteredList, "sexe", "H")}
-                  totalDeputes={props.deputes.length}
-                />
-              </div>
+              <Tooltip
+                title="Hommes"
+                nbDeputes={calculateNbDepute(filteredList, "sexe", "H")}
+                totalDeputes={props.deputes.length}
+              />
             </button>
           </div>
           <div className="filters__reset">
