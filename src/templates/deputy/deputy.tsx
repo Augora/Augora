@@ -101,7 +101,7 @@ function Deputy({ data }) {
       </div>
       <DeputyStyles className="single-deputy">
         <GeneralInformation
-          {...getGeneralInformation(deputy, 150)}
+          {...getGeneralInformation(deputy)}
           color={color}
           size="medium"
           dateBegin={deputy.DateDeNaissance}
@@ -139,6 +139,7 @@ export const query = graphql`
           Couleur
           Sigle
         }
+        URLPhotoAugora
         Nom
         NomCirconscription
         NomDeFamille
