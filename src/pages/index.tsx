@@ -1,6 +1,7 @@
 import React from "react"
 import Helmet from "react-helmet"
 import { graphql } from "gatsby"
+import _ from "lodash"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
 
@@ -8,6 +9,7 @@ const IndexPage = ({ data }) => {
   const orderedGroupes = data.faunadb.GroupesParlementairesDetailsActifs.data.sort(
     (a, b) => a.Ordre - b.Ordre
   )
+  const deputies = _.shuffle(data.faunadb.DeputesEnMandat.data)
   return (
     <>
       <Helmet>
@@ -20,10 +22,7 @@ const IndexPage = ({ data }) => {
         <h1 style={{ textAlign: "center" }}>Liste des députés</h1>
       </header>
       <div>
-        <DeputiesList
-          deputes={data.faunadb.DeputesEnMandat.data}
-          groupesDetails={orderedGroupes}
-        />
+        <DeputiesList deputes={deputies} groupesDetails={orderedGroupes} />
       </div>
     </>
   )
