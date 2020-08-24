@@ -13,6 +13,7 @@ const getDates = (date) => {
   const timePassed = -formatedDate.diff(now)
   const yearsPassed = Math.floor(moment.duration(timePassed).asYears())
   const monthsPassed = Math.floor(moment.duration(timePassed).asMonths() % 12)
+  const daysPassed = Math.floor(moment.duration(timePassed).asDays())
 
   return {
     day: dateDay,
@@ -20,6 +21,7 @@ const getDates = (date) => {
     year: dateYear,
     yearsPassed: yearsPassed,
     monthsPassed: monthsPassed,
+    daysPassed: daysPassed,
   }
 }
 
@@ -32,8 +34,9 @@ export default function Mandate(props) {
     day: "01",
     month: "janvier",
     year: "2020",
-    yearsPassed: "1",
-    monthsPassed: "1",
+    yearsPassed: 0,
+    monthsPassed: 0,
+    daysPassed: 0,
   })
   useEffect(() => {
     setDate(getDates(props.dateBegin))
@@ -64,14 +67,25 @@ export default function Mandate(props) {
       <div className="mandate__sep block__separator">{/* Empty */}</div>
       <div className="mandate__dates">
         <div className="mandate__since">
-          <p>
-            <span style={{ color: props.color }}>{Date.yearsPassed}</span>{" "}
-            <strong>Ans</strong>
-          </p>
-          <p>
-            <span style={{ color: props.color }}>{Date.monthsPassed}</span>{" "}
-            <strong>Mois</strong>
-          </p>
+          {Date.yearsPassed > 0 ? (
+            <p>
+              <span style={{ color: props.color }}>{Date.yearsPassed}</span>{" "}
+              <strong>Ans</strong>
+            </p>
+          ) : null}
+          {Date.monthsPassed > 0 ? (
+            <p>
+              <span style={{ color: props.color }}>{Date.monthsPassed}</span>{" "}
+              <strong>Mois</strong>
+            </p>
+          ) : null}
+          {Date.monthsPassed === 0 && Date.yearsPassed === 0 ? (
+            <p>
+              <span style={{ color: props.color }}>{Date.daysPassed}</span>{" "}
+              <strong>Jours</strong>
+            </p>
+          ) : null}
+          <p></p>
           <p>
             <strong>d'activité</strong>
           </p>
