@@ -7,7 +7,7 @@ import React from "react"
 function Coworker(props) {
   const nameArray = props.coworker.split(" ")
   const title = nameArray.shift()
-  const justName = nameArray.join(" ")
+  const justName = nameArray.join(" ").toLowerCase()
 
   return (
     <div className="coworkers__coworker">
