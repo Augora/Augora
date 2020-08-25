@@ -37,8 +37,11 @@ const Header = ({ siteTitle }) => {
           {/* <Link to="/about" className="menu__item">
             A propos de nous
           </Link> */}
+          <Link to="/" className="menu__item">
+            Liste des Députés
+          </Link>
           <Link to="/faq" className="menu__item">
-            FAQ
+            F.A.Q
           </Link>
         </div>
       </div>
