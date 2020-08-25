@@ -2,6 +2,12 @@ import { Link } from "gatsby"
 import React, { useState, useEffect } from "react"
 import Logo from "../images/logos/projet/augora-logo.svg"
 
+function isActivePage(path) {
+  return `menu__item ${
+    window.location.pathname === path ? "menu__item--current" : ""
+  }`
+}
+
 const Header = ({ siteTitle }) => {
   const [Size, setSize] = useState("normal")
 
@@ -37,20 +43,10 @@ const Header = ({ siteTitle }) => {
           {/* <Link to="/about" className="menu__item">
             A propos de nous
           </Link> */}
-          <Link
-            to="/"
-            className={`menu__item ${
-              window.location.pathname === "/" ? "menu__item--current" : ""
-            }`}
-          >
+          <Link to="/" className={isActivePage("/")}>
             Liste des Députés
           </Link>
-          <Link
-            to="/faq"
-            className={`menu__item ${
-              window.location.pathname === "/faq" ? "menu__item--current" : ""
-            }`}
-          >
+          <Link to="/faq" className={isActivePage("/faq")}>
             F.A.Q
           </Link>
         </div>
