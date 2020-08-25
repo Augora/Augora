@@ -44,13 +44,11 @@ header#header.header {
       margin-left: 20px;
       text-transform: uppercase;
       font-family: "Augora", $font;
-      background: linear-gradient(to right, $main-color, $secondary-color);
-      background-clip: text;
-      color: $main-color;
-      -webkit-text-fill-color: transparent;
+      color: $text-color;
       transform: translate(-10px);
       opacity: 0;
-      transition: transform 0.4s $ease-out-quad, opacity 0.4s $ease-out-quad;
+      transition: transform 0.4s $ease-out-quad, opacity 0.4s $ease-out-quad,
+        color 0.4s $ease-in-out-quad;
       transition-delay: 0.5s;
     }
 
@@ -130,8 +128,9 @@ header#header.header {
     .header__site-name {
       opacity: 1;
       transform: translate(0);
-
-      transition: transform 0.2s $ease-out-back, opacity 0.2s $ease-out-quad;
+      color: $main-color;
+      transition: transform 0.2s $ease-out-back, opacity 0.2s $ease-out-quad,
+        color 0.2s $ease-in-out-quad;
       transition-delay: 0s;
     }
     .header__svg-wrapper {
