@@ -65,7 +65,12 @@ header#header.header {
         font-size: 16px;
         font-weight: bold;
         margin-right: 30px;
-        transition: color 0.3s $ease-out-expo;
+        opacity: 0.6;
+        transition: color 0.3s $ease-out-expo, opacity 0.3s $ease-in-out-expo;
+
+        &--current {
+          opacity: 1;
+        }
 
         &:last-child {
           margin-right: 0px;
@@ -94,6 +99,7 @@ header#header.header {
         // hover
         &:hover {
           color: $main-color;
+          opacity: 1;
           &::after {
             transform: scaleX(1);
             transform-origin: center left;

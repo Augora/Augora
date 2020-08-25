@@ -37,10 +37,20 @@ const Header = ({ siteTitle }) => {
           {/* <Link to="/about" className="menu__item">
             A propos de nous
           </Link> */}
-          <Link to="/" className="menu__item">
+          <Link
+            to="/"
+            className={`menu__item ${
+              window.location.pathname === "/" ? "menu__item--current" : ""
+            }`}
+          >
             Liste des Députés
           </Link>
-          <Link to="/faq" className="menu__item">
+          <Link
+            to="/faq"
+            className={`menu__item ${
+              window.location.pathname === "/faq" ? "menu__item--current" : ""
+            }`}
+          >
             F.A.Q
           </Link>
         </div>
