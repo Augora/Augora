@@ -26,10 +26,6 @@ const Header = ({ siteTitle, location }) => {
     }`
   }
 
-  useEffect(() => {
-    //
-  }, [location])
-
   const handleScroll = (event) => {
     if (window.scrollY > 50) {
       setSize("small")

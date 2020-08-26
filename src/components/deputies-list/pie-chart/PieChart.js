@@ -1,6 +1,5 @@
 import React from "react"
 import { ResponsivePie } from "@nivo/pie"
-import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
 import { Tooltip } from "components/tooltip/Tooltip"
 
 const PieChart = (props) => {
@@ -27,11 +26,6 @@ const PieChart = (props) => {
       radialLabelsLinkStrokeWidth={1}
       radialLabelsLinkColor={{ from: "color" }}
       slicesLabelsSkipAngle={10}
-      // slicesLabelsTextColor={(groupe) =>
-      //   getColorLuminosity(groupe.color) < 50
-      //     ? getTextColorContrast("light")
-      //     : getTextColorContrast("dark")
-      // }
       slicesLabelsTextColor="white"
       animate={true}
       motionStiffness={90}

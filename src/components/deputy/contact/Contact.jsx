@@ -38,7 +38,6 @@ const Contact = (props) => {
           <>
             <div className="contact__adresse">
               <button
-                role="copy"
                 onClick={() => handleClick(adresseDetails.Adresse)}
                 title="Copier"
               >

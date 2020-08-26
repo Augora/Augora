@@ -10,7 +10,13 @@ function Question(props) {
   const [Open, setOpen] = useState(false)
   return (
     <div className={`faq__question ${Open ? "faq__question--opened" : ""}`}>
-      <div className="faq__title-container" onClick={() => setOpen(!Open)}>
+      <div
+        className="faq__title-container"
+        onClick={() => setOpen(!Open)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={() => setOpen(!Open)}
+      >
         <GradientBanner />
         <h2>{props.title}</h2>
         <div className="arrow__icon icon-wrapper">
