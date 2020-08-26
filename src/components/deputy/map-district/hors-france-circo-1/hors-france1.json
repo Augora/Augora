@@ -1,8 +1,8 @@
 {
-  "type": ["FeatureCollection"],
+  "type": "FeatureCollection",
+  "properties": { "name": "Circo1" },
   "features": [
     {
-      "properties": { "name": "Circo1" },
       "type": "Feature",
       "geometry": {
         "type": "MultiPolygon",
