@@ -59,6 +59,10 @@
       transition: box-shadow 0.2s $ease-in-out-cubic,
         transform 0.2s $ease-in-out-cubic;
 
+      &:focus {
+        outline: none;
+      }
+
       h2 {
         font-family: $opensans;
         position: relative;
