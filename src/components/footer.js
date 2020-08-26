@@ -75,6 +75,11 @@ const Footer = () => {
               link: "http://accropolis.fr/",
               target: true,
             },
+            {
+              label: "Mentions légales",
+              link: "/mention-legales",
+              target: true,
+            },
           ])}
           {Menu("", [])}
           {Menu("Contact", [
