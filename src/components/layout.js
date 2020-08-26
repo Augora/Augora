@@ -42,9 +42,7 @@ const Layout = ({ children, location }) => {
         <meta name="twitter:image" content="/icons/icon-512x512.png" />
       </Helmet>
       <Header siteTitle={"Augora"} location={location} />
-      <main className="layout" style={{ padding: "120px 30px 100px" }}>
-        {children}
-      </main>
+      <main className="layout">{children}</main>
       <Footer />
     </>
   )
