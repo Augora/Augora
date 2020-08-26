@@ -2,14 +2,33 @@ import { Link } from "gatsby"
 import React, { useState, useEffect } from "react"
 import Logo from "../images/logos/projet/augora-logo.svg"
 
-function isActivePage(path) {
-  return `menu__item ${
-    window.location.pathname === path ? "menu__item--current" : ""
-  }`
+const pages = {
+  home: {
+    path: "/",
+    title: "Liste des Députés",
+  },
+  faq: {
+    path: "/faq",
+    title: "F.A.Q",
+  },
+  // about: {
+  //   path: "/about",
+  //   title: "A propos de nous"
+  // }
 }
 
-const Header = ({ siteTitle }) => {
+const Header = ({ siteTitle, location }) => {
   const [Size, setSize] = useState("normal")
+
+  function isActivePage(path) {
+    return `menu__item ${
+      location.pathname === path ? "menu__item--current" : ""
+    }`
+  }
+
+  useEffect(() => {
+    //
+  }, [location])
 
   const handleScroll = (event) => {
     if (window.scrollY > 50) {
@@ -40,15 +59,14 @@ const Header = ({ siteTitle }) => {
           </div>
         </Link>
         <div className="header__menu menu">
-          {/* <Link to="/about" className="menu__item">
-            A propos de nous
-          </Link> */}
-          <Link to="/" className={isActivePage("/")}>
-            Liste des Députés
-          </Link>
-          <Link to="/faq" className={isActivePage("/faq")}>
-            F.A.Q
-          </Link>
+          {Object.keys(pages).map((page) => (
+            <Link
+              to={pages[page].path}
+              className={isActivePage(pages[page].path)}
+            >
+              {pages[page].title}
+            </Link>
+          ))}
         </div>
       </div>
     </header>

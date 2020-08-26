@@ -20,7 +20,8 @@ const allColors = colors.map((color) => {
 // Dynamic header current page
 // TODO : Get current route to give state to Header ?
 
-const Layout = ({ children }) => {
+const Layout = ({ children, location }) => {
+  console.log("location", location)
   return (
     <>
       <Helmet>
@@ -40,7 +41,7 @@ const Layout = ({ children }) => {
         <meta name="twitter:description" content="" />
         <meta name="twitter:image" content="/icons/icon-512x512.png" />
       </Helmet>
-      <Header siteTitle={"Augora"} />
+      <Header siteTitle={"Augora"} location={location} />
       <section className="layout" style={{ padding: "120px 30px 100px" }}>
         <main>{children}</main>
       </section>
