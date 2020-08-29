@@ -11,7 +11,7 @@ import Deputy from "./deputy/Deputy"
 import { Tooltip } from "components/tooltip/Tooltip"
 
 const DeputiesList = (props) => {
-  const [
+  const {
     state,
     handleSearchValue,
     handleClickOnAllGroupes,
@@ -19,7 +19,7 @@ const DeputiesList = (props) => {
     handleClickOnSex,
     handleAgeSelection,
     handleReset,
-  ] = useDeputiesFilters(props.deputes, props.groupesDetails)
+  } = useDeputiesFilters(props.deputes, props.groupesDetails)
 
   const groupesData = props.groupesDetails
     .map((groupe) => {
@@ -61,7 +61,11 @@ const DeputiesList = (props) => {
         ></div>
         <Tooltip
           title={groupe.NomComplet}
-          nbDeputes={calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)}
+          nbDeputes={calculateNbDepute(
+            state.FilteredList,
+            "groupe",
+            groupe.Sigle
+          )}
           totalDeputes={props.deputes.length}
           color={groupe.Couleur}
         />

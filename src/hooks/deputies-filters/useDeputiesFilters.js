@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useFuzzy } from "react-use-fuzzy"
 import { deburr } from "lodash"
 
@@ -37,15 +37,6 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     SexValue,
     AgeDomain,
   })
-
-  const state = {
-    GroupeValue,
-    SexValue,
-    AgeDomain,
-    DeputiesList: deputiesList,
-    FilteredList,
-    Keyword: keyword,
-  }
 
   /*----------------------------------------------------*/
   // Handlers
@@ -90,7 +81,16 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     setAgeDomain(calculateAgeDomain(deputiesList))
   }
 
-  return [
+  const state = {
+    GroupeValue,
+    SexValue,
+    AgeDomain,
+    DeputiesList: deputiesList,
+    FilteredList,
+    Keyword: keyword,
+  }
+
+  return {
     state,
     handleSearchValue,
     handleClickOnAllGroupes,
@@ -98,5 +98,5 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     handleClickOnSex,
     handleAgeSelection,
     handleReset,
-  ]
+  }
 }
