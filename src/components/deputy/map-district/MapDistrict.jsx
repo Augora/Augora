@@ -1,8 +1,7 @@
 import React, { useEffect } from "react"
-// import styled from "styled-components"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
-import GEOJsonDistrict from "./list-district.json"
+import GEOJsonDistrict from "../../../static/list-district"
 import Block from "../_block/_Block"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
 const France = {

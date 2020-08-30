@@ -2,7 +2,7 @@ import React from "react"
 
 import SEO from "../components/seo"
 
-const About = () => (
+const AboutPage = () => (
   <>
     <SEO title="A propos de nous" />
     <div className="page page__about">
@@ -12,4 +12,4 @@ const About = () => (
   </>
 )
 
-export default About
+export default AboutPage

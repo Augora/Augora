@@ -95,7 +95,7 @@ const contentAbout = [
   },
 ]
 
-const About = () => {
+const FAQPage = () => {
   return (
     <>
       <SEO title="FAQ" />
@@ -114,4 +114,4 @@ const About = () => {
   )
 }
 
-export default About
+export default FAQPage
