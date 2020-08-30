@@ -2,6 +2,8 @@ import React, { useEffect } from "react"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonDistrict from "../static/list-district"
+import GEOJsonDpt from "../static/departements"
+import GeoJsonReg from "../static/regions"
 
 const France = {
   center: { lng: 1.88, lat: 46.6 },
@@ -24,12 +26,18 @@ const zoomOnFrance = (map) => {
 }
 
 const drawDistrictBox = (map, district) => {
-  // Dessiner la circonscription
   map.addLayer({
     id:
-      district.properties.nom_dpt.toLowerCase() +
-      "-" +
-      district.properties.num_circ,
+      // Dessiner les circonscriptions
+      // district.properties.nom_dpt.toLowerCase() +
+      // "-" +
+      // district.properties.num_circ,
+
+      // Dessiner les départements
+      district.properties.nom.toLowerCase() + "-" + district.properties.code,
+
+    // Dessiner les régions
+
     type: "fill",
     source: {
       type: "geojson",
@@ -57,8 +65,13 @@ const initializeMap = () => {
   map.on("style.load", () => {
     setTimeout(() => {
       zoomOnFrance(map)
-      GEOJsonDistrict.features.forEach((district, index) => {
-        drawDistrictBox(map, district)
+      // GEOJsonDistrict.features.forEach((district, index) => {
+      //   drawDistrictBox(map, district)
+      // })
+      //GEOJsonDpt.features.forEach((dpt, index) => {
+      //  drawDistrictBox(map, dpt)
+      GeoJsonReg.features.forEach((reg, index) => {
+        drawDistrictBox(map, reg)
       })
     }, 2000)
   })
@@ -74,6 +87,7 @@ const MapPage = () => {
   return (
     <>
       <div className="page page__map">
+        <div></div>
         <div className="map__container"></div>
       </div>
     </>
