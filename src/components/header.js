@@ -40,6 +40,9 @@ const Header = ({ siteTitle }) => {
           <Link to="/faq" className="menu__item">
             FAQ
           </Link>
+          <Link to="/map" className="menu__item">
+            Carte
+          </Link>
         </div>
       </div>
     </header>
