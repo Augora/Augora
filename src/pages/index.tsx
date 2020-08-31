@@ -5,11 +5,7 @@ import _ from "lodash"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
 
-const IndexPage = ({ data }) => {
-  const orderedGroupes = data.faunadb.GroupesParlementairesDetailsActifs.data.sort(
-    (a, b) => a.Ordre - b.Ordre
-  )
-  const deputies = _.shuffle(data.faunadb.DeputesEnMandat.data)
+const IndexPage = () => {
   return (
     <>
       <Helmet>
@@ -22,55 +18,10 @@ const IndexPage = ({ data }) => {
         <h1 style={{ textAlign: "center" }}>Liste des députés</h1>
       </header>
       <div>
-        <DeputiesList deputes={deputies} groupesDetails={orderedGroupes} />
+        <DeputiesList />
       </div>
     </>
   )
 }
 
 export default IndexPage
-
-export const query = graphql`
-  query DeputesQuery {
-    faunadb {
-      DeputesEnMandat(EstEnMandat: true, _size: 700) {
-        data {
-          LieuDeNaissance
-          DebutDuMandat
-          GroupeParlementaire {
-            Couleur
-            Sigle
-            NomComplet
-          }
-          Nom
-          NomCirconscription
-          NomDeFamille
-          NombreMandats
-          NumeroCirconscription
-          NumeroDepartement
-          parti_ratt_financier
-          PlaceEnHemicycle
-          Prenom
-          Profession
-          Sexe
-          Slug
-          Twitter
-          DateDeNaissance
-          Age
-          Collaborateurs
-          Emails
-          SitesWeb
-          URLPhotoAugora
-        }
-      }
-      GroupesParlementairesDetailsActifs(Actif: true) {
-        data {
-          Couleur
-          Sigle
-          Ordre
-          NomComplet
-        }
-      }
-    }
-  }
-`

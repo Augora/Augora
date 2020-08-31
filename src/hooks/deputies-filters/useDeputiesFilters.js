@@ -87,6 +87,7 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     AgeDomain,
     DeputiesList: deputiesList,
     FilteredList,
+    GroupesList: groupesList,
     Keyword: keyword,
   }
 

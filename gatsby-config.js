@@ -1,5 +1,4 @@
 const path = require("path")
-console.log(require.resolve(`./src/components/layout.js`))
 
 module.exports = {
   plugins: [

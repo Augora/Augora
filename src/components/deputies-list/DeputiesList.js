@@ -1,11 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
 
 import {
   calculateAgeDomain,
   calculateNbDepute,
   groupeIconByGroupeSigle,
 } from "./deputies-list-utils"
-import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { DeputiesListContext } from "../../context/deputies-filters/deputiesFiltersContext"
 import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import { Tooltip } from "components/tooltip/Tooltip"
@@ -19,25 +19,23 @@ const DeputiesList = (props) => {
     handleClickOnSex,
     handleAgeSelection,
     handleReset,
-  } = useDeputiesFilters(props.deputes, props.groupesDetails)
+  } = useContext(DeputiesListContext)
 
-  const groupesData = props.groupesDetails
-    .map((groupe) => {
-      const nbDeputeGroup = calculateNbDepute(
-        state.FilteredList,
-        "groupe",
-        groupe.Sigle
-      )
-      return Object.assign({
-        id: groupe.Sigle,
-        label: groupe.NomComplet,
-        value: nbDeputeGroup,
-        color: groupe.Couleur,
-      })
+  const groupesData = state.GroupesList.map((groupe) => {
+    const nbDeputeGroup = calculateNbDepute(
+      state.FilteredList,
+      "groupe",
+      groupe.Sigle
+    )
+    return Object.assign({
+      id: groupe.Sigle,
+      label: groupe.NomComplet,
+      value: nbDeputeGroup,
+      color: groupe.Couleur,
     })
-    .filter((groupe) => groupe.value !== 0)
+  }).filter((groupe) => groupe.value !== 0)
 
-  const allGroupes = props.groupesDetails.map((groupe) => {
+  const allGroupes = state.GroupesList.map((groupe) => {
     return (
       <button
         className={`groupe groupe--${groupe.Sigle} ${
@@ -66,7 +64,7 @@ const DeputiesList = (props) => {
             "groupe",
             groupe.Sigle
           )}
-          totalDeputes={props.deputes.length}
+          totalDeputes={state.DeputiesList.length}
           color={groupe.Couleur}
         />
       </button>
@@ -74,15 +72,11 @@ const DeputiesList = (props) => {
   })
 
   let ages = []
-  for (
-    let i = calculateAgeDomain(props.deputes)[0];
-    i <= calculateAgeDomain(props.deputes)[1];
-    i++
-  ) {
+  for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
     ages.push(i)
   }
   const groupesByAge = ages.map((age) => {
-    const valueOfDeputesByAge = props.deputes.filter((depute) => {
+    const valueOfDeputesByAge = state.DeputiesList.filter((depute) => {
       return depute.Age === age
     })
     const groupeValueByAge = () =>
@@ -96,7 +90,7 @@ const DeputiesList = (props) => {
     const groupeColorByAge = () =>
       Object.keys(state.GroupeValue).reduce((acc, groupe) => {
         return Object.assign(acc, {
-          [groupe + "Color"]: props.groupesDetails.filter(
+          [groupe + "Color"]: state.GroupesList.filter(
             (groupeFiltered) => groupeFiltered.Sigle === groupe
           )[0].Couleur,
         })
@@ -128,8 +122,8 @@ const DeputiesList = (props) => {
         keyword={state.Keyword}
         SexValue={state.SexValue}
         filteredList={state.FilteredList}
-        groupesDetails={props.groupesDetails}
-        deputes={props.deputes}
+        groupesDetails={state.GroupesList}
+        deputes={state.DeputiesList}
       />
       <section className="deputies__list">
         {state.FilteredList.length > 0 ? (

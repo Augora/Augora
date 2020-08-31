@@ -21,7 +21,6 @@ const allColors = colors.map((color) => {
 // TODO : Get current route to give state to Header ?
 
 const Layout = ({ children, location }) => {
-  console.log("location", location)
   return (
     <>
       <Helmet>
