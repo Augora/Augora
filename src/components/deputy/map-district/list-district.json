@@ -22682,7 +22682,7 @@
       "properties": {
         "ID": "90001",
         "code_dpt": "90",
-        "nom_dpt": "TERRITOIRE DE BELFORT",
+        "nom_dpt": "TERRITOIRE-DE-BELFORT",
         "nom_reg": "BOURGOGNE-FRANCHE-COMTE",
         "num_circ": "1",
         "code_reg": "27"
@@ -22724,7 +22724,7 @@
       "properties": {
         "ID": "90002",
         "code_dpt": "90",
-        "nom_dpt": "TERRITOIRE DE BELFORT",
+        "nom_dpt": "TERRITOIRE-DE-BELFORT",
         "nom_reg": "BOURGOGNE-FRANCHE-COMTE",
         "num_circ": "2",
         "code_reg": "27"
