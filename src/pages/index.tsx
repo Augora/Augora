@@ -1,15 +1,16 @@
 import React from "react"
 import Helmet from "react-helmet"
 import { graphql } from "gatsby"
-import _ from "lodash"
+import { sortBy } from "lodash"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
 
 const IndexPage = ({ data }) => {
-  const orderedGroupes = data.faunadb.GroupesParlementairesDetailsActifs.data.sort(
-    (a, b) => a.Ordre - b.Ordre
+  const groupesDetails = sortBy(
+    data.faunadb.GroupesParlementairesDetailsActifs.data,
+    ["Ordre"]
   )
-  const deputies = _.shuffle(data.faunadb.DeputesEnMandat.data)
+  const deputies = sortBy(data.faunadb.DeputesEnMandat.data, ["Ordre"])
   return (
     <>
       <Helmet>
@@ -22,7 +23,7 @@ const IndexPage = ({ data }) => {
         <h1 style={{ textAlign: "center" }}>Liste des députés</h1>
       </header>
       <div>
-        <DeputiesList deputes={deputies} groupesDetails={orderedGroupes} />
+        <DeputiesList deputes={deputies} groupesDetails={groupesDetails} />
       </div>
     </>
   )
@@ -61,6 +62,7 @@ export const query = graphql`
           Emails
           SitesWeb
           URLPhotoAugora
+          Ordre
         }
       }
       GroupesParlementairesDetailsActifs(Actif: true) {
