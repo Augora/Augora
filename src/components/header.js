@@ -11,6 +11,10 @@ const pages = {
     path: "/faq",
     title: "F.A.Q",
   },
+  map: {
+    path: "/carte",
+    title: "Carte",
+  },
   // about: {
   //   path: "/about",
   //   title: "A propos de nous"
