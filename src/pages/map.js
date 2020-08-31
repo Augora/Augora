@@ -3,12 +3,14 @@ import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonDistrict from "../static/list-district"
 import GEOJsonDpt from "../static/departements"
-import GeoJsonReg from "../static/regions"
+import GEOJsonReg from "../static/regions"
 
 const France = {
   center: { lng: 1.88, lat: 46.6 },
   northWest: { lng: -6.864165, lat: 50.839888 },
   southEast: { lng: 13.089067, lat: 41.284012 },
+  southWest: { lng: -10, lat: 40.2 },
+  northEast: { lng: 11, lat: 51.15 },
 }
 
 const zoomOnFrance = (map) => {
@@ -33,10 +35,8 @@ const drawDistrictBox = (map, district) => {
       // "-" +
       // district.properties.num_circ,
 
-      // Dessiner les départements
+      // Dessiner les départements ou les régions
       district.properties.nom.toLowerCase() + "-" + district.properties.code,
-
-    // Dessiner les régions
 
     type: "fill",
     source: {
@@ -58,9 +58,13 @@ const initializeMap = () => {
   const map = new mapboxgl.Map({
     container: document.querySelector(".map__container"), // container id
     style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-    center: France.center, // starting position [lng, lat]
+    //center: France.center, // starting position [lng, lat]
     // zoom: 9, // starting zoom
-    interactive: false,
+    interactive: true,
+    maxBounds: [
+      [France.southWest.lng, France.southWest.lat], // Appliquer Southwest coordinates
+      [France.northEast.lng, France.northEast.lat], // Appliquer Northeast coordinates
+    ],
   })
   map.on("style.load", () => {
     setTimeout(() => {
@@ -70,13 +74,29 @@ const initializeMap = () => {
       // })
       //GEOJsonDpt.features.forEach((dpt, index) => {
       //  drawDistrictBox(map, dpt)
-      GeoJsonReg.features.forEach((reg, index) => {
+      GEOJsonReg.features.forEach((reg, index) => {
         drawDistrictBox(map, reg)
       })
     }, 2000)
   })
+  GEOJsonReg.features.forEach((reg, index) => {
+    MouseEvents(map, reg)
+  })
 
   return map
+}
+
+const MouseEvents = (map, district) => {
+  map.on(
+    "click",
+    district.properties.nom.toLowerCase() + "-" + district.properties.code,
+    function (e) {
+      new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.nom)
+        .addTo(map)
+    }
+  )
 }
 
 const MapPage = () => {
