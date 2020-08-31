@@ -66,14 +66,14 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
       "fill-outline-color": "#f00",
     },
   })
-  // if (box) {
-  //   setTimeout(() => {
-  //     map.fitBounds(box, {
-  //       padding: 10,
-  //       maxZoom: 9,
-  //     })
-  //   }, 1000)
-  // }
+  if (box) {
+    setTimeout(() => {
+      map.fitBounds(box, {
+        padding: 10,
+        maxZoom: 9,
+      })
+    }, 1000)
+  }
 }
 
 /**
