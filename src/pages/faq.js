@@ -29,7 +29,7 @@ const contentAbout = [
     ),
   },
   {
-    title: "Qu’est-ce qu’un groupe parlementaire ?",
+    title: "Quelles sont nos sources ?",
     description: (
       <p>
         Nous utilisons des données publiques (open-data) venant de plusieurs
