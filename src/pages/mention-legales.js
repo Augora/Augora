@@ -21,12 +21,18 @@ const Mentions = () => {
           <br />
           <ul>
             <li>
-              <Link to="https://vercel.com/legal/privacy-policy">
+              <Link
+                to="https://vercel.com/legal/privacy-policy"
+                target="_blank"
+              >
                 https://vercel.com/legal/privacy-policy
               </Link>
             </li>
             <li>
-              <Link to="https://www.cloudflare.com/privacypolicy">
+              <Link
+                to="https://www.cloudflare.com/privacypolicy"
+                target="_blank"
+              >
                 https://www.cloudflare.com/privacypolicy
               </Link>
             </li>
@@ -44,17 +50,20 @@ const Mentions = () => {
           <br />
           Sauf mention contraire les contenus proposés sur ces différents sites
           sont mis à disposition sous licence{" "}
-          <Link to="https://licensebuttons.net/l/by-sa/2.0/fr/80x15.png">
+          <Link
+            to="https://licensebuttons.net/l/by-sa/2.0/fr/80x15.png"
+            target="_blank"
+          >
             Creative Commons BY-SA
           </Link>{" "}
-          et les
-          <Link to="https://opendatacommons.org/licenses/odbl/">
+          et les{" "}
+          <Link to="https://opendatacommons.org/licenses/odbl/" target="_blank">
             données sous licence ODBL.
           </Link>
           <br />
           Les photos des parlementaires sont utilisées à titre gratuit à partir
           des données officielles des sites officiels de l’
-          <Link to="http://www.assemblee-nationale.fr/">
+          <Link to="http://www.assemblee-nationale.fr/" target="_blank">
             Assemblée nationale
           </Link>{" "}
           et restent donc soumises aux conditions légales de réutilisation de
