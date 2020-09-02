@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React from "react"
 
 import SEO from "../components/seo"
 import { Link } from "gatsby"
@@ -10,7 +10,7 @@ const contentAbout = [
     title: "Qu’est-ce qu’un groupe parlementaire ?",
     description: (
       <p>
-        Un groupe parlementaire c'est pas un parti politique à proprement
+        Un groupe parlementaire n'est pas un parti politique à proprement
         parler.
       </p>
     ),
@@ -23,20 +23,24 @@ const contentAbout = [
         mettre à disposition des outils d'informations statistiques sur les
         députés via Augora.fr
         <br />
-        Si vous souhaitez en savoir plus sur l'associtation, consultez le lien{" "}
+        Si vous souhaitez en savoir plus sur l'association, consultez le lien{" "}
         <Link to="/about">A propos de nous</Link>
       </p>
     ),
   },
   {
-    title: "Qu’est-ce qu’un groupe parlementaire ?",
+    title: "Quelles sont nos sources ?",
     description: (
       <p>
         Nous utilisons des données publiques (open-data) venant de plusieurs
         sources :<br />
         <ul>
           <li>
-            <Link to="https://www.regardscitoyens.org">
+            <Link
+              target="_blank"
+              to="https://www.regardscitoyens.org"
+              rel="noopener"
+            >
               https://www.regardscitoyens.org
             </Link>
           </li>
@@ -100,7 +104,7 @@ const About = () => {
     <>
       <SEO title="FAQ" />
       <div className="page page__faq">
-        <h1>FAQ</h1>
+        <h1>Foire aux Questions</h1>
 
         {contentAbout.map((question, index) => (
           <Question

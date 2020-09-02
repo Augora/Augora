@@ -1,6 +1,5 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
-import { getColorLuminosity, getTextColorContrast } from "utils/style/color"
 import { Tooltip } from "components/tooltip/Tooltip"
 
 var nbTicks = [0, 50, 100, 150, 200, 250, 300]
@@ -33,11 +32,6 @@ export default function BarChart(props) {
       gridYValues={nbTicks}
       labelSkipWidth={12}
       labelSkipHeight={20}
-      // labelTextColor={(groupe) =>
-      //   getColorLuminosity(groupe.color) < 50
-      //     ? getTextColorContrast("light")
-      //     : getTextColorContrast("dark")
-      // }
       labelTextColor="white"
       tooltip={(tooltipInfo) => {
         let currentGroup = props.groupesDetails.find(
