@@ -1,7 +1,6 @@
 import React from "react"
 
 import SEO from "../components/seo"
-import { Link } from "gatsby"
 
 // Content
 
@@ -21,20 +20,17 @@ const Mentions = () => {
           <br />
           <ul>
             <li>
-              <Link
-                to="https://vercel.com/legal/privacy-policy"
-                target="_blank"
-              >
+              <a href="https://vercel.com/legal/privacy-policy" target="_blank">
                 https://vercel.com/legal/privacy-policy
-              </Link>
+              </a>
             </li>
             <li>
-              <Link
-                to="https://www.cloudflare.com/privacypolicy"
+              <a
+                href="https://www.cloudflare.com/privacypolicy"
                 target="_blank"
               >
                 https://www.cloudflare.com/privacypolicy
-              </Link>
+              </a>
             </li>
           </ul>
         </p>
@@ -50,22 +46,22 @@ const Mentions = () => {
           <br />
           Sauf mention contraire les contenus proposés sur ces différents sites
           sont mis à disposition sous licence{" "}
-          <Link
-            to="https://licensebuttons.net/l/by-sa/2.0/fr/80x15.png"
+          <a
+            href="https://creativecommons.org/licenses/by-sa/2.0/"
             target="_blank"
           >
             Creative Commons BY-SA
-          </Link>{" "}
+          </a>{" "}
           et les{" "}
-          <Link to="https://opendatacommons.org/licenses/odbl/" target="_blank">
+          <a href="https://opendatacommons.org/licenses/odbl/" target="_blank">
             données sous licence ODBL.
-          </Link>
+          </a>
           <br />
           Les photos des parlementaires sont utilisées à titre gratuit à partir
           des données officielles des sites officiels de l’
-          <Link to="http://www.assemblee-nationale.fr/" target="_blank">
+          <a href="http://www.assemblee-nationale.fr/" target="_blank">
             Assemblée nationale
-          </Link>{" "}
+          </a>{" "}
           et restent donc soumises aux conditions légales de réutilisation de
           ces sites.
         </p>
