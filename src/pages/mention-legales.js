@@ -60,7 +60,7 @@ const Mentions = () => {
           Les photos des parlementaires sont utilisées à titre gratuit à partir
           des données officielles des sites officiels de l’
           <a href="http://www.assemblee-nationale.fr/" target="_blank">
-            Assemblée nationale
+            Assemblée Nationale
           </a>{" "}
           et restent donc soumises aux conditions légales de réutilisation de
           ces sites.
