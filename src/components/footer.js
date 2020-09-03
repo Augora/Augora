@@ -78,7 +78,6 @@ const Footer = () => {
             {
               label: "Mentions légales",
               link: "/mention-legales",
-              target: true,
             },
           ])}
           {Menu("", [])}
