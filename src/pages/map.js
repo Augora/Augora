@@ -38,7 +38,6 @@ const drawDistrictBox = (map, id_district, district) => {
       // Dessiner les départements ou les régions
       //district.properties.nom.toLowerCase() + "-" + district.properties.code,
       id_district,
-
     type: "fill",
     source: district,
     layout: {},
@@ -73,11 +72,6 @@ const initializeMap = () => {
   map.on("style.load", () => {
     setTimeout(() => {
       zoomOnFrance(map)
-      // GEOJsonDistrict.features.forEach((district, index) => {
-      //   drawDistrictBox(map, district)
-      // })
-      //GEOJsonDpt.features.forEach((dpt, index) => {
-      //  drawDistrictBox(map, dpt)
       map.addSource("regions", {
         type: "geojson",
         data: GEOJsonReg,
@@ -93,6 +87,12 @@ const initializeMap = () => {
         data: GEOJsonDistrict,
         generateId: true,
       })
+      // GEOJsonDistrict.features.forEach((district, index) => {
+      //   drawDistrictBox(map, district)
+      // })
+      //GEOJsonDpt.features.forEach((dpt, index) => {
+      //  drawDistrictBox(map, dpt)
+
       drawDistrictBox(map, "regions", "regions")
       //GEOJsonReg.features.forEach((reg, index) => {
     }, 2000)
@@ -118,7 +118,6 @@ const MouseHover = (
   } else {
     CurrentDistrict = discrictCir
   }
-
   map.on("mousemove", CurrentDistrict, function (e) {
     if (e.features.length > 0) {
       if (hoveredZoneId) {
@@ -130,7 +129,9 @@ const MouseHover = (
           { hover: false }
         )
       }
+      console.log(CurrentDistrict)
       hoveredZoneId = e.features[0].id
+      console.log(e.features[0].id)
       map.setFeatureState(
         {
           source: CurrentDistrict,
@@ -173,6 +174,7 @@ const MouseEvents = (
     CurrentDistrict = discrictCir
   }
   map.on("click", CurrentDistrict, function (e) {
+    hoveredZoneId = null
     if (map.getLayer(CurrentDistrict)) map.removeLayer(CurrentDistrict)
     if (CurrentDistrict === "regions") {
       drawDistrictBox(map, "departements", "departements")
