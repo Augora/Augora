@@ -46,7 +46,7 @@ const Mentions = () => {
           <br />
           En cas de réclamation sur le contenu de ces sites, il est recommandé
           de nous adresser un courrier électronique : Association Augora -{" "}
-          <Link to="mailto:contact@augora.fr">contact@augora.fr</Link>.
+          <a href="mailto:contact@augora.fr">contact@augora.fr</a>.
           <br />
           Sauf mention contraire les contenus proposés sur ces différents sites
           sont mis à disposition sous licence{" "}
