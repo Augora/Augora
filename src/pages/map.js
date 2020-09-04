@@ -158,13 +158,7 @@ const MouseHover = (
   })
 }
 
-const MouseEvents = (
-  map,
-  districtReg,
-  districtDpt,
-  discrictCir,
-  hoveredZoneId
-) => {
+const MouseEvents = (map, districtReg, districtDpt, discrictCir) => {
   var CurrentDistrict = null
   if (districtReg) {
     CurrentDistrict = districtReg
@@ -174,10 +168,15 @@ const MouseEvents = (
     CurrentDistrict = discrictCir
   }
   map.on("click", CurrentDistrict, function (e) {
-    hoveredZoneId = null
     if (map.getLayer(CurrentDistrict)) map.removeLayer(CurrentDistrict)
     if (CurrentDistrict === "regions") {
       drawDistrictBox(map, "departements", "departements")
+      console.log(e.features[0].properties.code_reg)
+      map.setFilter("departements", [
+        "==",
+        ["get", "code_reg"],
+        e.features[0].properties.code_reg,
+      ])
     } else if (CurrentDistrict === "departements") {
       drawDistrictBox(map, "circonscriptions", "circonscriptions")
     }
