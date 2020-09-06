@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 // import styled from "styled-components"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
-import GEOJsonDistrict from "./list-district.json"
+import GEOJsonDistrict from "../../../static/list-district.json"
 import Block from "../_block/_Block"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
 const France = {
@@ -66,6 +66,7 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
       "fill-outline-color": "#f00",
     },
   })
+  map.setPadding({ top: 90, left: 40, right: 40, bottom: 40 })
   if (box) {
     setTimeout(() => {
       map.fitBounds(box, {
