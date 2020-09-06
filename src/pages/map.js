@@ -253,7 +253,9 @@ const MapPage = () => {
   return (
     <>
       <div className="page page__map">
-        <div></div>
+        <div>
+          <button onClick={(e) => initializeMap()}>Reset</button>
+        </div>
         <div className="map__container"></div>
       </div>
     </>
