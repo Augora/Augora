@@ -21,16 +21,17 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   }
 }
 
-exports.onCreateNode = ({ node, getNode, actions }) => {
-  const { createNodeField } = actions
-  if (node.internal.type === `MarkdownRemark`) {
-    const slug = createFilePath({ node, getNode, basePath: `pages` })
-    createNodeField({
-      node,
-      name: `slug`,
-      value: slug,
-    })
-  }
+exports.createResolvers = ({ createResolvers }) => {
+  createResolvers({
+    FaunaDB_Depute: {
+      Ordre: {
+        type: "Int",
+        resolve: (source, args, context) => {
+          return Math.floor(Math.random() * 5000)
+        },
+      },
+    },
+  })
 }
 
 exports.createPages = async ({ graphql, actions }) => {

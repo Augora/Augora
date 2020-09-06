@@ -5,7 +5,7 @@ const svgWidth = 1200
 const svgHeight = 60
 const rectWidth = 100
 const rectSkew = 25
-const rectMaxX = svgWidth - rectWidth / 2
+// const rectMaxX = svgWidth - rectWidth / 2
 
 const gbStyles = {
   position: "absolute",

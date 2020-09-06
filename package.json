@@ -47,7 +47,7 @@
     "build": "gatsby build",
     "rebuild": "gatsby clean && gatsby build",
     "develop": "gatsby develop",
-    "start": "gatsby develop",
+    "start": "gatsby develop --open",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "prettier-scss": "prettier --write \"**/*.scss\"",
     "serve": "gatsby serve",
