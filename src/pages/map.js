@@ -164,7 +164,8 @@ const MouseHover = (
   }
   map.on("mousemove", CurrentDistrict, function (e) {
     if (e.features.length > 0) {
-      if (hoveredZoneId) {
+      console.log(hoveredZoneId)
+      if (hoveredZoneId || hoveredZoneId === 0) {
         map.setFeatureState(
           {
             source: CurrentDistrict,
