@@ -12,7 +12,7 @@ const pages = {
     title: "F.A.Q",
   },
   carte: {
-    path: "map",
+    path: "/map",
     title: "Carte de France",
   },
   // about: {
