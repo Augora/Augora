@@ -1,7 +1,5 @@
 import React, { useState } from "react"
 
-// import BarChart from "./BarChart/D3BarChart"
-// import PieChart from "./PieChart/D3PieChart"
 import { useFuzzy } from "react-use-fuzzy"
 import { deburr } from "lodash"
 import IconOk from "../../images/ui-kit/icon-ok.svg"
@@ -20,7 +18,6 @@ import {
   groupesArrayToObject,
   groupeIconByGroupeSigle,
 } from "./deputies-list-utils"
-import { calculatePercentage } from "utils/math/percentage"
 import PieChart from "./pie-chart/PieChart"
 import BarChart from "./bar-chart/BarChart"
 import ComplexBarChart from "./complexe-bar-chart/ComplexBarChart"
@@ -195,7 +192,13 @@ const DeputiesList = (props) => {
         <section className="filters__line filters__line--charts">
           <div className="filters__charts">
             {HasPieChart ? (
-              <div className="piechart chart" onClick={handleChartSelection}>
+              <div
+                className="piechart chart"
+                onClick={handleChartSelection}
+                onKeyDown={handleChartSelection}
+                role="button"
+                tabIndex={0}
+              >
                 <PieChart
                   data={groupesData}
                   totalNumberDeputies={props.deputes.length}
@@ -203,7 +206,13 @@ const DeputiesList = (props) => {
                 />
               </div>
             ) : (
-              <div className="barchart chart" onClick={handleChartSelection}>
+              <div
+                className="barchart chart"
+                onClick={handleChartSelection}
+                onKeyDown={handleChartSelection}
+                role="button"
+                tabIndex={0}
+              >
                 <BarChart
                   data={groupesData}
                   totalNumberDeputies={props.deputes.length}

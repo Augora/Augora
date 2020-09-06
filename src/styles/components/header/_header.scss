@@ -54,19 +54,23 @@ header#header.header {
 
     // Menu
     &__menu {
+      position: absolute;
+      transform: translateX(-50%);
+      left: 50%;
       .menu__item {
         position: relative;
-
-        color: $black;
+        color: $text-color;
         text-decoration: none;
         font-family: $font;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: bold;
-        text-transform: uppercase;
+        margin-right: 30px;
+        opacity: 0.6;
+        transition: color 0.3s $ease-out-expo, opacity 0.3s $ease-in-out-expo;
 
-        margin-right: 20px;
-
-        transition: color 0.3s $ease-out-expo;
+        &--current {
+          opacity: 1;
+        }
 
         &:last-child {
           margin-right: 0px;
@@ -81,6 +85,7 @@ header#header.header {
 
           width: 100%;
           height: 3px;
+          margin-top: 3px;
 
           // background-color: $black;
           background: linear-gradient(to right, $main-color, $secondary-color);
@@ -94,6 +99,7 @@ header#header.header {
         // hover
         &:hover {
           color: $main-color;
+          opacity: 1;
           &::after {
             transform: scaleX(1);
             transform-origin: center left;
@@ -153,8 +159,7 @@ header#header.header {
         width: 30px;
       }
       &__site-name {
-        transform: translate3d(0px, 0, 0);
-        opacity: 1;
+        display: none;
       }
     }
   }
