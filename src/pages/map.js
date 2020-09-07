@@ -63,11 +63,11 @@ const UpdateDistrictBox = (map, district, box) => {
   }
 }
 
-const drawDistrictBox = (map, id_district, district, hoveredZoneId) => {
+const drawDistrictBox = (map, zone) => {
   map.addLayer({
-    id: id_district,
+    id: zone,
     type: "fill",
-    source: district,
+    source: zone,
     layout: {},
     paint: {
       "fill-color": "#fff",
@@ -80,31 +80,6 @@ const drawDistrictBox = (map, id_district, district, hoveredZoneId) => {
       "fill-outline-color": "#f00",
     },
   })
-  // map.addLayer({
-  //   id: "nbDepute",
-  //   type: "circle",
-  //   source: "circonscriptions",
-  //   paint: {
-  //     "circle-color": {
-  //       property: "code_reg",
-  //     },
-  //     "circle-opacity": 1.0,
-  //     "circle-radius": 20,
-  //   },
-  // })
-  MouseEvents(map, "regions", "departements", "circonscriptions")
-  MouseHover(map, hoveredZoneId, "regions", "departements", "circonscriptions")
-  var selectedDistrict = null
-
-  if (hoveredZoneId) {
-    if (district === "departements") {
-      selectedDistrict = GEOJsonReg.features.find((district) => {
-        return district.properties.code_reg.toLowerCase() === hoveredZoneId
-      })
-    }
-    getSelectedDistrictBox(map, selectedDistrict)
-    map.setPadding({ top: 20, left: 20, right: 20, bottom: 20 })
-  }
 }
 
 const initializeMap = () => {
@@ -140,35 +115,24 @@ const initializeMap = () => {
         data: GEOJsonDistrict,
         generateId: true,
       })
-      drawDistrictBox(map, "regions", "regions")
+      drawDistrictBox(map, "regions")
+      MouseHover(map, hoveredZoneId, "regions")
+      MouseClick(map, "regions")
+      MouseHover(map, hoveredZoneId, "departements")
+      MouseClick(map, "departements")
     }, 2000)
   })
-  // MouseEvents(map, "regions", "departements", "circonscriptions")
-  // MouseHover(map, hoveredZoneId, "regions", "departements", "circonscriptions")
+
   return map
 }
-const MouseHover = (
-  map,
-  hoveredZoneId,
-  districtReg,
-  districtDpt,
-  discrictCir
-) => {
-  var CurrentDistrict = null
-  if (districtReg) {
-    CurrentDistrict = districtReg
-  } else if (districtDpt) {
-    CurrentDistrict = districtDpt
-  } else {
-    CurrentDistrict = discrictCir
-  }
-  map.on("mousemove", CurrentDistrict, function (e) {
+
+const MouseHover = (map, hoveredZoneId, zone) => {
+  map.on("mousemove", zone, function (e) {
     if (e.features.length > 0) {
-      console.log(hoveredZoneId)
       if (hoveredZoneId || hoveredZoneId === 0) {
         map.setFeatureState(
           {
-            source: CurrentDistrict,
+            source: zone,
             id: hoveredZoneId,
           },
           { hover: false }
@@ -177,7 +141,7 @@ const MouseHover = (
       hoveredZoneId = e.features[0].id
       map.setFeatureState(
         {
-          source: CurrentDistrict,
+          source: zone,
           id: hoveredZoneId,
         },
         { hover: true }
@@ -185,11 +149,11 @@ const MouseHover = (
     }
   })
 
-  map.on("mouseleave", CurrentDistrict, function () {
+  map.on("mouseleave", zone, function () {
     if (hoveredZoneId) {
       map.setFeatureState(
         {
-          source: CurrentDistrict,
+          source: zone,
           id: hoveredZoneId,
         },
         { hover: false }
@@ -199,48 +163,46 @@ const MouseHover = (
   })
 }
 
-const MouseEvents = (map, districtReg, districtDpt, discrictCir) => {
-  var CurrentDistrict = null
-  if (districtReg) {
-    CurrentDistrict = districtReg
-  } else if (districtDpt) {
-    CurrentDistrict = districtDpt
-  } else {
-    CurrentDistrict = discrictCir
-  }
-  map.on("click", CurrentDistrict, function (e) {
-    if (map.getLayer(CurrentDistrict)) map.removeLayer(CurrentDistrict)
-    if (CurrentDistrict === "regions") {
-      drawDistrictBox(
-        map,
-        "departements",
-        "departements",
-        e.features[0].properties.code_reg
-      )
+const MouseClick = (map, zone) => {
+  map.on("click", zone, function (e) {
+    if (map.getLayer(zone)) map.removeLayer(zone)
+    if (zone === "regions") {
+      drawDistrictBox(map, "departements")
       map.setFilter("departements", [
         "==",
         ["get", "code_reg"],
         e.features[0].properties.code_reg,
       ])
-    } else if (CurrentDistrict === "departements") {
-      drawDistrictBox(
-        map,
-        "circonscriptions",
-        "circonscriptions",
-        e.features[0].properties.code_dpt
-      )
+      var selectedDistrict = GEOJsonReg.features.find((district) => {
+        return (
+          district.properties.code_reg.toLowerCase() ===
+          e.features[0].properties.code_reg
+        )
+      })
+      getSelectedDistrictBox(map, selectedDistrict)
+    } else if (zone === "departements") {
+      drawDistrictBox(map, "circonscriptions")
       map.setFilter("circonscriptions", [
         "==",
         ["get", "code_dpt"],
         e.features[0].properties.code_dpt,
       ])
+      var selectedDistrict = GEOJsonDpt.features.find((district) => {
+        return (
+          district.properties.code_dpt.toLowerCase() ===
+          e.features[0].properties.code_dpt
+        )
+      })
+      getSelectedDistrictBox(map, selectedDistrict)
+    } else {
     }
+    map.setPadding({ top: 20, left: 20, right: 20, bottom: 20 })
   })
-  map.on("mouseenter", CurrentDistrict, function () {
+  map.on("mouseenter", zone, function () {
     map.getCanvas().style.cursor = "pointer"
   })
 
-  map.on("mouseleave", CurrentDistrict, function () {
+  map.on("mouseleave", zone, function () {
     map.getCanvas().style.cursor = ""
   })
 }
