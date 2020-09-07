@@ -12,7 +12,7 @@ const contentAbout = [
       <p>
         Nous sommes une association à but non lucratif qui a pour vocation de
         mettre à disposition des outils d'informations statistiques sur les
-        députés via Augora.fr.
+        députés via <strong>Augora.fr</strong>.
         <br />
       </p>
     ),
@@ -25,20 +25,32 @@ const contentAbout = [
         Il permet de s'organiser au sein de l'Assemblée Nationale. Les députés
         qui composent un groupe peuvent faire partie de différents mouvements
         politiques.
-      </p>
-    ),
-  },
-  {
-    title: "Qu’est-ce qu’un député 'non-inscrit' ?",
-    description: (
-      <p>
+        <br />
         Lorsqu'un député fait parti d'un groupe parlementaire de moins de 15
         députés, il est assigné aux non-inscrits.
+        <br />
+        Il est à noter que le temps de parole est distribué en fonction de
+        l'effectif des groupes. De plus, les commissions parlementaires sont
+        composées en proportion de l'importance des groupes.
+        <br />
+        En général, un député d'un groupe politique est dans le groupe
+        parlementaire du même nom. Mais il se peut que certains parties
+        politiques s'allient pour être dans un même groupe parlementaire.
+        <br />
+        Pour plus d'informations, vous pouvez vous référer à la{" "}
+        <Link
+          target="_blank"
+          to="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-organes-de-l-assemblee-nationale/les-groupes-politiques"
+          rel="noopener"
+        >
+          fiche de synthèse de l'Assemblée Nationale
+        </Link>
+        .
       </p>
     ),
   },
   {
-    title: "Comment est géré l'affichage des députés dans le listing ?",
+    title: "Comment les députés sont-ils triés ?",
     description: (
       <p>
         Nous avons choisit un affichage aléatoire des députés pour éviter de
@@ -87,9 +99,9 @@ const contentAbout = [
     title: "Comment nous soutenir ?",
     description: (
       <p>
-        Nous avons ouvert une page Tipeee afin de recueillir des dons, étant une
-        association à but non lucratif, nous ne retirons aucuns avantages
-        personnels aux dons.
+        Nous avons ouvert une page <strong>Tipeee</strong> afin de recueillir
+        des dons, étant une association à but non lucratif, nous ne retirons
+        aucuns avantages personnels aux dons.
       </p>
     ),
   },
