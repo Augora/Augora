@@ -13,49 +13,72 @@ const contentAbout = [
         Nous sommes une association à but non lucratif qui a pour vocation de
         mettre à disposition des outils d'informations statistiques sur les
         députés via <strong>Augora.fr</strong>.
-        <br />
       </p>
     ),
   },
   {
     title: "Qu’est-ce qu’un groupe parlementaire ?",
     description: (
-      <p>
-        Un groupe parlementaire est un ensemble composé de minimum 15 députés.
-        Il permet de s'organiser au sein de l'Assemblée Nationale. Les députés
-        qui composent un groupe peuvent faire partie de différents mouvements
-        politiques.
-        <br />
-        Lorsqu'un député fait parti d'un groupe parlementaire de moins de 15
-        députés, il est assigné aux non-inscrits.
-        <br />
-        Il est à noter que le temps de parole est distribué en fonction de
-        l'effectif des groupes. De plus, les commissions parlementaires sont
-        composées en proportion de l'importance des groupes.
-        <br />
-        En général, un député d'un groupe politique est dans le groupe
-        parlementaire du même nom. Mais il se peut que certains parties
-        politiques s'allient pour être dans un même groupe parlementaire.
-        <br />
-        Pour plus d'informations, vous pouvez vous référer à la{" "}
-        <a
-          href="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-organes-de-l-assemblee-nationale/les-groupes-politiques"
-          target="_blank"
-          rel="noopener"
-        >
-          fiche de synthèse de l'Assemblée Nationale
-        </a>
-        .
-      </p>
+      <div>
+        <p>
+          Un groupe parlementaire est un ensemble composé de minimum 15 députés.
+          Il permet de s'organiser au sein de l'Assemblée Nationale. Les députés
+          qui composent un groupe peuvent faire partie de différents mouvements
+          politiques.
+        </p>
+        <p>
+          Lorsqu'un député fait parti d'un groupe parlementaire de moins de 15
+          députés, il est assigné aux non-inscrits.
+        </p>
+        <p>
+          Il faut bien différencier{" "}
+          <a
+            href="https://fr.wikipedia.org/wiki/Parti_politique"
+            target="_blank"
+            rel="noopener"
+          >
+            parti politique
+          </a>{" "}
+          et{" "}
+          <a
+            href="https://fr.wikipedia.org/wiki/Groupe_parlementaire"
+            target="_blank"
+            rel="noopener"
+          >
+            groupe parlementaire
+          </a>
+          , car l'assemblée nationale fonctionne uniquement avec les groupes
+          parlementaires.
+        </p>
+        <p>
+          Il est à noter que le temps de parole est distribué en fonction de
+          l'effectif des groupes. De plus, les commissions parlementaires sont
+          composées en proportion de l'importance des groupes.
+        </p>
+        <p>
+          En général, un député d'un parti politique est dans le groupe
+          parlementaire du même nom quand il existe. Mais il se peut que
+          certains partis politiques s'allient pour être dans un même groupe
+          parlementaire. Pour plus d'informations, vous pouvez vous référer à la{" "}
+          <a
+            href="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-organes-de-l-assemblee-nationale/les-groupes-politiques"
+            target="_blank"
+            rel="noopener"
+          >
+            fiche de synthèse de l'Assemblée Nationale
+          </a>
+          .
+        </p>
+      </div>
     ),
   },
   {
     title: "Comment les députés sont-ils triés ?",
     description: (
       <p>
-        Nous avons choisit un affichage aléatoire des députés pour éviter de
+        Nous avons choisi un affichage aléatoire des députés pour éviter de
         mettre certains groupes en avant, dans un soucis de transparence. Tous
-        les jours, l'ordre des députés affichés change.
+        les jours, l'ordre des députés affichés changera.
       </p>
     ),
   },
