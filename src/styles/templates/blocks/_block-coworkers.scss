@@ -7,18 +7,24 @@
   }
   .deputy__coworkers {
     text-align: center;
-    display: flex;
-    flex-flow: column wrap;
-    max-height: 100%;
-    justify-content: center;
     .coworker__name {
       margin: 0;
-      text-transform: capitalize;
     }
     .coworker__name-title {
       display: block;
       text-transform: uppercase;
       font-weight: 900;
+    }
+    .coworker__name-content {
+      text-transform: capitalize;
+    }
+
+    .coworkers__coworker--compact {
+      margin-bottom: 8px;
+      .coworker__name-title {
+        display: inline;
+        margin-right: 5px;
+      }
     }
   }
 }
