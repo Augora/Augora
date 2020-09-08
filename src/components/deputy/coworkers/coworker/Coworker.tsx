@@ -11,15 +11,14 @@ function Coworker(props) {
 
   return (
     <div
-      className={
-        !props.isCompact
-          ? "coworkers__coworker"
-          : "coworkers__coworker--compact"
-      }
+      className={`cowoerkers__coworker ${
+        props.isCompact ? "coworkers__coworker--compact" : null
+      }`}
     >
       <p className="coworker__name">
         <span className="coworker__name-title" style={{ color: props.color }}>
           {title}
+          {/* {props.isCompact ? "&nbsp;" : null} */}
         </span>
         <span className="coworker__name-content">{justName}</span>
       </p>

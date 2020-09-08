@@ -21,9 +21,15 @@
 
     .coworkers__coworker--compact {
       margin-bottom: 8px;
+      .coworker__name {
+        display: flex;
+        justify-content: center;
+      }
       .coworker__name-title {
-        display: inline;
         margin-right: 5px;
+      }
+      .coworker__name-content {
+        display: block;
       }
     }
   }
