@@ -58,7 +58,11 @@ class OneDeputy extends Component {
       >
         <h2>{this.props.data.Nom}</h2>
         <img
-          className="deputy__photo"
+          className={
+            this.state.errored === false
+              ? "deputy__photo"
+              : "deputy__photo--errored"
+          }
           src={this.state.src}
           alt={this.props.data.Slug}
           onError={() => this.deputeImageBySexe(this.props.data.Sexe)}
