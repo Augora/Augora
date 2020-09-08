@@ -18,7 +18,6 @@ function Coworker(props) {
       <p className="coworker__name">
         <span className="coworker__name-title" style={{ color: props.color }}>
           {title}
-          {/* {props.isCompact ? "&nbsp;" : null} */}
         </span>
         <span className="coworker__name-content">{justName}</span>
       </p>
