@@ -38,13 +38,13 @@ const contentAbout = [
         politiques s'allient pour être dans un même groupe parlementaire.
         <br />
         Pour plus d'informations, vous pouvez vous référer à la{" "}
-        <Link
+        <a
+          href="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-organes-de-l-assemblee-nationale/les-groupes-politiques"
           target="_blank"
-          to="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-organes-de-l-assemblee-nationale/les-groupes-politiques"
           rel="noopener"
         >
           fiche de synthèse de l'Assemblée Nationale
-        </Link>
+        </a>
         .
       </p>
     ),
@@ -64,13 +64,13 @@ const contentAbout = [
     description: (
       <p>
         Nous utilisons des données publiques (open-data) venant de :{" "}
-        <Link
+        <a
+          href="https://www.regardscitoyens.org"
           target="_blank"
-          to="https://www.regardscitoyens.org"
           rel="noopener"
         >
           https://www.regardscitoyens.org
-        </Link>
+        </a>
       </p>
     ),
   },
