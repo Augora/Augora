@@ -2,19 +2,22 @@ import { Link } from "gatsby"
 import React, { useState, useEffect } from "react"
 import Logo from "../images/logos/projet/augora-logo.svg"
 
-const pages = {
+const mainPages = {
   home: {
     path: "/",
-    title: "Liste des Députés",
+    title: "Députés",
   },
-  faq: {
-    path: "/faq",
-    title: "F.A.Q",
-  },
+}
+
+const secondaryPages = {
   // about: {
   //   path: "/about",
-  //   title: "A propos de nous"
-  // }
+  //   title: "A propos de nous",
+  // },
+  faq: {
+    path: "/faq",
+    title: "FAQ",
+  },
 }
 
 const Header = ({ siteTitle, location }) => {
@@ -24,6 +27,17 @@ const Header = ({ siteTitle, location }) => {
     return `menu__item ${
       location.pathname === path ? "menu__item--current" : ""
     }`
+  }
+
+  function setLinks(pageGroup) {
+    return Object.keys(pageGroup).map((page) => (
+      <Link
+        to={pageGroup[page].path}
+        className={isActivePage(pageGroup[page].path)}
+      >
+        {pageGroup[page].title}
+      </Link>
+    ))
   }
 
   const handleScroll = (event) => {
@@ -55,14 +69,9 @@ const Header = ({ siteTitle, location }) => {
           </div>
         </Link>
         <div className="header__menu menu">
-          {Object.keys(pages).map((page) => (
-            <Link
-              to={pages[page].path}
-              className={isActivePage(pages[page].path)}
-            >
-              {pages[page].title}
-            </Link>
-          ))}
+          {setLinks(mainPages)}
+          <span className="menu__separator" />
+          {setLinks(secondaryPages)}
         </div>
       </div>
     </header>
