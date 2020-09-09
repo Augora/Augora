@@ -3,8 +3,7 @@
 import React, { Component } from "react"
 import { Link } from "gatsby"
 import { groupeIconByGroupeSigle } from "../deputies-list-utils"
-import missingFemale from "images/ui-kit/missingfemale.png"
-import missingMale from "images/ui-kit/missingmale.png"
+import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
 class OneDeputy extends Component {
   constructor(props) {
@@ -13,8 +12,6 @@ class OneDeputy extends Component {
       opened: false,
       color: this.props.data.GroupeParlementaire.Couleur,
       sigle: this.props.data.GroupeParlementaire.NomComplet,
-      src: this.props.data.URLPhotoAugora,
-      errored: false,
     }
 
     this.expand = this.expand.bind(this)
@@ -29,22 +26,6 @@ class OneDeputy extends Component {
     })
   }
 
-  deputeImageBySexe = (sexe) => {
-    var deputyImageByDefault
-    if (!this.state.errored) {
-      if (sexe === "H") {
-        deputyImageByDefault = missingMale
-      } else {
-        deputyImageByDefault = missingFemale
-      }
-
-      this.setState({
-        src: deputyImageByDefault,
-        errored: true,
-      })
-    }
-  }
-
   render() {
     return (
       <Link
@@ -57,13 +38,10 @@ class OneDeputy extends Component {
         }}
       >
         <h2>{this.props.data.Nom}</h2>
-        <img
-          className={`deputy__photo ${
-            this.state.errored ? "deputy__photo--errored" : null
-          }`}
-          src={this.state.src}
+        <DeputyImage
+          src={this.props.data.URLPhotoAugora}
           alt={this.props.data.Slug}
-          onError={() => this.deputeImageBySexe(this.props.data.Sexe)}
+          sex={this.props.data.Sexe}
         />
         <div className="deputy__icon-container">
           <img
