@@ -67,7 +67,14 @@ function Deputy({ data }) {
                 <IconMail />
               </div>
             </a>
-          ) : null}
+          ) : (
+            <div
+              className="deputy__icon deputy__icon--missing"
+              title="Pas d'adresse e-mail renseignée"
+            >
+              <IconMail />
+            </div>
+          )}
           {deputy.SitesWeb.length > 0 ? (
             <a
               href={deputy.SitesWeb[0]}
@@ -79,7 +86,14 @@ function Deputy({ data }) {
                 <IconWebsite />
               </div>
             </a>
-          ) : null}
+          ) : (
+            <div
+              className="deputy__icon deputy__icon--missing"
+              title="Pas de Site Web renseignée"
+            >
+              <IconWebsite />
+            </div>
+          )}
           {/* <a href="" className="btn btn--facebook">
             <div className="deputy__icon">
               <IconFacebook />
@@ -96,7 +110,14 @@ function Deputy({ data }) {
                 <IconTwitter />
               </div>
             </a>
-          ) : null}
+          ) : (
+            <div
+              className="deputy__icon deputy__icon--missing"
+              title="Pas d'adresse Twitter renseignée"
+            >
+              <IconTwitter />
+            </div>
+          )}
         </div>
       </div>
       <DeputyStyles className="single-deputy">
