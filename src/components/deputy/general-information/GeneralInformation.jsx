@@ -58,7 +58,7 @@ export default function GeneralInformation(props) {
               <div>ans</div>
             </div>
             <div className="main__birthday">
-              <h3>Né le</h3>
+              <h3>{props.sexe === "F" ? `Née le` : `Né le`}</h3>
               <p className="birthday__day-month">
                 <strong>{Date.day}</strong> {Date.month}
               </p>
