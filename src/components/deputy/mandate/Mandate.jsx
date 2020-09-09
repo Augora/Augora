@@ -64,7 +64,6 @@ export default function Mandate(props) {
         </div>
         <div className="number__title">mandat</div>
       </div>
-      <div className="mandate__sep block__separator">{/* Empty */}</div>
       <div className="mandate__dates">
         <div className="mandate__since">
           {Date.yearsPassed > 0 ? (
