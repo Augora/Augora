@@ -19,7 +19,12 @@ export default function _Block(props) {
         props.size ? props.size : "medium"
       }`}
     >
-      <Header type={props.type} title={props.title} color={props.color} />
+      <Header
+        type={props.type}
+        title={props.title}
+        color={props.color}
+        circ={props.circ}
+      />
       <BlockBackground
         type={props.type}
         color={props.color}

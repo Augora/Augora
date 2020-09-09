@@ -114,14 +114,8 @@ const MapDistrict = (props) => {
       type="map"
       color={props.color}
       size={props.size}
+      circ={{ region: props.nom, circNb: props.num }}
     >
-      <div className="map__text-wrapper">
-        <p className="map__title">{props.nom}</p>
-        <p className="map__number">
-          {props.num}
-          {props.num < 2 ? "ère" : "ème"} circonscription
-        </p>
-      </div>
       <div className="map__container"></div>
     </Block>
   )

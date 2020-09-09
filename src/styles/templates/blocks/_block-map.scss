@@ -1,4 +1,14 @@
 .block__map {
+  .header__title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    small {
+      font-size: 0.6em;
+    }
+  }
+
   .map {
     &__content {
       padding: 0px;
