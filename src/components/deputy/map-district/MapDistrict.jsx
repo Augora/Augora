@@ -65,6 +65,7 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
       "fill-outline-color": "#f00",
     },
   })
+  map.setPadding({ top: 90, left: 40, right: 40, bottom: 40 })
   if (box) {
     setTimeout(() => {
       map.fitBounds(box, {
