@@ -8,8 +8,7 @@ import IconGroupe from "images/ui-kit/icon-group.svg"
  * Return deputy's coworkers in a Block component
  * @param props
  */
-function Coworkers(props)
-{
+function Coworkers(props) {
   return (
     <Block
       title="Assistants"
@@ -22,13 +21,13 @@ function Coworkers(props)
         <IconGroupe />
       </div>
       <div className="deputy__coworkers">
-        {props.coworkers.map((coworker) =>
-        {
+        {props.coworkers.map((coworker) => {
           return (
             <Coworker
               key={slugify(coworker.coworker)}
               color={props.color}
               {...coworker}
+              isCompact={props.coworkers.length < 7 ? false : true}
             />
           )
         })}
