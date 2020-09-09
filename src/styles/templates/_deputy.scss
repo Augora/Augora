@@ -15,6 +15,13 @@
     align-items: center;
     .btn {
       margin-left: 20px;
+      &:hover {
+        .deputy__icon {
+          svg {
+            filter: contrast(200%);
+          }
+        }
+      }
     }
   }
 
@@ -25,11 +32,10 @@
 
     display: flex;
     align-items: center;
-
-    pointer-events: none;
     svg {
       height: 100%;
       width: auto;
+      pointer-events: none;
       path {
         fill: var(--groupe-color);
       }
@@ -38,7 +44,9 @@
     &--missing {
       margin-left: 20px;
       opacity: 0.3;
-      pointer-events: auto;
+      svg {
+        pointer-events: none;
+      }
     }
   }
 }
