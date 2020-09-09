@@ -53,7 +53,7 @@ const getSelectedDistrictBox = (map, selectedDistrict, props) => {
 const drawSelectedDistrictBox = (map, district, box, props) => {
   // Dessiner la circonscription
   map.addLayer({
-    id: props.nom.toLowerCase() + "-" + props.num,
+    id: props.nom.toLowerCase() + "-" + props.num + "-fill",
     type: "fill",
     source: {
       type: "geojson",
@@ -63,7 +63,21 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
     paint: {
       "fill-color": "#fff",
       "fill-opacity": 0.5,
-      "fill-outline-color": "#f00",
+    },
+  })
+  // Add outline
+  map.addLayer({
+    id: props.nom.toLowerCase() + "-" + props.num + "-outline",
+    type: "line",
+    source: {
+      type: "geojson",
+      data: district,
+    },
+    paint: {
+      "line-color": "#4d4d4d",
+      "line-width": 2,
+      "line-dasharray": [4, 2],
+      "line-opacity": 0.8,
     },
   })
   map.setPadding({ top: 90, left: 40, right: 40, bottom: 40 })
@@ -89,7 +103,7 @@ const initializeMap = (props) => {
     style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
     center: France.center, // starting position [lng, lat]
     zoom: 2, // starting zoom
-    interactive: false,
+    interactive: true,
   })
   map.on("style.load", () => {
     // Récupérer la circonscription concernée
