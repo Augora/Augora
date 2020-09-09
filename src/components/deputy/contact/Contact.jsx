@@ -41,8 +41,8 @@ const Contact = (props) => {
                 onClick={() => handleClick(adresseDetails.Adresse)}
                 title="Copier"
               >
-                <p>{formatedAddress[0]}</p>
-                <p>{formatedAddress[1]}</p>
+                <p className="adresse__street">{formatedAddress[0]}</p>
+                <p className="adresse__city">{formatedAddress[1]}</p>
                 <div className="copy__icon icon-wrapper">
                   <IconCopy />
                 </div>

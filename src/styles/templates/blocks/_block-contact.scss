@@ -35,6 +35,14 @@
           margin: 0;
           color: $text-color;
         }
+        .adresse {
+          &__street {
+            margin-bottom: 3px;
+          }
+          &__city {
+            text-transform: uppercase;
+          }
+        }
 
         &.contact__tel {
           color: var(--groupe-color);
