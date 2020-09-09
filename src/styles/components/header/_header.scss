@@ -55,9 +55,6 @@ header#header.header {
 
     // Menu
     &__menu {
-      // position: absolute;
-      // transform: translateX(-50%);
-      // left: 50%;
       .menu__item {
         position: relative;
         color: $text-color;
@@ -86,7 +83,6 @@ header#header.header {
           height: 3px;
           margin-top: 3px;
 
-          // background-color: $black;
           background: linear-gradient(to right, $main-color, $secondary-color);
 
           transform: scaleX(0);
@@ -161,13 +157,33 @@ header#header.header {
     }
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1280px) {
     .header {
+      &__wrapper {
+        padding: 15px 30px;
+      }
+
       &__svg-wrapper {
         width: 30px;
       }
+
       &__site-name {
         display: none;
+      }
+
+      &__menu {
+        .menu__item {
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+    &.small {
+      .header {
+        &__wrapper {
+          padding: 10px 15px;
+        }
       }
     }
   }
