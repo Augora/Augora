@@ -89,7 +89,7 @@ function Deputy({ data }) {
           ) : (
             <div
               className="deputy__icon deputy__icon--missing"
-              title="Pas de Site Web renseignée"
+              title="Pas de Site Web renseigné"
             >
               <IconWebsite />
             </div>

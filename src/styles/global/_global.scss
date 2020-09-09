@@ -13,7 +13,7 @@
   border-style: solid;
   z-index: 1;
   .block__background {
-    border-radius: 8px;
+    border-radius: 5px;
     width: 100%;
     height: 100%;
     position: absolute;
@@ -65,7 +65,7 @@
     right: -$width;
     color: inherit;
     border: solid $width var(--groupe-color);
-    border-radius: $width * 5;
+    border-radius: $width * 3;
     pointer-events: none;
     transition: opacity 0.4s $ease-out-quad;
     transition-delay: 0.15s;
