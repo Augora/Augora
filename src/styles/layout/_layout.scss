@@ -635,3 +635,7 @@ pre tt:after {
 .layout {
   padding: 120px 30px 100px;
 }
+
+:focus {
+  outline: none;
+}
