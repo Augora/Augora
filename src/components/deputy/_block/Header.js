@@ -23,8 +23,8 @@ export default function Header(props) {
       ) : (
         // If there is circonscription data, change the header text
         <div className="header__title" style={{ color: props.color }}>
-          <span>{props.circ.region}</span>
-          <span>
+          <span className="header__title--region">{props.circ.region}</span>
+          <span className="header__title--numero">
             {props.circ.circNb}
             <small>{props.circ.circNb < 2 ? "ère " : "ème "}</small>
             circonscription

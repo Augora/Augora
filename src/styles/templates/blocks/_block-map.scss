@@ -4,6 +4,12 @@
     display: flex;
     justify-content: space-between;
     padding: 0 20px;
+    &--region {
+      text-align: left;
+    }
+    &--numero {
+      text-align: right;
+    }
     small {
       font-size: 0.6em;
     }
