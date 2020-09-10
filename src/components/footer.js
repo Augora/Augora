@@ -29,7 +29,7 @@ const Footer = () => {
   return (
     <footer
       style={{
-        padding: `20px`,
+        padding: `20px 40px`,
         backgroundColor: `#262626`,
         color: `white`,
       }}
@@ -85,7 +85,6 @@ const Footer = () => {
               link: "/mention-legales",
             },
           ])}
-          {Menu("", [])}
           {Menu("Contact", [
             {
               label: "contact@augora.fr",
