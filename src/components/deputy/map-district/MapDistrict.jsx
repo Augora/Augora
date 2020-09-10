@@ -1,10 +1,12 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 // import styled from "styled-components"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonDistrict from "../../../static/list-district.json"
 import Block from "../_block/_Block"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
+import IconReset from "../../../images/ui-kit/icon-refresh.svg"
+
 const France = {
   center: { lng: 1.88, lat: 46.6 },
   northWest: { lng: -6.864165, lat: 50.839888 },
@@ -41,6 +43,8 @@ const getSelectedDistrictBox = (map, selectedDistrict, props) => {
   ]
 
   drawSelectedDistrictBox(map, selectedDistrict, selectedDistrictBox, props)
+
+  return selectedDistrictBox
 }
 
 /**
@@ -86,54 +90,105 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
       map.fitBounds(box, {
         padding: 10,
         maxZoom: 9,
+        duration: 2000,
       })
     }, 1000)
+    setTimeout(() => {
+      map.dragPan.enable()
+    }, 3000)
   }
 }
 
-/**
- * Initialize map for the deputy's district
- * @param {*} props
- */
-const initializeMap = (props) => {
-  mapboxgl.accessToken =
-    "pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
-  const map = new mapboxgl.Map({
-    container: document.querySelector(".map__container"), // container id
-    style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-    center: France.center, // starting position [lng, lat]
-    zoom: 2, // starting zoom
-    minZoom: 2,
-    interactive: false,
-    attributionControl: false,
-  })
-  map.addControl(new mapboxgl.NavigationControl({ showCompass: false })) //add zoom buttons
-  map.on("style.load", () => {
-    // Récupérer la circonscription concernée
-    const selectedDistrict = GEOJsonDistrict.features.find((district) => {
-      return (
-        district.properties.nom_dpt.toLowerCase() ===
-          retirerAccentsFR(props.nom.toLowerCase()) &&
-        parseInt(district.properties.num_circ) === props.num
-      )
+const handleReset = (map, box, setMapModified) => {
+  if (map !== null || box.length > 0) {
+    map.fitBounds(box, {
+      padding: 10,
+      maxZoom: 9,
+      duration: 2000,
     })
-    getSelectedDistrictBox(map, selectedDistrict, props)
-  })
+    setMapModified(false)
+  }
 }
 
 const MapDistrict = (props) => {
+  const [map, setMap] = useState(null)
+  const [box, setBox] = useState([])
+  const [mapModified, setMapModified] = useState(false)
   useEffect(() => {
-    initializeMap(props)
+    setMap(initializeMap(props))
   }, [props])
+
+  /**
+   * Initialize map for the deputy's district
+   * @param {*} props
+   */
+  const initializeMap = (props) => {
+    mapboxgl.accessToken =
+      "pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
+    const map = new mapboxgl.Map({
+      container: document.querySelector(".map__container"), // container id
+      style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+      center: France.center, // starting position [lng, lat]
+      zoom: 2, // starting zoom
+      minZoom: 2,
+      interactive: true,
+      dragPan: false,
+      // scrollZoom: false,
+      boxZoom: false,
+      dragRotate: false,
+      doubleClickZoom: false,
+      touchZoomRotate: false,
+      touchPitch: false,
+      trackResize: false,
+      // attributionControl: false, //hide bottom right text
+    })
+    map.addControl(
+      new mapboxgl.NavigationControl({
+        showCompass: false,
+      })
+    ) //add zoom buttons
+    map.on("style.load", () => {
+      // Récupérer la circonscription concernée
+      const selectedDistrict = GEOJsonDistrict.features.find((district) => {
+        return (
+          district.properties.nom_dpt.toLowerCase() ===
+            retirerAccentsFR(props.nom.toLowerCase()) &&
+          parseInt(district.properties.num_circ) === props.num
+        )
+      })
+      const box = getSelectedDistrictBox(map, selectedDistrict, props)
+      setBox(box)
+    })
+    map.on("dragstart", () => {
+      setMapModified(true)
+    })
+
+    return map
+  }
+
   return (
     <Block
       title="Circonscription"
       type="map"
       color={props.color}
       size={props.size}
-      circ={{ region: props.nom, circNb: props.num }}
+      circ={{
+        region: props.nom,
+        circNb: props.num,
+      }}
     >
-      <div className="map__container"></div>
+      <div className="map__container">
+        <button
+          className={`map__container-btn ${mapModified ? "visible" : ""}`}
+          onClick={() => handleReset(map, box, setMapModified)}
+          title="Réinitialiser la position"
+          style={{ zIndex: 1, position: "absolute" }}
+        >
+          <div className="icon-wrapper">
+            <IconReset />
+          </div>
+        </button>
+      </div>
     </Block>
   )
 }

@@ -56,6 +56,60 @@
       top: 0px;
       left: 50%;
       transform: translate3d(-50%, 0px, 0px);
+
+      &-btn {
+        right: 50px;
+        top: 11px;
+        width: 60px;
+        height: 57px;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        border: none;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s $ease-in-out-cubic;
+
+        cursor: pointer;
+
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0);
+        }
+
+        &:hover {
+          &::after {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+        }
+
+        &:focus {
+          box-shadow: 0 0 2px 2px #0096ff;
+        }
+
+        &.visible {
+          pointer-events: auto;
+          opacity: 1;
+          transition: opacity 0.4s $ease-out-cubic;
+        }
+
+        .icon-wrapper {
+          position: relative;
+          z-index: 1;
+          right: 0;
+          pointer-events: none;
+          svg {
+            fill: #4d4d4d;
+          }
+        }
+      }
     }
   }
   &:hover {
