@@ -1,7 +1,7 @@
 footer {
   font-family: $font;
   .wrapper {
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
   }
 }
@@ -18,7 +18,7 @@ footer {
     h2 {
       font-size: 20px;
       text-transform: uppercase;
-      color: #808080;
+      color: $lightgrey;
       position: relative;
       &::after {
         content: "";
@@ -28,22 +28,40 @@ footer {
         height: 1px;
         top: calc(100% + 10px);
         left: 0;
-        background-color: #808080;
+        background-color: $lightgrey;
       }
     }
     a {
-      display: block;
-      color: white;
+      display: flex;
       font-family: $font;
+      font-size: 16px;
       text-decoration: none;
-      color: #808080;
+      color: $lightgrey;
       transition: color 0.2s linear;
+
+      .icon-wrapper {
+        margin-right: 5px;
+        svg {
+          height: 30px;
+          width: 25px;
+          fill: $lightgrey;
+          pointer-events: none;
+          transition: fill 0.2s linear;
+        }
+      }
+
       &:hover {
         color: white;
+        .icon-wrapper {
+          svg {
+            fill: white;
+          }
+        }
       }
     }
   }
   &__credentials {
+    color: $lightgrey;
     margin-top: 100px;
     font-size: 14px;
     text-align: center;
