@@ -40,7 +40,10 @@ export default function DeputyImage(props: IDeputyImageInformation) {
 
   function onError() {
     setTag(
-      <div className="icon-wrapper deputy__photo deputy__photo--errored">
+      <div
+        className="icon-wrapper deputy__photo deputy__photo--errored"
+        title="Photo non renseignée"
+      >
         {DeputyDefaultPlaceholder(props.sex)}
       </div>
     )
