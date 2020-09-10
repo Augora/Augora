@@ -64,6 +64,9 @@
       &--errored {
         filter: none;
         opacity: 0.1;
+        svg {
+          fill: white;
+        }
       }
     }
     &__icon-container {
