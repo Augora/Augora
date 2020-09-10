@@ -103,8 +103,11 @@ const initializeMap = (props) => {
     style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
     center: France.center, // starting position [lng, lat]
     zoom: 2, // starting zoom
-    interactive: true,
+    minZoom: 2,
+    interactive: false,
+    attributionControl: false,
   })
+  map.addControl(new mapboxgl.NavigationControl({ showCompass: false })) //add zoom buttons
   map.on("style.load", () => {
     // Récupérer la circonscription concernée
     const selectedDistrict = GEOJsonDistrict.features.find((district) => {
