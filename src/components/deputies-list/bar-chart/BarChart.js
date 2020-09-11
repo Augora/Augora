@@ -1,6 +1,6 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
-import { Tooltip } from "components/tooltip/Tooltip"
+import Tooltip from "components/tooltip/Tooltip"
 
 var nbTicks = [0, 50, 100, 150, 200, 250, 300]
 /**

@@ -1,7 +1,7 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
 import { patternLinesDef } from "@nivo/core"
-import { Tooltip } from "components/tooltip/Tooltip"
+import Tooltip from "components/tooltip/Tooltip"
 
 var nbTicks = [0, 5, 10, 15, 20, 25]
 
@@ -61,12 +61,15 @@ export default function ComplexBarChart(props) {
         let currentGroup = props.groupesDetails.find(
           (g) => g.Sigle === tooltipInfo.id
         )
+        console.log(tooltipInfo)
         return Tooltip({
           title: currentGroup.NomComplet,
           nbDeputes: tooltipInfo.value,
           totalDeputes: props.totalNumberDeputies,
           color: tooltipInfo.color,
-          age: tooltipInfo.indexValue,
+          age: parseInt(tooltipInfo.indexValue.toString())
+            ? parseInt(tooltipInfo.indexValue.toString()) // bordel syntaxique pour être sur d'avoir un type number
+            : null,
         })
       }}
       theme={{

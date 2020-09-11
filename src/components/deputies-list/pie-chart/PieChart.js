@@ -1,6 +1,6 @@
 import React from "react"
 import { ResponsivePie } from "@nivo/pie"
-import { Tooltip } from "components/tooltip/Tooltip"
+import Tooltip from "components/tooltip/Tooltip"
 
 const PieChart = (props) => {
   return (
