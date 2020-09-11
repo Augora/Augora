@@ -61,7 +61,6 @@ export default function ComplexBarChart(props) {
         let currentGroup = props.groupesDetails.find(
           (g) => g.Sigle === tooltipInfo.id
         )
-        console.log(tooltipInfo)
         return Tooltip({
           title: currentGroup.NomComplet,
           nbDeputes: tooltipInfo.value,
