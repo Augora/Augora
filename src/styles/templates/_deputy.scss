@@ -16,11 +16,7 @@
     .btn {
       margin-left: 20px;
       &:hover {
-        .deputy__icon {
-          svg {
-            filter: contrast(200%);
-          }
-        }
+        transform: scale(1.2);
       }
     }
   }
