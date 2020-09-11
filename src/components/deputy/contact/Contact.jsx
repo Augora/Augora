@@ -1,20 +1,25 @@
-import React from "react"
+import React, { useState } from "react"
 import Block from "../_block/_Block"
-import IconCopy from "images/ui-kit/icon-copy.svg"
-import IconTel from "images/ui-kit/icon-phone.svg"
+import Adresse from "./Adresse"
+// import IconCopy from "images/ui-kit/icon-copy.svg"
+// import IconTel from "images/ui-kit/icon-phone.svg"
 import IconMail from "images/ui-kit/icon-mail.svg"
 
 const formatAddress = (address, codepostal) => {
   const splitedAddress = address.split(codepostal)
   return [splitedAddress[0], codepostal + splitedAddress[1]]
 }
-const formatTelephoneNumber = (number) => {
-  return number.match(/.{1,2}/g).join(" ")
-}
+// const formatTelephoneNumber = (number) => {
+//   return number.match(/.{1,2}/g).join(" ")
+// }
 
-const handleClick = (content) => {
-  navigator.clipboard.writeText(content)
-}
+// const handleClick = (content, setCopyClicked) => {
+//   navigator.clipboard.writeText(content)
+//   setCopyClicked(true)
+//   setTimeout(() => {
+//     setCopyClicked(false)
+//   }, 1500)
+// }
 
 /**
  * Return deputy's contact info in a Block component
@@ -36,11 +41,16 @@ const Contact = (props) => {
         )
         return (
           <>
-            <div className="contact__adresse">
+            {/* <div className="contact__adresse">
               <button
-                onClick={() => handleClick(adresseDetails.Adresse)}
+                onClick={() =>
+                  handleClick(adresseDetails.Adresse, setCopyClicked)
+                }
                 title="Copier"
               >
+                {copyClicked ? (
+                  <span className="copy__indicator">Copié !</span>
+                ) : null}
                 <p className="adresse__street">{formatedAddress[0]}</p>
                 <p className="adresse__city">{formatedAddress[1]}</p>
                 <div className="copy__icon icon-wrapper">
@@ -59,7 +69,11 @@ const Contact = (props) => {
                   </div>
                 </a>
               ) : null}
-            </div>
+            </div> */}
+            <Adresse
+              adresseDetails={adresseDetails}
+              formatedAddress={formatedAddress}
+            />
             {index + 1 < array.length ? (
               <div className="contact__separator"></div>
             ) : null}
