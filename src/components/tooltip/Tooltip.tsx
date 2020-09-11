@@ -15,9 +15,9 @@ export interface ITooltip {
  * @export
  * @param {number} nbDeputes - Mandatory number of deputies
  * @param {number} totalDeputes - Mandatory total of deputies
- * @param {string} [title] - Optional title of the tooltip : the group, gender, or whatever
- * @param {string} [color] - Optional color of the title
- * @param {number} [age] - Optional age value for the age chart
+ * @param {string} [title] - Optional tooltip title: group, gender, whatever
+ * @param {string} [color] - Optional title color
+ * @param {number} [age] - Optional age value for age chart
  * @param {boolean} [hideNbDeputes] - Optional boolean for hiding the number of deputies
  * @returns
  */
