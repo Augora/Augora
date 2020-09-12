@@ -13,12 +13,12 @@ const initialState = {
     GroupesList: [],
     Keyword: "",
   },
-  handleSearchValue: (f) => f,
-  handleClickOnAllGroupes: (f) => f,
-  handleClickOnGroupe: (f) => f,
-  handleClickOnSex: (f) => f,
-  handleAgeSelection: (f) => f,
-  handleReset: (f) => f,
+  handleSearchValue: (...f) => f,
+  handleClickOnAllGroupes: (...f) => f,
+  handleClickOnGroupe: (...f) => f,
+  handleClickOnSex: (...f) => f,
+  handleAgeSelection: (...f) => f,
+  handleReset: (...f) => f,
 }
 
 export const DeputiesListContext = createContext(initialState)
