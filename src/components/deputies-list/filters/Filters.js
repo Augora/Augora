@@ -94,7 +94,7 @@ function Filters(props) {
               </div>
             </button>
             <button onClick={() => props.handleClickOnAllGroupes(false)}>
-              Aucun{" "}
+              Aucun
               <div
                 className="icon-wrapper"
                 style={{
