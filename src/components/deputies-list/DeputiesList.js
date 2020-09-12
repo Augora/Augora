@@ -37,14 +37,19 @@ const DeputiesList = (props) => {
 
   const allGroupes = state.GroupesList.map((groupe) => {
     return (
-      <button
+      <div
         className={`groupe groupe--${groupe.Sigle} ${
           state.GroupeValue[groupe.Sigle] ? "selected" : ""
         }`}
         key={`groupe--${groupe.Sigle}`}
-        onClick={(e) => handleClickOnGroupe(groupe.Sigle, e)}
         style={{ order: groupe.Ordre }}
       >
+        <input
+          className="groupe__checkbox"
+          type="checkbox"
+          defaultChecked
+          onChange={(e) => handleClickOnGroupe(groupe.Sigle, e.target.checked)}
+        />
         <div className="groupe__img-container">
           <img
             src={groupeIconByGroupeSigle(groupe.Sigle)}
@@ -67,7 +72,7 @@ const DeputiesList = (props) => {
           totalDeputes={state.DeputiesList.length}
           color={groupe.Couleur}
         />
-      </button>
+      </div>
     )
   })
 

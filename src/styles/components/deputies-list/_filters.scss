@@ -137,16 +137,24 @@
       }
     }
     .groupe {
-      $border-radius: 10px;
+      $border-radius: 5px;
       margin-left: 10px;
       border: none;
       padding: 0px;
-      cursor: pointer;
-      background: none;
+      pointer-events: none;
       position: relative;
       background: white;
       border-radius: $border-radius;
       transition: border-radius 0.05s linear;
+      &__checkbox {
+        pointer-events: auto;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        appearance: none;
+        outline: none;
+      }
       &__img-container {
         padding-bottom: percentage(9 / 16);
         width: 150px;

@@ -52,11 +52,10 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
 
-  const handleClickOnGroupe = (sigle) => {
-    const actualValueOfGroupe = GroupeValue[sigle]
+  const handleClickOnGroupe = (sigle, isChecked) => {
     setGroupeValue(
       Object.assign({}, GroupeValue, {
-        [sigle]: !actualValueOfGroupe,
+        [sigle]: isChecked,
       })
     )
   }
