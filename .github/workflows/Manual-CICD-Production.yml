@@ -1,4 +1,4 @@
-name: [Manual] CI/CD Production
+name: Manual CI/CD Production
 
 on:
   repository_dispatch:

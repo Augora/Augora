@@ -1,4 +1,4 @@
-name: [Manual] CI/CD Staging
+name: Manual CI/CD Staging
 
 on:
   repository_dispatch:

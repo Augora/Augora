@@ -1,4 +1,4 @@
-name: [Schedule] CI/CD Production
+name: Schedule CI/CD Production
 
 on:
   schedule:
