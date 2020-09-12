@@ -82,7 +82,7 @@ function Deputy({ data }) {
               target="_blank"
               title="Site Web"
             >
-              <div className="deputy__icon">
+              <div className="deputy__icon" style={{ width: "30px" }}>
                 <IconWebsite />
               </div>
             </a>
