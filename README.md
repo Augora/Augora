@@ -28,7 +28,7 @@ Récupérez les packages suivants :
 
 ### Installation
 
-Installez _Node_, _Yarn_ et _Vs Code_.
+Installez **Node**, **Yarn** et **VS Code**.
 
 Une fois l'installation de VS Code effectuée, allez dans les extensions : `Ctrl + Shift + X` et ajoutez les extensions ci-dessous :
 
@@ -57,6 +57,4 @@ Ci-dessous un exemple :
 
 > feature/nom-de-branche
 
-3. Les pull requests doivent être assignées à KevBac et / ou PierreT
-
-## L'équipe
+3. Les pull requests doivent être assignées à <a href="https://github.com/KevinBacas" target="_blank">Kevin Bacas</a> et / ou <a href="https://github.com/pierretusseau" target="_blank">Pierre Tusseau</a>
