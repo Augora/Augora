@@ -10,38 +10,7 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
-        os: [macOS-latest, windows-latest, ubuntu-latest]
-        node-version: [14.x]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: master
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: yarn install, build, and test
-        env:
-          CI: "true"
-          NODE_ENV: "production"
-          GATSBY_TARGET_ENV: "production"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_READONLY_PRODUCTION }}
-          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
-        run: |
-          yarn install
-          yarn run build
-          yarn test
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -53,17 +22,35 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: yarn install, build
+      - name: Yarn cache directory
+        id: yarn-cache-dir
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+  
+      - name: Yarn cache
+        uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ matrix.os }}-yarn-
+  
+      - name: yarn install
         env:
           CI: "true"
           NODE_ENV: "production"
           GATSBY_TARGET_ENV: "production"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_READONLY_PRODUCTION }}
-          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
-        run: |
-          yarn install
-          yarn build
+        run: yarn install
+
+      - name: yarn build
+          env:
+            CI: "true"
+            NODE_ENV: "production"
+            GATSBY_TARGET_ENV: "production"
+            FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_READONLY_PRODUCTION }}
+            GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
+            GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          run: yarn build
 
       - uses: amondnet/vercel-action@v19
         with:
@@ -76,10 +63,96 @@ jobs:
           alias-domains: |
             augora.fr
 
-      - name: Notify slack
+      - name: Slack notification for push
+        uses: 8398a7/action-slack@v3
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: pullreminders/slack-action@master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always() && '${{ github.event_name }}' === 'push'
         with:
-          args: '{\"channel\":\"C4H19LCN9\",\"text\":\"Augora deployed in production environment :rocket:\"}'
-        if: success()
+          status: custom
+          fields: workflow,job,commit
+          custom_payload: |
+            {
+              username: "Github Actions",
+              icon_emoji: ":rocket:",
+              attachments: [
+                {
+                  color: '${{ job.status }}' === 'success' ? '#28a745' : '${{ job.status }}' === 'failure' ? '#dc3545' : '#ffc107',
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": '${{ job.status }}' === 'success' ? ':rocket: ----- :tada: ----- :fire: ----- *MISE EN PRODUCTION* ----- :fire: ----- :tada: ----- :rocket:' : ':male-firefighter: ----- :fire_engine: ----- :fire: ----- *MISE EN PRODUCTION* ----- :fire: ----- :fire_engine: ----- :female-firefighter:'
+                      }
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": '${{ job.status }}' === 'success' ? '*https://augora.fr* \n Messieurs vous avez accompli un travail incroyable. :muscle: \n C\'est toute la société française qui vous remercie aujourd\'hui :bow: \n N\'oubliez pas de vérifier que vos changements sont effectifs :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n Il faut tout recommencer... :crying_cat_face:\n Préparez vous à devoir hotfix toute la nuit :lul:'
+                      },
+                      "accessory": {
+                        "type": "image",
+                        "image_url": "https://augora.fr/icons/icon-512x512.png",
+                        "alt_text": "Augora"
+                      }
+                    },
+                    {
+                      "type": "divider"
+                    }
+                  ]
+                }
+              ]
+            }
+
+      - name: Slack notification for schedule
+        uses: 8398a7/action-slack@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always() && '${{ github.event_name }}' === 'schedule'
+        with:
+          status: custom
+          fields: workflow,job,commit
+          custom_payload: |
+            {
+              username: "Github Actions",
+              icon_emoji: ":rocket:",
+              attachments: [
+                {
+                  color: '${{ job.status }}' === 'success' ? '#28a745' : '${{ job.status }}' === 'failure' ? '#dc3545' : '#ffc107',
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": '${{ job.status }}' === 'success' ? ':rocket: ----- :tada: ----- :clock8: ----- *DEPLOIEMENT QUOTIDIEN* ----- :clock8: ----- :tada: ----- :rocket:' : ':male-firefighter: ----- :fire_engine: ----- :fire: ----- *DEPLOIEMENT QUOTIDIEN* ----- :fire: ----- :fire_engine: ----- :female-firefighter:'
+                      }
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": '${{ job.status }}' === 'success' ? '*https://augora.fr* \n Données mises à jour \n N\'oubliez pas de vérifier que le site fonctionne toujours :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n De toute façon, tout le monde s\'en tape, non ? :lul:'
+                      },
+                      "accessory": {
+                        "type": "image",
+                        "image_url": "https://augora.fr/icons/icon-512x512.png",
+                        "alt_text": "Augora"
+                      }
+                    },
+                    {
+                      "type": "divider"
+                    }
+                  ]
+                }
+              ]
+            }
