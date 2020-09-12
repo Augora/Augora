@@ -1,7 +1,5 @@
 import React from "react"
 import Helmet from "react-helmet"
-import { graphql } from "gatsby"
-import _ from "lodash"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
 

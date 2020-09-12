@@ -44,7 +44,7 @@
     }
 
     &__title-container {
-      background: linear-gradient(to right, #30e3ca, #19dde3);
+      background: linear-gradient(to right, $main-color, $secondary-color);
       position: relative;
       padding: 20px;
       padding-right: 70px;

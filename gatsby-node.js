@@ -21,6 +21,19 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   }
 }
 
+exports.createResolvers = ({ createResolvers }) => {
+  createResolvers({
+    FaunaDB_Depute: {
+      Ordre: {
+        type: "Int",
+        resolve: (source, args, context) => {
+          return Math.floor(Math.random() * 5000)
+        },
+      },
+    },
+  })
+}
+
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
   const result = await graphql(`

@@ -29,7 +29,6 @@ export default function DeputiesListProvider(props) {
       faunadb {
         DeputesEnMandat(EstEnMandat: true, _size: 700) {
           data {
-            order
             LieuDeNaissance
             DebutDuMandat
             GroupeParlementaire {
@@ -56,6 +55,7 @@ export default function DeputiesListProvider(props) {
             Emails
             SitesWeb
             URLPhotoAugora
+            Ordre
           }
         }
         GroupesParlementairesDetailsActifs(Actif: true) {
@@ -75,7 +75,9 @@ export default function DeputiesListProvider(props) {
       (a, b) => a.Ordre - b.Ordre
     )
   )
-  const [deputies] = useState(data.faunadb.DeputesEnMandat.data)
+  const [deputies] = useState(
+    data.faunadb.DeputesEnMandat.data.sort((a, b) => a.Ordre - b.Ordre)
+  )
 
   const fullState = useDeputiesFilters(deputies, orderedGroupes)
 
