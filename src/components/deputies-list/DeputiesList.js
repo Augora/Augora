@@ -23,7 +23,7 @@ import BarChart from "./bar-chart/BarChart"
 import ComplexBarChart from "./complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "./slider/Slider"
 import Deputy from "./deputy/Deputy"
-import { Tooltip } from "components/tooltip/Tooltip"
+import Tooltip from "components/tooltip/Tooltip"
 
 const DeputiesList = (props) => {
   // States
