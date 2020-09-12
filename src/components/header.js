@@ -32,6 +32,7 @@ const Header = ({ siteTitle, location }) => {
   function setLinks(pageGroup) {
     return Object.keys(pageGroup).map((page) => (
       <Link
+        key={pageGroup[page].path}
         to={pageGroup[page].path}
         className={isActivePage(pageGroup[page].path)}
       >
