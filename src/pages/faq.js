@@ -7,24 +7,78 @@ import Question from "components/faq/Question"
 // Content
 const contentAbout = [
   {
-    title: "Qu’est-ce qu’un groupe parlementaire ?",
-    description: (
-      <p>
-        Un groupe parlementaire n'est pas un parti politique à proprement
-        parler.
-      </p>
-    ),
-  },
-  {
-    title: "Qui sommes nous ?",
+    title: "Qui sommes-nous ?",
     description: (
       <p>
         Nous sommes une association à but non lucratif qui a pour vocation de
         mettre à disposition des outils d'informations statistiques sur les
-        députés via Augora.fr
-        <br />
-        Si vous souhaitez en savoir plus sur l'association, consultez le lien{" "}
-        <Link to="/about">A propos de nous</Link>
+        députés via <strong>Augora.fr</strong>.
+      </p>
+    ),
+  },
+  {
+    title: "Qu’est-ce qu’un groupe parlementaire ?",
+    description: (
+      <div>
+        <p>
+          Un groupe parlementaire est un ensemble composé de minimum 15 députés.
+          Il permet de s'organiser au sein de l'Assemblée Nationale. Les députés
+          qui composent un groupe peuvent faire partie de différents mouvements
+          politiques.
+        </p>
+        <p>
+          Lorsqu'un député fait parti d'un groupe parlementaire de moins de 15
+          députés, il est assigné aux non-inscrits.
+        </p>
+        <p>
+          Il faut bien différencier{" "}
+          <a
+            href="https://fr.wikipedia.org/wiki/Parti_politique"
+            target="_blank"
+            rel="noopener"
+          >
+            parti politique
+          </a>{" "}
+          et{" "}
+          <a
+            href="https://fr.wikipedia.org/wiki/Groupe_parlementaire"
+            target="_blank"
+            rel="noopener"
+          >
+            groupe parlementaire
+          </a>
+          , car l'assemblée nationale fonctionne uniquement avec les groupes
+          parlementaires.
+        </p>
+        <p>
+          Il est à noter que le temps de parole est distribué en fonction de
+          l'effectif des groupes. De plus, les commissions parlementaires sont
+          composées en proportion de l'importance des groupes.
+        </p>
+        <p>
+          En général, un député d'un parti politique est dans le groupe
+          parlementaire du même nom quand il existe. Mais il se peut que
+          certains partis politiques s'allient pour être dans un même groupe
+          parlementaire. Pour plus d'informations, vous pouvez vous référer à la{" "}
+          <a
+            href="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-organes-de-l-assemblee-nationale/les-groupes-politiques"
+            target="_blank"
+            rel="noopener"
+          >
+            fiche de synthèse de l'Assemblée Nationale
+          </a>
+          .
+        </p>
+      </div>
+    ),
+  },
+  {
+    title: "Comment les députés sont-ils triés ?",
+    description: (
+      <p>
+        Nous avons choisi un affichage aléatoire des députés pour éviter de
+        mettre certains groupes en avant, dans un soucis de transparence. Tous
+        les jours, l'ordre des députés affichés changera.
       </p>
     ),
   },
@@ -32,19 +86,14 @@ const contentAbout = [
     title: "Quelles sont nos sources ?",
     description: (
       <p>
-        Nous utilisons des données publiques (open-data) venant de plusieurs
-        sources :<br />
-        <ul>
-          <li>
-            <Link
-              target="_blank"
-              to="https://www.regardscitoyens.org"
-              rel="noopener"
-            >
-              https://www.regardscitoyens.org
-            </Link>
-          </li>
-        </ul>
+        Nous utilisons des données publiques (open-data) venant de :{" "}
+        <a
+          href="https://www.regardscitoyens.org"
+          target="_blank"
+          rel="noopener"
+        >
+          https://www.regardscitoyens.org
+        </a>
       </p>
     ),
   },
@@ -53,43 +102,39 @@ const contentAbout = [
     description: (
       <p>
         Nous utilisons plusieurs technologies dont : Gatsby/React, FaunaDB,
-        Github, <br />
-        Nos méthodes de communication sont Twitter, Facebook, Instagram,
+        Github, Mapbox. <br />
+        Nous communiquons exclusivement via Twitter.
       </p>
     ),
   },
   {
-    title: "Quels données collectons-nous sur les utilisateurs du site ?",
+    title: "Quelles données collectons-nous sur les utilisateurs du site ?",
     description: (
       <p>
         Souhaitant établir une démarche de transparence avec nos utilisateurs,
         le site Augora ne souhaite collecter aucune données.
         <br />
-        En revanche les outils que nous utilisons comme FaunaDB, ..., ...
-        peuvent collecter certaines données, tel que ..., …<br />
-        Il est possible que des services que nous utilisions récupèrent des
-        données. Nous sommes en train de nous renseigner pour avoir plus de
-        détails.
+        Pour plus d'informations, se référer à la page des mentions légales.
       </p>
     ),
   },
-  {
-    title: "Comment nous soutenir ?",
-    description: (
-      <p>
-        Nous avons ouvert une page Tipeee afin de recueillir des dons, étant une
-        association à but non lucratif, nous ne retirons aucun avantages
-        personnel aux dons.
-      </p>
-    ),
-  },
+  // {
+  //   title: "Comment nous soutenir ?",
+  //   description: (
+  //     <p>
+  //       Nous avons ouvert une page <strong>Tipeee</strong> afin de recueillir
+  //       des dons, étant une association à but non lucratif, nous ne retirons
+  //       aucuns avantages personnels aux dons.
+  //     </p>
+  //   ),
+  // },
   {
     title: "Quels sont nos projets pour le futur ?",
     description: (
       <p>
         Grâce à vos dons, nous avons l'ambition de créer des outils toujours
         plus accessible et variés pour offrir à nos utilisateur une expérience
-        fluide et accessible sur différentes plateforme de diffusion
+        fluide et accessible sur différentes plateforme de diffusion.
         <br />
         Nous souhaitons développer un ensemble d’outils autour de la
         visualisation de données (data-visualisation) en association avec des
