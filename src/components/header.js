@@ -57,6 +57,7 @@ const Header = ({ siteTitle, location }) => {
         <div className="header__menu menu">
           {Object.keys(pages).map((page) => (
             <Link
+              key={pages[page].path}
               to={pages[page].path}
               className={isActivePage(pages[page].path)}
             >

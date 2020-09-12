@@ -179,7 +179,7 @@ const DeputiesList = (props) => {
     return Object.assign(
       {},
       {
-        age: age,
+        age: age.toString(),
         ...groupeValueByAge(),
         ...groupeColorByAge(),
       }

@@ -10,7 +10,11 @@ const Menu = (title, items) => {
         <>
           <h2>{title}</h2>
           {items.map((item) => (
-            <a href={item.link} target={item.target ? "_blank" : ""}>
+            <a
+              key={item.link}
+              href={item.link}
+              target={item.target ? "_blank" : ""}
+            >
               {item.label}
             </a>
           ))}
