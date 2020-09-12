@@ -1,7 +1,8 @@
 import React, { useState } from "react"
-import MissingFemale from "images/ui-kit/icon-missingfemale.svg"
-import MissingMale from "images/ui-kit/icon-missingmale.svg"
-import { ReactComponentElement } from "react"
+
+// Force using url-loader instead of gatsby-plugin-react-svg in order to have url instead of component
+import MissingFemale from "-!url-loader!images/ui-kit/icon-missingfemale.svg"
+import MissingMale from "-!url-loader!images/ui-kit/icon-missingmale.svg"
 
 /**
  * Retrieve default Component deputy's placeholder
@@ -13,9 +14,9 @@ import { ReactComponentElement } from "react"
 export function DeputyDefaultPlaceholder(sex: string) {
   switch (sex) {
     case "H":
-      return <MissingMale />
+      return MissingMale
     case "F":
-      return <MissingFemale />
+      return MissingFemale
     default:
       return ""
   }
@@ -29,27 +30,29 @@ export function DeputyDefaultPlaceholder(sex: string) {
  * @returns <img> deputy image </img>
  */
 export default function DeputyImage(props: IDeputyImageInformation) {
-  const [tag, setTag] = useState(
+  const [Src, setSrc] = useState(props.src)
+  const [HasErrored, setHasErrored] = useState(false)
+
+  function onError() {
+    // Prevent modifying state on error loop
+    if (!HasErrored) {
+      setHasErrored(true)
+      setSrc(DeputyDefaultPlaceholder(props.sex))
+    }
+  }
+
+  return (
     <img
-      className="deputy__photo"
-      src={props.src}
+      className={
+        HasErrored
+          ? "icon-wrapper deputy__photo deputy__photo--errored"
+          : "deputy__photo"
+      }
+      src={Src}
       alt={props.alt}
       onError={() => onError()}
     />
   )
-
-  function onError() {
-    setTag(
-      <div
-        className="icon-wrapper deputy__photo deputy__photo--errored"
-        title="Photo non renseignée"
-      >
-        {DeputyDefaultPlaceholder(props.sex)}
-      </div>
-    )
-  }
-
-  return tag
 }
 
 export interface IDeputyImageInformation {
