@@ -1,11 +1,8 @@
-name: CI/CD Staging
+name: [Manual] CI/CD Staging
 
 on:
   repository_dispatch:
     types: build-website-staging
-  push:
-    branches:
-      - develop
 
 jobs:
   build:
@@ -114,37 +111,3 @@ jobs:
           scope: augora
           alias-domains: |
             preprod.augora.fr
-
-      - name: Slack notification
-        uses: 8398a7/action-slack@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always()
-        with:
-          status: custom
-          fields: workflow,job,commit
-          custom_payload: |
-            {
-              username: "Github Actions",
-              icon_emoji: ":rocket:",
-              attachments: [
-                {
-                  color: '${{ job.status }}' === 'success' ? '#28a745' : '${{ job.status }}' === 'failure' ? '#dc3545' : '#ffc107',
-                  "blocks": [
-                    {
-                      "type": "section",
-                      "text": {
-                        "type": "mrkdwn",
-                        "text": '${{ job.status }}' === 'success' ? '*https://preprod.augora.fr* \n Déploiement en pré-production terminé :heavy_check_mark: \n N\'oubliez pas de vérifier que vos changements sont effectifs :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n Préparez vous à devoir hotfix avant de passer en prod :heart:'
-                      },
-                      "accessory": {
-                        "type": "image",
-                        "image_url": "https://augora.fr/icons/icon-512x512.png",
-                        "alt_text": "Augora"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
