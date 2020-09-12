@@ -6,13 +6,12 @@ Augora, c'est un projet qui a pour vocation de mettre à disposition des outils 
 
 ## Les technologies et outils utilisés
 
-- Yarn
-- Node
-- Gatsby
-- React
-- JavaScript ES6
-- Mapbox
-- Prettier
+- <a href="https://yarnpkg.com" target="_blank">Yarn</a>
+- <a href="https://nodejs.org" target="_blank">Node</a>
+- <a href="https://www.gatsbyjs.com" target="_blank">Gatsby</a>
+- <a href="https://reactjs.org" target="_blank">React</a>
+- <a href="https://www.mapbox.com" target="_blank">Mapbox</a>
+- <a href="https://prettier.io" target="_blank">Prettier</a>
 
 Environnement de développement : VS Code
 
@@ -22,7 +21,7 @@ Environnement de développement : VS Code
 
 Récupérez les packages suivants :
 
-- <a href="https://nodejs.org/en/download/" target="_blank">Node (version LTS)</a>
+- <a href="https://nodejs.org/en/download/" target="_blank">Node (version LTS ou Current)</a>
 - <a href="https://classic.yarnpkg.com/en/docs/install/#windows-stable" target="_blank">Yarn (version Stable)</a>
 - <a href="https://code.visualstudio.com/download" target="_blank">VS Code</a>
 
@@ -40,21 +39,11 @@ Une fois l'installation de VS Code effectuée, allez dans les extensions : `Ctrl
 
 > git clone https://github.com/Augora/Augora
 
-## Comment participer ?
+### Tester le site en local
 
-Vous pouvez reporter un bug dans nos issues : https://github.com/Augora/Augora/issues
+Une fois le projet disponible, il suffit de faire les actions suivantes :
 
-Vous pouvez proposer des améliorations ! Quelques règles :
+> yarn
+> yarn start
 
-1. Les pull requests doivent être effectuées depuis la branche `develop`
-2. Les pull requests doivent respecter les critères ci-dessous :
-
-- Commencer par "feature/"
-- Ne pas contenir de majuscule
-- Les séparateurs doivent être des tirets
-
-Ci-dessous un exemple :
-
-> feature/nom-de-branche
-
-3. Les pull requests doivent être assignées à <a href="https://github.com/KevinBacas" target="_blank">Kevin Bacas</a> et / ou <a href="https://github.com/pierretusseau" target="_blank">Pierre Tusseau</a>
+Une fois fait, le site est accessible sur l'adresse : http://localhost:8000
