@@ -118,16 +118,16 @@ const contentAbout = [
       </p>
     ),
   },
-  {
-    title: "Comment nous soutenir ?",
-    description: (
-      <p>
-        Nous avons ouvert une page <strong>Tipeee</strong> afin de recueillir
-        des dons, étant une association à but non lucratif, nous ne retirons
-        aucuns avantages personnels aux dons.
-      </p>
-    ),
-  },
+  // {
+  //   title: "Comment nous soutenir ?",
+  //   description: (
+  //     <p>
+  //       Nous avons ouvert une page <strong>Tipeee</strong> afin de recueillir
+  //       des dons, étant une association à but non lucratif, nous ne retirons
+  //       aucuns avantages personnels aux dons.
+  //     </p>
+  //   ),
+  // },
   {
     title: "Quels sont nos projets pour le futur ?",
     description: (
