@@ -52,12 +52,26 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
 
-  const handleClickOnGroupe = (sigle, isChecked) => {
-    setGroupeValue(
-      Object.assign({}, GroupeValue, {
-        [sigle]: isChecked,
-      })
-    )
+  const handleClickOnGroupe = (sigle) => {
+    //Check if any group is disabled
+    var isAnyUnchecked = false
+
+    for (var key in GroupeValue) {
+      if (!GroupeValue[key]) {
+        isAnyUnchecked = true
+        break
+      }
+    }
+
+    const newGroupeValue = Object.keys(GroupeValue).forEach((key) => {
+      if (sigle == key) {
+        GroupeValue[key] = isAnyUnchecked ? !GroupeValue[key] : true //Toggle selected group if any group is disabled, else enable it
+      } else if (!isAnyUnchecked) {
+        GroupeValue[key] = false //Disable all groups only if none are disabled
+      }
+    })
+
+    setGroupeValue(Object.assign({}, GroupeValue, newGroupeValue))
   }
 
   const handleClickOnSex = (clickedSex) => {

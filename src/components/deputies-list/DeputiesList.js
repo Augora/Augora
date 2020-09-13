@@ -48,7 +48,7 @@ const DeputiesList = (props) => {
           className="groupe__checkbox"
           type="checkbox"
           checked={state.GroupeValue[groupe.Sigle]}
-          onChange={(e) => handleClickOnGroupe(groupe.Sigle, e.target.checked)}
+          onChange={(e) => handleClickOnGroupe(groupe.Sigle)}
         />
         <div className="groupe__img-container">
           <img
