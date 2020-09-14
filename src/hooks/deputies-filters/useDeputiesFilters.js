@@ -53,25 +53,31 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
   }
 
   const handleClickOnGroupe = (sigle) => {
-    //Check if any group is disabled
-    var isAnyUnchecked = false
+    const groupesAsArray = Object.entries(GroupeValue)
+    const allActive = groupesAsArray.every(([key, value]) => {
+      return value
+    })
+    const isClickedIsAloneAsActive =
+      GroupeValue[sigle] &&
+      groupesAsArray
+        .filter(([key, value]) => {
+          return key !== sigle
+        })
+        .every(([key, value]) => {
+          return !value
+        })
 
-    for (var key in GroupeValue) {
-      if (!GroupeValue[key]) {
-        isAnyUnchecked = true
-        break
-      }
-    }
-
-    const newGroupeValue = Object.keys(GroupeValue).forEach((key) => {
-      if (sigle == key) {
-        GroupeValue[key] = isAnyUnchecked ? !GroupeValue[key] : true //Toggle selected group if any group is disabled, else enable it
-      } else if (!isAnyUnchecked) {
-        GroupeValue[key] = false //Disable all groups only if none are disabled
+    Object.keys(GroupeValue).forEach((key) => {
+      if (allActive) {
+        GroupeValue[key] = key !== sigle ? false : true
+      } else if (isClickedIsAloneAsActive) {
+        GroupeValue[key] = true
+      } else {
+        GroupeValue[sigle] = !GroupeValue[sigle]
       }
     })
 
-    setGroupeValue(Object.assign({}, GroupeValue, newGroupeValue))
+    setGroupeValue(Object.assign({}, GroupeValue))
   }
 
   const handleClickOnSex = (clickedSex) => {
