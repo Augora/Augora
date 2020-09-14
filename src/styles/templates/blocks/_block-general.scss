@@ -58,9 +58,14 @@
           align-items: center;
 
           height: 100%;
-          img {
+          .deputy__photo {
             height: 100%;
             margin-bottom: 0px;
+
+            svg {
+              fill: white;
+              height: 100%;
+            }
           }
         }
         &__info {

@@ -60,6 +60,14 @@
       z-index: 0;
       filter: grayscale(1);
       opacity: 0.3;
+
+      &--errored {
+        filter: none;
+        opacity: 0.1;
+        svg {
+          fill: white;
+        }
+      }
     }
     &__icon-container {
       margin-right: 15px;
