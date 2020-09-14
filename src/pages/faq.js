@@ -134,7 +134,7 @@ const contentAbout = [
       <p>
         Grâce à vos dons, nous avons l'ambition de créer des outils toujours
         plus accessibles et variés pour offrir à nos utilisateurs une expérience
-        fluide et accessible sur différentes plateforme de diffusion.
+        fluide et accessible sur différentes plateformes de diffusion.
         <br />
         Nous souhaitons développer un ensemble d’outils autour de la
         visualisation de données (data-visualisation) en association avec des
