@@ -37,13 +37,15 @@ Une fois l'installation de VS Code effectuée, allez dans les extensions : `Ctrl
 
 ### Récupération du projet
 
-> git clone https://github.com/Augora/Augora
+`git clone https://github.com/Augora/Augora`
 
 ### Tester le site en local
 
 Une fois le projet disponible, il suffit de faire les actions suivantes :
 
-> yarn
-> yarn start
+```
+yarn
+yarn start
+```
 
 Une fois fait, le site est accessible sur l'adresse : http://localhost:8000
