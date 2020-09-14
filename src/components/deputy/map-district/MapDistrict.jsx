@@ -95,6 +95,7 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
     }, 1000)
     setTimeout(() => {
       map.dragPan.enable()
+      map.scrollZoom.enable()
     }, 3000)
   }
 }
@@ -133,7 +134,7 @@ const MapDistrict = (props) => {
       minZoom: 2,
       interactive: true,
       dragPan: false,
-      // scrollZoom: false,
+      scrollZoom: false,
       boxZoom: false,
       dragRotate: false,
       doubleClickZoom: false,
@@ -147,6 +148,8 @@ const MapDistrict = (props) => {
         showCompass: false,
       })
     ) //add zoom buttons
+    // map.addControl(new mapboxgl.FullscreenControl({}))
+
     map.on("style.load", () => {
       // Récupérer la circonscription concernée
       const selectedDistrict = GEOJsonDistrict.features.find((district) => {
@@ -162,6 +165,11 @@ const MapDistrict = (props) => {
     map.on("dragstart", () => {
       setMapModified(true)
     })
+    setTimeout(() => {
+      map.on("zoomstart", () => {
+        setMapModified(true)
+      })
+    }, 3000)
 
     return map
   }
