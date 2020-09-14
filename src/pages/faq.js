@@ -112,7 +112,7 @@ const contentAbout = [
     description: (
       <p>
         Souhaitant établir une démarche de transparence avec nos utilisateurs,
-        le site Augora ne souhaite collecter aucune données.
+        le site Augora ne souhaite collecter aucunes données.
         <br />
         Pour plus d'informations, se référer à la page des mentions légales.
       </p>
@@ -133,7 +133,7 @@ const contentAbout = [
     description: (
       <p>
         Grâce à vos dons, nous avons l'ambition de créer des outils toujours
-        plus accessible et variés pour offrir à nos utilisateur une expérience
+        plus accessibles et variés pour offrir à nos utilisateurs une expérience
         fluide et accessible sur différentes plateforme de diffusion.
         <br />
         Nous souhaitons développer un ensemble d’outils autour de la
