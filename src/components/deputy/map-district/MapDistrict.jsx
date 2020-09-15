@@ -89,7 +89,7 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
     setTimeout(() => {
       map.fitBounds(box, {
         padding: 10,
-        maxZoom: 9,
+        maxZoom: 11,
         duration: 2000,
       })
     }, 1000)
@@ -104,7 +104,7 @@ const handleReset = (map, box, setMapModified) => {
   if (map !== null || box.length > 0) {
     map.fitBounds(box, {
       padding: 10,
-      maxZoom: 9,
+      maxZoom: 11,
       duration: 2000,
     })
     setMapModified(false)
