@@ -63,7 +63,6 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
       type: "geojson",
       data: district,
     },
-    layout: {},
     paint: {
       "fill-color": "#fff",
       "fill-opacity": 0.5,
@@ -84,12 +83,13 @@ const drawSelectedDistrictBox = (map, district, box, props) => {
       "line-opacity": 0.8,
     },
   })
+
   map.setPadding({ top: 90, left: 40, right: 40, bottom: 40 })
   if (box) {
     setTimeout(() => {
       map.fitBounds(box, {
         padding: 10,
-        maxZoom: 11,
+        maxZoom: 12,
         duration: 2000,
       })
     }, 1000)
@@ -104,7 +104,7 @@ const handleReset = (map, box, setMapModified) => {
   if (map !== null || box.length > 0) {
     map.fitBounds(box, {
       padding: 10,
-      maxZoom: 11,
+      maxZoom: 12,
       duration: 2000,
     })
     setMapModified(false)
@@ -147,7 +147,7 @@ const MapDistrict = (props) => {
         showCompass: false,
       })
     ) //add zoom buttons
-    map.addControl(new mapboxgl.FullscreenControl({}))
+    map.addControl(new mapboxgl.FullscreenControl({})) //add fullscreen button
 
     map.on("style.load", () => {
       // Récupérer la circonscription concernée
@@ -160,7 +160,17 @@ const MapDistrict = (props) => {
       })
       const box = getSelectedDistrictBox(map, selectedDistrict, props)
       setBox(box)
+
+      const marker = new mapboxgl.Marker({
+        scale: 0.8,
+      })
+        .setLngLat([
+          box[1][0] - (box[1][0] - box[0][0]) / 2,
+          box[0][1] - (box[0][1] - box[1][1]) / 2,
+        ])
+        .addTo(map)
     })
+
     map.on("dragstart", () => {
       setMapModified(true)
     })
