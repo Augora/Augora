@@ -9,12 +9,28 @@
     text-align: center;
     .coworker__name {
       margin: 0;
-      text-transform: capitalize;
     }
     .coworker__name-title {
       display: block;
       text-transform: uppercase;
       font-weight: 900;
+    }
+    .coworker__name-content {
+      text-transform: capitalize;
+    }
+
+    .coworkers__coworker--compact {
+      margin-bottom: 8px;
+      .coworker__name {
+        display: flex;
+        justify-content: center;
+      }
+      .coworker__name-title {
+        margin-right: 5px;
+      }
+      .coworker__name-content {
+        display: block;
+      }
     }
   }
 }

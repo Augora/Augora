@@ -1,6 +1,6 @@
 import React from "react"
 import { ResponsiveBar } from "@nivo/bar"
-import { Tooltip } from "components/tooltip/Tooltip"
+import Tooltip from "components/tooltip/Tooltip"
 
 var nbTicks = [0, 50, 100, 150, 200, 250, 300]
 /**
@@ -34,11 +34,10 @@ export default function BarChart(props) {
       labelSkipHeight={20}
       labelTextColor="white"
       tooltip={(tooltipInfo) => {
-        let currentGroup = props.groupesDetails.find(
-          (g) => g.Sigle === tooltipInfo.indexValue
-        )
         return Tooltip({
-          title: currentGroup.NomComplet,
+          title: props.groupesDetails.find(
+            (g) => g.Sigle === tooltipInfo.indexValue //iterate through groupedetails's acronym list until it find the correct one
+          ).NomComplet, //retrieve the full name of that acronym
           nbDeputes: tooltipInfo.value,
           totalDeputes: props.totalNumberDeputies,
           color: tooltipInfo.color,

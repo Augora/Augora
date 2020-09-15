@@ -94,6 +94,16 @@
       margin-top: 50px;
       margin-bottom: 0px;
       padding: 0 30px;
+
+      a {
+        color: $main-color;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.5s $ease-out-cubic;
+        &:hover {
+          color: $secondary-color;
+        }
+      }
     }
   }
 }

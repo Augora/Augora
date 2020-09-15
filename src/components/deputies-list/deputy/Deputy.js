@@ -3,6 +3,7 @@
 import React, { Component } from "react"
 import { Link } from "gatsby"
 import { groupeIconByGroupeSigle } from "../deputies-list-utils"
+import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
 class OneDeputy extends Component {
   constructor(props) {
@@ -37,10 +38,10 @@ class OneDeputy extends Component {
         }}
       >
         <h2>{this.props.data.Nom}</h2>
-        <img
-          className="deputy__photo"
+        <DeputyImage
           src={this.props.data.URLPhotoAugora}
           alt={this.props.data.Slug}
+          sex={this.props.data.Sexe}
         />
         <div className="deputy__icon-container">
           <img
