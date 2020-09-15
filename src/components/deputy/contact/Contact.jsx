@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import Block from "../_block/_Block"
 import Adresse from "./Adresse"
 import IconMail from "images/ui-kit/icon-mail.svg"
