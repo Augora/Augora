@@ -148,7 +148,7 @@ const MapDistrict = (props) => {
         showCompass: false,
       })
     ) //add zoom buttons
-    // map.addControl(new mapboxgl.FullscreenControl({}))
+    map.addControl(new mapboxgl.FullscreenControl({}))
 
     map.on("style.load", () => {
       // Récupérer la circonscription concernée
