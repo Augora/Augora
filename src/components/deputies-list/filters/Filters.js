@@ -13,7 +13,7 @@ import PieChart from "../pie-chart/PieChart"
 import BarChart from "../bar-chart/BarChart"
 import ComplexBarChart from "../complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "../slider/Slider"
-import { Tooltip } from "components/tooltip/Tooltip"
+import Tooltip from "components/tooltip/Tooltip"
 
 function Filters(props) {
   const [HasPieChart, setHasPieChart] = useState(true)

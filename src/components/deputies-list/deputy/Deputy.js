@@ -14,11 +14,11 @@ export default function OneDeputy(props) {
           backgroundColor: props.data.GroupeParlementaire.Couleur,
         }}
       >
-        <h2>{this.props.data.Nom}</h2>
+        <h2>{props.data.Nom}</h2>
         <DeputyImage
-          src={this.props.data.URLPhotoAugora}
-          alt={this.props.data.Slug}
-          sex={this.props.data.Sexe}
+          src={props.data.URLPhotoAugora}
+          alt={props.data.Slug}
+          sex={props.data.Sexe}
         />
         <div className="deputy__icon-container">
           <img
