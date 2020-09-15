@@ -3,6 +3,7 @@ import moment from "moment-with-locales-es6"
 import Block from "../_block/_Block"
 import IconMale from "images/ui-kit/icon-persontie.svg"
 import IconFemale from "images/ui-kit/icon-personw.svg"
+import DeputyImage from "./deputy-image/DeputyImage"
 
 const getDates = (date) => {
   moment.locale("fr")
@@ -31,9 +32,11 @@ export default function GeneralInformation(props) {
     yearsPassed: "1",
     monthsPassed: "1",
   })
+
   useEffect(() => {
     setDate(getDates(props.dateBegin))
   }, [props.dateBegin])
+
   return (
     <Block
       className="deputy__block deputy__general"
@@ -48,7 +51,7 @@ export default function GeneralInformation(props) {
       </div>
       <div className={`block__main general__main`}>
         <div className="main__picture">
-          <img src={props.picture} alt={props.id} />
+          <DeputyImage src={props.picture} alt={props.id} sex={props.sexe} />
         </div>
         <div className="main__info">
           <img src={props.pictureGroup} alt={props.groupe} />

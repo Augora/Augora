@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "gatsby"
 import { groupeIconByGroupeSigle } from "../deputies-list-utils"
+import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
 export default function OneDeputy(props) {
   return (
@@ -13,11 +14,11 @@ export default function OneDeputy(props) {
           backgroundColor: props.data.GroupeParlementaire.Couleur,
         }}
       >
-        <h2>{props.data.Nom}</h2>
-        <img
-          className="deputy__photo"
-          src={props.data.URLPhotoAugora}
-          alt={props.data.Slug}
+        <h2>{this.props.data.Nom}</h2>
+        <DeputyImage
+          src={this.props.data.URLPhotoAugora}
+          alt={this.props.data.Slug}
+          sex={this.props.data.Sexe}
         />
         <div className="deputy__icon-container">
           <img

@@ -1,13 +1,8 @@
-name: CI/CD Production
+name: Schedule CI/CD Production
 
 on:
   schedule:
     - cron: "0 6 * * *"
-  repository_dispatch:
-    types: build-website-production
-  push:
-    branches:
-      - master
 
 jobs:
   deploy:
@@ -63,59 +58,12 @@ jobs:
           alias-domains: |
             augora.fr
 
-      - name: Slack notification for push
+      - name: Slack notification
         uses: 8398a7/action-slack@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always() && '${{ github.event_name }}' === 'push'
-        with:
-          status: custom
-          fields: workflow,job,commit
-          custom_payload: |
-            {
-              username: "Github Actions",
-              icon_emoji: ":rocket:",
-              attachments: [
-                {
-                  color: '${{ job.status }}' === 'success' ? '#28a745' : '${{ job.status }}' === 'failure' ? '#dc3545' : '#ffc107',
-                  "blocks": [
-                    {
-                      "type": "section",
-                      "text": {
-                        "type": "mrkdwn",
-                        "text": '${{ job.status }}' === 'success' ? ':rocket: ----- :tada: ----- :fire: ----- *MISE EN PRODUCTION* ----- :fire: ----- :tada: ----- :rocket:' : ':male-firefighter: ----- :fire_engine: ----- :fire: ----- *MISE EN PRODUCTION* ----- :fire: ----- :fire_engine: ----- :female-firefighter:'
-                      }
-                    },
-                    {
-                      "type": "divider"
-                    },
-                    {
-                      "type": "section",
-                      "text": {
-                        "type": "mrkdwn",
-                        "text": '${{ job.status }}' === 'success' ? '*https://augora.fr* \n Messieurs vous avez accompli un travail incroyable. :muscle: \n C\'est toute la société française qui vous remercie aujourd\'hui :bow: \n N\'oubliez pas de vérifier que vos changements sont effectifs :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n Il faut tout recommencer... :crying_cat_face:\n Préparez vous à devoir hotfix toute la nuit :lul:'
-                      },
-                      "accessory": {
-                        "type": "image",
-                        "image_url": "https://augora.fr/icons/icon-512x512.png",
-                        "alt_text": "Augora"
-                      }
-                    },
-                    {
-                      "type": "divider"
-                    }
-                  ]
-                }
-              ]
-            }
-
-      - name: Slack notification for schedule
-        uses: 8398a7/action-slack@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always() && '${{ github.event_name }}' === 'schedule'
+        if: always()
         with:
           status: custom
           fields: workflow,job,commit

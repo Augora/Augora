@@ -8,7 +8,7 @@ import {
 import { DeputiesListContext } from "../../context/deputies-filters/deputiesFiltersContext"
 import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
-import { Tooltip } from "components/tooltip/Tooltip"
+import Tooltip from "components/tooltip/Tooltip"
 
 const DeputiesList = (props) => {
   const {
@@ -103,7 +103,7 @@ const DeputiesList = (props) => {
     return Object.assign(
       {},
       {
-        age: age,
+        age: age.toString(),
         ...groupeValueByAge(),
         ...groupeColorByAge(),
       }
