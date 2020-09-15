@@ -140,7 +140,6 @@ const MapDistrict = (props) => {
       doubleClickZoom: false,
       touchZoomRotate: false,
       touchPitch: false,
-      trackResize: false,
       // attributionControl: false, //hide bottom right text
     })
     map.addControl(
