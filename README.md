@@ -1,3 +1,5 @@
+![Push CI/CD Production](https://github.com/Augora/Augora/workflows/Push%20CI/CD%20Production/badge.svg)
+
 # Augora
 
 ## Le projet
