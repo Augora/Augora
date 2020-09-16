@@ -45,7 +45,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "gatsby clean",
-    "build": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
+    "build": "gatsby build",
     "rebuild": "gatsby clean && gatsby build",
     "develop": "gatsby develop",
     "start": "gatsby develop --open",
