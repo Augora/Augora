@@ -14,7 +14,7 @@ export default function SimpleTooltip(props: ISimpleTooltip) {
   return (
     <span
       className={`simple-tooltip ${
-        props.wasClicked ? "simple-tooltip--visible" : null
+        props.wasClicked ? "simple-tooltip--visible" : ""
       }`}
     >
       {props.content}

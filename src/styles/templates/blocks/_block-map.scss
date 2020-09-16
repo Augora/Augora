@@ -20,6 +20,18 @@
 
       overflow: hidden;
       border-radius: 0 0 5px 5px;
+      .simple-tooltip {
+        left: 50%;
+        transform: translate(-50%, 0);
+        white-space: nowrap;
+        transition: top 0.3s $ease-in-out-cubic;
+        opacity: 0;
+        top: -40px;
+        &--visible {
+          opacity: 1;
+          top: -70px;
+        }
+      }
     }
     &__navigation {
       position: absolute;

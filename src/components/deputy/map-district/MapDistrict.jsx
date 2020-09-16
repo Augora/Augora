@@ -1,5 +1,4 @@
-import React, { useState } from "react"
-// import styled from "styled-components"
+import React, { useState, useMemo } from "react"
 import ReactMapGL, {
   NavigationControl,
   FullscreenControl,
@@ -7,12 +6,15 @@ import ReactMapGL, {
   FlyToInterpolator,
   Source,
   Layer,
+  Marker,
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonDistrict from "../../../static/list-district.json"
-import Block from "../_block/_Block"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
+import Block from "../_block/_Block"
 import ResetControl from "./ResetControl"
+import SimpleTooltip from "../../tooltip/SimpleTooltip"
+import IconPin from "../../../images/ui-kit/icon-pin.svg"
 
 const France = {
   center: { lng: 1.88, lat: 46.6 },
@@ -51,18 +53,32 @@ const getSelectedDistrictBox = (districtPolygon) => {
 export default function MapDistrict(props) {
   const [viewport, setViewport] = useState({})
   const [userInteracted, setUserInteracted] = useState(false)
+  const [pinClicked, setPinClicked] = useState(false)
 
-  //récupère le polygone complexe de la circonscription
-  const districtPolygon = GEOJsonDistrict.features.find((district) => {
-    return (
-      district.properties.nom_dpt.toLowerCase() ===
-        retirerAccentsFR(props.nom.toLowerCase()) &&
-      parseInt(district.properties.num_circ) === props.num
-    )
-  })
+  //récupère le polygone de la circonscription
+  const districtPolygon = useMemo(() => {
+    return GEOJsonDistrict.features.find((district) => {
+      return (
+        district.properties.nom_dpt.toLowerCase() ===
+          retirerAccentsFR(props.nom.toLowerCase()) &&
+        parseInt(district.properties.num_circ) === props.num
+      )
+    })
+  }, [])
 
   //récupère la bounding box à paris du polygone de la circonscription
-  const districtBox = getSelectedDistrictBox(districtPolygon)
+  const districtBox = useMemo(() => getSelectedDistrictBox(districtPolygon), [])
+
+  //récupère le centre de la bounding box
+  const districtCenter = useMemo(() => {
+    return Object.assign(
+      {},
+      {
+        lat: districtBox[1][1] - (districtBox[1][1] - districtBox[0][1]) / 2,
+        lng: districtBox[1][0] - (districtBox[1][0] - districtBox[0][0]) / 2,
+      }
+    )
+  }, [])
 
   //function pour transitionner de façon fluide vers une bounding box
   const flyToBounds = (box) => {
@@ -82,28 +98,6 @@ export default function MapDistrict(props) {
     setUserInteracted(false)
     flyToBounds(districtBox)
   }
-
-  //     const marker = new mapboxgl.Marker({
-  //       scale: 0.8,
-  //     })
-  //       .setLngLat([
-  //         box[1][0] - (box[1][0] - box[0][0]) / 2,
-  //         box[0][1] - (box[0][1] - box[1][1]) / 2,
-  //       ])
-  //       .addTo(map)
-  //   })
-
-  //   map.on("dragstart", () => {
-  //     setMapModified(true)
-  //   })
-  //   setTimeout(() => {
-  //     map.on("zoomstart", () => {
-  //       setMapModified(true)
-  //     })
-  //   }, 3000)
-
-  //   return map
-  // }
 
   return (
     <Block
@@ -150,6 +144,7 @@ export default function MapDistrict(props) {
             ) {
               setUserInteracted(true)
             }
+            setPinClicked(false)
           }}
         >
           <Source type="geojson" data={districtPolygon}>
@@ -163,12 +158,30 @@ export default function MapDistrict(props) {
             <Layer
               type="line"
               paint={{
-                "line-color": "#4d4d4d",
-                "line-width": 1,
-                "line-dasharray": [4, 2],
+                "line-color": props.color,
+                "line-width": 2,
+                // "line-dasharray": [4, 2],
               }}
             />
           </Source>
+          <Marker
+            latitude={districtCenter.lat}
+            longitude={districtCenter.lng}
+            offsetLeft={-15}
+            offsetTop={-30}
+          >
+            <SimpleTooltip
+              content={`Circonscription ${props.num} de ${props.nom}`}
+              wasClicked={pinClicked}
+            />
+            <div
+              className="icon-wrapper"
+              style={{ width: "30px", height: "30px", cursor: "pointer" }}
+              onClick={() => setPinClicked(true)}
+            >
+              <IconPin fill={props.color} />
+            </div>
+          </Marker>
           <div className="map__navigation">
             <NavigationControl
               showCompass={false}
