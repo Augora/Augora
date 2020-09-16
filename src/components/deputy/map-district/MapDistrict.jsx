@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 // import styled from "styled-components"
-import mapboxgl from "mapbox-gl"
+import ReactMapGL, {
+  NavigationControl,
+  FullscreenControl,
+  WebMercatorViewport,
+  FlyToInterpolator,
+  Source,
+  Layer,
+} from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonDistrict from "../../../static/list-district.json"
 import Block from "../_block/_Block"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
-import IconReset from "../../../images/ui-kit/icon-refresh.svg"
+import ResetControl from "./ResetControl"
 
 const France = {
   center: { lng: 1.88, lat: 46.6 },
@@ -14,174 +21,89 @@ const France = {
 }
 
 /**
- * Retrieve the selected district box in the param map
- * @param {mapboxgl.Map} map : filled in the function
- * @param {*} selectedDistrict : the selected district found in GEOJsonDistrict file
- * @param {*} props
+ * Returns a bounding box from a polygon
+ * @param {*} districtPolygon : the selected district found in GEOJsonDistrict file
  */
-const getSelectedDistrictBox = (map, selectedDistrict, props) => {
+const getSelectedDistrictBox = (districtPolygon) => {
   // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
   let boxListOfLng = []
   let boxListOfLat = []
 
-  if (selectedDistrict.geometry.type === "Polygon") {
-    selectedDistrict.geometry.coordinates[0].forEach((coords) => {
+  if (districtPolygon.geometry.type === "Polygon") {
+    districtPolygon.geometry.coordinates[0].forEach((coords) => {
       boxListOfLng.push(coords[0])
       boxListOfLat.push(coords[1])
     })
   } else {
-    selectedDistrict.geometry.coordinates.forEach((polygon) => {
+    districtPolygon.geometry.coordinates.forEach((polygon) => {
       polygon[0].forEach((coords) => {
         boxListOfLng.push(coords[0])
         boxListOfLat.push(coords[1])
       })
     })
   }
-  const selectedDistrictBox = [
-    [Math.min(...boxListOfLng), Math.max(...boxListOfLat)],
-    [Math.max(...boxListOfLng), Math.min(...boxListOfLat)],
+  return [
+    [Math.min(...boxListOfLng), Math.min(...boxListOfLat)],
+    [Math.max(...boxListOfLng), Math.max(...boxListOfLat)],
   ]
-
-  drawSelectedDistrictBox(map, selectedDistrict, selectedDistrictBox, props)
-
-  return selectedDistrictBox
 }
 
-/**
- * Draw the selected district box in the "map" object
- * @param {*} map  : filled in the function
- * @param {*} district : the district found in GEOJsonDistrict file
- * @param {*} box : the district's box to draw
- * @param {*} props
- */
-const drawSelectedDistrictBox = (map, district, box, props) => {
-  // Dessiner la circonscription
-  map.addLayer({
-    id: props.nom.toLowerCase() + "-" + props.num + "-fill",
-    type: "fill",
-    source: {
-      type: "geojson",
-      data: district,
-    },
-    paint: {
-      "fill-color": "#fff",
-      "fill-opacity": 0.5,
-    },
-  })
-  // Add outline
-  map.addLayer({
-    id: props.nom.toLowerCase() + "-" + props.num + "-outline",
-    type: "line",
-    source: {
-      type: "geojson",
-      data: district,
-    },
-    paint: {
-      "line-color": "#4d4d4d",
-      "line-width": 2,
-      "line-dasharray": [4, 2],
-      "line-opacity": 0.8,
-    },
+export default function MapDistrict(props) {
+  const [viewport, setViewport] = useState({})
+  const [userInteracted, setUserInteracted] = useState(false)
+
+  //récupère le polygone complexe de la circonscription
+  const districtPolygon = GEOJsonDistrict.features.find((district) => {
+    return (
+      district.properties.nom_dpt.toLowerCase() ===
+        retirerAccentsFR(props.nom.toLowerCase()) &&
+      parseInt(district.properties.num_circ) === props.num
+    )
   })
 
-  map.setPadding({ top: 90, left: 40, right: 40, bottom: 40 })
-  if (box) {
-    setTimeout(() => {
-      map.fitBounds(box, {
-        padding: 10,
-        maxZoom: 12,
-        duration: 2000,
-      })
-    }, 1000)
-    setTimeout(() => {
-      map.dragPan.enable()
-      map.scrollZoom.enable()
-    }, 3000)
+  //récupère la bounding box à paris du polygone de la circonscription
+  const districtBox = getSelectedDistrictBox(districtPolygon)
+
+  //function pour transitionner de façon fluide vers une bounding box
+  const flyToBounds = (box) => {
+    const bounds = new WebMercatorViewport(viewport).fitBounds(box, {
+      padding: 100,
+    })
+    setViewport({
+      ...viewport,
+      ...bounds,
+      transitionInterpolator: new FlyToInterpolator({ speed: 1.5 }),
+      transitionDuration: "auto",
+    })
   }
-}
 
-const handleReset = (map, box, setMapModified) => {
-  if (map !== null || box.length > 0) {
-    map.fitBounds(box, {
-      padding: 10,
-      maxZoom: 12,
-      duration: 2000,
-    })
-    setMapModified(false)
+  //reset button handler
+  const handleReset = () => {
+    setUserInteracted(false)
+    flyToBounds(districtBox)
   }
-}
 
-const MapDistrict = (props) => {
-  const [map, setMap] = useState(null)
-  const [box, setBox] = useState([])
-  const [mapModified, setMapModified] = useState(false)
-  useEffect(() => {
-    setMap(initializeMap(props))
-  }, [props])
+  //     const marker = new mapboxgl.Marker({
+  //       scale: 0.8,
+  //     })
+  //       .setLngLat([
+  //         box[1][0] - (box[1][0] - box[0][0]) / 2,
+  //         box[0][1] - (box[0][1] - box[1][1]) / 2,
+  //       ])
+  //       .addTo(map)
+  //   })
 
-  /**
-   * Initialize map for the deputy's district
-   * @param {*} props
-   */
-  const initializeMap = (props) => {
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
-    const map = new mapboxgl.Map({
-      container: document.querySelector(".map__container"), // container id
-      style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-      center: France.center, // starting position [lng, lat]
-      zoom: 2, // starting zoom
-      minZoom: 2,
-      interactive: true,
-      dragPan: false,
-      scrollZoom: false,
-      boxZoom: false,
-      dragRotate: false,
-      doubleClickZoom: false,
-      touchZoomRotate: false,
-      touchPitch: false,
-      // attributionControl: false, //hide bottom right text
-    })
-    map.addControl(
-      new mapboxgl.NavigationControl({
-        showCompass: false,
-      })
-    ) //add zoom buttons
-    map.addControl(new mapboxgl.FullscreenControl({})) //add fullscreen button
+  //   map.on("dragstart", () => {
+  //     setMapModified(true)
+  //   })
+  //   setTimeout(() => {
+  //     map.on("zoomstart", () => {
+  //       setMapModified(true)
+  //     })
+  //   }, 3000)
 
-    map.on("style.load", () => {
-      // Récupérer la circonscription concernée
-      const selectedDistrict = GEOJsonDistrict.features.find((district) => {
-        return (
-          district.properties.nom_dpt.toLowerCase() ===
-            retirerAccentsFR(props.nom.toLowerCase()) &&
-          parseInt(district.properties.num_circ) === props.num
-        )
-      })
-      const box = getSelectedDistrictBox(map, selectedDistrict, props)
-      setBox(box)
-
-      const marker = new mapboxgl.Marker({
-        scale: 0.8,
-      })
-        .setLngLat([
-          box[1][0] - (box[1][0] - box[0][0]) / 2,
-          box[0][1] - (box[0][1] - box[1][1]) / 2,
-        ])
-        .addTo(map)
-    })
-
-    map.on("dragstart", () => {
-      setMapModified(true)
-    })
-    setTimeout(() => {
-      map.on("zoomstart", () => {
-        setMapModified(true)
-      })
-    }, 3000)
-
-    return map
-  }
+  //   return map
+  // }
 
   return (
     <Block
@@ -195,19 +117,75 @@ const MapDistrict = (props) => {
       }}
     >
       <div className="map__container">
-        <button
-          className={`map__container-btn ${mapModified ? "visible" : ""}`}
-          onClick={() => handleReset(map, box, setMapModified)}
-          title="Réinitialiser la position"
-          style={{ zIndex: 1, position: "absolute" }}
+        <ReactMapGL
+          mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
+          mapStyle="mapbox://styles/mapbox/streets-v11"
+          {...viewport}
+          width="100%"
+          height="100%"
+          minZoom={2}
+          dragRotate={false}
+          doubleClickZoom={false}
+          touchRotate={false}
+          mapOptions={{}}
+          //appelé Au chargement de la page
+          onLoad={() => {
+            setViewport({
+              latitude: France.center.lat,
+              longitude: France.center.lng,
+              zoom: 2,
+            })
+            flyToBounds(districtBox)
+          }}
+          //appelé quand le viewport change - nécéssaire pour que la map bouge
+          onViewportChange={(change) => {
+            setViewport(change)
+          }}
+          //appelé quand une interaction est constatée
+          onInteractionStateChange={(state) => {
+            if (
+              !userInteracted &&
+              !state.inTransition &&
+              (state.isPanning || state.isZooming)
+            ) {
+              setUserInteracted(true)
+            }
+          }}
         >
-          <div className="icon-wrapper">
-            <IconReset />
+          <Source type="geojson" data={districtPolygon}>
+            <Layer
+              type="fill"
+              paint={{
+                "fill-color": "#fff",
+                "fill-opacity": 0.5,
+              }}
+            />
+            <Layer
+              type="line"
+              paint={{
+                "line-color": "#4d4d4d",
+                "line-width": 1,
+                "line-dasharray": [4, 2],
+              }}
+            />
+          </Source>
+          <div className="map__navigation">
+            <NavigationControl
+              showCompass={false}
+              zoomInLabel="Zoomer"
+              zoomOutLabel="Dézoomer"
+            />
+            <FullscreenControl />
+            <ResetControl
+              onReset={handleReset}
+              className={`map__navigation-reset ${
+                userInteracted ? "visible" : null
+              }`}
+              title="Revenir à la position initiale"
+            />
           </div>
-        </button>
+        </ReactMapGL>
       </div>
     </Block>
   )
 }
-
-export default MapDistrict

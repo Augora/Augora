@@ -20,14 +20,17 @@
 
       overflow: hidden;
       border-radius: 0 0 5px 5px;
-
-      top: 0px;
-      left: 50%;
-      transform: translate3d(-50%, 0px, 0px);
-
-      &-btn {
-        right: 50px;
-        top: 11px;
+    }
+    &__navigation {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      display: flex;
+      flex-direction: column;
+      height: 140px;
+      justify-content: space-between;
+      &-reset {
+        position: relative;
         width: 30px;
         height: 30px;
         background: white;
@@ -56,6 +59,11 @@
           &::after {
             background-color: rgba(0, 0, 0, 0.05);
           }
+          .icon-wrapper {
+            svg {
+              animation: rotate 1.5s ease-in-out infinite;
+            }
+          }
         }
 
         &:focus {
@@ -74,7 +82,7 @@
           right: 0;
           pointer-events: none;
           svg {
-            fill: #4d4d4d;
+            fill: "#4d4d4d";
           }
         }
       }
