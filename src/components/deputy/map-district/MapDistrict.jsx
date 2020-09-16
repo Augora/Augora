@@ -171,7 +171,9 @@ export default function MapDistrict(props) {
             offsetTop={-30}
           >
             <SimpleTooltip
-              content={`Circonscription ${props.num} de ${props.nom}`}
+              content={`${props.nom}, ${props.num}${
+                props.num < 2 ? "ère " : "ème "
+              }Circonscription `}
               wasClicked={pinClicked}
             />
             <div
