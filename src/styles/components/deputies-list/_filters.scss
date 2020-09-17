@@ -74,22 +74,6 @@
     //   }
     // }
   }
-  .axis {
-    position: absolute;
-    text-align: center;
-    font-family: $font;
-    font-weight: bold;
-    font-size: 14px;
-    &.xValue {
-      bottom: -100px;
-      width: 100%;
-    }
-    &.yValue {
-      transform: rotate(90deg) translateY(-50%);
-      top: 50%;
-      right: -20px;
-    }
-  }
 
   &__search {
     background: white;
@@ -453,6 +437,25 @@
     width: 25%;
     background: grey;
   }
+
+  //Slider
+  .axis {
+    position: absolute;
+    text-align: center;
+    font-family: $font;
+    font-weight: bold;
+    font-size: 14px;
+    &.xValue {
+      bottom: -100px;
+      width: 100%;
+    }
+    &.yValue {
+      transform: rotate(90deg) translateY(-50%);
+      top: 50%;
+      right: -20px;
+    }
+  }
+
   &__reset {
     width: 100%;
     button {

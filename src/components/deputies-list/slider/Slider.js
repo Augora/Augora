@@ -1,15 +1,16 @@
 import React from "react"
 import { Slider, Rail, Handles, Tracks, Ticks } from "react-compound-slider"
 
-const barHeight = 12
+const barHeight = 13
 const marginTop = 25
-const handleSize = 28
+const handleSize = 34
 
 const sliderStyle = {
   // Give the slider some width
   position: "relative",
   height: 80,
-  marginLeft: 30,
+  marginLeft: 17,
+  marginTop: 5,
   marginRight: 100,
   pointerEvents: "none",
 }
@@ -18,9 +19,8 @@ const railStyle = {
   width: "100%",
   height: barHeight,
   marginTop: marginTop,
-  borderRadius: 5,
-  backgroundColor: "#4d4d4d",
-  opacity: 0.5,
+  borderRadius: 20,
+  backgroundColor: "white",
 }
 
 const Track = ({ source, target, getTrackProps }) => {
@@ -29,7 +29,6 @@ const Track = ({ source, target, getTrackProps }) => {
       style={{
         position: "absolute",
         height: barHeight,
-        zIndex: 1,
         marginTop: marginTop,
         backgroundColor: "#4d4d4d",
         borderRadius: 5,
@@ -48,7 +47,7 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
         position: "absolute",
         marginLeft: -handleSize / 2,
         marginTop: marginTop - handleSize / 2 + barHeight / 2,
-        zIndex: 2,
+        zIndex: 1,
         width: handleSize,
         height: handleSize,
         border: 0,
@@ -64,7 +63,7 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
       <div
         style={{
           fontFamily: "Open Sans, sans-serif",
-          fontSize: 14,
+          fontSize: 18,
           position: "absolute",
           top: "50%",
           left: "50%",
@@ -150,25 +149,26 @@ export default function AgeSlider(props) {
           </div>
         )}
       </Tracks>
-      <Ticks
-        // count={
-        //   window.innerWidth > 1500
-        //     ? props.domain[1] -
-        //       props
-        //         .domain[0] /* generate approximately 15 ticks within the domain */
-        //     : 10
-        // }
-        count={10}
-      >
-        {({ ticks }) => (
-          <div className="slider-ticks">
-            {ticks.map((tick) => (
-              <Tick key={tick.id} tick={tick} count={ticks.length} />
-            ))}
-          </div>
-        )}
-      </Ticks>
       {props.children}
     </Slider>
   )
 }
+
+// <Ticks
+//   // count={
+//   //   window.innerWidth > 1500
+//   //     ? props.domain[1] -
+//   //       props
+//   //         .domain[0] /* generate approximately 15 ticks within the domain */
+//   //     : 10
+//   // }
+//   count={10}
+// >
+//   {({ ticks }) => (
+//     <div className="slider-ticks">
+//       {ticks.map((tick) => (
+//         <Tick key={tick.id} tick={tick} count={ticks.length} />
+//       ))}
+//     </div>
+//   )}
+// </Ticks>
