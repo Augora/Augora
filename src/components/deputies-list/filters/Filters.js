@@ -199,7 +199,6 @@ function Filters(props) {
           )}
         </div>
       </Frame>
-      {/* <div className="filters__order">Trier par :</div> */}
     </section>
   )
 }

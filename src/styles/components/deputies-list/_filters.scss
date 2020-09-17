@@ -452,12 +452,11 @@
   }
 
   .frame-chart {
-    min-width: 600px;
+    min-width: 700px;
     margin: 0 0 0 40px;
     &__content {
       .chart {
-        min-height: 350px;
-        max-height: 400px;
+        height: 350px;
         width: 100%;
         &.piechart,
         &.barchart {
@@ -502,6 +501,10 @@
         //   }
         // }
       }
+    }
+
+    @media (max-width: 1500px) {
+      display: none;
     }
   }
 }

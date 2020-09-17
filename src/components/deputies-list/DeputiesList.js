@@ -130,6 +130,7 @@ const DeputiesList = (props) => {
         groupesDetails={state.GroupesList}
         deputes={state.DeputiesList}
       />
+      {/* <div className="filters__order">Trier par :</div> */}
       <section className="deputies__list">
         {state.FilteredList.length > 0 ? (
           state.FilteredList.map((depute) => {
