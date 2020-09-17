@@ -13,11 +13,15 @@ $font-title: $roboto;
 $black: #101010;
 $trueblack: #000000;
 $white: #ffffff;
-$grey: #4d4d4d;
+$lithestgrey: #f2f2f2;
+$lightergrey: #e6e6e6;
 $lightgrey: #808080;
+$grey: #4d4d4d;
 $teal: #14ccae;
 $turquoise: #00bbcc;
 
 $main-color: $turquoise;
 $secondary-color: $teal;
 $text-color: $grey;
+$frame-color: $lithestgrey;
+$btn-hover: $lightergrey;

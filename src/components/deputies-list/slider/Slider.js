@@ -7,13 +7,11 @@ const handleSize = 28
 
 const sliderStyle = {
   // Give the slider some width
-  position: "absolute",
-  width: "calc(95%)",
+  position: "relative",
   height: 80,
-  right: "2.5%",
-  bottom: -40,
+  marginLeft: 30,
+  marginRight: 100,
   pointerEvents: "none",
-  zIndex: 10,
 }
 const railStyle = {
   position: "absolute",
@@ -170,6 +168,7 @@ export default function AgeSlider(props) {
           </div>
         )}
       </Ticks>
+      {props.children}
     </Slider>
   )
 }
