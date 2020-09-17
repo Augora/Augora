@@ -179,7 +179,7 @@ export default function MapDistrict(props) {
             <div
               className="icon-wrapper"
               style={{ width: "30px", height: "30px", cursor: "pointer" }}
-              onClick={() => setPinClicked(true)}
+              onClick={() => setPinClicked(!pinClicked)}
             >
               <IconPin fill={props.color} />
             </div>
