@@ -14,7 +14,7 @@ import BarChart from "../bar-chart/BarChart"
 import ComplexBarChart from "../complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "../slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"
-import ListFrame from "../../frames/ListFrame"
+import Frame from "../../frames/Frame"
 
 function Filters(props) {
   const [HasPieChart, setHasPieChart] = useState(true)
@@ -48,7 +48,7 @@ function Filters(props) {
                 <p className="axis xValue">Âge</p>
                 <p className="axis yValue">Nombre de députés</p>
           </div> */}
-      <ListFrame
+      <Frame
         title="Filtres"
         center={`${props.filteredList.length} Députés`}
         right={`
@@ -165,8 +165,8 @@ function Filters(props) {
             <IconReset />
           </button>
         </div>
-      </ListFrame>
-      <ListFrame title="Répartition" minWidth="600px" margin="0 0 0 40px">
+      </Frame>
+      <Frame className="frame-chart" title="Répartition">
         <div className="filters__charts">
           {HasPieChart ? (
             <div
@@ -198,7 +198,7 @@ function Filters(props) {
             </div>
           )}
         </div>
-      </ListFrame>
+      </Frame>
       {/* <div className="filters__order">Trier par :</div> */}
     </section>
   )

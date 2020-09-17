@@ -16,65 +16,6 @@
   //   // }
   // }
 
-  // Charts (Graphiques)
-  &__charts {
-    width: 100%;
-    display: flex;
-
-    // @media (max-width: 1400px) {
-    //   flex-direction: column;
-    //   margin-bottom: 50px;
-    // }
-  }
-  .chart {
-    height: 350px;
-    width: 100%;
-    border-radius: 10px;
-    &.piechart,
-    &.barchart {
-      background: rgba(black, 0);
-      margin-right: 30px;
-      transition: 0.225s linear;
-      cursor: pointer;
-      &:hover {
-        background: rgba(black, 0.05);
-      }
-    }
-    &.piechart {
-      svg g text {
-        &[text-anchor="middle"] {
-          font-size: 22px !important;
-          font-weight: bold;
-        }
-      }
-    }
-    &.complex-barchart {
-      width: 70%;
-      position: relative;
-    }
-    .chart-wrapper {
-      height: 100%;
-    }
-
-    // @media (max-width: 1400px) {
-    //   &.piechart,
-    //   &.barchart,
-    //   &.complex-barchart {
-    //     width: 100%;
-    //     height: 250px;
-    //   }
-    //   &.complex-barchart {
-    //     height: auto;
-    //   }
-    //   .chart-wrapper {
-    //     display: none;
-    //   }
-    //   .yValue {
-    //     display: none;
-    //   }
-    // }
-  }
-
   &__search {
     background: white;
     width: 100%;
@@ -497,5 +438,70 @@
     // @media (max-width: 600px) {
     //   width: 100%;
     // }
+  }
+
+  // Charts (Graphiques)
+  &__charts {
+    width: 100%;
+    display: flex;
+
+    // @media (max-width: 1400px) {
+    //   flex-direction: column;
+    //   margin-bottom: 50px;
+    // }
+  }
+
+  .frame-chart {
+    min-width: 600px;
+    margin: 0 0 0 40px;
+    &__content {
+      .chart {
+        min-height: 350px;
+        max-height: 400px;
+        width: 100%;
+        &.piechart,
+        &.barchart {
+          background: rgba(black, 0);
+          transition: 0.225s linear;
+          cursor: pointer;
+          &:hover {
+            background: rgba(black, 0.05);
+          }
+        }
+        &.piechart {
+          svg g text {
+            &[text-anchor="middle"] {
+              font-size: 22px !important;
+              font-weight: bold;
+            }
+          }
+        }
+        &.complex-barchart {
+          width: 70%;
+          position: relative;
+        }
+        .chart-wrapper {
+          height: 100%;
+        }
+
+        // @media (max-width: 1400px) {
+        //   &.piechart,
+        //   &.barchart,
+        //   &.complex-barchart {
+        //     width: 100%;
+        //     height: 250px;
+        //   }
+        //   &.complex-barchart {
+        //     height: auto;
+        //   }
+        //   .chart-wrapper {
+        //     display: none;
+        //   }
+        //   .yValue {
+        //     display: none;
+        //   }
+        // }
+      }
+    }
   }
 }
