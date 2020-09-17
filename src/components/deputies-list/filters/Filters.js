@@ -37,17 +37,7 @@ function Filters(props) {
                 totalNumberDeputies={props.deputes.length}
                 groupesDetails={props.groupesDetails}
                 />
-            </div>
-            <div className="slider-wrapper">
-            <AgeSlider
-                selectedDomain={props.AgeDomain}
-                domain={props.calculateAgeDomain(props.deputes)}
-                callback={props.handleAgeSelection}
-                />
-                </div>
-                <p className="axis xValue">Âge</p>
-                <p className="axis yValue">Nombre de députés</p>
-          </div> */}
+            </div>*/}
       <Frame
         title="Filtres"
         center={`${props.filteredList.length} Députés`}
@@ -59,16 +49,6 @@ function Filters(props) {
           }%
         `}
       >
-        {/* <div className="filters__total-results">
-          <h2>
-            <strong>{props.filteredList.length}</strong> Députés
-          </h2>
-          <Tooltip
-            nbDeputes={props.filteredList.length}
-            totalDeputes={props.deputes.length}
-            hideNbDeputes={true}
-          />
-        </div> */}
         <div
           className={`filters__search ${
             isSearchHovered ? "filters__search--focus" : ""
