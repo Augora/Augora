@@ -83,7 +83,7 @@ function Filters(props) {
                   "sexe",
                   "F"
                 )}
-                totalDeputes={props.deputes.length}
+                totalDeputes={props.filteredList.length}
               />
             </button>
             <button
@@ -102,7 +102,7 @@ function Filters(props) {
                   "sexe",
                   "H"
                 )}
-                totalDeputes={props.deputes.length}
+                totalDeputes={props.filteredList.length}
               />
             </button>
           </div>
@@ -148,7 +148,7 @@ function Filters(props) {
               >
                 <PieChart
                   data={props.groupesData}
-                  totalNumberDeputies={props.deputes.length}
+                  filteredDeputies={props.filteredList.length}
                   groupesDetails={props.groupesDetails}
                 />
               </div>
@@ -162,7 +162,7 @@ function Filters(props) {
               >
                 <BarChart
                   data={props.groupesData}
-                  totalNumberDeputies={props.deputes.length}
+                  filteredDeputies={props.filteredList.length}
                   groupesDetails={props.groupesDetails}
                 />
               </div>

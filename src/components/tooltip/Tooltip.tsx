@@ -49,7 +49,10 @@ export default function Tooltip(props: ITooltip) {
           </div>
         ) : null}
         <div className="tooltip__percentage">
-          {Math.round(((props.nbDeputes * 100) / props.totalDeputes) * 10) / 10}
+          {props.totalDeputes > 0
+            ? Math.round(((props.nbDeputes * 100) / props.totalDeputes) * 10) /
+              10
+            : 0}
           %
         </div>
       </div>

@@ -69,7 +69,7 @@ const DeputiesList = (props) => {
             "groupe",
             groupe.Sigle
           )}
-          totalDeputes={state.DeputiesList.length}
+          totalDeputes={state.FilteredList.length}
           color={groupe.Couleur}
         />
       </div>
