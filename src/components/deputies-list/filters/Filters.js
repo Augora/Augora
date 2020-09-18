@@ -136,37 +136,39 @@ function Filters(props) {
         </div>
       </Frame>
       <Frame className="frame-chart" title="Répartition">
-        <div className="filters__charts">
-          {HasPieChart ? (
-            <div
-              className="piechart chart"
-              onClick={handleChartSelection}
-              onKeyDown={handleChartSelection}
-              role="button"
-              tabIndex={0}
-            >
-              <PieChart
-                data={props.groupesData}
-                totalNumberDeputies={props.deputes.length}
-                groupesDetails={props.groupesDetails}
-              />
-            </div>
-          ) : (
-            <div
-              className="barchart chart"
-              onClick={handleChartSelection}
-              onKeyDown={handleChartSelection}
-              role="button"
-              tabIndex={0}
-            >
-              <BarChart
-                data={props.groupesData}
-                totalNumberDeputies={props.deputes.length}
-                groupesDetails={props.groupesDetails}
-              />
-            </div>
-          )}
-        </div>
+        {props.filteredList.length > 0 ? (
+          <div className="filters__charts">
+            {HasPieChart ? (
+              <div
+                className="piechart chart"
+                onClick={handleChartSelection}
+                onKeyDown={handleChartSelection}
+                role="button"
+                tabIndex={0}
+              >
+                <PieChart
+                  data={props.groupesData}
+                  totalNumberDeputies={props.deputes.length}
+                  groupesDetails={props.groupesDetails}
+                />
+              </div>
+            ) : (
+              <div
+                className="barchart chart"
+                onClick={handleChartSelection}
+                onKeyDown={handleChartSelection}
+                role="button"
+                tabIndex={0}
+              >
+                <BarChart
+                  data={props.groupesData}
+                  totalNumberDeputies={props.deputes.length}
+                  groupesDetails={props.groupesDetails}
+                />
+              </div>
+            )}
+          </div>
+        ) : null}
       </Frame>
     </section>
   )

@@ -25,9 +25,7 @@ export const calculateNbDepute = (list, type, value) => {
       default:
         return filteredList.length
     }
-  } else {
-    return 0
-  }
+  } else return 0
 }
 
 export const calculateAgeDomain = (list) => {
