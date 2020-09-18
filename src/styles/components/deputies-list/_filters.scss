@@ -11,6 +11,7 @@
     display: flex;
     align-items: center;
     position: relative;
+    margin-bottom: 0;
     .search {
       &__icon {
         width: 35px;
@@ -23,8 +24,7 @@
       &__input {
         display: block;
         width: 100%;
-        margin: 0;
-        margin-left: 20px;
+        margin: 0 20px;
         padding: 10px;
         border: none;
         background: none;
@@ -40,9 +40,42 @@
           opacity: 0;
         }
       }
-    }
-    &--focus {
-      background: $btn-hover;
+      &__clear {
+        width: 35px;
+        margin-right: 20px;
+        pointer-events: none;
+        opacity: 0;
+        position: relative;
+
+        &-btn {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+          border: none;
+          background: none;
+          outline: none;
+        }
+        .icon-wrapper {
+          pointer-events: none;
+          svg {
+            fill: $text-color;
+          }
+        }
+        &:hover {
+          .icon-wrapper {
+            svg {
+              fill: black;
+            }
+          }
+        }
+        &--visible {
+          .search__clear-btn {
+            pointer-events: auto;
+          }
+          opacity: 1;
+        }
+      }
     }
   }
 

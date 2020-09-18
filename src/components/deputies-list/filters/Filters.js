@@ -3,9 +3,7 @@ import React, { useState } from "react"
 import IconOk from "../../../images/ui-kit/icon-ok.svg"
 import IconClose from "../../../images/ui-kit/icon-close.svg"
 import IconSearch from "../../../images/ui-kit/icon-loupe.svg"
-import IconMale from "../../../images/ui-kit/icon-persontie.svg"
 import IconMaleSymbol from "../../../images/ui-kit/icon-male.svg"
-import IconFemale from "../../../images/ui-kit/icon-personw.svg"
 import IconFemaleSymbol from "../../../images/ui-kit/icon-female.svg"
 import IconReset from "../../../images/ui-kit/icon-refresh.svg"
 
@@ -18,7 +16,7 @@ import Frame from "../../frames/Frame"
 
 function Filters(props) {
   const [HasPieChart, setHasPieChart] = useState(true)
-  const [isSearchHovered, setIsSearchHovered] = useState(false)
+  const [isSomethingSearched, setIsSomethingSearched] = useState(false)
 
   const handleChartSelection = (event) => {
     setHasPieChart(!HasPieChart)
@@ -47,11 +45,7 @@ function Filters(props) {
           }%
         `}
       >
-        <div
-          className={`filters__search ${
-            isSearchHovered ? "filters__search--focus" : ""
-          }`}
-        >
+        <form className={"filters__search"}>
           <div className="search__icon icon-wrapper">
             <IconSearch />
           </div>
@@ -60,11 +54,32 @@ function Filters(props) {
             type="text"
             placeholder="Chercher..."
             value={props.keyword}
-            onChange={(e) => props.handleSearchValue(e.target.value)}
-            onMouseEnter={() => setIsSearchHovered(true)}
-            onMouseLeave={() => setIsSearchHovered(false)}
+            onChange={(e) => {
+              props.handleSearchValue(e.target.value)
+              e.target.value.length > 0
+                ? setIsSomethingSearched(true)
+                : setIsSomethingSearched(false)
+            }}
           />
-        </div>
+          <div
+            className={`search__clear ${
+              isSomethingSearched ? "search__clear--visible" : ""
+            }`}
+          >
+            <input
+              className="search__clear-btn"
+              type="reset"
+              value=""
+              onClick={() => {
+                props.handleSearchValue("")
+                setIsSomethingSearched(false)
+              }}
+            />
+            <div className="icon-wrapper">
+              <IconClose />
+            </div>
+          </div>
+        </form>
         <div className="filters__middle-line">
           <div className="filters__sexes">
             <button
