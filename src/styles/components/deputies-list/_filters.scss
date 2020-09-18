@@ -50,7 +50,7 @@
     .sexes {
       &__btn {
         width: 100%;
-        height: 70px;
+        height: calc(50% - 10px);
         margin-bottom: 10px;
         background: white;
         border: none;
@@ -278,7 +278,7 @@
       margin-bottom: 10px;
       background: white;
       width: 100%;
-      height: 70px;
+      height: calc(50% - 10px);
       border: none;
       color: $text-color;
       font-family: $font;
@@ -371,6 +371,7 @@
     min-width: 700px;
     margin: 0 0 0 40px;
     &__content {
+      margin: auto 0;
       .chart {
         height: 350px;
         width: 100%;
