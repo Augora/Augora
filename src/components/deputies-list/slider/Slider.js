@@ -5,15 +5,6 @@ const barHeight = 13
 const marginTop = 25
 const handleSize = 34
 
-const sliderStyle = {
-  // Give the slider some width
-  position: "relative",
-  height: 80,
-  marginLeft: 17,
-  marginTop: 5,
-  marginRight: 100,
-  pointerEvents: "none",
-}
 const railStyle = {
   position: "absolute",
   width: "100%",
@@ -112,7 +103,7 @@ const Tick = ({ tick, count }) => {
 export default function AgeSlider(props) {
   return (
     <Slider
-      rootStyle={sliderStyle}
+      className="filters__slider"
       domain={props.domain}
       step={1}
       mode={2}

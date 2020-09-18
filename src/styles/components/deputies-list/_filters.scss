@@ -1,6 +1,9 @@
 .filters {
   margin-bottom: 70px;
+  display: flex;
+  justify-content: space-between;
 
+  //search field
   &__search {
     background: white;
     width: 100%;
@@ -43,6 +46,13 @@
     }
   }
 
+  //sex / group / allornone group
+  &__middle-line {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  //sex buttons
   &__sexes {
     width: 150px;
     position: relative;
@@ -150,7 +160,7 @@
         height: 70px;
         padding: 2px;
         position: relative;
-        z-index: 2;
+        z-index: 1;
         img {
           object-fit: contain;
           height: 100%;
@@ -164,7 +174,6 @@
         left: 0px;
         width: 100%;
         height: 100%;
-        z-index: 1;
         opacity: 1;
         filter: grayscale(0);
         transition: opacity 0.225s linear, filter 0.225s linear,
@@ -202,7 +211,7 @@
       }
       &::before,
       &::after {
-        z-index: 2;
+        z-index: 1;
         content: "";
         position: absolute;
         top: 0px;
@@ -241,37 +250,9 @@
       z-index: -1;
       opacity: 0.5;
     }
-
-    // @media (max-width: 2000px) {
-    //   padding-left: 0px;
-    //   justify-content: flex-start;
-    //   &::after {
-    //     display: none;
-    //   }
-    //   .groupe {
-    //     top: 5px;
-    //     margin-bottom: 10px;
-    //     &__img-container {
-    //       width: 100px;
-    //     }
-    //   }
-    // }
-    // @media (max-width: 600px) {
-    //   padding-right: 0px;
-    //   justify-content: center;
-    //   .groupe {
-    //     &__img-container {
-    //       width: 80px;
-    //     }
-    //   }
-    //   .groupes {
-    //     &__allornone {
-    //       display: none;
-    //     }
-    //   }
-    // }
   }
 
+  //all buttons
   &__allornone {
     width: 95px;
     button {
@@ -316,23 +297,23 @@
   }
 
   //Slider
-  .axis {
-    position: absolute;
-    text-align: center;
-    font-family: $font;
-    font-weight: bold;
-    font-size: 14px;
-    &.xValue {
-      bottom: -100px;
-      width: 100%;
-    }
-    &.yValue {
-      transform: rotate(90deg) translateY(-50%);
-      top: 50%;
-      right: -20px;
+  &__slider {
+    position: relative;
+    height: 80px;
+    margin-left: 17px;
+    margin-top: 5px;
+    margin-right: 100px;
+    pointer-events: none;
+
+    &-label {
+      position: absolute;
+      right: -80px;
+      top: 16px;
+      font-weight: bold;
     }
   }
 
+  //reset button
   &__reset {
     width: 100%;
     button {
@@ -367,6 +348,7 @@
     }
   }
 
+  //chart frame
   .frame-chart {
     min-width: 700px;
     margin: 0 0 0 40px;
@@ -405,6 +387,58 @@
 
     @media (max-width: 1500px) {
       display: none;
+    }
+  }
+
+  //responsive
+  @media (max-width: 850px) {
+    .frame-filters {
+      padding: 20px;
+    }
+
+    &__middle-line {
+      flex-direction: column;
+    }
+
+    &__sexes {
+      display: flex;
+      width: calc(100% + 10px);
+      margin-bottom: 10px;
+      .sexes {
+        &__btn {
+          height: 70px;
+          margin-right: 10px;
+        }
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+
+    &__groupe {
+      justify-content: center;
+      width: calc(100% + 10px);
+    }
+
+    &__allornone {
+      display: flex;
+      width: calc(100% + 10px);
+      margin-top: 10px;
+      button {
+        height: 70px;
+        margin-right: 10px;
+      }
+    }
+
+    &__slider {
+      margin-right: 17px;
+      &-label {
+        right: unset;
+        top: -5px;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
     }
   }
 }

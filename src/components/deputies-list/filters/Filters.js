@@ -25,10 +25,7 @@ function Filters(props) {
   }
 
   return (
-    <section
-      className="filters"
-      style={{ display: "flex", justifyContent: "space-between" }}
-    >
+    <section className="filters">
       {/* <div className="complex-barchart chart">
             <div className="chart-wrapper">
               <ComplexBarChart
@@ -39,6 +36,7 @@ function Filters(props) {
                 />
             </div>*/}
       <Frame
+        className="frame-filters"
         title="Filtres"
         center={`${props.filteredList.length} Députés`}
         right={`
@@ -67,7 +65,7 @@ function Filters(props) {
             onMouseLeave={() => setIsSearchHovered(false)}
           />
         </div>
-        <div style={{ display: "flex", marginTop: 20 }}>
+        <div className="filters__middle-line">
           <div className="filters__sexes">
             <button
               className={`sexes__btn sexes_btn--female ${
@@ -129,16 +127,7 @@ function Filters(props) {
           domain={props.calculateAgeDomain(props.deputes)}
           callback={props.handleAgeSelection}
         >
-          <span
-            style={{
-              position: "absolute",
-              right: -80,
-              top: 16,
-              fontWeight: "bold",
-            }}
-          >
-            ÂGE
-          </span>
+          <span className="filters__slider-label">ÂGE</span>
         </AgeSlider>
         <div className="filters__reset">
           <button onClick={props.handleReset}>
