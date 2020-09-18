@@ -122,7 +122,13 @@ function Filters(props) {
             </button>
           </div>
           <div className="filters__groupe">{props.allGroupes}</div>
-          <div className="filters__allornone">
+          <div className="filters__reset">
+            <button onClick={props.handleReset}>
+              <IconReset />
+            </button>
+          </div>
+
+          {/* <div className="filters__allornone">
             <button onClick={() => props.handleClickOnAllGroupes(true)}>
               <div className="icon-wrapper">
                 <IconOk />
@@ -135,7 +141,7 @@ function Filters(props) {
               </div>
               Aucun
             </button>
-          </div>
+          </div> */}
         </div>
         <AgeSlider
           selectedDomain={props.AgeDomain}
@@ -144,11 +150,6 @@ function Filters(props) {
         >
           <span className="filters__slider-label">ÂGE</span>
         </AgeSlider>
-        <div className="filters__reset">
-          <button onClick={props.handleReset}>
-            <IconReset />
-          </button>
-        </div>
       </Frame>
       <Frame className="frame-chart" title="Répartition">
         {props.filteredList.length > 0 ? (

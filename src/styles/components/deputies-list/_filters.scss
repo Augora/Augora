@@ -94,7 +94,7 @@
 
   //sex buttons
   &__sexes {
-    width: 150px;
+    width: 140px;
     position: relative;
     margin-right: 40px;
     .sexes {
@@ -370,14 +370,14 @@
 
   //reset button
   &__reset {
-    width: 100%;
+    width: 140px;
+    position: relative;
     button {
       width: 100%;
-      height: 70px;
+      height: calc(100% - 10px);
       border: none;
       background-color: white;
       font-family: $font;
-      align-items: center;
       color: $text-color;
       cursor: pointer;
       svg {
@@ -413,7 +413,7 @@
     &__content {
       margin: auto 0;
       .chart {
-        height: 350px;
+        height: 330px;
         width: 100%;
         outline: none;
         &.piechart,
@@ -449,13 +449,22 @@
   }
 
   //responsive
-  @media (max-width: 850px) {
+  @media (max-width: 875px) {
     .frame-filters {
       padding: 20px;
+      &__content {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    &__search {
+      order: 0;
     }
 
     &__middle-line {
-      flex-direction: column;
+      display: block;
+      margin-top: 0;
+      order: 2;
     }
 
     &__sexes {
@@ -489,8 +498,18 @@
       }
     }
 
+    &__reset {
+      width: 100%;
+      margin: 10px 0;
+      button {
+        height: 70px;
+      }
+    }
+
     &__slider {
+      margin-top: 20px;
       margin-right: 17px;
+      order: 1;
       &-label {
         right: unset;
         top: -5px;
