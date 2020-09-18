@@ -15,13 +15,15 @@ $trueblack: #000000;
 $white: #ffffff;
 $lithestgrey: #f2f2f2;
 $lightergrey: #e6e6e6;
-$lightgrey: #808080;
-$grey: #4d4d4d;
+$lightgrey: #c0c0c0;
+$grey: #9e9e9e;
+$darkergrey: #4d4d4d;
 $teal: #14ccae;
 $turquoise: #00bbcc;
 
 $main-color: $turquoise;
 $secondary-color: $teal;
-$text-color: $grey;
+$text-color: $darkergrey;
 $frame-color: $lithestgrey;
 $btn-hover: $lightergrey;
+$btn-active: $grey;

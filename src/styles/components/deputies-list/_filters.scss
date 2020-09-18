@@ -69,6 +69,13 @@
             }
           }
         }
+        &:active {
+          .icon-wrapper {
+            svg {
+              fill: $btn-active;
+            }
+          }
+        }
         &--visible {
           .search__clear-btn {
             pointer-events: auto;
@@ -102,6 +109,7 @@
         align-items: center;
         position: relative;
         cursor: pointer;
+        transition: border-color 0.225s linear;
         .icon-wrapper {
           fill: $text-color;
           transition: 0.225s linear;
@@ -133,8 +141,16 @@
           min-width: 220px;
         }
         &:not(.selected) {
+          border: 3px dashed $btn-active;
+          background: none;
           .icon-wrapper {
-            opacity: 0.25;
+            fill: $btn-active;
+          }
+          &:hover {
+            background: white;
+          }
+          &:active {
+            background: $btn-hover;
           }
         }
         &:focus {
@@ -149,6 +165,9 @@
             top: calc(100% + 10px);
             opacity: 1;
           }
+        }
+        &:active {
+          background-color: $btn-active;
         }
       }
     }
@@ -285,7 +304,7 @@
     }
   }
 
-  //all buttons
+  //allornone buttons
   &__allornone {
     width: 95px;
     button {
@@ -320,6 +339,9 @@
       &:focus {
         outline: none;
         border: none;
+      }
+      &:active {
+        background-color: $btn-active;
       }
     }
   }
@@ -358,6 +380,14 @@
       align-items: center;
       color: $text-color;
       cursor: pointer;
+      svg {
+        fill: $text-color;
+        width: 30px;
+        transform-origin: center;
+        transform: rotate(0deg);
+        transition: 0.225s linear;
+        pointer-events: none;
+      }
       &:focus {
         outline: none;
       }
@@ -370,13 +400,8 @@
           animation: rotate 2s ease-in-out infinite;
         }
       }
-      svg {
-        fill: $text-color;
-        width: 30px;
-        transform-origin: center;
-        transform: rotate(0deg);
-        transition: 0.225s linear;
-        pointer-events: none;
+      &:active {
+        background-color: $btn-active;
       }
     }
   }
