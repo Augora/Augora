@@ -11,15 +11,12 @@ export interface ITooltip {
 
 /**
  * Returns a Tooltip in a div tag
- *
- * @export
  * @param {number} nbDeputes - Mandatory number of deputies
  * @param {number} totalDeputes - Mandatory total of deputies
  * @param {string} [title] - Optional tooltip title: group, gender, whatever
  * @param {string} [color] - Optional title color
  * @param {number} [age] - Optional age value for age chart
  * @param {boolean} [hideNbDeputes] - Optional boolean for hiding the number of deputies
- * @returns
  */
 export default function Tooltip(props: ITooltip) {
   return (

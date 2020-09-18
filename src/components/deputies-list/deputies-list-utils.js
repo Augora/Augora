@@ -26,7 +26,7 @@ export const calculateNbDepute = (list, type, value) => {
         return filteredList.length
     }
   } else {
-    return list
+    return 0
   }
 }
 
