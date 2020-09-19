@@ -45,7 +45,10 @@ function Filters(props) {
           }%
         `}
       >
-        <form className={"filters__search"}>
+        <form
+          className={"filters__search"}
+          onSubmit={(e) => e.preventDefault()}
+        >
           <div className="search__icon icon-wrapper">
             <IconSearch />
           </div>
