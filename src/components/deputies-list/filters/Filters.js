@@ -17,6 +17,7 @@ import Frame from "../../frames/Frame"
 function Filters(props) {
   const [HasPieChart, setHasPieChart] = useState(true)
   const [isSomethingSearched, setIsSomethingSearched] = useState(false)
+  const [isSearchInteracted, setIsSearchInteracted] = useState(false)
 
   const handleChartSelection = (event) => {
     setHasPieChart(!HasPieChart)
@@ -46,7 +47,9 @@ function Filters(props) {
         `}
       >
         <form
-          className={"filters__search"}
+          className={`filters__search ${
+            isSearchInteracted ? "filters__search--focus" : ""
+          }`}
           onSubmit={(e) => e.preventDefault()}
         >
           <div className="search__icon icon-wrapper">
@@ -63,6 +66,8 @@ function Filters(props) {
                 ? setIsSomethingSearched(true)
                 : setIsSomethingSearched(false)
             }}
+            onFocus={() => setIsSearchInteracted(true)}
+            onBlur={() => setIsSearchInteracted(false)}
           />
           <div
             className={`search__clear ${
@@ -73,6 +78,7 @@ function Filters(props) {
               className="search__clear-btn"
               type="reset"
               value=""
+              title="Effacer"
               onClick={() => {
                 props.handleSearchValue("")
                 setIsSomethingSearched(false)
@@ -126,7 +132,10 @@ function Filters(props) {
           </div>
           <div className="filters__groupe">{props.allGroupes}</div>
           <div className="filters__reset">
-            <button onClick={props.handleReset}>
+            <button
+              onClick={props.handleReset}
+              title="Réinitialiser les filtres"
+            >
               <IconReset />
             </button>
           </div>
