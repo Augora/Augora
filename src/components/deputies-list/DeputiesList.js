@@ -14,7 +14,6 @@ const DeputiesList = (props) => {
   const {
     state,
     handleSearchValue,
-    handleSearchClear,
     handleClickOnAllGroupes,
     handleClickOnGroupe,
     handleClickOnSex,
@@ -122,7 +121,6 @@ const DeputiesList = (props) => {
         handleAgeSelection={handleAgeSelection}
         handleClickOnAllGroupes={handleClickOnAllGroupes}
         handleSearchValue={handleSearchValue}
-        handleSearchClear={handleSearchClear}
         handleClickOnSex={handleClickOnSex}
         handleReset={handleReset}
         calculateAgeDomain={calculateAgeDomain}
@@ -136,7 +134,6 @@ const DeputiesList = (props) => {
         filteredList={state.FilteredList}
         groupesDetails={state.GroupesList}
         deputes={state.DeputiesList}
-        isSomethingSearched={state.isSomethingSearched}
       />
       {/* <div className="filters__order">Trier par :</div> */}
       <section className="deputies__list">

@@ -61,16 +61,13 @@ function Filters(props) {
             value={props.keyword}
             onChange={(e) => {
               props.handleSearchValue(e.target.value)
-              e.target.value.length > 0
-                ? props.handleSearchClear(true)
-                : props.handleSearchClear(false)
             }}
             onFocus={() => setIsSearchInteracted(true)}
             onBlur={() => setIsSearchInteracted(false)}
           />
           <div
             className={`search__clear ${
-              props.isSomethingSearched ? "search__clear--visible" : ""
+              props.keyword.length > 0 ? "search__clear--visible" : ""
             }`}
           >
             <input
@@ -80,7 +77,6 @@ function Filters(props) {
               title="Effacer"
               onClick={() => {
                 props.handleSearchValue("")
-                props.handleSearchClear(false)
               }}
             />
             <div className="icon-wrapper">
