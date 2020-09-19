@@ -52,14 +52,19 @@ const DeputiesList = (props) => {
         />
         <div className="groupe__img-container">
           <img
-            src={groupeIconByGroupeSigle(groupe.Sigle)}
+            src={groupeIconByGroupeSigle(
+              groupe.Sigle,
+              !state.GroupeValue[groupe.Sigle]
+            )}
             alt={`Icône groupe parlementaire ${groupe.Sigle}`}
           />
         </div>
         <div
-          className={`groupe__background-color ${
-            state.GroupeValue[groupe.Sigle] ? "selected" : ""
-          }`}
+          className="groupe__border"
+          style={{ borderColor: groupe.Couleur }}
+        ></div>
+        <div
+          className="groupe__background-color"
           style={{ backgroundColor: groupe.Couleur }}
         ></div>
         <Tooltip
