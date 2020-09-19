@@ -81,17 +81,14 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
   }
 
   const handleClickOnSex = (clickedSex) => {
-    const allActive = SexValue.F === true && SexValue.H === true
+    const currentSexValue = SexValue[clickedSex]
     const otherSex = clickedSex === "F" ? "H" : "F"
 
-    if (allActive) {
-      SexValue[clickedSex] = true
-      SexValue[otherSex] = false
-    } else if (!SexValue[otherSex]) {
+    if (!SexValue[otherSex]) {
       SexValue[clickedSex] = false
       SexValue[otherSex] = true
     } else {
-      SexValue[clickedSex] = true
+      SexValue[clickedSex] = !currentSexValue
     }
 
     setSexValue(Object.assign({}, SexValue))
