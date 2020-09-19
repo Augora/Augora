@@ -71,7 +71,7 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
       if (allActive) {
         GroupeValue[key] = key !== sigle ? false : true
       } else if (isClickedIsAloneAsActive) {
-        GroupeValue[key] = true
+        GroupeValue[key] = key !== sigle ? true : false
       } else {
         GroupeValue[sigle] = !GroupeValue[sigle]
       }
@@ -81,12 +81,20 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
   }
 
   const handleClickOnSex = (clickedSex) => {
-    const actualValueOfSex = SexValue[clickedSex]
-    setSexValue(
-      Object.assign({}, SexValue, {
-        [clickedSex]: !actualValueOfSex,
-      })
-    )
+    const allActive = SexValue.F === true && SexValue.H === true
+    const otherSex = clickedSex === "F" ? "H" : "F"
+
+    if (allActive) {
+      SexValue[clickedSex] = true
+      SexValue[otherSex] = false
+    } else if (!SexValue[otherSex]) {
+      SexValue[clickedSex] = false
+      SexValue[otherSex] = true
+    } else {
+      SexValue[clickedSex] = true
+    }
+
+    setSexValue(Object.assign({}, SexValue))
   }
 
   const handleAgeSelection = (domain) => {

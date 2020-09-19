@@ -86,7 +86,7 @@ function Filters(props) {
               className={`sexes__btn sexes_btn--female ${
                 props.SexValue["F"] ? "selected" : ""
               }`}
-              onClick={(e) => props.handleClickOnSex("F", e)}
+              onClick={(e) => props.handleClickOnSex("F")}
             >
               <div className="sexe__icon--female-symbol icon-wrapper">
                 <IconFemaleSymbol />
@@ -105,7 +105,7 @@ function Filters(props) {
               className={`sexes__btn sexes_btn--male ${
                 props.SexValue["H"] ? "selected" : ""
               }`}
-              onClick={(e) => props.handleClickOnSex("H", e)}
+              onClick={(e) => props.handleClickOnSex("H")}
             >
               <div className="sexe__icon--male-symbol icon-wrapper">
                 <IconMaleSymbol />
