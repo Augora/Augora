@@ -32,6 +32,8 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     }
   )
 
+  const [isSomethingSearched, setIsSomethingSearched] = useState(false)
+
   const FilteredList = filterList(result, {
     GroupeValue,
     SexValue,
@@ -43,6 +45,10 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
   /*----------------------------------------------------*/
   const handleSearchValue = (value) => {
     search(value)
+  }
+
+  const handleSearchClear = (bool) => {
+    setIsSomethingSearched(bool)
   }
 
   const handleClickOnAllGroupes = (bool) => {
@@ -113,11 +119,13 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     FilteredList,
     GroupesList: groupesList,
     Keyword: keyword,
+    isSomethingSearched,
   }
 
   return {
     state,
     handleSearchValue,
+    handleSearchClear,
     handleClickOnAllGroupes,
     handleClickOnGroupe,
     handleClickOnSex,

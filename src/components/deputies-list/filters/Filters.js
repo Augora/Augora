@@ -16,7 +16,6 @@ import Frame from "../../frames/Frame"
 
 function Filters(props) {
   const [HasPieChart, setHasPieChart] = useState(true)
-  const [isSomethingSearched, setIsSomethingSearched] = useState(false)
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
 
   const handleChartSelection = (event) => {
@@ -63,15 +62,15 @@ function Filters(props) {
             onChange={(e) => {
               props.handleSearchValue(e.target.value)
               e.target.value.length > 0
-                ? setIsSomethingSearched(true)
-                : setIsSomethingSearched(false)
+                ? props.handleSearchClear(true)
+                : props.handleSearchClear(false)
             }}
             onFocus={() => setIsSearchInteracted(true)}
             onBlur={() => setIsSearchInteracted(false)}
           />
           <div
             className={`search__clear ${
-              isSomethingSearched ? "search__clear--visible" : ""
+              props.isSomethingSearched ? "search__clear--visible" : ""
             }`}
           >
             <input
@@ -81,7 +80,7 @@ function Filters(props) {
               title="Effacer"
               onClick={() => {
                 props.handleSearchValue("")
-                setIsSomethingSearched(false)
+                props.handleSearchClear(false)
               }}
             />
             <div className="icon-wrapper">
