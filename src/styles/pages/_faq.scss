@@ -21,7 +21,9 @@
         }
         .faq {
           &__description {
-            display: block;
+            max-height: 1000px;
+            margin-bottom: 50px;
+            transition: max-height 0.4s $ease-in-cubic;
           }
           &__title-container {
             transform: translateY(-5px);
@@ -38,7 +40,7 @@
         border: none;
         border-top: 2px dashed $text-color;
         width: 100%;
-        margin: 50px 0;
+        margin-bottom: 50px;
         opacity: 0.5;
       }
     }
@@ -48,6 +50,7 @@
       position: relative;
       padding: 20px;
       padding-right: 70px;
+      margin-bottom: 50px;
       overflow: hidden;
       border-radius: 20px;
       display: flex;
@@ -90,10 +93,11 @@
     }
     &__description {
       font-family: $opensans;
-      display: none;
-      margin-top: 50px;
+      max-height: 0;
+      overflow: hidden;
       margin-bottom: 0px;
       padding: 0 30px;
+      transition: max-height 0.4s $ease-out-cubic, margin 0.5s linear;
 
       a {
         color: $main-color;
