@@ -10,12 +10,16 @@ function Coworker(props) {
   const justName = nameArray.join(" ").toLowerCase()
 
   return (
-    <div className="coworkers__coworker">
+    <div
+      className={`cowoerkers__coworker ${
+        props.isCompact ? "coworkers__coworker--compact" : null
+      }`}
+    >
       <p className="coworker__name">
         <span className="coworker__name-title" style={{ color: props.color }}>
           {title}
         </span>
-        {justName}
+        <span className="coworker__name-content">{justName}</span>
       </p>
     </div>
   )

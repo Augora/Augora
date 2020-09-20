@@ -16,8 +16,7 @@ import uai from "images/logos/groupes-parlementaires/udi/udi_blanc.png"
  * @param {string} politicGroupAcronym
  * @returns politic group's photo import
  */
-export function getDeputyPhotoURL(slug: string, height: number)
-{
+export function getDeputyPhotoURL(slug: string, height: number) {
   return `https://www.nosdeputes.fr/depute/photo/${slug}/${height}`
 }
 
@@ -28,10 +27,8 @@ export function getDeputyPhotoURL(slug: string, height: number)
  * @param {string} politicGroupAcronym
  * @returns politic group's photo import
  */
-export function getPoliticGroupPhotoImport(politicGroupAcronym: string)
-{
-  switch (politicGroupAcronym)
-  {
+export function getPoliticGroupPhotoImport(politicGroupAcronym: string) {
+  switch (politicGroupAcronym) {
     case "UDI":
       return UDI
     case "GDR":
