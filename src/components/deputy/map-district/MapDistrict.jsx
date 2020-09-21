@@ -1,10 +1,21 @@
-import React, { useEffect } from "react"
-// import styled from "styled-components"
-import mapboxgl from "mapbox-gl"
+import React, { useState, useMemo } from "react"
+import ReactMapGL, {
+  NavigationControl,
+  FullscreenControl,
+  WebMercatorViewport,
+  FlyToInterpolator,
+  Source,
+  Layer,
+  Marker,
+} from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonDistrict from "../../../static/list-district.json"
-import Block from "../_block/_Block"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
+import Block from "../_block/_Block"
+import ResetControl from "./ResetControl"
+import SimpleTooltip from "../../tooltip/SimpleTooltip"
+import IconPin from "../../../images/ui-kit/icon-pin.svg"
+
 const France = {
   center: { lng: 1.88, lat: 46.6 },
   northWest: { lng: -6.864165, lat: 50.839888 },
@@ -12,119 +23,198 @@ const France = {
 }
 
 /**
- * Retrieve the selected district box in the param map
- * @param {mapboxgl.Map} map : filled in the function
- * @param {*} selectedDistrict : the selected district found in GEOJsonDistrict file
- * @param {*} props
+ * Returns a bounding box from a polygon
+ * @param {*} districtPolygon : the selected district found in GEOJsonDistrict file
  */
-const getSelectedDistrictBox = (map, selectedDistrict, props) => {
+const getSelectedDistrictBox = (districtPolygon) => {
   // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
   let boxListOfLng = []
   let boxListOfLat = []
 
-  if (selectedDistrict.geometry.type === "Polygon") {
-    selectedDistrict.geometry.coordinates[0].forEach((coords) => {
+  if (districtPolygon.geometry.type === "Polygon") {
+    districtPolygon.geometry.coordinates[0].forEach((coords) => {
       boxListOfLng.push(coords[0])
       boxListOfLat.push(coords[1])
     })
   } else {
-    selectedDistrict.geometry.coordinates.forEach((polygon) => {
+    districtPolygon.geometry.coordinates.forEach((polygon) => {
       polygon[0].forEach((coords) => {
         boxListOfLng.push(coords[0])
         boxListOfLat.push(coords[1])
       })
     })
   }
-  const selectedDistrictBox = [
-    [Math.min(...boxListOfLng), Math.max(...boxListOfLat)],
-    [Math.max(...boxListOfLng), Math.min(...boxListOfLat)],
+  return [
+    [Math.min(...boxListOfLng), Math.min(...boxListOfLat)],
+    [Math.max(...boxListOfLng), Math.max(...boxListOfLat)],
   ]
-
-  drawSelectedDistrictBox(map, selectedDistrict, selectedDistrictBox, props)
 }
 
-/**
- * Draw the selected district box in the "map" object
- * @param {*} map  : filled in the function
- * @param {*} district : the district found in GEOJsonDistrict file
- * @param {*} box : the district's box to draw
- * @param {*} props
- */
-const drawSelectedDistrictBox = (map, district, box, props) => {
-  // Dessiner la circonscription
-  map.addLayer({
-    id: props.nom.toLowerCase() + "-" + props.num,
-    type: "fill",
-    source: {
-      type: "geojson",
-      data: district,
-    },
-    layout: {},
-    paint: {
-      "fill-color": "#fff",
-      "fill-opacity": 0.5,
-      "fill-outline-color": "#f00",
-    },
+export default function MapDistrict(props) {
+  const [viewport, setViewport] = useState({})
+  const [interactionSettings, setInteractionSettings] = useState({
+    dragPan: false,
+    touchZoom: false,
+    scrollZoom: false,
   })
-  map.setPadding({ top: 90, left: 40, right: 40, bottom: 40 })
-  if (box) {
-    setTimeout(() => {
-      map.fitBounds(box, {
-        padding: 10,
-        maxZoom: 9,
-      })
-    }, 1000)
-  }
-}
+  const [userInteracted, setUserInteracted] = useState(false)
+  const [pinClicked, setPinClicked] = useState(false)
 
-/**
- * Initialize map for the deputy's district
- * @param {*} props
- */
-const initializeMap = (props) => {
-  mapboxgl.accessToken =
-    "pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
-  const map = new mapboxgl.Map({
-    container: document.querySelector(".map__container"), // container id
-    style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-    center: France.center, // starting position [lng, lat]
-    zoom: 2, // starting zoom
-    interactive: false,
-  })
-  map.on("style.load", () => {
-    // Récupérer la circonscription concernée
-    const selectedDistrict = GEOJsonDistrict.features.find((district) => {
+  //récupère le polygone de la circonscription
+  const districtPolygon = useMemo(() => {
+    return GEOJsonDistrict.features.find((district) => {
       return (
         district.properties.nom_dpt.toLowerCase() ===
           retirerAccentsFR(props.nom.toLowerCase()) &&
         parseInt(district.properties.num_circ) === props.num
       )
     })
-    getSelectedDistrictBox(map, selectedDistrict, props)
-  })
-}
+  }, [])
 
-const MapDistrict = (props) => {
-  useEffect(() => {
-    initializeMap(props)
-  }, [props])
+  //récupère la bounding box à paris du polygone de la circonscription
+  const districtBox = useMemo(() => getSelectedDistrictBox(districtPolygon), [])
+
+  //récupère le centre de la bounding box
+  const districtCenter = useMemo(() => {
+    return Object.assign(
+      {},
+      {
+        lat: districtBox[1][1] - (districtBox[1][1] - districtBox[0][1]) / 2,
+        lng: districtBox[1][0] - (districtBox[1][0] - districtBox[0][0]) / 2,
+      }
+    )
+  }, [])
+
+  //function pour transitionner de façon fluide vers une bounding box
+  const flyToBounds = (box) => {
+    const bounds = new WebMercatorViewport(viewport).fitBounds(box, {
+      padding: 100,
+    })
+    setViewport({
+      ...viewport,
+      ...bounds,
+      transitionInterpolator: new FlyToInterpolator({ speed: 1.5 }),
+      transitionDuration: "auto",
+    })
+  }
+
+  //reset button handler
+  const handleReset = () => {
+    setUserInteracted(false)
+    flyToBounds(districtBox)
+  }
+
+  //interaction handler
+  const handleInteraction = (state) => {
+    if (!state.inTransition) {
+      if (!interactionSettings.dragPan)
+        setInteractionSettings({
+          dragPan: true,
+          touchZoom: true,
+          scrollZoom: true,
+        })
+      if (!userInteracted && (state.isPanning || state.isZooming))
+        setUserInteracted(true)
+    } else if (interactionSettings.dragPan)
+      setInteractionSettings({
+        dragPan: false,
+        touchZoom: false,
+        scrollZoom: false,
+      })
+    if (pinClicked) setPinClicked(false)
+  }
+
   return (
     <Block
       title="Circonscription"
       type="map"
       color={props.color}
       size={props.size}
+      circ={{
+        region: props.nom,
+        circNb: props.num,
+      }}
     >
-      <div className="map__text-wrapper">
-        <p className="map__title">{props.nom}</p>
-        <p className="map__number">
-          {props.num}
-          {props.num < 2 ? "ère" : "ème"} circonscription
-        </p>
+      <div className="map__container">
+        <ReactMapGL
+          mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
+          mapStyle="mapbox://styles/mapbox/streets-v11"
+          {...viewport}
+          {...interactionSettings}
+          width="100%"
+          height="100%"
+          minZoom={2}
+          dragRotate={false}
+          doubleClickZoom={false}
+          touchRotate={false}
+          //appelé Au chargement de la page
+          onLoad={() => {
+            setViewport({
+              latitude: France.center.lat,
+              longitude: France.center.lng,
+              zoom: 2,
+            })
+            flyToBounds(districtBox)
+          }}
+          //appelé quand le viewport change - nécéssaire pour que la map bouge
+          onViewportChange={(change) => setViewport(change)}
+          //appelé quand une interaction est constatée
+          onInteractionStateChange={(state) => handleInteraction(state)}
+        >
+          <Source type="geojson" data={districtPolygon}>
+            <Layer
+              type="fill"
+              paint={{
+                "fill-color": "#fff",
+                "fill-opacity": 0.5,
+              }}
+            />
+            <Layer
+              type="line"
+              paint={{
+                "line-color": props.color,
+                "line-width": 2,
+                // "line-dasharray": [4, 2],
+              }}
+            />
+          </Source>
+          <Marker
+            latitude={districtCenter.lat}
+            longitude={districtCenter.lng}
+            offsetLeft={-15}
+            offsetTop={-30}
+          >
+            <SimpleTooltip
+              content={`${props.nom}, ${props.num}${
+                props.num < 2 ? "ère " : "ème "
+              }Circonscription `}
+              wasClicked={pinClicked}
+            />
+            <div
+              className="icon-wrapper"
+              style={{ width: "30px", height: "30px", cursor: "pointer" }}
+              onClick={() => setPinClicked(!pinClicked)}
+            >
+              <IconPin fill={props.color} />
+            </div>
+          </Marker>
+          <div className="map__navigation">
+            <NavigationControl
+              showCompass={false}
+              zoomInLabel="Zoomer"
+              zoomOutLabel="Dézoomer"
+            />
+            <FullscreenControl />
+            <ResetControl
+              onReset={handleReset}
+              className={`map__navigation-reset ${
+                userInteracted ? "visible" : null
+              }`}
+              title="Revenir à la position initiale"
+            />
+          </div>
+        </ReactMapGL>
       </div>
-      <div className="map__container"></div>
     </Block>
   )
 }
-
-export default MapDistrict

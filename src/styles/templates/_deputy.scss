@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
 
-    padding: 20px 0 50px;
+    margin: 40px 20px 70px;
     h1 {
       margin: 0;
     }
@@ -15,23 +15,34 @@
     align-items: center;
     .btn {
       margin-left: 20px;
+      transition: 0.2s $ease-in-out-cubic;
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 
   // Icônes de contact
   &__icon {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
 
     display: flex;
     align-items: center;
-
-    pointer-events: none;
     svg {
       height: 100%;
       width: auto;
+      pointer-events: none;
       path {
         fill: var(--groupe-color);
+      }
+    }
+
+    &--missing {
+      margin-left: 20px;
+      opacity: 0.3;
+      svg {
+        pointer-events: none;
       }
     }
   }

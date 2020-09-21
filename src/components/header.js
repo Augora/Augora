@@ -25,7 +25,9 @@ const Header = ({ siteTitle, location }) => {
 
   function isActivePage(path) {
     return `menu__item ${
-      location.pathname === path ? "menu__item--current" : ""
+      location.pathname === path || location.pathname === path + "/"
+        ? "menu__item--current"
+        : ""
     }`
   }
 
