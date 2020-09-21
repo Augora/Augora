@@ -39,7 +39,7 @@ export default function BarChart(props) {
             (g) => g.Sigle === tooltipInfo.indexValue //iterate through groupedetails's acronym list until it find the correct one
           ).NomComplet, //retrieve the full name of that acronym
           nbDeputes: tooltipInfo.value,
-          totalDeputes: props.totalNumberDeputies,
+          totalDeputes: props.filteredDeputies,
           color: tooltipInfo.color,
         })
       }}
