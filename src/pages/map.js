@@ -81,18 +81,18 @@ const getBoundingBoxFromPolygon = (polygon) => {
 /**
  * Renvoie les donées GEOJson de la prochaine vue à afficher
  * @param {*} GEOJsonFile Le fichier GEOJson dans lequel fouiller
- * @param {*} currentZoneType La vue dans laquelle on est actuellement (régions, départements, ou circonscriptions)
- * @param {*} selectedZoneId La zone cliquée par l'utilisateur
+ * @param {*} zoneTypeToSearch Le type de zone parent commun à chercher dans les entrées GEOJson
+ * @param {*} zoneTypeId L'id de la zone parent
  */
 const filterNewGEOJSonFeatureCollection = (
   GEOJsonFile,
-  currentZoneType,
-  selectedZoneId
+  zoneTypeToSearch,
+  zoneTypeId
 ) => {
   return {
     type: "FeatureCollection",
     features: GEOJsonFile.features.filter(
-      (feature) => feature.properties[currentZoneType] === selectedZoneId
+      (feature) => feature.properties[zoneTypeToSearch] === zoneTypeId
     ),
   }
 }
@@ -113,7 +113,7 @@ const getSelectedZonePolygon = (selectedZoneId, zoneType, zoneTypeFile) => {
  * Determine dans quelle vue on est actuellement
  * @param {*} featureProperties A mouseevent features properties object
  */
-const determineZoneType = (featureProperties) => {
+const determineZoneTypeFromFeatureProperties = (featureProperties) => {
   if (featureProperties) {
     const featureAsAnArray = Object.keys(featureProperties)
 
@@ -123,19 +123,51 @@ const determineZoneType = (featureProperties) => {
   }
 }
 
-//determine quel fichier devrait être utilisé pour la prochaine vue
-const determineNextZoneTypeFile = (currentZoneType) => {
-  return currentZoneType === "code_reg" ? GEOJsonDpt : GEOJsonDistrict
+const determineParentZoneType = (zoneType) => {
+  switch (zoneType) {
+    case "num_circ":
+      return "code_dpt"
+    case "code_dpt":
+      return "code_reg"
+    default:
+      return null
+  }
+}
+
+const determineChildZoneType = (zoneType) => {
+  switch (zoneType) {
+    case "code_reg":
+      return "code_dpt"
+    case "code_dpt":
+      return "num_circ"
+    default:
+      return null
+  }
+}
+
+//donne le fichier associé au type de zone
+const getZoneTypeFile = (zoneType) => {
+  switch (zoneType) {
+    case "num_circ":
+      return GEOJsonDistrict
+    case "code_dpt":
+      return GEOJsonDpt
+    default:
+      return GEOJsonReg
+  }
 }
 
 //returns an object if the mousevent is on a valid layer, else returns undefined
 const formatMouseEventFeatures = (e) => {
-  let object = {}
+  let zoneInfo = {}
   if (e.features) {
-    object.currentZoneType = determineZoneType(e.features[0]?.properties)
-    if (object.currentZoneType) {
-      object.selectedZoneId = e.features[0]?.properties[object.currentZoneType]
-      return object
+    zoneInfo.currentZoneType = determineZoneTypeFromFeatureProperties(
+      e.features[0]?.properties
+    )
+    if (zoneInfo.currentZoneType) {
+      zoneInfo.selectedZoneId =
+        e.features[0].properties[zoneInfo.currentZoneType]
+      return zoneInfo
     } else return undefined
   } else return undefined
 }
@@ -167,7 +199,7 @@ export default function MapPage() {
         ["get", mouseEventInfo.currentZoneType],
         mouseEventInfo.selectedZoneId,
       ])
-    else setHoverFilter(["==", "no", ""])
+    else if (hoverFilter !== ["==", "no", ""]) setHoverFilter(["==", "no", ""])
   }
 
   const handleClick = (e) => {
@@ -177,7 +209,9 @@ export default function MapPage() {
       if (mouseEventInfo.currentZoneType !== "num_circ") {
         //récupère les données geojson de la nouvelle vue à afficher
         const zoneToDisplay = filterNewGEOJSonFeatureCollection(
-          determineNextZoneTypeFile(mouseEventInfo.currentZoneType),
+          getZoneTypeFile(
+            determineChildZoneType(mouseEventInfo.currentZoneType)
+          ),
           mouseEventInfo.currentZoneType,
           mouseEventInfo.selectedZoneId
         )
@@ -195,6 +229,56 @@ export default function MapPage() {
         })
         setHoverFilter(["==", "no", ""])
         flyToBounds(getBoundingBoxFromPolygon(selectedZonePolygon))
+      }
+    }
+  }
+
+  const handleBack = () => {
+    const parentZoneType = determineParentZoneType(
+      determineZoneTypeFromFeatureProperties(
+        currentView.zoneGEOJson.features[0].properties
+      )
+    )
+    const parentZoneId =
+      currentView.zoneGEOJson.features[0].properties[
+        determineParentZoneType(
+          determineParentZoneType(
+            determineZoneTypeFromFeatureProperties(
+              currentView.zoneGEOJson.features[0].properties
+            )
+          )
+        )
+      ]
+
+    if (parentZoneType) {
+      if (parentZoneType === "code_dpt") {
+        const zoneToDisplay = filterNewGEOJSonFeatureCollection(
+          getZoneTypeFile(parentZoneType),
+          determineParentZoneType(parentZoneType),
+          parentZoneId
+        )
+
+        // récupère le polygon de la region actuelle
+        const zoneToDisplayPolygon = getSelectedZonePolygon(
+          parentZoneId,
+          determineParentZoneType(parentZoneType),
+          getZoneTypeFile(determineParentZoneType(parentZoneType))
+        )
+
+        setCurrentView({
+          zoneGEOJson: zoneToDisplay,
+          parentZoneId: "",
+        })
+        setHoverFilter(["==", "no", ""])
+        flyToBounds(getBoundingBoxFromPolygon(zoneToDisplayPolygon))
+      } else {
+        setCurrentView(
+          Object.assign({}, currentView, {
+            zoneGEOJson: GEOJsonReg,
+            parentZoneId: "",
+          })
+        )
+        flyToBounds(franceBox)
       }
     }
   }
@@ -243,7 +327,10 @@ export default function MapPage() {
               <button
                 onClick={() => {
                   setCurrentView(
-                    Object.assign({}, currentView, { zoneGEOJson: GEOJsonReg })
+                    Object.assign({}, currentView, {
+                      zoneGEOJson: GEOJsonReg,
+                      parentZoneId: "",
+                    })
                   )
                   flyToBounds(franceBox)
                 }}
@@ -259,6 +346,17 @@ export default function MapPage() {
                 title="Revenir à la position initiale"
               /> */}
             </div>
+            <button
+              style={{
+                position: "absolute",
+                left: "10px",
+                top: "10px",
+                minHeight: "30px",
+              }}
+              onClick={handleBack}
+            >
+              Précedent
+            </button>
           </ReactMapGL>
         </div>
       </div>
