@@ -42,6 +42,42 @@ const lineLayerLayout = {
   },
 }
 
+const hoverLayerLayout = {
+  type: "fill",
+  paint: {
+    "fill-color": "#14ccae",
+    "fill-opacity": 0.5,
+  },
+}
+
+/**
+ * Returns a bounding box from a polygon
+ * @param {*} districtPolygon : the selected district found in GEOJsonDistrict file
+ */
+const getSelectedDistrictBox = (districtPolygon) => {
+  // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
+  let boxListOfLng = []
+  let boxListOfLat = []
+
+  if (districtPolygon.geometry.type === "Polygon") {
+    districtPolygon.geometry.coordinates[0].forEach((coords) => {
+      boxListOfLng.push(coords[0])
+      boxListOfLat.push(coords[1])
+    })
+  } else {
+    districtPolygon.geometry.coordinates.forEach((polygon) => {
+      polygon[0].forEach((coords) => {
+        boxListOfLng.push(coords[0])
+        boxListOfLat.push(coords[1])
+      })
+    })
+  }
+  return [
+    [Math.min(...boxListOfLng), Math.min(...boxListOfLat)],
+    [Math.max(...boxListOfLng), Math.max(...boxListOfLat)],
+  ]
+}
+
 /**
  * Renvoie les donées GEOJson de la prochaine vue à afficher
  * @param {*} GEOJsonFile Le fichier GEOJson dans lequel fouiller
@@ -61,7 +97,10 @@ const filterNewGEOJSonFeatureCollection = (
   }
 }
 
-//determine dans quelle vue on est actuellement
+/**
+ * Determine dans quelle vue on est actuellement
+ * @param {*} featureProperties A mouseevent features array
+ */
 const determineZoneType = (featureProperties) => {
   if (featureProperties) {
     const featureAsAnArray = Object.keys(featureProperties)
@@ -77,7 +116,7 @@ const determineNextZoneTypeFile = (currentZoneType) => {
   return currentZoneType === "code_reg" ? GEOJsonDpt : GEOJsonDistrict
 }
 
-const MapPage = () => {
+export default function MapPage() {
   const [viewport, setViewport] = useState({})
   const [hoverFilter, setHoverFilter] = useState(["==", "no", ""])
   const [currentView, setCurrentView] = useState({
@@ -93,7 +132,6 @@ const MapPage = () => {
       padding: 100,
     })
     setViewport({
-      ...viewport,
       ...bounds,
       transitionInterpolator: new FlyToInterpolator({ speed: 1.5 }),
       transitionDuration: "auto",
@@ -101,14 +139,17 @@ const MapPage = () => {
   }
 
   const handleHover = (e) => {
-    // if (e.features) {
-    //   const zoneId = e.features[0]?.properties?.code_reg
-    //   if (zoneId) {
-    //     setHoverFilter(["==", ["get", "code_reg"], zoneId])
-    //   } else {
-    //     setHoverFilter(["==", "no", ""])
-    //   }
-    // }
+    if (e.features) {
+      const currentZoneType = determineZoneType(e.features[0]?.properties) //determine dans quelle vue on est
+      if (currentZoneType) {
+        const hoveredZoneId = e.features[0]?.properties[currentZoneType]
+        if (hoveredZoneId) {
+          setHoverFilter(["==", ["get", currentZoneType], hoveredZoneId])
+        }
+      } else {
+        setHoverFilter(["==", "no", ""])
+      }
+    }
   }
 
   const handleClick = (e) => {
@@ -128,6 +169,8 @@ const MapPage = () => {
             zoneGEOJson: zoneToDisplay,
             parentZoneId: selectedZoneId,
           })
+          setHoverFilter(["==", "no", ""])
+          // console.log(getSelectedDistrictBox(zoneToDisplay))
         }
       }
     }
@@ -161,11 +204,7 @@ const MapPage = () => {
             <Source type="geojson" data={currentView.zoneGEOJson}>
               <Layer
                 id="zone-fill-hovered"
-                {...fillLayerLayout}
-                paint={{
-                  "fill-color": "#14ccae",
-                  "fill-opacity": 0.5,
-                }}
+                {...hoverLayerLayout}
                 filter={hoverFilter}
               />
               <Layer id="zone-fill" {...fillLayerLayout} />
@@ -179,11 +218,12 @@ const MapPage = () => {
               />
               <FullscreenControl />
               <button
-                onClick={() =>
+                onClick={() => {
                   setCurrentView(
                     Object.assign({}, currentView, { zoneGEOJson: GEOJsonReg })
                   )
-                }
+                  flyToBounds(franceBox)
+                }}
                 style={{ width: "100%", minHeight: "30px" }}
               >
                 R
@@ -202,5 +242,3 @@ const MapPage = () => {
     </>
   )
 }
-
-export default MapPage
