@@ -7,6 +7,10 @@ const mainPages = {
     path: "/",
     title: "Députés",
   },
+  carte: {
+    path: "/map",
+    title: "Carte de France",
+  },
 }
 
 const secondaryPages = {
@@ -17,10 +21,6 @@ const secondaryPages = {
   faq: {
     path: "/faq",
     title: "FAQ",
-  },
-  carte: {
-    path: "/map",
-    title: "Carte de France",
   },
 }
 
@@ -63,7 +63,10 @@ const Header = ({ siteTitle, location }) => {
   }, [])
 
   return (
-    <header id="header" className={`header ${Size}`}>
+    <header
+      id="header"
+      className={!isActivePage("/map") ? `header ${Size}` : "header small"}
+    >
       <div className="header__wrapper wrapper">
         <Link to="/" className="header__home-btn">
           <div className={`header__logo-wrapper `}>

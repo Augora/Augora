@@ -1,5 +1,12 @@
-import React, { useEffect } from "react"
-import mapboxgl from "mapbox-gl"
+import React, { useState } from "react"
+import ReactMapGL, {
+  NavigationControl,
+  FullscreenControl,
+  WebMercatorViewport,
+  FlyToInterpolator,
+  Source,
+  Layer,
+} from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonDistrict from "../static/list-district"
 import GEOJsonDpt from "../static/departements"
@@ -13,212 +20,184 @@ const France = {
   northEast: { lng: 11, lat: 51.15 },
 }
 
-const zoomOnFrance = (map) => {
-  map.fitBounds(
-    [
-      [France.northWest.lng, France.northWest.lat],
-      [France.southEast.lng, France.southEast.lat],
-    ],
-    {
-      padding: 30,
-      maxZoom: 9,
-      duration: 2000,
-    }
-  )
-}
-const getSelectedDistrictBox = (map, selectedDistrict) => {
-  // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
-  let boxListOfLng = []
-  let boxListOfLat = []
+const franceBox = [
+  [France.southWest.lng, France.southWest.lat],
+  [France.northEast.lng, France.northEast.lat],
+]
 
-  if (selectedDistrict.geometry.type === "Polygon") {
-    selectedDistrict.geometry.coordinates[0].forEach((coords) => {
-      boxListOfLng.push(coords[0])
-      boxListOfLat.push(coords[1])
-    })
-  } else {
-    selectedDistrict.geometry.coordinates.forEach((polygon) => {
-      polygon[0].forEach((coords) => {
-        boxListOfLng.push(coords[0])
-        boxListOfLat.push(coords[1])
-      })
-    })
-  }
-  const selectedDistrictBox = [
-    [Math.min(...boxListOfLng), Math.max(...boxListOfLat)],
-    [Math.max(...boxListOfLng), Math.min(...boxListOfLat)],
-  ]
-
-  UpdateDistrictBox(map, selectedDistrict, selectedDistrictBox)
+const fillLayerLayout = {
+  type: "fill",
+  paint: {
+    "fill-color": "#fff",
+    "fill-opacity": 0.3,
+  },
 }
 
-const UpdateDistrictBox = (map, district, box) => {
-  if (box) {
-    setTimeout(() => {
-      map.fitBounds(box, {
-        padding: 10,
-        maxZoom: 9,
-      })
-    }, 1000)
+const lineLayerLayout = {
+  type: "line",
+  paint: {
+    "line-color": "#4d4d4d",
+    "line-width": 1,
+    // "line-dasharray": [4, 2],
+  },
+}
+
+/**
+ * Renvoie les donées GEOJson de la prochaine vue à afficher
+ * @param {*} GEOJsonFile Le fichier GEOJson dans lequel fouiller
+ * @param {*} currentZoneType La vue dans laquelle on est actuellement (régions, départements, ou circonscriptions)
+ * @param {*} selectedZoneId La zone cliquée par l'utilisateur
+ */
+const filterNewGEOJSonFeatureCollection = (
+  GEOJsonFile,
+  currentZoneType,
+  selectedZoneId
+) => {
+  return {
+    type: "FeatureCollection",
+    features: GEOJsonFile.features.filter(
+      (feature) => feature.properties[currentZoneType] === selectedZoneId
+    ),
   }
 }
 
-const drawDistrictBox = (map, zone) => {
-  map.addLayer({
-    id: zone,
-    type: "fill",
-    source: zone,
-    layout: {},
-    paint: {
-      "fill-color": "#fff",
-      "fill-opacity": [
-        "case",
-        ["boolean", ["feature-state", "hover"], false],
-        1,
-        0.5,
-      ],
-      "fill-outline-color": "#f00",
-    },
-  })
+//determine dans quelle vue on est actuellement
+const determineZoneType = (featureProperties) => {
+  if (featureProperties) {
+    const featureAsAnArray = Object.keys(featureProperties)
+
+    if (featureAsAnArray.includes("num_circ")) return "num_circ"
+    else if (featureAsAnArray.includes("code_dpt")) return "code_dpt"
+    else return "code_reg"
+  }
 }
 
-const initializeMap = () => {
-  mapboxgl.accessToken =
-    "pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
-  const map = new mapboxgl.Map({
-    container: document.querySelector(".map__container"), // container id
-    style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-    center: France.center, // starting position [lng, lat]
-    zoom: 9, // starting zoom
-    interactive: true,
-    maxBounds: [
-      [France.southWest.lng, France.southWest.lat], // Appliquer Southwest coordinates
-      [France.northEast.lng, France.northEast.lat], // Appliquer Northeast coordinates
-    ],
-  })
-  var hoveredZoneId = null
-  map.on("style.load", () => {
-    setTimeout(() => {
-      zoomOnFrance(map)
-      map.addSource("regions", {
-        type: "geojson",
-        data: GEOJsonReg,
-        generateId: true,
-      })
-      map.addSource("departements", {
-        type: "geojson",
-        data: GEOJsonDpt,
-        generateId: true,
-      })
-      map.addSource("circonscriptions", {
-        type: "geojson",
-        data: GEOJsonDistrict,
-        generateId: true,
-      })
-      drawDistrictBox(map, "regions")
-      MouseHover(map, hoveredZoneId, "regions")
-      MouseClick(map, "regions")
-      MouseHover(map, hoveredZoneId, "departements")
-      MouseClick(map, "departements")
-    }, 2000)
-  })
-
-  return map
-}
-
-const MouseHover = (map, hoveredZoneId, zone) => {
-  map.on("mousemove", zone, function (e) {
-    if (e.features.length > 0) {
-      if (hoveredZoneId || hoveredZoneId === 0) {
-        map.setFeatureState(
-          {
-            source: zone,
-            id: hoveredZoneId,
-          },
-          { hover: false }
-        )
-      }
-      hoveredZoneId = e.features[0].id
-      map.setFeatureState(
-        {
-          source: zone,
-          id: hoveredZoneId,
-        },
-        { hover: true }
-      )
-    }
-  })
-
-  map.on("mouseleave", zone, function () {
-    if (hoveredZoneId) {
-      map.setFeatureState(
-        {
-          source: zone,
-          id: hoveredZoneId,
-        },
-        { hover: false }
-      )
-    }
-    hoveredZoneId = null
-  })
-}
-
-const MouseClick = (map, zone) => {
-  map.on("click", zone, function (e) {
-    if (map.getLayer(zone)) map.removeLayer(zone)
-    if (zone === "regions") {
-      drawDistrictBox(map, "departements")
-      map.setFilter("departements", [
-        "==",
-        ["get", "code_reg"],
-        e.features[0].properties.code_reg,
-      ])
-      var selectedDistrict = GEOJsonReg.features.find((district) => {
-        return (
-          district.properties.code_reg.toLowerCase() ===
-          e.features[0].properties.code_reg
-        )
-      })
-      getSelectedDistrictBox(map, selectedDistrict)
-    } else if (zone === "departements") {
-      drawDistrictBox(map, "circonscriptions")
-      map.setFilter("circonscriptions", [
-        "==",
-        ["get", "code_dpt"],
-        e.features[0].properties.code_dpt,
-      ])
-      var selectedDistrict = GEOJsonDpt.features.find((district) => {
-        return (
-          district.properties.code_dpt.toLowerCase() ===
-          e.features[0].properties.code_dpt
-        )
-      })
-      getSelectedDistrictBox(map, selectedDistrict)
-    } else {
-    }
-    map.setPadding({ top: 20, left: 20, right: 20, bottom: 20 })
-  })
-  map.on("mouseenter", zone, function () {
-    map.getCanvas().style.cursor = "pointer"
-  })
-
-  map.on("mouseleave", zone, function () {
-    map.getCanvas().style.cursor = ""
-  })
+//determine quel fichier devrait être utilisé pour la prochaine vue
+const determineNextZoneTypeFile = (currentZoneType) => {
+  return currentZoneType === "code_reg" ? GEOJsonDpt : GEOJsonDistrict
 }
 
 const MapPage = () => {
-  useEffect(() => {
-    initializeMap()
-  }, [])
+  const [viewport, setViewport] = useState({})
+  const [hoverFilter, setHoverFilter] = useState(["==", "no", ""])
+  const [currentView, setCurrentView] = useState({
+    zoneGEOJson: GEOJsonReg,
+    parentZoneId: "",
+  })
+  // useEffect(() => {
+  //   initializeMap()
+  // }, [])
+
+  const flyToBounds = (box) => {
+    const bounds = new WebMercatorViewport(viewport).fitBounds(box, {
+      padding: 100,
+    })
+    setViewport({
+      ...viewport,
+      ...bounds,
+      transitionInterpolator: new FlyToInterpolator({ speed: 1.5 }),
+      transitionDuration: "auto",
+    })
+  }
+
+  const handleHover = (e) => {
+    // if (e.features) {
+    //   const zoneId = e.features[0]?.properties?.code_reg
+    //   if (zoneId) {
+    //     setHoverFilter(["==", ["get", "code_reg"], zoneId])
+    //   } else {
+    //     setHoverFilter(["==", "no", ""])
+    //   }
+    // }
+  }
+
+  const handleClick = (e) => {
+    if (e.features) {
+      const currentZoneType = determineZoneType(e.features[0]?.properties) //determine dans quelle vue on est
+      if (currentZoneType && currentZoneType !== "num_circ") {
+        //ne rien faire si on est en vue circonscription
+        const selectedZoneId = e.features[0]?.properties[currentZoneType] //recupère l'id de la zone cliquée
+        if (selectedZoneId) {
+          const zoneToDisplay = filterNewGEOJSonFeatureCollection(
+            //récupère les données geojson de la nouvelle vue à afficher
+            determineNextZoneTypeFile(currentZoneType),
+            currentZoneType,
+            selectedZoneId
+          )
+          setCurrentView({
+            zoneGEOJson: zoneToDisplay,
+            parentZoneId: selectedZoneId,
+          })
+        }
+      }
+    }
+  }
 
   return (
     <>
       <div className="page page__map">
-        <div>
-          <button onClick={(e) => initializeMap()}>Reset</button>
+        <div className="map__container">
+          <ReactMapGL
+            mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
+            mapStyle="mapbox://styles/mapbox/streets-v11"
+            {...viewport}
+            width="100%"
+            height="100%"
+            minZoom={2}
+            dragRotate={false}
+            doubleClickZoom={false}
+            touchRotate={false}
+            interactiveLayerIds={["zone-fill", "zone-line"]}
+            onLoad={() => {
+              setViewport({
+                zoom: 2,
+              })
+              flyToBounds(franceBox)
+            }}
+            onViewportChange={(change) => setViewport(change)}
+            onHover={handleHover}
+            onClick={handleClick}
+          >
+            <Source type="geojson" data={currentView.zoneGEOJson}>
+              <Layer
+                id="zone-fill-hovered"
+                {...fillLayerLayout}
+                paint={{
+                  "fill-color": "#14ccae",
+                  "fill-opacity": 0.5,
+                }}
+                filter={hoverFilter}
+              />
+              <Layer id="zone-fill" {...fillLayerLayout} />
+              <Layer id="zone-line" {...lineLayerLayout} />
+            </Source>
+            <div className="map__navigation">
+              <NavigationControl
+                showCompass={false}
+                zoomInLabel="Zoomer"
+                zoomOutLabel="Dézoomer"
+              />
+              <FullscreenControl />
+              <button
+                onClick={() =>
+                  setCurrentView(
+                    Object.assign({}, currentView, { zoneGEOJson: GEOJsonReg })
+                  )
+                }
+                style={{ width: "100%", minHeight: "30px" }}
+              >
+                R
+              </button>
+              {/* <ResetControl
+                onReset={handleReset}
+                className={`map__navigation-reset ${
+                  userInteracted ? "visible" : null
+                }`}
+                title="Revenir à la position initiale"
+              /> */}
+            </div>
+          </ReactMapGL>
         </div>
-        <div className="map__container"></div>
       </div>
     </>
   )

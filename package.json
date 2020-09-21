@@ -31,6 +31,7 @@
     "react-compound-slider": "2.5.0",
     "react-dom": "16.13.1",
     "react-helmet": "6.1.0",
+    "react-map-gl": "^5.2.8",
     "react-use-fuzzy": "1.0.4",
     "styled-components": "5.1.1",
     "typescript": "3.9.7"
