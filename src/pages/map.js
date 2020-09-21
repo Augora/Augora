@@ -52,20 +52,20 @@ const hoverLayerLayout = {
 
 /**
  * Returns a bounding box from a polygon
- * @param {*} districtPolygon : the selected district found in GEOJsonDistrict file
+ * @param {*} polygon : the selected district found in GEOJsonDistrict file
  */
-const getSelectedDistrictBox = (districtPolygon) => {
+const getBoundingBoxFromPolygon = (polygon) => {
   // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
   let boxListOfLng = []
   let boxListOfLat = []
 
-  if (districtPolygon.geometry.type === "Polygon") {
-    districtPolygon.geometry.coordinates[0].forEach((coords) => {
+  if (polygon.geometry.type === "Polygon") {
+    polygon.geometry.coordinates[0].forEach((coords) => {
       boxListOfLng.push(coords[0])
       boxListOfLat.push(coords[1])
     })
   } else {
-    districtPolygon.geometry.coordinates.forEach((polygon) => {
+    polygon.geometry.coordinates.forEach((polygon) => {
       polygon[0].forEach((coords) => {
         boxListOfLng.push(coords[0])
         boxListOfLat.push(coords[1])
@@ -98,8 +98,20 @@ const filterNewGEOJSonFeatureCollection = (
 }
 
 /**
+ * Renvoie le polygone d'une zone
+ * @param {*} selectedZoneId L'id de la zone
+ * @param {*} zoneType Le type de la zone (régions, départements, ou circonscriptions)
+ * @param {*} zoneTypeFile Le fichier dans lequel fouiller
+ */
+const getSelectedZonePolygon = (selectedZoneId, zoneType, zoneTypeFile) => {
+  return zoneTypeFile.features.find((zone) => {
+    return zone.properties[zoneType] === selectedZoneId
+  })
+}
+
+/**
  * Determine dans quelle vue on est actuellement
- * @param {*} featureProperties A mouseevent features array
+ * @param {*} featureProperties A mouseevent features properties object
  */
 const determineZoneType = (featureProperties) => {
   if (featureProperties) {
@@ -118,11 +130,11 @@ const determineNextZoneTypeFile = (currentZoneType) => {
 
 export default function MapPage() {
   const [viewport, setViewport] = useState({})
-  const [hoverFilter, setHoverFilter] = useState(["==", "no", ""])
   const [currentView, setCurrentView] = useState({
     zoneGEOJson: GEOJsonReg,
     parentZoneId: "",
   })
+  const [hoverFilter, setHoverFilter] = useState(["==", "no", ""])
   // useEffect(() => {
   //   initializeMap()
   // }, [])
@@ -165,12 +177,17 @@ export default function MapPage() {
             currentZoneType,
             selectedZoneId
           )
+          const selectedZonePolygon = getSelectedZonePolygon(
+            selectedZoneId,
+            currentZoneType,
+            currentView.zoneGEOJson
+          )
           setCurrentView({
             zoneGEOJson: zoneToDisplay,
             parentZoneId: selectedZoneId,
           })
           setHoverFilter(["==", "no", ""])
-          // console.log(getSelectedDistrictBox(zoneToDisplay))
+          flyToBounds(getBoundingBoxFromPolygon(selectedZonePolygon))
         }
       }
     }
