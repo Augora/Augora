@@ -128,6 +128,18 @@ const determineNextZoneTypeFile = (currentZoneType) => {
   return currentZoneType === "code_reg" ? GEOJsonDpt : GEOJsonDistrict
 }
 
+//returns an object if the mousevent is on a valid layer, else returns undefined
+const formatMouseEventFeatures = (e) => {
+  let object = {}
+  if (e.features) {
+    object.currentZoneType = determineZoneType(e.features[0]?.properties)
+    if (object.currentZoneType) {
+      object.selectedZoneId = e.features[0]?.properties[object.currentZoneType]
+      return object
+    } else return undefined
+  } else return undefined
+}
+
 export default function MapPage() {
   const [viewport, setViewport] = useState({})
   const [currentView, setCurrentView] = useState({
@@ -135,9 +147,6 @@ export default function MapPage() {
     parentZoneId: "",
   })
   const [hoverFilter, setHoverFilter] = useState(["==", "no", ""])
-  // useEffect(() => {
-  //   initializeMap()
-  // }, [])
 
   const flyToBounds = (box) => {
     const bounds = new WebMercatorViewport(viewport).fitBounds(box, {
@@ -151,44 +160,41 @@ export default function MapPage() {
   }
 
   const handleHover = (e) => {
-    if (e.features) {
-      const currentZoneType = determineZoneType(e.features[0]?.properties) //determine dans quelle vue on est
-      if (currentZoneType) {
-        const hoveredZoneId = e.features[0]?.properties[currentZoneType]
-        if (hoveredZoneId) {
-          setHoverFilter(["==", ["get", currentZoneType], hoveredZoneId])
-        }
-      } else {
-        setHoverFilter(["==", "no", ""])
-      }
-    }
+    const mouseEventInfo = formatMouseEventFeatures(e)
+    if (mouseEventInfo)
+      setHoverFilter([
+        "==",
+        ["get", mouseEventInfo.currentZoneType],
+        mouseEventInfo.selectedZoneId,
+      ])
+    else setHoverFilter(["==", "no", ""])
   }
 
   const handleClick = (e) => {
-    if (e.features) {
-      const currentZoneType = determineZoneType(e.features[0]?.properties) //determine dans quelle vue on est
-      if (currentZoneType && currentZoneType !== "num_circ") {
-        //ne rien faire si on est en vue circonscription
-        const selectedZoneId = e.features[0]?.properties[currentZoneType] //recupère l'id de la zone cliquée
-        if (selectedZoneId) {
-          const zoneToDisplay = filterNewGEOJSonFeatureCollection(
-            //récupère les données geojson de la nouvelle vue à afficher
-            determineNextZoneTypeFile(currentZoneType),
-            currentZoneType,
-            selectedZoneId
-          )
-          const selectedZonePolygon = getSelectedZonePolygon(
-            selectedZoneId,
-            currentZoneType,
-            currentView.zoneGEOJson
-          )
-          setCurrentView({
-            zoneGEOJson: zoneToDisplay,
-            parentZoneId: selectedZoneId,
-          })
-          setHoverFilter(["==", "no", ""])
-          flyToBounds(getBoundingBoxFromPolygon(selectedZonePolygon))
-        }
+    const mouseEventInfo = formatMouseEventFeatures(e)
+    if (mouseEventInfo) {
+      //ne rien faire si on est en vue circ (pour l'instant en tout cas)
+      if (mouseEventInfo.currentZoneType !== "num_circ") {
+        //récupère les données geojson de la nouvelle vue à afficher
+        const zoneToDisplay = filterNewGEOJSonFeatureCollection(
+          determineNextZoneTypeFile(mouseEventInfo.currentZoneType),
+          mouseEventInfo.currentZoneType,
+          mouseEventInfo.selectedZoneId
+        )
+
+        //récupère le polygon de la region actuelle
+        const selectedZonePolygon = getSelectedZonePolygon(
+          mouseEventInfo.selectedZoneId,
+          mouseEventInfo.currentZoneType,
+          currentView.zoneGEOJson
+        )
+
+        setCurrentView({
+          zoneGEOJson: zoneToDisplay,
+          parentZoneId: mouseEventInfo.selectedZoneId,
+        })
+        setHoverFilter(["==", "no", ""])
+        flyToBounds(getBoundingBoxFromPolygon(selectedZonePolygon))
       }
     }
   }
