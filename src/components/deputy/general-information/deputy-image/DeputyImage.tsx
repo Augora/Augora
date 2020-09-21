@@ -1,6 +1,4 @@
 import React, { useState } from "react"
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/opacity.css';
 
 // Force using url-loader instead of gatsby-plugin-react-svg in order to have url instead of component
 import MissingFemale from "-!url-loader!images/ui-kit/icon-missingfemale.svg"
@@ -44,7 +42,7 @@ export default function DeputyImage(props: IDeputyImageInformation) {
   }
 
   return (
-    <LazyLoadImage
+    <img
       className={
         HasErrored
           ? "icon-wrapper deputy__photo deputy__photo--errored"
@@ -52,7 +50,6 @@ export default function DeputyImage(props: IDeputyImageInformation) {
       }
       src={Src}
       alt={props.alt}
-      effect="opacity"
       onError={() => onError()}
     />
   )

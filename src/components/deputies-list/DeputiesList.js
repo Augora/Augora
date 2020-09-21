@@ -24,6 +24,7 @@ import ComplexBarChart from "./complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "./slider/Slider"
 import Deputy from "./deputy/Deputy"
 import Tooltip from "components/tooltip/Tooltip"
+import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 const DeputiesList = (props) => {
   // States
@@ -348,7 +349,11 @@ const DeputiesList = (props) => {
       <section className="deputies__list">
         {filteredList.length > 0 ? (
           filteredList.map((depute) => {
-            return <Deputy key={depute.Slug} data={depute} />
+            return (
+              <LazyLoadComponent>
+                <Deputy key={depute.Slug} data={depute} />
+              </LazyLoadComponent>
+            )
           })
         ) : (
           <div className="deputies__no-result">
