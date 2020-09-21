@@ -7,19 +7,11 @@ import React from "react"
 export default function Header(props) {
   return (
     <div className={`${props.type}__header block__header`}>
-      {props.type === "general" ? (
-        <div className="header__background">{/* Empty */}</div>
-      ) : (
-        <div
-          className="header__background"
-          style={{ backgroundColor: props.color }}
-        >
-          {/* Empty */}
-        </div>
-      )}
+      {/* Verify if the block is general infos */}
       {props.type === "general" ? (
         <h2 className="header__title">{props.title}</h2>
-      ) : (
+      ) : !props.circ ? (
+        // Verify if the block has no circonscription data
         <h2
           className="header__title"
           style={{
@@ -28,11 +20,17 @@ export default function Header(props) {
         >
           {props.title}
         </h2>
+      ) : (
+        // If there is circonscription data, change the header text
+        <div className="header__title" style={{ color: props.color }}>
+          <span className="header__title--region">{props.circ.region}</span>
+          <span className="header__title--numero">
+            {props.circ.circNb}
+            <small>{props.circ.circNb < 2 ? "ère " : "ème "}</small>
+            circonscription
+          </span>
+        </div>
       )}
-      <span className="block__close">
-        <span></span>
-        <span></span>
-      </span>
     </div>
   )
 }
