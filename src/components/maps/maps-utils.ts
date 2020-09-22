@@ -45,8 +45,8 @@ export const France = {
  * Bounding box de la france métropolitaine
  */
 export const franceBox: Bounds = [
-  [France.southWest.lng, France.southWest.lat],
-  [France.northEast.lng, France.northEast.lat],
+  [-6.416016, 40.747257],
+  [11.162109, 51.426614],
 ]
 
 //donne le fichier associé au type de zone
