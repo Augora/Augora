@@ -158,9 +158,13 @@ export default function MapPage() {
     if (parentZoneId) {
       displayNewZone(false, currentZoneCode, parentZoneId)
     } else {
-      setCurrentGEOJson(GEOJsonReg)
-      flyToBounds(franceBox)
+      handleReset()
     }
+  }
+
+  const handleReset = () => {
+    setCurrentGEOJson(GEOJsonReg)
+    flyToBounds(franceBox)
   }
 
   return (
@@ -205,10 +209,7 @@ export default function MapPage() {
               />
               <FullscreenControl />
               <button
-                onClick={() => {
-                  setCurrentGEOJson(GEOJsonReg)
-                  flyToBounds(franceBox)
-                }}
+                onClick={handleReset}
                 style={{ width: "100%", minHeight: "30px" }}
               >
                 R
