@@ -10,7 +10,15 @@ import ReactMapGL, {
 import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonDistrict from "../static/list-district"
 import GEOJsonDpt from "../static/departements"
-import GEOJsonReg from "../static/regions"
+import GEOJsonRegWithDOMTOM from "../static/regions"
+
+//enlève les DOM-TOM du geojson
+const GEOJsonReg = {
+  type: "FeatureCollection",
+  features: GEOJsonRegWithDOMTOM.features.filter(
+    (feature) => feature.properties.code_reg > 10
+  ),
+}
 
 enum ZoneCode {
   Regions = "code_reg",
