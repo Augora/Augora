@@ -170,17 +170,16 @@ const getGEOJsonFile = (zoneCode: ZoneCode) => {
 }
 
 //returns an object if the mousevent is on a valid layer, else returns undefined
-const formatMouseEventFeatures = (e) => {
+const getMouseEventZoneId = (e) => {
   if (e.features) {
-    let zoneInfo = { currentZoneCode: ZoneCode.Regions, zoneId: "" }
-    zoneInfo.currentZoneCode = getZoneCodeFromFeatureProperties(
+    const currentZoneCode = getZoneCodeFromFeatureProperties(
       e.features[0]?.properties
     )
-    if (zoneInfo.currentZoneCode) {
-      zoneInfo.zoneId = e.features[0].properties[zoneInfo.currentZoneCode]
-      return zoneInfo
-    } else return undefined
-  } else return undefined
+    if (currentZoneCode) {
+      const zoneId = e.features[0].properties[currentZoneCode]
+      return zoneId
+    } else return null
+  } else return null
 }
 
 export default function MapPage() {
@@ -203,64 +202,71 @@ export default function MapPage() {
     })
   }
 
-  const displayNewZone = (zoom: boolean) => {
-    // const newZoneGEOJson = filterNewGEOJSonFeatureCollection(
-    //   getGEOJsonFile(parentZoneCode),
-    //   getParentZoneCode(parentZoneCode),
-    //   parentZoneId
-    // )
-    // // récupère le polygon de la region actuelle
-    // const newZonePolygon = getZonePolygon(
-    //   getGEOJsonFile(getParentZoneCode(parentZoneCode)),
-    //   parentZoneId,
-    //   getParentZoneCode(parentZoneCode)
-    // )
-    // setCurrentGEOJson(newZoneGEOJson)
-    // resetFilter()
-    // flyToBounds(getBoundingBoxFromPolygon(newZonePolygon))
+  const displayNewZone = (
+    zoom: boolean,
+    currentZoneCode: ZoneCode,
+    newZoneCodeId: string | number
+  ) => {
+    const parentParentCode = getParentZoneCode(
+      getParentZoneCode(currentZoneCode)
+    )
+    //récupère les données geojson de la nouvelle vue à afficher
+    const newZoneGEOJson = filterNewGEOJSonFeatureCollection(
+      getGEOJsonFile(
+        zoom
+          ? getChildZoneCode(currentZoneCode)
+          : getParentZoneCode(currentZoneCode)
+      ),
+      zoom ? currentZoneCode : parentParentCode,
+      newZoneCodeId
+    )
+
+    // récupère le polygon de la region actuelle
+    const newZonePolygon = getZonePolygon(
+      getGEOJsonFile(zoom ? currentZoneCode : parentParentCode),
+      newZoneCodeId,
+      zoom ? currentZoneCode : parentParentCode
+    )
+
+    setCurrentGEOJson(newZoneGEOJson)
+    resetFilter()
+    flyToBounds(getBoundingBoxFromPolygon(newZonePolygon))
   }
 
   const handleHover = (e) => {
-    const mouseEventInfo = formatMouseEventFeatures(e)
-    if (mouseEventInfo)
+    const hoveredZoneId = getMouseEventZoneId(e)
+    if (hoveredZoneId)
       setHoverFilter([
         "==",
-        ["get", mouseEventInfo.currentZoneCode],
-        mouseEventInfo.zoneId,
+        [
+          "get",
+          getZoneCodeFromFeatureProperties(
+            currentGEOJson.features[0].properties
+          ),
+        ],
+        hoveredZoneId,
       ])
     else if (hoverFilter !== ["==", ["get", ""], ""]) resetFilter()
   }
 
   const handleClick = (e) => {
-    const mouseEventInfo = formatMouseEventFeatures(e)
-    if (mouseEventInfo) {
+    const clickedZoneId = getMouseEventZoneId(e)
+    if (clickedZoneId) {
+      const currentZoneCode = getZoneCodeFromFeatureProperties(
+        currentGEOJson.features[0].properties
+      )
       //ne rien faire si on est en vue circ (pour l'instant en tout cas)
-      if (mouseEventInfo.currentZoneCode !== ZoneCode.Circonscriptions) {
-        //récupère les données geojson de la nouvelle vue à afficher
-        const zoneToDisplay = filterNewGEOJSonFeatureCollection(
-          getGEOJsonFile(getChildZoneCode(mouseEventInfo.currentZoneCode)),
-          mouseEventInfo.currentZoneCode,
-          mouseEventInfo.zoneId
-        )
-
-        //récupère le polygon de la region actuelle
-        const selectedZonePolygon = getZonePolygon(
-          currentGEOJson,
-          mouseEventInfo.zoneId,
-          mouseEventInfo.currentZoneCode
-        )
-
-        setCurrentGEOJson(zoneToDisplay)
-        resetFilter()
-        flyToBounds(getBoundingBoxFromPolygon(selectedZonePolygon))
+      if (currentZoneCode !== ZoneCode.Circonscriptions) {
+        displayNewZone(true, currentZoneCode, clickedZoneId)
       }
     }
   }
 
   const handleBack = () => {
-    const parentZoneCode = getParentZoneCode(
-      getZoneCodeFromFeatureProperties(currentGEOJson.features[0].properties)
+    const currentZoneCode = getZoneCodeFromFeatureProperties(
+      currentGEOJson.features[0].properties
     )
+
     const parentZoneId =
       currentGEOJson.features[0].properties[
         getParentZoneCode(
@@ -272,28 +278,11 @@ export default function MapPage() {
         )
       ]
 
-    if (parentZoneCode) {
-      if (parentZoneCode === ZoneCode.Departements) {
-        const zoneToDisplay = filterNewGEOJSonFeatureCollection(
-          getGEOJsonFile(parentZoneCode),
-          getParentZoneCode(parentZoneCode),
-          parentZoneId
-        )
-
-        // récupère le polygon de la region actuelle
-        const zoneToDisplayPolygon = getZonePolygon(
-          getGEOJsonFile(getParentZoneCode(parentZoneCode)),
-          parentZoneId,
-          getParentZoneCode(parentZoneCode)
-        )
-
-        setCurrentGEOJson(zoneToDisplay)
-        resetFilter()
-        flyToBounds(getBoundingBoxFromPolygon(zoneToDisplayPolygon))
-      } else {
-        setCurrentGEOJson(GEOJsonReg)
-        flyToBounds(franceBox)
-      }
+    if (parentZoneId) {
+      displayNewZone(false, currentZoneCode, parentZoneId)
+    } else {
+      setCurrentGEOJson(GEOJsonReg)
+      flyToBounds(franceBox)
     }
   }
 
