@@ -9,6 +9,17 @@ import ni from "images/logos/groupes-parlementaires/ni/ni_blanc.png"
 import ps from "images/logos/groupes-parlementaires/ps/ps_blanc.png"
 import eds from "images/logos/groupes-parlementaires/eds/eds_blanc.png"
 import ae from "images/logos/groupes-parlementaires/ae/ae_blanc.png"
+import udicolor from "images/logos/groupes-parlementaires/udi/udi_color.png"
+import gdrcolor from "images/logos/groupes-parlementaires/gdr/gdr_color.png"
+import lficolor from "images/logos/groupes-parlementaires/lfi/lfi_color.png"
+import lrcolor from "images/logos/groupes-parlementaires/lr/lr_color.png"
+import lremcolor from "images/logos/groupes-parlementaires/lrem/lrem_color.png"
+import ltcolor from "images/logos/groupes-parlementaires/lt/lt_color.png"
+import modemcolor from "images/logos/groupes-parlementaires/modem/modem_color.png"
+import nicolor from "images/logos/groupes-parlementaires/ni/ni_color.png"
+import pscolor from "images/logos/groupes-parlementaires/ps/ps_color.png"
+import edscolor from "images/logos/groupes-parlementaires/eds/eds_color.png"
+import aecolor from "images/logos/groupes-parlementaires/ae/ae_color.png"
 
 export const calculateNbDepute = (list, type, value) => {
   if (list.length > 0) {
@@ -25,9 +36,7 @@ export const calculateNbDepute = (list, type, value) => {
       default:
         return filteredList.length
     }
-  } else {
-    return list
-  }
+  } else return 0
 }
 
 export const calculateAgeDomain = (list) => {
@@ -54,44 +63,48 @@ export const filterList = (list, state) => {
     })
 }
 
-export const groupeIconByGroupeSigle = (groupe) => {
+export const groupeIconByGroupeSigle = (groupe, isDisabled) => {
   let selectedGroupeIcon = ni
   switch (groupe) {
     case "LFI":
-      selectedGroupeIcon = lfi
+      isDisabled ? (selectedGroupeIcon = lficolor) : (selectedGroupeIcon = lfi)
       break
     case "GDR":
-      selectedGroupeIcon = gdr
+      isDisabled ? (selectedGroupeIcon = gdrcolor) : (selectedGroupeIcon = gdr)
       break
     case "LT":
-      selectedGroupeIcon = lt
+      isDisabled ? (selectedGroupeIcon = ltcolor) : (selectedGroupeIcon = lt)
       break
     case "MODEM":
-      selectedGroupeIcon = modem
+      isDisabled
+        ? (selectedGroupeIcon = modemcolor)
+        : (selectedGroupeIcon = modem)
       break
     case "SOC":
-      selectedGroupeIcon = ps
+      isDisabled ? (selectedGroupeIcon = pscolor) : (selectedGroupeIcon = ps)
       break
     case "LR":
-      selectedGroupeIcon = lr
+      isDisabled ? (selectedGroupeIcon = lrcolor) : (selectedGroupeIcon = lr)
       break
     case "LREM":
-      selectedGroupeIcon = lrem
+      isDisabled
+        ? (selectedGroupeIcon = lremcolor)
+        : (selectedGroupeIcon = lrem)
       break
     case "UDI":
-      selectedGroupeIcon = udi
+      isDisabled ? (selectedGroupeIcon = udicolor) : (selectedGroupeIcon = udi)
       break
     case "UAI":
-      selectedGroupeIcon = udi
+      isDisabled ? (selectedGroupeIcon = udicolor) : (selectedGroupeIcon = udi)
       break
     case "EDS":
-      selectedGroupeIcon = eds
+      isDisabled ? (selectedGroupeIcon = edscolor) : (selectedGroupeIcon = eds)
       break
     case "AE":
-      selectedGroupeIcon = ae
+      isDisabled ? (selectedGroupeIcon = aecolor) : (selectedGroupeIcon = ae)
       break
     default:
-      selectedGroupeIcon = ni
+      isDisabled ? (selectedGroupeIcon = nicolor) : (selectedGroupeIcon = ni)
       break
   }
 
