@@ -16,63 +16,58 @@
       flex-direction: column;
       height: 140px;
       justify-content: space-between;
-      // &-reset {
-      //   position: relative;
-      //   width: 30px;
-      //   height: 30px;
-      //   background: white;
-      //   border-radius: 5px;
-      //   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-      //   padding: 5px;
-      //   border: none;
-      //   opacity: 0;
-      //   pointer-events: none;
-      //   transition: opacity 0.2s $ease-in-out-cubic;
+      &-reset {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        padding: 5px;
+        border: none;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s $ease-in-out-cubic;
 
-      //   cursor: pointer;
+        cursor: pointer;
 
-      //   &::after {
-      //     content: "";
-      //     display: block;
-      //     position: absolute;
-      //     top: 0;
-      //     left: 0;
-      //     width: 100%;
-      //     height: 100%;
-      //     background-color: rgba(0, 0, 0, 0);
-      //   }
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0);
+        }
 
-      //   &:hover {
-      //     &::after {
-      //       background-color: rgba(0, 0, 0, 0.05);
-      //     }
-      //     .icon-wrapper {
-      //       svg {
-      //         animation: rotate 1.5s ease-in-out infinite;
-      //       }
-      //     }
-      //   }
+        &:hover {
+          &::after {
+            background-color: rgba(0, 0, 0, 0.05);
+          }
+        }
 
-      //   &:focus {
-      //     box-shadow: 0 0 2px 2px #0096ff;
-      //   }
+        &:focus {
+          box-shadow: 0 0 2px 2px #0096ff;
+        }
 
-      //   &.visible {
-      //     pointer-events: auto;
-      //     opacity: 1;
-      //     transition: opacity 0.4s $ease-out-cubic;
-      //   }
+        &.visible {
+          pointer-events: auto;
+          opacity: 1;
+          transition: opacity 0.4s $ease-out-cubic;
+        }
 
-      //   .icon-wrapper {
-      //     position: relative;
-      //     z-index: 1;
-      //     right: 0;
-      //     pointer-events: none;
-      //     svg {
-      //       fill: "#4d4d4d";
-      //     }
-      //   }
-      // }
+        .icon-wrapper {
+          position: relative;
+          z-index: 1;
+          right: 0;
+          pointer-events: none;
+          svg {
+            fill: "#4d4d4d";
+          }
+        }
+      }
     }
   }
 }

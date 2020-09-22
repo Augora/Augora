@@ -20,6 +20,7 @@ import {
   getChildZoneCode,
   getGEOJsonFile,
 } from "../components/maps/maps-utils"
+import ResetControl from "../components/maps/ResetControl"
 
 const fillLayerLayout = {
   type: "fill",
@@ -208,19 +209,11 @@ export default function MapPage() {
                 zoomOutLabel="Dézoomer"
               />
               <FullscreenControl />
-              <button
-                onClick={handleReset}
-                style={{ width: "100%", minHeight: "30px" }}
-              >
-                R
-              </button>
-              {/* <ResetControl
+              <ResetControl
                 onReset={handleReset}
-                className={`map__navigation-reset ${
-                  userInteracted ? "visible" : null
-                }`}
+                className={`map__navigation-reset visible`}
                 title="Revenir à la position initiale"
-              /> */}
+              />
             </div>
             <button
               style={{
