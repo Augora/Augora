@@ -1,6 +1,6 @@
 import React from "react"
 import { BaseControl, BaseControlProps } from "react-map-gl"
-import IconReset from "../../images/ui-kit/icon-refresh.svg"
+import IconPin from "../../images/ui-kit/icon-pin.svg"
 
 export interface ResetControlProps extends BaseControlProps {
   onReset: Function
@@ -26,7 +26,7 @@ export default class ResetControl extends BaseControl<
         title={this.props.title}
       >
         <div className="icon-wrapper">
-          <IconReset />
+          <IconPin />
         </div>
       </button>
     )

@@ -71,11 +71,6 @@
           &::after {
             background-color: rgba(0, 0, 0, 0.05);
           }
-          .icon-wrapper {
-            svg {
-              animation: rotate 1.5s ease-in-out infinite;
-            }
-          }
         }
 
         &:focus {
