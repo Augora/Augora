@@ -12,7 +12,7 @@ import "mapbox-gl/dist/mapbox-gl.css"
 import GEOJsonDistrict from "../../../static/list-district.json"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
 import Block from "../_block/_Block"
-import ResetControl from "./ResetControl"
+import ResetControl from "../../maps/ResetControl"
 import SimpleTooltip from "../../tooltip/SimpleTooltip"
 import IconPin from "../../../images/ui-kit/icon-pin.svg"
 

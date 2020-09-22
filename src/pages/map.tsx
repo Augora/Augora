@@ -8,36 +8,14 @@ import ReactMapGL, {
   Layer,
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
+import {
+  ZoneCode,
+  franceBox,
+  GEOJsonReg,
+  getBoundingBoxFromPolygon,
+} from "../components/maps/maps-utils"
 import GEOJsonDistrict from "../static/list-district"
 import GEOJsonDpt from "../static/departements"
-import GEOJsonRegWithDOMTOM from "../static/regions"
-
-//enlève les DOM-TOM du geojson
-const GEOJsonReg = {
-  type: "FeatureCollection",
-  features: GEOJsonRegWithDOMTOM.features.filter(
-    (feature) => feature.properties.code_reg > 10
-  ),
-}
-
-enum ZoneCode {
-  Regions = "code_reg",
-  Departements = "code_dpt",
-  Circonscriptions = "num_circ",
-}
-
-const France = {
-  center: { lng: 1.88, lat: 46.6 },
-  northWest: { lng: -6.864165, lat: 50.839888 },
-  southEast: { lng: 13.089067, lat: 41.284012 },
-  southWest: { lng: -10, lat: 40.2 },
-  northEast: { lng: 11, lat: 51.15 },
-}
-
-const franceBox = [
-  [France.southWest.lng, France.southWest.lat],
-  [France.northEast.lng, France.northEast.lat],
-]
 
 const fillLayerLayout = {
   type: "fill",
@@ -65,34 +43,6 @@ const hoverLayerLayout = {
 }
 
 /**
- * Returns a bounding box from a polygon
- * @param {*} polygon : the selected district found in GEOJsonDistrict file
- */
-const getBoundingBoxFromPolygon = (polygon) => {
-  // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
-  var boxListOfLng = []
-  var boxListOfLat = []
-
-  if (polygon.geometry.type === "Polygon") {
-    polygon.geometry.coordinates[0].forEach((coords) => {
-      boxListOfLng.push(coords[0])
-      boxListOfLat.push(coords[1])
-    })
-  } else {
-    polygon.geometry.coordinates.forEach((polygon) => {
-      polygon[0].forEach((coords) => {
-        boxListOfLng.push(coords[0])
-        boxListOfLat.push(coords[1])
-      })
-    })
-  }
-  return [
-    [Math.min(...boxListOfLng), Math.min(...boxListOfLat)],
-    [Math.max(...boxListOfLng), Math.max(...boxListOfLat)],
-  ]
-}
-
-/**
  * Renvoie les donées GEOJson de la prochaine vue à afficher
  * @param {any} GEOJsonFile Le fichier GEOJson dans lequel fouiller
  * @param {ZoneCode} zoneCodeToSearch Le type de zone commune à chercher dans les entrées GEOJson
@@ -102,7 +52,7 @@ const filterNewGEOJSonFeatureCollection = (
   GEOJsonFile: any,
   zoneCodeToSearch: ZoneCode,
   zoneCodeId: string | number
-) => {
+): GeoJSON.FeatureCollection => {
   return {
     type: "FeatureCollection",
     features: GEOJsonFile.features.filter(
