@@ -9,46 +9,16 @@ import ReactMapGL, {
   Marker,
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
-import GEOJsonDistrict from "../../../static/list-district.json"
+import {
+  France,
+  GEOJsonDistrict,
+  getBoundingBoxFromPolygon,
+} from "../../../components/maps/maps-utils"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
 import Block from "../_block/_Block"
 import ResetControl from "../../maps/ResetControl"
 import SimpleTooltip from "../../tooltip/SimpleTooltip"
 import IconPin from "../../../images/ui-kit/icon-pin.svg"
-
-const France = {
-  center: { lng: 1.88, lat: 46.6 },
-  northWest: { lng: -6.864165, lat: 50.839888 },
-  southEast: { lng: 13.089067, lat: 41.284012 },
-}
-
-/**
- * Returns a bounding box from a polygon
- * @param {*} districtPolygon : the selected district found in GEOJsonDistrict file
- */
-const getSelectedDistrictBox = (districtPolygon) => {
-  // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
-  let boxListOfLng = []
-  let boxListOfLat = []
-
-  if (districtPolygon.geometry.type === "Polygon") {
-    districtPolygon.geometry.coordinates[0].forEach((coords) => {
-      boxListOfLng.push(coords[0])
-      boxListOfLat.push(coords[1])
-    })
-  } else {
-    districtPolygon.geometry.coordinates.forEach((polygon) => {
-      polygon[0].forEach((coords) => {
-        boxListOfLng.push(coords[0])
-        boxListOfLat.push(coords[1])
-      })
-    })
-  }
-  return [
-    [Math.min(...boxListOfLng), Math.min(...boxListOfLat)],
-    [Math.max(...boxListOfLng), Math.max(...boxListOfLat)],
-  ]
-}
 
 export default function MapDistrict(props) {
   const [viewport, setViewport] = useState({})
@@ -72,7 +42,10 @@ export default function MapDistrict(props) {
   }, [])
 
   //récupère la bounding box à paris du polygone de la circonscription
-  const districtBox = useMemo(() => getSelectedDistrictBox(districtPolygon), [])
+  const districtBox = useMemo(
+    () => getBoundingBoxFromPolygon(districtPolygon),
+    []
+  )
 
   //récupère le centre de la bounding box
   const districtCenter = useMemo(() => {

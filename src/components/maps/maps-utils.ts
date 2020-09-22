@@ -1,6 +1,6 @@
-import GEOJsonDistrict from "../../static/list-district"
-import GEOJsonDpt from "../../static/departements"
-import GEOJsonRegWithDOMTOM from "../../static/regions"
+import GEOJsonDistrictFile from "../../static/list-district"
+import GEOJsonDptFile from "../../static/departements"
+import GEOJsonRegFile from "../../static/regions"
 
 type Bounds = [[number, number], [number, number]]
 
@@ -14,6 +14,10 @@ export enum ZoneCode {
   Circonscriptions = "num_circ",
 }
 
+export const GEOJsonDistrict = GEOJsonDistrictFile
+
+export const GEOJsonDpt = GEOJsonDptFile
+
 /**
  * Une feature collection GeoJSON des régions sans les DOM-TOM
  */
@@ -21,7 +25,7 @@ export const GEOJsonReg: GeoJSON.FeatureCollection<
   GeoJSON.Polygon | GeoJSON.MultiPolygon
 > = {
   type: "FeatureCollection",
-  features: GEOJsonRegWithDOMTOM.features.filter(
+  features: GEOJsonRegFile.features.filter(
     (feature) => feature.properties.code_reg > 10
   ),
 }
@@ -51,9 +55,9 @@ export const getGEOJsonFile = (
 ): GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> => {
   switch (zoneCode) {
     case ZoneCode.Circonscriptions:
-      return GEOJsonDistrict
+      return GEOJsonDistrictFile
     case ZoneCode.Departements:
-      return GEOJsonDpt
+      return GEOJsonDptFile
     default:
       return GEOJsonReg
   }
