@@ -13,9 +13,13 @@ import {
   franceBox,
   GEOJsonReg,
   getBoundingBoxFromPolygon,
+  filterNewGEOJSonFeatureCollection,
+  getZonePolygon,
+  getZoneCodeFromFeatureProperties,
+  getParentZoneCode,
+  getChildZoneCode,
+  getGEOJsonFile,
 } from "../components/maps/maps-utils"
-import GEOJsonDistrict from "../static/list-district"
-import GEOJsonDpt from "../static/departements"
 
 const fillLayerLayout = {
   type: "fill",
@@ -40,91 +44,6 @@ const hoverLayerLayout = {
     "fill-color": "#14ccae",
     "fill-opacity": 0.5,
   },
-}
-
-/**
- * Renvoie les donées GEOJson de la prochaine vue à afficher
- * @param {any} GEOJsonFile Le fichier GEOJson dans lequel fouiller
- * @param {ZoneCode} zoneCodeToSearch Le type de zone commune à chercher dans les entrées GEOJson
- * @param {string | number} zoneCodeId L'id de la zone commune
- */
-const filterNewGEOJSonFeatureCollection = (
-  GEOJsonFile: any,
-  zoneCodeToSearch: ZoneCode,
-  zoneCodeId: string | number
-): GeoJSON.FeatureCollection => {
-  return {
-    type: "FeatureCollection",
-    features: GEOJsonFile.features.filter(
-      (feature) => feature.properties[zoneCodeToSearch] === zoneCodeId
-    ),
-  }
-}
-
-/**
- * Renvoie le polygone d'une zone
- * @param {any} GEOJsonFile Le fichier dans lequel fouiller
- * @param {string | number} zoneId L'id de la zone
- * @param {ZoneCode} zoneCode Le type de la zone (régions, départements, ou circonscriptions)
- */
-const getZonePolygon = (
-  GEOJsonFile: any,
-  zoneId: string | number,
-  zoneCode: ZoneCode
-) => {
-  return GEOJsonFile.features.find((zone) => {
-    return zone.properties[zoneCode] === zoneId
-  })
-}
-
-/**
- * Determine dans quelle vue on est actuellement
- * @param {object} featureProperties A GEOJson feature properties object
- */
-const getZoneCodeFromFeatureProperties = (featureProperties: object) => {
-  if (featureProperties) {
-    const featureAsAnArray = Object.keys(featureProperties)
-
-    if (featureAsAnArray.includes(ZoneCode.Circonscriptions))
-      return ZoneCode.Circonscriptions
-    else if (featureAsAnArray.includes(ZoneCode.Departements))
-      return ZoneCode.Departements
-    else return ZoneCode.Regions
-  }
-}
-
-const getParentZoneCode = (zoneCode: ZoneCode) => {
-  switch (zoneCode) {
-    case ZoneCode.Circonscriptions:
-      return ZoneCode.Departements
-    case ZoneCode.Departements:
-      return ZoneCode.Regions
-    default:
-      return null
-  }
-}
-
-const getChildZoneCode = (zoneCode: ZoneCode) => {
-  switch (zoneCode) {
-    case ZoneCode.Regions:
-      return ZoneCode.Departements
-    case ZoneCode.Departements:
-      return ZoneCode.Circonscriptions
-    default:
-      return null
-  }
-}
-
-//donne le fichier associé au type de zone
-const getGEOJsonFile = (zoneCode: ZoneCode) => {
-  switch (zoneCode) {
-    case ZoneCode.Circonscriptions:
-      return GEOJsonDistrict
-    case ZoneCode.Departements:
-      return GEOJsonDpt
-    default:
-      return GEOJsonReg
-  }
 }
 
 //returns an object if the mousevent is on a valid layer, else returns undefined
