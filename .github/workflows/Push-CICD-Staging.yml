@@ -138,7 +138,7 @@ jobs:
                       },
                       "accessory": {
                         "type": "image",
-                        "image_url": "https://augora.fr/icons/icon-512x512.png",
+                        "image_url": '${{ job.status }}' === 'success' ? "https://i.imgur.com/0TlV6Pt.png" : "https://i.imgur.com/skVMabZ.png",
                         "alt_text": "Augora"
                       }
                     }
