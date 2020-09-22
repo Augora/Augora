@@ -134,7 +134,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": '${{ job.status }}' === 'success' ? '*https://preprod.augora.fr* \n Déploiement en pré-production terminé :heavy_check_mark: \n N\'oubliez pas de vérifier que vos changements sont effectifs :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n Préparez vous à devoir hotfix avant de passer en prod :heart:'
+                        "text": '${{ job.status }}' === 'success' ? '*https://preprod.augora.fr* \n Déploiement en pré-production terminé :heavy_check_mark: \n N\'oubliez pas de vérifier que vos changements sont effectifs :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n Préparez vous à devoir hotfix avant de passer en prod :scream:'
                       },
                       "accessory": {
                         "type": "image",
