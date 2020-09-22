@@ -174,7 +174,7 @@ export default function MapPage() {
         <div className="map__container">
           <ReactMapGL
             mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
-            mapStyle="mapbox://styles/mapbox/streets-v11"
+            mapStyle="mapbox://styles/mapbox/streets-v11?optimize=true"
             {...viewport}
             width="100%"
             height="100%"
