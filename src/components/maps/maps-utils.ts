@@ -2,7 +2,22 @@ import GEOJsonDistrictFile from "../../static/list-district"
 import GEOJsonDptFile from "../../static/departements"
 import GEOJsonRegFile from "../../static/regions"
 
+/**
+ * Un array de 2 coordonnées: southwest & northeast utilisable par mapbox pour les bounding boxes
+ */
 type Bounds = [[number, number], [number, number]]
+
+/**
+ * Un object de type Feature collection GeoJSON ne contenant que des polygones ou des multipolygones
+ */
+interface FranceZoneFeatureCollection
+  extends GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
+
+/**
+ * Un object de type Feature GeoJSON ne contenant que des polygones ou des multipolygones
+ */
+interface FranceZoneFeature
+  extends GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
 
 /**
  * Un enum pour simplifier visuellement les codes de zone de nos GeoJSON.
@@ -21,9 +36,7 @@ export const GEOJsonDpt = GEOJsonDptFile
 /**
  * Une feature collection GeoJSON des régions sans les DOM-TOM
  */
-export const GEOJsonReg: GeoJSON.FeatureCollection<
-  GeoJSON.Polygon | GeoJSON.MultiPolygon
-> = {
+export const GEOJsonReg: FranceZoneFeatureCollection = {
   type: "FeatureCollection",
   features: GEOJsonRegFile.features.filter(
     (feature) => feature.properties.code_reg > 10
@@ -52,7 +65,7 @@ export const franceBox: Bounds = [
 //donne le fichier associé au type de zone
 export const getGEOJsonFile = (
   zoneCode: ZoneCode
-): GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> => {
+): FranceZoneFeatureCollection => {
   switch (zoneCode) {
     case ZoneCode.Circonscriptions:
       return GEOJsonDistrictFile
@@ -65,10 +78,10 @@ export const getGEOJsonFile = (
 
 /**
  * Renvoie une bounding box utilisable par mapbox depuis un ou plusieurs polygones GeoJSON
- * @param {GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>} polygon : Une feature GeoJSON de type polygon ou multipolygone
+ * @param {FranceZoneFeature} polygon : Une feature GeoJSON de type polygon ou multipolygone
  */
 export const getBoundingBoxFromPolygon = (
-  polygon: GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>
+  polygon: FranceZoneFeature
 ): Bounds => {
   // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
   var boxListOfLng = []
@@ -95,17 +108,15 @@ export const getBoundingBoxFromPolygon = (
 
 /**
  * Renvoie une feature collection GEOJson selon certains filtres
- * @param {GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon>} GEOJsonFile La feature collection GEOJson dans laquelle fouiller
+ * @param {FranceZoneFeatureCollection} GEOJsonFile La feature collection GEOJson dans laquelle fouiller
  * @param {ZoneCode} zoneCodeToSearch Le Code de zone commune à chercher dans les feature GEOJson
  * @param {string | number} zoneCodeId L'id de la zone commune
  */
 export const filterNewGEOJSonFeatureCollection = (
-  GEOJsonFile: GeoJSON.FeatureCollection<
-    GeoJSON.Polygon | GeoJSON.MultiPolygon
-  >,
+  GEOJsonFile: FranceZoneFeatureCollection,
   zoneCodeToSearch: ZoneCode,
   zoneCodeId: string | number
-): GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> => {
+): FranceZoneFeatureCollection => {
   return {
     type: "FeatureCollection",
     features: GEOJsonFile.features.filter(
@@ -116,14 +127,12 @@ export const filterNewGEOJSonFeatureCollection = (
 
 /**
  * Renvoie une feature GeoJSON polygone ou multipolygone selon certains filtres
- * @param {GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon>} GEOJsonFile La feature collection dans laquelle fouiller, ne peut contenir que des polygons ou multipolygons
+ * @param {FranceZoneFeatureCollection} GEOJsonFile La feature collection dans laquelle fouiller, ne peut contenir que des polygons ou multipolygons
  * @param {string | number} zoneId L'id de la zone
  * @param {ZoneCode} zoneCode Le type de la zone (régions, départements, ou circonscriptions)
  */
 export const getZonePolygon = (
-  GEOJsonFile: GeoJSON.FeatureCollection<
-    GeoJSON.Polygon | GeoJSON.MultiPolygon
-  >,
+  GEOJsonFile: FranceZoneFeatureCollection,
   zoneId: string | number,
   zoneCode: ZoneCode
 ): GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon> => {
