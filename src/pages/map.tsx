@@ -2,8 +2,6 @@ import React, { useState } from "react"
 import ReactMapGL, {
   NavigationControl,
   FullscreenControl,
-  WebMercatorViewport,
-  FlyToInterpolator,
   Source,
   Layer,
 } from "react-map-gl"
@@ -12,6 +10,7 @@ import {
   ZoneCode,
   franceBox,
   GEOJsonReg,
+  flyToBounds,
   getBoundingBoxFromPolygon,
   filterNewGEOJSonFeatureCollection,
   getZonePolygon,
@@ -45,14 +44,16 @@ const hoverLayerLayout = {
   },
 }
 
-//returns an object if the mousevent is on a valid layer, else returns undefined
-const getMouseEventZoneId = (e) => {
+/**
+ * Returns the zone id of a mouseevent
+ */
+const getMouseEventZoneId = (e): number => {
   if (e.features) {
     const currentZoneCode = getZoneCodeFromFeatureProperties(
       e.features[0]?.properties
     )
     if (currentZoneCode) {
-      const zoneId = e.features[0].properties[currentZoneCode]
+      const zoneId = e.features[0].properties[currentZoneCode] as number
       return zoneId
     } else return null
   } else return null
@@ -61,21 +62,10 @@ const getMouseEventZoneId = (e) => {
 export default function MapPage() {
   const [viewport, setViewport] = useState({})
   const [currentGEOJson, setCurrentGEOJson] = useState(GEOJsonReg)
-  const [hoverFilter, setHoverFilter] = useState(["==", ["get", ""], ""])
+  const [hoverFilter, setHoverFilter] = useState(["==", ["get", ""], 0])
 
   const resetFilter = () => {
-    setHoverFilter(["==", ["get", ""], ""])
-  }
-
-  const flyToBounds = (boundingBox) => {
-    const bounds = new WebMercatorViewport(viewport).fitBounds(boundingBox, {
-      padding: 100,
-    })
-    setViewport({
-      ...bounds,
-      transitionInterpolator: new FlyToInterpolator({ speed: 1.5 }),
-      transitionDuration: "auto",
-    })
+    setHoverFilter(["==", ["get", ""], 0])
   }
 
   /**
@@ -85,7 +75,7 @@ export default function MapPage() {
    */
   const displayNewZone = (
     zonesToDisplayCode: ZoneCode,
-    zonesToDisplayCommonId: string | number
+    zonesToDisplayCommonId: number
   ) => {
     const parentZoneCode =
       zonesToDisplayCode === ZoneCode.Circonscriptions
@@ -100,12 +90,16 @@ export default function MapPage() {
 
     const newZonePolygon = getZonePolygon(
       getGEOJsonFile(parentZoneCode),
-      zonesToDisplayCommonId,
-      parentZoneCode
+      parentZoneCode,
+      zonesToDisplayCommonId
     )
 
     setCurrentGEOJson(newZoneGEOJson)
-    flyToBounds(getBoundingBoxFromPolygon(newZonePolygon))
+    flyToBounds(
+      getBoundingBoxFromPolygon(newZonePolygon),
+      viewport,
+      setViewport
+    )
     resetFilter()
   }
 
@@ -122,7 +116,7 @@ export default function MapPage() {
         ],
         hoveredZoneId,
       ])
-    else if (hoverFilter !== ["==", ["get", ""], ""]) resetFilter()
+    else if (hoverFilter !== ["==", ["get", ""], 0]) resetFilter()
   }
 
   const handleClick = (e) => {
@@ -146,7 +140,9 @@ export default function MapPage() {
     )
 
     if (currentZoneCode === ZoneCode.Circonscriptions) {
-      const regionId = currentGEOJson.features[0].properties[ZoneCode.Regions]
+      const regionId = currentGEOJson.features[0].properties[
+        ZoneCode.Regions
+      ] as number
       displayNewZone(ZoneCode.Departements, regionId)
     } else if (currentZoneCode === ZoneCode.Departements) {
       handleReset()
@@ -155,7 +151,7 @@ export default function MapPage() {
 
   const handleReset = () => {
     setCurrentGEOJson(GEOJsonReg)
-    flyToBounds(franceBox)
+    flyToBounds(franceBox, viewport, setViewport)
   }
 
   return (
@@ -177,7 +173,7 @@ export default function MapPage() {
               setViewport({
                 zoom: 2,
               })
-              flyToBounds(franceBox)
+              flyToBounds(franceBox, viewport, setViewport)
             }}
             onViewportChange={(change) => setViewport(change)}
             onHover={handleHover}

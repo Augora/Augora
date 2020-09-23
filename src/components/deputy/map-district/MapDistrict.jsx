@@ -2,8 +2,6 @@ import React, { useState, useMemo } from "react"
 import ReactMapGL, {
   NavigationControl,
   FullscreenControl,
-  WebMercatorViewport,
-  FlyToInterpolator,
   Source,
   Layer,
   Marker,
@@ -13,6 +11,7 @@ import {
   France,
   GEOJsonDistrict,
   getBoundingBoxFromPolygon,
+  flyToBounds,
 } from "../../../components/maps/maps-utils"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
 import Block from "../_block/_Block"
@@ -58,23 +57,10 @@ export default function MapDistrict(props) {
     )
   }, [])
 
-  //function pour transitionner de façon fluide vers une bounding box
-  const flyToBounds = (box) => {
-    const bounds = new WebMercatorViewport(viewport).fitBounds(box, {
-      padding: 100,
-    })
-    setViewport({
-      ...viewport,
-      ...bounds,
-      transitionInterpolator: new FlyToInterpolator({ speed: 1.5 }),
-      transitionDuration: "auto",
-    })
-  }
-
   //reset button handler
   const handleReset = () => {
     setUserInteracted(false)
-    flyToBounds(districtBox)
+    flyToBounds(districtBox, viewport, setViewport)
   }
 
   //interaction handler
@@ -127,7 +113,7 @@ export default function MapDistrict(props) {
               longitude: France.center.lng,
               zoom: 2,
             })
-            flyToBounds(districtBox)
+            flyToBounds(districtBox, viewport, setViewport)
           }}
           //appelé quand le viewport change - nécéssaire pour que la map bouge
           onViewportChange={(change) => setViewport(change)}

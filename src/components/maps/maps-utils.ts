@@ -1,3 +1,4 @@
+import { WebMercatorViewport, FlyToInterpolator } from "react-map-gl"
 import GEOJsonDistrictFile from "../../static/list-district"
 import GEOJsonDptFile from "../../static/departements"
 import GEOJsonRegFile from "../../static/regions"
@@ -10,13 +11,13 @@ type Bounds = [[number, number], [number, number]]
 /**
  * Un object de type Feature collection GeoJSON ne contenant que des polygones ou des multipolygones
  */
-export interface FranceZoneFeatureCollection
+interface FranceZoneFeatureCollection
   extends GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
 
 /**
  * Un object de type Feature GeoJSON ne contenant que des polygones ou des multipolygones
  */
-export interface FranceZoneFeature
+interface FranceZoneFeature
   extends GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
 
 /**
@@ -62,7 +63,10 @@ export const franceBox: Bounds = [
   [11.162109, 51.426614],
 ]
 
-//donne le fichier associé au type de zone
+/**
+ * Renvoie la GeoJSON Feature Collection associée au type de zone
+ * @param zoneCode Le type de zone
+ */
 export const getGEOJsonFile = (
   zoneCode: ZoneCode
 ): FranceZoneFeatureCollection => {
@@ -107,15 +111,36 @@ export const getBoundingBoxFromPolygon = (
 }
 
 /**
+ * Transitionne de façon fluide vers une bounding box
+ * @param {Bounds} boundingBox La bounding box utilisable par mapbox
+ * @param {*} viewportState Le state du viewport
+ * @param {React.Dispatch<React.SetStateAction<{}>>} setViewportState Le setState du viewport
+ */
+export const flyToBounds = (
+  boundingBox: Bounds,
+  viewportState: any,
+  setViewportState: React.Dispatch<React.SetStateAction<{}>>
+): void => {
+  const bounds = new WebMercatorViewport(viewportState).fitBounds(boundingBox, {
+    padding: 100,
+  })
+  setViewportState({
+    ...bounds,
+    transitionInterpolator: new FlyToInterpolator({ speed: 1.5 }),
+    transitionDuration: "auto",
+  })
+}
+
+/**
  * Renvoie une feature collection GEOJson selon certains filtres
  * @param {FranceZoneFeatureCollection} GEOJsonFile La feature collection GEOJson dans laquelle fouiller
  * @param {ZoneCode} zoneCodeToSearch Le Code de zone commune à chercher dans les feature GEOJson
- * @param {string | number} zoneCodeId L'id de la zone commune
+ * @param {number} zoneCodeId L'id de la zone commune
  */
 export const filterNewGEOJSonFeatureCollection = (
   GEOJsonFile: FranceZoneFeatureCollection,
   zoneCodeToSearch: ZoneCode,
-  zoneCodeId: string | number
+  zoneCodeId: number
 ): FranceZoneFeatureCollection => {
   return {
     type: "FeatureCollection",
@@ -128,13 +153,13 @@ export const filterNewGEOJSonFeatureCollection = (
 /**
  * Renvoie une feature GeoJSON polygone ou multipolygone selon certains filtres
  * @param {FranceZoneFeatureCollection} GEOJsonFile La feature collection dans laquelle fouiller, ne peut contenir que des polygons ou multipolygons
- * @param {string | number} zoneId L'id de la zone
  * @param {ZoneCode} zoneCode Le type de la zone (régions, départements, ou circonscriptions)
+ * @param {number} zoneId L'id de la zone
  */
 export const getZonePolygon = (
   GEOJsonFile: FranceZoneFeatureCollection,
-  zoneId: string | number,
-  zoneCode: ZoneCode
+  zoneCode: ZoneCode,
+  zoneId: number
 ): FranceZoneFeature => {
   return GEOJsonFile.features.find((zone) => {
     return zone.properties[zoneCode] === zoneId
