@@ -16,9 +16,8 @@ import {
   filterNewGEOJSonFeatureCollection,
   getZonePolygon,
   getZoneCodeFromFeatureProperties,
-  getParentZoneCode,
-  getChildZoneCode,
   getGEOJsonFile,
+  FranceZoneFeatureCollection,
 } from "../components/maps/maps-utils"
 import ResetControl from "../components/maps/ResetControl"
 
@@ -69,8 +68,8 @@ export default function MapPage() {
     setHoverFilter(["==", ["get", ""], ""])
   }
 
-  const flyToBounds = (box) => {
-    const bounds = new WebMercatorViewport(viewport).fitBounds(box, {
+  const flyToBounds = (boundingBox) => {
+    const bounds = new WebMercatorViewport(viewport).fitBounds(boundingBox, {
       padding: 100,
     })
     setViewport({
@@ -80,35 +79,35 @@ export default function MapPage() {
     })
   }
 
+  /**
+   * Affiche une nouvelle vue
+   * @param {ZoneCode} zonesToDisplayCode Le code du groupe de zones à afficher
+   * @param {string | number} zonesToDisplayCommonId L'id qu'ils ont en commun (si ce sont des départements, leur région id, si ce sont des circonscriptions, leur département id)
+   */
   const displayNewZone = (
-    zoom: boolean,
-    currentZoneCode: ZoneCode,
-    newZoneCodeId: string | number
+    zonesToDisplayCode: ZoneCode,
+    zonesToDisplayCommonId: string | number
   ) => {
-    const parentParentCode = getParentZoneCode(
-      getParentZoneCode(currentZoneCode)
-    )
-    //récupère les données geojson de la nouvelle vue à afficher
+    const parentZoneCode =
+      zonesToDisplayCode === ZoneCode.Circonscriptions
+        ? ZoneCode.Departements
+        : ZoneCode.Regions
+
     const newZoneGEOJson = filterNewGEOJSonFeatureCollection(
-      getGEOJsonFile(
-        zoom
-          ? getChildZoneCode(currentZoneCode)
-          : getParentZoneCode(currentZoneCode)
-      ),
-      zoom ? currentZoneCode : parentParentCode,
-      newZoneCodeId
+      getGEOJsonFile(zonesToDisplayCode),
+      parentZoneCode,
+      zonesToDisplayCommonId
     )
 
-    // récupère le polygon de la region actuelle
     const newZonePolygon = getZonePolygon(
-      getGEOJsonFile(zoom ? currentZoneCode : parentParentCode),
-      newZoneCodeId,
-      zoom ? currentZoneCode : parentParentCode
+      getGEOJsonFile(parentZoneCode),
+      zonesToDisplayCommonId,
+      parentZoneCode
     )
 
     setCurrentGEOJson(newZoneGEOJson)
-    resetFilter()
     flyToBounds(getBoundingBoxFromPolygon(newZonePolygon))
+    resetFilter()
   }
 
   const handleHover = (e) => {
@@ -134,8 +133,10 @@ export default function MapPage() {
         currentGEOJson.features[0].properties
       )
       //ne rien faire si on est en vue circ (pour l'instant en tout cas)
-      if (currentZoneCode !== ZoneCode.Circonscriptions) {
-        displayNewZone(true, currentZoneCode, clickedZoneId)
+      if (currentZoneCode === ZoneCode.Regions) {
+        displayNewZone(ZoneCode.Departements, clickedZoneId)
+      } else if (currentZoneCode === ZoneCode.Departements) {
+        displayNewZone(ZoneCode.Circonscriptions, clickedZoneId)
       }
     }
   }
@@ -145,20 +146,10 @@ export default function MapPage() {
       currentGEOJson.features[0].properties
     )
 
-    const parentZoneId =
-      currentGEOJson.features[0].properties[
-        getParentZoneCode(
-          getParentZoneCode(
-            getZoneCodeFromFeatureProperties(
-              currentGEOJson.features[0].properties
-            )
-          )
-        )
-      ]
-
-    if (parentZoneId) {
-      displayNewZone(false, currentZoneCode, parentZoneId)
-    } else {
+    if (currentZoneCode === ZoneCode.Circonscriptions) {
+      const regionId = currentGEOJson.features[0].properties[ZoneCode.Regions]
+      displayNewZone(ZoneCode.Departements, regionId)
+    } else if (currentZoneCode === ZoneCode.Departements) {
       handleReset()
     }
   }

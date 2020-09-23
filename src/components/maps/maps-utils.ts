@@ -10,13 +10,13 @@ type Bounds = [[number, number], [number, number]]
 /**
  * Un object de type Feature collection GeoJSON ne contenant que des polygones ou des multipolygones
  */
-interface FranceZoneFeatureCollection
+export interface FranceZoneFeatureCollection
   extends GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
 
 /**
  * Un object de type Feature GeoJSON ne contenant que des polygones ou des multipolygones
  */
-interface FranceZoneFeature
+export interface FranceZoneFeature
   extends GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
 
 /**
@@ -135,7 +135,7 @@ export const getZonePolygon = (
   GEOJsonFile: FranceZoneFeatureCollection,
   zoneId: string | number,
   zoneCode: ZoneCode
-): GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon> => {
+): FranceZoneFeature => {
   return GEOJsonFile.features.find((zone) => {
     return zone.properties[zoneCode] === zoneId
   })
@@ -156,27 +156,5 @@ export const getZoneCodeFromFeatureProperties = (
     else if (featureAsAnArray.includes(ZoneCode.Departements))
       return ZoneCode.Departements
     else return ZoneCode.Regions
-  }
-}
-
-export const getParentZoneCode = (zoneCode: ZoneCode): ZoneCode => {
-  switch (zoneCode) {
-    case ZoneCode.Circonscriptions:
-      return ZoneCode.Departements
-    case ZoneCode.Departements:
-      return ZoneCode.Regions
-    default:
-      return null
-  }
-}
-
-export const getChildZoneCode = (zoneCode: ZoneCode): ZoneCode => {
-  switch (zoneCode) {
-    case ZoneCode.Regions:
-      return ZoneCode.Departements
-    case ZoneCode.Departements:
-      return ZoneCode.Circonscriptions
-    default:
-      return null
   }
 }
