@@ -17,7 +17,6 @@ import {
   getZonePolygon,
   getZoneCodeFromFeatureProperties,
   getGEOJsonFile,
-  FranceZoneFeatureCollection,
 } from "../components/maps/maps-utils"
 import ResetControl from "../components/maps/ResetControl"
 
