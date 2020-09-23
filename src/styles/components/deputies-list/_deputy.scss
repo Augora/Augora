@@ -4,11 +4,10 @@
   position: relative;
   width: 100%;
   background: grey;
-  display: inline;
   padding: 10px;
   text-decoration: none;
   color: white;
-  height: calc((100vw / 6) - 30px);
+  height: calc((86vw - (1vw * 10)) / 10);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +47,7 @@
     left: 10px;
     top: 10px;
     text-transform: uppercase;
-    font-size: 25px;
+    font-size: 23px;
     padding-right: 10px;
   }
   .deputy {
@@ -97,19 +96,28 @@
   }
 
   // Responsive
+  @media (max-width: 2560px) {
+    height: calc((86vw - (1vw * 8)) / 8);
+  }
+  @media (max-width: 1920px) {
+    height: calc((86vw - (1vw * 7)) / 7);
+  }
+  @media (max-width: 1800px) {
+    height: calc(((100vw - (1vw * 6)) / 6) - 30px);
+  }
   @media (max-width: 1500px) {
-    height: calc((100vw / 5) - 30px);
+    height: calc(((100vw - (1vw * 5)) / 5) - 30px);
   }
   @media (max-width: 1200px) {
-    height: calc((100vw / 4) - 30px);
+    height: calc(((100vw - (1vw * 4)) / 4) - 30px);
   }
   @media (max-width: 900px) {
-    height: calc((100vw / 3) - 30px);
+    height: calc(((100vw - (1vw * 3)) / 3) - 30px);
   }
   @media (max-width: 600px) {
-    height: calc((100vw / 2) - 30px);
+    height: calc(((100vw - (1vw * 2)) / 2) - 30px);
   }
   @media (max-width: 400px) {
-    height: calc((100vw / 1) - 30px);
+    height: calc(((100vw - 20px) / 1) - 30px);
   }
 }
