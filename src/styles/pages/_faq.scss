@@ -3,7 +3,7 @@
 /*----------------------------------------------------*/
 
 .page__faq {
-  max-width: 1280px;
+  max-width: 70vw;
   margin: 0 auto;
 
   h1 {
@@ -105,6 +105,9 @@
         }
       }
     }
+  }
+  @media (max-width: 1500px) {
+    max-width: unset;
   }
 }
 

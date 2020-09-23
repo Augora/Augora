@@ -624,6 +624,10 @@ pre tt:after {
   }
 }
 
+:focus {
+  outline: none;
+}
+
 .icon-wrapper {
   display: flex;
   align-items: center;
@@ -636,6 +640,13 @@ pre tt:after {
   padding-top: 60px;
 }
 
-:focus {
-  outline: none;
+.page {
+  padding: 0 7vw;
+  padding-bottom: 100px;
+  padding-top: 50px;
+
+  @media (max-width: 1800px) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 }

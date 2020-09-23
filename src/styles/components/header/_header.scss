@@ -13,7 +13,7 @@ header#header.header {
       justify-content: space-between;
       align-items: center;
 
-      padding: 15px 150px;
+      padding: 15px 7vw;
       width: 100%;
 
       transition: 0.225s linear;
@@ -116,7 +116,7 @@ header#header.header {
   &.small {
     .header {
       &__wrapper {
-        padding: 10px 150px 10px 35px;
+        padding: 10px 7vw 10px 35px;
       }
       &__svg-wrapper {
         svg {
@@ -157,7 +157,7 @@ header#header.header {
     }
   }
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1800px) {
     .header {
       &__wrapper {
         padding: 15px 30px;
@@ -165,10 +165,6 @@ header#header.header {
 
       &__svg-wrapper {
         width: 30px;
-      }
-
-      &__site-name {
-        display: none;
       }
 
       &__menu {
@@ -182,8 +178,16 @@ header#header.header {
     &.small {
       .header {
         &__wrapper {
-          padding: 10px 15px;
+          padding: 15px 30px;
         }
+      }
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .header {
+      &__site-name {
+        display: none;
       }
     }
   }

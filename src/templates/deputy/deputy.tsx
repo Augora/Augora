@@ -52,96 +52,98 @@ function Deputy({ data }) {
         <style>{`:root {\n${allColors.join("")}
       --groupe-color: ${color};}`}</style>
       </Helmet>
-      <div className="deputy__header">
-        <h1>
-          {deputy.Prenom} {deputy.NomDeFamille}
-        </h1>
-        <div className="deputy__contact">
-          {deputy.Emails.length > 0 ? (
-            <a
-              href={`mailto:${deputy.Emails[0]}`}
-              className="btn btn--mail"
-              title="Adresse e-mail"
-            >
-              <div className="deputy__icon">
+      <div className="page page__deputy">
+        <div className="deputy__header">
+          <h1>
+            {deputy.Prenom} {deputy.NomDeFamille}
+          </h1>
+          <div className="deputy__contact">
+            {deputy.Emails.length > 0 ? (
+              <a
+                href={`mailto:${deputy.Emails[0]}`}
+                className="btn btn--mail"
+                title="Adresse e-mail"
+              >
+                <div className="deputy__icon">
+                  <IconMail />
+                </div>
+              </a>
+            ) : (
+              <div
+                className="deputy__icon deputy__icon--missing"
+                title="Pas d'adresse e-mail renseignée"
+              >
                 <IconMail />
               </div>
-            </a>
-          ) : (
-            <div
-              className="deputy__icon deputy__icon--missing"
-              title="Pas d'adresse e-mail renseignée"
-            >
-              <IconMail />
-            </div>
-          )}
-          {deputy.SitesWeb.length > 0 ? (
-            <a
-              href={deputy.SitesWeb[0]}
-              className="btn btn--website"
-              target="_blank"
-              title="Site Web"
-            >
-              <div className="deputy__icon" style={{ width: "30px" }}>
+            )}
+            {deputy.SitesWeb.length > 0 ? (
+              <a
+                href={deputy.SitesWeb[0]}
+                className="btn btn--website"
+                target="_blank"
+                title="Site Web"
+              >
+                <div className="deputy__icon" style={{ width: "30px" }}>
+                  <IconWebsite />
+                </div>
+              </a>
+            ) : (
+              <div
+                className="deputy__icon deputy__icon--missing"
+                title="Pas de Site Web renseigné"
+              >
                 <IconWebsite />
               </div>
-            </a>
-          ) : (
-            <div
-              className="deputy__icon deputy__icon--missing"
-              title="Pas de Site Web renseigné"
-            >
-              <IconWebsite />
-            </div>
-          )}
-          {/* <a href="" className="btn btn--facebook">
+            )}
+            {/* <a href="" className="btn btn--facebook">
             <div className="deputy__icon">
               <IconFacebook />
             </div>
           </a> */}
-          {!isEmpty(deputy.Twitter) ? (
-            <a
-              href={`https://twitter.com/${deputy.Twitter}`}
-              className="btn btn--twitter"
-              target="_blank"
-              title="Twitter"
-            >
-              <div className="deputy__icon">
+            {!isEmpty(deputy.Twitter) ? (
+              <a
+                href={`https://twitter.com/${deputy.Twitter}`}
+                className="btn btn--twitter"
+                target="_blank"
+                title="Twitter"
+              >
+                <div className="deputy__icon">
+                  <IconTwitter />
+                </div>
+              </a>
+            ) : (
+              <div
+                className="deputy__icon deputy__icon--missing"
+                title="Pas d'adresse Twitter renseignée"
+              >
                 <IconTwitter />
               </div>
-            </a>
-          ) : (
-            <div
-              className="deputy__icon deputy__icon--missing"
-              title="Pas d'adresse Twitter renseignée"
-            >
-              <IconTwitter />
-            </div>
-          )}
+            )}
+          </div>
         </div>
+        <DeputyStyles className="single-deputy">
+          <GeneralInformation
+            {...getGeneralInformation(deputy)}
+            color={color}
+            size="medium"
+            dateBegin={deputy.DateDeNaissance}
+          />
+          <Mandate {...getMandate(deputy)} color={color} size="small" />
+          <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
+          <MapDistrict
+            nom={deputy.NomCirconscription}
+            num={deputy.NumeroCirconscription}
+            color={color}
+            size="medium"
+          />
+          <Presence color={color} size="large" wip={true} />
+          <Contact
+            color={color}
+            size="medium"
+            adresses={deputy.AdressesDetails.data}
+          />
+        </DeputyStyles>
       </div>
-      <DeputyStyles className="single-deputy">
-        <GeneralInformation
-          {...getGeneralInformation(deputy)}
-          color={color}
-          size="medium"
-          dateBegin={deputy.DateDeNaissance}
-        />
-        <Mandate {...getMandate(deputy)} color={color} size="small" />
-        <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
-        <MapDistrict
-          nom={deputy.NomCirconscription}
-          num={deputy.NumeroCirconscription}
-          color={color}
-          size="medium"
-        />
-        <Presence color={color} size="large" wip={true} />
-        <Contact
-          color={color}
-          size="medium"
-          adresses={deputy.AdressesDetails.data}
-        />
-      </DeputyStyles>
     </>
   )
 }

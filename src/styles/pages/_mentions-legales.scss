@@ -1,5 +1,5 @@
 .page__mentions-legales {
-  max-width: 1280px;
+  max-width: 70vw;
   margin: 0 auto;
 
   p {
@@ -19,6 +19,10 @@
   ul {
     list-style-position: inside;
     margin-top: 20px;
+  }
+
+  @media (max-width: 1500px) {
+    max-width: unset;
   }
 
   @media (max-width: 900px) {

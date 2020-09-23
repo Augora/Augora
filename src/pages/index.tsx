@@ -12,10 +12,8 @@ const IndexPage = () => {
         ) : null}
         <title>Liste des députés | Augora</title>
       </Helmet>
-      <header className="header">
-        <h1 style={{ textAlign: "center" }}>Liste des députés</h1>
-      </header>
-      <div>
+      <div className="page page__deputies">
+        <h1>Liste des députés</h1>
         <DeputiesList />
       </div>
     </>
