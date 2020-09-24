@@ -45,7 +45,7 @@ export default function Mandate(props) {
   let numberComplement = ""
   props.numberMandates < 2
     ? (numberComplement = "er")
-    : (numberComplement = "eme")
+    : (numberComplement = "ème")
   return (
     <Block
       title="Mandats"
