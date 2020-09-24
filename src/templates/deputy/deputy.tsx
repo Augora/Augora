@@ -2,9 +2,6 @@ import React from "react"
 import Helmet from "react-helmet"
 import { colors } from "utils/variables"
 import { graphql } from "gatsby"
-
-import styled from "styled-components"
-
 import Coworkers from "components/deputy/coworkers/Coworkers"
 import MapDistrict from "components/deputy/map-district/MapDistrict"
 import { getGender } from "utils/augora-objects/deputy/gender"
@@ -26,15 +23,6 @@ import IconTwitter from "images/ui-kit/icon-twitter.svg"
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
-
-const DeputyStyles = styled.div`
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 500px;
-  grid-gap: 30px;
-  padding: 0px;
-  min-height: 100vh;
-`
 
 function Deputy({ data }) {
   const deputy = data.faunadb.Depute
@@ -121,7 +109,7 @@ function Deputy({ data }) {
             )}
           </div>
         </div>
-        <DeputyStyles className="single-deputy">
+        <div className="deputy__content">
           <GeneralInformation
             {...getGeneralInformation(deputy)}
             color={color}
@@ -142,7 +130,7 @@ function Deputy({ data }) {
             size="medium"
             adresses={deputy.AdressesDetails.data}
           />
-        </DeputyStyles>
+        </div>
       </div>
     </>
   )
