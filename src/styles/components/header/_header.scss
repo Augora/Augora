@@ -13,7 +13,7 @@ header#header.header {
       justify-content: space-between;
       align-items: center;
 
-      padding: 15px 7vw;
+      padding: 10px 7vw;
       width: 100%;
 
       transition: 0.225s linear;
@@ -22,15 +22,14 @@ header#header.header {
       display: block;
       text-decoration: none;
       color: $text-color;
+      margin-left: 10px;
     }
     &__logo-wrapper {
       display: flex;
       align-items: center;
-    }
-    &__svg-wrapper {
       transition: width 0.2s linear;
       svg {
-        width: 50px;
+        display: block;
         path,
         rect {
           fill: $text-color;
@@ -38,20 +37,30 @@ header#header.header {
           transition-delay: 0.5s;
         }
       }
+      .logo {
+        width: 46px;
+        transition: opacity 0.4s $ease-out-quad;
+      }
+      .text {
+        width: 120px;
+        margin-left: 20px;
+        transform: translate(0, 0);
+        transition: transform 0.4s $ease-out-quad;
+      }
     }
-    &__site-name {
-      font-size: 28px;
-      margin-left: 20px;
-      margin-top: 5px;
-      text-transform: uppercase;
-      font-family: "Augora", $font;
-      color: $text-color;
-      transform: translate(-10px);
-      opacity: 0;
-      transition: transform 0.4s $ease-out-quad, opacity 0.4s $ease-out-quad,
-        color 0.4s $ease-in-out-quad;
-      transition-delay: 0.5s;
-    }
+    // &__site-name {
+    //   font-size: 28px;
+    //   margin-left: 20px;
+    //   margin-top: 5px;
+    //   text-transform: uppercase;
+    //   font-family: "Augora", $font;
+    //   color: $text-color;
+    //   transform: translate(-10px);
+    //   opacity: 0;
+    //   transition: transform 0.4s $ease-out-quad, opacity 0.4s $ease-out-quad,
+    //     color 0.4s $ease-in-out-quad;
+    //   transition-delay: 0.5s;
+    // }
 
     // Menu
     &__menu {
@@ -116,34 +125,33 @@ header#header.header {
   &.small {
     .header {
       &__wrapper {
-        padding: 10px 7vw 10px 35px;
+        padding: 8px 7vw;
       }
-      &__svg-wrapper {
-        svg {
-          width: 35px;
+      &__logo-wrapper {
+        .logo {
+          width: 38px;
+          opacity: 0;
+        }
+        .text {
+          width: 100px;
+          margin-left: 20px;
+          transform: translate(-50px, 0);
         }
       }
-      &__site-name {
-        transform: translate3d(0px, 0, 0);
-        opacity: 1;
-        font-size: 18px;
-        margin-left: 15px;
-        margin-top: 2px;
-      }
+      //   .header__site-name {
+      //   opacity: 1;
+      //   transform: translate(0);
+      //   color: $main-color;
+      //   transition: transform 0.2s $ease-out-back, opacity 0.2s $ease-out-quad,
+      //     color 0.2s $ease-in-out-quad;
+      //   transition-delay: 0s;
+      // }
     }
   }
 
   // hover
   .header__home-btn:hover {
-    .header__site-name {
-      opacity: 1;
-      transform: translate(0);
-      color: $main-color;
-      transition: transform 0.2s $ease-out-back, opacity 0.2s $ease-out-quad,
-        color 0.2s $ease-in-out-quad;
-      transition-delay: 0s;
-    }
-    .header__svg-wrapper {
+    .header__logo-wrapper {
       opacity: 1;
       pointer-events: none;
       svg {
@@ -160,16 +168,17 @@ header#header.header {
   @media (max-width: 1700px) {
     .header {
       &__wrapper {
-        padding: 15px 30px;
+        padding-left: 30px;
+        padding-right: 30px;
       }
 
-      &__svg-wrapper {
-        width: 30px;
-      }
+      // &__svg-wrapper {
+      //   width: 30px;
+      // }
 
-      &__site-name {
-        margin-left: 40px;
-      }
+      // &__site-name {
+      //   margin-left: 40px;
+      // }
 
       &__menu {
         .menu__item {
@@ -182,16 +191,48 @@ header#header.header {
     &.small {
       .header {
         &__wrapper {
-          padding: 15px 30px;
+          padding-left: 30px;
+          padding-right: 30px;
         }
       }
     }
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: 875px) {
     .header {
-      &__site-name {
-        display: none;
+      &__home-btn {
+        margin: 0;
+      }
+      &__logo-wrapper {
+        .text {
+          display: none;
+        }
+      }
+    }
+    &.small {
+      .header {
+        &__logo-wrapper {
+          .text {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 500px) {
+    .header {
+      &__wrapper {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+    &.small {
+      .header {
+        &__wrapper {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
       }
     }
   }
