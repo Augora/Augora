@@ -3,6 +3,7 @@ import React from "react"
 import SEO from "../components/seo"
 import { Link } from "gatsby"
 import Question from "components/faq/Question"
+import PageTitle from "../components/titles/PageTitle"
 
 // Content
 const contentAbout = [
@@ -149,7 +150,7 @@ const About = () => {
     <>
       <SEO title="FAQ" />
       <div className="page page__faq">
-        <h1>Foire aux Questions</h1>
+        <PageTitle title="Foire aux Questions" />
 
         {contentAbout.map((question, index) => (
           <Question

@@ -1,0 +1,31 @@
+.page-title {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: linear-gradient(to right, $main-color, $secondary-color);
+  padding: 1px 0;
+  margin-bottom: 50px;
+  overflow: hidden;
+
+  &__title {
+    color: white;
+    margin-left: 9vw;
+    margin-top: 80px;
+    margin-bottom: 50px;
+  }
+
+  &:hover {
+    svg rect {
+      transform: skew(-25deg) translate3d(0, 0, 0);
+      transition: transform 1s $ease-in-out-cubic;
+    }
+  }
+
+  @media (max-width: 900px) {
+    &__title {
+      text-align: center;
+      margin-left: 0;
+    }
+  }
+}

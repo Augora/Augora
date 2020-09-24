@@ -1,13 +1,3 @@
 .page__deputies {
-  h1 {
-    margin-left: 50px;
-  }
-
-  @media (max-width: 875px) {
-    h1 {
-      display: none;
-    }
-  }
-
   @import "../components/deputies-list/deputies-list";
 }

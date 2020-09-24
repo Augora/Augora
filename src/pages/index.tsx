@@ -2,6 +2,7 @@ import React from "react"
 import Helmet from "react-helmet"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
+import PageTitle from "../components/titles/PageTitle"
 
 const IndexPage = () => {
   return (
@@ -13,7 +14,7 @@ const IndexPage = () => {
         <title>Liste des députés | Augora</title>
       </Helmet>
       <div className="page page__deputies">
-        <h1>Liste des députés</h1>
+        <PageTitle title="Liste des Députés" />
         <DeputiesList />
       </div>
     </>

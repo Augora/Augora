@@ -6,10 +6,6 @@
   max-width: 70vw;
   margin: 0 auto;
 
-  h1 {
-    text-align: center;
-  }
-
   .faq {
     font-family: $opensans;
 
@@ -38,7 +34,7 @@
         border: none;
         border-top: 2px dashed $text-color;
         width: 100%;
-        margin: 50px 0;
+        margin: 40px 0;
         opacity: 0.5;
       }
     }
@@ -91,7 +87,7 @@
     &__description {
       font-family: $opensans;
       display: none;
-      margin-top: 50px;
+      margin-top: 30px;
       margin-bottom: 0px;
       padding: 0 30px;
 
@@ -113,7 +109,7 @@
   @media (max-width: 500px) {
     .faq {
       &__question {
-        margin-bottom: 50px;
+        margin-bottom: 40px;
         &::after {
           display: none;
         }
