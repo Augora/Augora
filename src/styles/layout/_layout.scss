@@ -649,4 +649,8 @@ pre tt:after {
     padding-left: 30px;
     padding-right: 30px;
   }
+  @media (max-width: 875px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
