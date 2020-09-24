@@ -167,6 +167,10 @@ header#header.header {
         width: 30px;
       }
 
+      &__site-name {
+        margin-left: 40px;
+      }
+
       &__menu {
         .menu__item {
           &:last-child {
