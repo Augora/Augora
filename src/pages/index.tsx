@@ -2,6 +2,7 @@ import React from "react"
 import Helmet from "react-helmet"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
+import PageTitle from "../components/titles/PageTitle"
 
 const IndexPage = () => {
   return (
@@ -12,10 +13,8 @@ const IndexPage = () => {
         ) : null}
         <title>Liste des députés | Augora</title>
       </Helmet>
-      <header className="header">
-        <h1 style={{ textAlign: "center" }}>Liste des députés</h1>
-      </header>
-      <div>
+      <div className="page page__deputies">
+        <PageTitle title="Liste des Députés" />
         <DeputiesList />
       </div>
     </>

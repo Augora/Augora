@@ -1,0 +1,10 @@
+.page__deputies {
+  @media (max-width: 875px) {
+    .page-title {
+      display: none;
+    }
+    padding-top: 40px;
+  }
+
+  @import "../components/deputies-list/deputies-list";
+}

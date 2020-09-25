@@ -26,7 +26,7 @@ export default function Header(props) {
           <span className="header__title--region">{props.circ.region}</span>
           <span className="header__title--numero">
             {props.circ.circNb}
-            <small>{props.circ.circNb < 2 ? "ère " : "ème "}</small>
+            <sup>{props.circ.circNb < 2 ? "ère " : "ème "}</sup>
             circonscription
           </span>
         </div>

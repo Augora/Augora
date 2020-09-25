@@ -134,11 +134,11 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": '${{ job.status }}' === 'success' ? '*https://preprod.augora.fr* \n Déploiement en pré-production terminé :heavy_check_mark: \n N\'oubliez pas de vérifier que vos changements sont effectifs :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n Préparez vous à devoir hotfix avant de passer en prod :heart:'
+                        "text": '${{ job.status }}' === 'success' ? '*https://preprod.augora.fr* \n Déploiement en pré-production terminé :heavy_check_mark: \n N\'oubliez pas de vérifier que vos changements sont effectifs :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n Préparez vous à devoir hotfix avant de passer en prod :scream:'
                       },
                       "accessory": {
                         "type": "image",
-                        "image_url": "https://augora.fr/icons/icon-512x512.png",
+                        "image_url": '${{ job.status }}' === 'success' ? "https://i.imgur.com/0TlV6Pt.png" : "https://i.imgur.com/skVMabZ.png",
                         "alt_text": "Augora"
                       }
                     }

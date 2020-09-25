@@ -1,6 +1,7 @@
 import { Link } from "gatsby"
 import React, { useState, useEffect } from "react"
 import Logo from "../images/logos/projet/augora-logo.svg"
+import LogoText from "../images/logos/projet/augora-texte.svg"
 
 const mainPages = {
   home: {
@@ -72,10 +73,8 @@ const Header = ({ siteTitle, location }) => {
       <div className="header__wrapper wrapper">
         <Link to="/" className="header__home-btn">
           <div className={`header__logo-wrapper `}>
-            <div className="header__svg-wrapper">
-              <Logo />
-            </div>
-            <span className="header__site-name">Augora</span>
+            <Logo className="logo" />
+            <LogoText className="text" />
           </div>
         </Link>
         <div className="header__menu menu">

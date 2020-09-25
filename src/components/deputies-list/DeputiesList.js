@@ -9,6 +9,7 @@ import { DeputiesListContext } from "../../context/deputies-filters/deputiesFilt
 import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import Tooltip from "components/tooltip/Tooltip"
+import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 const DeputiesList = (props) => {
   const {
@@ -139,7 +140,11 @@ const DeputiesList = (props) => {
       <section className="deputies__list">
         {state.FilteredList.length > 0 ? (
           state.FilteredList.map((depute) => {
-            return <Deputy key={depute.Slug} data={depute} />
+            return (
+              <LazyLoadComponent>
+                <Deputy key={depute.Slug} data={depute} />
+              </LazyLoadComponent>
+            )
           })
         ) : (
           <div className="deputies__no-result">

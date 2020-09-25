@@ -2,9 +2,20 @@
   position: relative;
   display: grid;
   grid-gap: 1vw;
-  grid-template-columns: repeat(6, auto);
-  padding: 0px;
-  margin: 0px;
+  grid-template-columns: repeat(10, auto);
+  padding: 0;
+  margin: 0;
+
+  //responsive
+  @media (max-width: 2560px) {
+    grid-template-columns: repeat(8, auto);
+  }
+  @media (max-width: 1920px) {
+    grid-template-columns: repeat(7, auto);
+  }
+  @media (max-width: 1700px) {
+    grid-template-columns: repeat(6, auto);
+  }
   @media (max-width: 1500px) {
     grid-template-columns: repeat(5, auto);
   }
