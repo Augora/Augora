@@ -66,10 +66,8 @@ const Header = ({ siteTitle, location }) => {
   }, [])
 
   return (
-    <header
-      id="header"
-      className={!isActivePage("/map") ? `header ${Size}` : "header small"}
-    >
+    <header id="header" className={`header ${Size}`}>
+      {console.log(location)}
       <div className="header__wrapper wrapper">
         <Link to="/" className="header__home-btn">
           <div className={`header__logo-wrapper `}>
