@@ -6,18 +6,18 @@ import GEOJsonRegFile from "../../static/regions"
 /**
  * Un array de 2 coordonnées: southwest & northeast utilisable par mapbox pour les bounding boxes
  */
-type Bounds = [[number, number], [number, number]]
+export type Bounds = [[number, number], [number, number]]
 
 /**
  * Un object de type Feature collection GeoJSON ne contenant que des polygones ou des multipolygones
  */
-interface FranceZoneFeatureCollection
+export interface FranceZoneFeatureCollection
   extends GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
 
 /**
  * Un object de type Feature GeoJSON ne contenant que des polygones ou des multipolygones
  */
-interface FranceZoneFeature
+export interface FranceZoneFeature
   extends GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
 
 /**

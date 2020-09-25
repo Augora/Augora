@@ -5,10 +5,13 @@ import ReactMapGL, {
   Source,
   Layer,
   Marker,
+  ViewState,
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   ZoneCode,
+  FranceZoneFeatureCollection,
+  France,
   franceBox,
   GEOJsonReg,
   flyToBounds,
@@ -20,6 +23,12 @@ import {
 } from "../components/maps/maps-utils"
 import ResetControl from "../components/maps/ResetControl"
 import Tooltip from "../components/tooltip/Tooltip"
+
+interface IHoverInfo {
+  filter: any[]
+  lngLat: [number, number]
+  zoneName: string
+}
 
 const fillLayerLayout = {
   type: "fill",
@@ -62,19 +71,31 @@ const getMouseEventZoneId = (e): number => {
 }
 
 export default function MapPage() {
-  const [viewport, setViewport] = useState({})
-  const [currentGEOJson, setCurrentGEOJson] = useState(GEOJsonReg)
-  const [hoverInfo, setHoverInfo] = useState({
-    filter: ["==", ["get", ""], 0],
-    lngLat: undefined,
-    zoneName: undefined,
+  const [viewport, setViewport] = useState<ViewState>({
+    zoom: 2,
+    longitude: France.center.lng,
+    latitude: France.center.lat,
   })
+  const [currentGEOJson, setCurrentGEOJson] = useState<
+    FranceZoneFeatureCollection
+  >(GEOJsonReg)
+  const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
+    filter: ["==", ["get", ""], 0],
+    lngLat: null,
+    zoneName: null,
+  })
+
+  const getCurrentZoneCode = (): ZoneCode => {
+    return getZoneCodeFromFeatureProperties(
+      currentGEOJson.features[0].properties
+    )
+  }
 
   const resetFilter = () => {
     setHoverInfo({
       filter: ["==", ["get", ""], 0],
-      lngLat: undefined,
-      zoneName: undefined,
+      lngLat: null,
+      zoneName: null,
     })
   }
 
@@ -118,16 +139,7 @@ export default function MapPage() {
     if (hoveredZoneId) {
       const featureProps = e.features[0].properties
       setHoverInfo({
-        filter: [
-          "==",
-          [
-            "get",
-            getZoneCodeFromFeatureProperties(
-              currentGEOJson.features[0].properties
-            ),
-          ],
-          hoveredZoneId,
-        ],
+        filter: ["==", ["get", getCurrentZoneCode()], hoveredZoneId],
         lngLat: e.lngLat,
         zoneName: featureProps.nom
           ? featureProps.nom
@@ -141,9 +153,7 @@ export default function MapPage() {
   const handleClick = (e) => {
     const clickedZoneId = getMouseEventZoneId(e)
     if (clickedZoneId) {
-      const currentZoneCode = getZoneCodeFromFeatureProperties(
-        currentGEOJson.features[0].properties
-      )
+      const currentZoneCode = getCurrentZoneCode()
       //ne rien faire si on est en vue circ (pour l'instant en tout cas)
       if (currentZoneCode === ZoneCode.Regions) {
         displayNewZone(ZoneCode.Departements, clickedZoneId)
@@ -154,9 +164,7 @@ export default function MapPage() {
   }
 
   const handleBack = () => {
-    const currentZoneCode = getZoneCodeFromFeatureProperties(
-      currentGEOJson.features[0].properties
-    )
+    const currentZoneCode = getCurrentZoneCode()
 
     if (currentZoneCode === ZoneCode.Circonscriptions) {
       const regionId = currentGEOJson.features[0].properties[
@@ -189,9 +197,6 @@ export default function MapPage() {
             touchRotate={false}
             interactiveLayerIds={["zone-fill", "zone-line"]}
             onLoad={() => {
-              setViewport({
-                zoom: 2,
-              })
               flyToBounds(franceBox, viewport, setViewport)
             }}
             onViewportChange={(change) => setViewport(change)}
