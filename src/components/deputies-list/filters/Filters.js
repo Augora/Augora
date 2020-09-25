@@ -36,7 +36,9 @@ function Filters(props) {
       <Frame
         className="frame-filters"
         title="Filtres"
-        center={`${props.filteredList.length} Députés`}
+        center={`${props.filteredList.length} ${
+          props.filteredList.length > 1 ? "Députés" : "Député"
+        }`}
         right={`
           ${
             Math.round(
