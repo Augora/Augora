@@ -4,6 +4,7 @@ import ReactMapGL, {
   FullscreenControl,
   Source,
   Layer,
+  Marker,
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
@@ -18,6 +19,7 @@ import {
   getGEOJsonFile,
 } from "../components/maps/maps-utils"
 import ResetControl from "../components/maps/ResetControl"
+import Tooltip from "../components/tooltip/Tooltip"
 
 const fillLayerLayout = {
   type: "fill",
@@ -62,16 +64,24 @@ const getMouseEventZoneId = (e): number => {
 export default function MapPage() {
   const [viewport, setViewport] = useState({})
   const [currentGEOJson, setCurrentGEOJson] = useState(GEOJsonReg)
-  const [hoverFilter, setHoverFilter] = useState(["==", ["get", ""], 0])
+  const [hoverInfo, setHoverInfo] = useState({
+    filter: ["==", ["get", ""], 0],
+    lngLat: undefined,
+    zoneName: undefined,
+  })
 
   const resetFilter = () => {
-    setHoverFilter(["==", ["get", ""], 0])
+    setHoverInfo({
+      filter: ["==", ["get", ""], 0],
+      lngLat: undefined,
+      zoneName: undefined,
+    })
   }
 
   /**
    * Affiche une nouvelle vue
    * @param {ZoneCode} zonesToDisplayCode Le code du groupe de zones à afficher
-   * @param {string | number} zonesToDisplayCommonId L'id qu'ils ont en commun (si ce sont des départements, leur région id, si ce sont des circonscriptions, leur département id)
+   * @param {number} zonesToDisplayCommonId L'id qu'ils ont en commun (si ce sont des départements, leur région id, si ce sont des circonscriptions, leur département id)
    */
   const displayNewZone = (
     zonesToDisplayCode: ZoneCode,
@@ -105,18 +115,27 @@ export default function MapPage() {
 
   const handleHover = (e) => {
     const hoveredZoneId = getMouseEventZoneId(e)
-    if (hoveredZoneId)
-      setHoverFilter([
-        "==",
-        [
-          "get",
-          getZoneCodeFromFeatureProperties(
-            currentGEOJson.features[0].properties
-          ),
+    if (hoveredZoneId) {
+      const featureProps = e.features[0].properties
+      setHoverInfo({
+        filter: [
+          "==",
+          [
+            "get",
+            getZoneCodeFromFeatureProperties(
+              currentGEOJson.features[0].properties
+            ),
+          ],
+          hoveredZoneId,
         ],
-        hoveredZoneId,
-      ])
-    else if (hoverFilter !== ["==", ["get", ""], 0]) resetFilter()
+        lngLat: e.lngLat,
+        zoneName: featureProps.nom
+          ? featureProps.nom
+          : `Circonscription n°${featureProps.num_circ}`,
+      })
+    } else if (hoverInfo.filter !== ["==", ["get", ""], 0]) {
+      resetFilter()
+    }
   }
 
   const handleClick = (e) => {
@@ -183,11 +202,24 @@ export default function MapPage() {
               <Layer
                 id="zone-fill-hovered"
                 {...hoverLayerLayout}
-                filter={hoverFilter}
+                filter={hoverInfo.filter}
               />
               <Layer id="zone-fill" {...fillLayerLayout} />
               <Layer id="zone-line" {...lineLayerLayout} />
             </Source>
+            {hoverInfo.zoneName ? (
+              <Marker
+                longitude={hoverInfo.lngLat[0]}
+                latitude={hoverInfo.lngLat[1]}
+                offsetTop={40}
+              >
+                <Tooltip
+                  title={hoverInfo.zoneName}
+                  nbDeputes={0}
+                  totalDeputes={0}
+                />
+              </Marker>
+            ) : null}
             <div className="map__navigation">
               <NavigationControl
                 showCompass={false}
