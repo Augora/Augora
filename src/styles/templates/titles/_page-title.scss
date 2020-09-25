@@ -15,6 +15,10 @@
     margin-bottom: 40px;
   }
 
+  svg rect {
+    transition: transform 3s $ease-out-cubic;
+  }
+
   &:hover {
     svg rect {
       transform: skew(-25deg) translate3d(0, 0, 0);
