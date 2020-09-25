@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 
-import IconOk from "../../../images/ui-kit/icon-ok.svg"
+// import IconOk from "../../../images/ui-kit/icon-ok.svg"
 import IconClose from "../../../images/ui-kit/icon-close.svg"
 import IconSearch from "../../../images/ui-kit/icon-loupe.svg"
 import IconMaleSymbol from "../../../images/ui-kit/icon-male.svg"
@@ -9,7 +9,7 @@ import IconReset from "../../../images/ui-kit/icon-refresh.svg"
 
 import PieChart from "../pie-chart/PieChart"
 import BarChart from "../bar-chart/BarChart"
-import ComplexBarChart from "../complexe-bar-chart/ComplexBarChart"
+// import ComplexBarChart from "../complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "../slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"
 import Frame from "../../frames/Frame"
@@ -17,6 +17,7 @@ import Frame from "../../frames/Frame"
 function Filters(props) {
   const [HasPieChart, setHasPieChart] = useState(true)
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
+  const searchField = useRef(null)
 
   const handleChartSelection = (event) => {
     setHasPieChart(!HasPieChart)
@@ -51,13 +52,17 @@ function Filters(props) {
           className={`filters__search ${
             isSearchInteracted ? "filters__search--focus" : ""
           }`}
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={(e) => {
+            e.preventDefault()
+            searchField.current.blur()
+          }}
         >
           <div className="search__icon icon-wrapper">
             <IconSearch />
           </div>
           <input
             className="search__input"
+            ref={searchField}
             type="text"
             placeholder="Chercher..."
             value={props.keyword}
