@@ -3,10 +3,12 @@
 /*----------------------------------------------------*/
 
 .page__map {
+  padding: 0;
+  padding-top: 7px;
   .map {
     &__container {
       width: 100%;
-      height: calc(100vh - 60px);
+      height: calc(100vh - 67px);
     }
     &__navigation {
       position: absolute;
