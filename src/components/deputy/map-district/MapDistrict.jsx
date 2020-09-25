@@ -178,26 +178,28 @@ export default function MapDistrict(props) {
               }}
             />
           </Source>
-          <Marker
-            latitude={districtCenter.lat}
-            longitude={districtCenter.lng}
-            offsetLeft={-15}
-            offsetTop={-30}
-          >
-            <SimpleTooltip
-              content={`${props.nom}, ${props.num}${
-                props.num < 2 ? "ère " : "ème "
-              }Circonscription `}
-              wasClicked={pinClicked}
-            />
-            <div
-              className="icon-wrapper"
-              style={{ width: "30px", height: "30px", cursor: "pointer" }}
-              onClick={() => setPinClicked(!pinClicked)}
+          {viewport.zoom < 6 ? (
+            <Marker
+              latitude={districtCenter.lat}
+              longitude={districtCenter.lng}
+              offsetLeft={-15}
+              offsetTop={-30}
             >
-              <IconPin fill={props.color} />
-            </div>
-          </Marker>
+              <SimpleTooltip
+                content={`${props.nom}, ${props.num}${
+                  props.num < 2 ? "ère " : "ème "
+                }Circonscription `}
+                wasClicked={pinClicked}
+              />
+              <div
+                className="icon-wrapper"
+                style={{ width: "30px", height: "30px", cursor: "pointer" }}
+                onClick={() => setPinClicked(!pinClicked)}
+              >
+                <IconPin fill={props.color} />
+              </div>
+            </Marker>
+          ) : null}
           <div className="map__navigation">
             <NavigationControl
               showCompass={false}
