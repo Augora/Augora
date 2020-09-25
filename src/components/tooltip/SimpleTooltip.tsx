@@ -3,6 +3,7 @@ import React from "react"
 export interface ISimpleTooltip {
   content: string | number
   wasClicked?: boolean
+  style?: React.CSSProperties
 }
 
 /**
@@ -16,6 +17,7 @@ export default function SimpleTooltip(props: ISimpleTooltip) {
       className={`simple-tooltip ${
         props.wasClicked ? "simple-tooltip--visible" : ""
       }`}
+      style={props.style}
     >
       {props.content}
     </span>
