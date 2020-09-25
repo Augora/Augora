@@ -30,9 +30,9 @@ export enum ZoneCode {
   Circonscriptions = "num_circ",
 }
 
-export const GEOJsonDistrict = GEOJsonDistrictFile
+export const GEOJsonDistrict: FranceZoneFeatureCollection = GEOJsonDistrictFile
 
-export const GEOJsonDpt = GEOJsonDptFile
+export const GEOJsonDpt: FranceZoneFeatureCollection = GEOJsonDptFile
 
 /**
  * Une feature collection GeoJSON des régions sans les DOM-TOM
