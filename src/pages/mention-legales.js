@@ -1,6 +1,7 @@
 import React from "react"
 
 import SEO from "../components/seo"
+import PageTitle from "../components/titles/PageTitle"
 
 // Content
 
@@ -9,7 +10,7 @@ const Mentions = () => {
     <>
       <SEO title="Mentions légales" />
       <div className="page page__mentions-legales">
-        <h1>Mentions légales</h1>
+        <PageTitle title="Mentions légales" />
         <h2>Données personnelles</h2>
         <p>
           Nous ne souhaitons pas collecter les données de nos utilisateurs. Nous

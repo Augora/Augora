@@ -1,9 +1,9 @@
 import React from "react"
 import { Slider, Rail, Handles, Tracks, Ticks } from "react-compound-slider"
 
-const barHeight = 13
+const barHeight = 12
 const marginTop = 25
-const handleSize = 34
+const handleSize = 32
 
 const railStyle = {
   position: "absolute",
@@ -12,7 +12,7 @@ const railStyle = {
   marginTop: marginTop,
   borderRadius: 20,
   backgroundColor: "white",
-}
+} as React.CSSProperties
 
 const Track = ({ source, target, getTrackProps }) => {
   return (
@@ -54,7 +54,7 @@ const Handle = ({ handle: { id, value, percent }, getHandleProps }) => {
       <div
         style={{
           fontFamily: "Open Sans, sans-serif",
-          fontSize: 18,
+          fontSize: 16,
           position: "absolute",
           top: "50%",
           left: "50%",

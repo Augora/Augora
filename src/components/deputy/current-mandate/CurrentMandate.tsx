@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from "react"
-import styled from "styled-components"
 import moment from "moment"
 import "moment/locale/fr"
 import Block from "../_block/_Block"
-
-const Title = styled.h2``
-
-const P = styled.p`
-  margin: 0;
-`
-
-const DateMandate = styled.p`
-  margin: 0;
-`
 
 /**
  * Return deputy's current mandate in a Block component
@@ -26,14 +15,14 @@ export function CurrentMandate(props) {
   if (props.isInMandate === true) {
     return (
       <Block>
-        <Title>Mandat en cours</Title>
-        <DateMandate>Depuis le {dateToDisplay}</DateMandate>
+        <h2>Mandat en cours</h2>
+        <p style={{ margin: 0 }}>Depuis le {dateToDisplay}</p>
       </Block>
     )
   } else {
     return (
       <Block>
-        <Title>Pas de mandat en cours</Title>
+        <h2>Pas de mandat en cours</h2>
       </Block>
     )
   }
