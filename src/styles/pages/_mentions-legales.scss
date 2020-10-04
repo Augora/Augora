@@ -1,5 +1,5 @@
 .page__mentions-legales {
-  max-width: 1280px;
+  max-width: 70vw;
   margin: 0 auto;
 
   p {
@@ -13,6 +13,7 @@
     transition: color 0.5s $ease-out-cubic;
     &:hover {
       color: $secondary-color;
+      text-decoration: underline;
     }
   }
 
@@ -21,8 +22,11 @@
     margin-top: 20px;
   }
 
+  @media (max-width: 1500px) {
+    max-width: unset;
+  }
+
   @media (max-width: 900px) {
-    h1,
     h2,
     h3,
     p {

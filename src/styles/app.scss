@@ -15,6 +15,7 @@
 
 // Page
 // -----------------------------------------------------
+@import "pages/deputies";
 @import "pages/404";
 @import "pages/faq";
 @import "pages/mentions-legales";
@@ -22,9 +23,11 @@
 // Components
 // -----------------------------------------------------
 @import "components/header/header";
-@import "components/deputies-list/deputies-list";
 @import "components/footer/footer";
 @import "components/tooltip/tooltip";
+@import "components/tooltip/simple-tooltip";
 // Templates
 // -----------------------------------------------------
 @import "templates/deputy";
+@import "templates/frames/frame";
+@import "templates/titles/page-title";

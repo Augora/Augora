@@ -30,7 +30,6 @@ module.exports = {
         },
       },
     },
-    `gatsby-plugin-styled-components`,
     `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-plugin-root-import`,

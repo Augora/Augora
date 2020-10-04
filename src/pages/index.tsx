@@ -1,16 +1,10 @@
 import React from "react"
 import Helmet from "react-helmet"
-import { graphql } from "gatsby"
-import { sortBy } from "lodash"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
+import PageTitle from "../components/titles/PageTitle"
 
-const IndexPage = ({ data }) => {
-  const groupesDetails = sortBy(
-    data.faunadb.GroupesParlementairesDetailsActifs.data,
-    ["Ordre"]
-  )
-  const deputies = sortBy(data.faunadb.DeputesEnMandat.data, ["Ordre"])
+const IndexPage = () => {
   return (
     <>
       <Helmet>
@@ -19,60 +13,12 @@ const IndexPage = ({ data }) => {
         ) : null}
         <title>Liste des députés | Augora</title>
       </Helmet>
-      <header className="header">
-        <h1 style={{ textAlign: "center" }}>Liste des députés</h1>
-      </header>
-      <div>
-        <DeputiesList deputes={deputies} groupesDetails={groupesDetails} />
+      <div className="page page__deputies">
+        <PageTitle title="Liste des Députés" />
+        <DeputiesList />
       </div>
     </>
   )
 }
 
 export default IndexPage
-
-export const query = graphql`
-  query DeputesQuery {
-    faunadb {
-      DeputesEnMandat(EstEnMandat: true, _size: 700) {
-        data {
-          LieuDeNaissance
-          DebutDuMandat
-          GroupeParlementaire {
-            Couleur
-            Sigle
-            NomComplet
-          }
-          Nom
-          NomCirconscription
-          NomDeFamille
-          NombreMandats
-          NumeroCirconscription
-          NumeroDepartement
-          parti_ratt_financier
-          PlaceEnHemicycle
-          Prenom
-          Profession
-          Sexe
-          Slug
-          Twitter
-          DateDeNaissance
-          Age
-          Collaborateurs
-          Emails
-          SitesWeb
-          URLPhotoAugora
-          Ordre
-        }
-      }
-      GroupesParlementairesDetailsActifs(Actif: true) {
-        data {
-          Couleur
-          Sigle
-          Ordre
-          NomComplet
-        }
-      }
-    }
-  }
-`

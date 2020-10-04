@@ -3,6 +3,7 @@ import React from "react"
 import SEO from "../components/seo"
 import { Link } from "gatsby"
 import Question from "components/faq/Question"
+import PageTitle from "../components/titles/PageTitle"
 
 // Content
 const contentAbout = [
@@ -132,9 +133,9 @@ const contentAbout = [
     title: "Quels sont nos projets pour le futur ?",
     description: (
       <p>
-        Grâce à vos dons, nous avons l'ambition de créer des outils toujours
-        plus accessibles et variés pour offrir à nos utilisateurs une expérience
-        fluide et accessible sur différentes plateformes de diffusion.
+        Nous avons l'ambition de créer des outils toujours plus accessibles et
+        variés pour offrir à nos utilisateurs une expérience fluide et
+        accessible sur différentes plateformes de diffusion.
         <br />
         Nous souhaitons développer un ensemble d’outils autour de la
         visualisation de données (data-visualisation) en association avec des
@@ -149,7 +150,7 @@ const About = () => {
     <>
       <SEO title="FAQ" />
       <div className="page page__faq">
-        <h1>Foire aux Questions</h1>
+        <PageTitle title="Foire aux Questions" />
 
         {contentAbout.map((question, index) => (
           <Question

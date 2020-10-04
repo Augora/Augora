@@ -49,6 +49,7 @@ export default function GradientBanner() {
         position: "absolute",
         top: 0,
         left: 0,
+        pointerEvents: "none",
       }}
     >
       <svg

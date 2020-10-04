@@ -51,7 +51,14 @@ export default function GeneralInformation(props) {
       </div>
       <div className={`block__main general__main`}>
         <div className="main__picture">
-          <DeputyImage src={props.picture} alt={props.id} sex={props.sexe} />
+          <div
+            className="main__picture-container"
+            style={{
+              borderColor: props.color,
+            }}
+          >
+            <DeputyImage src={props.picture} alt={props.id} sex={props.sexe} />
+          </div>
         </div>
         <div className="main__info">
           <img src={props.pictureGroup} alt={props.groupe} />
@@ -61,7 +68,7 @@ export default function GeneralInformation(props) {
               <div>ans</div>
             </div>
             <div className="main__birthday">
-              <h3>Né le</h3>
+              <h3>{props.sexe === "F" ? `Née le` : `Né le`}</h3>
               <p className="birthday__day-month">
                 <strong>{Date.day}</strong> {Date.month}
               </p>
@@ -73,7 +80,7 @@ export default function GeneralInformation(props) {
         </div>
       </div>
       <div className="general__job">
-        <div className="job">{props.job}</div>
+        <div className="job">{props.job ? props.job : "Sans profession"}</div>
       </div>
     </Block>
   )

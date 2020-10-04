@@ -45,7 +45,7 @@ export default function Mandate(props) {
   let numberComplement = ""
   props.numberMandates < 2
     ? (numberComplement = "er")
-    : (numberComplement = "eme")
+    : (numberComplement = "ème")
   return (
     <Block
       title="Mandats"
@@ -64,7 +64,6 @@ export default function Mandate(props) {
         </div>
         <div className="number__title">mandat</div>
       </div>
-      <div className="mandate__sep block__separator">{/* Empty */}</div>
       <div className="mandate__dates">
         <div className="mandate__since">
           {Date.yearsPassed > 0 ? (
@@ -91,7 +90,7 @@ export default function Mandate(props) {
           </p>
         </div>
         <div className="mandate__begin">
-          <h3>Depuis le</h3>
+          <p>Depuis le</p>
           <p className="begin__day-month">
             <span style={{ color: props.color }}>{Date.day}</span> {Date.month}
           </p>

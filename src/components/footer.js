@@ -1,4 +1,4 @@
-// import { Link } from "gatsby"
+import { Link } from "gatsby"
 import React from "react"
 import IconMail from "../../src/images/ui-kit/icon-mail.svg"
 import IconTwitter from "../../src/images/ui-kit/icon-twitter.svg"
@@ -11,18 +11,31 @@ const Menu = (title, items) => {
       {items.length > 0 ? (
         <>
           <h2>{title}</h2>
-          {items.map((item) => (
-            <a
-              key={item.link}
-              href={item.link}
-              target={item.target ? "_blank" : ""}
-            >
-              {item.icon ? (
-                <div className="icon-wrapper">{item.icon}</div>
-              ) : null}
-              {item.label}
-            </a>
-          ))}
+          {items.map((item) =>
+            !item.internal ? (
+              <a
+                key={item.link}
+                href={item.link}
+                target={item.target ? "_blank" : ""}
+              >
+                {item.icon ? (
+                  <div className="icon-wrapper">{item.icon}</div>
+                ) : null}
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.link}
+                to={item.link}
+                target={item.target ? "_blank" : ""}
+              >
+                {item.icon ? (
+                  <div className="icon-wrapper">{item.icon}</div>
+                ) : null}
+                {item.label}
+              </Link>
+            )
+          )}
         </>
       ) : null}
     </div>
@@ -87,6 +100,7 @@ const Footer = () => {
             {
               label: "Mentions légales",
               link: "/mention-legales",
+              internal: true,
             },
           ])}
           {Menu("Contact", [

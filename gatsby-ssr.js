@@ -1,6 +1,8 @@
-const { Helmet } = require("react-helmet")
+import React from "react"
+import { Helmet } from "react-helmet"
+import DeputiesListProvider from "./src/context/deputies-filters/deputiesFiltersContext"
 
-exports.onRenderBody = (
+export const onRenderBody = (
   { setHeadComponents, setHtmlAttributes, setBodyAttributes },
   pluginOptions
 ) => {
@@ -15,4 +17,8 @@ exports.onRenderBody = (
     helmet.script.toComponent(),
     helmet.style.toComponent(),
   ])
+}
+
+export const wrapRootElement = ({ element }) => {
+  return <DeputiesListProvider>{element}</DeputiesListProvider>
 }

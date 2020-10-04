@@ -35,6 +35,14 @@
           margin: 0;
           color: $text-color;
         }
+        .adresse {
+          &__street {
+            margin-bottom: 3px;
+          }
+          &__city {
+            text-transform: uppercase;
+          }
+        }
 
         &.contact__tel {
           color: var(--groupe-color);
@@ -67,6 +75,17 @@
             }
           }
         }
+
+        .simple-tooltip {
+          transition: top 0.3s $ease-in-out-cubic;
+          opacity: 0;
+          top: -30px;
+          &--visible {
+            opacity: 1;
+            top: -60px;
+          }
+        }
+
         &:focus {
           outline: none;
         }
@@ -88,7 +107,7 @@
       }
     }
     &__separator {
-      width: 40%;
+      width: 70%;
       height: 1px;
       top: 100%;
       margin: 0 auto;
