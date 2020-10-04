@@ -76,8 +76,10 @@
           }
         }
 
-        .simple-tooltip {
+        .copy-tooltip {
+          position: absolute;
           transition: top 0.3s $ease-in-out-cubic;
+          min-width: unset;
           opacity: 0;
           top: -30px;
           &--visible {
