@@ -4,11 +4,9 @@
 
 <!-- Mettez une croix entre les crochets pour que la case soit cochée ! -->
 
-- [ ] Définir le label en "Notify" si cette pull request est associée à une tâche Clickup
-- [ ] Définir les "reviewers" : KevinBacas et pierretusseau
+- [ ] Définir le label en **notify** si cette pull request est associée à une tâche **Clickup**
+- [ ] Définir les "reviewers" : **KevinBacas** et **pierretusseau**
 - [ ] Définir la personne assignée à cette pull request
-- [ ] Vérifier que la pull request est bien vers develop ou master (à gauche)
-- [ ] Vérifier que la pull request est bien de votre branche (à droite)
 
 ### Description
 
