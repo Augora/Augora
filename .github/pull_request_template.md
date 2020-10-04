@@ -1,4 +1,6 @@
 ---
+name: "Pull request"
+about: "Template de pull request"
 labels: notify
 assignees: KevinBacas, pierretusseau
 ---
