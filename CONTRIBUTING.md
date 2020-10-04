@@ -25,7 +25,7 @@ Ce document est un regroupement des directives pour contribuer au projet Augora.
 
 ## Code De Conduite
 
-Ce projet et toutes les personnes qui y participent sont régis par le **Code De Conduite** ([Français](CODE_OF_CONDUCT.french.md),[Anglais](CODE_OF_CONDUCT.md)). Pour participer à ce projet, vous devez respecter ce code. Veuillez signaler tout comportement innacceptable à l'adresse : [contact@augora.fr](mailto:contact@augora.fr).
+Ce projet et toutes les personnes qui y participent sont régis par le **Code De Conduite** ([Français](CODE_OF_CONDUCT.french.md), [Anglais](CODE_OF_CONDUCT.md)). Pour participer à ce projet, vous devez respecter ce code. Veuillez signaler tout comportement innacceptable à l'adresse : [contact@augora.fr](mailto:contact@augora.fr).
 
 ## Comment puis-je contribuer ?
 
@@ -56,7 +56,7 @@ Merci de suivre les étapes ci-dessous pour qu'une pull request soit considéré
 
 - Commencer par feature/
 - Être uniquement en minuscule
-- Ne pas comporter de **\_**
+- Ne pas comporter de "tiret du bas" (underscore) : **\_**
 
 Exemple : feature/ma-nouvelle-branche
 
@@ -66,4 +66,4 @@ Nous utilisons [Prettier](https://prettier.io/) pour garder une uniformité sur 
 
 ### Documentation
 
-La documentation doit être rédigée en [Markdown](https://daringfireball.net/projects/markdown)
+La documentation doit être rédigée en [Markdown](https://daringfireball.net/projects/markdown).
