@@ -1,0 +1,10 @@
+/*----------------------------------------------------*/
+// Page Statistiques
+/*----------------------------------------------------*/
+
+.page__statistiques {
+  @media (max-width: 875px) {
+    padding-top: 40px;
+  }
+  @import "../components/deputies-list/filters";
+}

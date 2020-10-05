@@ -15,6 +15,10 @@ const secondaryPages = {
   //   path: "/about",
   //   title: "A propos de nous",
   // },
+  statistiques: {
+    path: "/statistiques",
+    title: "Statistiques",
+  },
   faq: {
     path: "/faq",
     title: "FAQ",
