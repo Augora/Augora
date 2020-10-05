@@ -10,6 +10,15 @@
     font-family: $opensans;
 
     &__question {
+      &::after {
+        content: "";
+        display: inline-block;
+        border: none;
+        border-top: 2px dashed $text-color;
+        width: 100%;
+        margin: 40px 0;
+        opacity: 0.5;
+      }
       &--opened {
         svg rect {
           transform: skew(-25deg) translate3d(0, 0, 0);
@@ -27,15 +36,9 @@
             }
           }
         }
-      }
-      &::after {
-        content: "";
-        display: inline-block;
-        border: none;
-        border-top: 2px dashed $text-color;
-        width: 100%;
-        margin: 40px 0;
-        opacity: 0.5;
+        &::after {
+          margin-top: 10px;
+        }
       }
     }
 
