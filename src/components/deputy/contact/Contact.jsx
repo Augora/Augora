@@ -26,7 +26,7 @@ const Contact = (props) => {
           adresseDetails.CodePostal
         )
         return (
-          <>
+          <React.Fragment key={`Adresse ${index}`}>
             <Adresse
               adresseDetails={adresseDetails}
               formatedAddress={formatedAddress}
@@ -34,7 +34,7 @@ const Contact = (props) => {
             {index + 1 < array.length ? (
               <div className="contact__separator"></div>
             ) : null}
-          </>
+          </React.Fragment>
         )
       })}
       <div className="icon-wrapper">
