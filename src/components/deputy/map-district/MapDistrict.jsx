@@ -193,9 +193,12 @@ export default function MapDistrict(props) {
               wasClicked={pinClicked}
             />
             <div
+              role="button"
+              tabIndex={0}
               className="icon-wrapper"
               style={{ width: "30px", height: "30px", cursor: "pointer" }}
               onClick={() => setPinClicked(!pinClicked)}
+              onKeyDown={() => setPinClicked(!pinClicked)}
             >
               <IconPin fill={props.color} />
             </div>
