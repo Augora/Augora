@@ -36,9 +36,9 @@
             }
           }
         }
-        &::after {
-          margin-top: 10px;
-        }
+        // &::after {
+        //   margin-top: 10px;
+        // }
       }
     }
 
@@ -93,6 +93,10 @@
       margin-top: 30px;
       margin-bottom: 0px;
       padding: 0 30px;
+
+      p:last-child {
+        margin-bottom: 0;
+      }
 
       a {
         color: $main-color;

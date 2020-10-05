@@ -20,7 +20,7 @@ const contentAbout = [
   {
     title: "Qu’est-ce qu’un groupe parlementaire ?",
     description: (
-      <div>
+      <>
         <p>
           Un groupe parlementaire est un ensemble composé de minimum 15 députés.
           Il permet de s'organiser au sein de l'Assemblée Nationale. Les députés
@@ -70,7 +70,7 @@ const contentAbout = [
           </a>
           .
         </p>
-      </div>
+      </>
     ),
   },
   {
