@@ -94,7 +94,7 @@ function Filters(props) {
         <div className="filters__middle-line">
           <div className="filters__sexes">
             <button
-              className={`sexes__btn sexes_btn--female ${
+              className={`sexes__btn sexes__btn--female ${
                 props.SexValue["F"] ? "selected" : ""
               }`}
               onClick={(e) => props.handleClickOnSex("F")}
@@ -113,7 +113,7 @@ function Filters(props) {
               />
             </button>
             <button
-              className={`sexes__btn sexes_btn--male ${
+              className={`sexes__btn sexes__btn--male ${
                 props.SexValue["H"] ? "selected" : ""
               }`}
               onClick={(e) => props.handleClickOnSex("H")}

@@ -1,0 +1,237 @@
+.filters {
+  margin-bottom: 70px;
+  display: flex;
+  justify-content: space-between;
+
+  @import "filters/search";
+  @import "filters/sexes";
+  @import "filters/groupes";
+
+  //sex / group / allornone group
+  &__middle-line {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  // Blocks
+
+  //reset button
+
+  &__reset {
+    width: 110px;
+    position: relative;
+    button {
+      width: 100%;
+      height: calc(100% - 10px);
+      border: none;
+      background-color: white;
+      border: 2px solid white;
+      font-family: $font;
+      color: $text-color;
+      cursor: pointer;
+      svg {
+        fill: $text-color;
+        width: 30px;
+        transform-origin: center;
+        transform: rotate(0deg);
+        transition: 0.225s linear;
+        pointer-events: none;
+      }
+      &:focus {
+        outline: none;
+      }
+      &:hover {
+        background: $btn-hover;
+        color: black;
+        opacity: 1;
+        border-color: $text-color;
+        svg {
+          fill: black;
+        }
+      }
+      &:active {
+        background-color: $btn-active;
+      }
+    }
+  }
+
+  //allornone buttons
+  // &__allornone {
+  //   width: 95px;
+  //   button {
+  //     margin-bottom: 10px;
+  //     background: white;
+  //     width: 100%;
+  //     height: calc(50% - 10px);
+  //     border: none;
+  //     color: $text-color;
+  //     font-family: $font;
+  //     font-size: 15px;
+  //     font-weight: 900;
+  //     text-transform: uppercase;
+  //     cursor: pointer;
+  //     .icon-wrapper {
+  //       pointer-events: none;
+  //       margin: 0 auto;
+  //       width: 20px;
+  //       height: 20px;
+  //       svg {
+  //         width: 100%;
+  //         fill: $text-color;
+  //       }
+  //     }
+  //     &:hover {
+  //       color: black;
+  //       background-color: $btn-hover;
+  //       svg {
+  //         fill: black;
+  //       }
+  //     }
+  //     &:focus {
+  //       outline: none;
+  //       border: none;
+  //     }
+  //     &:active {
+  //       background-color: $btn-active;
+  //     }
+  //   }
+  // }
+
+  &__order {
+    width: 25%;
+    background: grey;
+  }
+
+  //Slider
+  &__slider {
+    position: relative;
+    height: 60px;
+    margin-left: 17px;
+    margin-right: 100px;
+    pointer-events: none;
+
+    &-label {
+      position: absolute;
+      right: -80px;
+      top: 16px;
+      font-weight: bold;
+    }
+  }
+
+  //chart frame
+  .frame-chart {
+    min-width: 30vw;
+    margin: 0 0 0 40px;
+    &__content {
+      margin: auto 0;
+      .chart {
+        min-height: 250px;
+        height: 250px;
+        width: 100%;
+        outline: none;
+        &.piechart,
+        &.barchart {
+          background: rgba(black, 0);
+          transition: 0.225s linear;
+          cursor: pointer;
+          &:hover {
+            background: rgba(black, 0.05);
+          }
+        }
+        &.piechart {
+          svg g text {
+            &[text-anchor="middle"] {
+              font-size: 22px !important;
+              font-weight: bold;
+            }
+          }
+        }
+        &.complex-barchart {
+          width: 70%;
+          position: relative;
+        }
+        .chart-wrapper {
+          height: 100%;
+        }
+      }
+    }
+
+    @media (max-width: 1500px) {
+      display: none;
+    }
+  }
+
+  //responsive
+  @media (max-width: 875px) {
+    margin-bottom: 30px;
+
+    .frame-filters {
+      padding: 20px;
+      &__content {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    &__search {
+      order: 0;
+    }
+
+    &__middle-line {
+      display: block;
+      margin-top: 0;
+      order: 2;
+    }
+
+    &__sexes {
+      display: flex;
+      width: calc(100% + 10px);
+      margin-bottom: 10px;
+      .sexes {
+        &__btn {
+          height: 60px;
+          margin-right: 10px;
+        }
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+
+    &__groupe {
+      justify-content: center;
+      width: calc(100% + 10px);
+    }
+
+    &__allornone {
+      display: flex;
+      width: calc(100% + 10px);
+      margin: 10px 0;
+      button {
+        height: 70px;
+        margin-right: 10px;
+      }
+    }
+
+    &__reset {
+      width: 100%;
+      margin: 10px 0;
+      button {
+        height: 60px;
+      }
+    }
+
+    &__slider {
+      margin-top: 20px;
+      margin-right: 17px;
+      margin-bottom: 10px;
+      order: 1;
+      &-label {
+        right: unset;
+        top: -5px;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+    }
+  }
+}
