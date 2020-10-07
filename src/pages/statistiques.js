@@ -11,6 +11,7 @@ import Deputy from "components/deputies-list/deputy/Deputy"
 import Tooltip from "components/tooltip/Tooltip"
 import SEO from "../components/seo"
 import PageTitle from "../components/titles/PageTitle"
+import ComplexBarChart from "components/deputies-list/complexe-bar-chart/ComplexBarChart"
 
 const Statistiques = (props) => {
   const {
@@ -140,16 +141,16 @@ const Statistiques = (props) => {
           groupesDetails={state.GroupesList}
           deputes={state.DeputiesList}
         />
-        {/* <div className="complex-barchart chart">
+        <div className="complex-barchart chart">
           <div className="chart-wrapper">
             <ComplexBarChart
-              groupesData={groupesByAge}
-              AgeDomain={state.AgeDomain}
-              totalNumberDeputies={calculateNbDepute}
+              data={groupesByAge}
+              ageDomain={state.AgeDomain}
+              totalNumberDeputies={state.FilteredList.length}
               groupesDetails={state.GroupesList}
             />
           </div>
-        </div> */}
+        </div>
       </div>
     </>
   )
