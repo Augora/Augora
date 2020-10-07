@@ -8,8 +8,13 @@
   }
   @import "../components/deputies-list/filters";
 
-  .complex-barchart {
-    width: 70%;
-    position: relative;
+  .frame__complex {
+    width: 100%;
+    max-width: none;
+    .chart-wrapper {
+      height: 300px;
+      width: 100%;
+      position: relative;
+    }
   }
 }

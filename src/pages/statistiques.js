@@ -12,6 +12,7 @@ import Tooltip from "components/tooltip/Tooltip"
 import SEO from "../components/seo"
 import PageTitle from "../components/titles/PageTitle"
 import ComplexBarChart from "components/deputies-list/complexe-bar-chart/ComplexBarChart"
+import Frame from "../components/frames/Frame"
 
 const Statistiques = (props) => {
   const {
@@ -141,7 +142,7 @@ const Statistiques = (props) => {
           groupesDetails={state.GroupesList}
           deputes={state.DeputiesList}
         />
-        <div className="complex-barchart chart">
+        <Frame title="Graphique des âges" className="frame__complex">
           <div className="chart-wrapper">
             <ComplexBarChart
               data={groupesByAge}
@@ -150,7 +151,7 @@ const Statistiques = (props) => {
               groupesDetails={state.GroupesList}
             />
           </div>
-        </div>
+        </Frame>
       </div>
     </>
   )
