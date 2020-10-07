@@ -6,17 +6,29 @@
   //search field
   &__search {
     background: white;
-    border: 2px solid white;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: white;
+
     width: 100%;
     height: 55px;
     display: flex;
     align-items: center;
-    position: relative;
+    position: relativ e;
     margin-bottom: 0;
+
+    transition: border-color 0.2s $ease-in-out-cubic;
+
     .search {
       &__icon {
         margin-left: 10px;
         pointer-events: none;
+
+        transform: scale(0.75);
+        opacity: 1;
+        transition: transform 0.2s $ease-in-out-cubic,
+          opacity 0.5s $ease-in-out-cubic;
         svg {
           width: 33px;
           height: 33px;
@@ -42,12 +54,31 @@
           opacity: 0;
         }
       }
+
+      // clear button
+      @keyframes bounce {
+        0% {
+          transform: scale(0.5);
+        }
+
+        80% {
+          transform: scale(1.1);
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+
       &__clear {
         margin-right: 10px;
         pointer-events: none;
-        display: none;
         opacity: 0;
         position: relative;
+
+        pointer-events: none;
+
+        transition: opacity 0.2s $ease-in-out-cubic;
 
         &-btn {
           position: absolute;
@@ -82,7 +113,8 @@
           }
         }
         &--visible {
-          display: block;
+          pointer-events: all;
+          animation: bounce 0.3s $ease-in-cubic;
           .search__clear-btn {
             pointer-events: auto;
           }
@@ -90,12 +122,21 @@
         }
       }
     }
-    &:hover {
-      border-color: $text-color;
+    &:not(.filters__search--focus):hover {
+      border-color: rgba($text-color, 0.5);
+      box-shadow: 0px 0px 10px rgba($black, 0.15);
     }
 
     &--focus {
       border-color: $text-color;
+      box-shadow: 0px 0px 10px rgba($black, 0.15);
+
+      .search {
+        &__icon {
+          transform: scale(1);
+          opacity: 0.25;
+        }
+      }
     }
   }
 
@@ -303,6 +344,7 @@
   }
 
   //reset button
+
   &__reset {
     width: 110px;
     position: relative;
@@ -333,7 +375,6 @@
         border-color: $text-color;
         svg {
           fill: black;
-          animation: rotate 2s ease-in-out infinite;
         }
       }
       &:active {
