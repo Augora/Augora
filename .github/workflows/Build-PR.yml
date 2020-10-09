@@ -84,7 +84,6 @@ jobs:
                 }
               ]
             }
-        run: exit 1
 
   deploy:
     needs: build
