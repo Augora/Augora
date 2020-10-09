@@ -60,30 +60,30 @@ jobs:
         with:
           status: ${{ job.status }}
           fields: workflow,job,commit
-          # custom_payload: |
-          #   {
-          #     username: "Github Actions",
-          #     icon_emoji: ":thunder:",
-          #     attachments: [
-          #       {
-          #         color: '#dc3545',
-          #         "blocks": [
-          #           {
-          #             "type": "section",
-          #             "text": {
-          #               "type": "mrkdwn",
-          #               "text": 'TEST :goat:'
-          #             },
-          #             "accessory": {
-          #               "type": "image",
-          #               "image_url": "https://i.imgur.com/skVMabZ.png",
-          #               "alt_text": "Augora"
-          #             }
-          #           }
-          #         ]
-          #       }
-          #     ]
-          #   }
+          custom_payload: |
+            {
+              username: "Github Actions",
+              icon_emoji: ":thunder:",
+              attachments: [
+                {
+                  color: '#dc3545',
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": 'Le build est en erreur ! Lien du commit : ${{ AS_COMMIT }} | Lien du workflow : ${{ AS_WORKFLOW }}'
+                      },
+                      "accessory": {
+                        "type": "image",
+                        "image_url": "https://i.imgur.com/skVMabZ.png",
+                        "alt_text": "Augora"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
 
   deploy:
     needs: build
