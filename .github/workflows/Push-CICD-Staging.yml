@@ -60,6 +60,39 @@ jobs:
           GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: yarn test
+      - name: The build has failed
+        if: ${{ failure() }}
+        uses: 8398a7/action-slack@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: custom
+          fields: workflow,job,commit
+          custom_payload: |
+            {
+              username: "Github Actions",
+              icon_emoji: ":thunder:",
+              attachments: [
+                {
+                  color: '#dc3545',
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": 'TEST :goat:'
+                      },
+                      "accessory": {
+                        "type": "image",
+                        "image_url": "https://i.imgur.com/skVMabZ.png",
+                        "alt_text": "Augora"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
 
   deploy:
     needs: build
