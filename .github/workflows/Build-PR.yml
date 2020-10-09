@@ -60,7 +60,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           status: custom
-          fields: workflow,job,commit,action,message
+          fields: workflow,job,commit
           custom_payload: |
             {
               username: "Github Actions",
@@ -73,7 +73,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": `Le build est en erreur !\nLien du commit : ${process.env.AS_COMMIT}\nLien du workflow : ${process.env.AS_WORKFLOW}\nMessage : ${process.env.AS_MESSAGE}`,
+                        "text": `Le build est en erreur :warning:\nCommit : ${process.env.AS_COMMIT}\nGitHub Action associée : ${process.env.AS_WORKFLOW}`,
                       },
                       "accessory": {
                         "type": "image",
