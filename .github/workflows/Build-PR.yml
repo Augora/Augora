@@ -54,6 +54,7 @@ jobs:
       - name: The build has failed
         #if: ${{ failure() }}
         if: always()
+        run_once: True
         uses: 8398a7/action-slack@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -73,7 +74,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": `Le build est en erreur :warning:\nCommit : ${process.env.AS_COMMIT}\nGitHub Action associée : ${process.env.AS_WORKFLOW}`,
+                        "text": `Le build est en erreur :fire::fire_engine:\nCommit : ${process.env.AS_COMMIT}\nGitHub Action : ${process.env.AS_WORKFLOW}`,
                       },
                       "accessory": {
                         "type": "image",
