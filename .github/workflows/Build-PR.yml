@@ -52,7 +52,8 @@ jobs:
           name: build
           path: public
       - name: The build has failed
-        if: ${{ failure() }}
+        #if: ${{ failure() }}
+        if: always()
         uses: 8398a7/action-slack@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
