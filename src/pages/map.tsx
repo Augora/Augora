@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import ReactMapGL, {
   NavigationControl,
   FullscreenControl,
@@ -23,11 +23,13 @@ import {
 } from "../components/maps/maps-utils"
 import ResetControl from "../components/maps/ResetControl"
 import Tooltip from "../components/tooltip/Tooltip"
+import { DeputiesListContext } from "../context/deputies-filters/deputiesFiltersContext"
 
 interface IHoverInfo {
   filter: any[]
   lngLat: [number, number]
   zoneName: string
+  nbDeputes: number
 }
 
 const fillLayerLayout = {
@@ -83,7 +85,9 @@ export default function MapPage() {
     filter: ["==", ["get", ""], 0],
     lngLat: null,
     zoneName: null,
+    nbDeputes: null,
   })
+  const { state } = useContext(DeputiesListContext)
 
   const getCurrentZoneCode = (): ZoneCode => {
     return getZoneCodeFromFeatureProperties(
@@ -96,6 +100,7 @@ export default function MapPage() {
       filter: ["==", ["get", ""], 0],
       lngLat: null,
       zoneName: null,
+      nbDeputes: null,
     })
   }
 
@@ -134,16 +139,33 @@ export default function MapPage() {
     resetFilter()
   }
 
+  const getNbDeputesInZone = (zoneCode: ZoneCode, zoneId: number): number => {
+    switch (zoneCode) {
+      case ZoneCode.Regions:
+        return state.FilteredList.filter((i) => {
+          return i.NumeroRegion == zoneId
+        }).length
+      case ZoneCode.Departements:
+        return state.FilteredList.filter((i) => {
+          return i.NumeroDepartement == zoneId
+        }).length
+      default:
+        return 1
+    }
+  }
+
   const handleHover = (e) => {
     const hoveredZoneId = getMouseEventZoneId(e)
     if (hoveredZoneId) {
       const featureProps = e.features[0].properties
+      const currentZoneCode = getCurrentZoneCode()
       setHoverInfo({
-        filter: ["==", ["get", getCurrentZoneCode()], hoveredZoneId],
+        filter: ["==", ["get", currentZoneCode], hoveredZoneId],
         lngLat: e.lngLat,
         zoneName: featureProps.nom
           ? featureProps.nom
           : `Circonscription n°${featureProps.num_circ}`,
+        nbDeputes: getNbDeputesInZone(currentZoneCode, hoveredZoneId),
       })
     } else if (hoverInfo.filter !== ["==", ["get", ""], 0]) {
       resetFilter()
@@ -220,8 +242,8 @@ export default function MapPage() {
               >
                 <Tooltip
                   title={hoverInfo.zoneName}
-                  nbDeputes={0}
-                  totalDeputes={0}
+                  nbDeputes={hoverInfo.nbDeputes}
+                  totalDeputes={state.FilteredList.length}
                 />
               </Marker>
             ) : null}

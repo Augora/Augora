@@ -38,10 +38,13 @@ export default function DeputiesListProvider(props) {
             }
             Nom
             NomCirconscription
+            NomDepartement
+            NomRegion
             NomDeFamille
             NombreMandats
             NumeroCirconscription
             NumeroDepartement
+            NumeroRegion
             parti_ratt_financier
             PlaceEnHemicycle
             Prenom
