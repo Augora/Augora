@@ -51,35 +51,6 @@ jobs:
         with:
           name: build
           path: public
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
-
-      - uses: actions/download-artifact@v1
-        with:
-          name: build
-          path: public
-
-      - uses: amondnet/vercel-action@v19
-        with:
-          vercel-token: ${{ secrets.ZEIT_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
-          vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
-          scope: augora
-          alias-domains: |
-            {{PR_NUMBER}}.pullrequests.augora.fr
-  test:
-    runs-on: ubuntu-latest
-    steps:
       - name: The build has failed
         if: ${{ failure() }}
         uses: 8398a7/action-slack@v3
@@ -113,3 +84,29 @@ jobs:
                 }
               ]
             }
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - uses: actions/download-artifact@v1
+        with:
+          name: build
+          path: public
+
+      - uses: amondnet/vercel-action@v19
+        with:
+          vercel-token: ${{ secrets.ZEIT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
+          vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
+          scope: augora
+          alias-domains: |
+            {{PR_NUMBER}}.pullrequests.augora.fr
