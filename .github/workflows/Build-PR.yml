@@ -72,7 +72,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": 'Le build est en erreur ! Lien du commit : ${process.env.AS_COMMIT} | Lien du workflow : ${process.env.AS_WORKFLOW}'
+                        "text": `${process.env.AS_COMMIT}`,
                       },
                       "accessory": {
                         "type": "image",
