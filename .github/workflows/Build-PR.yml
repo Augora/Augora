@@ -54,7 +54,6 @@ jobs:
       - name: The build has failed
         #if: ${{ failure() }}
         if: always()
-        run_once: True
         uses: 8398a7/action-slack@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -86,6 +85,7 @@ jobs:
                 }
               ]
             }
+        run: exit 1
 
   deploy:
     needs: build
