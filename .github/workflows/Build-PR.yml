@@ -78,6 +78,7 @@ jobs:
           alias-domains: |
             {{PR_NUMBER}}.pullrequests.augora.fr
   test:
+    runs-on: ubuntu-latest
     steps:
       - name: The build has failed
         if: ${{ failure() }}
