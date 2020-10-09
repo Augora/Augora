@@ -89,11 +89,11 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": '${{ job.status }}' === 'success' ? '*https://augora.fr* \n Données mises à jour \n N\'oubliez pas de vérifier que le site fonctionne toujours :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n De toute façon, tout le monde s\'en tape, non ? :lul:'
+                        "text": '${{ job.status }}' === 'success' ? '*https://augora.fr* \n Données mises à jour \n N\'oubliez pas de vérifier que le site fonctionne toujours :heart:' : 'Le déploiement est en échec :fire::fire_engine: \n Possible que ce soit une erreur FaunaDB (relancer le build) :arrows_counterclockwise:'
                       },
                       "accessory": {
                         "type": "image",
-                        "image_url": "https://i.imgur.com/WsKz4jX.png",
+                        "image_url": "${{ job.status }}' === 'success' ? https://i.imgur.com/WsKz4jX.png : https://i.imgur.com/xGJqCp8.png",
                         "alt_text": "Augora"
                       }
                     },
