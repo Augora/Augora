@@ -60,7 +60,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
           status: custom
-          fields: workflow,job,commit
+          fields: workflow,job,commit,action
           custom_payload: |
             {
               username: "Github Actions",
