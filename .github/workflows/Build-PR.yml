@@ -58,32 +58,32 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
-          #status: custom
+          status: ${{ job.status }}
           fields: workflow,job,commit
-          custom_payload: |
-            {
-              username: "Github Actions",
-              icon_emoji: ":thunder:",
-              attachments: [
-                {
-                  color: '#dc3545',
-                  "blocks": [
-                    {
-                      "type": "section",
-                      "text": {
-                        "type": "mrkdwn",
-                        "text": 'TEST :goat:'
-                      },
-                      "accessory": {
-                        "type": "image",
-                        "image_url": "https://i.imgur.com/skVMabZ.png",
-                        "alt_text": "Augora"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
+          # custom_payload: |
+          #   {
+          #     username: "Github Actions",
+          #     icon_emoji: ":thunder:",
+          #     attachments: [
+          #       {
+          #         color: '#dc3545',
+          #         "blocks": [
+          #           {
+          #             "type": "section",
+          #             "text": {
+          #               "type": "mrkdwn",
+          #               "text": 'TEST :goat:'
+          #             },
+          #             "accessory": {
+          #               "type": "image",
+          #               "image_url": "https://i.imgur.com/skVMabZ.png",
+          #               "alt_text": "Augora"
+          #             }
+          #           }
+          #         ]
+          #       }
+          #     ]
+          #   }
 
   deploy:
     needs: build
