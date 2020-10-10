@@ -16,7 +16,7 @@ import {
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
 import Block from "../_block/_Block"
 import ResetControl from "../../maps/ResetControl"
-import SimpleTooltip from "../../tooltip/SimpleTooltip"
+import Tooltip from "../../tooltip/Tooltip"
 import IconPin from "../../../images/ui-kit/icon-pin.svg"
 
 export default function MapDistrict(props) {
@@ -143,12 +143,17 @@ export default function MapDistrict(props) {
             offsetLeft={-15}
             offsetTop={-30}
           >
-            <SimpleTooltip
-              content={`${props.nom}, ${props.num}${
-                props.num < 2 ? "ère " : "ème "
-              }Circonscription `}
-              wasClicked={pinClicked}
-            />
+            <Tooltip
+              className={`circ-tooltip ${
+                pinClicked ? "circ-tooltip--visible" : ""
+              }`}
+            >
+              <span>
+                {`${props.nom}, ${props.num}${
+                  props.num < 2 ? "ère " : "ème "
+                }Circonscription `}
+              </span>
+            </Tooltip>
             <div
               className="icon-wrapper"
               style={{ width: "30px", height: "30px", cursor: "pointer" }}

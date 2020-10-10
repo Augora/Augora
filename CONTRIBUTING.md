@@ -8,9 +8,9 @@ Ce document est un regroupement des directives pour contribuer au projet Augora.
 
 [Code De Conduite](#Code-De-Conduite)
 
-[Qu'est-ce que je dois savoir avant de contribuer ?](#Qu'est-ce-que-je-dois-savoir-avant-de-contribuer)
+[Qu'est-ce que je dois savoir avant de contribuer ?](#Comment-puis-je-contribuer-)
 
-[Comment puis-je contribuer ?](#Comment-puis-je-contribuer)
+[Comment puis-je contribuer ?](#Comment-puis-je-contribuer-)
 
 - [Signaler une erreur](#Signaler-une-erreur)
 - [Suggérer une idée](#Suggérer-une-idée)

@@ -20,10 +20,12 @@
 
       overflow: hidden;
       border-radius: 0 0 5px 5px;
-      .simple-tooltip {
+      .circ-tooltip {
+        position: absolute;
         left: 50%;
         transform: translate(-50%, 0);
         white-space: nowrap;
+        max-width: unset;
         transition: top 0.3s $ease-in-out-cubic;
         opacity: 0;
         top: -40px;

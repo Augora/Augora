@@ -28,7 +28,10 @@
     text-transform: uppercase;
     line-height: 1.3em;
     letter-spacing: -0.03em;
-    margin-bottom: 0.5em;
+    text-align: center;
+  }
+
+  &__content {
     text-align: center;
   }
 
@@ -37,6 +40,8 @@
     justify-content: space-between;
     font-size: 24px;
     font-weight: bold;
+    margin-top: 0.5em;
+
     margin-bottom: 0px;
     &--centered {
       justify-content: center;
