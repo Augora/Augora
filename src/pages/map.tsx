@@ -22,8 +22,10 @@ import {
   getGEOJsonFile,
   getMouseEventFeatureProps,
 } from "../components/maps/maps-utils"
-import ResetControl from "../components/maps/ResetControl"
+import CustomControl from "../components/maps/CustomControl"
 import MapTooltip from "../components/maps/MapTooltip"
+import IconFrance from "../images/logos/projet/augora-logo.svg"
+import IconArrow from "../images/ui-kit/icon-arrow.svg"
 import { DeputiesListContext } from "../context/deputies-filters/deputiesFiltersContext"
 
 interface IHoverInfo {
@@ -31,6 +33,11 @@ interface IHoverInfo {
   lngLat: [number, number]
   zoneName: string
   deputiesInZone: any[]
+}
+
+interface ICurrentView {
+  GEOJson: FranceZoneFeatureCollection
+  zoneCode: ZoneCode
 }
 
 const fillLayerLayout = {
@@ -101,9 +108,13 @@ export default function MapPage() {
     longitude: France.center.lng,
     latitude: France.center.lat,
   })
-  const [currentGEOJson, setCurrentGEOJson] = useState<
-    FranceZoneFeatureCollection
-  >(GEOJsonReg)
+  // const [currentGEOJson, setCurrentGEOJson] = useState<
+  //   FranceZoneFeatureCollection
+  // >(GEOJsonReg)
+  const [currentView, setCurrentView] = useState<ICurrentView>({
+    GEOJson: GEOJsonReg,
+    zoneCode: ZoneCode.Regions,
+  })
   const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
     filter: ["==", ["get", ""], 0],
     lngLat: null,
@@ -111,12 +122,6 @@ export default function MapPage() {
     deputiesInZone: null,
   })
   const { state } = useContext(DeputiesListContext)
-
-  const getCurrentZoneCode = (): ZoneCode => {
-    return getZoneCodeFromFeatureProperties(
-      currentGEOJson.features[0].properties
-    )
-  }
 
   const resetHoverInfo = () => {
     setHoverInfo({
@@ -153,7 +158,8 @@ export default function MapPage() {
       zonesToDisplayCommonId
     )
 
-    setCurrentGEOJson(newZoneGEOJson)
+    setCurrentView({ GEOJson: newZoneGEOJson, zoneCode: zonesToDisplayCode })
+
     flyToBounds(
       getBoundingBoxFromPolygon(newZonePolygon),
       viewport,
@@ -236,20 +242,18 @@ export default function MapPage() {
   }
 
   const handleBack = () => {
-    const currentZoneCode = getCurrentZoneCode()
-
-    if (currentZoneCode === ZoneCode.Circonscriptions) {
-      const regionId = currentGEOJson.features[0].properties[
+    if (currentView.zoneCode === ZoneCode.Circonscriptions) {
+      const regionId = currentView.GEOJson.features[0].properties[
         ZoneCode.Regions
       ] as number
       displayNewZone(ZoneCode.Departements, regionId)
-    } else if (currentZoneCode === ZoneCode.Departements) {
+    } else if (currentView.zoneCode === ZoneCode.Departements) {
       handleReset()
     }
   }
 
   const handleReset = () => {
-    setCurrentGEOJson(GEOJsonReg)
+    setCurrentView({ GEOJson: GEOJsonReg, zoneCode: ZoneCode.Regions })
     flyToBounds(franceBox, viewport, setViewport)
   }
 
@@ -274,7 +278,7 @@ export default function MapPage() {
           onHover={handleHover}
           onClick={handleClick}
         >
-          <Source type="geojson" data={currentGEOJson}>
+          <Source type="geojson" data={currentView.GEOJson}>
             <Layer
               id="zone-fill-hovered"
               {...hoverLayerLayout}
@@ -291,30 +295,32 @@ export default function MapPage() {
               totalDeputes={state.FilteredList.length}
             />
           ) : null}
-          <div className="map__navigation">
+          <div className="map__navigation-right">
             <NavigationControl
               showCompass={false}
               zoomInLabel="Zoomer"
               zoomOutLabel="Dézoomer"
             />
             <FullscreenControl />
-            <ResetControl
-              onReset={handleReset}
-              className={`map__navigation-reset visible`}
-              title="Revenir à la position initiale"
-            />
+            <CustomControl
+              onClick={handleReset}
+              className={`map__navigation-custom visible`}
+              title="Revenir à la vue Régions"
+            >
+              <IconFrance />
+            </CustomControl>
           </div>
-          <button
-            style={{
-              position: "absolute",
-              left: "10px",
-              top: "10px",
-              minHeight: "30px",
-            }}
-            onClick={handleBack}
-          >
-            Précedent
-          </button>
+          <div className="map__navigation-left">
+            <CustomControl
+              onClick={handleBack}
+              className={`map__navigation-custom ${
+                currentView.zoneCode === ZoneCode.Regions ? "" : "visible"
+              }`}
+              title="Revenir à la vue précédente"
+            >
+              <IconArrow style={{ transform: "rotate(90deg)" }} />
+            </CustomControl>
+          </div>
         </ReactMapGL>
       </div>
     </div>

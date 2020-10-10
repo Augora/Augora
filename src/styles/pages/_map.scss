@@ -10,15 +10,25 @@
       width: 100%;
       height: calc(100vh - 67px);
     }
+
     &__navigation {
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      display: flex;
-      flex-direction: column;
-      height: 140px;
-      justify-content: space-between;
-      &-reset {
+      &-right {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        display: flex;
+        flex-direction: column;
+        height: 140px;
+        justify-content: space-between;
+      }
+
+      &-left {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+      }
+
+      &-custom {
         position: relative;
         width: 30px;
         height: 30px;
@@ -32,7 +42,6 @@
         transition: opacity 0.2s $ease-in-out-cubic;
 
         cursor: pointer;
-
         &::after {
           content: "";
           display: block;
@@ -71,6 +80,7 @@
         }
       }
     }
+
     &__tooltip {
       min-width: 200px;
       &-solo {

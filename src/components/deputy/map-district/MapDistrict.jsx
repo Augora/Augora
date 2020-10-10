@@ -15,7 +15,7 @@ import {
 } from "../../../components/maps/maps-utils"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
 import Block from "../_block/_Block"
-import ResetControl from "../../maps/ResetControl"
+import CustomControl from "../../maps/CustomControl"
 import Tooltip from "../../tooltip/Tooltip"
 import IconPin from "../../../images/ui-kit/icon-pin.svg"
 
@@ -169,13 +169,15 @@ export default function MapDistrict(props) {
               zoomOutLabel="Dézoomer"
             />
             <FullscreenControl />
-            <ResetControl
-              onReset={handleReset}
+            <CustomControl
+              onClick={handleReset}
               className={`map__navigation-reset ${
                 userInteracted ? "visible" : null
               }`}
               title="Revenir à la position initiale"
-            />
+            >
+              <IconPin />
+            </CustomControl>
           </div>
         </ReactMapGL>
       </div>
