@@ -4,7 +4,6 @@ import ReactMapGL, {
   FullscreenControl,
   Source,
   Layer,
-  Marker,
   ViewState,
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
@@ -22,7 +21,7 @@ import {
   getGEOJsonFile,
 } from "../components/maps/maps-utils"
 import ResetControl from "../components/maps/ResetControl"
-import Tooltip from "../components/tooltip/Tooltip"
+import MapTooltip from "../components/maps/MapTooltip"
 import { DeputiesListContext } from "../context/deputies-filters/deputiesFiltersContext"
 
 interface IHoverInfo {
@@ -150,7 +149,7 @@ export default function MapPage() {
           return i.NumeroDepartement == zoneId
         }).length
       default:
-        return 1
+        return null
     }
   }
 
@@ -235,17 +234,12 @@ export default function MapPage() {
               <Layer id="zone-line" {...lineLayerLayout} />
             </Source>
             {hoverInfo.zoneName ? (
-              <Marker
-                longitude={hoverInfo.lngLat[0]}
-                latitude={hoverInfo.lngLat[1]}
-                offsetTop={40}
-              >
-                <Tooltip
-                  title={hoverInfo.zoneName}
-                  nbDeputes={hoverInfo.nbDeputes}
-                  totalDeputes={state.FilteredList.length}
-                />
-              </Marker>
+              <MapTooltip
+                lngLat={hoverInfo.lngLat}
+                zoneName={hoverInfo.zoneName}
+                nbDeputes={hoverInfo.nbDeputes}
+                totalDeputes={state.FilteredList.length}
+              />
             ) : null}
             <div className="map__navigation">
               <NavigationControl
