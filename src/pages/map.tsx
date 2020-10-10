@@ -6,6 +6,7 @@ import ReactMapGL, {
   Layer,
   ViewState,
 } from "react-map-gl"
+import { navigate } from "gatsby"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   ZoneCode,
@@ -208,11 +209,20 @@ export default function MapPage() {
     const clickedZoneId = getMouseEventZoneId(e)
     if (clickedZoneId) {
       const currentZoneCode = getCurrentZoneCode()
-      //ne rien faire si on est en vue circ (pour l'instant en tout cas)
       if (currentZoneCode === ZoneCode.Regions) {
         displayNewZone(ZoneCode.Departements, clickedZoneId)
       } else if (currentZoneCode === ZoneCode.Departements) {
         displayNewZone(ZoneCode.Circonscriptions, clickedZoneId)
+      } else {
+        navigate(
+          `/depute/${
+            getDeputiesInZone(
+              ZoneCode.Circonscriptions,
+              clickedZoneId,
+              getMouseEventParentZoneId(e)
+            )[0].Slug
+          }`
+        )
       }
     }
   }
@@ -236,71 +246,69 @@ export default function MapPage() {
   }
 
   return (
-    <>
-      <div className="page page__map">
-        <div className="map__container">
-          <ReactMapGL
-            mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
-            mapStyle="mapbox://styles/mapbox/streets-v11?optimize=true"
-            {...viewport}
-            width="100%"
-            height="100%"
-            minZoom={2}
-            dragRotate={false}
-            doubleClickZoom={false}
-            touchRotate={false}
-            interactiveLayerIds={["zone-fill", "zone-line"]}
-            onLoad={() => {
-              flyToBounds(franceBox, viewport, setViewport)
+    <div className="page page__map">
+      <div className="map__container">
+        <ReactMapGL
+          mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
+          mapStyle="mapbox://styles/mapbox/streets-v11?optimize=true"
+          {...viewport}
+          width="100%"
+          height="100%"
+          minZoom={2}
+          dragRotate={false}
+          doubleClickZoom={false}
+          touchRotate={false}
+          interactiveLayerIds={["zone-fill", "zone-line"]}
+          onLoad={() => {
+            flyToBounds(franceBox, viewport, setViewport)
+          }}
+          onViewportChange={(change) => setViewport(change)}
+          onHover={handleHover}
+          onClick={handleClick}
+        >
+          <Source type="geojson" data={currentGEOJson}>
+            <Layer
+              id="zone-fill-hovered"
+              {...hoverLayerLayout}
+              filter={hoverInfo.filter}
+            />
+            <Layer id="zone-fill" {...fillLayerLayout} />
+            <Layer id="zone-line" {...lineLayerLayout} />
+          </Source>
+          {hoverInfo.zoneName ? (
+            <MapTooltip
+              lngLat={hoverInfo.lngLat}
+              zoneName={hoverInfo.zoneName}
+              deputiesArray={hoverInfo.deputiesInZone}
+              totalDeputes={state.FilteredList.length}
+            />
+          ) : null}
+          <div className="map__navigation">
+            <NavigationControl
+              showCompass={false}
+              zoomInLabel="Zoomer"
+              zoomOutLabel="Dézoomer"
+            />
+            <FullscreenControl />
+            <ResetControl
+              onReset={handleReset}
+              className={`map__navigation-reset visible`}
+              title="Revenir à la position initiale"
+            />
+          </div>
+          <button
+            style={{
+              position: "absolute",
+              left: "10px",
+              top: "10px",
+              minHeight: "30px",
             }}
-            onViewportChange={(change) => setViewport(change)}
-            onHover={handleHover}
-            onClick={handleClick}
+            onClick={handleBack}
           >
-            <Source type="geojson" data={currentGEOJson}>
-              <Layer
-                id="zone-fill-hovered"
-                {...hoverLayerLayout}
-                filter={hoverInfo.filter}
-              />
-              <Layer id="zone-fill" {...fillLayerLayout} />
-              <Layer id="zone-line" {...lineLayerLayout} />
-            </Source>
-            {hoverInfo.zoneName ? (
-              <MapTooltip
-                lngLat={hoverInfo.lngLat}
-                zoneName={hoverInfo.zoneName}
-                deputiesArray={hoverInfo.deputiesInZone}
-                totalDeputes={state.FilteredList.length}
-              />
-            ) : null}
-            <div className="map__navigation">
-              <NavigationControl
-                showCompass={false}
-                zoomInLabel="Zoomer"
-                zoomOutLabel="Dézoomer"
-              />
-              <FullscreenControl />
-              <ResetControl
-                onReset={handleReset}
-                className={`map__navigation-reset visible`}
-                title="Revenir à la position initiale"
-              />
-            </div>
-            <button
-              style={{
-                position: "absolute",
-                left: "10px",
-                top: "10px",
-                minHeight: "30px",
-              }}
-              onClick={handleBack}
-            >
-              Précedent
-            </button>
-          </ReactMapGL>
-        </div>
+            Précedent
+          </button>
+        </ReactMapGL>
       </div>
-    </>
+    </div>
   )
 }
