@@ -25,21 +25,27 @@ export default function MapTooltip(props: IMapTooltip) {
         />
       ) : (
         <Tooltip className="map__tooltip-solo" title={props.zoneName}>
-          <div className="tooltip__nom">
-            {props.deputiesArray[0].Sexe === "F" ? "MME " : "M. "}
-            {props.deputiesArray[0].Nom}
-          </div>
-          <div
-            className="tooltip__groupe"
-            style={{
-              color: props.deputiesArray[0].GroupeParlementaire.Couleur,
-            }}
-          >
-            {props.deputiesArray[0].GroupeParlementaire.NomComplet}
-          </div>
-          <div className="tooltip__savoirplus">
-            Cliquer pour en savoir plus...
-          </div>
+          {props.deputiesArray[0] !== undefined ? (
+            <>
+              <div className="tooltip__nom">
+                {props.deputiesArray[0].Sexe === "F" ? "MME " : "M. "}
+                {props.deputiesArray[0].Nom}
+              </div>
+              <div
+                className="tooltip__groupe"
+                style={{
+                  color: props.deputiesArray[0].GroupeParlementaire.Couleur,
+                }}
+              >
+                {props.deputiesArray[0].GroupeParlementaire.NomComplet}
+              </div>
+              <div className="tooltip__savoirplus">
+                Cliquer pour en savoir plus...
+              </div>
+            </>
+          ) : (
+            <div className="tooltip__nom">Pas de député en fonction trouvé</div>
+          )}
         </Tooltip>
       )}
     </Marker>

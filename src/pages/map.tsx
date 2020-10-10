@@ -108,9 +108,6 @@ export default function MapPage() {
     longitude: France.center.lng,
     latitude: France.center.lat,
   })
-  // const [currentGEOJson, setCurrentGEOJson] = useState<
-  //   FranceZoneFeatureCollection
-  // >(GEOJsonReg)
   const [currentView, setCurrentView] = useState<ICurrentView>({
     GEOJson: GEOJsonReg,
     zoneCode: ZoneCode.Regions,
@@ -233,7 +230,8 @@ export default function MapPage() {
           displayNewZone(ZoneCode.Circonscriptions, mouseInfo.zoneId)
           break
         case ZoneCode.Circonscriptions:
-          navigate(`/depute/${hoverInfo.deputiesInZone[0].Slug}`)
+          if (hoverInfo.deputiesInZone[0] !== undefined)
+            navigate(`/depute/${hoverInfo.deputiesInZone[0].Slug}`)
           break
         default:
           return
