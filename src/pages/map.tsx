@@ -20,6 +20,7 @@ import {
   getZonePolygon,
   getZoneCodeFromFeatureProperties,
   getGEOJsonFile,
+  getMouseEventFeatureProps,
 } from "../components/maps/maps-utils"
 import ResetControl from "../components/maps/ResetControl"
 import MapTooltip from "../components/maps/MapTooltip"
@@ -58,31 +59,38 @@ const hoverLayerLayout = {
 }
 
 /**
- * Returns the zone id of a mouseevent
+ * Returns formatted mouse event object
  */
-const getMouseEventZoneId = (e): number => {
-  if (e.features) {
-    const currentZoneCode = getZoneCodeFromFeatureProperties(
-      e.features[0]?.properties
-    )
-    if (currentZoneCode) {
-      return e.features[0].properties[currentZoneCode] as number
-    } else return null
-  } else return null
-}
+const formatMouseEvent = (
+  e
+): {
+  zoneId: number
+  zoneCode: ZoneCode
+  parentZoneId: number
+  allProps: GeoJSON.GeoJsonProperties
+} => {
+  const featureProps = getMouseEventFeatureProps(e)
+  if (featureProps) {
+    const currentZoneCode = getZoneCodeFromFeatureProperties(featureProps)
+    var parentZoneId
 
-const getMouseEventParentZoneId = (e): number => {
-  if (e.features) {
-    const currentZoneCode = getZoneCodeFromFeatureProperties(
-      e.features[0]?.properties
-    )
     switch (currentZoneCode) {
       case ZoneCode.Departements:
-        return e.features[0].properties[ZoneCode.Regions] as number
+        parentZoneId = featureProps[ZoneCode.Regions] as number
+        break
       case ZoneCode.Circonscriptions:
-        return e.features[0].properties[ZoneCode.Departements] as number
+        parentZoneId = featureProps[ZoneCode.Departements] as number
+        break
       default:
-        return null
+        parentZoneId = null
+        break
+    }
+
+    return {
+      zoneId: featureProps[currentZoneCode] as number,
+      zoneCode: currentZoneCode,
+      parentZoneId: parentZoneId,
+      allProps: featureProps,
     }
   } else return null
 }
@@ -154,6 +162,12 @@ export default function MapPage() {
     resetHoverInfo()
   }
 
+  /**
+   * Renvoie un array contenant tous les députés de la zone et leurs infos
+   * @param {ZoneCode} zoneCode Le code de la zone
+   * @param {number} zoneId L'id de la zone
+   * @param {number} [parentZoneId] L'id de la zone parente, nécéssaire quand la zone ciblée est une circonscription
+   */
   const getDeputiesInZone = (
     zoneCode: ZoneCode,
     zoneId: number,
@@ -169,7 +183,6 @@ export default function MapPage() {
           return i.NumeroDepartement == zoneId
         })
       case ZoneCode.Circonscriptions:
-        // return []
         return [
           state.FilteredList.find((i) => {
             return (
@@ -184,20 +197,18 @@ export default function MapPage() {
   }
 
   const handleHover = (e) => {
-    const hoveredZoneId = getMouseEventZoneId(e)
-    if (hoveredZoneId) {
-      const featureProps = e.features[0].properties
-      const currentZoneCode = getCurrentZoneCode()
+    const mouseInfo = formatMouseEvent(e)
+    if (mouseInfo) {
       setHoverInfo({
-        filter: ["==", ["get", currentZoneCode], hoveredZoneId],
+        filter: ["==", ["get", mouseInfo.zoneCode], mouseInfo.zoneId],
         lngLat: e.lngLat,
-        zoneName: featureProps.nom
-          ? featureProps.nom
-          : `Circonscription n°${featureProps.num_circ}`,
+        zoneName: mouseInfo.allProps.nom
+          ? mouseInfo.allProps.nom
+          : `Circonscription n°${mouseInfo.allProps.num_circ}`,
         deputiesInZone: getDeputiesInZone(
-          currentZoneCode,
-          hoveredZoneId,
-          getMouseEventParentZoneId(e)
+          mouseInfo.zoneCode,
+          mouseInfo.zoneId,
+          mouseInfo.parentZoneId
         ),
       })
     } else if (hoverInfo.filter !== ["==", ["get", ""], 0]) {
@@ -206,23 +217,20 @@ export default function MapPage() {
   }
 
   const handleClick = (e) => {
-    const clickedZoneId = getMouseEventZoneId(e)
-    if (clickedZoneId) {
-      const currentZoneCode = getCurrentZoneCode()
-      if (currentZoneCode === ZoneCode.Regions) {
-        displayNewZone(ZoneCode.Departements, clickedZoneId)
-      } else if (currentZoneCode === ZoneCode.Departements) {
-        displayNewZone(ZoneCode.Circonscriptions, clickedZoneId)
-      } else {
-        navigate(
-          `/depute/${
-            getDeputiesInZone(
-              ZoneCode.Circonscriptions,
-              clickedZoneId,
-              getMouseEventParentZoneId(e)
-            )[0].Slug
-          }`
-        )
+    const mouseInfo = formatMouseEvent(e)
+    if (mouseInfo) {
+      switch (mouseInfo.zoneCode) {
+        case ZoneCode.Regions:
+          displayNewZone(ZoneCode.Departements, mouseInfo.zoneId)
+          break
+        case ZoneCode.Departements:
+          displayNewZone(ZoneCode.Circonscriptions, mouseInfo.zoneId)
+          break
+        case ZoneCode.Circonscriptions:
+          navigate(`/depute/${hoverInfo.deputiesInZone[0].Slug}`)
+          break
+        default:
+          return
       }
     }
   }

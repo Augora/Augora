@@ -183,3 +183,13 @@ export const getZoneCodeFromFeatureProperties = (
     else return ZoneCode.Regions
   }
 }
+
+/**
+ * Returns the first feature properties of a mouseevent, null if there is none
+ */
+export const getMouseEventFeatureProps = (e): GeoJSON.GeoJsonProperties => {
+  if (e.features) {
+    if (e.features[0]?.properties) return e.features[0].properties
+    else return null
+  } else return null
+}
