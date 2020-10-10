@@ -24,7 +24,7 @@ Récupérez les packages suivants :
 
 ### Installation
 
-Installez **Node**, **Yarn**
+Installer **Node**, **Yarn**
 
 ### Récupération du projet
 
