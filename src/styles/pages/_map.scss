@@ -71,5 +71,29 @@
         }
       }
     }
+    &__tooltip {
+      min-width: 200px;
+      &-solo {
+        min-width: 240px;
+        .tooltip {
+          &__nom {
+            margin: 10px 0;
+          }
+          &__groupe {
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.3em;
+            letter-spacing: -0.03em;
+            text-align: center;
+          }
+          &__savoirplus {
+            margin-top: 6px;
+            font-size: 14px;
+            font-style: italic;
+          }
+        }
+      }
+    }
   }
 }

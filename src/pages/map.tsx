@@ -28,7 +28,7 @@ interface IHoverInfo {
   filter: any[]
   lngLat: [number, number]
   zoneName: string
-  nbDeputes: number
+  deputiesInZone: any[]
 }
 
 const fillLayerLayout = {
@@ -65,9 +65,24 @@ const getMouseEventZoneId = (e): number => {
       e.features[0]?.properties
     )
     if (currentZoneCode) {
-      const zoneId = e.features[0].properties[currentZoneCode] as number
-      return zoneId
+      return e.features[0].properties[currentZoneCode] as number
     } else return null
+  } else return null
+}
+
+const getMouseEventParentZoneId = (e): number => {
+  if (e.features) {
+    const currentZoneCode = getZoneCodeFromFeatureProperties(
+      e.features[0]?.properties
+    )
+    switch (currentZoneCode) {
+      case ZoneCode.Departements:
+        return e.features[0].properties[ZoneCode.Regions] as number
+      case ZoneCode.Circonscriptions:
+        return e.features[0].properties[ZoneCode.Departements] as number
+      default:
+        return null
+    }
   } else return null
 }
 
@@ -84,7 +99,7 @@ export default function MapPage() {
     filter: ["==", ["get", ""], 0],
     lngLat: null,
     zoneName: null,
-    nbDeputes: null,
+    deputiesInZone: null,
   })
   const { state } = useContext(DeputiesListContext)
 
@@ -94,12 +109,12 @@ export default function MapPage() {
     )
   }
 
-  const resetFilter = () => {
+  const resetHoverInfo = () => {
     setHoverInfo({
       filter: ["==", ["get", ""], 0],
       lngLat: null,
       zoneName: null,
-      nbDeputes: null,
+      deputiesInZone: null,
     })
   }
 
@@ -135,21 +150,35 @@ export default function MapPage() {
       viewport,
       setViewport
     )
-    resetFilter()
+    resetHoverInfo()
   }
 
-  const getNbDeputesInZone = (zoneCode: ZoneCode, zoneId: number): number => {
+  const getDeputiesInZone = (
+    zoneCode: ZoneCode,
+    zoneId: number,
+    parentZoneId?: number
+  ): any[] => {
     switch (zoneCode) {
       case ZoneCode.Regions:
         return state.FilteredList.filter((i) => {
           return i.NumeroRegion == zoneId
-        }).length
+        })
       case ZoneCode.Departements:
         return state.FilteredList.filter((i) => {
           return i.NumeroDepartement == zoneId
-        }).length
+        })
+      case ZoneCode.Circonscriptions:
+        // return []
+        return [
+          state.FilteredList.find((i) => {
+            return (
+              i.NumeroCirconscription == zoneId &&
+              i.NumeroDepartement == parentZoneId
+            )
+          }),
+        ]
       default:
-        return null
+        return []
     }
   }
 
@@ -164,10 +193,14 @@ export default function MapPage() {
         zoneName: featureProps.nom
           ? featureProps.nom
           : `Circonscription n°${featureProps.num_circ}`,
-        nbDeputes: getNbDeputesInZone(currentZoneCode, hoveredZoneId),
+        deputiesInZone: getDeputiesInZone(
+          currentZoneCode,
+          hoveredZoneId,
+          getMouseEventParentZoneId(e)
+        ),
       })
     } else if (hoverInfo.filter !== ["==", ["get", ""], 0]) {
-      resetFilter()
+      resetHoverInfo()
     }
   }
 
@@ -237,7 +270,7 @@ export default function MapPage() {
               <MapTooltip
                 lngLat={hoverInfo.lngLat}
                 zoneName={hoverInfo.zoneName}
-                nbDeputes={hoverInfo.nbDeputes}
+                deputiesArray={hoverInfo.deputiesInZone}
                 totalDeputes={state.FilteredList.length}
               />
             ) : null}
