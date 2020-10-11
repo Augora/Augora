@@ -26,6 +26,7 @@ import {
 import CustomControl from "../components/maps/CustomControl"
 import MapTooltip from "../components/maps/MapTooltip"
 import MapDeputyPin from "../components/maps/MapDeputyPin"
+import MapBreadcrumb from "../components/maps/MapBreadcrumb"
 import IconFrance from "../images/logos/projet/augora-logo.svg"
 import IconArrow from "../images/ui-kit/icon-arrow.svg"
 import { DeputiesListContext } from "../context/deputies-filters/deputiesFiltersContext"
@@ -63,30 +64,37 @@ const formatMouseEvent = (
 ): {
   zoneId: number
   zoneCode: ZoneCode
+  zoneName: string
   parentZoneId: number
+  parentZoneCode: ZoneCode
   allProps: GeoJSON.GeoJsonProperties
 } => {
   const featureProps = getMouseEventFeatureProps(e)
   if (featureProps) {
     const currentZoneCode = getZoneCodeFromFeatureProperties(featureProps)
-    var parentZoneId
+    var parentZoneId, parentZoneCode
 
     switch (currentZoneCode) {
       case ZoneCode.Departements:
         parentZoneId = featureProps[ZoneCode.Regions] as number
+        parentZoneCode = ZoneCode.Regions
         break
       case ZoneCode.Circonscriptions:
         parentZoneId = featureProps[ZoneCode.Departements] as number
+        parentZoneCode = ZoneCode.Departements
         break
       default:
         parentZoneId = null
+        parentZoneCode = null
         break
     }
 
     return {
       zoneId: featureProps[currentZoneCode] as number,
       zoneCode: currentZoneCode,
+      zoneName: featureProps.nom,
       parentZoneId: parentZoneId,
+      parentZoneCode: parentZoneCode,
       allProps: featureProps,
     }
   } else return null
@@ -108,10 +116,12 @@ export default function MapPage() {
     GEOJson: FranceZoneFeatureCollection
     zoneCode: ZoneCode
     deputiesInZone: any[]
+    breadcrumb: string[]
   }>({
     GEOJson: GEOJsonReg,
     zoneCode: ZoneCode.Regions,
     deputiesInZone: franceMetroDeputies,
+    breadcrumb: ["France métropolitaine"],
   })
   const [hoverInfo, setHoverInfo] = useState<{
     filter: any[]
@@ -138,10 +148,12 @@ export default function MapPage() {
    * Affiche une nouvelle vue
    * @param {ZoneCode} zonesToDisplayCode Le code du groupe de zones à afficher
    * @param {number} zonesToDisplayCommonId L'id qu'ils ont en commun (si ce sont des départements, leur région id, si ce sont des circonscriptions, leur département id)
+   * @param {string} [zoneName] Le nom de la zone à afficher, pour le breadcrumb. Ne rien mettre si c'est un dezoom
    */
   const displayNewZone = (
     zonesToDisplayCode: ZoneCode,
-    zonesToDisplayCommonId: number
+    zonesToDisplayCommonId: number,
+    zoneName?: string
   ): void => {
     const parentZoneCode =
       zonesToDisplayCode === ZoneCode.Circonscriptions
@@ -165,10 +177,15 @@ export default function MapPage() {
       zonesToDisplayCommonId
     )
 
-    setCurrentView({
-      GEOJson: newZoneGEOJson,
-      zoneCode: zonesToDisplayCode,
-      deputiesInZone: newDeputiesInZone,
+    setCurrentView((prevState) => {
+      return {
+        GEOJson: newZoneGEOJson,
+        zoneCode: zonesToDisplayCode,
+        deputiesInZone: newDeputiesInZone,
+        breadcrumb: zoneName
+          ? [...prevState.breadcrumb, zoneName]
+          : [...prevState.breadcrumb.slice(0, -1)],
+      }
     })
 
     flyToBounds(
@@ -213,7 +230,6 @@ export default function MapPage() {
         return []
     }
   }
-
   const handleHover = (e) => {
     const mouseInfo = formatMouseEvent(e)
     if (mouseInfo) {
@@ -239,10 +255,18 @@ export default function MapPage() {
     if (mouseInfo) {
       switch (mouseInfo.zoneCode) {
         case ZoneCode.Regions:
-          displayNewZone(ZoneCode.Departements, mouseInfo.zoneId)
+          displayNewZone(
+            ZoneCode.Departements,
+            mouseInfo.zoneId,
+            mouseInfo.zoneName
+          )
           return
         case ZoneCode.Departements:
-          displayNewZone(ZoneCode.Circonscriptions, mouseInfo.zoneId)
+          displayNewZone(
+            ZoneCode.Circonscriptions,
+            mouseInfo.zoneId,
+            mouseInfo.zoneName
+          )
           return
         case ZoneCode.Circonscriptions:
           const deputy = getDeputiesInZone(
@@ -274,6 +298,7 @@ export default function MapPage() {
       GEOJson: GEOJsonReg,
       zoneCode: ZoneCode.Regions,
       deputiesInZone: franceMetroDeputies,
+      breadcrumb: ["France métropolitaine"],
     })
     flyToBounds(franceBox, viewport, setViewport)
   }
@@ -349,6 +374,7 @@ export default function MapPage() {
             </CustomControl>
           </div>
           <div className="map__navigation-left">
+            <MapBreadcrumb data={currentView.breadcrumb} />
             <CustomControl
               onClick={handleBack}
               className={`map__navigation-custom ${
