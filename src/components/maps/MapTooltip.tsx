@@ -12,6 +12,7 @@ interface IMapTooltip {
 export default function MapTooltip(props: IMapTooltip) {
   return (
     <Marker
+      className="map__tooltip--marker"
       longitude={props.lngLat[0]}
       latitude={props.lngLat[1]}
       offsetTop={40}

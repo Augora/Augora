@@ -11,6 +11,28 @@
       height: calc(100vh - 67px);
     }
 
+    &__deputy-pin {
+      border-style: solid;
+      border-width: 5px;
+      border-radius: 70px;
+      width: 100px;
+      height: 100px;
+      overflow: hidden;
+      position: relative;
+      .deputy__photo {
+        display: block;
+        margin-bottom: 0;
+        max-width: 120%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      &--marker {
+        pointer-events: none;
+      }
+    }
+
     &__navigation {
       &-right {
         position: absolute;
@@ -103,6 +125,9 @@
             font-style: italic;
           }
         }
+      }
+      &--marker {
+        z-index: 1;
       }
     }
   }

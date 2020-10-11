@@ -30,18 +30,6 @@ import IconFrance from "../images/logos/projet/augora-logo.svg"
 import IconArrow from "../images/ui-kit/icon-arrow.svg"
 import { DeputiesListContext } from "../context/deputies-filters/deputiesFiltersContext"
 
-interface IHoverInfo {
-  filter: any[]
-  lngLat: [number, number]
-  zoneName: string
-  deputiesInZone: any[]
-}
-
-interface ICurrentView {
-  GEOJson: FranceZoneFeatureCollection
-  zoneCode: ZoneCode
-}
-
 const fillLayerLayout = {
   type: "fill",
   paint: {
@@ -110,11 +98,21 @@ export default function MapPage() {
     longitude: France.center.lng,
     latitude: France.center.lat,
   })
-  const [currentView, setCurrentView] = useState<ICurrentView>({
+  const [currentView, setCurrentView] = useState<{
+    GEOJson: FranceZoneFeatureCollection
+    zoneCode: ZoneCode
+    deputiesInZone: any[]
+  }>({
     GEOJson: GEOJsonReg,
     zoneCode: ZoneCode.Regions,
+    deputiesInZone: null,
   })
-  const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
+  const [hoverInfo, setHoverInfo] = useState<{
+    filter: any[]
+    lngLat: [number, number]
+    zoneName: string
+    deputiesInZone: any[]
+  }>({
     filter: ["==", ["get", ""], 0],
     lngLat: null,
     zoneName: null,
@@ -157,7 +155,14 @@ export default function MapPage() {
       zonesToDisplayCommonId
     )
 
-    setCurrentView({ GEOJson: newZoneGEOJson, zoneCode: zonesToDisplayCode })
+    setCurrentView({
+      GEOJson: newZoneGEOJson,
+      zoneCode: zonesToDisplayCode,
+      deputiesInZone:
+        zonesToDisplayCode === ZoneCode.Circonscriptions
+          ? hoverInfo.deputiesInZone
+          : null,
+    })
 
     flyToBounds(
       getBoundingBoxFromPolygon(newZonePolygon),
@@ -254,7 +259,11 @@ export default function MapPage() {
   }
 
   const handleReset = () => {
-    setCurrentView({ GEOJson: GEOJsonReg, zoneCode: ZoneCode.Regions })
+    setCurrentView({
+      GEOJson: GEOJsonReg,
+      zoneCode: ZoneCode.Regions,
+      deputiesInZone: null,
+    })
     flyToBounds(franceBox, viewport, setViewport)
   }
 
@@ -303,6 +312,12 @@ export default function MapPage() {
                     key={`${element.properties.nom_dpt.toLowerCase()} ${index}`}
                     lng={getPolygonCenter(element)[0]}
                     lat={getPolygonCenter(element)[1]}
+                    deputy={currentView.deputiesInZone.find((entry) => {
+                      return (
+                        entry.NumeroCirconscription ==
+                        element.properties.num_circ
+                      )
+                    })}
                   />
                 )
               })
