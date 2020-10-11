@@ -16,6 +16,7 @@ import {
   GEOJsonReg,
   flyToBounds,
   getBoundingBoxFromPolygon,
+  getPolygonCenter,
   filterNewGEOJSonFeatureCollection,
   getZonePolygon,
   getZoneCodeFromFeatureProperties,
@@ -24,6 +25,7 @@ import {
 } from "../components/maps/maps-utils"
 import CustomControl from "../components/maps/CustomControl"
 import MapTooltip from "../components/maps/MapTooltip"
+import MapDeputyPin from "../components/maps/MapDeputyPin"
 import IconFrance from "../images/logos/projet/augora-logo.svg"
 import IconArrow from "../images/ui-kit/icon-arrow.svg"
 import { DeputiesListContext } from "../context/deputies-filters/deputiesFiltersContext"
@@ -137,7 +139,7 @@ export default function MapPage() {
   const displayNewZone = (
     zonesToDisplayCode: ZoneCode,
     zonesToDisplayCommonId: number
-  ) => {
+  ): void => {
     const parentZoneCode =
       zonesToDisplayCode === ZoneCode.Circonscriptions
         ? ZoneCode.Departements
@@ -162,6 +164,7 @@ export default function MapPage() {
       viewport,
       setViewport
     )
+
     resetHoverInfo()
   }
 
@@ -293,6 +296,17 @@ export default function MapPage() {
               totalDeputes={state.FilteredList.length}
             />
           ) : null}
+          {currentView.zoneCode === ZoneCode.Circonscriptions
+            ? currentView.GEOJson.features.map((element, index) => {
+                return (
+                  <MapDeputyPin
+                    key={`${element.properties.nom_dpt.toLowerCase()} ${index}`}
+                    lng={getPolygonCenter(element)[0]}
+                    lat={getPolygonCenter(element)[1]}
+                  />
+                )
+              })
+            : null}
           <div className="map__navigation-right">
             <NavigationControl
               showCompass={false}

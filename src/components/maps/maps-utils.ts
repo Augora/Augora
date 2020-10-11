@@ -1,12 +1,23 @@
-import { WebMercatorViewport, FlyToInterpolator } from "react-map-gl"
+import { WebMercatorViewport, FlyToInterpolator, ViewState } from "react-map-gl"
+import polylabel from "polylabel"
 import GEOJsonDistrictFile from "../../static/list-district"
 import GEOJsonDptFile from "../../static/departements"
 import GEOJsonRegFile from "../../static/regions"
 
 /**
- * Un array de 2 coordonnées: southwest & northeast utilisable par mapbox pour les bounding boxes
+ * Un array de 2 nombres: longitude en premier et latitude, utilisable par mapbox pour les coordonées
  */
-export type Bounds = [[number, number], [number, number]]
+export type Coordinates = [number, number]
+
+/**
+ * Un array de 2 coordonnées: southwest lng, lat & northeast lng, lat utilisable par mapbox pour les bounding boxes
+ */
+export type Bounds = [Coordinates, Coordinates]
+
+/**
+ * Un array de type GeoJSON coordinates polygon ou multipolygon uniquement
+ */
+export type FranceZonePolygon = GeoJSON.Position[][] | GeoJSON.Position[][][]
 
 /**
  * Un object de type Feature collection GeoJSON ne contenant que des polygones ou des multipolygones
@@ -81,33 +92,87 @@ export const getGEOJsonFile = (
 }
 
 /**
- * Renvoie une bounding box utilisable par mapbox depuis un ou plusieurs polygones GeoJSON
- * @param {FranceZoneFeature} polygon : Une feature GeoJSON de type polygon ou multipolygone
+ * Renvoie une bounding box utilisable par mapbox depuis un array GEOJson coordinates de type polygon ou multipolygon
+ * @param {FranceZonePolygon} coordinates L'array de coordonnées GEOJson
+ * @param {boolean} [multiPolygon] Mettre true si les coordonnées envoyées sont de type multipolygon
  */
-export const getBoundingBoxFromPolygon = (
-  polygon: FranceZoneFeature
+const getBoundingBoxFromCoordinates = (
+  coordinates: FranceZonePolygon,
+  multiPolygon?: boolean
 ): Bounds => {
-  // Récupérer le NW et SE du(des) polygone(s) de la Circonscription
   var boxListOfLng = []
   var boxListOfLat = []
 
-  if (polygon.geometry.type === "Polygon") {
-    polygon.geometry.coordinates[0].forEach((coords) => {
+  if (!multiPolygon) {
+    coordinates[0].forEach((coords) => {
       boxListOfLng.push(coords[0])
       boxListOfLat.push(coords[1])
     })
   } else {
-    polygon.geometry.coordinates.forEach((polygon) => {
+    coordinates.forEach((polygon) => {
       polygon[0].forEach((coords) => {
         boxListOfLng.push(coords[0])
         boxListOfLat.push(coords[1])
       })
     })
   }
+
   return [
     [Math.min(...boxListOfLng), Math.min(...boxListOfLat)],
     [Math.max(...boxListOfLng), Math.max(...boxListOfLat)],
   ]
+}
+
+/**
+ * Renvoie une bounding box utilisable par mapbox depuis un ou plusieurs polygones GeoJSON
+ * @param {FranceZoneFeature} polygon Une feature GeoJSON de type polygon ou multipolygone
+ */
+export const getBoundingBoxFromPolygon = (
+  polygon: FranceZoneFeature
+): Bounds => {
+  return polygon.geometry.type === "Polygon"
+    ? getBoundingBoxFromCoordinates(polygon.geometry.coordinates)
+    : getBoundingBoxFromCoordinates(polygon.geometry.coordinates, true)
+}
+
+/**
+ * Renvoie les coordonnées du centre d'une bounding box
+ * @param {Bounds} bbox Bounding box de type [[number, number], [number, number]]
+ */
+export const getBoundingBoxCenter = (bbox: Bounds): Coordinates => {
+  return [
+    bbox[1][0] - (bbox[1][0] - bbox[0][0]) / 2,
+    bbox[1][1] - (bbox[1][1] - bbox[0][1]) / 2,
+  ]
+}
+
+/**
+ * Renvoie l'aire d'une bounding box
+ * @param {Bounds} bbox La bounding box utilisable par mapbox
+ */
+const getBoundingBoxSize = (bbox: Bounds): number => {
+  return (bbox[1][0] - bbox[0][0]) * (bbox[1][1] - bbox[0][1])
+}
+
+/**
+ * Renvoie les coordonnées du centre visuel d'une feature GEOJson de type polygon ou multipolygon en utilisant la lib polylabel
+ * @param {FranceZoneFeature} polygon La feature contenant le ou les polygones
+ */
+export const getPolygonCenter = (polygon: FranceZoneFeature): Coordinates => {
+  if (polygon.geometry.type === "Polygon") {
+    return polylabel(polygon.geometry.coordinates) as Coordinates
+  } else if (polygon.geometry.type === "MultiPolygon") {
+    return polylabel(
+      polygon.geometry.coordinates.reduce((acc, element) => {
+        const elementSize = getBoundingBoxSize(
+          getBoundingBoxFromCoordinates(element)
+        )
+        const accSize = getBoundingBoxSize(getBoundingBoxFromCoordinates(acc))
+
+        return elementSize > accSize ? element : acc
+      })
+    ) as Coordinates
+  } else return [null, null]
 }
 
 /**
