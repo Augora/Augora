@@ -3,7 +3,7 @@ import { Marker } from "react-map-gl"
 import DeputyImage from "../deputy/general-information/deputy-image/DeputyImage"
 
 export default function MapDeputyPin(props) {
-  return (
+  return props.deputy !== undefined ? (
     <Marker
       className="map__deputy-pin--marker"
       longitude={props.lng}
@@ -24,5 +24,5 @@ export default function MapDeputyPin(props) {
         />
       </div>
     </Marker>
-  )
+  ) : null
 }
