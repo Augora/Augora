@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useMemo } from "react"
 import ReactMapGL, {
   NavigationControl,
   FullscreenControl,
@@ -93,6 +93,12 @@ const formatMouseEvent = (
 }
 
 export default function MapPage() {
+  const { state } = useContext(DeputiesListContext)
+  const franceMetroDeputies = useMemo(
+    () => state.FilteredList.filter((entry) => entry.NumeroRegion > 10),
+    [state.FilteredList]
+  )
+
   const [viewport, setViewport] = useState<ViewState>({
     zoom: 2,
     longitude: France.center.lng,
@@ -105,7 +111,7 @@ export default function MapPage() {
   }>({
     GEOJson: GEOJsonReg,
     zoneCode: ZoneCode.Regions,
-    deputiesInZone: null,
+    deputiesInZone: franceMetroDeputies,
   })
   const [hoverInfo, setHoverInfo] = useState<{
     filter: any[]
@@ -118,7 +124,6 @@ export default function MapPage() {
     zoneName: null,
     deputiesInZone: null,
   })
-  const { state } = useContext(DeputiesListContext)
 
   const resetHoverInfo = () => {
     setHoverInfo({
@@ -155,13 +160,15 @@ export default function MapPage() {
       zonesToDisplayCommonId
     )
 
+    const newDeputiesInZone = getDeputiesInZone(
+      parentZoneCode,
+      zonesToDisplayCommonId
+    )
+
     setCurrentView({
       GEOJson: newZoneGEOJson,
       zoneCode: zonesToDisplayCode,
-      deputiesInZone:
-        zonesToDisplayCode === ZoneCode.Circonscriptions
-          ? hoverInfo.deputiesInZone
-          : null,
+      deputiesInZone: newDeputiesInZone,
     })
 
     flyToBounds(
@@ -233,14 +240,18 @@ export default function MapPage() {
       switch (mouseInfo.zoneCode) {
         case ZoneCode.Regions:
           displayNewZone(ZoneCode.Departements, mouseInfo.zoneId)
-          break
+          return
         case ZoneCode.Departements:
           displayNewZone(ZoneCode.Circonscriptions, mouseInfo.zoneId)
-          break
+          return
         case ZoneCode.Circonscriptions:
-          if (hoverInfo.deputiesInZone[0] !== undefined)
-            navigate(`/depute/${hoverInfo.deputiesInZone[0].Slug}`)
-          break
+          const deputy = getDeputiesInZone(
+            mouseInfo.zoneCode,
+            mouseInfo.zoneId,
+            mouseInfo.parentZoneId
+          )[0]
+          if (deputy !== undefined) navigate(`/depute/${deputy.Slug}`)
+          return
         default:
           return
       }
@@ -262,7 +273,7 @@ export default function MapPage() {
     setCurrentView({
       GEOJson: GEOJsonReg,
       zoneCode: ZoneCode.Regions,
-      deputiesInZone: null,
+      deputiesInZone: franceMetroDeputies,
     })
     flyToBounds(franceBox, viewport, setViewport)
   }
