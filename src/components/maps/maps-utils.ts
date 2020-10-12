@@ -15,21 +15,37 @@ export type Coordinates = [number, number]
 export type Bounds = [Coordinates, Coordinates]
 
 /**
- * Un array de type GeoJSON coordinates polygon ou multipolygon uniquement
+ * Un array de type GeoJSON coordinates pour polygon ou multipolygon
  */
-export type FranceZonePolygon = GeoJSON.Position[][] | GeoJSON.Position[][][]
+export type FranceZonePosition = GeoJSON.Position[][] | GeoJSON.Position[][][]
 
 /**
- * Un object de type Feature collection GeoJSON ne contenant que des polygones ou des multipolygones
+ * Un object GEOJson geometry ne contenant que polygon ou multipolygon
  */
-export interface FranceZoneFeatureCollection
-  extends GeoJSON.FeatureCollection<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
+export type FranceZoneGeometry = GeoJSON.Polygon | GeoJSON.MultiPolygon
 
 /**
- * Un object de type Feature GeoJSON ne contenant que des polygones ou des multipolygones
+ * Un object GEOJson properties contenant les clés de nos fichiers GEOJson
+ */
+export interface FranceZoneProperties extends GeoJSON.GeoJsonProperties {
+  nom: string
+  code_reg?: number
+  code_dpt?: number
+  num_circ?: number
+}
+
+/**
+ * Un object de type Feature GeoJSON ne contenant que des polygones ou des multipolygones et les properties de nos fichiers
  */
 export interface FranceZoneFeature
-  extends GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon> {}
+  extends GeoJSON.Feature<FranceZoneGeometry, FranceZoneProperties> {}
+
+/**
+ * Un object de type Feature collection GeoJSON ne contenant que des features FranceZone
+ */
+export interface FranceZoneFeatureCollection extends GeoJSON.FeatureCollection {
+  features: FranceZoneFeature[]
+}
 
 /**
  * Un enum pour simplifier visuellement les codes de zone de nos GeoJSON.
@@ -83,9 +99,9 @@ export const getGEOJsonFile = (
 ): FranceZoneFeatureCollection => {
   switch (zoneCode) {
     case ZoneCode.Circonscriptions:
-      return GEOJsonDistrictFile
+      return GEOJsonDistrict
     case ZoneCode.Departements:
-      return GEOJsonDptFile
+      return GEOJsonDpt
     default:
       return GEOJsonReg
   }
@@ -93,11 +109,11 @@ export const getGEOJsonFile = (
 
 /**
  * Renvoie une bounding box utilisable par mapbox depuis un array GEOJson coordinates de type polygon ou multipolygon
- * @param {FranceZonePolygon} coordinates L'array de coordonnées GEOJson
+ * @param {FranceZonePosition} coordinates L'array de coordonnées GEOJson
  * @param {boolean} [multiPolygon] Mettre true si les coordonnées envoyées sont de type multipolygon
  */
 const getBoundingBoxFromCoordinates = (
-  coordinates: FranceZonePolygon,
+  coordinates: FranceZonePosition,
   multiPolygon?: boolean
 ): Bounds => {
   var boxListOfLng = []
@@ -232,11 +248,11 @@ export const getZonePolygon = (
 }
 
 /**
- * Determine dans quelle vue l'objet passé devrait être
- * @param {GeoJSON.GeoJsonProperties} featureProperties L'objet feature properties GeoJSON à analyser
+ * Determine dans quelle vue la feature properties passée devrait être
+ * @param {FranceZoneProperties} featureProperties L'objet feature properties GeoJSON à analyser
  */
 export const getZoneCodeFromFeatureProperties = (
-  featureProperties: GeoJSON.GeoJsonProperties
+  featureProperties: FranceZoneProperties
 ): ZoneCode => {
   if (featureProperties) {
     const featureAsAnArray = Object.keys(featureProperties)
@@ -245,16 +261,32 @@ export const getZoneCodeFromFeatureProperties = (
       return ZoneCode.Circonscriptions
     else if (featureAsAnArray.includes(ZoneCode.Departements))
       return ZoneCode.Departements
-    else return ZoneCode.Regions
+    else if (featureAsAnArray.includes(ZoneCode.Regions))
+      return ZoneCode.Regions
+    else return null
   }
 }
 
 /**
  * Returns the first feature properties of a mouseevent, null if there is none
  */
-export const getMouseEventFeatureProps = (e): GeoJSON.GeoJsonProperties => {
+export const getMouseEventFeatureProps = (e): FranceZoneProperties => {
   if (e.features) {
     if (e.features[0]?.properties) return e.features[0].properties
     else return null
   } else return null
+}
+
+/**
+ * Renvoie la feature proerties d'une zone
+ * @param zoneId L'id de la zone
+ * @param zoneCode Le code de la zone
+ */
+export const getZoneFeatureProps = (
+  zoneId: number,
+  zoneCode: ZoneCode
+): FranceZoneProperties => {
+  return getGEOJsonFile(zoneCode).features.find(
+    (entry) => entry.properties[zoneCode] == zoneId
+  )?.properties
 }
