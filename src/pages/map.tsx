@@ -108,7 +108,7 @@ export default function MapPage() {
   )
 
   const [viewport, setViewport] = useState<ViewState>({
-    zoom: 2,
+    zoom: 5,
     longitude: France.center.lng,
     latitude: France.center.lat,
   })
@@ -274,7 +274,7 @@ export default function MapPage() {
             mouseInfo.zoneId,
             mouseInfo.parentZoneId
           )[0]
-          if (deputy !== undefined) navigate(`/depute/${deputy.Slug}`)
+          if (deputy) navigate(`/depute/${deputy.Slug}`)
           return
         default:
           return

@@ -7,8 +7,8 @@ function MapbreadcrumbItem(props) {
 export default function MapBreadcrumb(props) {
   return (
     <div style={{ background: "white" }}>
-      {props.data.map((entry) => {
-        return <MapbreadcrumbItem title={entry} />
+      {props.data.map((entry, index) => {
+        return <MapbreadcrumbItem key={`breadcrumb ${index}`} title={entry} />
       })}
     </div>
   )
