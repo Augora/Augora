@@ -10,12 +10,13 @@ import { navigate } from "gatsby"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   ZoneCode,
+  FranceZoneFeature,
   FranceZoneFeatureCollection,
   FranceZoneProperties,
   France,
   franceBox,
   GEOJsonReg,
-  metroFranceProperties,
+  metroFranceFeature,
   flyToBounds,
   getBoundingBoxFromPolygon,
   getPolygonCenter,
@@ -23,8 +24,8 @@ import {
   getZonePolygon,
   getZoneCodeFromFeatureProperties,
   getGEOJsonFile,
-  getMouseEventFeatureProps,
-  getZoneFeatureProps,
+  getMouseEventFeature,
+  getZoneFeature,
 } from "components/maps/maps-utils"
 import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"
@@ -74,12 +75,12 @@ export default function MapPage() {
   const [currentView, setCurrentView] = useState<{
     GEOJson: FranceZoneFeatureCollection
     zoneCode: ZoneCode
-    zoneData: FranceZoneProperties
+    zoneData: FranceZoneFeature
     zoneDeputies: { [key: string]: any }[] //ça veut juste dire que c'est un array d'objets
   }>({
     GEOJson: GEOJsonReg,
     zoneCode: ZoneCode.Regions,
-    zoneData: metroFranceProperties,
+    zoneData: metroFranceFeature,
     zoneDeputies: franceMetroDeputies,
   })
   const [hoverInfo, setHoverInfo] = useState<{
@@ -107,11 +108,11 @@ export default function MapPage() {
    * Affiche une nouvelle vue
    * @param {FranceZoneProperties} zoneFeatureProps La feature props de la zone à afficher
    */
-  const displayNewZone = (zoneFeatureProps: FranceZoneProperties): void => {
-    const zoneCode = getZoneCodeFromFeatureProperties(zoneFeatureProps)
+  const displayNewZone = (zoneFeature: FranceZoneFeature): void => {
+    const zoneCode = getZoneCodeFromFeatureProperties(zoneFeature.properties)
     if (!zoneCode) return
 
-    const zoneId = zoneFeatureProps[zoneCode]
+    const zoneId = zoneFeature.properties[zoneCode]
 
     const childrenZonesCode =
       zoneCode === ZoneCode.Regions
@@ -130,12 +131,12 @@ export default function MapPage() {
       zoneId
     )
 
-    const newDeputiesInZone = getDeputiesInZone(zoneFeatureProps)
+    const newDeputiesInZone = getDeputiesInZone(zoneFeature.properties)
 
     setCurrentView({
       GEOJson: newZoneGEOJson,
       zoneCode: childrenZonesCode,
-      zoneData: zoneFeatureProps,
+      zoneData: zoneFeature,
       zoneDeputies: newDeputiesInZone,
     })
 
@@ -180,20 +181,16 @@ export default function MapPage() {
   }
 
   const handleHover = (e) => {
-    const featureProps = getMouseEventFeatureProps(e)
-    if (featureProps) {
-      const zoneCode = getZoneCodeFromFeatureProperties(featureProps)
-      const parentZoneId =
-        zoneCode === ZoneCode.Circonscriptions
-          ? featureProps[ZoneCode.Departements]
-          : null
+    const feature = getMouseEventFeature(e)
+    if (feature) {
+      const zoneCode = getZoneCodeFromFeatureProperties(feature.properties)
       setHoverInfo({
-        filter: ["==", ["get", zoneCode], featureProps[zoneCode]],
+        filter: ["==", ["get", zoneCode], feature.properties[zoneCode]],
         lngLat: e.lngLat,
-        zoneName: featureProps.nom
-          ? featureProps.nom
-          : `Circonscription n°${featureProps.num_circ}`,
-        deputiesInZone: getDeputiesInZone(featureProps),
+        zoneName: feature.properties.nom
+          ? feature.properties.nom
+          : `Circonscription n°${feature.properties.num_circ}`,
+        deputiesInZone: getDeputiesInZone(feature.properties),
       })
     } else if (hoverInfo.filter !== ["==", ["get", ""], 0]) {
       resetHoverInfo()
@@ -201,11 +198,11 @@ export default function MapPage() {
   }
 
   const handleClick = (e) => {
-    const featureProps = getMouseEventFeatureProps(e)
+    const featureProps = getMouseEventFeature(e)
     if (featureProps) {
-      const zoneCode = getZoneCodeFromFeatureProperties(featureProps)
+      const zoneCode = getZoneCodeFromFeatureProperties(featureProps.properties)
       if (zoneCode === ZoneCode.Circonscriptions) {
-        const deputy = getDeputiesInZone(featureProps)[0]
+        const deputy = getDeputiesInZone(featureProps.properties)[0]
         if (deputy) navigate(`/depute/${deputy.Slug}`)
       } else {
         displayNewZone(featureProps)
@@ -215,11 +212,11 @@ export default function MapPage() {
 
   const handleBack = () => {
     if (currentView.zoneCode === ZoneCode.Circonscriptions) {
-      const regionProps = getZoneFeatureProps(
+      const regionFeature = getZoneFeature(
         currentView.GEOJson.features[0].properties[ZoneCode.Regions],
         ZoneCode.Regions
       )
-      displayNewZone(regionProps)
+      displayNewZone(regionFeature)
     } else if (currentView.zoneCode === ZoneCode.Departements) {
       handleReset()
     }
@@ -229,7 +226,7 @@ export default function MapPage() {
     setCurrentView({
       GEOJson: GEOJsonReg,
       zoneCode: ZoneCode.Regions,
-      zoneData: metroFranceProperties,
+      zoneData: metroFranceFeature,
       zoneDeputies: franceMetroDeputies,
     })
     flyToBounds(franceBox, viewport, setViewport)
@@ -307,7 +304,7 @@ export default function MapPage() {
           </div>
           <div className="map__navigation map__navigation-left">
             <MapBreadcrumb
-              data={currentView.zoneData}
+              feature={currentView.zoneData}
               handleReset={handleReset}
               handleClick={displayNewZone}
             />

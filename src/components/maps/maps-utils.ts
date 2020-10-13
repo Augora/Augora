@@ -28,7 +28,7 @@ export type FranceZoneGeometry = GeoJSON.Polygon | GeoJSON.MultiPolygon
  * Un object GEOJson properties contenant les clés de nos fichiers GEOJson
  */
 export interface FranceZoneProperties extends GeoJSON.GeoJsonProperties {
-  nom: string
+  nom?: string
   code_reg?: number
   code_dpt?: number
   num_circ?: number
@@ -96,6 +96,18 @@ export const franceBox: Bounds = [
  */
 export const metroFranceProperties: FranceZoneProperties = {
   nom: "France métropolitaine",
+}
+
+/**
+ * Pseudo-feature de la france metropolitaine
+ */
+export const metroFranceFeature: FranceZoneFeature = {
+  type: "Feature",
+  geometry: {
+    type: "Polygon",
+    coordinates: [],
+  },
+  properties: metroFranceProperties,
 }
 
 /**
@@ -276,25 +288,42 @@ export const getZoneCodeFromFeatureProperties = (
 }
 
 /**
- * Returns the first feature properties of a mouseevent, null if there is none
+ * Renvoie la feature formatée d'un mousevent
  */
-export const getMouseEventFeatureProps = (e): FranceZoneProperties => {
+export const getMouseEventFeature = (e): FranceZoneFeature => {
   if (e.features) {
-    if (e.features[0]?.properties) return e.features[0].properties
-    else return null
+    if (e.features[0]?.properties) {
+      const featureProps = e.features[0].properties
+      const zoneCode = getZoneCodeFromFeatureProperties(featureProps)
+      return getZoneFeature(
+        featureProps[zoneCode],
+        zoneCode,
+        zoneCode === ZoneCode.Circonscriptions
+          ? featureProps[ZoneCode.Departements]
+          : null
+      )
+    } else return null
   } else return null
 }
 
 /**
- * Renvoie la feature proerties d'une zone
- * @param zoneId L'id de la zone
- * @param zoneCode Le code de la zone
+ * Renvoie la feature d'une zone
+ * @param {number} zoneId L'id de la zone
+ * @param {ZoneCode} zoneCode Le code de la zone
+ * @param {number} [dptID] Le code du département, obligatoire si c'est une circonscription
  */
-export const getZoneFeatureProps = (
+export const getZoneFeature = (
   zoneId: number,
-  zoneCode: ZoneCode
-): FranceZoneProperties => {
-  return getGEOJsonFile(zoneCode).features.find(
-    (entry) => entry.properties[zoneCode] == zoneId
-  )?.properties
+  zoneCode: ZoneCode,
+  dptId?: number
+): FranceZoneFeature => {
+  return zoneCode !== ZoneCode.Circonscriptions
+    ? getGEOJsonFile(zoneCode).features.find(
+        (entry) => entry.properties[zoneCode] == zoneId
+      )
+    : getGEOJsonFile(zoneCode).features.find(
+        (entry) =>
+          entry.properties[zoneCode] == zoneId &&
+          entry.properties[ZoneCode.Departements] == dptId
+      )
 }
