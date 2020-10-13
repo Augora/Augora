@@ -58,19 +58,37 @@ export enum ZoneCode {
   Circonscriptions = "num_circ",
 }
 
-export const GEOJsonDistrict: FranceZoneFeatureCollection = GEOJsonDistrictFile
-
-export const GEOJsonDpt: FranceZoneFeatureCollection = GEOJsonDptFile
+const removeDOMTOM = (
+  file: FranceZoneFeatureCollection
+): FranceZoneFeatureCollection => {
+  return {
+    type: "FeatureCollection",
+    features: file.features.filter(
+      (feature) => feature.properties[ZoneCode.Regions] > 10
+    ),
+  }
+}
 
 /**
- * Une feature collection GeoJSON des régions sans les DOM-TOM
+ * Feature collection GeoJSON des circonscriptions sans les DOM-TOM
  */
-export const GEOJsonReg: FranceZoneFeatureCollection = {
-  type: "FeatureCollection",
-  features: GEOJsonRegFile.features.filter(
-    (feature) => feature.properties.code_reg > 10
-  ),
-}
+export const GEOJsonDistrict: FranceZoneFeatureCollection = removeDOMTOM(
+  GEOJsonDistrictFile
+)
+
+/**
+ * Feature collection GeoJSON des départements sans les DOM-TOM
+ */
+export const GEOJsonDpt: FranceZoneFeatureCollection = removeDOMTOM(
+  GEOJsonDptFile
+)
+
+/**
+ * Feature collection GeoJSON des régions sans les DOM-TOM
+ */
+export const GEOJsonReg: FranceZoneFeatureCollection = removeDOMTOM(
+  GEOJsonRegFile
+)
 
 /**
  * Différentes coordonnées de la france métropolitaine
