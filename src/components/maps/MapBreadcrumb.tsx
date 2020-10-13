@@ -1,6 +1,7 @@
 import React from "react"
 import {
   ZoneCode,
+  ZoneType,
   FranceZoneProperties,
   getZoneCodeFromFeatureProperties,
   getZoneFeatureProps,
@@ -8,46 +9,45 @@ import {
 
 interface IMapBreadcrumb {
   data: FranceZoneProperties
-  onClickFunctions: Function[]
+  onReset: Function
+  onClick: Function
 }
 
-enum ZoneType {
-  Continent = 0,
-  Region = 1,
-  Departement = 2,
-  Circonscription = 3,
-}
-
-const formatData = (
-  data: FranceZoneProperties
-): {
-  zoneName: string
+type BreadcrumbData = {
+  zoneData: FranceZoneProperties
   zoneType: ZoneType
-}[] => {
+}[]
+
+const formatData = (data: FranceZoneProperties): BreadcrumbData => {
   const zoneCode = getZoneCodeFromFeatureProperties(data)
 
   if (zoneCode === ZoneCode.Departements) {
     return [
-      { zoneName: "France métropolitaine", zoneType: ZoneType.Continent },
       {
-        zoneName: getZoneFeatureProps(data[ZoneCode.Regions], ZoneCode.Regions)
-          .nom,
+        zoneData: { nom: "France métropolitaine" },
+        zoneType: ZoneType.Continent,
+      },
+      {
+        zoneData: getZoneFeatureProps(data[ZoneCode.Regions], ZoneCode.Regions),
         zoneType: ZoneType.Region,
       },
-      { zoneName: data.nom, zoneType: ZoneType.Departement },
+      { zoneData: data, zoneType: ZoneType.Departement },
     ]
   } else if (zoneCode === ZoneCode.Regions) {
     return [
-      { zoneName: "France métropolitaine", zoneType: ZoneType.Continent },
-      { zoneName: data.nom, zoneType: ZoneType.Region },
+      {
+        zoneData: { nom: "France métropolitaine" },
+        zoneType: ZoneType.Continent,
+      },
+      { zoneData: data, zoneType: ZoneType.Region },
     ]
-  } else return [{ zoneName: data.nom, zoneType: ZoneType.Continent }]
+  } else return [{ zoneData: data, zoneType: ZoneType.Continent }]
 }
 
 function MapbreadcrumbItem(props) {
   return (
     <button className="map__breadcrumb-item" onClick={props.onClick}>
-      {props.title}
+      {props.featureProps.nom}
     </button>
   )
 }
@@ -60,11 +60,11 @@ export default function MapBreadcrumb(props: IMapBreadcrumb) {
       {breadcrumbArray.map((item, index) => (
         <MapbreadcrumbItem
           key={`breadcrumb-${index}`}
-          title={item.zoneName}
-          onClick={
-            index < breadcrumbArray.length - 1
-              ? props.onClickFunctions[index]
-              : null
+          featureProps={item.zoneData}
+          onClick={() =>
+            item.zoneType === ZoneType.Continent
+              ? props.onReset()
+              : props.onClick(item.zoneData)
           }
         />
       ))}

@@ -49,12 +49,25 @@ export interface FranceZoneFeatureCollection extends GeoJSON.FeatureCollection {
 
 /**
  * Un enum pour simplifier visuellement les codes de zone de nos GeoJSON.
+ *
  * Valeurs possibles: "code_reg", "code_dpt", ou "num_circ"
  */
 export enum ZoneCode {
   Regions = "code_reg",
   Departements = "code_dpt",
   Circonscriptions = "num_circ",
+}
+
+/**
+ * Un enum pour définir dans quelle vue on est
+ *
+ * Continent = France métropolitaine, dom tom,... Region = Occitanie, etc...
+ */
+export enum ZoneType {
+  Continent,
+  Region,
+  Departement,
+  Circonscription,
 }
 
 export const GEOJsonDistrict: FranceZoneFeatureCollection = GEOJsonDistrictFile

@@ -110,6 +110,7 @@ export default function MapPage() {
    */
   const displayNewZone = (zoneFeatureProps: FranceZoneProperties): void => {
     const zoneCode = getZoneCodeFromFeatureProperties(zoneFeatureProps)
+    if (!zoneCode) return
 
     const zoneId = zoneFeatureProps[zoneCode]
 
@@ -311,7 +312,8 @@ export default function MapPage() {
           <div className="map__navigation map__navigation-left">
             <MapBreadcrumb
               data={currentView.zoneData}
-              onClickFunctions={[handleReset, handleBack]}
+              onReset={handleReset}
+              onClick={displayNewZone}
             />
             <CustomControl
               onClick={handleBack}
