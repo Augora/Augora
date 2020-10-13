@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import SimpleTooltip from "../../tooltip/SimpleTooltip"
+import Tooltip from "../../tooltip/Tooltip"
 import IconCopy from "images/ui-kit/icon-copy.svg"
 import IconTel from "images/ui-kit/icon-phone.svg"
 
@@ -26,7 +26,13 @@ export default function Adresse(props) {
         }
         title="Copier"
       >
-        <SimpleTooltip content="Copié !" wasClicked={copyClicked} />
+        <Tooltip
+          className={`copy-tooltip ${
+            copyClicked ? "copy-tooltip--visible" : ""
+          }`}
+        >
+          <span>Copié !</span>
+        </Tooltip>
         <p className="adresse__street">{props.formatedAddress[0]}</p>
         <p className="adresse__city">{props.formatedAddress[1]}</p>
         <div className="copy__icon icon-wrapper">
