@@ -87,7 +87,7 @@ export default function MapPage() {
     filter: any[]
     lngLat: [number, number]
     zoneName: string
-    deputiesInZone: any[]
+    deputiesInZone: { [key: string]: any }[]
   }>({
     filter: ["==", ["get", ""], 0],
     lngLat: null,
@@ -309,7 +309,10 @@ export default function MapPage() {
             </CustomControl>
           </div>
           <div className="map__navigation map__navigation-left">
-            <MapBreadcrumb data={currentView.zoneData} />
+            <MapBreadcrumb
+              data={currentView.zoneData}
+              onClickFunctions={[handleReset, handleBack]}
+            />
             <CustomControl
               onClick={handleBack}
               className={`map__navigation-custom ${
