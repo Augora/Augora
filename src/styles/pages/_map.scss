@@ -51,6 +51,8 @@
           background: $text-color;
           color: white;
           font-weight: bold;
+          box-shadow: none;
+
           &:hover {
             background: $black;
           }
