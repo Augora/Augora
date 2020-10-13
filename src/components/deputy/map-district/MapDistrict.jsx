@@ -38,12 +38,12 @@ export default function MapDistrict(props) {
         parseInt(district.properties.num_circ) === props.num
       )
     })
-  }, [])
+  }, [props.nom, props.num])
 
   //récupère la bounding box à paris du polygone de la circonscription
   const districtBox = useMemo(
     () => getBoundingBoxFromPolygon(districtPolygon),
-    []
+    [districtPolygon]
   )
 
   //récupère le centre de la bounding box
@@ -55,7 +55,7 @@ export default function MapDistrict(props) {
         lng: districtBox[1][0] - (districtBox[1][0] - districtBox[0][0]) / 2,
       }
     )
-  }, [])
+  }, [districtBox])
 
   //reset button handler
   const handleReset = () => {
@@ -137,31 +137,36 @@ export default function MapDistrict(props) {
               }}
             />
           </Source>
-          <Marker
-            latitude={districtCenter.lat}
-            longitude={districtCenter.lng}
-            offsetLeft={-15}
-            offsetTop={-30}
-          >
-            <Tooltip
-              className={`circ-tooltip ${
-                pinClicked ? "circ-tooltip--visible" : ""
-              }`}
+          {viewport.zoom < 6 ? (
+            <Marker
+              latitude={districtCenter.lat}
+              longitude={districtCenter.lng}
+              offsetLeft={-15}
+              offsetTop={-30}
             >
-              <span>
-                {`${props.nom}, ${props.num}${
-                  props.num < 2 ? "ère " : "ème "
-                }Circonscription `}
-              </span>
-            </Tooltip>
-            <div
-              className="icon-wrapper"
-              style={{ width: "30px", height: "30px", cursor: "pointer" }}
-              onClick={() => setPinClicked(!pinClicked)}
-            >
-              <IconPin fill={props.color} />
-            </div>
-          </Marker>
+              <Tooltip
+                className={`circ-tooltip ${
+                  pinClicked ? "circ-tooltip--visible" : ""
+                }`}
+              >
+                <span>
+                  {`${props.nom}, ${props.num}${
+                    props.num < 2 ? "ère " : "ème "
+                  }Circonscription `}
+                </span>
+              </Tooltip>
+              <div
+                role="button"
+                tabIndex={0}
+                className="icon-wrapper"
+                style={{ width: "30px", height: "30px", cursor: "pointer" }}
+                onClick={() => setPinClicked(!pinClicked)}
+                onKeyDown={() => setPinClicked(!pinClicked)}
+              >
+                <IconPin fill={props.color} />
+              </div>
+            </Marker>
+          ) : null}
           <div className="map__navigation">
             <NavigationControl
               showCompass={false}

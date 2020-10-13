@@ -1,7 +1,7 @@
 import React from "react"
 
 import SEO from "../components/seo"
-import { Link } from "gatsby"
+// import { Link } from "gatsby"
 import Question from "components/faq/Question"
 import PageTitle from "../components/titles/PageTitle"
 
@@ -20,7 +20,7 @@ const contentAbout = [
   {
     title: "Qu’est-ce qu’un groupe parlementaire ?",
     description: (
-      <div>
+      <>
         <p>
           Un groupe parlementaire est un ensemble composé de minimum 15 députés.
           Il permet de s'organiser au sein de l'Assemblée Nationale. Les députés
@@ -36,7 +36,7 @@ const contentAbout = [
           <a
             href="https://fr.wikipedia.org/wiki/Parti_politique"
             target="_blank"
-            rel="noopener"
+            rel="noreferrer"
           >
             parti politique
           </a>{" "}
@@ -44,7 +44,7 @@ const contentAbout = [
           <a
             href="https://fr.wikipedia.org/wiki/Groupe_parlementaire"
             target="_blank"
-            rel="noopener"
+            rel="noreferrer"
           >
             groupe parlementaire
           </a>
@@ -64,13 +64,13 @@ const contentAbout = [
           <a
             href="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-organes-de-l-assemblee-nationale/les-groupes-politiques"
             target="_blank"
-            rel="noopener"
+            rel="noreferrer"
           >
             fiche de synthèse de l'Assemblée Nationale
           </a>
           .
         </p>
-      </div>
+      </>
     ),
   },
   {
@@ -91,7 +91,7 @@ const contentAbout = [
         <a
           href="https://www.regardscitoyens.org"
           target="_blank"
-          rel="noopener"
+          rel="noreferrer"
         >
           https://www.regardscitoyens.org
         </a>
