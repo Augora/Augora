@@ -58,6 +58,10 @@ export enum ZoneCode {
   Circonscriptions = "num_circ",
 }
 
+/**
+ * Renvoie une feature collection sans les DOM-TOM
+ * @param {FranceZoneFeatureCollection} file Le fichier à filtrer
+ */
 const removeDOMTOM = (
   file: FranceZoneFeatureCollection
 ): FranceZoneFeatureCollection => {
@@ -204,7 +208,7 @@ export const getBoundingBoxCenter = (bbox: Bounds): Coordinates => {
  * Renvoie l'aire d'une bounding box
  * @param {Bounds} bbox La bounding box utilisable par mapbox
  */
-const getBoundingBoxSize = (bbox: Bounds): number => {
+export const getBoundingBoxSize = (bbox: Bounds): number => {
   return (bbox[1][0] - bbox[0][0]) * (bbox[1][1] - bbox[0][1])
 }
 
@@ -286,14 +290,14 @@ export const getZonePolygon = (
 }
 
 /**
- * Determine dans quelle vue la feature properties passée devrait être
- * @param {FranceZoneProperties} featureProperties L'objet feature properties GeoJSON à analyser
+ * Determine dans quelle vue la feature passée devrait être
+ * @param {FranceZoneFeature} feature L'objet feature GeoJSON à analyser
  */
-export const getZoneCodeFromFeatureProperties = (
-  featureProperties: FranceZoneProperties
+export const getZoneCodeFromFeature = (
+  feature: FranceZoneFeature
 ): ZoneCode => {
-  if (featureProperties) {
-    const featureAsAnArray = Object.keys(featureProperties)
+  if (feature.properties) {
+    const featureAsAnArray = Object.keys(feature.properties)
 
     if (featureAsAnArray.includes(ZoneCode.Circonscriptions))
       return ZoneCode.Circonscriptions
@@ -302,17 +306,17 @@ export const getZoneCodeFromFeatureProperties = (
     else if (featureAsAnArray.includes(ZoneCode.Regions))
       return ZoneCode.Regions
     else return null
-  }
+  } else return null
 }
 
 /**
- * Renvoie la feature formatée d'un mousevent
+ * Renvoie la feature FranceZone d'un mousevent, null si la feature n'a pas le bon format
  */
 export const getMouseEventFeature = (e): FranceZoneFeature => {
   if (e.features) {
     if (e.features[0]?.properties) {
       const featureProps = e.features[0].properties
-      const zoneCode = getZoneCodeFromFeatureProperties(featureProps)
+      const zoneCode = getZoneCodeFromFeature(e.features[0])
       return getZoneFeature(
         featureProps[zoneCode],
         zoneCode,

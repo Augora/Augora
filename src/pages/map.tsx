@@ -21,8 +21,7 @@ import {
   getBoundingBoxFromPolygon,
   getPolygonCenter,
   filterNewGEOJSonFeatureCollection,
-  getZonePolygon,
-  getZoneCodeFromFeatureProperties,
+  getZoneCodeFromFeature,
   getGEOJsonFile,
   getMouseEventFeature,
   getZoneFeature,
@@ -106,10 +105,10 @@ export default function MapPage() {
 
   /**
    * Affiche une nouvelle vue
-   * @param {FranceZoneProperties} zoneFeatureProps La feature props de la zone à afficher
+   * @param {FranceZoneFeature} zoneFeature La feature de la zone à afficher
    */
   const displayNewZone = (zoneFeature: FranceZoneFeature): void => {
-    const zoneCode = getZoneCodeFromFeatureProperties(zoneFeature.properties)
+    const zoneCode = getZoneCodeFromFeature(zoneFeature)
     if (!zoneCode) return
 
     const zoneId = zoneFeature.properties[zoneCode]
@@ -125,13 +124,7 @@ export default function MapPage() {
       zoneId
     )
 
-    const newZonePolygon = getZonePolygon(
-      getGEOJsonFile(zoneCode),
-      zoneCode,
-      zoneId
-    )
-
-    const newDeputiesInZone = getDeputiesInZone(zoneFeature.properties)
+    const newDeputiesInZone = getDeputiesInZone(zoneFeature)
 
     setCurrentView({
       GEOJson: newZoneGEOJson,
@@ -140,38 +133,36 @@ export default function MapPage() {
       zoneDeputies: newDeputiesInZone,
     })
 
-    flyToBounds(
-      getBoundingBoxFromPolygon(newZonePolygon),
-      viewport,
-      setViewport
-    )
+    flyToBounds(getBoundingBoxFromPolygon(zoneFeature), viewport, setViewport)
 
     resetHoverInfo()
   }
 
   /**
    * Renvoie un array contenant tous les députés de la zone et leurs infos
-   * @param {FranceZoneProperties} featureProps La feature props de la zone à fouiller
+   * @param {FranceZoneFeature} feature La feature de la zone à fouiller
    */
   const getDeputiesInZone = (
-    featureProps: FranceZoneProperties
+    feature: FranceZoneFeature
   ): { [key: string]: any }[] => {
-    switch (getZoneCodeFromFeatureProperties(featureProps)) {
+    switch (getZoneCodeFromFeature(feature)) {
       case ZoneCode.Regions:
         return state.FilteredList.filter((i) => {
-          return i.NumeroRegion == featureProps[ZoneCode.Regions]
+          return i.NumeroRegion == feature.properties[ZoneCode.Regions]
         })
       case ZoneCode.Departements:
         return state.FilteredList.filter((i) => {
-          return i.NumeroDepartement == featureProps[ZoneCode.Departements]
+          return (
+            i.NumeroDepartement == feature.properties[ZoneCode.Departements]
+          )
         })
       case ZoneCode.Circonscriptions:
         return [
           state.FilteredList.find((i) => {
             return (
               i.NumeroCirconscription ==
-                featureProps[ZoneCode.Circonscriptions] &&
-              i.NumeroDepartement == featureProps[ZoneCode.Departements]
+                feature.properties[ZoneCode.Circonscriptions] &&
+              i.NumeroDepartement == feature.properties[ZoneCode.Departements]
             )
           }),
         ]
@@ -183,14 +174,14 @@ export default function MapPage() {
   const handleHover = (e) => {
     const feature = getMouseEventFeature(e)
     if (feature) {
-      const zoneCode = getZoneCodeFromFeatureProperties(feature.properties)
+      const zoneCode = getZoneCodeFromFeature(feature)
       setHoverInfo({
         filter: ["==", ["get", zoneCode], feature.properties[zoneCode]],
         lngLat: e.lngLat,
         zoneName: feature.properties.nom
           ? feature.properties.nom
           : `Circonscription n°${feature.properties.num_circ}`,
-        deputiesInZone: getDeputiesInZone(feature.properties),
+        deputiesInZone: getDeputiesInZone(feature),
       })
     } else if (hoverInfo.filter !== ["==", ["get", ""], 0]) {
       resetHoverInfo()
@@ -198,14 +189,14 @@ export default function MapPage() {
   }
 
   const handleClick = (e) => {
-    const featureProps = getMouseEventFeature(e)
-    if (featureProps) {
-      const zoneCode = getZoneCodeFromFeatureProperties(featureProps.properties)
+    const feature = getMouseEventFeature(e)
+    if (feature) {
+      const zoneCode = getZoneCodeFromFeature(feature)
       if (zoneCode === ZoneCode.Circonscriptions) {
-        const deputy = getDeputiesInZone(featureProps.properties)[0]
+        const deputy = getDeputiesInZone(feature)[0]
         if (deputy) navigate(`/depute/${deputy.Slug}`)
       } else {
-        displayNewZone(featureProps)
+        displayNewZone(feature)
       }
     }
   }
