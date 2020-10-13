@@ -12,12 +12,12 @@ import {
   GEOJsonDistrict,
   getBoundingBoxFromPolygon,
   flyToBounds,
-} from "../../../components/maps/maps-utils"
-import { retirerAccentsFR } from "../../../utils/string-format/accent"
-import Block from "../_block/_Block"
-import CustomControl from "../../maps/CustomControl"
-import Tooltip from "../../tooltip/Tooltip"
-import IconPin from "../../../images/ui-kit/icon-pin.svg"
+} from "components/maps/maps-utils"
+import { retirerAccentsFR } from "utils/string-format/accent"
+import Block from "components/deputy/_block/_Block"
+import CustomControl from "components/maps/CustomControl"
+import Tooltip from "components/tooltip/Tooltip"
+import IconPin from "images/ui-kit/icon-pin.svg"
 
 export default function MapDistrict(props) {
   const [viewport, setViewport] = useState({})

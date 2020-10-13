@@ -1,5 +1,5 @@
 import React from "react"
-import Tooltip from "../tooltip/Tooltip"
+import Tooltip from "components/tooltip/Tooltip"
 import { Marker } from "react-map-gl"
 
 interface IMapTooltip {

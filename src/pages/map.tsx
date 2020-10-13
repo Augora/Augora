@@ -15,6 +15,7 @@ import {
   France,
   franceBox,
   GEOJsonReg,
+  metroFranceProperties,
   flyToBounds,
   getBoundingBoxFromPolygon,
   getPolygonCenter,
@@ -24,14 +25,14 @@ import {
   getGEOJsonFile,
   getMouseEventFeatureProps,
   getZoneFeatureProps,
-} from "../components/maps/maps-utils"
-import CustomControl from "../components/maps/CustomControl"
-import MapTooltip from "../components/maps/MapTooltip"
-import MapDeputyPin from "../components/maps/MapDeputyPin"
-import MapBreadcrumb from "../components/maps/MapBreadcrumb"
-import IconFrance from "../images/logos/projet/augora-logo.svg"
-import IconArrow from "../images/ui-kit/icon-arrow.svg"
-import { DeputiesListContext } from "../context/deputies-filters/deputiesFiltersContext"
+} from "components/maps/maps-utils"
+import CustomControl from "components/maps/CustomControl"
+import MapTooltip from "components/maps/MapTooltip"
+import MapDeputyPin from "components/maps/MapDeputyPin"
+import MapBreadcrumb from "components/maps/MapBreadcrumb"
+import IconFrance from "images/logos/projet/augora-logo.svg"
+import IconArrow from "images/ui-kit/icon-arrow.svg"
+import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
 
 const fillLayerLayout = {
   type: "fill",
@@ -78,9 +79,7 @@ export default function MapPage() {
   }>({
     GEOJson: GEOJsonReg,
     zoneCode: ZoneCode.Regions,
-    zoneData: {
-      nom: "France métropolitaine",
-    },
+    zoneData: metroFranceProperties,
     zoneDeputies: franceMetroDeputies,
   })
   const [hoverInfo, setHoverInfo] = useState<{
@@ -206,7 +205,6 @@ export default function MapPage() {
     if (featureProps) {
       const zoneCode = getZoneCodeFromFeatureProperties(featureProps)
       if (zoneCode === ZoneCode.Circonscriptions) {
-        const parentZoneId = featureProps[ZoneCode.Departements]
         const deputy = getDeputiesInZone(featureProps)[0]
         if (deputy) navigate(`/depute/${deputy.Slug}`)
       } else {
@@ -231,9 +229,7 @@ export default function MapPage() {
     setCurrentView({
       GEOJson: GEOJsonReg,
       zoneCode: ZoneCode.Regions,
-      zoneData: {
-        nom: "France métropolitaine",
-      },
+      zoneData: metroFranceProperties,
       zoneDeputies: franceMetroDeputies,
     })
     flyToBounds(franceBox, viewport, setViewport)

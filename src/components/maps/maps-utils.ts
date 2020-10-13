@@ -1,8 +1,8 @@
 import { WebMercatorViewport, FlyToInterpolator, ViewState } from "react-map-gl"
 import polylabel from "polylabel"
-import GEOJsonDistrictFile from "../../static/list-district"
-import GEOJsonDptFile from "../../static/departements"
-import GEOJsonRegFile from "../../static/regions"
+import GEOJsonDistrictFile from "static/list-district"
+import GEOJsonDptFile from "static/departements"
+import GEOJsonRegFile from "static/regions"
 
 /**
  * Un array de 2 nombres: longitude en premier et latitude, utilisable par mapbox pour les coordonées
@@ -90,6 +90,13 @@ export const franceBox: Bounds = [
   [-6.416016, 40.747257],
   [11.162109, 51.426614],
 ]
+
+/**
+ * FeatureProps de la france metropolitaine
+ */
+export const metroFranceProperties: FranceZoneProperties = {
+  nom: "France métropolitaine",
+}
 
 /**
  * Renvoie la GeoJSON Feature Collection associée au type de zone
