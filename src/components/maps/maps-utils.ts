@@ -59,18 +59,25 @@ export enum ZoneCode {
 }
 
 /**
+ * Formate une feature array sous forme feature collection GEOJson
+ * @param featureArray
+ */
+export const featureArrayToFeatureCollection = (
+  featureArray: FranceZoneFeature[]
+): FranceZoneFeatureCollection => {
+  return { type: "FeatureCollection", features: featureArray }
+}
+
+/**
  * Renvoie une feature collection sans les DOM-TOM
  * @param {FranceZoneFeatureCollection} file Le fichier à filtrer
  */
 const removeDOMTOM = (
   file: FranceZoneFeatureCollection
 ): FranceZoneFeatureCollection => {
-  return {
-    type: "FeatureCollection",
-    features: file.features.filter(
-      (feature) => feature.properties[ZoneCode.Regions] > 10
-    ),
-  }
+  return featureArrayToFeatureCollection(
+    file.features.filter((feature) => feature.properties[ZoneCode.Regions] > 10)
+  )
 }
 
 /**
@@ -265,28 +272,11 @@ export const filterNewGEOJSonFeatureCollection = (
   zoneCodeToSearch: ZoneCode,
   zoneCodeId: number
 ): FranceZoneFeatureCollection => {
-  return {
-    type: "FeatureCollection",
-    features: GEOJsonFile.features.filter(
+  return featureArrayToFeatureCollection(
+    GEOJsonFile.features.filter(
       (feature) => feature.properties[zoneCodeToSearch] === zoneCodeId
-    ),
-  }
-}
-
-/**
- * Renvoie une feature GeoJSON polygone ou multipolygone selon certains filtres
- * @param {FranceZoneFeatureCollection} GEOJsonFile La feature collection dans laquelle fouiller, ne peut contenir que des polygons ou multipolygons
- * @param {ZoneCode} zoneCode Le type de la zone (régions, départements, ou circonscriptions)
- * @param {number} zoneId L'id de la zone
- */
-export const getZonePolygon = (
-  GEOJsonFile: FranceZoneFeatureCollection,
-  zoneCode: ZoneCode,
-  zoneId: number
-): FranceZoneFeature => {
-  return GEOJsonFile.features.find((zone) => {
-    return zone.properties[zoneCode] === zoneId
-  })
+    )
+  )
 }
 
 /**
@@ -332,7 +322,7 @@ export const getMouseEventFeature = (e): FranceZoneFeature => {
  * Renvoie la feature d'une zone
  * @param {number} zoneId L'id de la zone
  * @param {ZoneCode} zoneCode Le code de la zone
- * @param {number} [dptID] Le code du département, obligatoire si c'est une circonscription
+ * @param {number} [dptID] L'id du département, obligatoire si c'est une circonscription
  */
 export const getZoneFeature = (
   zoneId: number,
@@ -348,4 +338,43 @@ export const getZoneFeature = (
           entry.properties[zoneCode] == zoneId &&
           entry.properties[ZoneCode.Departements] == dptId
       )
+}
+
+/**
+ * Renvoie une Feature Collection contenant toutes les zones soeurs de la zone fournie, zone fournie non inclue.
+ * @param feature La feature à analyser
+ */
+export const getOtherFeaturesInZone = (
+  feature: FranceZoneFeature
+): FranceZoneFeatureCollection => {
+  const zoneCode = getZoneCodeFromFeature(feature)
+
+  switch (zoneCode) {
+    case ZoneCode.Regions:
+      return featureArrayToFeatureCollection(
+        getGEOJsonFile(zoneCode).features.filter(
+          (entry) => entry.properties[zoneCode] !== feature.properties[zoneCode]
+        )
+      )
+    case ZoneCode.Departements:
+      return featureArrayToFeatureCollection(
+        getGEOJsonFile(zoneCode).features.filter(
+          (entry) =>
+            entry.properties[zoneCode] !== feature.properties[zoneCode] &&
+            entry.properties[ZoneCode.Regions] ===
+              feature.properties[ZoneCode.Regions]
+        )
+      )
+    case ZoneCode.Circonscriptions:
+      return featureArrayToFeatureCollection(
+        getGEOJsonFile(zoneCode).features.filter(
+          (entry) =>
+            entry.properties[zoneCode] !== feature.properties[zoneCode] &&
+            entry.properties[ZoneCode.Departements] ===
+              feature.properties[ZoneCode.Departements]
+        )
+      )
+    default:
+      return featureArrayToFeatureCollection([metroFranceFeature])
+  }
 }

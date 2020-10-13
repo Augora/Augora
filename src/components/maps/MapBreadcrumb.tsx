@@ -2,11 +2,11 @@ import React from "react"
 import {
   ZoneCode,
   FranceZoneFeature,
+  FranceZoneFeatureCollection,
   metroFranceFeature,
-  getGEOJsonFile,
   getZoneCodeFromFeature,
   getZoneFeature,
-  filterNewGEOJSonFeatureCollection,
+  getOtherFeaturesInZone,
 } from "components/maps/maps-utils"
 
 interface IMapBreadcrumb {
@@ -16,34 +16,36 @@ interface IMapBreadcrumb {
 }
 
 interface IMapBreadcrumbItem {
-  zoneData: FranceZoneFeature
+  name: string
   handleClick: Function
 }
 
-// const formatGeoJSONFeatureCollection = (
-//   zoneCode: ZoneCode
-// ): FranceZoneProperties[] => {
-//   return getGEOJsonFile(zoneCode).features.map((entry) => {
-//     return entry.properties
-//   })
-// }
+/**
+ * Renvoie l'historique des zones parcourues sous forme de feature collection
+ * @param feature L'object feature à analyser
+ */
+const getHistory = (
+  feature: FranceZoneFeature
+): FranceZoneFeatureCollection => {
+  const zoneCode = getZoneCodeFromFeature(feature)
+  const featureArray =
+    zoneCode === ZoneCode.Departements
+      ? [
+          metroFranceFeature,
+          getZoneFeature(
+            feature.properties[ZoneCode.Regions],
+            ZoneCode.Regions
+          ),
+          feature,
+        ]
+      : zoneCode === ZoneCode.Regions
+      ? [metroFranceFeature, feature]
+      : [metroFranceFeature]
 
-// const listRegions = formatGeoJSONFeatureCollection(ZoneCode.Regions)
-
-// const listDepartements = formatGeoJSONFeatureCollection(ZoneCode.Departements)
-
-const formatData = (data: FranceZoneFeature): FranceZoneFeature[] => {
-  const zoneCode = getZoneCodeFromFeature(data)
-
-  if (zoneCode === ZoneCode.Departements) {
-    return [
-      metroFranceFeature,
-      getZoneFeature(data.properties[ZoneCode.Regions], ZoneCode.Regions),
-      data,
-    ]
-  } else if (zoneCode === ZoneCode.Regions) {
-    return [metroFranceFeature, data]
-  } else return [metroFranceFeature]
+  return {
+    type: "FeatureCollection",
+    features: featureArray,
+  }
 }
 
 function MapBreadcrumbItem(props: IMapBreadcrumbItem) {
@@ -51,22 +53,22 @@ function MapBreadcrumbItem(props: IMapBreadcrumbItem) {
     <button
       className="map__breadcrumb-item"
       onClick={() => props.handleClick()}
-      title={`Revenir sur ${props.zoneData.properties.nom}`}
+      title={`Revenir sur ${props.name}`}
     >
-      {props.zoneData.properties.nom}
+      {props.name}
     </button>
   )
 }
 
 export default function MapBreadcrumb(props: IMapBreadcrumb) {
-  const featureArray = formatData(props.feature)
+  const featureCollection = getHistory(props.feature)
 
   return (
     <div className="map__breadcrumb">
-      {featureArray.map((item, index) => (
+      {featureCollection.features.map((item, index) => (
         <MapBreadcrumbItem
           key={`breadcrumb-${index}`}
-          zoneData={item}
+          name={item.properties.nom}
           handleClick={() =>
             !getZoneCodeFromFeature(item)
               ? props.handleReset()
