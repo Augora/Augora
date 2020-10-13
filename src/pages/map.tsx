@@ -312,8 +312,8 @@ export default function MapPage() {
           <div className="map__navigation map__navigation-left">
             <MapBreadcrumb
               data={currentView.zoneData}
-              onReset={handleReset}
-              onClick={displayNewZone}
+              handleReset={handleReset}
+              handleClick={displayNewZone}
             />
             <CustomControl
               onClick={handleBack}

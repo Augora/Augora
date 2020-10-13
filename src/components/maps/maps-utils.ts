@@ -58,18 +58,6 @@ export enum ZoneCode {
   Circonscriptions = "num_circ",
 }
 
-/**
- * Un enum pour définir dans quelle vue on est
- *
- * Continent = France métropolitaine, dom tom,... Region = Occitanie, etc...
- */
-export enum ZoneType {
-  Continent,
-  Region,
-  Departement,
-  Circonscription,
-}
-
 export const GEOJsonDistrict: FranceZoneFeatureCollection = GEOJsonDistrictFile
 
 export const GEOJsonDpt: FranceZoneFeatureCollection = GEOJsonDptFile
