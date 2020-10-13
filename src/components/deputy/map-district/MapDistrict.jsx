@@ -69,10 +69,12 @@ export default function MapDistrict(props) {
         parseInt(district.properties.num_circ) === props.num
       )
     })
-  }, [])
+  }, [props.nom, props.num])
 
   //récupère la bounding box à paris du polygone de la circonscription
-  const districtBox = useMemo(() => getSelectedDistrictBox(districtPolygon), [])
+  const districtBox = useMemo(() => getSelectedDistrictBox(districtPolygon), [
+    districtPolygon,
+  ])
 
   //récupère le centre de la bounding box
   const districtCenter = useMemo(() => {
@@ -83,7 +85,7 @@ export default function MapDistrict(props) {
         lng: districtBox[1][0] - (districtBox[1][0] - districtBox[0][0]) / 2,
       }
     )
-  }, [])
+  }, [districtBox])
 
   //function pour transitionner de façon fluide vers une bounding box
   const flyToBounds = (box) => {
@@ -197,9 +199,12 @@ export default function MapDistrict(props) {
                 </span>
               </Tooltip>
               <div
+                role="button"
+                tabIndex={0}
                 className="icon-wrapper"
                 style={{ width: "30px", height: "30px", cursor: "pointer" }}
                 onClick={() => setPinClicked(!pinClicked)}
+                onKeyDown={() => setPinClicked(!pinClicked)}
               >
                 <IconPin fill={props.color} />
               </div>

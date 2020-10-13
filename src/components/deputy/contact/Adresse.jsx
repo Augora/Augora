@@ -19,7 +19,7 @@ export default function Adresse(props) {
   const [copyClicked, setCopyClicked] = useState(false)
 
   return (
-    <div className="contact__adresse">
+    <div className="contact__adresse" key={`adresse-${props.index}`}>
       <button
         onClick={() =>
           handleClick(props.adresseDetails.Adresse, setCopyClicked)
@@ -51,6 +51,8 @@ export default function Adresse(props) {
           </div>
         </a>
       ) : null}
+      {/* Separator */}
+      {props.separator ? <div className="contact__separator"></div> : null}
     </div>
   )
 }

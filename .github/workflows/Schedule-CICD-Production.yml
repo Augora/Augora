@@ -93,7 +93,7 @@ jobs:
                       },
                       "accessory": {
                         "type": "image",
-                        "image_url": '${{ job.status }}' === 'success' ? "https://i.imgur.com/WsKz4jX.png" : "https://i.imgur.com/xGJqCp8.png"
+                        "image_url": '${{ job.status }}' === 'success' ? "https://i.imgur.com/WsKz4jX.png" : "https://i.imgur.com/xGJqCp8.png",
                         "alt_text": "Augora"
                       }
                     },
