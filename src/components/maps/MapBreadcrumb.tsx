@@ -20,14 +20,14 @@ const formatData = (data) => {
 }
 
 function MapbreadcrumbItem(props) {
-  return <span>{props.title} / </span>
+  return <button className="map__breadcrumb-item">{props.title}</button>
 }
 
 export default function MapBreadcrumb(props) {
   const breadcrumbArray = formatData(props.data)
 
   return (
-    <div style={{ background: "white" }}>
+    <div className="map__breadcrumb">
       {breadcrumbArray.map((item, index) => (
         <MapbreadcrumbItem key={`breadcrumb-${index}`} title={item} />
       ))}
