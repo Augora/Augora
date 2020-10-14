@@ -6,7 +6,7 @@ import {
   metroFranceFeature,
   getZoneCodeFromFeature,
   getZoneFeature,
-  getOtherFeaturesInZone,
+  getSisterFeaturesInZone,
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 
@@ -23,7 +23,7 @@ interface IMapBreadcrumbItem {
 
 /**
  * Renvoie l'historique des zones parcourues sous forme de feature collection
- * @param feature L'object feature à analyser
+ * @param {FranceZoneFeature} feature L'object feature à analyser
  */
 const getHistory = (
   feature: FranceZoneFeature
@@ -60,7 +60,7 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
         {zoneFeature.properties.nom}
       </button>
       <Tooltip className="map__breadcrumb-tooltip">
-        {getOtherFeaturesInZone(zoneFeature).features.map((feat, index) => (
+        {getSisterFeaturesInZone(zoneFeature).features.map((feat, index) => (
           <button
             key={`${zoneFeature.properties.nom}-tooltip-button-${index}`}
             onClick={() => handleClick(feat)}

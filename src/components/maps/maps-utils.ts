@@ -3,6 +3,7 @@ import polylabel from "polylabel"
 import GEOJsonDistrictFile from "static/list-district.json"
 import GEOJsonDptFile from "static/departements.json"
 import GEOJsonRegFile from "static/regions.json"
+import sortBy from "lodash/sortBy"
 
 /**
  * Un array de 2 nombres: longitude en premier et latitude, utilisable par mapbox pour les coordonées
@@ -344,37 +345,36 @@ export const getZoneFeature = (
  * Renvoie une Feature Collection contenant toutes les zones soeurs de la zone fournie
  * @param feature La feature à analyser
  */
-export const getOtherFeaturesInZone = (
+export const getSisterFeaturesInZone = (
   feature: FranceZoneFeature
 ): FranceZoneFeatureCollection => {
   const zoneCode = getZoneCodeFromFeature(feature)
 
-  switch (zoneCode) {
-    case ZoneCode.Regions:
-      return featureArrayToFeatureCollection(
-        getGEOJsonFile(zoneCode).features.filter(
-          (entry) => entry.properties[zoneCode] !== feature.properties[zoneCode]
-        )
-      )
-    case ZoneCode.Departements:
-      return featureArrayToFeatureCollection(
-        getGEOJsonFile(zoneCode).features.filter(
-          (entry) =>
-            entry.properties[zoneCode] !== feature.properties[zoneCode] &&
-            entry.properties[ZoneCode.Regions] ===
-              feature.properties[ZoneCode.Regions]
-        )
-      )
-    case ZoneCode.Circonscriptions:
-      return featureArrayToFeatureCollection(
-        getGEOJsonFile(zoneCode).features.filter(
-          (entry) =>
-            entry.properties[zoneCode] !== feature.properties[zoneCode] &&
-            entry.properties[ZoneCode.Departements] ===
-              feature.properties[ZoneCode.Departements]
-        )
-      )
-    default:
-      return featureArrayToFeatureCollection([metroFranceFeature])
-  }
+  return featureArrayToFeatureCollection(
+    sortBy(
+      zoneCode
+        ? getGEOJsonFile(zoneCode).features.filter((entry) => {
+            switch (zoneCode) {
+              case ZoneCode.Regions:
+                return (
+                  entry.properties[zoneCode] !== feature.properties[zoneCode]
+                )
+              case ZoneCode.Departements:
+                return (
+                  entry.properties[zoneCode] !== feature.properties[zoneCode] &&
+                  entry.properties[ZoneCode.Regions] ===
+                    feature.properties[ZoneCode.Regions]
+                )
+              default:
+                return (
+                  entry.properties[zoneCode] !== feature.properties[zoneCode] &&
+                  entry.properties[ZoneCode.Departements] ===
+                    feature.properties[ZoneCode.Departements]
+                )
+            }
+          })
+        : [metroFranceFeature],
+      (o) => o.properties.nom
+    )
+  )
 }
