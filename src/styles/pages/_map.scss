@@ -209,8 +209,12 @@
           }
         }
       }
-      &--marker {
+      &--popup {
         z-index: 1;
+        .mapboxgl-popup-content {
+          background: none;
+          box-shadow: none;
+        }
       }
     }
   }

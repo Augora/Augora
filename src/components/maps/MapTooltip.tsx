@@ -1,5 +1,5 @@
 import React from "react"
-import { Marker } from "react-map-gl"
+import { Popup } from "react-map-gl"
 import {
   ZoneCode,
   FranceZoneFeature,
@@ -21,11 +21,14 @@ export default function MapTooltip(props: IMapTooltip) {
     : `Circonscription n°${props.zoneFeature.properties.num_circ}`
 
   return (
-    <Marker
-      className="map__tooltip--marker"
+    <Popup
+      className="map__tooltip--popup"
       longitude={props.lngLat[0]}
       latitude={props.lngLat[1]}
-      offsetTop={40}
+      closeButton={false}
+      tipSize={0}
+      anchor={"top-left"}
+      offsetTop={20}
     >
       {zoneCode !== ZoneCode.Circonscriptions ? (
         <Tooltip
@@ -59,6 +62,6 @@ export default function MapTooltip(props: IMapTooltip) {
           )}
         </Tooltip>
       )}
-    </Marker>
+    </Popup>
   )
 }
