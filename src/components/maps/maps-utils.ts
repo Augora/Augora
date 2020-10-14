@@ -341,7 +341,7 @@ export const getZoneFeature = (
 }
 
 /**
- * Renvoie une Feature Collection contenant toutes les zones soeurs de la zone fournie, zone fournie non inclue.
+ * Renvoie une Feature Collection contenant toutes les zones soeurs de la zone fournie
  * @param feature La feature à analyser
  */
 export const getOtherFeaturesInZone = (
