@@ -9,6 +9,7 @@ import {
   getSisterFeaturesInZone,
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
+import CustomControl from "components/maps/CustomControl"
 
 interface IMapBreadcrumb {
   feature: FranceZoneFeature
@@ -82,18 +83,20 @@ export default function MapBreadcrumb(props: IMapBreadcrumb) {
   const featureCollection = getHistory(props.feature)
 
   return (
-    <div className="map__breadcrumb">
-      {featureCollection.features.map((item, index) => (
-        <MapBreadcrumbItem
-          key={`breadcrumb-${index}`}
-          zoneFeature={item}
-          handleClick={
-            !getZoneCodeFromFeature(item)
-              ? props.handleReset
-              : props.handleClick
-          }
-        />
-      ))}
-    </div>
+    <CustomControl>
+      <div className="map__breadcrumb">
+        {featureCollection.features.map((item, index) => (
+          <MapBreadcrumbItem
+            key={`breadcrumb-${index}`}
+            zoneFeature={item}
+            handleClick={
+              !getZoneCodeFromFeature(item)
+                ? props.handleReset
+                : props.handleClick
+            }
+          />
+        ))}
+      </div>
+    </CustomControl>
   )
 }

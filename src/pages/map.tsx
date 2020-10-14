@@ -278,12 +278,16 @@ export default function MapPage() {
               zoomOutLabel="Dézoomer"
             />
             <FullscreenControl />
-            <CustomControl
-              onClick={handleReset}
-              className={`map__navigation-custom visible`}
-              title="Revenir à la vue Régions"
-            >
-              <IconFrance />
+            <CustomControl>
+              <button
+                className="map__navigation-custom visible"
+                title="Revenir à la vue Régions"
+                onClick={handleReset}
+              >
+                <div className="icon-wrapper">
+                  <IconFrance />
+                </div>
+              </button>
             </CustomControl>
           </div>
           <div className="map__navigation map__navigation-left">
@@ -292,18 +296,22 @@ export default function MapPage() {
               handleReset={handleReset}
               handleClick={displayNewZone}
             />
-            <CustomControl
-              onClick={handleBack}
-              className={`map__navigation-custom ${
-                currentView.zoneCode === ZoneCode.Regions ? "" : "visible"
-              }`}
-              title="Revenir à la vue précédente"
-            >
-              <IconArrow
-                style={{
-                  transform: "rotate(90deg)",
-                }}
-              />
+            <CustomControl>
+              <button
+                onClick={handleBack}
+                className={`map__navigation-custom ${
+                  currentView.zoneCode === ZoneCode.Regions ? "" : "visible"
+                }`}
+                title="Revenir à la vue précédente"
+              >
+                <div className="icon-wrapper">
+                  <IconArrow
+                    style={{
+                      transform: "rotate(90deg)",
+                    }}
+                  />
+                </div>
+              </button>
             </CustomControl>
           </div>
         </ReactMapGL>
