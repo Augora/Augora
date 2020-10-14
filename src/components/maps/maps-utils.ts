@@ -1,8 +1,8 @@
 import { WebMercatorViewport, FlyToInterpolator, ViewState } from "react-map-gl"
 import polylabel from "polylabel"
-import GEOJsonDistrictFile from "static/list-district"
-import GEOJsonDptFile from "static/departements"
-import GEOJsonRegFile from "static/regions"
+import GEOJsonDistrictFile from "static/list-district.json"
+import GEOJsonDptFile from "static/departements.json"
+import GEOJsonRegFile from "static/regions.json"
 
 /**
  * Un array de 2 nombres: longitude en premier et latitude, utilisable par mapbox pour les coordonées
