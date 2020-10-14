@@ -12,7 +12,6 @@ import {
   ZoneCode,
   FranceZoneFeature,
   FranceZoneFeatureCollection,
-  FranceZoneProperties,
   France,
   franceBox,
   GEOJsonReg,
