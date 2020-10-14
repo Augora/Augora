@@ -9,10 +9,10 @@ import ReactMapGL, {
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   France,
-  GEOJsonDistrict,
   getBoundingBoxFromPolygon,
   flyToBounds,
 } from "components/maps/maps-utils"
+import GEOJsonDistrict from "static/list-district.json"
 import { retirerAccentsFR } from "utils/string-format/accent"
 import Block from "components/deputy/_block/_Block"
 import CustomControl from "components/maps/CustomControl"
