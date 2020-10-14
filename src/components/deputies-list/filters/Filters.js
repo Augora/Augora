@@ -12,7 +12,8 @@ import BarChart from "../bar-chart/BarChart"
 // import ComplexBarChart from "../complexe-bar-chart/ComplexBarChart"
 import AgeSlider from "../slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"
-import Frame from "../../frames/Frame"
+import Frame from "components/frames/Frame"
+import Button from "components/buttons/Button"
 
 function Filters(props) {
   const [HasPieChart, setHasPieChart] = useState(true)
@@ -93,11 +94,13 @@ function Filters(props) {
         </form>
         <div className="filters__middle-line">
           <div className="filters__sexes">
-            <button
-              className={`sexes__btn sexes__btn--female ${
+            <Button
+              className={`sexes__btn female ${
                 props.SexValue["F"] ? "selected" : ""
               }`}
               onClick={(e) => props.handleClickOnSex("F")}
+              color="main"
+              checked={props.SexValue}
             >
               <div className="sexe__icon--female-symbol icon-wrapper">
                 <IconFemaleSymbol />
@@ -110,13 +113,16 @@ function Filters(props) {
                   "F"
                 )}
                 totalDeputes={props.filteredList.length}
+                color="secondary"
               />
-            </button>
-            <button
-              className={`sexes__btn sexes__btn--male ${
+            </Button>
+            <Button
+              className={`sexes__btn male ${
                 props.SexValue["H"] ? "selected" : ""
               }`}
               onClick={(e) => props.handleClickOnSex("H")}
+              color="secondary"
+              checked={props.SexValue}
             >
               <div className="sexe__icon--male-symbol icon-wrapper">
                 <IconMaleSymbol />
@@ -129,8 +135,9 @@ function Filters(props) {
                   "H"
                 )}
                 totalDeputes={props.filteredList.length}
+                color="secondary"
               />
-            </button>
+            </Button>
           </div>
           <div className="filters__groupe">{props.allGroupes}</div>
           <div className="filters__reset">

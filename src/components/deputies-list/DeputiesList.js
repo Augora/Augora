@@ -9,6 +9,7 @@ import { DeputiesListContext } from "../../context/deputies-filters/deputiesFilt
 import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import Tooltip from "components/tooltip/Tooltip"
+import Button from "components/buttons/Button"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 const DeputiesList = (props) => {
@@ -38,12 +39,13 @@ const DeputiesList = (props) => {
 
   const allGroupes = state.GroupesList.map((groupe) => {
     return (
-      <div
+      <Button
         className={`groupe groupe--${groupe.Sigle} ${
           state.GroupeValue[groupe.Sigle] ? "selected" : ""
         }`}
         key={`groupe--${groupe.Sigle}`}
         style={{ order: groupe.Ordre }}
+        color={groupe.Couleur}
       >
         <input
           className="groupe__checkbox"
@@ -60,14 +62,6 @@ const DeputiesList = (props) => {
             alt={`Icône groupe parlementaire ${groupe.Sigle}`}
           />
         </div>
-        <div
-          className="groupe__border"
-          style={{ borderColor: groupe.Couleur }}
-        ></div>
-        <div
-          className="groupe__background-color"
-          style={{ backgroundColor: groupe.Couleur }}
-        ></div>
         <Tooltip
           title={groupe.NomComplet}
           nbDeputes={calculateNbDepute(
@@ -78,7 +72,7 @@ const DeputiesList = (props) => {
           totalDeputes={state.FilteredList.length}
           color={groupe.Couleur}
         />
-      </div>
+      </Button>
     )
   })
 

@@ -2,126 +2,23 @@
 // Sexes filter
 /*----------------------------------------------------*/
 .filters__sexes {
-  width: 110px;
   position: relative;
   margin-right: 40px;
   .sexes {
     &__btn {
-      width: 100%;
-      height: calc(50% - 10px);
       margin-bottom: 10px;
-      background: white;
 
-      border-width: 2px;
       border-style: dashed;
-      background: none;
+      border-width: 2px;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      cursor: pointer;
-
-      transition: background-color 0.5s $ease-in-out-cubic,
-        border-color 0.2s $ease-in-out-cubic;
-
-      border-radius: 10px;
-
-      .icon-wrapper {
-        fill: $text-color;
-        transition: fill 0.2s $ease-in-out-cubic,
-          transform 0.4s $ease-in-out-cubic;
-        transform: scale(0.75);
-        svg path {
-          fill: $white;
-        }
+      &.male svg {
+        width: 35px;
+        height: 35px;
       }
-      .sexe__icon {
-        pointer-events: none;
-        &--male-symbol {
-          width: 35px;
-          height: 35px;
-        }
-        &--female-symbol {
-          width: 30px;
-          height: 40px;
-        }
-      }
-      .tooltip {
-        position: absolute;
-        top: 80%;
-        left: 50%;
-        transform: translate(-50%, 0);
-        opacity: 0;
-        min-width: 220px;
-      }
-
-      // selected
-      &.selected {
-        .icon-wrapper {
-          transform: scale(1);
-        }
-        &:hover {
-          border-color: rgba($white, 0.8);
-          .icon-wrapper {
-            transform: scale(0.75);
-          }
-        }
-      }
-
-      // states
-      &:focus {
-        outline: none;
-      }
-      &:hover {
-        .tooltip {
-          top: calc(100% + 10px);
-          opacity: 1;
-        }
-        .icon-wrapper {
-          transform: scale(1);
-        }
-      }
-
-      // modifiers
-      &--male {
-        border-color: $secondary-color;
-        .icon-wrapper svg path {
-          fill: $secondary-color;
-        }
-        &.selected {
-          background-color: $secondary-color;
-          .icon-wrapper svg path {
-            fill: $white;
-          }
-        }
-      }
-      &--female {
-        border-color: $main-color;
-        .icon-wrapper svg path {
-          fill: $main-color;
-        }
-        &.selected {
-          background-color: $main-color;
-          .icon-wrapper svg path {
-            fill: $white;
-          }
-        }
+      &.female svg {
+        width: 30px;
+        height: 40px;
       }
     }
   }
-  // &::after {
-  //   content: "";
-  //   position: absolute;
-  //   top: 0;
-  //   right: -20px;
-  //   height: calc(100% - 10px);
-  //   width: 2px;
-  //   background-image: linear-gradient(
-  //     to bottom,
-  //     $main-color,
-  //     $secondary-color
-  //   );
-  //   opacity: 0.25;
-  // }
 }

@@ -1,0 +1,121 @@
+/*----------------------------------------------------*/
+// Button
+/*----------------------------------------------------*/
+
+.btn {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 10px 20px;
+  margin: 0;
+
+  min-width: 100px;
+  min-height: 60px;
+
+  border-radius: 10px;
+  border-width: 2px;
+  border-style: solid;
+  border: none;
+
+  color: $white;
+  // background-color: white;
+
+  // Children components
+  .icon-wrapper {
+    fill: $text-color;
+    transition: fill 0.2s $ease-in-out-cubic, transform 0.4s $ease-in-out-cubic;
+    transform: scale(0.75);
+
+    pointer-events: none;
+    svg * {
+      fill: $white;
+    }
+  }
+
+  // colors
+  &--main {
+    background-color: $main-color;
+    border-color: $main-color;
+    .icon-wrapper svg * {
+      fill: $main-color;
+    }
+    &.selected {
+      background-color: $main-color;
+      .icon-wrapper svg * {
+        fill: $white;
+      }
+    }
+
+    .tooltip {
+      &__title {
+        color: $main-color;
+      }
+    }
+  }
+  &--secondary {
+    background-color: $secondary-color;
+    border-color: $secondary-color;
+    .icon-wrapper svg * {
+      fill: $secondary-color;
+    }
+    &.selected {
+      background-color: $secondary-color;
+      .icon-wrapper svg * {
+        fill: $white;
+      }
+    }
+
+    .tooltip {
+      &__title {
+        color: $secondary-color;
+      }
+    }
+  }
+
+  transition: background-color 0.5s $ease-in-out-cubic,
+    border-color 0.2s $ease-in-out-cubic;
+
+  cursor: pointer;
+
+  .tooltip {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    opacity: 0;
+    min-width: 220px;
+  }
+
+  // States
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    .tooltip {
+      top: calc(100% + 10px);
+      opacity: 1;
+    }
+    .icon-wrapper {
+      transform: scale(1);
+    }
+  }
+
+  // Component State
+  &.selected {
+    .icon-wrapper {
+      transform: scale(1);
+    }
+    &:hover {
+      border-color: rgba($white, 0.8);
+      .icon-wrapper {
+        transform: scale(0.75);
+      }
+    }
+  }
+  &:not(.selected) {
+    background-color: transparent;
+  }
+}
