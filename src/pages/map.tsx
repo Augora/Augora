@@ -36,15 +36,15 @@ import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersCon
 const fillLayerLayout = {
   type: "fill",
   paint: {
-    "fill-color": "#fff",
-    "fill-opacity": 0.3,
+    "fill-color": " #00bbcc",
+    "fill-opacity": 0.1,
   },
 }
 
 const lineLayerLayout = {
   type: "line",
   paint: {
-    "line-color": "#4d4d4d",
+    "line-color": "#00bbcc",
     "line-width": 1,
     // "line-dasharray": [4, 2],
   },
@@ -54,7 +54,7 @@ const hoverLayerLayout = {
   type: "fill",
   paint: {
     "fill-color": "#14ccae",
-    "fill-opacity": 0.5,
+    "fill-opacity": 0.3,
   },
 }
 
@@ -221,7 +221,7 @@ export default function MapPage() {
       <div className="map__container">
         <ReactMapGL
           mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
-          mapStyle="mapbox://styles/mapbox/streets-v11?optimize=true"
+          mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
           {...viewport}
           width="100%"
           height="100%"
