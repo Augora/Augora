@@ -8,6 +8,7 @@ import {
   getZoneFeature,
   getOtherFeaturesInZone,
 } from "components/maps/maps-utils"
+import Tooltip from "components/tooltip/Tooltip"
 
 interface IMapBreadcrumb {
   feature: FranceZoneFeature
@@ -16,7 +17,7 @@ interface IMapBreadcrumb {
 }
 
 interface IMapBreadcrumbItem {
-  name: string
+  zoneFeature: FranceZoneFeature
   handleClick: Function
 }
 
@@ -48,15 +49,28 @@ const getHistory = (
   }
 }
 
-function MapBreadcrumbItem(props: IMapBreadcrumbItem) {
+function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
   return (
-    <button
-      className="map__breadcrumb-item"
-      onClick={() => props.handleClick()}
-      title={`Revenir sur ${props.name}`}
-    >
-      {props.name}
-    </button>
+    <div className="map__breadcrumb-item">
+      <button
+        className="map__breadcrumb-zone"
+        onClick={() => handleClick(zoneFeature)}
+        title={`Revenir sur ${zoneFeature.properties.nom}`}
+      >
+        {zoneFeature.properties.nom}
+      </button>
+      <Tooltip className="map__breadcrumb-tooltip">
+        {getOtherFeaturesInZone(zoneFeature).features.map((feat, index) => (
+          <button
+            key={`${zoneFeature.properties.nom}-tooltip-button-${index}`}
+            onClick={() => handleClick(feat)}
+            title={`Aller sur ${feat.properties.nom}`}
+          >
+            {feat.properties.nom}
+          </button>
+        ))}
+      </Tooltip>
+    </div>
   )
 }
 
@@ -68,11 +82,11 @@ export default function MapBreadcrumb(props: IMapBreadcrumb) {
       {featureCollection.features.map((item, index) => (
         <MapBreadcrumbItem
           key={`breadcrumb-${index}`}
-          name={item.properties.nom}
-          handleClick={() =>
+          zoneFeature={item}
+          handleClick={
             !getZoneCodeFromFeature(item)
-              ? props.handleReset()
-              : props.handleClick(item)
+              ? props.handleReset
+              : props.handleClick
           }
         />
       ))}

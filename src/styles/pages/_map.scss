@@ -37,26 +37,38 @@
       display: flex;
       flex-flow: flex-start nowrap;
       &-item {
-        background: white;
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-
-        padding: 5px 15px;
-        border-radius: 5px;
         margin-right: 10px;
-
-        cursor: pointer;
-        border: none;
+        position: relative;
 
         &:last-child {
-          background: $text-color;
-          color: white;
-          font-weight: bold;
-          box-shadow: none;
-
-          &:hover {
-            background: $black;
+          .map__breadcrumb-zone {
+            background: $text-color;
+            color: white;
+            font-weight: bold;
+            box-shadow: none;
+            &:hover {
+              background: $black;
+            }
           }
         }
+
+        &:hover {
+          .map__breadcrumb-tooltip {
+            display: block;
+          }
+        }
+      }
+
+      &-zone {
+        width: 100%;
+        background: white;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        border: none;
+        padding: 5px 15px;
+        border-radius: 5px;
+        min-width: 250px;
+
+        cursor: pointer;
 
         &:hover {
           background: $btn-hover;
@@ -64,6 +76,38 @@
 
         &:active {
           background: $btn-active;
+        }
+      }
+
+      &-tooltip {
+        min-width: 230px;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+
+        padding: 10px 0;
+        font-weight: normal;
+
+        pointer-events: auto;
+        display: none;
+        button {
+          width: 100%;
+          background: none;
+          border: none;
+          padding: 3px 10px;
+          cursor: pointer;
+
+          &:hover {
+            background: $text-color;
+            color: white;
+          }
+
+          &:active {
+            background: $black;
+          }
+        }
+        &--visible {
+          display: block;
         }
       }
     }
