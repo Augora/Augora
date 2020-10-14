@@ -191,14 +191,14 @@ const getBoundingBoxFromCoordinates = (
 
 /**
  * Renvoie une bounding box utilisable par mapbox depuis un ou plusieurs polygones GeoJSON
- * @param {FranceZoneFeature} polygon Une feature GeoJSON de type polygon ou multipolygone
+ * @param {FranceZoneFeature} feature Une feature GeoJSON de type polygon ou multipolygone
  */
-export const getBoundingBoxFromPolygon = (
-  polygon: FranceZoneFeature
+export const getBoundingBoxFromFeature = (
+  feature: FranceZoneFeature
 ): Bounds => {
-  return polygon.geometry.type === "Polygon"
-    ? getBoundingBoxFromCoordinates(polygon.geometry.coordinates)
-    : getBoundingBoxFromCoordinates(polygon.geometry.coordinates, true)
+  return feature.geometry.type === "Polygon"
+    ? getBoundingBoxFromCoordinates(feature.geometry.coordinates)
+    : getBoundingBoxFromCoordinates(feature.geometry.coordinates, true)
 }
 
 /**

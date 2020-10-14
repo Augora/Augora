@@ -1,15 +1,25 @@
 import React from "react"
-import Tooltip from "components/tooltip/Tooltip"
 import { Marker } from "react-map-gl"
+import {
+  ZoneCode,
+  FranceZoneFeature,
+  getZoneCodeFromFeature,
+} from "./maps-utils"
+import Tooltip from "components/tooltip/Tooltip"
 
 interface IMapTooltip {
   lngLat: [number, number]
-  zoneName: string
-  deputiesArray: any[]
+  zoneFeature: FranceZoneFeature
+  deputiesArray: { [key: string]: any }[]
   totalDeputes: number
 }
 
 export default function MapTooltip(props: IMapTooltip) {
+  const zoneCode = getZoneCodeFromFeature(props.zoneFeature)
+  const zoneName = props.zoneFeature.properties.nom
+    ? props.zoneFeature.properties.nom
+    : `Circonscription n°${props.zoneFeature.properties.num_circ}`
+
   return (
     <Marker
       className="map__tooltip--marker"
@@ -17,15 +27,15 @@ export default function MapTooltip(props: IMapTooltip) {
       latitude={props.lngLat[1]}
       offsetTop={40}
     >
-      {props.deputiesArray.length > 1 ? (
+      {zoneCode !== ZoneCode.Circonscriptions ? (
         <Tooltip
           className="map__tooltip"
-          title={props.zoneName}
+          title={zoneName}
           nbDeputes={props.deputiesArray.length}
           totalDeputes={props.totalDeputes}
         />
       ) : (
-        <Tooltip className="map__tooltip-solo" title={props.zoneName}>
+        <Tooltip className="map__tooltip-solo" title={zoneName}>
           {props.deputiesArray[0] !== undefined ? (
             <>
               <div className="tooltip__nom">
@@ -45,7 +55,7 @@ export default function MapTooltip(props: IMapTooltip) {
               </div>
             </>
           ) : (
-            <div className="tooltip__nom">Pas de député en fonction trouvé</div>
+            <div className="tooltip__nom">Pas de député trouvé</div>
           )}
         </Tooltip>
       )}

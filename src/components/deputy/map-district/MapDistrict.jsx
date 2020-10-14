@@ -9,7 +9,7 @@ import ReactMapGL, {
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   France,
-  getBoundingBoxFromPolygon,
+  getBoundingBoxFromFeature,
   flyToBounds,
 } from "components/maps/maps-utils"
 import GEOJsonDistrict from "static/list-district.json"
@@ -42,7 +42,7 @@ export default function MapDistrict(props) {
 
   //récupère la bounding box à paris du polygone de la circonscription
   const districtBox = useMemo(
-    () => getBoundingBoxFromPolygon(districtPolygon),
+    () => getBoundingBoxFromFeature(districtPolygon),
     [districtPolygon]
   )
 

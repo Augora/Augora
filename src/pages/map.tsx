@@ -17,7 +17,7 @@ import {
   GEOJsonReg,
   metroFranceFeature,
   flyToBounds,
-  getBoundingBoxFromPolygon,
+  getBoundingBoxFromFeature,
   getPolygonCenter,
   filterNewGEOJSonFeatureCollection,
   getZoneCodeFromFeature,
@@ -84,33 +84,30 @@ export default function MapPage() {
   const [hoverInfo, setHoverInfo] = useState<{
     filter: any[]
     lngLat: [number, number]
-    zoneName: string
-    deputiesInZone: { [key: string]: any }[]
+    zoneData: FranceZoneFeature
   }>({
     filter: ["==", ["get", ""], 0],
     lngLat: null,
-    zoneName: null,
-    deputiesInZone: null,
+    zoneData: null,
   })
 
   const resetHoverInfo = () => {
     setHoverInfo({
       filter: ["==", ["get", ""], 0],
       lngLat: null,
-      zoneName: null,
-      deputiesInZone: null,
+      zoneData: null,
     })
   }
 
   /**
    * Affiche une nouvelle vue
-   * @param {FranceZoneFeature} zoneFeature La feature de la zone à afficher
+   * @param {FranceZoneFeature} feature La feature de la zone à afficher
    */
-  const displayNewZone = (zoneFeature: FranceZoneFeature): void => {
-    const zoneCode = getZoneCodeFromFeature(zoneFeature)
+  const displayNewZone = (feature: FranceZoneFeature): void => {
+    const zoneCode = getZoneCodeFromFeature(feature)
     if (!zoneCode) return
 
-    const zoneId = zoneFeature.properties[zoneCode]
+    const zoneId = feature.properties[zoneCode]
 
     const childrenZonesCode =
       zoneCode === ZoneCode.Regions
@@ -123,16 +120,16 @@ export default function MapPage() {
       zoneId
     )
 
-    const newDeputiesInZone = getDeputiesInZone(zoneFeature)
+    const newDeputiesInZone = getDeputiesInZone(feature)
 
     setCurrentView({
       GEOJson: newZoneGEOJson,
       zoneCode: childrenZonesCode,
-      zoneData: zoneFeature,
+      zoneData: feature,
       zoneDeputies: newDeputiesInZone,
     })
 
-    flyToBounds(getBoundingBoxFromPolygon(zoneFeature), viewport, setViewport)
+    flyToBounds(getBoundingBoxFromFeature(feature), viewport, setViewport)
 
     resetHoverInfo()
   }
@@ -177,10 +174,7 @@ export default function MapPage() {
       setHoverInfo({
         filter: ["==", ["get", zoneCode], feature.properties[zoneCode]],
         lngLat: e.lngLat,
-        zoneName: feature.properties.nom
-          ? feature.properties.nom
-          : `Circonscription n°${feature.properties.num_circ}`,
-        deputiesInZone: getDeputiesInZone(feature),
+        zoneData: feature,
       })
     } else if (hoverInfo.filter !== ["==", ["get", ""], 0]) {
       resetHoverInfo()
@@ -252,11 +246,11 @@ export default function MapPage() {
             <Layer id="zone-fill" {...fillLayerLayout} />
             <Layer id="zone-line" {...lineLayerLayout} />
           </Source>
-          {hoverInfo.zoneName ? (
+          {hoverInfo.zoneData ? (
             <MapTooltip
               lngLat={hoverInfo.lngLat}
-              zoneName={hoverInfo.zoneName}
-              deputiesArray={hoverInfo.deputiesInZone}
+              zoneFeature={hoverInfo.zoneData}
+              deputiesArray={getDeputiesInZone(hoverInfo.zoneData)}
               totalDeputes={state.FilteredList.length}
             />
           ) : null}
