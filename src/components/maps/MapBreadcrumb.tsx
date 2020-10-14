@@ -4,7 +4,7 @@ import {
   FranceZoneFeature,
   FranceZoneFeatureCollection,
   metroFranceFeature,
-  getZoneCodeFromFeature,
+  getFeatureZoneCode,
   getZoneFeature,
   getSisterFeaturesInZone,
 } from "components/maps/maps-utils"
@@ -29,7 +29,7 @@ interface IMapBreadcrumbItem {
 const getHistory = (
   feature: FranceZoneFeature
 ): FranceZoneFeatureCollection => {
-  const zoneCode = getZoneCodeFromFeature(feature)
+  const zoneCode = getFeatureZoneCode(feature)
   const featureArray =
     zoneCode === ZoneCode.Departements
       ? [
@@ -90,9 +90,7 @@ export default function MapBreadcrumb(props: IMapBreadcrumb) {
             key={`breadcrumb-${index}`}
             zoneFeature={item}
             handleClick={
-              !getZoneCodeFromFeature(item)
-                ? props.handleReset
-                : props.handleClick
+              !getFeatureZoneCode(item) ? props.handleReset : props.handleClick
             }
           />
         ))}

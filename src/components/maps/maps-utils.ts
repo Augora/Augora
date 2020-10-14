@@ -284,9 +284,7 @@ export const filterNewGEOJSonFeatureCollection = (
  * Determine dans quelle vue la feature passée devrait être
  * @param {FranceZoneFeature} feature L'objet feature GeoJSON à analyser
  */
-export const getZoneCodeFromFeature = (
-  feature: FranceZoneFeature
-): ZoneCode => {
+export const getFeatureZoneCode = (feature: FranceZoneFeature): ZoneCode => {
   if (feature.properties) {
     const featureAsAnArray = Object.keys(feature.properties)
 
@@ -307,7 +305,7 @@ export const getMouseEventFeature = (e): FranceZoneFeature => {
   if (e.features) {
     if (e.features[0]?.properties) {
       const featureProps = e.features[0].properties
-      const zoneCode = getZoneCodeFromFeature(e.features[0])
+      const zoneCode = getFeatureZoneCode(e.features[0])
       return getZoneFeature(
         featureProps[zoneCode],
         zoneCode,
@@ -348,7 +346,7 @@ export const getZoneFeature = (
 export const getSisterFeaturesInZone = (
   feature: FranceZoneFeature
 ): FranceZoneFeatureCollection => {
-  const zoneCode = getZoneCodeFromFeature(feature)
+  const zoneCode = getFeatureZoneCode(feature)
 
   return featureArrayToFeatureCollection(
     sortBy(

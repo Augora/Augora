@@ -5,6 +5,7 @@ import ReactMapGL, {
   Source,
   Layer,
   ViewState,
+  LayerProps,
 } from "react-map-gl"
 import { navigate } from "gatsby"
 import "mapbox-gl/dist/mapbox-gl.css"
@@ -20,10 +21,11 @@ import {
   getBoundingBoxFromFeature,
   getPolygonCenter,
   filterNewGEOJSonFeatureCollection,
-  getZoneCodeFromFeature,
+  getFeatureZoneCode,
   getGEOJsonFile,
   getMouseEventFeature,
   getZoneFeature,
+  getSisterFeaturesInZone,
 } from "components/maps/maps-utils"
 import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"
@@ -33,7 +35,8 @@ import IconFrance from "images/logos/projet/augora-logo.svg"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
 
-const fillLayerLayout = {
+const fillLayerProps: LayerProps = {
+  id: "zone-fill",
   type: "fill",
   paint: {
     "fill-color": " #00bbcc",
@@ -41,20 +44,41 @@ const fillLayerLayout = {
   },
 }
 
-const lineLayerLayout = {
+const lineLayerProps: LayerProps = {
+  id: "zone-line",
   type: "line",
   paint: {
     "line-color": "#00bbcc",
-    "line-width": 1,
-    // "line-dasharray": [4, 2],
+    "line-width": 2,
   },
 }
 
-const hoverLayerLayout = {
+const hoverLayerProps: LayerProps = {
+  id: "zone-fill-hovered",
   type: "fill",
   paint: {
     "fill-color": "#14ccae",
     "fill-opacity": 0.3,
+  },
+}
+
+const fillGhostLayerProps: LayerProps = {
+  id: "zone-ghost-fill",
+  type: "fill",
+  paint: {
+    "fill-color": " #00bbcc",
+    "fill-opacity": 0.02,
+  },
+}
+
+const lineGhostLayerProps: LayerProps = {
+  id: "zone-ghost-line",
+  type: "line",
+  paint: {
+    "line-color": "#00bbcc",
+    "line-width": 2,
+    "line-dasharray": [2, 2],
+    "line-opacity": 0.5,
   },
 }
 
@@ -82,7 +106,7 @@ export default function MapPage() {
     zoneDeputies: franceMetroDeputies,
   })
   const [hoverInfo, setHoverInfo] = useState<{
-    filter: any[]
+    filter: [string, ...any[]]
     lngLat: [number, number]
     zoneData: FranceZoneFeature
   }>({
@@ -104,7 +128,7 @@ export default function MapPage() {
    * @param {FranceZoneFeature} feature La feature de la zone à afficher
    */
   const displayNewZone = (feature: FranceZoneFeature): void => {
-    const zoneCode = getZoneCodeFromFeature(feature)
+    const zoneCode = getFeatureZoneCode(feature)
     if (!zoneCode) return
 
     const zoneId = feature.properties[zoneCode]
@@ -141,7 +165,7 @@ export default function MapPage() {
   const getDeputiesInZone = (
     feature: FranceZoneFeature
   ): { [key: string]: any }[] => {
-    switch (getZoneCodeFromFeature(feature)) {
+    switch (getFeatureZoneCode(feature)) {
       case ZoneCode.Regions:
         return state.FilteredList.filter((i) => {
           return i.NumeroRegion == feature.properties[ZoneCode.Regions]
@@ -170,7 +194,7 @@ export default function MapPage() {
   const handleHover = (e) => {
     const feature = getMouseEventFeature(e)
     if (feature) {
-      const zoneCode = getZoneCodeFromFeature(feature)
+      const zoneCode = getFeatureZoneCode(feature)
       setHoverInfo({
         filter: ["==", ["get", zoneCode], feature.properties[zoneCode]],
         lngLat: e.lngLat,
@@ -184,7 +208,7 @@ export default function MapPage() {
   const handleClick = (e) => {
     const feature = getMouseEventFeature(e)
     if (feature) {
-      const zoneCode = getZoneCodeFromFeature(feature)
+      const zoneCode = getFeatureZoneCode(feature)
       if (zoneCode === ZoneCode.Circonscriptions) {
         const deputy = getDeputiesInZone(feature)[0]
         if (deputy) navigate(`/depute/${deputy.Slug}`)
@@ -229,7 +253,7 @@ export default function MapPage() {
           dragRotate={false}
           doubleClickZoom={false}
           touchRotate={false}
-          interactiveLayerIds={["zone-fill", "zone-line"]}
+          interactiveLayerIds={["zone-fill", "zone-ghost-fill"]}
           onLoad={() => {
             flyToBounds(franceBox, viewport, setViewport)
           }}
@@ -238,13 +262,21 @@ export default function MapPage() {
           onClick={handleClick}
         >
           <Source type="geojson" data={currentView.GEOJson}>
+            <Layer {...hoverLayerProps} filter={hoverInfo.filter} />
+            <Layer {...fillLayerProps} />
+            <Layer {...lineLayerProps} />
+          </Source>
+          <Source
+            type="geojson"
+            data={getSisterFeaturesInZone(currentView.zoneData)}
+          >
             <Layer
-              id="zone-fill-hovered"
-              {...hoverLayerLayout}
+              {...hoverLayerProps}
+              id="zone-ghost-fill-hovered"
               filter={hoverInfo.filter}
             />
-            <Layer id="zone-fill" {...fillLayerLayout} />
-            <Layer id="zone-line" {...lineLayerLayout} />
+            <Layer {...lineGhostLayerProps} />
+            <Layer {...fillGhostLayerProps} />
           </Source>
           {hoverInfo.zoneData ? (
             <MapTooltip

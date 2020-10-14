@@ -1,10 +1,6 @@
 import React from "react"
 import { Popup } from "react-map-gl"
-import {
-  ZoneCode,
-  FranceZoneFeature,
-  getZoneCodeFromFeature,
-} from "./maps-utils"
+import { ZoneCode, FranceZoneFeature, getFeatureZoneCode } from "./maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 
 interface IMapTooltip {
@@ -15,7 +11,7 @@ interface IMapTooltip {
 }
 
 export default function MapTooltip(props: IMapTooltip) {
-  const zoneCode = getZoneCodeFromFeature(props.zoneFeature)
+  const zoneCode = getFeatureZoneCode(props.zoneFeature)
   const zoneName = props.zoneFeature.properties.nom
     ? props.zoneFeature.properties.nom
     : `Circonscription n°${props.zoneFeature.properties.num_circ}`
