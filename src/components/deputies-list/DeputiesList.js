@@ -135,8 +135,8 @@ const DeputiesList = (props) => {
         {state.FilteredList.length > 0 ? (
           state.FilteredList.map((depute) => {
             return (
-              <LazyLoadComponent>
-                <Deputy key={depute.Slug} data={depute} />
+              <LazyLoadComponent key={depute.Slug}>
+                <Deputy data={depute} />
               </LazyLoadComponent>
             )
           })
