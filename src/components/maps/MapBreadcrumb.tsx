@@ -58,6 +58,9 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
         title={`Revenir sur ${zoneFeature.properties.nom}`}
       >
         {zoneFeature.properties.nom}
+        {zoneFeature.properties.code_dpt
+          ? ` (${zoneFeature.properties.code_dpt})`
+          : null}
       </button>
       <Tooltip className="map__breadcrumb-tooltip">
         {getSisterFeaturesInZone(zoneFeature).features.map((feat, index) => (
@@ -67,6 +70,7 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
             title={`Aller sur ${feat.properties.nom}`}
           >
             {feat.properties.nom}
+            {feat.properties.code_dpt ? ` (${feat.properties.code_dpt})` : null}
           </button>
         ))}
       </Tooltip>
