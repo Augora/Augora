@@ -283,7 +283,8 @@ export default function MapPage() {
               totalDeputes={state.FilteredList.length}
             />
           ) : null}
-          {currentView.zoneCode === ZoneCode.Circonscriptions
+          {currentView.zoneCode === ZoneCode.Circonscriptions &&
+          viewport.zoom > 7
             ? currentView.GEOJson.features.map((element, index) => {
                 return (
                   <MapDeputyPin
