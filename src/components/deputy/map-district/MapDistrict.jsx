@@ -174,14 +174,18 @@ export default function MapDistrict(props) {
               zoomOutLabel="Dézoomer"
             />
             <FullscreenControl />
-            <CustomControl
-              onClick={handleReset}
-              className={`map__navigation-reset ${
-                userInteracted ? "visible" : null
-              }`}
-              title="Revenir à la position initiale"
-            >
-              <IconPin />
+            <CustomControl>
+              <button
+                className={`map__navigation-reset ${
+                  userInteracted ? "visible" : null
+                }`}
+                title="Revenir à la position initiale"
+                onClick={handleReset}
+              >
+                <div className="icon-wrapper">
+                  <IconPin />
+                </div>
+              </button>
             </CustomControl>
           </div>
         </ReactMapGL>
