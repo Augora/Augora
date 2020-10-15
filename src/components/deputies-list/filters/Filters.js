@@ -96,7 +96,7 @@ function Filters(props) {
           <div className="filters__sexes">
             <Button
               className={`sexes__btn female ${
-                props.SexValue["F"] ? "selected" : ""
+                props.SexValue["F"] ? "checked" : ""
               }`}
               onClick={(e) => props.handleClickOnSex("F")}
               color="main"
@@ -118,7 +118,7 @@ function Filters(props) {
             </Button>
             <Button
               className={`sexes__btn male ${
-                props.SexValue["H"] ? "selected" : ""
+                props.SexValue["H"] ? "checked" : ""
               }`}
               onClick={(e) => props.handleClickOnSex("H")}
               color="secondary"

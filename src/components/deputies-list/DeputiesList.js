@@ -9,7 +9,7 @@ import { DeputiesListContext } from "../../context/deputies-filters/deputiesFilt
 import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import Tooltip from "components/tooltip/Tooltip"
-import Button from "components/buttons/Button"
+import Input from "components/buttons/Input"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 const DeputiesList = (props) => {
@@ -39,27 +39,27 @@ const DeputiesList = (props) => {
 
   const allGroupes = state.GroupesList.map((groupe) => {
     return (
-      <Button
-        className={`groupe groupe--${groupe.Sigle} ${
-          state.GroupeValue[groupe.Sigle] ? "selected" : ""
-        }`}
+      <Input
+        className={`groupe groupe--${groupe.Sigle.toLowerCase()}`}
         key={`groupe--${groupe.Sigle}`}
-        style={{ order: groupe.Ordre }}
+        style={{
+          order: groupe.Ordre,
+          borderColor: groupe.Couleur,
+          backgroundColor: groupe.Couleur,
+        }}
         color={groupe.Couleur}
+        onClick={() => handleClickOnGroupe(groupe.Sigle)}
+        type="checkbox"
+        checked={state.GroupeValue[groupe.Sigle]}
       >
-        <input
-          className="groupe__checkbox"
-          type="checkbox"
-          checked={state.GroupeValue[groupe.Sigle]}
-          onChange={(e) => handleClickOnGroupe(groupe.Sigle)}
-        />
         <div className="groupe__img-container">
           <img
-            src={groupeIconByGroupeSigle(
-              groupe.Sigle,
-              !state.GroupeValue[groupe.Sigle]
-            )}
+            src={groupeIconByGroupeSigle(groupe.Sigle, false)}
             alt={`Icône groupe parlementaire ${groupe.Sigle}`}
+          />
+          <img
+            src={groupeIconByGroupeSigle(groupe.Sigle, true)}
+            alt={`Icône groupe parlementaire ${groupe.Sigle} en couleur`}
           />
         </div>
         <Tooltip
@@ -72,7 +72,7 @@ const DeputiesList = (props) => {
           totalDeputes={state.FilteredList.length}
           color={groupe.Couleur}
         />
-      </Button>
+      </Input>
     )
   })
 

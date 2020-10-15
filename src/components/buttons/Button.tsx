@@ -2,7 +2,8 @@ import React from "react"
 
 export interface IButton {
   className?: string
-  onClick(): Event
+  onClick(): Function
+  style?: object
   color?: string
   children?: React.ReactNode
   checked?: boolean
@@ -20,12 +21,11 @@ export default function Button(props: IButton) {
   return (
     <button
       className={`btn ${props.className} ${
-        props.color ? "btn--" + props.color : "btn--white"
+        props.color ? "btn--" + props.color : ""
       }`}
       onClick={props.onClick}
       style={{
-        backgroundColor: props.color ? props.color : "#fff",
-        borderColor: props.color && props.checked ? props.color : "#fff",
+        ...props.style,
       }}
     >
       {props.children}

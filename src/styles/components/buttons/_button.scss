@@ -42,7 +42,7 @@
     .icon-wrapper svg * {
       fill: $main-color;
     }
-    &.selected {
+    &.checked {
       background-color: $main-color;
       .icon-wrapper svg * {
         fill: $white;
@@ -61,7 +61,7 @@
     .icon-wrapper svg * {
       fill: $secondary-color;
     }
-    &.selected {
+    &.checked {
       background-color: $secondary-color;
       .icon-wrapper svg * {
         fill: $white;
@@ -73,6 +73,11 @@
         color: $secondary-color;
       }
     }
+  }
+
+  // Types
+  &--checkbox {
+    border-style: dashed;
   }
 
   transition: background-color 0.5s $ease-in-out-cubic,
@@ -104,7 +109,7 @@
   }
 
   // Component State
-  &.selected {
+  &.checked {
     .icon-wrapper {
       transform: scale(1);
     }
@@ -115,7 +120,7 @@
       }
     }
   }
-  &:not(.selected) {
-    background-color: transparent;
+  &:not(.checked) {
+    background-color: transparent !important;
   }
 }
