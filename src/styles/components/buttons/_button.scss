@@ -102,6 +102,7 @@
     .tooltip {
       top: calc(100% + 10px);
       opacity: 1;
+      transition-delay: 0.5s;
     }
     .icon-wrapper {
       transform: scale(1);
