@@ -2,14 +2,14 @@ import React from "react"
 import {
   ZoneCode,
   FranceZoneFeature,
-  FranceZoneFeatureCollection,
   metroFranceFeature,
   getFeatureZoneCode,
   getZoneFeature,
-  getSisterFeaturesInZone,
+  getSisterFeatures,
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 import CustomControl from "components/maps/CustomControl"
+import sortBy from "lodash/sortBy"
 
 interface IMapBreadcrumb {
   feature: FranceZoneFeature
@@ -23,34 +23,28 @@ interface IMapBreadcrumbItem {
 }
 
 /**
- * Renvoie l'historique des zones parcourues sous forme de feature collection
+ * Renvoie l'historique des zones parcourues sous forme de feature array
  * @param {FranceZoneFeature} feature L'object feature à analyser
  */
-const getHistory = (
-  feature: FranceZoneFeature
-): FranceZoneFeatureCollection => {
+const getHistory = (feature: FranceZoneFeature): FranceZoneFeature[] => {
   const zoneCode = getFeatureZoneCode(feature)
-  const featureArray =
-    zoneCode === ZoneCode.Departements
-      ? [
-          metroFranceFeature,
-          getZoneFeature(
-            feature.properties[ZoneCode.Regions],
-            ZoneCode.Regions
-          ),
-          feature,
-        ]
-      : zoneCode === ZoneCode.Regions
-      ? [metroFranceFeature, feature]
-      : [metroFranceFeature]
-
-  return {
-    type: "FeatureCollection",
-    features: featureArray,
-  }
+  return zoneCode === ZoneCode.Departements
+    ? [
+        metroFranceFeature,
+        getZoneFeature(feature.properties[ZoneCode.Regions], ZoneCode.Regions),
+        feature,
+      ]
+    : zoneCode === ZoneCode.Regions
+    ? [metroFranceFeature, feature]
+    : [metroFranceFeature]
 }
 
 function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
+  const sisterZones = sortBy(
+    getSisterFeatures(zoneFeature),
+    (o) => o.properties.nom
+  )
+
   return (
     <div className="map__breadcrumb-item">
       <button
@@ -64,7 +58,7 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
           : null}
       </button>
       <Tooltip className="map__breadcrumb-tooltip">
-        {getSisterFeaturesInZone(zoneFeature).features.map((feat, index) => (
+        {sisterZones.map((feat, index) => (
           <button
             key={`${zoneFeature.properties.nom}-tooltip-button-${index}`}
             onClick={() => handleClick(feat)}
@@ -80,12 +74,12 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
 }
 
 export default function MapBreadcrumb(props: IMapBreadcrumb) {
-  const featureCollection = getHistory(props.feature)
+  const history = getHistory(props.feature)
 
   return (
     <CustomControl>
       <div className="map__breadcrumb">
-        {featureCollection.features.map((item, index) => (
+        {history.map((item, index) => (
           <MapBreadcrumbItem
             key={`breadcrumb-${index}`}
             zoneFeature={item}

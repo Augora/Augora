@@ -25,7 +25,7 @@ import {
   getGEOJsonFile,
   getMouseEventFeature,
   getZoneFeature,
-  getSisterFeaturesInZone,
+  getGhostZones,
 } from "components/maps/maps-utils"
 import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"
@@ -266,10 +266,7 @@ export default function MapPage() {
             <Layer {...fillLayerProps} />
             <Layer {...lineLayerProps} />
           </Source>
-          <Source
-            type="geojson"
-            data={getSisterFeaturesInZone(currentView.zoneData)}
-          >
+          <Source type="geojson" data={getGhostZones(currentView.zoneData)}>
             <Layer
               {...hoverLayerProps}
               id="zone-ghost-fill-hovered"

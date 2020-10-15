@@ -3,7 +3,6 @@ import polylabel from "polylabel"
 import GEOJsonDistrictFile from "static/list-district.json"
 import GEOJsonDptFile from "static/departements.json"
 import GEOJsonRegFile from "static/regions.json"
-import sortBy from "lodash/sortBy"
 
 /**
  * Un array de 2 nombres: longitude en premier et latitude, utilisable par mapbox pour les coordonées
@@ -64,9 +63,11 @@ export enum ZoneCode {
  * @param featureArray
  */
 export const featureArrayToFeatureCollection = (
-  featureArray: FranceZoneFeature[]
+  featureArray?: FranceZoneFeature[]
 ): FranceZoneFeatureCollection => {
-  return { type: "FeatureCollection", features: featureArray }
+  return featureArray
+    ? { type: "FeatureCollection", features: featureArray }
+    : { type: "FeatureCollection", features: [] }
 }
 
 /**
@@ -285,7 +286,7 @@ export const filterNewGEOJSonFeatureCollection = (
  * @param {FranceZoneFeature} feature L'objet feature GeoJSON à analyser
  */
 export const getFeatureZoneCode = (feature: FranceZoneFeature): ZoneCode => {
-  if (feature.properties) {
+  if (feature?.properties) {
     const featureAsAnArray = Object.keys(feature.properties)
 
     if (featureAsAnArray.includes(ZoneCode.Circonscriptions))
@@ -340,39 +341,59 @@ export const getZoneFeature = (
 }
 
 /**
- * Renvoie une Feature Collection contenant toutes les zones soeurs de la zone fournie
- * @param feature La feature à analyser
+ * Renvoie une feature array contenant toutes les zones soeurs de la zone fournie
+ * @param {FranceZoneFeature} feature La feature à analyser
  */
-export const getSisterFeaturesInZone = (
+export const getSisterFeatures = (
+  feature: FranceZoneFeature
+): FranceZoneFeature[] => {
+  const zoneCode = getFeatureZoneCode(feature)
+
+  return zoneCode
+    ? getGEOJsonFile(zoneCode).features.filter((entry) => {
+        switch (zoneCode) {
+          case ZoneCode.Regions:
+            return entry.properties[zoneCode] !== feature.properties[zoneCode]
+          case ZoneCode.Departements:
+            return (
+              entry.properties[zoneCode] !== feature.properties[zoneCode] &&
+              entry.properties[ZoneCode.Regions] ===
+                feature.properties[ZoneCode.Regions]
+            )
+          case ZoneCode.Circonscriptions:
+            return (
+              entry.properties[zoneCode] !== feature.properties[zoneCode] &&
+              entry.properties[ZoneCode.Departements] ===
+                feature.properties[ZoneCode.Departements]
+            )
+        }
+      })
+    : [metroFranceFeature]
+}
+
+/**
+ * Renvoie une feature collection contenant les zones soeurs, et les zones soeurs parentes
+ * @param {FranceZoneFeature} feature La feature à analyser
+ */
+export const getGhostZones = (
   feature: FranceZoneFeature
 ): FranceZoneFeatureCollection => {
   const zoneCode = getFeatureZoneCode(feature)
 
-  return featureArrayToFeatureCollection(
-    sortBy(
-      zoneCode
-        ? getGEOJsonFile(zoneCode).features.filter((entry) => {
-            switch (zoneCode) {
-              case ZoneCode.Regions:
-                return (
-                  entry.properties[zoneCode] !== feature.properties[zoneCode]
-                )
-              case ZoneCode.Departements:
-                return (
-                  entry.properties[zoneCode] !== feature.properties[zoneCode] &&
-                  entry.properties[ZoneCode.Regions] ===
-                    feature.properties[ZoneCode.Regions]
-                )
-              default:
-                return (
-                  entry.properties[zoneCode] !== feature.properties[zoneCode] &&
-                  entry.properties[ZoneCode.Departements] ===
-                    feature.properties[ZoneCode.Departements]
-                )
-            }
-          })
-        : [metroFranceFeature],
-      (o) => o.properties.nom
+  if (zoneCode) {
+    const regionSisters = getSisterFeatures(
+      getZoneFeature(feature.properties[ZoneCode.Regions], ZoneCode.Regions)
     )
-  )
+    if (zoneCode === ZoneCode.Regions)
+      return featureArrayToFeatureCollection(regionSisters)
+    else {
+      const dptSisters = getSisterFeatures(
+        getZoneFeature(
+          feature.properties[ZoneCode.Departements],
+          ZoneCode.Departements
+        )
+      )
+      return featureArrayToFeatureCollection([...regionSisters, ...dptSisters])
+    }
+  } else return featureArrayToFeatureCollection()
 }
