@@ -67,7 +67,7 @@ const fillGhostLayerProps: LayerProps = {
   type: "fill",
   paint: {
     "fill-color": " #00bbcc",
-    "fill-opacity": 0.02,
+    "fill-opacity": 0.04,
   },
 }
 
@@ -78,7 +78,7 @@ const lineGhostLayerProps: LayerProps = {
     "line-color": "#00bbcc",
     "line-width": 2,
     "line-dasharray": [2, 2],
-    "line-opacity": 0.5,
+    "line-opacity": 0.4,
   },
 }
 
