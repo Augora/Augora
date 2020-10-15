@@ -303,7 +303,7 @@ export const getFeatureZoneCode = (feature: FranceZoneFeature): ZoneCode => {
  * Renvoie la feature FranceZone d'un mousevent, null si la feature n'a pas le bon format
  */
 export const getMouseEventFeature = (e): FranceZoneFeature => {
-  if (e.features) {
+  if (e.features && e.target.className === "overlays") {
     if (e.features[0]?.properties) {
       const featureProps = e.features[0].properties
       const zoneCode = getFeatureZoneCode(e.features[0])
