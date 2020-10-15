@@ -60,9 +60,9 @@ export enum ZoneCode {
 
 /**
  * Formate une feature array sous forme feature collection GEOJson
- * @param featureArray
+ * @param featureArray La feature collection renvoyée sera vide sans cet argument
  */
-export const featureArrayToFeatureCollection = (
+export const createFeatureCollection = (
   featureArray?: FranceZoneFeature[]
 ): FranceZoneFeatureCollection => {
   return featureArray
@@ -77,7 +77,7 @@ export const featureArrayToFeatureCollection = (
 const removeDOMTOM = (
   file: FranceZoneFeatureCollection
 ): FranceZoneFeatureCollection => {
-  return featureArrayToFeatureCollection(
+  return createFeatureCollection(
     file.features.filter((feature) => feature.properties[ZoneCode.Regions] > 10)
   )
 }
@@ -274,7 +274,7 @@ export const filterNewGEOJSonFeatureCollection = (
   zoneCodeToSearch: ZoneCode,
   zoneCodeId: number
 ): FranceZoneFeatureCollection => {
-  return featureArrayToFeatureCollection(
+  return createFeatureCollection(
     GEOJsonFile.features.filter(
       (feature) => feature.properties[zoneCodeToSearch] === zoneCodeId
     )
@@ -385,7 +385,7 @@ export const getGhostZones = (
       getZoneFeature(feature.properties[ZoneCode.Regions], ZoneCode.Regions)
     )
     if (zoneCode === ZoneCode.Regions)
-      return featureArrayToFeatureCollection(regionSisters)
+      return createFeatureCollection(regionSisters)
     else {
       const dptSisters = getSisterFeatures(
         getZoneFeature(
@@ -393,7 +393,7 @@ export const getGhostZones = (
           ZoneCode.Departements
         )
       )
-      return featureArrayToFeatureCollection([...regionSisters, ...dptSisters])
+      return createFeatureCollection([...regionSisters, ...dptSisters])
     }
-  } else return featureArrayToFeatureCollection()
+  } else return createFeatureCollection()
 }
