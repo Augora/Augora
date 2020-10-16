@@ -27,15 +27,21 @@ interface IMapBreadcrumbItem {
  */
 const getHistory = (feature: FranceZoneFeature): FranceZoneFeature[] => {
   const zoneCode = getFeatureZoneCode(feature)
-  return zoneCode === ZoneCode.Departements
-    ? [
+
+  switch (zoneCode) {
+    case ZoneCode.Continent:
+      return [metroFranceFeature]
+    case ZoneCode.Regions:
+      return [metroFranceFeature, feature]
+    case ZoneCode.Departements:
+      return [
         metroFranceFeature,
         getZoneFeature(feature.properties[ZoneCode.Regions], ZoneCode.Regions),
         feature,
       ]
-    : zoneCode === ZoneCode.Regions
-    ? [metroFranceFeature, feature]
-    : [metroFranceFeature]
+    default:
+      return []
+  }
 }
 
 function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {

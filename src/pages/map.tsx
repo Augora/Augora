@@ -128,27 +128,36 @@ export default function MapPage() {
    */
   const displayNewZone = (feature: FranceZoneFeature): void => {
     const zoneCode = getFeatureZoneCode(feature)
-    if (zoneCode) {
-      const childrenZonesCode =
-        zoneCode === ZoneCode.Regions
-          ? ZoneCode.Departements
-          : ZoneCode.Circonscriptions
 
-      const newZoneGEOJson = getChildFeatures(feature)
+    switch (zoneCode) {
+      case ZoneCode.Regions:
+      case ZoneCode.Departements:
+        const childrenZonesCode =
+          zoneCode === ZoneCode.Regions
+            ? ZoneCode.Departements
+            : ZoneCode.Circonscriptions
 
-      const newDeputiesInZone = getDeputiesInZone(feature)
+        const newZoneGEOJson = getChildFeatures(feature)
 
-      setCurrentView({
-        GEOJson: newZoneGEOJson,
-        zoneCode: childrenZonesCode,
-        zoneData: feature,
-        zoneDeputies: newDeputiesInZone,
-      })
+        const newDeputiesInZone = getDeputiesInZone(feature)
 
-      flyToBounds(getBoundingBoxFromFeature(feature), viewport, setViewport)
+        setCurrentView({
+          GEOJson: newZoneGEOJson,
+          zoneCode: childrenZonesCode,
+          zoneData: feature,
+          zoneDeputies: newDeputiesInZone,
+        })
 
-      resetHoverInfo()
-    } else handleReset()
+        flyToBounds(getBoundingBoxFromFeature(feature), viewport, setViewport)
+
+        resetHoverInfo()
+        return
+      case ZoneCode.Continent:
+        handleReset()
+        return
+      default:
+        return
+    }
   }
 
   /**
@@ -158,7 +167,18 @@ export default function MapPage() {
   const getDeputiesInZone = (
     feature: FranceZoneFeature
   ): { [key: string]: any }[] => {
-    switch (getFeatureZoneCode(feature)) {
+    const zoneCode = getFeatureZoneCode(feature)
+
+    switch (zoneCode) {
+      case ZoneCode.Continent:
+        if (feature.properties[zoneCode] === 1)
+          return state.FilteredList.filter((i) => {
+            return i.NumeroRegion < 10
+          })
+        else
+          return state.FilteredList.filter((i) => {
+            return i.NumeroRegion > 10
+          })
       case ZoneCode.Regions:
         return state.FilteredList.filter((i) => {
           return i.NumeroRegion == feature.properties[ZoneCode.Regions]
