@@ -311,15 +311,17 @@ export const getZoneFeature = (
   zoneCode: ZoneCode,
   dptId?: number
 ): FranceZoneFeature => {
-  return zoneCode !== ZoneCode.Circonscriptions
-    ? getGEOJsonFile(zoneCode).features.find(
-        (entry) => entry.properties[zoneCode] == zoneId
-      )
-    : getGEOJsonFile(zoneCode).features.find(
-        (entry) =>
-          entry.properties[zoneCode] == zoneId &&
-          entry.properties[ZoneCode.Departements] == dptId
-      )
+  if (zoneCode) {
+    return zoneCode !== ZoneCode.Circonscriptions
+      ? getGEOJsonFile(zoneCode).features.find(
+          (entry) => entry.properties[zoneCode] == zoneId
+        )
+      : getGEOJsonFile(zoneCode).features.find(
+          (entry) =>
+            entry.properties[zoneCode] == zoneId &&
+            entry.properties[ZoneCode.Departements] == dptId
+        )
+  } else return metroFranceFeature
 }
 
 /**
@@ -331,7 +333,7 @@ export const getChildFeatures = (
 ): FranceZoneFeatureCollection => {
   const zoneCode = getFeatureZoneCode(feature)
 
-  if (zoneCode && zoneCode !== ZoneCode.Circonscriptions) {
+  if (zoneCode !== ZoneCode.Circonscriptions) {
     const zoneId = feature.properties[zoneCode]
     const file = getGEOJsonFile(
       zoneCode === ZoneCode.Regions
@@ -342,6 +344,8 @@ export const getChildFeatures = (
     return createFeatureCollection(
       file.features.filter((element) => element.properties[zoneCode] === zoneId)
     )
+  } else if (zoneCode === ZoneCode.Circonscriptions) {
+    createFeatureCollection([metroFranceFeature])
   } else return createFeatureCollection()
 }
 

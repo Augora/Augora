@@ -123,7 +123,7 @@ export default function MapPage() {
   }
 
   /**
-   * Affiche une nouvelle vue
+   * Affiche une nouvelle vue, reset la vue si la feature passée n'est pas correcte
    * @param {FranceZoneFeature} feature La feature de la zone à afficher
    */
   const displayNewZone = (feature: FranceZoneFeature): void => {
@@ -306,7 +306,7 @@ export default function MapPage() {
             <CustomControl>
               <button
                 className="map__navigation-custom visible"
-                title="Revenir à la vue Régions"
+                title="Revenir sur la France métropolitaine"
                 onClick={handleReset}
               >
                 <div className="icon-wrapper">
