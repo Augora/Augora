@@ -487,13 +487,21 @@ export const getSisterFeatures = (
 ): FranceZoneFeature[] => {
   const zoneCode = getFeatureZoneCode(feature)
   const props = feature?.properties
+  const continentId = getContinentId(feature)
 
   switch (zoneCode) {
     case ZoneCode.Continent:
-    case ZoneCode.Regions:
-      return getGEOJsonFile(zoneCode).features.filter(
+      return continentFeatureCollection.features.filter(
         (entry) => entry.properties[zoneCode] !== props[zoneCode]
       )
+    case ZoneCode.Regions:
+      return continentId === Continent.France
+        ? GEOJsonReg.features.filter(
+            (entry) => entry.properties[zoneCode] !== props[zoneCode]
+          )
+        : DOMTOMGEOJsonReg.features.filter(
+            (entry) => entry.properties[zoneCode] !== props[zoneCode]
+          )
     case ZoneCode.Departements:
       return getGEOJsonFile(zoneCode).features.filter(
         (entry) =>
