@@ -1,8 +1,11 @@
 import React from "react"
 import {
   ZoneCode,
+  Continent,
   FranceZoneFeature,
   metroFranceFeature,
+  DOMTOMFeature,
+  getContinentId,
   getFeatureZoneCode,
   getZoneFeature,
   getSisterFeatures,
@@ -27,12 +30,15 @@ interface IMapBreadcrumbItem {
  */
 const getHistory = (feature: FranceZoneFeature): FranceZoneFeature[] => {
   const zoneCode = getFeatureZoneCode(feature)
+  const continentId = getContinentId(feature)
 
   switch (zoneCode) {
     case ZoneCode.Continent:
       return [feature]
     case ZoneCode.Regions:
-      return [metroFranceFeature, feature]
+      return continentId === Continent.France
+        ? [metroFranceFeature, feature]
+        : [DOMTOMFeature, feature]
     case ZoneCode.Departements:
       return [
         metroFranceFeature,
