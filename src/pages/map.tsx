@@ -11,13 +11,17 @@ import { navigate } from "gatsby"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   ZoneCode,
+  Continent,
   FranceZoneFeature,
   FranceZoneFeatureCollection,
   France,
   franceBox,
   GEOJsonReg,
+  DOMTOMGEOJsonReg,
   metroFranceFeature,
+  DOMTOMFeature,
   flyToBounds,
+  getContinentId,
   getBoundingBoxFromFeature,
   getPolygonCenter,
   getChildFeatures,
@@ -133,7 +137,8 @@ export default function MapPage() {
       case ZoneCode.Regions:
       case ZoneCode.Departements:
         const childrenZonesCode =
-          zoneCode === ZoneCode.Regions
+          zoneCode === ZoneCode.Regions &&
+          getContinentId(feature) === Continent.France
             ? ZoneCode.Departements
             : ZoneCode.Circonscriptions
 
@@ -153,7 +158,14 @@ export default function MapPage() {
         resetHoverInfo()
         return
       case ZoneCode.Continent:
-        handleReset()
+        if (feature.properties[zoneCode] === 1) {
+          setCurrentView({
+            GEOJson: DOMTOMGEOJsonReg,
+            zoneCode: ZoneCode.Regions,
+            zoneData: DOMTOMFeature,
+            zoneDeputies: getDeputiesInZone(feature),
+          })
+        } else handleReset()
         return
       default:
         return
@@ -181,7 +193,9 @@ export default function MapPage() {
           })
       case ZoneCode.Regions:
         return state.FilteredList.filter((i) => {
-          return i.NumeroRegion == feature.properties[ZoneCode.Regions]
+          return (
+            parseInt(i.NumeroRegion) == feature.properties[ZoneCode.Regions]
+          )
         })
       case ZoneCode.Departements:
         return state.FilteredList.filter((i) => {
@@ -190,13 +204,18 @@ export default function MapPage() {
           )
         })
       case ZoneCode.Circonscriptions:
+        const continentId = getContinentId(feature)
         return [
           state.FilteredList.find((i) => {
-            return (
-              i.NumeroCirconscription ==
-                feature.properties[ZoneCode.Circonscriptions] &&
-              i.NumeroDepartement == feature.properties[ZoneCode.Departements]
-            )
+            return continentId === Continent.France
+              ? i.NumeroCirconscription ==
+                  feature.properties[ZoneCode.Circonscriptions] &&
+                  i.NumeroDepartement ==
+                    feature.properties[ZoneCode.Departements]
+              : i.NumeroCirconscription ==
+                  feature.properties[ZoneCode.Circonscriptions] &&
+                  parseInt(i.NumeroRegion) ==
+                    feature.properties[ZoneCode.Regions]
           }),
         ]
       default:
@@ -300,16 +319,16 @@ export default function MapPage() {
           ) : null}
           {currentView.zoneCode === ZoneCode.Circonscriptions &&
           viewport.zoom > 7
-            ? currentView.GEOJson.features.map((element, index) => {
+            ? currentView.GEOJson.features.map((feature, index) => {
                 return (
                   <MapDeputyPin
-                    key={`${element.properties.nom_dpt.toLowerCase()} ${index}`}
-                    lng={getPolygonCenter(element)[0]}
-                    lat={getPolygonCenter(element)[1]}
+                    key={`${feature.properties.nom_dpt.toLowerCase()} ${index}`}
+                    lng={getPolygonCenter(feature)[0]}
+                    lat={getPolygonCenter(feature)[1]}
                     deputy={currentView.zoneDeputies.find((entry) => {
                       return (
                         entry.NumeroCirconscription ==
-                        element.properties.num_circ
+                        feature.properties.num_circ
                       )
                     })}
                   />

@@ -30,7 +30,7 @@ const getHistory = (feature: FranceZoneFeature): FranceZoneFeature[] => {
 
   switch (zoneCode) {
     case ZoneCode.Continent:
-      return [metroFranceFeature]
+      return [feature]
     case ZoneCode.Regions:
       return [metroFranceFeature, feature]
     case ZoneCode.Departements:

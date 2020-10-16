@@ -60,6 +60,12 @@ export enum ZoneCode {
   Circonscriptions = "num_circ",
 }
 
+export enum Continent {
+  France = 0,
+  DOMTOM = 1,
+  Hors = 2,
+}
+
 /**
  * Formate une feature array sous forme feature collection GEOJson
  * @param featureArray La feature collection renvoyée sera vide sans cet argument
@@ -67,9 +73,10 @@ export enum ZoneCode {
 export const createFeatureCollection = (
   featureArray?: FranceZoneFeature[]
 ): FranceZoneFeatureCollection => {
-  return featureArray
-    ? { type: "FeatureCollection", features: featureArray }
-    : { type: "FeatureCollection", features: [] }
+  return {
+    type: "FeatureCollection",
+    features: featureArray ? featureArray : [],
+  }
 }
 
 /**
@@ -161,7 +168,7 @@ export const metroFranceFeature: FranceZoneFeature = {
   },
   properties: {
     nom: "France métropolitaine",
-    code_cont: 0,
+    code_cont: Continent.France,
   },
 }
 
@@ -176,7 +183,7 @@ export const DOMTOMFeature: FranceZoneFeature = {
   },
   properties: {
     nom: "DOM-TOM",
-    code_cont: 1,
+    code_cont: Continent.DOMTOM,
   },
 }
 
@@ -201,6 +208,25 @@ export const getGEOJsonFile = (
       return GEOJsonDpt
     case ZoneCode.Regions:
       return GEOJsonReg
+    case ZoneCode.Continent:
+      return continentFeatureCollection
+    default:
+      return createFeatureCollection()
+  }
+}
+
+/**
+ * Renvoie la GeoJSON Feature Collection DOMTOM associée au type de zone
+ * @param zoneCode Le type de zone
+ */
+export const getGEOJsonDOMTOM = (
+  zoneCode: ZoneCode
+): FranceZoneFeatureCollection => {
+  switch (zoneCode) {
+    case ZoneCode.Circonscriptions:
+      return DOMTOMGEOJsonDistrict
+    case ZoneCode.Regions:
+      return DOMTOMGEOJsonReg
     case ZoneCode.Continent:
       return continentFeatureCollection
     default:
@@ -313,6 +339,31 @@ export const flyToBounds = (
   })
 }
 
+export const getContinentId = (feature: FranceZoneFeature): Continent => {
+  const zoneCode = getFeatureZoneCode(feature)
+  switch (zoneCode) {
+    case ZoneCode.Continent:
+      return feature.properties[zoneCode]
+    case ZoneCode.Regions:
+      return feature.properties[zoneCode] < 10
+        ? Continent.DOMTOM
+        : Continent.France
+    case ZoneCode.Departements:
+      return Continent.France
+    case ZoneCode.Circonscriptions:
+      const hasRegion = Object.keys(feature.properties).includes(
+        ZoneCode.Regions
+      )
+      if (hasRegion) {
+        return feature.properties[ZoneCode.Regions] < 10
+          ? Continent.DOMTOM
+          : Continent.France
+      } else return Continent.Hors
+    default:
+      return null
+  }
+}
+
 /**
  * Determine dans quelle vue la feature passée devrait être, renvoie null si la feature ne contient pas les infos nécéssaires
  * @param {FranceZoneFeature} feature L'objet feature GeoJSON à analyser
@@ -325,42 +376,12 @@ export const getFeatureZoneCode = (feature: FranceZoneFeature): ZoneCode => {
       return ZoneCode.Circonscriptions
     else if (featureKeys.includes(ZoneCode.Departements))
       return ZoneCode.Departements
-    else if (featureKeys.includes(ZoneCode.Regions)) return ZoneCode.Regions
-    else if (featureKeys.includes(ZoneCode.Continent)) return ZoneCode.Continent
+    else if (featureKeys.includes(ZoneCode.Regions)) {
+      return ZoneCode.Regions
+    } else if (featureKeys.includes(ZoneCode.Continent))
+      return ZoneCode.Continent
     else return null
   } else return null
-}
-
-/**
- * Renvoie la feature d'une zone
- * @param {number} zoneId L'id de la zone
- * @param {ZoneCode} zoneCode Le code de la zone
- * @param {number} [dptID] L'id du département, obligatoire si c'est une circonscription
- */
-export const getZoneFeature = (
-  zoneId: number,
-  zoneCode: ZoneCode,
-  dptId?: number
-): FranceZoneFeature => {
-  switch (zoneCode) {
-    case ZoneCode.Continent:
-      return continentFeatureCollection.features.find(
-        (entry) => entry.properties[zoneCode] == zoneId
-      )
-    case ZoneCode.Regions:
-    case ZoneCode.Departements:
-      return getGEOJsonFile(zoneCode).features.find(
-        (entry) => entry.properties[zoneCode] == zoneId
-      )
-    case ZoneCode.Circonscriptions:
-      return getGEOJsonFile(zoneCode).features.find(
-        (entry) =>
-          entry.properties[zoneCode] == zoneId &&
-          entry.properties[ZoneCode.Departements] == dptId
-      )
-    default:
-      return null
-  }
 }
 
 /**
@@ -383,6 +404,41 @@ export const getMouseEventFeature = (e): FranceZoneFeature => {
 }
 
 /**
+ * Renvoie la feature d'une zone
+ * @param {number} zoneId L'id de la zone
+ * @param {ZoneCode} zoneCode Le code de la zone
+ * @param {number} [dptID] L'id du département, obligatoire si c'est une circonscription
+ */
+export const getZoneFeature = (
+  zoneId: number,
+  zoneCode: ZoneCode,
+  dptId?: number
+): FranceZoneFeature => {
+  switch (zoneCode) {
+    case ZoneCode.Continent:
+      return continentFeatureCollection.features.find(
+        (entry) => entry.properties[zoneCode] == zoneId
+      )
+    case ZoneCode.Regions:
+      return GEOJsonRegFile.features.find(
+        (entry) => entry.properties[zoneCode] == zoneId
+      )
+    case ZoneCode.Departements:
+      return GEOJsonDptFile.features.find(
+        (entry) => entry.properties[zoneCode] == zoneId
+      )
+    case ZoneCode.Circonscriptions:
+      return GEOJsonDistrictFile.features.find(
+        (entry) =>
+          entry.properties[zoneCode] == zoneId &&
+          entry.properties[ZoneCode.Departements] == dptId
+      )
+    default:
+      return null
+  }
+}
+
+/**
  * Renvoie une feature collection GEOJson contenant les zones enfant de la feature fournie
  * @param {FranceZoneFeature} feature La feature à analyser
  */
@@ -390,23 +446,31 @@ export const getChildFeatures = (
   feature: FranceZoneFeature
 ): FranceZoneFeatureCollection => {
   const zoneCode = getFeatureZoneCode(feature)
+  const continentId = getContinentId(feature)
 
   switch (zoneCode) {
     case ZoneCode.Continent:
-      if (feature.properties[zoneCode] === 1) return DOMTOMGEOJsonReg
+      if (feature.properties[zoneCode] === Continent.DOMTOM)
+        return DOMTOMGEOJsonReg
       else return GEOJsonReg
     case ZoneCode.Regions:
+      if (continentId === Continent.DOMTOM) {
+        return createFeatureCollection(
+          DOMTOMGEOJsonDistrict.features.filter(
+            (element) =>
+              element.properties[zoneCode] === feature.properties[zoneCode]
+          )
+        )
+      }
     case ZoneCode.Departements:
-      const zoneId = feature.properties[zoneCode]
-      const file = getGEOJsonFile(
-        zoneCode === ZoneCode.Regions
-          ? ZoneCode.Departements
-          : ZoneCode.Circonscriptions
-      )
-
       return createFeatureCollection(
-        file.features.filter(
-          (element) => element.properties[zoneCode] === zoneId
+        getGEOJsonFile(
+          zoneCode === ZoneCode.Regions
+            ? ZoneCode.Departements
+            : ZoneCode.Circonscriptions
+        ).features.filter(
+          (element) =>
+            element.properties[zoneCode] === feature.properties[zoneCode]
         )
       )
     default:
