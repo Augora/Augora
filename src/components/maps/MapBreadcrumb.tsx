@@ -13,7 +13,6 @@ import sortBy from "lodash/sortBy"
 
 interface IMapBreadcrumb {
   feature: FranceZoneFeature
-  handleReset: Function
   handleClick: Function
 }
 
@@ -83,9 +82,7 @@ export default function MapBreadcrumb(props: IMapBreadcrumb) {
           <MapBreadcrumbItem
             key={`breadcrumb-${index}`}
             zoneFeature={item}
-            handleClick={
-              !getFeatureZoneCode(item) ? props.handleReset : props.handleClick
-            }
+            handleClick={props.handleClick}
           />
         ))}
       </div>

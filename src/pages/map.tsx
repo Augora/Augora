@@ -128,27 +128,27 @@ export default function MapPage() {
    */
   const displayNewZone = (feature: FranceZoneFeature): void => {
     const zoneCode = getFeatureZoneCode(feature)
-    if (!zoneCode) return
+    if (zoneCode) {
+      const childrenZonesCode =
+        zoneCode === ZoneCode.Regions
+          ? ZoneCode.Departements
+          : ZoneCode.Circonscriptions
 
-    const childrenZonesCode =
-      zoneCode === ZoneCode.Regions
-        ? ZoneCode.Departements
-        : ZoneCode.Circonscriptions
+      const newZoneGEOJson = getChildFeatures(feature)
 
-    const newZoneGEOJson = getChildFeatures(feature)
+      const newDeputiesInZone = getDeputiesInZone(feature)
 
-    const newDeputiesInZone = getDeputiesInZone(feature)
+      setCurrentView({
+        GEOJson: newZoneGEOJson,
+        zoneCode: childrenZonesCode,
+        zoneData: feature,
+        zoneDeputies: newDeputiesInZone,
+      })
 
-    setCurrentView({
-      GEOJson: newZoneGEOJson,
-      zoneCode: childrenZonesCode,
-      zoneData: feature,
-      zoneDeputies: newDeputiesInZone,
-    })
+      flyToBounds(getBoundingBoxFromFeature(feature), viewport, setViewport)
 
-    flyToBounds(getBoundingBoxFromFeature(feature), viewport, setViewport)
-
-    resetHoverInfo()
+      resetHoverInfo()
+    } else handleReset()
   }
 
   /**
@@ -232,6 +232,7 @@ export default function MapPage() {
       zoneDeputies: franceMetroDeputies,
     })
     flyToBounds(franceBox, viewport, setViewport)
+    resetHoverInfo()
   }
 
   return (
@@ -317,7 +318,6 @@ export default function MapPage() {
           <div className="map__navigation map__navigation-left">
             <MapBreadcrumb
               feature={currentView.zoneData}
-              handleReset={handleReset}
               handleClick={displayNewZone}
             />
             <CustomControl>
