@@ -264,25 +264,7 @@ export const flyToBounds = (
 }
 
 /**
- * Renvoie une feature collection GEOJson selon certains filtres
- * @param {FranceZoneFeatureCollection} GEOJsonFile La feature collection GEOJson dans laquelle fouiller
- * @param {ZoneCode} zoneCodeToSearch Le Code de zone commune à chercher dans les feature GEOJson
- * @param {number} zoneCodeId L'id de la zone commune
- */
-export const filterNewGEOJSonFeatureCollection = (
-  GEOJsonFile: FranceZoneFeatureCollection,
-  zoneCodeToSearch: ZoneCode,
-  zoneCodeId: number
-): FranceZoneFeatureCollection => {
-  return createFeatureCollection(
-    GEOJsonFile.features.filter(
-      (feature) => feature.properties[zoneCodeToSearch] === zoneCodeId
-    )
-  )
-}
-
-/**
- * Determine dans quelle vue la feature passée devrait être
+ * Determine dans quelle vue la feature passée devrait être, renvoie null si la feature ne contient pas les infos nécéssaires
  * @param {FranceZoneFeature} feature L'objet feature GeoJSON à analyser
  */
 export const getFeatureZoneCode = (feature: FranceZoneFeature): ZoneCode => {
@@ -338,6 +320,29 @@ export const getZoneFeature = (
           entry.properties[zoneCode] == zoneId &&
           entry.properties[ZoneCode.Departements] == dptId
       )
+}
+
+/**
+ * Renvoie une feature collection GEOJson contenant les zones enfant de la feature fournie
+ * @param {FranceZoneFeature} feature La feature à analyser
+ */
+export const getChildFeatures = (
+  feature: FranceZoneFeature
+): FranceZoneFeatureCollection => {
+  const zoneCode = getFeatureZoneCode(feature)
+
+  if (zoneCode && zoneCode !== ZoneCode.Circonscriptions) {
+    const zoneId = feature.properties[zoneCode]
+    const file = getGEOJsonFile(
+      zoneCode === ZoneCode.Regions
+        ? ZoneCode.Departements
+        : ZoneCode.Circonscriptions
+    )
+
+    return createFeatureCollection(
+      file.features.filter((element) => element.properties[zoneCode] === zoneId)
+    )
+  } else return createFeatureCollection()
 }
 
 /**

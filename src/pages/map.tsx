@@ -20,9 +20,8 @@ import {
   flyToBounds,
   getBoundingBoxFromFeature,
   getPolygonCenter,
-  filterNewGEOJSonFeatureCollection,
+  getChildFeatures,
   getFeatureZoneCode,
-  getGEOJsonFile,
   getMouseEventFeature,
   getZoneFeature,
   getGhostZones,
@@ -131,18 +130,12 @@ export default function MapPage() {
     const zoneCode = getFeatureZoneCode(feature)
     if (!zoneCode) return
 
-    const zoneId = feature.properties[zoneCode]
-
     const childrenZonesCode =
       zoneCode === ZoneCode.Regions
         ? ZoneCode.Departements
         : ZoneCode.Circonscriptions
 
-    const newZoneGEOJson = filterNewGEOJSonFeatureCollection(
-      getGEOJsonFile(childrenZonesCode),
-      zoneCode,
-      zoneId
-    )
+    const newZoneGEOJson = getChildFeatures(feature)
 
     const newDeputiesInZone = getDeputiesInZone(feature)
 
@@ -216,6 +209,7 @@ export default function MapPage() {
         displayNewZone(feature)
       }
     }
+    resetHoverInfo()
   }
 
   const handleBack = () => {
