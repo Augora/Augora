@@ -4,8 +4,9 @@ import ReactMapGL, {
   FullscreenControl,
   Source,
   Layer,
-  ViewState,
   LayerProps,
+  FlyToInterpolator,
+  InteractiveMapProps,
 } from "react-map-gl"
 import { navigate } from "gatsby"
 import "mapbox-gl/dist/mapbox-gl.css"
@@ -92,7 +93,9 @@ export default function MapPage() {
     [state.FilteredList]
   )
 
-  const [viewport, setViewport] = useState<ViewState>({
+  const [viewport, setViewport] = useState<InteractiveMapProps>({
+    width: "100%",
+    height: "100%",
     zoom: 5,
     longitude: France.center.lng,
     latitude: France.center.lat,
@@ -164,6 +167,15 @@ export default function MapPage() {
             zoneCode: ZoneCode.Regions,
             zoneData: DOMTOMFeature,
             zoneDeputies: getDeputiesInZone(feature),
+          })
+
+          setViewport({
+            ...viewport,
+            zoom: 3.5,
+            longitude: -7.9541,
+            latitude: -4.6092,
+            transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
+            transitionDuration: "auto",
           })
         } else handleReset()
         return
@@ -281,8 +293,6 @@ export default function MapPage() {
           mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
           mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
           {...viewport}
-          width="100%"
-          height="100%"
           minZoom={2}
           dragRotate={false}
           doubleClickZoom={false}

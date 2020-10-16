@@ -334,7 +334,7 @@ export const flyToBounds = (
   })
   setViewportState({
     ...bounds,
-    transitionInterpolator: new FlyToInterpolator({ speed: 1.5 }),
+    transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
     transitionDuration: "auto",
   })
 }
