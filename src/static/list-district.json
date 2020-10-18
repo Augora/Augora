@@ -125,7 +125,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZA001",
-        "code_dpt": "ZA",
+        "code_dpt": "971",
         "nom_dpt": "GUADELOUPE",
         "nom_reg": "GUADELOUPE",
         "num_circ": "1",
@@ -170,7 +170,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZA002",
-        "code_dpt": "ZA",
+        "code_dpt": "971",
         "nom_dpt": "GUADELOUPE",
         "nom_reg": "GUADELOUPE",
         "num_circ": "2",
@@ -222,7 +222,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZA003",
-        "code_dpt": "ZA",
+        "code_dpt": "971",
         "nom_dpt": "GUADELOUPE",
         "nom_reg": "GUADELOUPE",
         "num_circ": "3",
@@ -261,7 +261,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZA004",
-        "code_dpt": "ZA",
+        "code_dpt": "971",
         "nom_dpt": "GUADELOUPE",
         "nom_reg": "GUADELOUPE",
         "num_circ": "4",
@@ -6978,7 +6978,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZM001",
-        "code_dpt": "ZM",
+        "code_dpt": "976",
         "nom_dpt": "MAYOTTE",
         "nom_reg": "MAYOTTE",
         "num_circ": "1",
@@ -7019,7 +7019,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZM002",
-        "code_dpt": "ZM",
+        "code_dpt": "976",
         "nom_dpt": "MAYOTTE",
         "nom_reg": "MAYOTTE",
         "num_circ": "2",
@@ -7338,7 +7338,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZD001",
-        "code_dpt": "ZD",
+        "code_dpt": "974",
         "nom_dpt": "REUNION",
         "nom_reg": "REUNION",
         "num_circ": "1",
@@ -23240,7 +23240,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZB001",
-        "code_dpt": "ZB",
+        "code_dpt": "972",
         "nom_dpt": "MARTINIQUE",
         "nom_reg": "MARTINIQUE",
         "num_circ": "1",
@@ -23285,7 +23285,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZB002",
-        "code_dpt": "ZB",
+        "code_dpt": "972",
         "nom_dpt": "MARTINIQUE",
         "nom_reg": "MARTINIQUE",
         "num_circ": "2",
@@ -23326,7 +23326,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZB004",
-        "code_dpt": "ZB",
+        "code_dpt": "972",
         "nom_dpt": "MARTINIQUE",
         "nom_reg": "MARTINIQUE",
         "num_circ": "4",
@@ -23363,7 +23363,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZC001",
-        "code_dpt": "ZC",
+        "code_dpt": "973",
         "nom_dpt": "GUYANE",
         "nom_reg": "GUYANE",
         "num_circ": "1",
@@ -23537,7 +23537,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZC002",
-        "code_dpt": "ZC",
+        "code_dpt": "973",
         "nom_dpt": "GUYANE",
         "nom_reg": "GUYANE",
         "num_circ": "2",
@@ -25625,7 +25625,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZD002",
-        "code_dpt": "ZD",
+        "code_dpt": "974",
         "nom_dpt": "REUNION",
         "nom_reg": "REUNION",
         "num_circ": "2",
@@ -25661,7 +25661,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZD005",
-        "code_dpt": "ZD",
+        "code_dpt": "974",
         "nom_dpt": "REUNION",
         "nom_reg": "REUNION",
         "num_circ": "5",
@@ -25712,7 +25712,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZD006",
-        "code_dpt": "ZD",
+        "code_dpt": "974",
         "nom_dpt": "REUNION",
         "nom_reg": "REUNION",
         "num_circ": "6",
@@ -25742,7 +25742,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZD007",
-        "code_dpt": "ZD",
+        "code_dpt": "974",
         "nom_dpt": "REUNION",
         "nom_reg": "REUNION",
         "num_circ": "7",
@@ -28358,7 +28358,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZB003",
-        "code_dpt": "ZB",
+        "code_dpt": "972",
         "nom_dpt": "MARTINIQUE",
         "nom_reg": "MARTINIQUE",
         "num_circ": "3",
@@ -28382,7 +28382,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZD004",
-        "code_dpt": "ZD",
+        "code_dpt": "974",
         "nom_dpt": "REUNION",
         "nom_reg": "REUNION",
         "num_circ": "4",
@@ -28485,7 +28485,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZD003",
-        "code_dpt": "ZD",
+        "code_dpt": "974",
         "nom_dpt": "REUNION",
         "nom_reg": "REUNION",
         "num_circ": "3",
