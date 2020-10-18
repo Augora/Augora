@@ -28556,7 +28556,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZN001",
-        "code_dpt": "ZN",
+        "code_dpt": "988",
         "nom_dpt": "NOUVELLE-CALEDONIE",
         "nom_reg": "-",
         "num_circ": "1",
@@ -28761,7 +28761,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZN002",
-        "code_dpt": "ZN",
+        "code_dpt": "988",
         "nom_dpt": "NOUVELLE-CALEDONIE",
         "nom_reg": "-",
         "num_circ": "2",
@@ -29181,7 +29181,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZS001",
-        "code_dpt": "ZS",
+        "code_dpt": "975",
         "nom_dpt": "SAINT-PIERRE-ET-MIQUELON",
         "nom_reg": "-",
         "num_circ": "1",
@@ -29239,7 +29239,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZX001",
-        "code_dpt": "ZX",
+        "code_dpt": "977",
         "nom_dpt": "SAINT-BARTHELEMY-ET-SAINT-MARTIN",
         "nom_reg": "-",
         "num_circ": "1",
@@ -29281,7 +29281,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZW001",
-        "code_dpt": "ZW",
+        "code_dpt": "986",
         "nom_dpt": "WALLIS-ET-FUTUNA",
         "nom_reg": "-",
         "num_circ": "1",
@@ -29335,7 +29335,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZP001",
-        "code_dpt": "ZP",
+        "code_dpt": "987",
         "nom_dpt": "POLYNESIE-FRANCAISE",
         "nom_reg": "-",
         "num_circ": "1",
@@ -31603,7 +31603,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZP002",
-        "code_dpt": "ZP",
+        "code_dpt": "987",
         "nom_dpt": "POLYNESIE-FRANCAISE",
         "nom_reg": "-",
         "num_circ": "2",
@@ -31912,7 +31912,7 @@
       "type": "Feature",
       "properties": {
         "ID": "ZP003",
-        "code_dpt": "ZP",
+        "code_dpt": "987",
         "nom_dpt": "POLYNESIE-FRANCAISE",
         "nom_reg": "-",
         "num_circ": "3",
