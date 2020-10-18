@@ -68,6 +68,7 @@
         padding: 5px 15px;
         border-radius: 5px;
         min-width: 250px;
+        text-transform: capitalize;
 
         cursor: pointer;
 
@@ -96,6 +97,7 @@
           background: none;
           border: none;
           padding: 3px 10px;
+          text-transform: capitalize;
           cursor: pointer;
 
           &:hover {

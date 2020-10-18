@@ -18,9 +18,9 @@ import {
   France,
   franceBox,
   GEOJsonReg,
-  DOMTOMGEOJsonReg,
+  DROMGEOJsonReg,
   metroFranceFeature,
-  DOMTOMFeature,
+  DROMFeature,
   flyToBounds,
   getContinentId,
   getBoundingBoxFromFeature,
@@ -130,24 +130,26 @@ export default function MapPage() {
   }
 
   /**
-   * Affiche les dom tom
+   * Affiche l'outre-mer
    */
-  const displayDOMTOM = () => {
+  const displayDROM = () => {
     setCurrentView({
-      GEOJson: DOMTOMGEOJsonReg,
+      GEOJson: DROMGEOJsonReg,
       zoneCode: ZoneCode.Regions,
-      zoneData: DOMTOMFeature,
-      zoneDeputies: getDeputiesInZone(DOMTOMFeature),
+      zoneData: DROMFeature,
+      zoneDeputies: getDeputiesInZone(DROMFeature),
     })
 
     setViewport({
       ...viewport,
       zoom: 3,
-      longitude: -7.9541,
-      latitude: -4.6092,
+      longitude: 0,
+      latitude: 0,
       transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
       transitionDuration: "auto",
     })
+
+    resetHoverInfo()
   }
 
   /**
@@ -182,8 +184,8 @@ export default function MapPage() {
         resetHoverInfo()
         return
       case ZoneCode.Continent:
-        feature.properties[zoneCode] === Continent.DOMTOM
-          ? displayDOMTOM()
+        feature.properties[zoneCode] === Continent.DROM
+          ? displayDROM()
           : handleReset()
         return
       default:
@@ -199,6 +201,7 @@ export default function MapPage() {
     feature: FranceZoneFeature
   ): { [key: string]: any }[] => {
     const zoneCode = getFeatureZoneCode(feature)
+    const continentId = getContinentId(feature)
 
     switch (zoneCode) {
       case ZoneCode.Continent:
@@ -212,9 +215,9 @@ export default function MapPage() {
           })
       case ZoneCode.Regions:
         return state.FilteredList.filter((i) => {
-          return (
-            parseInt(i.NumeroRegion) == feature.properties[ZoneCode.Regions]
-          )
+          return continentId !== Continent.COM
+            ? i.NumeroRegion == feature.properties[ZoneCode.Regions]
+            : i.NumeroDepartement == feature.properties[ZoneCode.Regions]
         })
       case ZoneCode.Departements:
         return state.FilteredList.filter((i) => {
@@ -223,18 +226,16 @@ export default function MapPage() {
           )
         })
       case ZoneCode.Circonscriptions:
-        const continentId = getContinentId(feature)
         return [
           state.FilteredList.find((i) => {
-            return continentId === Continent.France
+            return continentId === Continent.DROM
               ? i.NumeroCirconscription ==
+                  feature.properties[ZoneCode.Circonscriptions] &&
+                  i.NumeroRegion == feature.properties[ZoneCode.Regions]
+              : i.NumeroCirconscription ==
                   feature.properties[ZoneCode.Circonscriptions] &&
                   i.NumeroDepartement ==
                     feature.properties[ZoneCode.Departements]
-              : i.NumeroCirconscription ==
-                  feature.properties[ZoneCode.Circonscriptions] &&
-                  parseInt(i.NumeroRegion) ==
-                    feature.properties[ZoneCode.Regions]
           }),
         ]
       default:
@@ -282,6 +283,9 @@ export default function MapPage() {
     }
   }
 
+  /**
+   * Affiche la france métropolitaine
+   */
   const handleReset = () => {
     setCurrentView({
       GEOJson: GEOJsonReg,

@@ -1,8 +1,9 @@
-import { WebMercatorViewport, FlyToInterpolator, ViewState } from "react-map-gl"
+import { WebMercatorViewport, FlyToInterpolator } from "react-map-gl"
 import polylabel from "polylabel"
 import GEOJsonDistrictFile from "static/list-district.json"
 import GEOJsonDptFile from "static/departements.json"
 import GEOJsonRegFile from "static/regions.json"
+import { cloneDeep } from "lodash"
 
 /**
  * Un array de 2 nombres: longitude en premier et latitude, utilisable par mapbox pour les coordonées
@@ -30,9 +31,9 @@ export type FranceZoneGeometry = GeoJSON.Polygon | GeoJSON.MultiPolygon
 export interface FranceZoneProperties extends GeoJSON.GeoJsonProperties {
   nom?: string
   code_cont?: number
-  code_reg?: number
-  code_dpt?: number
-  num_circ?: number
+  code_reg?: number | string
+  code_dpt?: number | string
+  num_circ?: number | string
 }
 
 /**
@@ -49,9 +50,9 @@ export interface FranceZoneFeatureCollection extends GeoJSON.FeatureCollection {
 }
 
 /**
- * Un enum pour simplifier visuellement les codes de zone de nos GeoJSON.
+ * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
  *
- * Valeurs possibles: "code_reg", "code_dpt", ou "num_circ"
+ * Valeurs possibles: "code_cont", "code_reg", "code_dpt", ou "num_circ"
  */
 export enum ZoneCode {
   Continent = "code_cont",
@@ -60,15 +61,21 @@ export enum ZoneCode {
   Circonscriptions = "num_circ",
 }
 
+/**
+ * Un enum pour simplifier visuellement un code de continent
+ *
+ * Valeurs possibles: 0, 1, 2, 3
+ */
 export enum Continent {
   France = 0,
-  DOMTOM = 1,
-  Hors = 2,
+  DROM = 1,
+  COM = 2,
+  Hors = 3,
 }
 
 /**
  * Formate une feature array sous forme feature collection GEOJson
- * @param featureArray La feature collection renvoyée sera vide sans cet argument
+ * @param {FranceZoneFeature[]} featureArray La feature collection renvoyée sera vide sans cet argument
  */
 export const createFeatureCollection = (
   featureArray?: FranceZoneFeature[]
@@ -80,10 +87,10 @@ export const createFeatureCollection = (
 }
 
 /**
- * Renvoie une feature collection sans les DOM-TOM
+ * Renvoie une feature collection sans les DROM-TOM-COM
  * @param {FranceZoneFeatureCollection} file Le fichier à filtrer
  */
-const removeDOMTOM = (
+const removeOutreMer = (
   file: FranceZoneFeatureCollection
 ): FranceZoneFeatureCollection => {
   return createFeatureCollection(
@@ -92,50 +99,94 @@ const removeDOMTOM = (
 }
 
 /**
- * Renvoie une feature collection avec que les DOM-TOM
+ * Renvoie une feature collection avec que les DROM-TOM-COM
  * @param {FranceZoneFeatureCollection} file Fichier à filtrer
  */
-const isolateDOMTOM = (
+const getOutreMer = (
   file: FranceZoneFeatureCollection
 ): FranceZoneFeatureCollection => {
   return createFeatureCollection(
-    file.features.filter((feature) => feature.properties[ZoneCode.Regions] < 10)
+    file.features.filter(
+      (feature) =>
+        feature.properties[ZoneCode.Regions] < 10 ||
+        feature.properties[ZoneCode.Regions] === "-"
+    )
   )
 }
 
 /**
- * Feature collection GeoJSON des circonscriptions sans les DOM-TOM
+ * Renvoie une feature array de pseudo-régions COM
  */
-export const GEOJsonDistrict: FranceZoneFeatureCollection = removeDOMTOM(
+const createCOMRegs = (): FranceZoneFeature[] => {
+  const COMFeatures: FranceZoneFeature[] = GEOJsonDistrictFile.features.filter(
+    (feat) => feat.properties[ZoneCode.Regions] === "-"
+  )
+
+  let newFeatures: FranceZoneFeature[] = []
+
+  cloneDeep(COMFeatures).forEach((o, i, array) => {
+    //il faire un cloneDeep sinon le fichier est modifié
+    const previousO = array[i - 1]
+    if (previousO?.properties?.code_dpt === o?.properties?.code_dpt) {
+      o.geometry.coordinates = [
+        ...previousO.geometry.coordinates,
+        ...o.geometry.coordinates,
+      ] as FranceZonePosition
+      newFeatures.pop()
+    }
+    newFeatures.push(o)
+  })
+
+  newFeatures.forEach((o) => {
+    o.properties.code_reg = o.properties.code_dpt
+    o.properties.nom = o.properties.nom_dpt
+    delete o.properties.ID
+    delete o.properties.code_dpt
+    delete o.properties.nom_dpt
+    delete o.properties.nom_reg
+    delete o.properties.num_circ
+  })
+
+  return newFeatures
+}
+
+/**
+ * Feature collection GeoJSON des circonscriptions sans les DROM-TOM-COM
+ */
+export const GEOJsonDistrict: FranceZoneFeatureCollection = removeOutreMer(
   GEOJsonDistrictFile
 )
 
 /**
- * Feature collection GeoJSON des départements sans les DOM-TOM
+ * Feature collection GeoJSON des départements sans les DROM-TOM-COM
  */
-export const GEOJsonDpt: FranceZoneFeatureCollection = removeDOMTOM(
+export const GEOJsonDpt: FranceZoneFeatureCollection = removeOutreMer(
   GEOJsonDptFile
 )
 
 /**
- * Feature collection GeoJSON des régions sans les DOM-TOM
+ * Feature collection GeoJSON des régions sans les DROM-TOM-COM
  */
-export const GEOJsonReg: FranceZoneFeatureCollection = removeDOMTOM(
+export const GEOJsonReg: FranceZoneFeatureCollection = removeOutreMer(
   GEOJsonRegFile
 )
 
 /**
- * Feature collection GeoJSON des circonscriptions DOM-TOM
+ * Feature collection GeoJSON des circonscriptions DROM-TOM-COM
  */
-export const DOMTOMGEOJsonDistrict: FranceZoneFeatureCollection = isolateDOMTOM(
+export const DROMGEOJsonDistrict: FranceZoneFeatureCollection = getOutreMer(
   GEOJsonDistrictFile
 )
 
 /**
- * Feature collection GeoJSON des régions DOM-TOM
+ * Feature collection GeoJSON des régions DROM-TOM-COM
  */
-export const DOMTOMGEOJsonReg: FranceZoneFeatureCollection = isolateDOMTOM(
-  GEOJsonRegFile
+export const DROMGEOJsonReg: FranceZoneFeatureCollection = createFeatureCollection(
+  [...getOutreMer(GEOJsonRegFile).features, ...createCOMRegs()]
+)
+
+export const AllGEOJsonReg: FranceZoneFeatureCollection = createFeatureCollection(
+  [...GEOJsonReg.features, ...DROMGEOJsonReg.features]
 )
 
 /**
@@ -173,17 +224,32 @@ export const metroFranceFeature: FranceZoneFeature = {
 }
 
 /**
- * Pseudo-feature des DOM-TOM
+ * Pseudo-feature des DROM-TOM-COM
  */
-export const DOMTOMFeature: FranceZoneFeature = {
+export const DROMFeature: FranceZoneFeature = {
   type: "Feature",
   geometry: {
     type: "Polygon",
     coordinates: [],
   },
   properties: {
-    nom: "DOM-TOM",
-    code_cont: Continent.DOMTOM,
+    nom: "Outre-Mer",
+    code_cont: Continent.DROM,
+  },
+}
+
+/**
+ * Pseudo-feature des Français établis hors de France
+ */
+export const HorsFeature: FranceZoneFeature = {
+  type: "Feature",
+  geometry: {
+    type: "Polygon",
+    coordinates: [],
+  },
+  properties: {
+    nom: "Français établis hors de France",
+    code_cont: Continent.Hors,
   },
 }
 
@@ -191,7 +257,7 @@ export const DOMTOMFeature: FranceZoneFeature = {
  * Pseudo feature collection des continents
  */
 export const continentFeatureCollection: FranceZoneFeatureCollection = createFeatureCollection(
-  [metroFranceFeature, DOMTOMFeature]
+  [metroFranceFeature, DROMFeature]
 )
 
 /**
@@ -208,25 +274,6 @@ export const getGEOJsonFile = (
       return GEOJsonDpt
     case ZoneCode.Regions:
       return GEOJsonReg
-    case ZoneCode.Continent:
-      return continentFeatureCollection
-    default:
-      return createFeatureCollection()
-  }
-}
-
-/**
- * Renvoie la GeoJSON Feature Collection DOMTOM associée au type de zone
- * @param zoneCode Le type de zone
- */
-export const getGEOJsonDOMTOM = (
-  zoneCode: ZoneCode
-): FranceZoneFeatureCollection => {
-  switch (zoneCode) {
-    case ZoneCode.Circonscriptions:
-      return DOMTOMGEOJsonDistrict
-    case ZoneCode.Regions:
-      return DOMTOMGEOJsonReg
     case ZoneCode.Continent:
       return continentFeatureCollection
     default:
@@ -339,25 +386,28 @@ export const flyToBounds = (
   })
 }
 
+/**
+ * Renvoie l'id du continent d'une feature
+ * @param {FranceZoneFeature} feature La feature à analyser
+ */
 export const getContinentId = (feature: FranceZoneFeature): Continent => {
   const zoneCode = getFeatureZoneCode(feature)
+
   switch (zoneCode) {
     case ZoneCode.Continent:
       return feature.properties[zoneCode]
     case ZoneCode.Regions:
-      return feature.properties[zoneCode] < 10
-        ? Continent.DOMTOM
-        : Continent.France
+      if (feature.properties[ZoneCode.Regions] < 10) return Continent.DROM
+      else if (feature.properties[ZoneCode.Regions] > 900) return Continent.COM
+      else return Continent.France
     case ZoneCode.Departements:
       return Continent.France
     case ZoneCode.Circonscriptions:
-      const hasRegion = Object.keys(feature.properties).includes(
-        ZoneCode.Regions
-      )
-      if (hasRegion) {
-        return feature.properties[ZoneCode.Regions] < 10
-          ? Continent.DOMTOM
-          : Continent.France
+      if (Object.keys(feature.properties).includes(ZoneCode.Regions)) {
+        if (feature.properties[ZoneCode.Regions] < 10) return Continent.DROM
+        else if (feature.properties[ZoneCode.Departements] > 900)
+          return Continent.COM
+        else return Continent.France
       } else return Continent.Hors
     default:
       return null
@@ -410,7 +460,7 @@ export const getMouseEventFeature = (e): FranceZoneFeature => {
  * @param {number} [dptID] L'id du département, obligatoire si c'est une circonscription
  */
 export const getZoneFeature = (
-  zoneId: number,
+  zoneId: number | string,
   zoneCode: ZoneCode,
   dptId?: number
 ): FranceZoneFeature => {
@@ -420,7 +470,7 @@ export const getZoneFeature = (
         (entry) => entry.properties[zoneCode] == zoneId
       )
     case ZoneCode.Regions:
-      return GEOJsonRegFile.features.find(
+      return AllGEOJsonReg.features.find(
         (entry) => entry.properties[zoneCode] == zoneId
       )
     case ZoneCode.Departements:
@@ -450,15 +500,22 @@ export const getChildFeatures = (
 
   switch (zoneCode) {
     case ZoneCode.Continent:
-      if (feature.properties[zoneCode] === Continent.DOMTOM)
-        return DOMTOMGEOJsonReg
+      if (feature.properties[zoneCode] === Continent.DROM) return DROMGEOJsonReg
       else return GEOJsonReg
     case ZoneCode.Regions:
-      if (continentId === Continent.DOMTOM) {
+      if (continentId === Continent.DROM) {
         return createFeatureCollection(
-          DOMTOMGEOJsonDistrict.features.filter(
+          DROMGEOJsonDistrict.features.filter(
             (element) =>
               element.properties[zoneCode] === feature.properties[zoneCode]
+          )
+        )
+      } else if (continentId === Continent.COM) {
+        return createFeatureCollection(
+          DROMGEOJsonDistrict.features.filter(
+            (element) =>
+              element.properties[ZoneCode.Departements] ===
+              feature.properties[zoneCode]
           )
         )
       }
@@ -499,7 +556,7 @@ export const getSisterFeatures = (
         ? GEOJsonReg.features.filter(
             (entry) => entry.properties[zoneCode] !== props[zoneCode]
           )
-        : DOMTOMGEOJsonReg.features.filter(
+        : DROMGEOJsonReg.features.filter(
             (entry) => entry.properties[zoneCode] !== props[zoneCode]
           )
     case ZoneCode.Departements:

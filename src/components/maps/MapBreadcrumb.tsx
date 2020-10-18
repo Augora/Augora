@@ -4,7 +4,7 @@ import {
   Continent,
   FranceZoneFeature,
   metroFranceFeature,
-  DOMTOMFeature,
+  DROMFeature,
   getContinentId,
   getFeatureZoneCode,
   getZoneFeature,
@@ -38,7 +38,7 @@ const getHistory = (feature: FranceZoneFeature): FranceZoneFeature[] => {
     case ZoneCode.Regions:
       return continentId === Continent.France
         ? [metroFranceFeature, feature]
-        : [DOMTOMFeature, feature]
+        : [DROMFeature, feature]
     case ZoneCode.Departements:
       return [
         metroFranceFeature,
@@ -63,7 +63,7 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
         onClick={() => handleClick(zoneFeature)}
         title={`Revenir sur ${zoneFeature.properties.nom}`}
       >
-        {zoneFeature.properties.nom}
+        {zoneFeature.properties.nom.toLowerCase()}
         {zoneFeature.properties.code_dpt
           ? ` (${zoneFeature.properties.code_dpt})`
           : null}
@@ -75,7 +75,7 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
             onClick={() => handleClick(feat)}
             title={`Aller sur ${feat.properties.nom}`}
           >
-            {feat.properties.nom}
+            {feat.properties.nom.toLowerCase()}
             {feat.properties.code_dpt ? ` (${feat.properties.code_dpt})` : null}
           </button>
         ))}
