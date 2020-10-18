@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 
 import {
   calculateAgeDomain,
@@ -10,6 +10,9 @@ import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import Tooltip from "components/tooltip/Tooltip"
 import Input from "components/buttons/Input"
+import Frame from "components/frames/Frame"
+import PieChart from "./pie-chart/PieChart"
+import BarChart from "./bar-chart/BarChart"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 const DeputiesList = (props) => {
@@ -22,6 +25,11 @@ const DeputiesList = (props) => {
     handleAgeSelection,
     handleReset,
   } = useContext(DeputiesListContext)
+  const [HasPieChart, setHasPieChart] = useState(true)
+
+  const handleChartSelection = (event) => {
+    setHasPieChart(!HasPieChart)
+  }
 
   const groupesData = state.GroupesList.map((groupe) => {
     const nbDeputeGroup = calculateNbDepute(
@@ -110,27 +118,66 @@ const DeputiesList = (props) => {
     )
   })
 
+  console.log(state.FilteredList)
   return (
     <>
-      <Filters
-        handleAgeSelection={handleAgeSelection}
-        handleClickOnAllGroupes={handleClickOnAllGroupes}
-        handleSearchValue={handleSearchValue}
-        handleClickOnSex={handleClickOnSex}
-        handleReset={handleReset}
-        calculateAgeDomain={calculateAgeDomain}
-        calculateNbDepute={calculateNbDepute}
-        groupesData={groupesData}
-        groupesByAge={groupesByAge}
-        AgeDomain={state.AgeDomain}
-        allGroupes={allGroupes}
-        keyword={state.Keyword}
-        SexValue={state.SexValue}
-        filteredList={state.FilteredList}
-        groupesDetails={state.GroupesList}
-        deputes={state.DeputiesList}
-      />
-      {/* <div className="filters__order">Trier par :</div> */}
+      <section className="filters">
+        <Filters
+          handleAgeSelection={handleAgeSelection}
+          handleClickOnAllGroupes={handleClickOnAllGroupes}
+          handleSearchValue={handleSearchValue}
+          handleClickOnSex={handleClickOnSex}
+          handleReset={handleReset}
+          calculateAgeDomain={calculateAgeDomain}
+          calculateNbDepute={calculateNbDepute}
+          groupesData={groupesData}
+          groupesByAge={groupesByAge}
+          AgeDomain={state.AgeDomain}
+          allGroupes={allGroupes}
+          keyword={state.Keyword}
+          SexValue={state.SexValue}
+          filteredList={state.FilteredList}
+          groupesDetails={state.GroupesList}
+          deputes={state.DeputiesList}
+        />
+
+        <Frame className="frame-chart" title="Répartition">
+          {state.FilteredList.length > 0 ? (
+            <div className="filters__charts">
+              {HasPieChart ? (
+                <div
+                  className="piechart chart"
+                  onClick={handleChartSelection}
+                  onKeyDown={handleChartSelection}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <PieChart
+                    data={groupesData}
+                    filteredDeputies={state.FilteredList.length}
+                    groupesDetails={state.GroupesList}
+                  />
+                </div>
+              ) : (
+                <div
+                  className="barchart chart"
+                  onClick={handleChartSelection}
+                  onKeyDown={handleChartSelection}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <BarChart
+                    data={groupesData}
+                    filteredDeputies={state.FilteredList.length}
+                    groupesDetails={state.GroupesList}
+                  />
+                </div>
+              )}
+            </div>
+          ) : null}
+        </Frame>
+      </section>
+
       <section className="deputies__list">
         {state.FilteredList.length > 0 ? (
           state.FilteredList.map((depute) => {
