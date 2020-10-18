@@ -7,6 +7,7 @@ export interface IButton {
   color?: string
   children?: React.ReactNode
   checked?: boolean
+  title?: string
 }
 
 /**
@@ -24,9 +25,11 @@ export default function Button(props: IButton) {
         props.color ? "btn--" + props.color : ""
       }`}
       onClick={props.onClick}
+      color={props.color}
       style={{
         ...props.style,
       }}
+      title={props.title}
     >
       {props.children}
     </button>

@@ -26,15 +26,6 @@ function Filters(props) {
 
   return (
     <section className="filters">
-      {/* <div className="complex-barchart chart">
-            <div className="chart-wrapper">
-              <ComplexBarChart
-              data={props.groupesByAge}
-              ageDomain={props.AgeDomain}
-                totalNumberDeputies={props.deputes.length}
-                groupesDetails={props.groupesDetails}
-                />
-            </div>*/}
       <Frame
         className="frame-filters"
         title="Filtres"
@@ -140,29 +131,15 @@ function Filters(props) {
             </Button>
           </div>
           <div className="filters__groupe">{props.allGroupes}</div>
-          <div className="filters__reset">
-            <button
-              onClick={props.handleReset}
-              title="Réinitialiser les filtres"
-            >
+          <Button
+            className="reset__btn"
+            onClick={props.handleReset}
+            title="Réinitialiser les filtres"
+          >
+            <div className="icon-wrapper">
               <IconReset />
-            </button>
-          </div>
-
-          {/* <div className="filters__allornone">
-            <button onClick={() => props.handleClickOnAllGroupes(true)}>
-              <div className="icon-wrapper">
-                <IconOk />
-              </div>
-              Tous
-            </button>
-            <button onClick={() => props.handleClickOnAllGroupes(false)}>
-              <div className="icon-wrapper">
-                <IconClose />
-              </div>
-              Aucun
-            </button>
-          </div> */}
+            </div>
+          </Button>
         </div>
         <AgeSlider
           selectedDomain={props.AgeDomain}

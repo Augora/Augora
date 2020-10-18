@@ -16,7 +16,10 @@
   position: relativ e;
   margin-bottom: 0;
 
-  transition: border-color 0.2s $ease-in-out-cubic;
+  box-shadow: 0px 0px 10px rgba($black, 0);
+
+  transition: border-color 0.2s $ease-in-out-cubic,
+    box-shadow 0.2s $ease-in-out-cubic;
 
   border-radius: 10px;
 
