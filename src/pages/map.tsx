@@ -341,13 +341,16 @@ export default function MapPage() {
             />
           ) : null}
           {currentView.zoneCode === ZoneCode.Circonscriptions &&
-          viewport.zoom > 7
+          getContinentId(currentView.zoneData) === Continent.France
+            ? viewport.zoom > 7
+            : viewport.zoom > 5
             ? currentView.GEOJson.features.map((feature, index) => {
+                const centerCoords = getPolygonCenter(feature)
                 return (
                   <MapDeputyPin
                     key={`${feature.properties.nom_dpt.toLowerCase()} ${index}`}
-                    lng={getPolygonCenter(feature)[0]}
-                    lat={getPolygonCenter(feature)[1]}
+                    lng={centerCoords[0]}
+                    lat={centerCoords[1]}
                     deputy={currentView.zoneDeputies.find((entry) => {
                       return (
                         entry.NumeroCirconscription ==
