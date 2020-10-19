@@ -1,0 +1,25 @@
+/*----------------------------------------------------*/
+// Radios & Checkboxs input buttons
+/*----------------------------------------------------*/
+
+&--checkbox,
+&--radio {
+  &.checked {
+    .icon-wrapper {
+      transform: scale(1);
+    }
+    &:hover {
+      border-color: rgba($white, 0.8);
+      .icon-wrapper {
+        transform: scale(0.75);
+      }
+    }
+  }
+  &:not(.checked) {
+    background-color: transparent !important;
+  }
+}
+
+&--checkbox {
+  border-style: dashed;
+}
