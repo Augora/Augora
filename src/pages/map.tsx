@@ -311,6 +311,7 @@ export default function MapPage() {
   const handleLoad = (event) => {
     const map: Map = event.target
     // console.log(map.getStyle().layers)
+
     //Enlève les frontières
     map.removeLayer("admin-0-boundary") //Les frontières des pays
     map.removeLayer("admin-0-boundary-bg")
@@ -323,7 +324,7 @@ export default function MapPage() {
   /**
    * Renvoie le JSX des pins députés
    */
-  const createPins = () => {
+  const createPins = (): JSX.Element[] => {
     if (currentView.zoneCode === ZoneCode.Circonscriptions) {
       const contId = getContinentId(currentView.zoneData)
       if (
