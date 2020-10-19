@@ -273,11 +273,15 @@ export default function MapPage() {
 
   const handleBack = () => {
     if (currentView.zoneCode === ZoneCode.Circonscriptions) {
-      const regionFeature = getZoneFeature(
-        currentView.GEOJson.features[0].properties[ZoneCode.Regions],
-        ZoneCode.Regions
-      )
-      displayNewZone(regionFeature)
+      const contId = getContinentId(currentView.zoneData)
+      if (contId === Continent.France) {
+        const regionFeature = getZoneFeature(
+          currentView.GEOJson.features[0].properties[ZoneCode.Regions],
+          ZoneCode.Regions
+        )
+
+        displayNewZone(regionFeature)
+      } else displayDROM()
     } else if (currentView.zoneCode === ZoneCode.Departements) {
       handleReset()
     }
