@@ -57,6 +57,7 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     const allActive = groupesAsArray.every(([key, value]) => {
       return value
     })
+
     const isClickedIsAloneAsActive =
       GroupeValue[sigle] &&
       groupesAsArray
@@ -73,7 +74,7 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
       } else if (isClickedIsAloneAsActive) {
         GroupeValue[key] = key !== sigle ? true : false
       } else {
-        GroupeValue[sigle] = !GroupeValue[sigle]
+        if (key === sigle) GroupeValue[sigle] = !GroupeValue[sigle]
       }
     })
 
