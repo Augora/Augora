@@ -297,6 +297,35 @@ export default function MapPage() {
     resetHoverInfo()
   }
 
+  /**
+   * Renvoie le JSX des pins députés
+   */
+  const createPins = () => {
+    if (currentView.zoneCode === ZoneCode.Circonscriptions) {
+      const contId = getContinentId(currentView.zoneData)
+      if (
+        (contId === Continent.France && viewport.zoom > 7) ||
+        (contId !== Continent.France && viewport.zoom > 5)
+      ) {
+        return currentView.GEOJson.features.map((feature, index) => {
+          const centerCoords = getPolygonCenter(feature)
+          return (
+            <MapDeputyPin
+              key={`${feature.properties.nom_dpt} ${index}`}
+              lng={centerCoords[0]}
+              lat={centerCoords[1]}
+              deputy={currentView.zoneDeputies.find((entry) => {
+                return (
+                  entry.NumeroCirconscription == feature.properties.num_circ
+                )
+              })}
+            />
+          )
+        })
+      }
+    }
+  }
+
   return (
     <div className="page page__map">
       <div className="map__container">
@@ -340,27 +369,7 @@ export default function MapPage() {
               totalDeputes={state.FilteredList.length}
             />
           ) : null}
-          {currentView.zoneCode === ZoneCode.Circonscriptions &&
-          getContinentId(currentView.zoneData) === Continent.France
-            ? viewport.zoom > 7
-            : viewport.zoom > 5
-            ? currentView.GEOJson.features.map((feature, index) => {
-                const centerCoords = getPolygonCenter(feature)
-                return (
-                  <MapDeputyPin
-                    key={`${feature.properties.nom_dpt.toLowerCase()} ${index}`}
-                    lng={centerCoords[0]}
-                    lat={centerCoords[1]}
-                    deputy={currentView.zoneDeputies.find((entry) => {
-                      return (
-                        entry.NumeroCirconscription ==
-                        feature.properties.num_circ
-                      )
-                    })}
-                  />
-                )
-              })
-            : null}
+          {createPins()}
           <div className="map__navigation map__navigation-right">
             <NavigationControl
               showCompass={false}
