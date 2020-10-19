@@ -87,7 +87,7 @@ const lineGhostLayerProps: LayerProps = {
   },
 }
 
-export default function MapPage() {
+export default function MapPage({ location }) {
   const { state } = useContext(DeputiesListContext)
   const franceMetroDeputies = useMemo(
     () => state.FilteredList.filter((entry) => entry.NumeroRegion > 10),
@@ -154,7 +154,7 @@ export default function MapPage() {
   }
 
   /**
-   * Affiche une nouvelle vue, reset la vue si la feature passée n'est pas correcte
+   * Affiche une nouvelle vue
    * @param {FranceZoneFeature} feature La feature de la zone à afficher
    */
   const displayNewZone = (feature: FranceZoneFeature): void => {
@@ -318,7 +318,36 @@ export default function MapPage() {
     map.removeLayer("admin-1-boundary") //Les frontières des régions
     map.removeLayer("admin-1-boundary-bg")
     map.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
-    flyToBounds(franceBox, viewport, setViewport)
+
+    // console.log(location.state)
+
+    if (location.state?.feature) {
+      switch (getContinentId(location.state.feature)) {
+        case Continent.DROM:
+          const reg = getZoneFeature(
+            location.state.feature.properties[ZoneCode.Regions],
+            ZoneCode.Regions
+          )
+          displayNewZone(reg)
+          return
+        case Continent.COM:
+          displayNewZone(
+            getZoneFeature(
+              location.state.feature.properties[ZoneCode.Departements],
+              ZoneCode.Regions
+            )
+          )
+        case Continent.France:
+          const dpt = getZoneFeature(
+            location.state.feature.properties[ZoneCode.Departements],
+            ZoneCode.Departements
+          )
+          displayNewZone(dpt)
+          return
+        default:
+          return
+      }
+    } else flyToBounds(franceBox, viewport, setViewport)
   }
 
   /**
