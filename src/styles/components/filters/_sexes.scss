@@ -1,0 +1,36 @@
+/*----------------------------------------------------*/
+// Sexes filter
+/*----------------------------------------------------*/
+.filters__sexes {
+  position: relative;
+  margin-right: 40px;
+  .sexes {
+    &__btn {
+      margin-bottom: 10px;
+
+      border-style: dashed;
+      border-width: 2px;
+
+      &.male svg {
+        width: 35px;
+        height: 35px;
+      }
+      &.female svg {
+        width: 30px;
+        height: 40px;
+      }
+
+      &.checked {
+        .icon-wrapper {
+          transform: scale(1);
+        }
+        &:hover {
+          border-color: rgba($white, 0.8);
+          .icon-wrapper {
+            transform: scale(0.75);
+          }
+        }
+      }
+    }
+  }
+}
