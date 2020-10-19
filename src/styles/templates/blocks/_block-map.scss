@@ -20,80 +20,27 @@
 
       overflow: hidden;
       border-radius: 0 0 5px 5px;
-      .circ-tooltip {
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%, 0);
-        white-space: nowrap;
-        max-width: unset;
-        transition: top 0.3s $ease-in-out-cubic;
-        opacity: 0;
-        top: -40px;
-        &--visible {
-          opacity: 1;
-          top: -70px;
-        }
-      }
     }
-    &__navigation {
-      position: absolute;
-      right: 10px;
-      top: 10px;
+    &__redirect {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: white;
+      opacity: 0;
+      cursor: pointer;
+
       display: flex;
-      flex-direction: column;
-      height: 140px;
-      justify-content: space-between;
-      &-reset {
-        position: relative;
-        width: 30px;
-        height: 30px;
-        background: white;
-        border-radius: 5px;
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        padding: 5px;
-        border: none;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s $ease-in-out-cubic;
+      justify-content: center;
+      align-items: center;
 
-        cursor: pointer;
+      position: absolute;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      font-size: 30px;
 
-        &::after {
-          content: "";
-          display: block;
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0);
-        }
-
-        &:hover {
-          &::after {
-            background-color: rgba(0, 0, 0, 0.05);
-          }
-        }
-
-        &:focus {
-          box-shadow: 0 0 2px 2px #0096ff;
-        }
-
-        &.visible {
-          pointer-events: auto;
-          opacity: 1;
-          transition: opacity 0.4s $ease-out-cubic;
-        }
-
-        .icon-wrapper {
-          position: relative;
-          z-index: 1;
-          right: 0;
-          pointer-events: none;
-          svg {
-            fill: "#4d4d4d";
-          }
-        }
+      &:hover {
+        opacity: 0.7;
       }
     }
   }
