@@ -118,7 +118,6 @@ const DeputiesList = (props) => {
     )
   })
 
-  console.log(state.FilteredList)
   return (
     <>
       <section className="filters">
