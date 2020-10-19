@@ -258,17 +258,19 @@ export default function MapPage() {
   }
 
   const handleClick = (e) => {
-    const feature = getMouseEventFeature(e)
-    if (feature) {
-      const zoneCode = getFeatureZoneCode(feature)
-      if (zoneCode === ZoneCode.Circonscriptions) {
-        const deputy = getDeputiesInZone(feature)[0]
-        if (deputy) navigate(`/depute/${deputy.Slug}`)
-      } else {
-        displayNewZone(feature)
+    if (e.leftButton) {
+      const feature = getMouseEventFeature(e)
+      if (feature) {
+        const zoneCode = getFeatureZoneCode(feature)
+        if (zoneCode === ZoneCode.Circonscriptions) {
+          const deputy = getDeputiesInZone(feature)[0]
+          if (deputy) navigate(`/depute/${deputy.Slug}`)
+        } else {
+          displayNewZone(feature)
+        }
       }
-    }
-    resetHoverInfo()
+      resetHoverInfo()
+    } else if (e.rightButton) handleBack()
   }
 
   const handleBack = () => {
