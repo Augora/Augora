@@ -1,5 +1,5 @@
 import React, { useState, useContext, useMemo } from "react"
-import ReactMapGL, {
+import InteractiveMap, {
   NavigationControl,
   FullscreenControl,
   Source,
@@ -8,8 +8,9 @@ import ReactMapGL, {
   FlyToInterpolator,
   InteractiveMapProps,
 } from "react-map-gl"
-import { navigate } from "gatsby"
+import { Map } from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
+import { navigate } from "gatsby"
 import {
   ZoneCode,
   Continent,
@@ -304,6 +305,22 @@ export default function MapPage() {
   }
 
   /**
+   * Appelé au chargement, permet de target l'object mapbox pour utiliser ses méthodes
+   * @param event L'event contient une ref de la map
+   */
+  const handleLoad = (event) => {
+    const map: Map = event.target
+    // console.log(map.getStyle().layers)
+    //Enlève les frontières
+    map.removeLayer("admin-0-boundary") //Les frontières des pays
+    map.removeLayer("admin-0-boundary-bg")
+    map.removeLayer("admin-1-boundary") //Les frontières des régions
+    map.removeLayer("admin-1-boundary-bg")
+    map.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
+    flyToBounds(franceBox, viewport, setViewport)
+  }
+
+  /**
    * Renvoie le JSX des pins députés
    */
   const createPins = () => {
@@ -335,7 +352,7 @@ export default function MapPage() {
   return (
     <div className="page page__map">
       <div className="map__container">
-        <ReactMapGL
+        <InteractiveMap
           mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
           mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
           {...viewport}
@@ -346,9 +363,7 @@ export default function MapPage() {
           doubleClickZoom={false}
           touchRotate={false}
           interactiveLayerIds={["zone-fill", "zone-ghost-fill"]}
-          onLoad={() => {
-            flyToBounds(franceBox, viewport, setViewport)
-          }}
+          onLoad={handleLoad}
           onViewportChange={(change) => setViewport(change)}
           onHover={handleHover}
           onClick={handleClick}
@@ -418,7 +433,7 @@ export default function MapPage() {
               </button>
             </CustomControl>
           </div>
-        </ReactMapGL>
+        </InteractiveMap>
       </div>
     </div>
   )
