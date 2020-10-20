@@ -2,8 +2,8 @@ import React from "react"
 
 export interface IButton {
   className?: string
-  onClick(): Function
-  style?: object
+  onClick: <T>(args?: T) => void
+  style?: React.CSSProperties
   color?: string
   children?: React.ReactNode
   checked?: boolean
@@ -11,7 +11,7 @@ export interface IButton {
 }
 
 /**
- * Returns a Tooltip in a div tag
+ * Returns a button component
  * @param {string} className - Class names
  * @param {Function} onClick - onClick trigger
  * @param {string} [color] - Color of the button
