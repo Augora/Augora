@@ -28557,7 +28557,7 @@
       "properties": {
         "ID": "ZN001",
         "code_dpt": "988",
-        "nom_dpt": "NOUVELLE-CALEDONIE",
+        "nom_dpt": "Nouvelle-Calédonie",
         "nom_reg": "-",
         "num_circ": "1",
         "code_reg": "-"
@@ -28762,7 +28762,7 @@
       "properties": {
         "ID": "ZN002",
         "code_dpt": "988",
-        "nom_dpt": "NOUVELLE-CALEDONIE",
+        "nom_dpt": "Nouvelle-Calédonie",
         "nom_reg": "-",
         "num_circ": "2",
         "code_reg": "-"
@@ -29182,7 +29182,7 @@
       "properties": {
         "ID": "ZS001",
         "code_dpt": "975",
-        "nom_dpt": "SAINT-PIERRE-ET-MIQUELON",
+        "nom_dpt": "Saint-Pierre et Miquelon",
         "nom_reg": "-",
         "num_circ": "1",
         "code_reg": "-"
@@ -29240,7 +29240,7 @@
       "properties": {
         "ID": "ZX001",
         "code_dpt": "977",
-        "nom_dpt": "SAINT-BARTHELEMY-ET-SAINT-MARTIN",
+        "nom_dpt": "Saint-Barthelemy et Saint-Martin",
         "nom_reg": "-",
         "num_circ": "1",
         "code_reg": "-"
@@ -29282,7 +29282,7 @@
       "properties": {
         "ID": "ZW001",
         "code_dpt": "986",
-        "nom_dpt": "WALLIS-ET-FUTUNA",
+        "nom_dpt": "Wallis et Futuna",
         "nom_reg": "-",
         "num_circ": "1",
         "code_reg": "-"
@@ -29336,7 +29336,7 @@
       "properties": {
         "ID": "ZP001",
         "code_dpt": "987",
-        "nom_dpt": "POLYNESIE-FRANCAISE",
+        "nom_dpt": "Polynésie Française",
         "nom_reg": "-",
         "num_circ": "1",
         "code_reg": "-"
@@ -31604,7 +31604,7 @@
       "properties": {
         "ID": "ZP002",
         "code_dpt": "987",
-        "nom_dpt": "POLYNESIE-FRANCAISE",
+        "nom_dpt": "Polynésie Française",
         "nom_reg": "-",
         "num_circ": "2",
         "code_reg": "-"
@@ -31913,7 +31913,7 @@
       "properties": {
         "ID": "ZP003",
         "code_dpt": "987",
-        "nom_dpt": "POLYNESIE-FRANCAISE",
+        "nom_dpt": "Polynésie Française",
         "nom_reg": "-",
         "num_circ": "3",
         "code_reg": "-"
