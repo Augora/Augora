@@ -18,7 +18,7 @@ export default function MapDistrict(props) {
   const districtPolygon = useMemo(() => {
     return GEOJsonDistrict.features.find((district) => {
       return (
-        district.properties.nom_dpt.toLowerCase() ===
+        retirerAccentsFR(district.properties.nom_dpt.toLowerCase()) ===
           retirerAccentsFR(props.nom.toLowerCase()) &&
         parseInt(district.properties.num_circ) === props.num
       )
