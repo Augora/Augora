@@ -5,8 +5,8 @@ type ButtonType = "checkbox" | "radio"
 
 export interface IInput {
   className?: string
-  onClick: Function
-  style?: object
+  onClick: <T>(args?: T) => void
+  style?: React.CSSProperties
   color?: string
   children?: React.ReactNode
   type: ButtonType
@@ -15,7 +15,7 @@ export interface IInput {
 }
 
 /**
- * Returns a Tooltip in a div tag
+ * Returns an input component
  * @param {string} className - Class names
  * @param {Function} onClick - onClick trigger
  * @param {string} [color] - Color of the button
@@ -26,17 +26,17 @@ export interface IInput {
 export default function Input(props: IInput) {
   return (
     <Button
-      className={`${props.className} btn--input btn--${props.type} btn--${props.className.split(' ')[0]} ${
-        props.checked ? "checked" : ""
-      }`}
-      onClick={() => props.onClick()}
-      style={{ 
-        ...props.style
+      className={`${props.className} btn--input btn--${props.type} btn--${
+        props.className.split(" ")[0]
+      } ${props.checked ? "checked" : ""}`}
+      onClick={props.onClick}
+      style={{
+        ...props.style,
       }}
       color={props.color}
     >
       <input
-        className={`${props.className.split(' ')[0]}__${props.type}`}
+        className={`${props.className.split(" ")[0]}__${props.type}`}
         type={props.type}
         checked={props.checked}
         onChange={() => {}}
