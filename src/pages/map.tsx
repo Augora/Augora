@@ -246,7 +246,7 @@ export default function MapPage({ location }) {
 
   const handleHover = (e) => {
     const feature = getMouseEventFeature(e)
-    if (feature) {
+    if (feature && viewport.zoom < 13) {
       const zoneCode = getFeatureZoneCode(feature)
       setHoverInfo({
         filter: ["==", ["get", zoneCode], feature.properties[zoneCode]],
@@ -412,7 +412,7 @@ export default function MapPage({ location }) {
             <Layer {...lineGhostLayerProps} />
             <Layer {...fillGhostLayerProps} />
           </Source>
-          {hoverInfo.zoneData ? (
+          {hoverInfo.zoneData && viewport.zoom < 13 ? (
             <MapTooltip
               lngLat={hoverInfo.lngLat}
               zoneFeature={hoverInfo.zoneData}
