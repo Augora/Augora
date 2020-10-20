@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from "react"
+import React, { useState, useContext, useMemo, useEffect } from "react"
 import { Helmet } from "react-helmet"
 import InteractiveMap, {
   NavigationControl,
@@ -39,6 +39,9 @@ import MapDeputyPin from "components/maps/MapDeputyPin"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import IconFrance from "images/logos/projet/augora-logo.svg"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
+import IconFilter from "images/ui-kit/icon-filter.svg"
+import IconClose from "images/ui-kit/icon-close.svg"
+import Filters from "components/deputies-list/filters/Filters"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
 
 const fillLayerProps: LayerProps = {
@@ -122,13 +125,23 @@ export default function MapPage({ location }) {
     lngLat: null,
     zoneData: null,
   })
+  const [filterDisplayed, setFilterDisplayed] = useState(false)
+
+  //Update le state des députés de la zone selon la filtered list
+  useEffect(() => {
+    setCurrentView({
+      ...currentView,
+      zoneDeputies: getDeputiesInZone(currentView.zoneData),
+    })
+  }, [state.FilteredList])
 
   const resetHoverInfo = () => {
-    setHoverInfo({
-      filter: ["==", ["get", ""], 0],
-      lngLat: null,
-      zoneData: null,
-    })
+    if (hoverInfo.filter !== ["==", ["get", ""], 0])
+      setHoverInfo({
+        filter: ["==", ["get", ""], 0],
+        lngLat: null,
+        zoneData: null,
+      })
   }
 
   /**
@@ -254,9 +267,7 @@ export default function MapPage({ location }) {
         lngLat: e.lngLat,
         zoneData: feature,
       })
-    } else if (hoverInfo.filter !== ["==", ["get", ""], 0]) {
-      resetHoverInfo()
-    }
+    } else resetHoverInfo()
   }
 
   const handleClick = (e) => {
@@ -402,7 +413,10 @@ export default function MapPage({ location }) {
             touchRotate={false}
             interactiveLayerIds={["zone-fill", "zone-ghost-fill"]}
             onLoad={handleLoad}
-            onViewportChange={(change) => setViewport(change)}
+            onViewportChange={(change) => {
+              setViewport(change)
+              setFilterDisplayed(false)
+            }}
             onHover={handleHover}
             onClick={handleClick}
           >
@@ -467,6 +481,37 @@ export default function MapPage({ location }) {
                         transform: "rotate(90deg)",
                       }}
                     />
+                  </div>
+                </button>
+              </CustomControl>
+            </div>
+            <div
+              className={`map__navigation map__navigation-bottom ${
+                filterDisplayed ? "" : "visible"
+              }`}
+            >
+              <CustomControl>
+                <button
+                  onClick={() => setFilterDisplayed(true)}
+                  className={"map__navigation-custom visible"}
+                  title="Afficher les filtres"
+                >
+                  <div className="icon-wrapper">
+                    <IconFilter />
+                  </div>
+                </button>
+              </CustomControl>
+            </div>
+            <div className={`map__filters ${filterDisplayed ? "visible" : ""}`}>
+              <CustomControl>
+                <Filters />
+                <button
+                  className="map__filters-close"
+                  onClick={() => setFilterDisplayed(false)}
+                  title="Cacher les filtres"
+                >
+                  <div className="icon-wrapper">
+                    <IconClose />
                   </div>
                 </button>
               </CustomControl>
