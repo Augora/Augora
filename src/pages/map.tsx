@@ -1,4 +1,5 @@
 import React, { useState, useContext, useMemo } from "react"
+import { Helmet } from "react-helmet"
 import InteractiveMap, {
   NavigationControl,
   FullscreenControl,
@@ -380,91 +381,99 @@ export default function MapPage({ location }) {
   }
 
   return (
-    <div className="page page__map">
-      <div className="map__container">
-        <InteractiveMap
-          mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
-          mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
-          {...viewport}
-          width="100%"
-          height="100%"
-          minZoom={2}
-          dragRotate={false}
-          doubleClickZoom={false}
-          touchRotate={false}
-          interactiveLayerIds={["zone-fill", "zone-ghost-fill"]}
-          onLoad={handleLoad}
-          onViewportChange={(change) => setViewport(change)}
-          onHover={handleHover}
-          onClick={handleClick}
-        >
-          <Source type="geojson" data={currentView.GEOJson}>
-            <Layer {...hoverLayerProps} filter={hoverInfo.filter} />
-            <Layer {...fillLayerProps} />
-            <Layer {...lineLayerProps} />
-          </Source>
-          <Source type="geojson" data={getGhostZones(currentView.zoneData)}>
-            <Layer
-              {...hoverLayerProps}
-              id="zone-ghost-fill-hovered"
-              filter={hoverInfo.filter}
-            />
-            <Layer {...lineGhostLayerProps} />
-            <Layer {...fillGhostLayerProps} />
-          </Source>
-          {hoverInfo.zoneData && viewport.zoom < 13 ? (
-            <MapTooltip
-              lngLat={hoverInfo.lngLat}
-              zoneFeature={hoverInfo.zoneData}
-              deputiesArray={getDeputiesInZone(hoverInfo.zoneData)}
-              totalDeputes={state.FilteredList.length}
-            />
-          ) : null}
-          {createPins()}
-          <div className="map__navigation map__navigation-right">
-            <NavigationControl
-              showCompass={false}
-              zoomInLabel="Zoomer"
-              zoomOutLabel="Dézoomer"
-            />
-            <FullscreenControl />
-            <CustomControl>
-              <button
-                className="map__navigation-custom visible"
-                title="Revenir sur la France métropolitaine"
-                onClick={handleReset}
-              >
-                <div className="icon-wrapper">
-                  <IconFrance />
-                </div>
-              </button>
-            </CustomControl>
-          </div>
-          <div className="map__navigation map__navigation-left">
-            <MapBreadcrumb
-              feature={currentView.zoneData}
-              handleClick={displayNewZone}
-            />
-            <CustomControl>
-              <button
-                onClick={handleBack}
-                className={`map__navigation-custom ${
-                  currentView.zoneCode === ZoneCode.Regions ? "" : "visible"
-                }`}
-                title="Revenir à la vue précédente"
-              >
-                <div className="icon-wrapper">
-                  <IconArrow
-                    style={{
-                      transform: "rotate(90deg)",
-                    }}
-                  />
-                </div>
-              </button>
-            </CustomControl>
-          </div>
-        </InteractiveMap>
+    <>
+      <Helmet>
+        {process.env.GATSBY_TARGET_ENV !== "production" ? (
+          <meta name="robots" content="noindex,nofollow" />
+        ) : null}
+        <title>{`${currentView.zoneData.properties.nom} | Augora`}</title>
+      </Helmet>
+      <div className="page page__map">
+        <div className="map__container">
+          <InteractiveMap
+            mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
+            mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
+            {...viewport}
+            width="100%"
+            height="100%"
+            minZoom={2}
+            dragRotate={false}
+            doubleClickZoom={false}
+            touchRotate={false}
+            interactiveLayerIds={["zone-fill", "zone-ghost-fill"]}
+            onLoad={handleLoad}
+            onViewportChange={(change) => setViewport(change)}
+            onHover={handleHover}
+            onClick={handleClick}
+          >
+            <Source type="geojson" data={currentView.GEOJson}>
+              <Layer {...hoverLayerProps} filter={hoverInfo.filter} />
+              <Layer {...fillLayerProps} />
+              <Layer {...lineLayerProps} />
+            </Source>
+            <Source type="geojson" data={getGhostZones(currentView.zoneData)}>
+              <Layer
+                {...hoverLayerProps}
+                id="zone-ghost-fill-hovered"
+                filter={hoverInfo.filter}
+              />
+              <Layer {...lineGhostLayerProps} />
+              <Layer {...fillGhostLayerProps} />
+            </Source>
+            {hoverInfo.zoneData && viewport.zoom < 13 ? (
+              <MapTooltip
+                lngLat={hoverInfo.lngLat}
+                zoneFeature={hoverInfo.zoneData}
+                deputiesArray={getDeputiesInZone(hoverInfo.zoneData)}
+                totalDeputes={state.FilteredList.length}
+              />
+            ) : null}
+            {createPins()}
+            <div className="map__navigation map__navigation-right">
+              <NavigationControl
+                showCompass={false}
+                zoomInLabel="Zoomer"
+                zoomOutLabel="Dézoomer"
+              />
+              <FullscreenControl />
+              <CustomControl>
+                <button
+                  className="map__navigation-custom visible"
+                  title="Revenir sur la France métropolitaine"
+                  onClick={handleReset}
+                >
+                  <div className="icon-wrapper">
+                    <IconFrance />
+                  </div>
+                </button>
+              </CustomControl>
+            </div>
+            <div className="map__navigation map__navigation-left">
+              <MapBreadcrumb
+                feature={currentView.zoneData}
+                handleClick={displayNewZone}
+              />
+              <CustomControl>
+                <button
+                  onClick={handleBack}
+                  className={`map__navigation-custom ${
+                    currentView.zoneCode === ZoneCode.Regions ? "" : "visible"
+                  }`}
+                  title="Revenir à la vue précédente"
+                >
+                  <div className="icon-wrapper">
+                    <IconArrow
+                      style={{
+                        transform: "rotate(90deg)",
+                      }}
+                    />
+                  </div>
+                </button>
+              </CustomControl>
+            </div>
+          </InteractiveMap>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

@@ -63,7 +63,7 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
         onClick={() => handleClick(zoneFeature)}
         title={`Revenir sur ${zoneFeature.properties.nom}`}
       >
-        {zoneFeature.properties.nom.toLowerCase()}
+        {zoneFeature.properties.nom}
         {zoneFeature.properties.code_dpt
           ? ` (${zoneFeature.properties.code_dpt})`
           : null}
@@ -75,7 +75,7 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
             onClick={() => handleClick(feat)}
             title={`Aller sur ${feat.properties.nom}`}
           >
-            {feat.properties.nom.toLowerCase()}
+            {feat.properties.nom}
             {feat.properties.code_dpt ? ` (${feat.properties.code_dpt})` : null}
           </button>
         ))}
