@@ -98,7 +98,7 @@ const lineGhostLayerProps: LayerProps = {
 /**
  * Renvoie la map augora
  * @param {FranceZoneFeature} [featureToDisplay] La feature à afficher au chargement
- * @param {React.Dispatch<React.SetStateAction<string>>} [setPgeTitle] setState function pour changer le titre de la page
+ * @param {React.Dispatch<React.SetStateAction<string>>} [setPageTitle] setState function pour changer le titre de la page
  */
 export default function MapAugora({
   featureToDisplay = null,
@@ -428,10 +428,7 @@ export default function MapAugora({
       touchRotate={false}
       interactiveLayerIds={["zone-fill", "zone-ghost-fill"]}
       onLoad={handleLoad}
-      onViewportChange={(change) => {
-        setViewport(change)
-        setFilterDisplayed(false)
-      }}
+      onViewportChange={(change) => setViewport(change)}
       onHover={handleHover}
       onClick={handleClick}
     >

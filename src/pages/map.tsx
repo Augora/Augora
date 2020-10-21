@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Helmet } from "react-helmet"
-import "mapbox-gl/dist/mapbox-gl.css"
 import { FranceZoneFeature } from "components/maps/maps-utils"
 import MapAugora from "components/maps/MapAugora"
 
