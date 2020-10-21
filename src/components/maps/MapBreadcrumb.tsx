@@ -16,12 +16,7 @@ import sortBy from "lodash/sortBy"
 
 interface IMapBreadcrumb {
   feature: FranceZoneFeature
-  handleClick: Function
-}
-
-interface IMapBreadcrumbItem {
-  zoneFeature: FranceZoneFeature
-  handleClick: Function
+  handleClick: (args?: any) => any
 }
 
 /**
@@ -50,9 +45,9 @@ const getHistory = (feature: FranceZoneFeature): FranceZoneFeature[] => {
   }
 }
 
-function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
+function MapBreadcrumbItem({ feature, handleClick }: IMapBreadcrumb) {
   const sisterZones = sortBy(
-    getSisterFeatures(zoneFeature),
+    getSisterFeatures(feature),
     (o) => o.properties.nom
   )
 
@@ -60,18 +55,18 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
     <div className="map__breadcrumb-item">
       <button
         className="map__breadcrumb-zone"
-        onClick={() => handleClick(zoneFeature)}
-        title={`Revenir sur ${zoneFeature.properties.nom}`}
+        onClick={() => handleClick(feature)}
+        title={`Revenir sur ${feature.properties.nom}`}
       >
-        {zoneFeature.properties.nom}
-        {zoneFeature.properties.code_dpt
-          ? ` (${zoneFeature.properties.code_dpt})`
+        {feature.properties.nom}
+        {feature.properties.code_dpt
+          ? ` (${feature.properties.code_dpt})`
           : null}
       </button>
       <Tooltip className="map__breadcrumb-tooltip">
         {sisterZones.map((feat, index) => (
           <button
-            key={`${zoneFeature.properties.nom}-tooltip-button-${index}`}
+            key={`${feature.properties.nom}-tooltip-button-${index}`}
             onClick={() => handleClick(feat)}
             title={`Aller sur ${feat.properties.nom}`}
           >
@@ -98,7 +93,7 @@ export default function MapBreadcrumb(props: IMapBreadcrumb) {
         {history.map((item, index) => (
           <MapBreadcrumbItem
             key={`breadcrumb-${index}`}
-            zoneFeature={item}
+            feature={item}
             handleClick={props.handleClick}
           />
         ))}

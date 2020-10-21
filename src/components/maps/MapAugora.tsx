@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo, useEffect } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { navigate } from "gatsby"
 import InteractiveMap, {
   NavigationControl,
@@ -8,6 +8,7 @@ import InteractiveMap, {
   LayerProps,
   FlyToInterpolator,
   InteractiveMapProps,
+  MapLoadEvent,
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
@@ -24,7 +25,6 @@ import {
   flyToBounds,
   getContinentId,
   getBoundingBoxFromFeature,
-  getPolygonCenter,
   getChildFeatures,
   getFeatureZoneCode,
   getMouseEventFeature,
@@ -33,15 +33,28 @@ import {
 } from "components/maps/maps-utils"
 import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"
-import MapDeputyPin from "components/maps/MapDeputyPin"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapButton from "components/maps/MapButton"
+import MapPins from "components/maps/MapPins"
 import IconFrance from "images/logos/projet/augora-logo.svg"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
 import IconFilter from "images/ui-kit/icon-filter.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import Filters from "components/deputies-list/filters/Filters"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
+
+export interface ICurrentView {
+  GEOJson: FranceZoneFeatureCollection
+  zoneCode: ZoneCode
+  zoneData: FranceZoneFeature
+  zoneDeputies: { [key: string]: any }[] //ça veut juste dire que c'est un array d'objets
+}
+
+interface IHoverInfo {
+  filter: [string, ...any[]]
+  lngLat: [number, number]
+  zoneData: FranceZoneFeature
+}
 
 interface IMapAugora {
   featureToDisplay?: FranceZoneFeature
@@ -104,11 +117,9 @@ export default function MapAugora({
   featureToDisplay = null,
   setPageTitle = undefined,
 }: IMapAugora) {
-  const { state } = useContext(DeputiesListContext)
-  const franceMetroDeputies = useMemo(
-    () => state.FilteredList.filter((entry) => entry.NumeroRegion > 10),
-    [state.FilteredList]
-  )
+  const {
+    state: { FilteredList },
+  } = useContext(DeputiesListContext)
 
   const [viewport, setViewport] = useState<InteractiveMapProps>({
     width: "100%",
@@ -117,22 +128,13 @@ export default function MapAugora({
     longitude: France.center.lng,
     latitude: France.center.lat,
   })
-  const [currentView, setCurrentView] = useState<{
-    GEOJson: FranceZoneFeatureCollection
-    zoneCode: ZoneCode
-    zoneData: FranceZoneFeature
-    zoneDeputies: { [key: string]: any }[] //ça veut juste dire que c'est un array d'objets
-  }>({
+  const [currentView, setCurrentView] = useState<ICurrentView>({
     GEOJson: GEOJsonReg,
     zoneCode: ZoneCode.Regions,
     zoneData: metroFranceFeature,
-    zoneDeputies: franceMetroDeputies,
+    zoneDeputies: FilteredList.filter((entry) => entry.NumeroRegion > 10),
   })
-  const [hoverInfo, setHoverInfo] = useState<{
-    filter: [string, ...any[]]
-    lngLat: [number, number]
-    zoneData: FranceZoneFeature
-  }>({
+  const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
     filter: ["==", ["get", ""], 0],
     lngLat: null,
     zoneData: null,
@@ -145,7 +147,11 @@ export default function MapAugora({
       ...currentView,
       zoneDeputies: getDeputiesInZone(currentView.zoneData),
     })
-  }, [state.FilteredList])
+  }, [FilteredList])
+
+  const changePageTitle = (zoneName: string) => {
+    if (setPageTitle) setPageTitle(zoneName)
+  }
 
   const resetHoverInfo = () => {
     if (hoverInfo.filter !== ["==", ["get", ""], 0])
@@ -156,8 +162,22 @@ export default function MapAugora({
       })
   }
 
-  const changePageTitle = (zoneName: string) => {
-    if (setPageTitle) setPageTitle(zoneName)
+  /**
+   * Affiche la france métropolitaine
+   */
+  const displayFrance = () => {
+    setCurrentView({
+      GEOJson: GEOJsonReg,
+      zoneCode: ZoneCode.Regions,
+      zoneData: metroFranceFeature,
+      zoneDeputies: getDeputiesInZone(metroFranceFeature),
+    })
+
+    changePageTitle(metroFranceFeature.properties.nom)
+
+    flyToBounds(franceBox, viewport, setViewport)
+
+    resetHoverInfo()
   }
 
   /**
@@ -221,7 +241,7 @@ export default function MapAugora({
       case ZoneCode.Continent:
         feature.properties[zoneCode] === Continent.DROM
           ? displayDROM()
-          : handleReset()
+          : displayFrance()
         return
       default:
         return
@@ -241,28 +261,28 @@ export default function MapAugora({
     switch (zoneCode) {
       case ZoneCode.Continent:
         if (feature.properties[zoneCode] === 1)
-          return state.FilteredList.filter((i) => {
+          return FilteredList.filter((i) => {
             return i.NumeroRegion < 10
           })
         else
-          return state.FilteredList.filter((i) => {
+          return FilteredList.filter((i) => {
             return i.NumeroRegion > 10
           })
       case ZoneCode.Regions:
-        return state.FilteredList.filter((i) => {
+        return FilteredList.filter((i) => {
           return continentId !== Continent.COM
             ? i.NumeroRegion == feature.properties[ZoneCode.Regions]
             : i.NumeroDepartement == feature.properties[ZoneCode.Regions]
         })
       case ZoneCode.Departements:
-        return state.FilteredList.filter((i) => {
+        return FilteredList.filter((i) => {
           return (
             i.NumeroDepartement == feature.properties[ZoneCode.Departements]
           )
         })
       case ZoneCode.Circonscriptions:
         return [
-          state.FilteredList.find((i) => {
+          FilteredList.find((i) => {
             return continentId === Continent.DROM
               ? i.NumeroCirconscription ==
                   feature.properties[ZoneCode.Circonscriptions] &&
@@ -318,33 +338,15 @@ export default function MapAugora({
         displayNewZone(regionFeature)
       } else displayDROM()
     } else if (currentView.zoneCode === ZoneCode.Departements) {
-      handleReset()
+      displayFrance()
     }
-  }
-
-  /**
-   * Affiche la france métropolitaine
-   */
-  const handleReset = () => {
-    setCurrentView({
-      GEOJson: GEOJsonReg,
-      zoneCode: ZoneCode.Regions,
-      zoneData: metroFranceFeature,
-      zoneDeputies: franceMetroDeputies,
-    })
-
-    changePageTitle(metroFranceFeature.properties.nom)
-
-    flyToBounds(franceBox, viewport, setViewport)
-
-    resetHoverInfo()
   }
 
   /**
    * Appelé au chargement, permet de target l'object mapbox pour utiliser ses méthodes
    * @param event L'event contient une ref de la map
    */
-  const handleLoad = (event) => {
+  const handleLoad = (event: MapLoadEvent) => {
     const map = event.target
     // console.log(map.getStyle().layers)
 
@@ -355,16 +357,15 @@ export default function MapAugora({
     map.removeLayer("admin-1-boundary-bg")
     map.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
-    // console.log(location.state)
-
     if (featureToDisplay) {
       switch (getContinentId(featureToDisplay)) {
         case Continent.DROM:
-          const reg = getZoneFeature(
-            featureToDisplay.properties[ZoneCode.Regions],
-            ZoneCode.Regions
+          displayNewZone(
+            getZoneFeature(
+              featureToDisplay.properties[ZoneCode.Regions],
+              ZoneCode.Regions
+            )
           )
-          displayNewZone(reg)
           return
         case Continent.COM:
           displayNewZone(
@@ -374,11 +375,12 @@ export default function MapAugora({
             )
           )
         case Continent.France:
-          const dpt = getZoneFeature(
-            featureToDisplay.properties[ZoneCode.Departements],
-            ZoneCode.Departements
+          displayNewZone(
+            getZoneFeature(
+              featureToDisplay.properties[ZoneCode.Departements],
+              ZoneCode.Departements
+            )
           )
-          displayNewZone(dpt)
           return
         default:
           return
@@ -386,42 +388,11 @@ export default function MapAugora({
     } else flyToBounds(franceBox, viewport, setViewport)
   }
 
-  /**
-   * Renvoie le JSX des pins députés
-   */
-  const createPins = (): JSX.Element[] => {
-    if (currentView.zoneCode === ZoneCode.Circonscriptions) {
-      const contId = getContinentId(currentView.zoneData)
-      if (
-        (contId === Continent.France && viewport.zoom > 7) ||
-        (contId !== Continent.France && viewport.zoom > 5)
-      ) {
-        return currentView.GEOJson.features.map((feature, index) => {
-          const centerCoords = getPolygonCenter(feature)
-          return (
-            <MapDeputyPin
-              key={`${feature.properties.nom_dpt} ${index}`}
-              lng={centerCoords[0]}
-              lat={centerCoords[1]}
-              deputy={currentView.zoneDeputies.find((entry) => {
-                return (
-                  entry.NumeroCirconscription == feature.properties.num_circ
-                )
-              })}
-            />
-          )
-        })
-      }
-    }
-  }
-
   return (
     <InteractiveMap
       mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
       mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
       {...viewport}
-      width="100%"
-      height="100%"
       minZoom={2}
       dragRotate={false}
       doubleClickZoom={false}
@@ -451,10 +422,13 @@ export default function MapAugora({
           lngLat={hoverInfo.lngLat}
           zoneFeature={hoverInfo.zoneData}
           deputiesArray={getDeputiesInZone(hoverInfo.zoneData)}
-          totalDeputes={state.FilteredList.length}
+          totalDeputes={FilteredList.length}
         />
       ) : null}
-      {createPins()}
+      {currentView.zoneCode === ZoneCode.Circonscriptions &&
+      viewport.zoom > 5 ? (
+        <MapPins viewData={currentView} />
+      ) : null}
       <div className="map__navigation map__navigation-right">
         <NavigationControl
           showCompass={false}
@@ -465,7 +439,7 @@ export default function MapAugora({
         <MapButton
           className="visible"
           title="Revenir sur la France métropolitaine"
-          onClick={handleReset}
+          onClick={displayFrance}
         >
           <IconFrance />
         </MapButton>
