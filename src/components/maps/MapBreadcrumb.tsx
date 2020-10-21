@@ -84,6 +84,11 @@ function MapBreadcrumbItem({ zoneFeature, handleClick }: IMapBreadcrumbItem) {
   )
 }
 
+/**
+ * Renvoie le breadcrumb
+ * @param {FranceZoneFeature} feature La zone dans laquelle la map est
+ * @param {Function} handleClick La fonction à exécuter au click de l'item breadcrumb
+ */
 export default function MapBreadcrumb(props: IMapBreadcrumb) {
   const history = getHistory(props.feature)
 
