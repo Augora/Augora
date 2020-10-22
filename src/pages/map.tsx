@@ -1,12 +1,11 @@
 import React, { useState } from "react"
 import { Helmet } from "react-helmet"
-import { FranceZoneFeature } from "components/maps/maps-utils"
 import MapAugora from "components/maps/MapAugora"
 
 export default function MapPage({
   location,
 }: {
-  location: { state?: { feature?: FranceZoneFeature } }
+  location: { state?: { feature?: AugoraMap.Feature } }
 }) {
   const [pageTitle, setPageTitle] = useState<string>("Carte")
 

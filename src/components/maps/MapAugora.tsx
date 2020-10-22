@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext } from "react"
 import { navigate } from "gatsby"
 import InteractiveMap, {
   NavigationControl,
@@ -12,10 +12,8 @@ import InteractiveMap, {
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
-  ZoneCode,
+  Code,
   Continent,
-  FranceZoneFeature,
-  FranceZoneFeatureCollection,
   France,
   franceBox,
   GEOJsonReg,
@@ -45,19 +43,19 @@ import Filters from "components/deputies-list/filters/Filters"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
 
 export interface ICurrentView {
-  GEOJson: FranceZoneFeatureCollection
-  zoneCode: ZoneCode
-  zoneData: FranceZoneFeature
+  GEOJson: AugoraMap.FeatureCollection
+  zoneCode: Code
+  zoneData: AugoraMap.Feature
 }
 
 interface IHoverInfo {
   filter: [string, ...any[]]
   lngLat: [number, number]
-  zoneData: FranceZoneFeature
+  zoneData: AugoraMap.Feature
 }
 
 interface IMapAugora {
-  featureToDisplay?: FranceZoneFeature
+  featureToDisplay?: AugoraMap.Feature
   setPageTitle?: React.Dispatch<React.SetStateAction<string>>
 }
 
@@ -110,7 +108,7 @@ const lineGhostLayerProps: LayerProps = {
 
 /**
  * Renvoie la map augora
- * @param {FranceZoneFeature} [featureToDisplay] La feature à afficher au chargement
+ * @param {AugoraMap.Feature} [featureToDisplay] La feature à afficher au chargement
  * @param {React.Dispatch<React.SetStateAction<string>>} [setPageTitle] setState function pour changer le titre de la page
  */
 export default function MapAugora({
@@ -130,7 +128,7 @@ export default function MapAugora({
   })
   const [currentView, setCurrentView] = useState<ICurrentView>({
     GEOJson: GEOJsonReg,
-    zoneCode: ZoneCode.Regions,
+    zoneCode: Code.Regions,
     zoneData: metroFranceFeature,
   })
   const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
@@ -159,7 +157,7 @@ export default function MapAugora({
   const displayFrance = () => {
     setCurrentView({
       GEOJson: GEOJsonReg,
-      zoneCode: ZoneCode.Regions,
+      zoneCode: Code.Regions,
       zoneData: metroFranceFeature,
     })
 
@@ -176,7 +174,7 @@ export default function MapAugora({
   const displayDROM = () => {
     setCurrentView({
       GEOJson: DROMGEOJsonReg,
-      zoneCode: ZoneCode.Regions,
+      zoneCode: Code.Regions,
       zoneData: OMFeature,
     })
 
@@ -196,43 +194,43 @@ export default function MapAugora({
 
   /**
    * Affiche une nouvelle vue
-   * @param {FranceZoneFeature} feature La feature de la zone à afficher
+   * @param {AugoraMap.Feature} feature La feature de la zone à afficher
    */
-  const displayNewZone = (feature: FranceZoneFeature): void => {
+  const displayNewZone = (feature: AugoraMap.Feature): void => {
     const zoneCode = getZoneCode(feature)
     const continentId = getContinent(feature)
     let newFeature = feature
 
     switch (zoneCode) {
-      case ZoneCode.Circonscriptions:
+      case Code.Circonscriptions:
         switch (continentId) {
           case Continent.DROM:
             newFeature = getZoneFeature(
-              feature.properties[ZoneCode.Regions],
-              ZoneCode.Regions
+              feature.properties[Code.Regions],
+              Code.Regions
             )
             break
           case Continent.COM:
             newFeature = getZoneFeature(
-              feature.properties[ZoneCode.Departements],
-              ZoneCode.Regions
+              feature.properties[Code.Departements],
+              Code.Regions
             )
             break
           case Continent.France:
             newFeature = getZoneFeature(
-              feature.properties[ZoneCode.Departements],
-              ZoneCode.Departements
+              feature.properties[Code.Departements],
+              Code.Departements
             )
             break
           default:
             return
         }
-      case ZoneCode.Departements:
-      case ZoneCode.Regions:
+      case Code.Departements:
+      case Code.Regions:
         const childrenZonesCode =
-          zoneCode === ZoneCode.Regions && continentId === Continent.France
-            ? ZoneCode.Departements
-            : ZoneCode.Circonscriptions
+          zoneCode === Code.Regions && continentId === Continent.France
+            ? Code.Departements
+            : Code.Circonscriptions
 
         const newZoneGEOJson = getChildFeatures(newFeature)
 
@@ -252,7 +250,7 @@ export default function MapAugora({
           setViewport
         )
         break
-      case ZoneCode.Continent:
+      case Code.Continent:
         newFeature.properties[zoneCode] === Continent.DROM
           ? displayDROM()
           : displayFrance()
@@ -280,7 +278,7 @@ export default function MapAugora({
       const feature = getMouseEventFeature(e)
       if (feature) {
         const zoneCode = getZoneCode(feature)
-        if (zoneCode === ZoneCode.Circonscriptions) {
+        if (zoneCode === Code.Circonscriptions) {
           const deputy = getDeputies(feature, FilteredList)[0]
           if (deputy) navigate(`/depute/${deputy.Slug}`)
         } else {
@@ -292,17 +290,17 @@ export default function MapAugora({
   }
 
   const handleBack = () => {
-    if (currentView.zoneCode === ZoneCode.Circonscriptions) {
+    if (currentView.zoneCode === Code.Circonscriptions) {
       const contId = getContinent(currentView.zoneData)
       if (contId === Continent.France) {
         const regionFeature = getZoneFeature(
-          currentView.GEOJson.features[0].properties[ZoneCode.Regions],
-          ZoneCode.Regions
+          currentView.GEOJson.features[0].properties[Code.Regions],
+          Code.Regions
         )
 
         displayNewZone(regionFeature)
       } else displayDROM()
-    } else if (currentView.zoneCode === ZoneCode.Departements) {
+    } else if (currentView.zoneCode === Code.Departements) {
       displayFrance()
     }
   }
@@ -387,7 +385,7 @@ export default function MapAugora({
           handleClick={displayNewZone}
         />
         <MapButton
-          className={currentView.zoneCode === ZoneCode.Regions ? "" : "visible"}
+          className={currentView.zoneCode === Code.Regions ? "" : "visible"}
           title="Revenir à la vue précédente"
           onClick={handleBack}
         >

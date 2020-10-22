@@ -1,12 +1,12 @@
 import React from "react"
 import { Popup } from "react-map-gl"
-import { ZoneCode, FranceZoneFeature, getZoneCode } from "./maps-utils"
+import { Code, getZoneCode } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 
 interface IMapTooltip {
   lngLat: [number, number]
-  zoneFeature: FranceZoneFeature
-  deputiesArray: { [key: string]: any }[]
+  zoneFeature: AugoraMap.Feature
+  deputiesArray: AugoraMap.DeputiesList
   totalDeputes: number
 }
 
@@ -26,7 +26,7 @@ export default function MapTooltip(props: IMapTooltip) {
       anchor={"top-left"}
       offsetTop={20}
     >
-      {zoneCode !== ZoneCode.Circonscriptions ? (
+      {zoneCode !== Code.Circonscriptions ? (
         <Tooltip
           className="map__tooltip"
           title={zoneName}

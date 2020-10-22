@@ -1,8 +1,5 @@
 import React from "react"
 import {
-  ZoneCode,
-  Continent,
-  FranceZoneFeature,
   metroFranceFeature,
   OMFeature,
   getContinent,
@@ -10,34 +7,35 @@ import {
   getZoneFeature,
   getSisterFeatures,
 } from "components/maps/maps-utils"
+import { Code, Continent } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 import CustomControl from "components/maps/CustomControl"
 import sortBy from "lodash/sortBy"
 
 interface IMapBreadcrumb {
-  feature: FranceZoneFeature
+  feature: AugoraMap.Feature
   handleClick: (args?: any) => any
 }
 
 /**
  * Renvoie l'historique des zones parcourues sous forme de feature array
- * @param {FranceZoneFeature} feature L'object feature à analyser
+ * @param {AugoraMap.Feature} feature L'object feature à analyser
  */
-const getHistory = (feature: FranceZoneFeature): FranceZoneFeature[] => {
+const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
   const zoneCode = getZoneCode(feature)
   const continentId = getContinent(feature)
 
   switch (zoneCode) {
-    case ZoneCode.Continent:
+    case Code.Continent:
       return [feature]
-    case ZoneCode.Regions:
+    case Code.Regions:
       return continentId === Continent.France
         ? [metroFranceFeature, feature]
         : [OMFeature, feature]
-    case ZoneCode.Departements:
+    case Code.Departements:
       return [
         metroFranceFeature,
-        getZoneFeature(feature.properties[ZoneCode.Regions], ZoneCode.Regions),
+        getZoneFeature(feature.properties[Code.Regions], Code.Regions),
         feature,
       ]
     default:
@@ -81,7 +79,7 @@ function MapBreadcrumbItem({ feature, handleClick }: IMapBreadcrumb) {
 
 /**
  * Renvoie le breadcrumb
- * @param {FranceZoneFeature} feature La zone dans laquelle la map est
+ * @param {AugoraMap.Feature} feature La zone dans laquelle la map est
  * @param {Function} handleClick La fonction à exécuter au click de l'item breadcrumb
  */
 export default function MapBreadcrumb(props: IMapBreadcrumb) {
