@@ -151,35 +151,35 @@ const createCOMRegs = (): FranceZoneFeature[] => {
 }
 
 /**
- * Feature collection GeoJSON des circonscriptions sans les DROM-TOM-COM
+ * Feature collection GeoJSON des circonscriptions sans les DROM-COM
  */
 export const GEOJsonDistrict: FranceZoneFeatureCollection = removeOutreMer(
   GEOJsonDistrictFile
 )
 
 /**
- * Feature collection GeoJSON des départements sans les DROM-TOM-COM
+ * Feature collection GeoJSON des départements sans les DROM-COM
  */
 export const GEOJsonDpt: FranceZoneFeatureCollection = removeOutreMer(
   GEOJsonDptFile
 )
 
 /**
- * Feature collection GeoJSON des régions sans les DROM-TOM-COM
+ * Feature collection GeoJSON des régions sans les DROM-COM
  */
 export const GEOJsonReg: FranceZoneFeatureCollection = removeOutreMer(
   GEOJsonRegFile
 )
 
 /**
- * Feature collection GeoJSON des circonscriptions DROM-TOM-COM
+ * Feature collection GeoJSON des circonscriptions DROM-COM
  */
 export const DROMGEOJsonDistrict: FranceZoneFeatureCollection = getOutreMer(
   GEOJsonDistrictFile
 )
 
 /**
- * Feature collection GeoJSON des régions DROM-TOM-COM
+ * Feature collection GeoJSON des régions DROM-COM
  */
 export const DROMGEOJsonReg: FranceZoneFeatureCollection = createFeatureCollection(
   [...getOutreMer(GEOJsonRegFile).features, ...createCOMRegs()]
@@ -224,9 +224,9 @@ export const metroFranceFeature: FranceZoneFeature = {
 }
 
 /**
- * Pseudo-feature des DROM-TOM-COM
+ * Pseudo-feature des DROM-COM
  */
-export const DROMFeature: FranceZoneFeature = {
+export const OMFeature: FranceZoneFeature = {
   type: "Feature",
   geometry: {
     type: "Polygon",
@@ -257,7 +257,7 @@ export const HorsFeature: FranceZoneFeature = {
  * Pseudo feature collection des continents
  */
 export const continentFeatureCollection: FranceZoneFeatureCollection = createFeatureCollection(
-  [metroFranceFeature, DROMFeature]
+  [metroFranceFeature, OMFeature]
 )
 
 /**
@@ -390,8 +390,8 @@ export const flyToBounds = (
  * Renvoie l'id du continent d'une feature
  * @param {FranceZoneFeature} feature La feature à analyser
  */
-export const getContinentId = (feature: FranceZoneFeature): Continent => {
-  const zoneCode = getFeatureZoneCode(feature)
+export const getContinent = (feature: FranceZoneFeature): Continent => {
+  const zoneCode = getZoneCode(feature)
 
   switch (zoneCode) {
     case ZoneCode.Continent:
@@ -418,7 +418,7 @@ export const getContinentId = (feature: FranceZoneFeature): Continent => {
  * Determine dans quelle vue la feature passée devrait être, renvoie null si la feature ne contient pas les infos nécéssaires
  * @param {FranceZoneFeature} feature L'objet feature GeoJSON à analyser
  */
-export const getFeatureZoneCode = (feature: FranceZoneFeature): ZoneCode => {
+export const getZoneCode = (feature: FranceZoneFeature): ZoneCode => {
   if (feature?.properties) {
     const featureKeys = Object.keys(feature.properties)
 
@@ -441,7 +441,7 @@ export const getMouseEventFeature = (e): FranceZoneFeature => {
   if (e.features && e.target.className === "overlays") {
     if (e.features[0]?.properties) {
       const featureProps = e.features[0].properties
-      const zoneCode = getFeatureZoneCode(e.features[0])
+      const zoneCode = getZoneCode(e.features[0])
       return getZoneFeature(
         featureProps[zoneCode],
         zoneCode,
@@ -495,8 +495,8 @@ export const getZoneFeature = (
 export const getChildFeatures = (
   feature: FranceZoneFeature
 ): FranceZoneFeatureCollection => {
-  const zoneCode = getFeatureZoneCode(feature)
-  const continentId = getContinentId(feature)
+  const zoneCode = getZoneCode(feature)
+  const continentId = getContinent(feature)
 
   switch (zoneCode) {
     case ZoneCode.Continent:
@@ -542,9 +542,9 @@ export const getChildFeatures = (
 export const getSisterFeatures = (
   feature: FranceZoneFeature
 ): FranceZoneFeature[] => {
-  const zoneCode = getFeatureZoneCode(feature)
+  const zoneCode = getZoneCode(feature)
   const props = feature?.properties
-  const continentId = getContinentId(feature)
+  const continentId = getContinent(feature)
 
   switch (zoneCode) {
     case ZoneCode.Continent:
@@ -584,7 +584,7 @@ export const getSisterFeatures = (
 export const getGhostZones = (
   feature: FranceZoneFeature
 ): FranceZoneFeatureCollection => {
-  const zoneCode = getFeatureZoneCode(feature)
+  const zoneCode = getZoneCode(feature)
 
   if (zoneCode === ZoneCode.Regions || ZoneCode.Departements) {
     const regionSisters = getSisterFeatures(
@@ -602,4 +602,53 @@ export const getGhostZones = (
       return createFeatureCollection([...regionSisters, ...dptSisters])
     }
   } else return createFeatureCollection()
+}
+
+/**
+ * Filtre un array de députés selon une zone
+ * @param {FranceZoneFeature} feature La feature à analyser
+ * @param {{ [key: string]: any }[]} list La liste de députés à filtrer
+ */
+export const getDeputies = (
+  feature: FranceZoneFeature,
+  list: { [key: string]: any }[]
+): { [key: string]: any }[] => {
+  const zoneCode = getZoneCode(feature)
+  const continentId = getContinent(feature)
+
+  switch (zoneCode) {
+    case ZoneCode.Continent:
+      if (feature.properties[zoneCode] === Continent.DROM)
+        return list.filter((i) => {
+          return i.NumeroRegion < 10 || i.NumeroRegion === "COM"
+        })
+      else
+        return list.filter((i) => {
+          return i.NumeroRegion > 10
+        })
+    case ZoneCode.Regions:
+      return list.filter((i) => {
+        return continentId !== Continent.COM
+          ? i.NumeroRegion == feature.properties[ZoneCode.Regions]
+          : i.NumeroDepartement == feature.properties[ZoneCode.Regions]
+      })
+    case ZoneCode.Departements:
+      return list.filter((i) => {
+        return i.NumeroDepartement == feature.properties[ZoneCode.Departements]
+      })
+    case ZoneCode.Circonscriptions:
+      return [
+        list.find((i) => {
+          return continentId === Continent.DROM
+            ? i.NumeroCirconscription ==
+                feature.properties[ZoneCode.Circonscriptions] &&
+                i.NumeroRegion == feature.properties[ZoneCode.Regions]
+            : i.NumeroCirconscription ==
+                feature.properties[ZoneCode.Circonscriptions] &&
+                i.NumeroDepartement == feature.properties[ZoneCode.Departements]
+        }),
+      ]
+    default:
+      return []
+  }
 }

@@ -21,15 +21,16 @@ import {
   GEOJsonReg,
   DROMGEOJsonReg,
   metroFranceFeature,
-  DROMFeature,
+  OMFeature,
   flyToBounds,
-  getContinentId,
+  getContinent,
   getBoundingBoxFromFeature,
   getChildFeatures,
-  getFeatureZoneCode,
+  getZoneCode,
   getMouseEventFeature,
   getZoneFeature,
   getGhostZones,
+  getDeputies,
 } from "components/maps/maps-utils"
 import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"
@@ -145,7 +146,7 @@ export default function MapAugora({
   useEffect(() => {
     setCurrentView({
       ...currentView,
-      zoneDeputies: getDeputiesInZone(currentView.zoneData),
+      zoneDeputies: getDeputies(currentView.zoneData, FilteredList),
     })
   }, [FilteredList])
 
@@ -170,7 +171,7 @@ export default function MapAugora({
       GEOJson: GEOJsonReg,
       zoneCode: ZoneCode.Regions,
       zoneData: metroFranceFeature,
-      zoneDeputies: getDeputiesInZone(metroFranceFeature),
+      zoneDeputies: getDeputies(metroFranceFeature, FilteredList),
     })
 
     changePageTitle(metroFranceFeature.properties.nom)
@@ -187,8 +188,8 @@ export default function MapAugora({
     setCurrentView({
       GEOJson: DROMGEOJsonReg,
       zoneCode: ZoneCode.Regions,
-      zoneData: DROMFeature,
-      zoneDeputies: getDeputiesInZone(DROMFeature),
+      zoneData: OMFeature,
+      zoneDeputies: getDeputies(OMFeature, FilteredList),
     })
 
     setViewport({
@@ -200,7 +201,7 @@ export default function MapAugora({
       transitionDuration: "auto",
     })
 
-    changePageTitle(DROMFeature.properties.nom)
+    changePageTitle(OMFeature.properties.nom)
 
     resetHoverInfo()
   }
@@ -210,98 +211,75 @@ export default function MapAugora({
    * @param {FranceZoneFeature} feature La feature de la zone à afficher
    */
   const displayNewZone = (feature: FranceZoneFeature): void => {
-    const zoneCode = getFeatureZoneCode(feature)
+    const zoneCode = getZoneCode(feature)
+    const continentId = getContinent(feature)
+    let newFeature = feature
 
     switch (zoneCode) {
-      case ZoneCode.Regions:
+      case ZoneCode.Circonscriptions:
+        switch (continentId) {
+          case Continent.DROM:
+            newFeature = getZoneFeature(
+              feature.properties[ZoneCode.Regions],
+              ZoneCode.Regions
+            )
+            break
+          case Continent.COM:
+            newFeature = getZoneFeature(
+              feature.properties[ZoneCode.Departements],
+              ZoneCode.Regions
+            )
+            break
+          case Continent.France:
+            newFeature = getZoneFeature(
+              feature.properties[ZoneCode.Departements],
+              ZoneCode.Departements
+            )
+            break
+          default:
+            return
+        }
       case ZoneCode.Departements:
+      case ZoneCode.Regions:
         const childrenZonesCode =
-          zoneCode === ZoneCode.Regions &&
-          getContinentId(feature) === Continent.France
+          zoneCode === ZoneCode.Regions && continentId === Continent.France
             ? ZoneCode.Departements
             : ZoneCode.Circonscriptions
 
-        const newZoneGEOJson = getChildFeatures(feature)
+        const newZoneGEOJson = getChildFeatures(newFeature)
 
-        const newDeputiesInZone = getDeputiesInZone(feature)
+        const newDeputiesInZone = getDeputies(newFeature, FilteredList)
 
         setCurrentView({
           GEOJson: newZoneGEOJson,
           zoneCode: childrenZonesCode,
-          zoneData: feature,
+          zoneData: newFeature,
           zoneDeputies: newDeputiesInZone,
         })
 
-        changePageTitle(feature.properties.nom)
+        changePageTitle(newFeature.properties.nom)
 
-        flyToBounds(getBoundingBoxFromFeature(feature), viewport, setViewport)
-
-        resetHoverInfo()
-        return
+        flyToBounds(
+          getBoundingBoxFromFeature(newFeature),
+          viewport,
+          setViewport
+        )
+        break
       case ZoneCode.Continent:
-        feature.properties[zoneCode] === Continent.DROM
+        newFeature.properties[zoneCode] === Continent.DROM
           ? displayDROM()
           : displayFrance()
-        return
+        break
       default:
-        return
+        break
     }
-  }
-
-  /**
-   * Renvoie un array contenant tous les députés de la zone et leurs infos
-   * @param {FranceZoneFeature} feature La feature de la zone à fouiller
-   */
-  const getDeputiesInZone = (
-    feature: FranceZoneFeature
-  ): { [key: string]: any }[] => {
-    const zoneCode = getFeatureZoneCode(feature)
-    const continentId = getContinentId(feature)
-
-    switch (zoneCode) {
-      case ZoneCode.Continent:
-        if (feature.properties[zoneCode] === 1)
-          return FilteredList.filter((i) => {
-            return i.NumeroRegion < 10
-          })
-        else
-          return FilteredList.filter((i) => {
-            return i.NumeroRegion > 10
-          })
-      case ZoneCode.Regions:
-        return FilteredList.filter((i) => {
-          return continentId !== Continent.COM
-            ? i.NumeroRegion == feature.properties[ZoneCode.Regions]
-            : i.NumeroDepartement == feature.properties[ZoneCode.Regions]
-        })
-      case ZoneCode.Departements:
-        return FilteredList.filter((i) => {
-          return (
-            i.NumeroDepartement == feature.properties[ZoneCode.Departements]
-          )
-        })
-      case ZoneCode.Circonscriptions:
-        return [
-          FilteredList.find((i) => {
-            return continentId === Continent.DROM
-              ? i.NumeroCirconscription ==
-                  feature.properties[ZoneCode.Circonscriptions] &&
-                  i.NumeroRegion == feature.properties[ZoneCode.Regions]
-              : i.NumeroCirconscription ==
-                  feature.properties[ZoneCode.Circonscriptions] &&
-                  i.NumeroDepartement ==
-                    feature.properties[ZoneCode.Departements]
-          }),
-        ]
-      default:
-        return []
-    }
+    resetHoverInfo()
   }
 
   const handleHover = (e) => {
     const feature = getMouseEventFeature(e)
     if (feature && viewport.zoom < 13) {
-      const zoneCode = getFeatureZoneCode(feature)
+      const zoneCode = getZoneCode(feature)
       setHoverInfo({
         filter: ["==", ["get", zoneCode], feature.properties[zoneCode]],
         lngLat: e.lngLat,
@@ -314,9 +292,9 @@ export default function MapAugora({
     if (e.leftButton) {
       const feature = getMouseEventFeature(e)
       if (feature) {
-        const zoneCode = getFeatureZoneCode(feature)
+        const zoneCode = getZoneCode(feature)
         if (zoneCode === ZoneCode.Circonscriptions) {
-          const deputy = getDeputiesInZone(feature)[0]
+          const deputy = getDeputies(feature, FilteredList)[0]
           if (deputy) navigate(`/depute/${deputy.Slug}`)
         } else {
           displayNewZone(feature)
@@ -328,7 +306,7 @@ export default function MapAugora({
 
   const handleBack = () => {
     if (currentView.zoneCode === ZoneCode.Circonscriptions) {
-      const contId = getContinentId(currentView.zoneData)
+      const contId = getContinent(currentView.zoneData)
       if (contId === Continent.France) {
         const regionFeature = getZoneFeature(
           currentView.GEOJson.features[0].properties[ZoneCode.Regions],
@@ -357,35 +335,8 @@ export default function MapAugora({
     map.removeLayer("admin-1-boundary-bg")
     map.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
-    if (featureToDisplay) {
-      switch (getContinentId(featureToDisplay)) {
-        case Continent.DROM:
-          displayNewZone(
-            getZoneFeature(
-              featureToDisplay.properties[ZoneCode.Regions],
-              ZoneCode.Regions
-            )
-          )
-          return
-        case Continent.COM:
-          displayNewZone(
-            getZoneFeature(
-              featureToDisplay.properties[ZoneCode.Departements],
-              ZoneCode.Regions
-            )
-          )
-        case Continent.France:
-          displayNewZone(
-            getZoneFeature(
-              featureToDisplay.properties[ZoneCode.Departements],
-              ZoneCode.Departements
-            )
-          )
-          return
-        default:
-          return
-      }
-    } else flyToBounds(franceBox, viewport, setViewport)
+    if (featureToDisplay) displayNewZone(featureToDisplay)
+    else flyToBounds(franceBox, viewport, setViewport)
   }
 
   return (
@@ -421,14 +372,11 @@ export default function MapAugora({
         <MapTooltip
           lngLat={hoverInfo.lngLat}
           zoneFeature={hoverInfo.zoneData}
-          deputiesArray={getDeputiesInZone(hoverInfo.zoneData)}
+          deputiesArray={getDeputies(hoverInfo.zoneData, FilteredList)}
           totalDeputes={FilteredList.length}
         />
       ) : null}
-      {currentView.zoneCode === ZoneCode.Circonscriptions &&
-      viewport.zoom > 5 ? (
-        <MapPins viewData={currentView} />
-      ) : null}
+      <MapPins viewData={currentView} />
       <div className="map__navigation map__navigation-right">
         <NavigationControl
           showCompass={false}

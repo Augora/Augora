@@ -4,9 +4,9 @@ import {
   Continent,
   FranceZoneFeature,
   metroFranceFeature,
-  DROMFeature,
-  getContinentId,
-  getFeatureZoneCode,
+  OMFeature,
+  getContinent,
+  getZoneCode,
   getZoneFeature,
   getSisterFeatures,
 } from "components/maps/maps-utils"
@@ -24,8 +24,8 @@ interface IMapBreadcrumb {
  * @param {FranceZoneFeature} feature L'object feature à analyser
  */
 const getHistory = (feature: FranceZoneFeature): FranceZoneFeature[] => {
-  const zoneCode = getFeatureZoneCode(feature)
-  const continentId = getContinentId(feature)
+  const zoneCode = getZoneCode(feature)
+  const continentId = getContinent(feature)
 
   switch (zoneCode) {
     case ZoneCode.Continent:
@@ -33,7 +33,7 @@ const getHistory = (feature: FranceZoneFeature): FranceZoneFeature[] => {
     case ZoneCode.Regions:
       return continentId === Continent.France
         ? [metroFranceFeature, feature]
-        : [DROMFeature, feature]
+        : [OMFeature, feature]
     case ZoneCode.Departements:
       return [
         metroFranceFeature,
