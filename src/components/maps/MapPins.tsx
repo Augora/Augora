@@ -10,6 +10,7 @@ import DeputyImage from "components/deputy/general-information/deputy-image/Depu
 
 interface IMapPin {
   viewData: ICurrentView
+  deputiesList: { [key: string]: any }[]
 }
 
 function MapNumberPin({ number, coords }) {
@@ -51,12 +52,12 @@ function MapDeputyPin({ deputy, coords }) {
   )
 }
 
-export default function MapPins({ viewData }: IMapPin) {
+export default function MapPins({ viewData, deputiesList }: IMapPin) {
   return (
     <div className="map__pins">
       {viewData.GEOJson.features.map((feature, index) => {
         const centerCoords = getPolygonCenter(feature)
-        const deputies = getDeputies(feature, viewData.zoneDeputies)
+        const deputies = getDeputies(feature, deputiesList)
 
         if (viewData.zoneCode === ZoneCode.Circonscriptions) {
           return deputies[0] ? (

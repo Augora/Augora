@@ -48,7 +48,6 @@ export interface ICurrentView {
   GEOJson: FranceZoneFeatureCollection
   zoneCode: ZoneCode
   zoneData: FranceZoneFeature
-  zoneDeputies: { [key: string]: any }[] //ça veut juste dire que c'est un array d'objets
 }
 
 interface IHoverInfo {
@@ -133,7 +132,6 @@ export default function MapAugora({
     GEOJson: GEOJsonReg,
     zoneCode: ZoneCode.Regions,
     zoneData: metroFranceFeature,
-    zoneDeputies: FilteredList.filter((entry) => entry.NumeroRegion > 10),
   })
   const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
     filter: ["==", ["get", ""], 0],
@@ -141,14 +139,6 @@ export default function MapAugora({
     zoneData: null,
   })
   const [filterDisplayed, setFilterDisplayed] = useState(false)
-
-  //Update le state des députés de la zone selon la filtered list
-  useEffect(() => {
-    setCurrentView({
-      ...currentView,
-      zoneDeputies: getDeputies(currentView.zoneData, FilteredList),
-    })
-  }, [FilteredList])
 
   const changePageTitle = (zoneName: string) => {
     if (setPageTitle) setPageTitle(zoneName)
@@ -171,7 +161,6 @@ export default function MapAugora({
       GEOJson: GEOJsonReg,
       zoneCode: ZoneCode.Regions,
       zoneData: metroFranceFeature,
-      zoneDeputies: getDeputies(metroFranceFeature, FilteredList),
     })
 
     changePageTitle(metroFranceFeature.properties.nom)
@@ -189,7 +178,6 @@ export default function MapAugora({
       GEOJson: DROMGEOJsonReg,
       zoneCode: ZoneCode.Regions,
       zoneData: OMFeature,
-      zoneDeputies: getDeputies(OMFeature, FilteredList),
     })
 
     setViewport({
@@ -248,13 +236,12 @@ export default function MapAugora({
 
         const newZoneGEOJson = getChildFeatures(newFeature)
 
-        const newDeputiesInZone = getDeputies(newFeature, FilteredList)
+        // const newDeputiesInZone = getDeputies(newFeature, FilteredList)
 
         setCurrentView({
           GEOJson: newZoneGEOJson,
           zoneCode: childrenZonesCode,
           zoneData: newFeature,
-          zoneDeputies: newDeputiesInZone,
         })
 
         changePageTitle(newFeature.properties.nom)
@@ -344,6 +331,8 @@ export default function MapAugora({
       mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
       mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
       {...viewport}
+      width="100%"
+      height="100%"
       minZoom={2}
       dragRotate={false}
       doubleClickZoom={false}
@@ -376,7 +365,7 @@ export default function MapAugora({
           totalDeputes={FilteredList.length}
         />
       ) : null}
-      <MapPins viewData={currentView} />
+      <MapPins viewData={currentView} deputiesList={FilteredList} />
       <div className="map__navigation map__navigation-right">
         <NavigationControl
           showCompass={false}
