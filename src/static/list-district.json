@@ -126,8 +126,8 @@
       "properties": {
         "ID": "ZA001",
         "code_dpt": "971",
-        "nom_dpt": "GUADELOUPE",
-        "nom_reg": "GUADELOUPE",
+        "nom_dpt": "Guadeloupe",
+        "nom_reg": "Guadeloupe",
         "num_circ": "1",
         "code_reg": "01"
       },
@@ -171,8 +171,8 @@
       "properties": {
         "ID": "ZA002",
         "code_dpt": "971",
-        "nom_dpt": "GUADELOUPE",
-        "nom_reg": "GUADELOUPE",
+        "nom_dpt": "Guadeloupe",
+        "nom_reg": "Guadeloupe",
         "num_circ": "2",
         "code_reg": "01"
       },
@@ -223,8 +223,8 @@
       "properties": {
         "ID": "ZA003",
         "code_dpt": "971",
-        "nom_dpt": "GUADELOUPE",
-        "nom_reg": "GUADELOUPE",
+        "nom_dpt": "Guadeloupe",
+        "nom_reg": "Guadeloupe",
         "num_circ": "3",
         "code_reg": "01"
       },
@@ -262,8 +262,8 @@
       "properties": {
         "ID": "ZA004",
         "code_dpt": "971",
-        "nom_dpt": "GUADELOUPE",
-        "nom_reg": "GUADELOUPE",
+        "nom_dpt": "Guadeloupe",
+        "nom_reg": "Guadeloupe",
         "num_circ": "4",
         "code_reg": "01"
       },
@@ -6979,8 +6979,8 @@
       "properties": {
         "ID": "ZM001",
         "code_dpt": "976",
-        "nom_dpt": "MAYOTTE",
-        "nom_reg": "MAYOTTE",
+        "nom_dpt": "Mayotte",
+        "nom_reg": "Mayotte",
         "num_circ": "1",
         "code_reg": "06"
       },
@@ -7020,8 +7020,8 @@
       "properties": {
         "ID": "ZM002",
         "code_dpt": "976",
-        "nom_dpt": "MAYOTTE",
-        "nom_reg": "MAYOTTE",
+        "nom_dpt": "Mayotte",
+        "nom_reg": "Mayotte",
         "num_circ": "2",
         "code_reg": "06"
       },
@@ -7339,8 +7339,8 @@
       "properties": {
         "ID": "ZD001",
         "code_dpt": "974",
-        "nom_dpt": "REUNION",
-        "nom_reg": "REUNION",
+        "nom_dpt": "La Réunion",
+        "nom_reg": "La Réunion",
         "num_circ": "1",
         "code_reg": "04"
       },
@@ -23241,8 +23241,8 @@
       "properties": {
         "ID": "ZB001",
         "code_dpt": "972",
-        "nom_dpt": "MARTINIQUE",
-        "nom_reg": "MARTINIQUE",
+        "nom_dpt": "Martinique",
+        "nom_reg": "Martinique",
         "num_circ": "1",
         "code_reg": "02"
       },
@@ -23286,8 +23286,8 @@
       "properties": {
         "ID": "ZB002",
         "code_dpt": "972",
-        "nom_dpt": "MARTINIQUE",
-        "nom_reg": "MARTINIQUE",
+        "nom_dpt": "Martinique",
+        "nom_reg": "Martinique",
         "num_circ": "2",
         "code_reg": "02"
       },
@@ -23327,8 +23327,8 @@
       "properties": {
         "ID": "ZB004",
         "code_dpt": "972",
-        "nom_dpt": "MARTINIQUE",
-        "nom_reg": "MARTINIQUE",
+        "nom_dpt": "Martinique",
+        "nom_reg": "Martinique",
         "num_circ": "4",
         "code_reg": "02"
       },
@@ -23364,8 +23364,8 @@
       "properties": {
         "ID": "ZC001",
         "code_dpt": "973",
-        "nom_dpt": "GUYANE",
-        "nom_reg": "GUYANE",
+        "nom_dpt": "Guyane",
+        "nom_reg": "Guyane",
         "num_circ": "1",
         "code_reg": "03"
       },
@@ -23538,8 +23538,8 @@
       "properties": {
         "ID": "ZC002",
         "code_dpt": "973",
-        "nom_dpt": "GUYANE",
-        "nom_reg": "GUYANE",
+        "nom_dpt": "Guyane",
+        "nom_reg": "Guyane",
         "num_circ": "2",
         "code_reg": "03"
       },
@@ -25626,8 +25626,8 @@
       "properties": {
         "ID": "ZD002",
         "code_dpt": "974",
-        "nom_dpt": "REUNION",
-        "nom_reg": "REUNION",
+        "nom_dpt": "La Réunion",
+        "nom_reg": "La Réunion",
         "num_circ": "2",
         "code_reg": "04"
       },
@@ -25662,8 +25662,8 @@
       "properties": {
         "ID": "ZD005",
         "code_dpt": "974",
-        "nom_dpt": "REUNION",
-        "nom_reg": "REUNION",
+        "nom_dpt": "La Réunion",
+        "nom_reg": "La Réunion",
         "num_circ": "5",
         "code_reg": "04"
       },
@@ -25713,8 +25713,8 @@
       "properties": {
         "ID": "ZD006",
         "code_dpt": "974",
-        "nom_dpt": "REUNION",
-        "nom_reg": "REUNION",
+        "nom_dpt": "La Réunion",
+        "nom_reg": "La Réunion",
         "num_circ": "6",
         "code_reg": "04"
       },
@@ -25743,8 +25743,8 @@
       "properties": {
         "ID": "ZD007",
         "code_dpt": "974",
-        "nom_dpt": "REUNION",
-        "nom_reg": "REUNION",
+        "nom_dpt": "La Réunion",
+        "nom_reg": "La Réunion",
         "num_circ": "7",
         "code_reg": "04"
       },
@@ -28359,8 +28359,8 @@
       "properties": {
         "ID": "ZB003",
         "code_dpt": "972",
-        "nom_dpt": "MARTINIQUE",
-        "nom_reg": "MARTINIQUE",
+        "nom_dpt": "Martinique",
+        "nom_reg": "Martinique",
         "num_circ": "3",
         "code_reg": "02"
       },
@@ -28383,8 +28383,8 @@
       "properties": {
         "ID": "ZD004",
         "code_dpt": "974",
-        "nom_dpt": "REUNION",
-        "nom_reg": "REUNION",
+        "nom_dpt": "La Réunion",
+        "nom_reg": "La Réunion",
         "num_circ": "4",
         "code_reg": "04"
       },
@@ -28486,8 +28486,8 @@
       "properties": {
         "ID": "ZD003",
         "code_dpt": "974",
-        "nom_dpt": "REUNION",
-        "nom_reg": "REUNION",
+        "nom_dpt": "La Réunion",
+        "nom_reg": "La Réunion",
         "num_circ": "3",
         "code_reg": "04"
       },
