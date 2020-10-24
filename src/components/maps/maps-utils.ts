@@ -270,9 +270,11 @@ const getBoundingBoxFromCoordinates = (
 export const getBoundingBoxFromFeature = (
   feature: AugoraMap.Feature
 ): AugoraMap.Bounds => {
-  return feature.geometry.type === "Polygon"
-    ? getBoundingBoxFromCoordinates(feature.geometry.coordinates)
-    : getBoundingBoxFromCoordinates(feature.geometry.coordinates, true)
+  if (feature?.geometry?.type) {
+    return feature.geometry.type === "Polygon"
+      ? getBoundingBoxFromCoordinates(feature.geometry.coordinates)
+      : getBoundingBoxFromCoordinates(feature.geometry.coordinates, true)
+  } else return null
 }
 
 /**
@@ -387,7 +389,7 @@ export const getMouseEventFeature = (e): AugoraMap.Feature => {
     if (e.features[0]?.properties) {
       const featureProps = e.features[0].properties
       const zoneCode = getZoneCode(e.features[0])
-      return getZoneFeature(
+      return getFeature(
         featureProps[zoneCode],
         zoneCode,
         zoneCode === Code.Circ ? featureProps[Code.Dpt] : null
@@ -402,7 +404,7 @@ export const getMouseEventFeature = (e): AugoraMap.Feature => {
  * @param {Code} Code Le code de la zone
  * @param {number} [dptID] L'id du département, obligatoire si c'est une circonscription
  */
-export const getZoneFeature = (
+export const getFeature = (
   zoneId: number | string,
   zoneCode: Code,
   dptId?: number
@@ -516,7 +518,7 @@ export const getGhostZones = (
 
   if (zoneCode === Code.Reg || Code.Dpt) {
     const Registers = getSisterFeatures(
-      getZoneFeature(feature.properties[Code.Reg], Code.Reg)
+      getFeature(feature.properties[Code.Reg], Code.Reg)
     )
     if (zoneCode === Code.Reg) return createFeatureCollection(Registers)
     else {

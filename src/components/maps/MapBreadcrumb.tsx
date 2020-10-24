@@ -6,7 +6,7 @@ import {
   OMFeature,
   getContinent,
   getZoneCode,
-  getZoneFeature,
+  getFeature,
   getSisterFeatures,
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
@@ -35,7 +35,7 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
       return continentId === Cont.France
         ? [
             metroFranceFeature,
-            getZoneFeature(feature.properties[Code.Reg], Code.Reg),
+            getFeature(feature.properties[Code.Reg], Code.Reg),
             feature,
           ]
         : [OMFeature, feature]

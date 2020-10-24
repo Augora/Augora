@@ -26,7 +26,7 @@ import {
   getChildFeatures,
   getZoneCode,
   getMouseEventFeature,
-  getZoneFeature,
+  getFeature,
   getGhostZones,
   getDeputies,
 } from "components/maps/maps-utils"
@@ -121,11 +121,11 @@ export default function MapAugora(props: IMapAugora) {
 
   useEffect(() => {
     if (props.codeCont !== undefined) {
-      displayNewZone(getZoneFeature(props.codeCont, Code.Cont))
+      displayNewZone(getFeature(props.codeCont, Code.Cont))
     } else if (props.codeReg) {
-      displayNewZone(getZoneFeature(props.codeReg, Code.Reg))
+      displayNewZone(getFeature(props.codeReg, Code.Reg))
     } else if (props.codeDpt) {
-      displayNewZone(getZoneFeature(props.codeDpt, Code.Dpt))
+      displayNewZone(getFeature(props.codeDpt, Code.Dpt))
     }
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
@@ -212,7 +212,7 @@ export default function MapAugora(props: IMapAugora) {
 
     switch (zoneCode) {
       case Code.Circ:
-        newFeature = getZoneFeature(feature.properties[Code.Dpt], Code.Dpt)
+        newFeature = getFeature(feature.properties[Code.Dpt], Code.Dpt)
       case Code.Dpt:
       case Code.Reg:
         const childrenZonesCode = zoneCode === Code.Reg ? Code.Dpt : Code.Circ
@@ -278,7 +278,7 @@ export default function MapAugora(props: IMapAugora) {
 
     if (contId === Cont.France) {
       if (currentView.zoneCode === Code.Circ) {
-        const regionFeature = getZoneFeature(
+        const regionFeature = getFeature(
           currentView.GEOJson.features[0].properties[Code.Reg],
           Code.Reg
         )
