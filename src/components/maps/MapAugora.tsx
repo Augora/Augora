@@ -129,6 +129,7 @@ export default function MapAugora(props: IMapAugora) {
     }
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
+  const [IsMapLoaded, setIsMapLoaded] = useState(false)
   const [viewport, setViewport] = useState<InteractiveMapProps>({
     width: "100%",
     height: "100%",
@@ -227,11 +228,13 @@ export default function MapAugora(props: IMapAugora) {
 
         changePageTitle(newFeature.properties.nom)
 
-        flyToBounds(
-          getBoundingBoxFromFeature(newFeature),
-          viewport,
-          setViewport
-        )
+        if (IsMapLoaded) {
+          flyToBounds(
+            getBoundingBoxFromFeature(newFeature),
+            viewport,
+            setViewport
+          )
+        }
         break
       case Code.Cont:
         newFeature.properties[zoneCode] === Cont.OM
@@ -305,7 +308,14 @@ export default function MapAugora(props: IMapAugora) {
     map.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
     if (props.featureToDisplay) displayNewZone(props.featureToDisplay)
-    else flyToBounds(franceBox, viewport, setViewport)
+    else
+      flyToBounds(
+        getBoundingBoxFromFeature(currentView.zoneData),
+        viewport,
+        setViewport
+      )
+
+    setIsMapLoaded(true)
   }
 
   return (
