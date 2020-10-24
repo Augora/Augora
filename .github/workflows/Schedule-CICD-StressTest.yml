@@ -1,4 +1,4 @@
-name: Manual CI/CD Staging
+name: Stress test CI/CD
 
 on:
   schedule:
