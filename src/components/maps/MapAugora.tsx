@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { navigate } from "gatsby"
 import InteractiveMap, {
   NavigationControl,
@@ -13,11 +13,11 @@ import InteractiveMap, {
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   Code,
-  Continent,
+  Cont,
   France,
   franceBox,
   GEOJsonReg,
-  DROMGEOJsonReg,
+  OMGEOJsonDpt,
   metroFranceFeature,
   OMFeature,
   flyToBounds,
@@ -57,6 +57,9 @@ interface IHoverInfo {
 interface IMapAugora {
   featureToDisplay?: AugoraMap.Feature
   setPageTitle?: React.Dispatch<React.SetStateAction<string>>
+  codeCont?: number
+  codeReg?: number | string
+  codeDpt?: number | string
 }
 
 const fillLayerProps: LayerProps = {
@@ -111,13 +114,20 @@ const lineGhostLayerProps: LayerProps = {
  * @param {AugoraMap.Feature} [featureToDisplay] La feature à afficher au chargement
  * @param {React.Dispatch<React.SetStateAction<string>>} [setPageTitle] setState function pour changer le titre de la page
  */
-export default function MapAugora({
-  featureToDisplay = null,
-  setPageTitle = undefined,
-}: IMapAugora) {
+export default function MapAugora(props: IMapAugora) {
   const {
     state: { FilteredList },
   } = useContext(DeputiesListContext)
+
+  useEffect(() => {
+    if (props.codeCont !== undefined) {
+      displayNewZone(getZoneFeature(props.codeCont, Code.Cont))
+    } else if (props.codeReg) {
+      displayNewZone(getZoneFeature(props.codeReg, Code.Reg))
+    } else if (props.codeDpt) {
+      displayNewZone(getZoneFeature(props.codeDpt, Code.Dpt))
+    }
+  }, [props.codeCont, props.codeReg, props.codeDpt])
 
   const [viewport, setViewport] = useState<InteractiveMapProps>({
     width: "100%",
@@ -128,7 +138,7 @@ export default function MapAugora({
   })
   const [currentView, setCurrentView] = useState<ICurrentView>({
     GEOJson: GEOJsonReg,
-    zoneCode: Code.Regions,
+    zoneCode: Code.Reg,
     zoneData: metroFranceFeature,
   })
   const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
@@ -139,7 +149,7 @@ export default function MapAugora({
   const [filterDisplayed, setFilterDisplayed] = useState(false)
 
   const changePageTitle = (zoneName: string) => {
-    if (setPageTitle) setPageTitle(zoneName)
+    if (props.setPageTitle) props.setPageTitle(zoneName)
   }
 
   const resetHoverInfo = () => {
@@ -157,7 +167,7 @@ export default function MapAugora({
   const displayFrance = () => {
     setCurrentView({
       GEOJson: GEOJsonReg,
-      zoneCode: Code.Regions,
+      zoneCode: Code.Reg,
       zoneData: metroFranceFeature,
     })
 
@@ -171,10 +181,10 @@ export default function MapAugora({
   /**
    * Affiche l'outre-mer
    */
-  const displayDROM = () => {
+  const displayOM = () => {
     setCurrentView({
-      GEOJson: DROMGEOJsonReg,
-      zoneCode: Code.Regions,
+      GEOJson: OMGEOJsonDpt,
+      zoneCode: Code.Dpt,
       zoneData: OMFeature,
     })
 
@@ -198,43 +208,16 @@ export default function MapAugora({
    */
   const displayNewZone = (feature: AugoraMap.Feature): void => {
     const zoneCode = getZoneCode(feature)
-    const continentId = getContinent(feature)
     let newFeature = feature
 
     switch (zoneCode) {
-      case Code.Circonscriptions:
-        switch (continentId) {
-          case Continent.DROM:
-            newFeature = getZoneFeature(
-              feature.properties[Code.Regions],
-              Code.Regions
-            )
-            break
-          case Continent.COM:
-            newFeature = getZoneFeature(
-              feature.properties[Code.Departements],
-              Code.Regions
-            )
-            break
-          case Continent.France:
-            newFeature = getZoneFeature(
-              feature.properties[Code.Departements],
-              Code.Departements
-            )
-            break
-          default:
-            return
-        }
-      case Code.Departements:
-      case Code.Regions:
-        const childrenZonesCode =
-          zoneCode === Code.Regions && continentId === Continent.France
-            ? Code.Departements
-            : Code.Circonscriptions
+      case Code.Circ:
+        newFeature = getZoneFeature(feature.properties[Code.Dpt], Code.Dpt)
+      case Code.Dpt:
+      case Code.Reg:
+        const childrenZonesCode = zoneCode === Code.Reg ? Code.Dpt : Code.Circ
 
         const newZoneGEOJson = getChildFeatures(newFeature)
-
-        // const newDeputiesInZone = getDeputies(newFeature, FilteredList)
 
         setCurrentView({
           GEOJson: newZoneGEOJson,
@@ -250,12 +233,13 @@ export default function MapAugora({
           setViewport
         )
         break
-      case Code.Continent:
-        newFeature.properties[zoneCode] === Continent.DROM
-          ? displayDROM()
+      case Code.Cont:
+        newFeature.properties[zoneCode] === Cont.OM
+          ? displayOM()
           : displayFrance()
         break
       default:
+        console.error("Zone à afficher non trouvée")
         break
     }
     resetHoverInfo()
@@ -278,7 +262,7 @@ export default function MapAugora({
       const feature = getMouseEventFeature(e)
       if (feature) {
         const zoneCode = getZoneCode(feature)
-        if (zoneCode === Code.Circonscriptions) {
+        if (zoneCode === Code.Circ) {
           const deputy = getDeputies(feature, FilteredList)[0]
           if (deputy) navigate(`/depute/${deputy.Slug}`)
         } else {
@@ -290,18 +274,18 @@ export default function MapAugora({
   }
 
   const handleBack = () => {
-    if (currentView.zoneCode === Code.Circonscriptions) {
-      const contId = getContinent(currentView.zoneData)
-      if (contId === Continent.France) {
-        const regionFeature = getZoneFeature(
-          currentView.GEOJson.features[0].properties[Code.Regions],
-          Code.Regions
-        )
+    const contId = getContinent(currentView.zoneData)
 
+    if (contId === Cont.France) {
+      if (currentView.zoneCode === Code.Circ) {
+        const regionFeature = getZoneFeature(
+          currentView.GEOJson.features[0].properties[Code.Reg],
+          Code.Reg
+        )
         displayNewZone(regionFeature)
-      } else displayDROM()
-    } else if (currentView.zoneCode === Code.Departements) {
-      displayFrance()
+      } else displayFrance()
+    } else if (contId === Cont.OM) {
+      displayOM()
     }
   }
 
@@ -320,7 +304,7 @@ export default function MapAugora({
     map.removeLayer("admin-1-boundary-bg")
     map.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
-    if (featureToDisplay) displayNewZone(featureToDisplay)
+    if (props.featureToDisplay) displayNewZone(props.featureToDisplay)
     else flyToBounds(franceBox, viewport, setViewport)
   }
 
@@ -385,7 +369,11 @@ export default function MapAugora({
           handleClick={displayNewZone}
         />
         <MapButton
-          className={currentView.zoneCode === Code.Regions ? "" : "visible"}
+          className={
+            currentView.zoneData.properties[Code.Cont] === undefined
+              ? "visible"
+              : ""
+          }
           title="Revenir à la vue précédente"
           onClick={handleBack}
         >

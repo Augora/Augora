@@ -1,5 +1,7 @@
 import React from "react"
 import {
+  Code,
+  Cont,
   metroFranceFeature,
   OMFeature,
   getContinent,
@@ -7,7 +9,6 @@ import {
   getZoneFeature,
   getSisterFeatures,
 } from "components/maps/maps-utils"
-import { Code, Continent } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 import CustomControl from "components/maps/CustomControl"
 import sortBy from "lodash/sortBy"
@@ -26,18 +27,18 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
   const continentId = getContinent(feature)
 
   switch (zoneCode) {
-    case Code.Continent:
+    case Code.Cont:
       return [feature]
-    case Code.Regions:
-      return continentId === Continent.France
-        ? [metroFranceFeature, feature]
+    case Code.Reg:
+      return [metroFranceFeature, feature]
+    case Code.Dpt:
+      return continentId === Cont.France
+        ? [
+            metroFranceFeature,
+            getZoneFeature(feature.properties[Code.Reg], Code.Reg),
+            feature,
+          ]
         : [OMFeature, feature]
-    case Code.Departements:
-      return [
-        metroFranceFeature,
-        getZoneFeature(feature.properties[Code.Regions], Code.Regions),
-        feature,
-      ]
     default:
       return []
   }

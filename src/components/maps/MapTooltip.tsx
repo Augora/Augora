@@ -10,6 +10,13 @@ interface IMapTooltip {
   totalDeputes: number
 }
 
+/**
+ * Renvoie une tooltip dans un component Popup de mapbox
+ * @param {[number, number]} lngLat Array de [lgn, lat] pour positionner la popup
+ * @param {AugoraMap.Feature} zoneFeature La feature de la zone à analyser
+ * @param {AugoraMap.DeputiesList} deputiesArray La liste de députés de la zone
+ * @param {number} totalDeputes Total de députés pour faire le pourcentage
+ */
 export default function MapTooltip(props: IMapTooltip) {
   const zoneCode = getZoneCode(props.zoneFeature)
   const zoneName = props.zoneFeature.properties.nom
@@ -26,7 +33,7 @@ export default function MapTooltip(props: IMapTooltip) {
       anchor={"top-left"}
       offsetTop={20}
     >
-      {zoneCode !== Code.Circonscriptions ? (
+      {zoneCode !== Code.Circ ? (
         <Tooltip
           className="map__tooltip"
           title={zoneName}

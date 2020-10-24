@@ -1,7 +1,6 @@
 import React from "react"
 import { Marker } from "react-map-gl"
-import { getDeputies, getPolygonCenter } from "components/maps/maps-utils"
-import { Code } from "components/maps/maps-utils"
+import { Code, getDeputies, getPolygonCenter } from "components/maps/maps-utils"
 import { ICurrentView } from "components/maps/MapAugora"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
@@ -49,6 +48,11 @@ function MapDeputyPin({ deputy, coords }) {
   )
 }
 
+/**
+ * Renvoie un pin pour chaque zone affichée
+ * @param {ICurrentView} viewData Le state currentView
+ * @param {AugoraMap.DeputiesList} deputiesList Liste des députés à filtrer
+ */
 export default function MapPins({ viewData, deputiesList }: IMapPin) {
   return (
     <div className="map__pins">
@@ -56,7 +60,7 @@ export default function MapPins({ viewData, deputiesList }: IMapPin) {
         const centerCoords = getPolygonCenter(feature)
         const deputies = getDeputies(feature, deputiesList)
 
-        if (viewData.zoneCode === Code.Circonscriptions) {
+        if (viewData.zoneCode === Code.Circ) {
           return deputies[0] ? (
             <MapDeputyPin
               key={`${feature.properties.nom_dpt} ${index}`}
