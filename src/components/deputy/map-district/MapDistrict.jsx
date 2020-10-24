@@ -12,18 +12,24 @@ import { retirerAccentsFR } from "utils/string-format/accent"
 import Block from "components/deputy/_block/_Block"
 
 export default function MapDistrict(props) {
+  const {
+    NomCirconscription,
+    NumeroCirconscription,
+    NumeroDepartement,
+  } = props.deputy
   const [viewport, setViewport] = useState({})
 
   //récupère le polygone de la circonscription
   const districtPolygon = useMemo(() => {
     return GEOJsonDistrict.features.find((district) => {
-      return (
-        retirerAccentsFR(district.properties.nom_dpt.toLowerCase()) ===
-          retirerAccentsFR(props.nom.toLowerCase()) &&
-        parseInt(district.properties.num_circ) === props.num
-      )
+      return district.properties.code_dpt
+        ? district.properties.code_dpt == NumeroDepartement &&
+            parseInt(district.properties.num_circ) === NumeroCirconscription
+        : retirerAccentsFR(district.properties.nom_dpt.toLowerCase()) ===
+            retirerAccentsFR(NomCirconscription.toLowerCase()) &&
+            parseInt(district.properties.num_circ) === NumeroCirconscription
     })
-  }, [props.nom, props.num])
+  }, [NomCirconscription, NumeroCirconscription])
 
   //récupère la bounding box à paris du polygone de la circonscription
   const districtBox = useMemo(
@@ -38,8 +44,8 @@ export default function MapDistrict(props) {
       color={props.color}
       size={props.size}
       circ={{
-        region: props.nom,
-        circNb: props.num,
+        region: NomCirconscription,
+        circNb: NumeroCirconscription,
       }}
     >
       <div className="map__container">

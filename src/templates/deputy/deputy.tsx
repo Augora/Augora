@@ -118,12 +118,7 @@ function Deputy({ data }) {
           />
           <Mandate {...getMandate(deputy)} color={color} size="small" />
           <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
-          <MapDistrict
-            nom={deputy.NomCirconscription}
-            num={deputy.NumeroCirconscription}
-            color={color}
-            size="medium"
-          />
+          <MapDistrict deputy={deputy} color={color} size="medium" />
           <Presence color={color} size="large" wip={true} />
           <Contact
             color={color}
