@@ -91,13 +91,18 @@ export default function MapDistrict(props) {
               }}
             />
           </Source>
-          <Link
-            to="/map"
-            state={{ feature: districtPolygon }}
-            className="map__redirect"
-          >
-            Cliquer pour voir la carte entière
-          </Link>
+          {districtPolygon?.properties?.code_dpt !== undefined ? (
+            <Link
+              to={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`}
+              className="map__redirect"
+            >
+              Cliquer pour voir la carte entière
+            </Link>
+          ) : (
+            <div className="map__redirect">
+              Français hors de france pas encore implementés
+            </div>
+          )}
         </ReactMapGL>
       </div>
     </Block>

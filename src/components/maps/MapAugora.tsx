@@ -56,7 +56,6 @@ interface IHoverInfo {
 }
 
 interface IMapAugora {
-  featureToDisplay?: AugoraMap.Feature
   setPageTitle?: React.Dispatch<React.SetStateAction<string>>
   codeCont?: number
   codeReg?: number | string
@@ -111,9 +110,11 @@ const lineGhostLayerProps: LayerProps = {
 }
 
 /**
- * Renvoie la map augora
- * @param {AugoraMap.Feature} [featureToDisplay] La feature à afficher au chargement
+ * Renvoie la map augora, ne peut recevoir qu'un seul code d'affichage. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre continent > region > département
  * @param {React.Dispatch<React.SetStateAction<string>>} [setPageTitle] setState function pour changer le titre de la page
+ * @param {number} codeCont Code de continent à afficher
+ * @param {number | string} codeReg Code de région à afficher
+ * @param {number | string} codeDpt Code de département à afficher
  */
 export default function MapAugora(props: IMapAugora) {
   const {
@@ -172,6 +173,29 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /**
+   * A appeler dorénavant pour changer de zone à la place de displayNewZone
+   * @param {AugoraMap.Feature} feature La feature de la nouvelle zone
+   */
+  const changeZone = (feature: AugoraMap.Feature) => {
+    const zoneCode = getZoneCode(feature)
+
+    switch (zoneCode) {
+      case Code.Cont:
+        navigate(`/map?codeCont=${feature.properties[Code.Cont]}`)
+        return
+      case Code.Reg:
+        navigate(`/map?codeReg=${feature.properties[Code.Reg]}`)
+        return
+      case Code.Dpt:
+      case Code.Circ:
+        navigate(`/map?codeDpt=${feature.properties[Code.Dpt]}`)
+        return
+      default:
+        return
+    }
+  }
+
+  /**
    * Affiche la france métropolitaine
    */
   const displayFrance = () => {
@@ -222,7 +246,7 @@ export default function MapAugora(props: IMapAugora) {
       case Code.Reg:
         const childrenZonesCode = zoneCode === Code.Reg ? Code.Dpt : Code.Circ
 
-        const contId = getContinent(feature)
+        const contId = getContinent(newFeature)
 
         const newZoneGEOJson = getChildFeatures(newFeature)
 
@@ -275,7 +299,7 @@ export default function MapAugora(props: IMapAugora) {
           const deputy = getDeputies(feature, FilteredList)[0]
           if (deputy) navigate(`/depute/${deputy.Slug}`)
         } else {
-          displayNewZone(feature)
+          changeZone(feature)
         }
       }
       resetHoverInfo()
@@ -289,10 +313,10 @@ export default function MapAugora(props: IMapAugora) {
           currentView.GEOJson.features[0].properties[Code.Reg],
           Code.Reg
         )
-        displayNewZone(regionFeature)
-      } else displayFrance()
+        changeZone(regionFeature)
+      } else changeZone(metroFranceFeature)
     } else if (currentView.continentId === Cont.OM) {
-      displayOM()
+      changeZone(OMFeature)
     }
   }
 
@@ -369,7 +393,7 @@ export default function MapAugora(props: IMapAugora) {
         <MapButton
           className="visible"
           title="Revenir sur la France métropolitaine"
-          onClick={displayFrance}
+          onClick={() => changeZone(metroFranceFeature)}
         >
           <IconFrance />
         </MapButton>
@@ -377,7 +401,7 @@ export default function MapAugora(props: IMapAugora) {
       <div className="map__navigation map__navigation-left">
         <MapBreadcrumb
           feature={currentView.zoneData}
-          handleClick={displayNewZone}
+          handleClick={changeZone}
         />
         <MapButton
           className={
