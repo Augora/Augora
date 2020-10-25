@@ -1,27 +1,26 @@
 import React from "react"
 import { Popup } from "react-map-gl"
-import { Code, getZoneCode } from "components/maps/maps-utils"
+import { Code, getDeputies, getZoneCode } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 
 interface IMapTooltip {
   lngLat: [number, number]
   zoneFeature: AugoraMap.Feature
-  deputiesArray: AugoraMap.DeputiesList
-  totalDeputes: number
+  deputiesList: AugoraMap.DeputiesList
 }
 
 /**
  * Renvoie une tooltip dans un component Popup de mapbox
  * @param {[number, number]} lngLat Array de [lgn, lat] pour positionner la popup
  * @param {AugoraMap.Feature} zoneFeature La feature de la zone à analyser
- * @param {AugoraMap.DeputiesList} deputiesArray La liste de députés de la zone
- * @param {number} totalDeputes Total de députés pour faire le pourcentage
+ * @param {AugoraMap.DeputiesList} deputiesList La liste de députés à filtrer
  */
 export default function MapTooltip(props: IMapTooltip) {
   const zoneCode = getZoneCode(props.zoneFeature)
   const zoneName = props.zoneFeature.properties.nom
     ? props.zoneFeature.properties.nom
     : `Circonscription n°${props.zoneFeature.properties.num_circ}`
+  const deputies = getDeputies(props.zoneFeature, props.deputiesList)
 
   return (
     <Popup
@@ -37,24 +36,24 @@ export default function MapTooltip(props: IMapTooltip) {
         <Tooltip
           className="map__tooltip"
           title={zoneName}
-          nbDeputes={props.deputiesArray.length}
-          totalDeputes={props.totalDeputes}
+          nbDeputes={deputies.length}
+          totalDeputes={props.deputiesList.length}
         />
       ) : (
         <Tooltip className="map__tooltip-solo" title={zoneName}>
-          {props.deputiesArray[0] !== undefined ? (
+          {deputies[0] !== undefined ? (
             <>
               <div className="tooltip__nom">
-                {props.deputiesArray[0].Sexe === "F" ? "MME " : "M. "}
-                {props.deputiesArray[0].Nom}
+                {deputies[0].Sexe === "F" ? "MME " : "M. "}
+                {deputies[0].Nom}
               </div>
               <div
                 className="tooltip__groupe"
                 style={{
-                  color: props.deputiesArray[0].GroupeParlementaire.Couleur,
+                  color: deputies[0].GroupeParlementaire.Couleur,
                 }}
               >
-                {props.deputiesArray[0].GroupeParlementaire.NomComplet}
+                {deputies[0].GroupeParlementaire.NomComplet}
               </div>
               <div className="tooltip__savoirplus">
                 Cliquer pour en savoir plus...

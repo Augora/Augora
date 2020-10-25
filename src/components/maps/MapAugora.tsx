@@ -355,8 +355,7 @@ export default function MapAugora(props: IMapAugora) {
         <MapTooltip
           lngLat={hoverInfo.lngLat}
           zoneFeature={hoverInfo.zoneData}
-          deputiesArray={getDeputies(hoverInfo.zoneData, FilteredList)}
-          totalDeputes={FilteredList.length}
+          deputiesList={FilteredList}
         />
       ) : null}
       <MapPins viewData={currentView} deputiesList={FilteredList} />
