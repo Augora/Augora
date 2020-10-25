@@ -31,6 +31,9 @@ function Deputy({ data }) {
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
+      <Helmet>
+        <style>{`:root { --groupe-color: ${color}; }`}</style>
+      </Helmet>
       <div className="page page__deputy">
         <div className="deputy__header">
           <h1>
