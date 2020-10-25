@@ -6,7 +6,6 @@ import InteractiveMap, {
   Source,
   Layer,
   LayerProps,
-  FlyToInterpolator,
   InteractiveMapProps,
   MapLoadEvent,
 } from "react-map-gl"
@@ -16,6 +15,7 @@ import {
   Cont,
   France,
   franceBox,
+  OMBox,
   GEOJsonReg,
   OMGEOJsonDpt,
   metroFranceFeature,
@@ -46,6 +46,7 @@ export interface ICurrentView {
   GEOJson: AugoraMap.FeatureCollection
   zoneCode: Code
   zoneData: AugoraMap.Feature
+  continentId: Cont
 }
 
 interface IHoverInfo {
@@ -129,7 +130,6 @@ export default function MapAugora(props: IMapAugora) {
     }
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
-  const [IsMapLoaded, setIsMapLoaded] = useState(false)
   const [viewport, setViewport] = useState<InteractiveMapProps>({
     width: "100%",
     height: "100%",
@@ -141,6 +141,7 @@ export default function MapAugora(props: IMapAugora) {
     GEOJson: GEOJsonReg,
     zoneCode: Code.Reg,
     zoneData: metroFranceFeature,
+    continentId: Cont.France,
   })
   const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
     filter: ["==", ["get", ""], 0],
@@ -148,11 +149,19 @@ export default function MapAugora(props: IMapAugora) {
     zoneData: null,
   })
   const [filterDisplayed, setFilterDisplayed] = useState(false)
+  const [IsMapLoaded, setIsMapLoaded] = useState(false)
 
+  /**
+   * Change le titre de la page, si un callback à cet effet a été fourni
+   * @param {string} zoneName Le titre sera [zoneName] | Augora
+   */
   const changePageTitle = (zoneName: string) => {
     if (props.setPageTitle) props.setPageTitle(zoneName)
   }
 
+  /**
+   * Reset les data de hover
+   */
   const resetHoverInfo = () => {
     if (hoverInfo.filter !== ["==", ["get", ""], 0])
       setHoverInfo({
@@ -170,11 +179,12 @@ export default function MapAugora(props: IMapAugora) {
       GEOJson: GEOJsonReg,
       zoneCode: Code.Reg,
       zoneData: metroFranceFeature,
+      continentId: Cont.France,
     })
 
     changePageTitle(metroFranceFeature.properties.nom)
 
-    flyToBounds(franceBox, viewport, setViewport)
+    if (IsMapLoaded) flyToBounds(franceBox, viewport, setViewport)
 
     resetHoverInfo()
   }
@@ -187,18 +197,12 @@ export default function MapAugora(props: IMapAugora) {
       GEOJson: OMGEOJsonDpt,
       zoneCode: Code.Dpt,
       zoneData: OMFeature,
-    })
-
-    setViewport({
-      ...viewport,
-      zoom: 3,
-      longitude: 0,
-      latitude: 0,
-      transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
-      transitionDuration: "auto",
+      continentId: Cont.OM,
     })
 
     changePageTitle(OMFeature.properties.nom)
+
+    if (IsMapLoaded) flyToBounds(OMBox, viewport, setViewport)
 
     resetHoverInfo()
   }
@@ -218,23 +222,25 @@ export default function MapAugora(props: IMapAugora) {
       case Code.Reg:
         const childrenZonesCode = zoneCode === Code.Reg ? Code.Dpt : Code.Circ
 
+        const contId = getContinent(feature)
+
         const newZoneGEOJson = getChildFeatures(newFeature)
 
         setCurrentView({
           GEOJson: newZoneGEOJson,
           zoneCode: childrenZonesCode,
           zoneData: newFeature,
+          continentId: contId,
         })
 
         changePageTitle(newFeature.properties.nom)
 
-        if (IsMapLoaded) {
+        if (IsMapLoaded)
           flyToBounds(
             getBoundingBoxFromFeature(newFeature),
             viewport,
             setViewport
           )
-        }
         break
       case Code.Cont:
         newFeature.properties[zoneCode] === Cont.OM
@@ -277,9 +283,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleBack = () => {
-    const contId = getContinent(currentView.zoneData)
-
-    if (contId === Cont.France) {
+    if (currentView.continentId === Cont.France) {
       if (currentView.zoneCode === Code.Circ) {
         const regionFeature = getFeature(
           currentView.GEOJson.features[0].properties[Code.Reg],
@@ -287,7 +291,7 @@ export default function MapAugora(props: IMapAugora) {
         )
         displayNewZone(regionFeature)
       } else displayFrance()
-    } else if (contId === Cont.OM) {
+    } else if (currentView.continentId === Cont.OM) {
       displayOM()
     }
   }
@@ -307,13 +311,11 @@ export default function MapAugora(props: IMapAugora) {
     map.removeLayer("admin-1-boundary-bg")
     map.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
-    if (props.featureToDisplay) displayNewZone(props.featureToDisplay)
-    else
-      flyToBounds(
-        getBoundingBoxFromFeature(currentView.zoneData),
-        viewport,
-        setViewport
-      )
+    flyToBounds(
+      getBoundingBoxFromFeature(currentView.zoneData),
+      viewport,
+      setViewport
+    )
 
     setIsMapLoaded(true)
   }

@@ -201,6 +201,11 @@ export const franceBox: AugoraMap.Bounds = [
   [11.162109, 51.426614],
 ]
 
+export const OMBox: AugoraMap.Bounds = [
+  [-111.005859, -28.381735],
+  [81.914063, 59.800634],
+]
+
 /**
  * Pseudo-feature de la france metropolitaine
  */
@@ -271,9 +276,12 @@ export const getBoundingBoxFromFeature = (
   feature: AugoraMap.Feature
 ): AugoraMap.Bounds => {
   if (feature?.geometry?.type) {
-    return feature.geometry.type === "Polygon"
-      ? getBoundingBoxFromCoordinates(feature.geometry.coordinates)
-      : getBoundingBoxFromCoordinates(feature.geometry.coordinates, true)
+    if (getZoneCode(feature) !== Code.Cont)
+      return feature.geometry.type === "Polygon"
+        ? getBoundingBoxFromCoordinates(feature.geometry.coordinates)
+        : getBoundingBoxFromCoordinates(feature.geometry.coordinates, true)
+    else if (getContinent(feature) === Cont.France) return franceBox
+    else return OMBox
   } else return null
 }
 
