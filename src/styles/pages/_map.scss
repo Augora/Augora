@@ -217,6 +217,38 @@
       }
     }
 
+    &__mini-filter {
+      padding: 10px 20px;
+      &__header {
+        margin-bottom: 10px;
+      }
+
+      .mini-filter {
+        &__btn {
+          min-width: unset;
+          min-height: unset;
+          height: 40px;
+          padding: 10px;
+          position: relative;
+          .icon-wrapper {
+            width: 30px;
+          }
+        }
+      }
+
+      .color-bar {
+        width: 250px;
+        height: 10px;
+        margin-bottom: 15px;
+        background: white;
+        display: flex;
+        &--element {
+          height: 10px;
+          display: inline-block;
+        }
+      }
+    }
+
     &__filters {
       position: absolute;
       left: 10px;

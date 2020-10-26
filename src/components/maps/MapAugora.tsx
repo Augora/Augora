@@ -35,9 +35,9 @@ import MapTooltip from "components/maps/MapTooltip"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapButton from "components/maps/MapButton"
 import MapPins from "components/maps/MapPins"
+import MapMiniFilter from "components/maps/MapMiniFilter"
 import IconFrance from "images/logos/projet/augora-logo.svg"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
-import IconFilter from "images/ui-kit/icon-filter.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import Filters from "components/deputies-list/filters/Filters"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
@@ -232,7 +232,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /**
-   * Affiche une nouvelle vue
+   * Affiche une nouvelle vue, sans changer l'url, ne pas utiliser
    * @param {AugoraMap.Feature} feature La feature de la zone à afficher
    */
   const displayNewZone = (feature: AugoraMap.Feature): void => {
@@ -424,13 +424,10 @@ export default function MapAugora(props: IMapAugora) {
           filterDisplayed ? "" : "visible"
         }`}
       >
-        <MapButton
-          className="visible"
-          title="Afficher les filtres"
+        <MapMiniFilter
           onClick={() => setFilterDisplayed(true)}
-        >
-          <IconFilter />
-        </MapButton>
+          zoneList={getDeputies(currentView.zoneData, FilteredList)}
+        />
       </div>
       <div className={`map__filters ${filterDisplayed ? "visible" : ""}`}>
         <CustomControl>

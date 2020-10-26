@@ -45,7 +45,6 @@ export default function MapPage({
             )}
             codeDpt={convertArrayOfStringToString(parsedQueryString.codeDpt)}
             codeReg={convertArrayOfStringToString(parsedQueryString.codeReg)}
-            featureToDisplay={location.state?.feature}
             setPageTitle={setPageTitle}
           />
         </div>
