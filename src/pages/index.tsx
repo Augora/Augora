@@ -1,5 +1,5 @@
 import React from "react"
-import Helmet from "react-helmet"
+import SEO, { PageType } from "../components/seo/seo"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
 import PageTitle from "../components/titles/PageTitle"
@@ -7,12 +7,7 @@ import PageTitle from "../components/titles/PageTitle"
 const IndexPage = () => {
   return (
     <>
-      <Helmet>
-        {process.env.GATSBY_TARGET_ENV !== "production" ? (
-          <meta name="robots" content="noindex,nofollow" />
-        ) : null}
-        <title>Liste des députés | Augora</title>
-      </Helmet>
+      <SEO pageType={PageType.Accueil} />
       <div className="page page__deputies">
         <PageTitle title="Liste des Députés" />
         <DeputiesList />

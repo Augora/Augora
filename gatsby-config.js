@@ -1,5 +1,10 @@
 const path = require("path")
 
+const { ApolloLink } = require("apollo-link")
+const { HttpLink } = require("apollo-link-http")
+const { RetryLink } = require("apollo-link-retry")
+const fetch = require("node-fetch")
+
 module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -20,13 +25,34 @@ module.exports = {
       options: {
         typeName: "FaunaDB",
         fieldName: "faunadb",
-        url: "https://graphql.fauna.com/graphql",
         batch: true,
-        headers: {
-          Authorization: `Bearer ${
-            process.env.FAUNADB_TOKEN ||
-            "fnADtFRXPrACB6WCFPNkcNwEOSCfXW574OOspy5t"
-          }`,
+        createLink: (pluginOptions) => {
+          return ApolloLink.from([
+            new RetryLink({
+              attempts: (count, operation, error) => {
+                console.log("retrying", count, error)
+                return !!error && count < 3
+              },
+            }),
+            new ApolloLink((operation, forward) => {
+              return forward(operation).map((data) => {
+                if (data && data.errors && data.errors.length > 0) {
+                  throw new Error(data.errors.map((e) => e.message).join("\n"))
+                }
+                return data
+              })
+            }),
+            new HttpLink({
+              uri: "https://graphql.fauna.com/graphql",
+              headers: {
+                Authorization: `Bearer ${
+                  process.env.FAUNADB_TOKEN ||
+                  "fnADtFRXPrACB6WCFPNkcNwEOSCfXW574OOspy5t"
+                }`,
+              },
+              fetch,
+            }),
+          ])
         },
       },
     },

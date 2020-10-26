@@ -1,26 +1,20 @@
-import React, { useContext } from "react"
-
-import {
-  calculateAgeDomain,
-  calculateNbDepute,
-  groupeIconByGroupeSigle,
-} from "./deputies-list-utils"
+import React, { useContext, useState } from "react"
+import { calculateNbDepute } from "./deputies-list-utils"
 import { DeputiesListContext } from "../../context/deputies-filters/deputiesFiltersContext"
 import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
-import Tooltip from "components/tooltip/Tooltip"
+import Frame from "components/frames/Frame"
+import PieChart from "./pie-chart/PieChart"
+import BarChart from "./bar-chart/BarChart"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 const DeputiesList = (props) => {
-  const {
-    state,
-    handleSearchValue,
-    handleClickOnAllGroupes,
-    handleClickOnGroupe,
-    handleClickOnSex,
-    handleAgeSelection,
-    handleReset,
-  } = useContext(DeputiesListContext)
+  const { state } = useContext(DeputiesListContext)
+  const [HasPieChart, setHasPieChart] = useState(true)
+
+  const handleChartSelection = (event) => {
+    setHasPieChart(!HasPieChart)
+  }
 
   const groupesData = state.GroupesList.map((groupe) => {
     const nbDeputeGroup = calculateNbDepute(
@@ -36,107 +30,85 @@ const DeputiesList = (props) => {
     })
   }).filter((groupe) => groupe.value !== 0)
 
-  const allGroupes = state.GroupesList.map((groupe) => {
-    return (
-      <div
-        className={`groupe groupe--${groupe.Sigle} ${
-          state.GroupeValue[groupe.Sigle] ? "selected" : ""
-        }`}
-        key={`groupe--${groupe.Sigle}`}
-        style={{ order: groupe.Ordre }}
-      >
-        <input
-          className="groupe__checkbox"
-          type="checkbox"
-          checked={state.GroupeValue[groupe.Sigle]}
-          onChange={(e) => handleClickOnGroupe(groupe.Sigle)}
-        />
-        <div className="groupe__img-container">
-          <img
-            src={groupeIconByGroupeSigle(
-              groupe.Sigle,
-              !state.GroupeValue[groupe.Sigle]
-            )}
-            alt={`Icône groupe parlementaire ${groupe.Sigle}`}
-          />
-        </div>
-        <div
-          className="groupe__border"
-          style={{ borderColor: groupe.Couleur }}
-        ></div>
-        <div
-          className="groupe__background-color"
-          style={{ backgroundColor: groupe.Couleur }}
-        ></div>
-        <Tooltip
-          title={groupe.NomComplet}
-          nbDeputes={calculateNbDepute(
-            state.FilteredList,
-            "groupe",
-            groupe.Sigle
-          )}
-          totalDeputes={state.FilteredList.length}
-          color={groupe.Couleur}
-        />
-      </div>
-    )
-  })
+  /**
+   * Reliquat de la complex bar chart
+   */
+  // let ages = []
+  // for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
+  //   ages.push(i)
+  // }
 
-  let ages = []
-  for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
-    ages.push(i)
-  }
-  const groupesByAge = ages.map((age) => {
-    const valueOfDeputesByAge = state.DeputiesList.filter((depute) => {
-      return depute.Age === age
-    })
-    const groupeValueByAge = () =>
-      Object.keys(state.GroupeValue).reduce((acc, groupe) => {
-        return Object.assign(acc, {
-          [groupe]: valueOfDeputesByAge.filter(
-            (depute) => depute.GroupeParlementaire.Sigle === groupe
-          ).length,
-        })
-      }, {})
-    const groupeColorByAge = () =>
-      Object.keys(state.GroupeValue).reduce((acc, groupe) => {
-        return Object.assign(acc, {
-          [groupe + "Color"]: state.GroupesList.filter(
-            (groupeFiltered) => groupeFiltered.Sigle === groupe
-          )[0].Couleur,
-        })
-      }, {})
-    return Object.assign(
-      {},
-      {
-        age: age.toString(),
-        ...groupeValueByAge(),
-        ...groupeColorByAge(),
-      }
-    )
-  })
+  // const groupesByAge = ages.map((age) => {
+  //   const valueOfDeputesByAge = state.DeputiesList.filter((depute) => {
+  //     return depute.Age === age
+  //   })
+  //   const groupeValueByAge = () =>
+  //     Object.keys(state.GroupeValue).reduce((acc, groupe) => {
+  //       return Object.assign(acc, {
+  //         [groupe]: valueOfDeputesByAge.filter(
+  //           (depute) => depute.GroupeParlementaire.Sigle === groupe
+  //         ).length,
+  //       })
+  //     }, {})
+  //   const groupeColorByAge = () =>
+  //     Object.keys(state.GroupeValue).reduce((acc, groupe) => {
+  //       return Object.assign(acc, {
+  //         [groupe + "Color"]: state.GroupesList.filter(
+  //           (groupeFiltered) => groupeFiltered.Sigle === groupe
+  //         )[0].Couleur,
+  //       })
+  //     }, {})
+  //   return Object.assign(
+  //     {},
+  //     {
+  //       age: age.toString(),
+  //       ...groupeValueByAge(),
+  //       ...groupeColorByAge(),
+  //     }
+  //   )
+  // })
 
   return (
     <>
-      <Filters
-        handleAgeSelection={handleAgeSelection}
-        handleClickOnAllGroupes={handleClickOnAllGroupes}
-        handleSearchValue={handleSearchValue}
-        handleClickOnSex={handleClickOnSex}
-        handleReset={handleReset}
-        calculateAgeDomain={calculateAgeDomain}
-        calculateNbDepute={calculateNbDepute}
-        groupesData={groupesData}
-        groupesByAge={groupesByAge}
-        AgeDomain={state.AgeDomain}
-        allGroupes={allGroupes}
-        keyword={state.Keyword}
-        SexValue={state.SexValue}
-        filteredList={state.FilteredList}
-        groupesDetails={state.GroupesList}
-        deputes={state.DeputiesList}
-      />
-      {/* <div className="filters__order">Trier par :</div> */}
+      <section className="filters">
+        <Filters />
+        <Frame className="frame-chart" title="Répartition">
+          {state.FilteredList.length > 0 ? (
+            <div className="filters__charts">
+              {HasPieChart ? (
+                <div
+                  className="piechart chart"
+                  onClick={handleChartSelection}
+                  onKeyDown={handleChartSelection}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <PieChart
+                    data={groupesData}
+                    filteredDeputies={state.FilteredList.length}
+                    groupesDetails={state.GroupesList}
+                  />
+                </div>
+              ) : (
+                <div
+                  className="barchart chart"
+                  onClick={handleChartSelection}
+                  onKeyDown={handleChartSelection}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <BarChart
+                    data={groupesData}
+                    filteredDeputies={state.FilteredList.length}
+                    groupesDetails={state.GroupesList}
+                  />
+                </div>
+              )}
+            </div>
+          ) : null}
+        </Frame>
+      </section>
+
       <section className="deputies__list">
         {state.FilteredList.length > 0 ? (
           state.FilteredList.map((depute) => {
