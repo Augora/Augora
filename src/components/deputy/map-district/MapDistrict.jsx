@@ -13,7 +13,7 @@ import GEOJsonDistrict from "../../../static/list-district.json"
 import { retirerAccentsFR } from "../../../utils/string-format/accent"
 import Block from "../_block/_Block"
 import ResetControl from "./ResetControl"
-import SimpleTooltip from "../../tooltip/SimpleTooltip"
+import Tooltip from "../../tooltip/Tooltip"
 import IconPin from "../../../images/ui-kit/icon-pin.svg"
 
 const France = {
@@ -69,10 +69,12 @@ export default function MapDistrict(props) {
         parseInt(district.properties.num_circ) === props.num
       )
     })
-  }, [])
+  }, [props.nom, props.num])
 
   //récupère la bounding box à paris du polygone de la circonscription
-  const districtBox = useMemo(() => getSelectedDistrictBox(districtPolygon), [])
+  const districtBox = useMemo(() => getSelectedDistrictBox(districtPolygon), [
+    districtPolygon,
+  ])
 
   //récupère le centre de la bounding box
   const districtCenter = useMemo(() => {
@@ -83,7 +85,7 @@ export default function MapDistrict(props) {
         lng: districtBox[1][0] - (districtBox[1][0] - districtBox[0][0]) / 2,
       }
     )
-  }, [])
+  }, [districtBox])
 
   //function pour transitionner de façon fluide vers une bounding box
   const flyToBounds = (box) => {
@@ -178,26 +180,36 @@ export default function MapDistrict(props) {
               }}
             />
           </Source>
-          <Marker
-            latitude={districtCenter.lat}
-            longitude={districtCenter.lng}
-            offsetLeft={-15}
-            offsetTop={-30}
-          >
-            <SimpleTooltip
-              content={`${props.nom}, ${props.num}${
-                props.num < 2 ? "ère " : "ème "
-              }Circonscription `}
-              wasClicked={pinClicked}
-            />
-            <div
-              className="icon-wrapper"
-              style={{ width: "30px", height: "30px", cursor: "pointer" }}
-              onClick={() => setPinClicked(!pinClicked)}
+          {viewport.zoom < 6 ? (
+            <Marker
+              latitude={districtCenter.lat}
+              longitude={districtCenter.lng}
+              offsetLeft={-15}
+              offsetTop={-30}
             >
-              <IconPin fill={props.color} />
-            </div>
-          </Marker>
+              <Tooltip
+                className={`circ-tooltip ${
+                  pinClicked ? "circ-tooltip--visible" : ""
+                }`}
+              >
+                <span>
+                  {`${props.nom}, ${props.num}${
+                    props.num < 2 ? "ère " : "ème "
+                  }Circonscription `}
+                </span>
+              </Tooltip>
+              <div
+                role="button"
+                tabIndex={0}
+                className="icon-wrapper"
+                style={{ width: "30px", height: "30px", cursor: "pointer" }}
+                onClick={() => setPinClicked(!pinClicked)}
+                onKeyDown={() => setPinClicked(!pinClicked)}
+              >
+                <IconPin fill={props.color} />
+              </div>
+            </Marker>
+          ) : null}
           <div className="map__navigation">
             <NavigationControl
               showCompass={false}

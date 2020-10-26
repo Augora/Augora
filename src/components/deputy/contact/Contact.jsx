@@ -25,16 +25,16 @@ const Contact = (props) => {
           adresseDetails.Adresse,
           adresseDetails.CodePostal
         )
+
         return (
-          <>
-            <Adresse
-              adresseDetails={adresseDetails}
-              formatedAddress={formatedAddress}
-            />
-            {index + 1 < array.length ? (
-              <div className="contact__separator"></div>
-            ) : null}
-          </>
+          <Adresse
+            adresseDetails={adresseDetails}
+            formatedAddress={formatedAddress}
+            index={index}
+            separator={
+              index % 2 !== 1 && index + 1 < array.length ? true : false
+            }
+          />
         )
       })}
       <div className="icon-wrapper">
