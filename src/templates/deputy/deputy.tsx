@@ -19,6 +19,7 @@ import ButtonIcon from "components/buttons/ButtonIcon"
 import IconMail from "images/ui-kit/icon-mail.svg"
 import IconWebsite from "images/ui-kit/icon-web.svg"
 import IconTwitter from "images/ui-kit/icon-twitter.svg"
+import SEO, { PageType } from "components/seo/seo"
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
@@ -29,16 +30,9 @@ function Deputy({ data }) {
   const color = deputy.GroupeParlementaire.Couleur
   return (
     <>
+      <SEO pageType={PageType.Depute} depute={deputy} />
       <Helmet>
-        {process.env.GATSBY_TARGET_ENV !== "production" ? (
-          <meta name="robots" content="noindex,nofollow" />
-        ) : null}
-        <title>
-          {deputy.Prenom} {deputy.NomDeFamille} - {getGender(deputy.Sexe)}{" "}
-          {deputy.GroupeParlementaire.Sigle} | Augora
-        </title>
-        <style>{`:root {\n${allColors.join("")}
-      --groupe-color: ${color};}`}</style>
+        <style>{`:root { --groupe-color: ${color}; }`}</style>
       </Helmet>
       <div className="page page__deputy">
         <div className="deputy__header">
@@ -146,6 +140,7 @@ export const query = graphql`
         DebutDuMandat
         Emails
         GroupeParlementaire {
+          NomComplet
           Couleur
           Sigle
         }
@@ -166,6 +161,7 @@ export const query = graphql`
         Twitter
         Collaborateurs
         DateDeNaissance
+        NomDepartement
         AnciensMandats {
           data {
             DateDeDebut
