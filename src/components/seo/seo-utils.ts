@@ -18,7 +18,9 @@ export function buildMetaTags(
     // robots
     gatsbyEnv !== "production"
       ? { name: "robots", content: "noindex,nofollow" }
-      : {},
+      : { name: "robots", content: "index,follow" },
+    // viewport
+    { name: "viewport", content: "width=device-width, initial-scale=1.0"},
     // type
     { name: "og:type", content: "website" },
     // local

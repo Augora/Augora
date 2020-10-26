@@ -20,6 +20,7 @@ function SEO(props: ISEOProps) {
     <Helmet
       htmlAttributes={{
         lang: "fr",
+        charset: "UTF-8",
       }}
       title={title}
       titleTemplate={`%s | Augora`}
