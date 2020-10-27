@@ -336,13 +336,16 @@ export const getPolygonCenter = (
  * @param {React.Dispatch<React.SetStateAction<{}>>} setViewportState Le setState du viewport
  */
 export const flyToBounds = (
-  boundingBox: AugoraMap.Bounds,
+  feature: AugoraMap.Feature,
   viewportState: any,
   setViewportState: React.Dispatch<React.SetStateAction<{}>>
 ): void => {
-  const bounds = new WebMercatorViewport(viewportState).fitBounds(boundingBox, {
-    padding: 100,
-  })
+  const bounds = new WebMercatorViewport(viewportState).fitBounds(
+    getBoundingBoxFromFeature(feature),
+    {
+      padding: 100,
+    }
+  )
   setViewportState({
     ...bounds,
     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),

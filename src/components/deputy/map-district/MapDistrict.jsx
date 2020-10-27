@@ -2,11 +2,7 @@ import React, { useState, useMemo } from "react"
 import ReactMapGL, { Source, Layer } from "react-map-gl"
 import { Link } from "gatsby"
 import "mapbox-gl/dist/mapbox-gl.css"
-import {
-  France,
-  getBoundingBoxFromFeature,
-  flyToBounds,
-} from "components/maps/maps-utils"
+import { France, flyToBounds } from "components/maps/maps-utils"
 import GEOJsonDistrict from "static/list-district.json"
 import { retirerAccentsFR } from "utils/string-format/accent"
 import Block from "components/deputy/_block/_Block"
@@ -30,12 +26,6 @@ export default function MapDistrict(props) {
             parseInt(district.properties.num_circ) === NumeroCirconscription
     })
   }, [NomCirconscription, NumeroCirconscription])
-
-  //récupère la bounding box à paris du polygone de la circonscription
-  const districtBox = useMemo(
-    () => getBoundingBoxFromFeature(districtPolygon),
-    [districtPolygon]
-  )
 
   return (
     <Block
@@ -69,7 +59,7 @@ export default function MapDistrict(props) {
               longitude: France.center.lng,
               zoom: 2,
             })
-            flyToBounds(districtBox, viewport, setViewport)
+            flyToBounds(districtPolygon, viewport, setViewport)
           }}
           //appelé quand le viewport change - nécéssaire pour que la map bouge
           onViewportChange={(change) => setViewport(change)}

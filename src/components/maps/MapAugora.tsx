@@ -7,22 +7,18 @@ import InteractiveMap, {
   Layer,
   LayerProps,
   InteractiveMapProps,
-  MapLoadEvent,
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   Code,
   Cont,
   France,
-  franceBox,
-  OMBox,
   GEOJsonReg,
   OMGEOJsonDpt,
   metroFranceFeature,
   OMFeature,
   flyToBounds,
   getContinent,
-  getBoundingBoxFromFeature,
   getChildFeatures,
   getZoneCode,
   getMouseEventFeature,
@@ -123,7 +119,7 @@ const lineGhostLayerProps: LayerProps = {
 
 /**
  * Renvoie la map augora, ne peut recevoir qu'un seul code d'affichage. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre continent > region > département
- * @param {React.Dispatch<React.SetStateAction<string>>} [setPageTitle] setState function pour changer le titre de la page
+ * @param {React.Dispatch<React.SetStateAction<string>>} [setPageTitle] setState callback pour changer le titre de la page
  * @param {number} codeCont Code de continent à afficher
  * @param {number | string} codeReg Code de région à afficher
  * @param {number | string} codeDpt Code de département à afficher
@@ -163,7 +159,6 @@ export default function MapAugora(props: IMapAugora) {
     id: null,
   })
   const [filterDisplayed, setFilterDisplayed] = useState(false)
-  const [IsMapLoaded, setIsMapLoaded] = useState(false)
 
   const mapRef = useRef<mapboxgl.Map>()
 
@@ -176,44 +171,27 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /**
-   * Reset les data de hover
-   */
-  const resetHoverInfo = () => {
-    if (hoverInfo.source !== null) {
-      mapRef.current.setFeatureState(
-        { source: hoverInfo.source, id: hoverInfo.id },
-        { hover: false }
-      )
-      setHoverInfo({
-        lngLat: null,
-        zoneData: null,
-        source: null,
-        id: null,
-      })
-    }
-  }
-
-  /**
    * A appeler dorénavant pour changer de zone à la place de displayNewZone
    * @param {AugoraMap.Feature} feature La feature de la nouvelle zone
    */
   const changeZone = (feature: AugoraMap.Feature) => {
-    const zoneCode = getZoneCode(feature)
-
-    switch (zoneCode) {
-      case Code.Cont:
-        navigate(`/map?codeCont=${feature.properties[Code.Cont]}`)
-        return
-      case Code.Reg:
-        navigate(`/map?codeReg=${feature.properties[Code.Reg]}`)
-        return
-      case Code.Dpt:
-      case Code.Circ:
-        navigate(`/map?codeDpt=${feature.properties[Code.Dpt]}`)
-        return
-      default:
-        return
-    }
+    if (feature !== currentView.zoneData) {
+      const zoneCode = getZoneCode(feature)
+      switch (zoneCode) {
+        case Code.Cont:
+          navigate(`/map?codeCont=${feature.properties[Code.Cont]}`)
+          return
+        case Code.Reg:
+          navigate(`/map?codeReg=${feature.properties[Code.Reg]}`)
+          return
+        case Code.Dpt:
+        case Code.Circ:
+          navigate(`/map?codeDpt=${feature.properties[Code.Dpt]}`)
+          return
+        default:
+          return
+      }
+    } else flyToBounds(feature, viewport, setViewport)
   }
 
   /**
@@ -229,9 +207,10 @@ export default function MapAugora(props: IMapAugora) {
 
     changePageTitle(metroFranceFeature.properties.nom)
 
-    if (IsMapLoaded) flyToBounds(franceBox, viewport, setViewport)
+    if (mapRef.current.loaded())
+      flyToBounds(metroFranceFeature, viewport, setViewport)
 
-    resetHoverInfo()
+    resetHover()
   }
 
   /**
@@ -247,9 +226,9 @@ export default function MapAugora(props: IMapAugora) {
 
     changePageTitle(OMFeature.properties.nom)
 
-    if (IsMapLoaded) flyToBounds(OMBox, viewport, setViewport)
+    if (mapRef.current.loaded()) flyToBounds(OMFeature, viewport, setViewport)
 
-    resetHoverInfo()
+    resetHover()
   }
 
   /**
@@ -280,12 +259,8 @@ export default function MapAugora(props: IMapAugora) {
 
         changePageTitle(newFeature.properties.nom)
 
-        if (IsMapLoaded)
-          flyToBounds(
-            getBoundingBoxFromFeature(newFeature),
-            viewport,
-            setViewport
-          )
+        if (mapRef.current.loaded())
+          flyToBounds(newFeature, viewport, setViewport)
         break
       case Code.Cont:
         newFeature.properties[zoneCode] === Cont.OM
@@ -296,7 +271,25 @@ export default function MapAugora(props: IMapAugora) {
         console.error("Zone à afficher non trouvée")
         break
     }
-    resetHoverInfo()
+    resetHover()
+  }
+
+  /**
+   * Reset les data de hover
+   */
+  const resetHover = () => {
+    if (hoverInfo.source !== null) {
+      mapRef.current.setFeatureState(
+        { source: hoverInfo.source, id: hoverInfo.id },
+        { hover: false }
+      )
+      setHoverInfo({
+        lngLat: null,
+        zoneData: null,
+        source: null,
+        id: null,
+      })
+    }
   }
 
   const handleHover = (e) => {
@@ -324,7 +317,7 @@ export default function MapAugora(props: IMapAugora) {
         id: eventFeature.id,
       })
     } else {
-      resetHoverInfo()
+      resetHover()
     }
   }
 
@@ -340,7 +333,7 @@ export default function MapAugora(props: IMapAugora) {
           changeZone(feature)
         }
       }
-      resetHoverInfo()
+      resetHover()
     } else if (e.rightButton) handleBack()
   }
 
@@ -366,13 +359,7 @@ export default function MapAugora(props: IMapAugora) {
     mapRef.current.removeLayer("admin-1-boundary-bg")
     mapRef.current.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
-    flyToBounds(
-      getBoundingBoxFromFeature(currentView.zoneData),
-      viewport,
-      setViewport
-    )
-
-    setIsMapLoaded(true)
+    flyToBounds(currentView.zoneData, viewport, setViewport)
   }
 
   return (
