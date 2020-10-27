@@ -24,27 +24,11 @@
   }
 
   // Icônes de contact
-  &__icon {
-    width: 35px;
-    height: 35px;
+  .btn--icon {
+    margin-right: 20px;
 
-    display: flex;
-    align-items: center;
-    svg {
-      height: 100%;
-      width: auto;
-      pointer-events: none;
-      path {
-        fill: var(--groupe-color);
-      }
-    }
-
-    &--missing {
-      margin-left: 20px;
-      opacity: 0.3;
-      svg {
-        pointer-events: none;
-      }
+    &:last-child {
+      margin-right: 0px;
     }
   }
 

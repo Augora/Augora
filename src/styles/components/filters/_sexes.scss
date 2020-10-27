@@ -11,13 +11,8 @@
       border-style: dashed;
       border-width: 2px;
 
-      &.male svg {
+      &.male .icon-wrapper {
         width: 35px;
-        height: 35px;
-      }
-      &.female svg {
-        width: 30px;
-        height: 40px;
       }
 
       &.checked {
