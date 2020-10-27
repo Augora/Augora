@@ -10,6 +10,7 @@ interface IGroupBar {
 type IGroupWeight = {
   percent: number
   color: string
+  sigle: string
 }[]
 
 export default function GroupBar({ deputiesList, groupList }: IGroupBar) {
@@ -23,6 +24,7 @@ export default function GroupBar({ deputiesList, groupList }: IGroupBar) {
           ) * 10
         ) / 10,
       color: o.Couleur,
+      sigle: o.Sigle,
     }
   })
 
@@ -31,6 +33,7 @@ export default function GroupBar({ deputiesList, groupList }: IGroupBar) {
       {groups.map((o) => {
         return (
           <div
+            key={`bar-${o.sigle}`}
             className="color-bar--element"
             style={{
               background: o.color,
