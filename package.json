@@ -5,8 +5,8 @@
   "version": "0.2.0",
   "author": "",
   "dependencies": {
-    "@nivo/bar": "0.62.0",
-    "@nivo/pie": "0.62.0",
+    "@nivo/bar": "0.63.1",
+    "@nivo/pie": "0.63.1",
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
     "apollo-link-retry": "^2.2.16",
@@ -36,7 +36,7 @@
     "react-lazy-load-image-component": "^1.5.0",
     "react-map-gl": "^5.2.9",
     "react-use-fuzzy": "1.0.4",
-    "typescript": "3.9.7"
+    "typescript": "4.0.5"
   },
   "resolutions": {
     "graphql": "14.7.0"
