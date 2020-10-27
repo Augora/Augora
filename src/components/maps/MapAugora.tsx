@@ -360,6 +360,7 @@ export default function MapAugora(props: IMapAugora) {
       onViewportChange={(change) => setViewport(change)}
       onHover={handleHover}
       onClick={handleClick}
+      reuseMaps={true}
     >
       <Source type="geojson" data={currentView.GEOJson}>
         <Layer {...hoverLayerProps} filter={hoverInfo.filter} />
