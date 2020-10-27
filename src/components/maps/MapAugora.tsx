@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext, useEffect, useRef } from "react"
 import { navigate } from "gatsby"
 import InteractiveMap, {
   NavigationControl,
@@ -50,9 +50,10 @@ export interface ICurrentView {
 }
 
 interface IHoverInfo {
-  filter: [string, ...any[]]
   lngLat: [number, number]
   zoneData: AugoraMap.Feature
+  source: string
+  id: string
 }
 
 interface IMapAugora {
@@ -66,8 +67,18 @@ const fillLayerProps: LayerProps = {
   id: "zone-fill",
   type: "fill",
   paint: {
-    "fill-color": " #00bbcc",
-    "fill-opacity": 0.1,
+    "fill-color": [
+      "case",
+      ["boolean", ["feature-state", "hover"], false],
+      "#14ccae",
+      "#00bbcc",
+    ],
+    "fill-opacity": [
+      "case",
+      ["boolean", ["feature-state", "hover"], false],
+      0.4,
+      0.1,
+    ],
   },
 }
 
@@ -80,21 +91,22 @@ const lineLayerProps: LayerProps = {
   },
 }
 
-const hoverLayerProps: LayerProps = {
-  id: "zone-fill-hovered",
-  type: "fill",
-  paint: {
-    "fill-color": "#14ccae",
-    "fill-opacity": 0.3,
-  },
-}
-
 const fillGhostLayerProps: LayerProps = {
   id: "zone-ghost-fill",
   type: "fill",
   paint: {
-    "fill-color": " #00bbcc",
-    "fill-opacity": 0.04,
+    "fill-color": [
+      "case",
+      ["boolean", ["feature-state", "hover"], false],
+      "#14ccae",
+      "#00bbcc",
+    ],
+    "fill-opacity": [
+      "case",
+      ["boolean", ["feature-state", "hover"], false],
+      0.4,
+      0.04,
+    ],
   },
 }
 
@@ -104,8 +116,8 @@ const lineGhostLayerProps: LayerProps = {
   paint: {
     "line-color": "#00bbcc",
     "line-width": 2,
-    "line-dasharray": [2, 2],
-    "line-opacity": 0.4,
+    // "line-dasharray": [2, 2],
+    "line-opacity": 0.2,
   },
 }
 
@@ -145,12 +157,15 @@ export default function MapAugora(props: IMapAugora) {
     continentId: Cont.France,
   })
   const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
-    filter: ["==", ["get", ""], 0],
     lngLat: null,
     zoneData: null,
+    source: null,
+    id: null,
   })
   const [filterDisplayed, setFilterDisplayed] = useState(false)
   const [IsMapLoaded, setIsMapLoaded] = useState(false)
+
+  const mapRef = useRef<mapboxgl.Map>()
 
   /**
    * Change le titre de la page, si un callback à cet effet a été fourni
@@ -164,12 +179,18 @@ export default function MapAugora(props: IMapAugora) {
    * Reset les data de hover
    */
   const resetHoverInfo = () => {
-    if (hoverInfo.filter !== ["==", ["get", ""], 0])
+    if (hoverInfo.source !== null) {
+      mapRef.current.setFeatureState(
+        { source: hoverInfo.source, id: hoverInfo.id },
+        { hover: false }
+      )
       setHoverInfo({
-        filter: ["==", ["get", ""], 0],
         lngLat: null,
         zoneData: null,
+        source: null,
+        id: null,
       })
+    }
   }
 
   /**
@@ -281,13 +302,30 @@ export default function MapAugora(props: IMapAugora) {
   const handleHover = (e) => {
     const feature = getMouseEventFeature(e)
     if (feature && viewport.zoom < 13) {
-      const zoneCode = getZoneCode(feature)
+      const eventFeature = e.features[0]
+      if (
+        hoverInfo.id !== eventFeature.id ||
+        hoverInfo.source !== eventFeature.source
+      ) {
+        if (hoverInfo.id !== null)
+          mapRef.current.setFeatureState(
+            { source: hoverInfo.source, id: hoverInfo.id },
+            { hover: false }
+          )
+        mapRef.current.setFeatureState(
+          { source: eventFeature.source, id: eventFeature.id },
+          { hover: true }
+        )
+      }
       setHoverInfo({
-        filter: ["==", ["get", zoneCode], feature.properties[zoneCode]],
         lngLat: e.lngLat,
         zoneData: feature,
+        source: eventFeature.source,
+        id: eventFeature.id,
       })
-    } else resetHoverInfo()
+    } else {
+      resetHoverInfo()
+    }
   }
 
   const handleClick = (e) => {
@@ -320,20 +358,13 @@ export default function MapAugora(props: IMapAugora) {
     }
   }
 
-  /**
-   * Appelé au chargement, permet de target l'object mapbox pour utiliser ses méthodes
-   * @param event L'event contient une ref de la map
-   */
-  const handleLoad = (event: MapLoadEvent) => {
-    const map = event.target
-    // console.log(map.getStyle().layers)
-
+  const handleLoad = () => {
     //Enlève les frontières
-    map.removeLayer("admin-0-boundary") //Les frontières des pays
-    map.removeLayer("admin-0-boundary-bg")
-    map.removeLayer("admin-1-boundary") //Les frontières des régions
-    map.removeLayer("admin-1-boundary-bg")
-    map.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
+    mapRef.current.removeLayer("admin-0-boundary") //Les frontières des pays
+    mapRef.current.removeLayer("admin-0-boundary-bg")
+    mapRef.current.removeLayer("admin-1-boundary") //Les frontières des régions
+    mapRef.current.removeLayer("admin-1-boundary-bg")
+    mapRef.current.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
     flyToBounds(
       getBoundingBoxFromFeature(currentView.zoneData),
@@ -348,6 +379,7 @@ export default function MapAugora(props: IMapAugora) {
     <InteractiveMap
       mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
       mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
+      ref={(ref) => (mapRef.current = ref && ref.getMap())}
       {...viewport}
       width="100%"
       height="100%"
@@ -358,21 +390,19 @@ export default function MapAugora(props: IMapAugora) {
       interactiveLayerIds={["zone-fill", "zone-ghost-fill"]}
       onLoad={handleLoad}
       onViewportChange={(change) => setViewport(change)}
-      onHover={handleHover}
       onClick={handleClick}
+      onHover={handleHover}
       reuseMaps={true}
     >
-      <Source type="geojson" data={currentView.GEOJson}>
-        <Layer {...hoverLayerProps} filter={hoverInfo.filter} />
-        <Layer {...fillLayerProps} />
+      <Source type="geojson" data={currentView.GEOJson} generateId={true}>
         <Layer {...lineLayerProps} />
+        <Layer {...fillLayerProps} />
       </Source>
-      <Source type="geojson" data={getGhostZones(currentView.zoneData)}>
-        <Layer
-          {...hoverLayerProps}
-          id="zone-ghost-fill-hovered"
-          filter={hoverInfo.filter}
-        />
+      <Source
+        type="geojson"
+        data={getGhostZones(currentView.zoneData)}
+        generateId={true}
+      >
         <Layer {...lineGhostLayerProps} />
         <Layer {...fillGhostLayerProps} />
       </Source>
