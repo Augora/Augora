@@ -45,11 +45,11 @@ export interface ICurrentView {
   continentId: Cont
 }
 
-interface IHoverInfo {
-  lngLat: [number, number]
-  zoneData: AugoraMap.Feature
-  source: string
-  id: string
+interface IHover {
+  lngLat?: AugoraMap.Coordinates
+  zoneData?: AugoraMap.Feature
+  source?: string
+  id?: string
 }
 
 interface IMapAugora {
@@ -152,12 +152,7 @@ export default function MapAugora(props: IMapAugora) {
     zoneData: metroFranceFeature,
     continentId: Cont.France,
   })
-  const [hoverInfo, setHoverInfo] = useState<IHoverInfo>({
-    lngLat: null,
-    zoneData: null,
-    source: null,
-    id: null,
-  })
+  const [hover, setHover] = useState<IHover>(null)
   const [filterDisplayed, setFilterDisplayed] = useState(false)
 
   const mapRef = useRef<mapboxgl.Map>()
@@ -278,17 +273,12 @@ export default function MapAugora(props: IMapAugora) {
    * Reset les data de hover
    */
   const resetHover = () => {
-    if (hoverInfo.source !== null) {
+    if (hover) {
       mapRef.current.setFeatureState(
-        { source: hoverInfo.source, id: hoverInfo.id },
+        { source: hover.source, id: hover.id },
         { hover: false }
       )
-      setHoverInfo({
-        lngLat: null,
-        zoneData: null,
-        source: null,
-        id: null,
-      })
+      setHover(null)
     }
   }
 
@@ -297,12 +287,12 @@ export default function MapAugora(props: IMapAugora) {
     if (feature && viewport.zoom < 13) {
       const eventFeature = e.features[0]
       if (
-        hoverInfo.id !== eventFeature.id ||
-        hoverInfo.source !== eventFeature.source
+        hover?.id !== eventFeature.id ||
+        hover?.source !== eventFeature.source
       ) {
-        if (hoverInfo.id !== null)
+        if (hover)
           mapRef.current.setFeatureState(
-            { source: hoverInfo.source, id: hoverInfo.id },
+            { source: hover.source, id: hover.id },
             { hover: false }
           )
         mapRef.current.setFeatureState(
@@ -310,7 +300,7 @@ export default function MapAugora(props: IMapAugora) {
           { hover: true }
         )
       }
-      setHoverInfo({
+      setHover({
         lngLat: e.lngLat,
         zoneData: feature,
         source: eventFeature.source,
@@ -393,10 +383,10 @@ export default function MapAugora(props: IMapAugora) {
         <Layer {...lineGhostLayerProps} />
         <Layer {...fillGhostLayerProps} />
       </Source>
-      {hoverInfo.zoneData && viewport.zoom < 13 ? (
+      {hover && viewport.zoom < 13 ? (
         <MapTooltip
-          lngLat={hoverInfo.lngLat}
-          zoneFeature={hoverInfo.zoneData}
+          lngLat={hover.lngLat}
+          zoneFeature={hover.zoneData}
           deputiesList={FilteredList}
         />
       ) : null}
