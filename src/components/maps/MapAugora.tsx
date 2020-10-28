@@ -154,6 +154,7 @@ export default function MapAugora(props: IMapAugora) {
   })
   const [hover, setHover] = useState<IHover>(null)
   const [filterDisplayed, setFilterDisplayed] = useState(false)
+  const [mapLoaded, setMapLoaded] = useState(false)
 
   const mapRef = useRef<mapboxgl.Map>()
 
@@ -202,8 +203,7 @@ export default function MapAugora(props: IMapAugora) {
 
     changePageTitle(metroFranceFeature.properties.nom)
 
-    if (mapRef.current.loaded())
-      flyToBounds(metroFranceFeature, viewport, setViewport)
+    if (mapLoaded) flyToBounds(metroFranceFeature, viewport, setViewport)
 
     resetHover()
   }
@@ -221,7 +221,7 @@ export default function MapAugora(props: IMapAugora) {
 
     changePageTitle(OMFeature.properties.nom)
 
-    if (mapRef.current.loaded()) flyToBounds(OMFeature, viewport, setViewport)
+    if (mapLoaded) flyToBounds(OMFeature, viewport, setViewport)
 
     resetHover()
   }
@@ -254,8 +254,7 @@ export default function MapAugora(props: IMapAugora) {
 
         changePageTitle(newFeature.properties.nom)
 
-        if (mapRef.current.loaded())
-          flyToBounds(newFeature, viewport, setViewport)
+        if (mapLoaded) flyToBounds(newFeature, viewport, setViewport)
         break
       case Code.Cont:
         newFeature.properties[zoneCode] === Cont.OM
@@ -350,6 +349,8 @@ export default function MapAugora(props: IMapAugora) {
     mapRef.current.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
     flyToBounds(currentView.zoneData, viewport, setViewport)
+
+    setMapLoaded(true)
   }
 
   return (

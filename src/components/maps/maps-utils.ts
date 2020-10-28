@@ -340,12 +340,9 @@ export const flyToBounds = (
   viewportState: any,
   setViewportState: React.Dispatch<React.SetStateAction<{}>>
 ): void => {
-  const bounds = new WebMercatorViewport(viewportState).fitBounds(
-    getBoundingBoxFromFeature(feature),
-    {
-      padding: 100,
-    }
-  )
+  const bounds = new WebMercatorViewport(
+    viewportState
+  ).fitBounds(getBoundingBoxFromFeature(feature), { padding: 100 })
   setViewportState({
     ...bounds,
     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
