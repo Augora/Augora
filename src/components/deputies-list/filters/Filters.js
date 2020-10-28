@@ -10,7 +10,7 @@ import AgeSlider from "../slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"
 import Frame from "components/frames/Frame"
 import Button from "components/buttons/Button"
-import Input from "components/buttons/Input"
+import ButtonInput from "components/buttons/ButtonInput"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
 import {
   calculateAgeDomain,
@@ -33,7 +33,7 @@ function Filters(props) {
 
   const allGroupes = state.GroupesList.map((groupe) => {
     return (
-      <Input
+      <ButtonInput
         className={`groupe groupe--${groupe.Sigle.toLowerCase()}`}
         key={`groupe--${groupe.Sigle}`}
         style={{
@@ -66,7 +66,7 @@ function Filters(props) {
           totalDeputes={state.FilteredList.length}
           color={groupe.Couleur}
         />
-      </Input>
+      </ButtonInput>
     )
   })
 

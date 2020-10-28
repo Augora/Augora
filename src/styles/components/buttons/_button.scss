@@ -29,8 +29,11 @@
     transform: scale(0.75);
 
     pointer-events: none;
-    svg * {
-      fill: $text-color;
+    width: 30px;
+    svg {
+      * {
+        fill: $text-color;
+      }
     }
   }
 
@@ -79,6 +82,7 @@
   // Types
   @import "checkbox";
   @import "reset";
+  @import "icon";
 
   transition: background-color 0.5s $ease-in-out-cubic,
     border-color 0.2s $ease-in-out-cubic;
@@ -108,5 +112,9 @@
     .icon-wrapper {
       transform: scale(1);
     }
+  }
+  &--deactivated {
+    opacity: 0.3;
+    pointer-events: none;
   }
 }

@@ -1,6 +1,6 @@
 import React from "react"
 
-import SEO from "../components/seo"
+import SEO, { PageType } from "../components/seo/seo"
 // import { Link } from "gatsby"
 import Question from "components/faq/Question"
 import PageTitle from "../components/titles/PageTitle"
@@ -148,7 +148,7 @@ const contentAbout = [
 const FAQPage = () => {
   return (
     <>
-      <SEO title="FAQ" />
+      <SEO pageType={PageType.FAQ} />
       <div className="page page__faq">
         <PageTitle title="Foire aux Questions" />
 
