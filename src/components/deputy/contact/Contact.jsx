@@ -28,6 +28,7 @@ const Contact = (props) => {
 
         return (
           <Adresse
+            key={`adresse-${index}`}
             adresseDetails={adresseDetails}
             formatedAddress={formatedAddress}
             index={index}
