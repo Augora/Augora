@@ -332,18 +332,18 @@ export const getPolygonCenter = (
 /**
  * Transitionne de façon fluide vers une bounding box
  * @param {AugoraMap.Bounds} boundingBox La bounding box utilisable par mapbox
- * @param {*} viewportState Le state du viewport
- * @param {React.Dispatch<React.SetStateAction<{}>>} setViewportState Le setState du viewport
+ * @param {*} viewState Le state du viewport
+ * @param {React.Dispatch<React.SetStateAction<{}>>} setViewState Le setState du viewport
  */
 export const flyToBounds = (
   feature: AugoraMap.Feature,
-  viewportState: any,
-  setViewportState: React.Dispatch<React.SetStateAction<{}>>
+  viewState: any,
+  setViewState: React.Dispatch<React.SetStateAction<{}>>
 ): void => {
   const bounds = new WebMercatorViewport(
-    viewportState
+    viewState
   ).fitBounds(getBoundingBoxFromFeature(feature), { padding: 100 })
-  setViewportState({
+  setViewState({
     ...bounds,
     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
     transitionDuration: "auto",

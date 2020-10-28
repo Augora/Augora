@@ -6,7 +6,7 @@ import InteractiveMap, {
   Source,
   Layer,
   LayerProps,
-  InteractiveMapProps,
+  ViewState,
 } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
@@ -139,9 +139,7 @@ export default function MapAugora(props: IMapAugora) {
     }
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
-  const [viewport, setViewport] = useState<InteractiveMapProps>({
-    width: "100%",
-    height: "100%",
+  const [viewState, setViewState] = useState<ViewState>({
     zoom: 5,
     longitude: France.center.lng,
     latitude: France.center.lat,
@@ -187,7 +185,7 @@ export default function MapAugora(props: IMapAugora) {
         default:
           return
       }
-    } else flyToBounds(feature, viewport, setViewport)
+    } else flyToBounds(feature, viewState, setViewState)
   }
 
   /**
@@ -203,7 +201,7 @@ export default function MapAugora(props: IMapAugora) {
 
     changePageTitle(metroFranceFeature.properties.nom)
 
-    if (mapLoaded) flyToBounds(metroFranceFeature, viewport, setViewport)
+    if (mapLoaded) flyToBounds(metroFranceFeature, viewState, setViewState)
 
     resetHover()
   }
@@ -221,7 +219,7 @@ export default function MapAugora(props: IMapAugora) {
 
     changePageTitle(OMFeature.properties.nom)
 
-    if (mapLoaded) flyToBounds(OMFeature, viewport, setViewport)
+    if (mapLoaded) flyToBounds(OMFeature, viewState, setViewState)
 
     resetHover()
   }
@@ -254,7 +252,7 @@ export default function MapAugora(props: IMapAugora) {
 
         changePageTitle(newFeature.properties.nom)
 
-        if (mapLoaded) flyToBounds(newFeature, viewport, setViewport)
+        if (mapLoaded) flyToBounds(newFeature, viewState, setViewState)
         break
       case Code.Cont:
         newFeature.properties[zoneCode] === Cont.OM
@@ -283,7 +281,7 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleHover = (e) => {
     const feature = getMouseEventFeature(e)
-    if (feature && viewport.zoom < 13) {
+    if (feature && viewState.zoom < 13) {
       const eventFeature = e.features[0]
       if (
         hover?.id !== eventFeature.id ||
@@ -348,7 +346,7 @@ export default function MapAugora(props: IMapAugora) {
     mapRef.current.removeLayer("admin-1-boundary-bg")
     mapRef.current.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
-    flyToBounds(currentView.zoneData, viewport, setViewport)
+    flyToBounds(currentView.zoneData, viewState, setViewState)
 
     setMapLoaded(true)
   }
@@ -358,16 +356,16 @@ export default function MapAugora(props: IMapAugora) {
       mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
       mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
       ref={(ref) => (mapRef.current = ref && ref.getMap())}
-      {...viewport}
       width="100%"
       height="100%"
+      {...viewState}
       minZoom={2}
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
       interactiveLayerIds={["zone-fill", "zone-ghost-fill"]}
       onLoad={handleLoad}
-      onViewportChange={(change) => setViewport(change)}
+      onViewStateChange={(change) => setViewState(change.viewState)}
       onClick={handleClick}
       onHover={handleHover}
       reuseMaps={true}
@@ -384,7 +382,7 @@ export default function MapAugora(props: IMapAugora) {
         <Layer {...lineGhostLayerProps} />
         <Layer {...fillGhostLayerProps} />
       </Source>
-      {hover && viewport.zoom < 13 ? (
+      {hover && viewState.zoom < 13 ? (
         <MapTooltip
           lngLat={hover.lngLat}
           zoneFeature={hover.zoneData}
