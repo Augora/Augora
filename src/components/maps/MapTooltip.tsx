@@ -1,6 +1,7 @@
 import React from "react"
 import { Popup } from "react-map-gl"
 import { Code, getDeputies, getZoneCode } from "components/maps/maps-utils"
+import GroupBar from "components/deputies-list/GroupBar"
 import Tooltip from "components/tooltip/Tooltip"
 
 interface IMapTooltip {
@@ -38,7 +39,9 @@ export default function MapTooltip(props: IMapTooltip) {
           title={zoneName}
           nbDeputes={deputies.length}
           totalDeputes={props.deputiesList.length}
-        />
+        >
+          <GroupBar className="map__tooltip-bar" deputiesList={deputies} />
+        </Tooltip>
       ) : (
         <Tooltip className="map__tooltip-solo" title={zoneName}>
           {deputies[0] !== undefined ? (

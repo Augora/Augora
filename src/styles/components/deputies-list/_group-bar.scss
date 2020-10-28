@@ -1,0 +1,10 @@
+.group-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba($text-color, 0.1);
+  display: flex;
+  &--element {
+    height: 10px;
+    display: inline-block;
+  }
+}

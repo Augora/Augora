@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import CustomControl from "components/maps/CustomControl"
-import GroupBar from "components/maps/GroupBar"
+import GroupBar from "components/deputies-list/GroupBar"
 import Frame from "components/frames/Frame"
 import Button from "components/buttons/Button"
 import IconReset from "images/ui-kit/icon-refresh.svg"
@@ -14,7 +14,7 @@ interface IMapMiniFilter {
 
 export default function MapMiniFilter({ zoneList, onClick }: IMapMiniFilter) {
   const {
-    state: { GroupesList, DeputiesList },
+    state: { DeputiesList },
     handleReset,
   } = useContext(DeputiesListContext)
 
@@ -29,7 +29,7 @@ export default function MapMiniFilter({ zoneList, onClick }: IMapMiniFilter) {
         }%
       `}
       >
-        <GroupBar deputiesList={zoneList} groupList={GroupesList} />
+        <GroupBar className="mini-filter__bar" deputiesList={zoneList} />
         <div
           style={{
             display: "flex",
