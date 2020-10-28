@@ -14,7 +14,6 @@ import {
   Cont,
   France,
   GEOJsonReg,
-  OMGEOJsonDpt,
   metroFranceFeature,
   OMFeature,
   flyToBounds,
@@ -25,6 +24,7 @@ import {
   getFeature,
   getGhostZones,
   getDeputies,
+  getChildZoneCode,
 } from "components/maps/maps-utils"
 import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"
@@ -131,11 +131,11 @@ export default function MapAugora(props: IMapAugora) {
 
   useEffect(() => {
     if (props.codeCont !== undefined) {
-      displayNewZone(getFeature(props.codeCont, Code.Cont))
+      displayZone(getFeature(props.codeCont, Code.Cont))
     } else if (props.codeReg) {
-      displayNewZone(getFeature(props.codeReg, Code.Reg))
+      displayZone(getFeature(props.codeReg, Code.Reg))
     } else if (props.codeDpt) {
-      displayNewZone(getFeature(props.codeDpt, Code.Dpt))
+      displayZone(getFeature(props.codeDpt, Code.Dpt))
     }
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
@@ -165,7 +165,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /**
-   * A appeler dorénavant pour changer de zone à la place de displayNewZone
+   * Change de zone sur la feature fournie, reset le viewport si on est deja sur la zone
    * @param {AugoraMap.Feature} feature La feature de la nouvelle zone
    */
   const changeZone = (feature: AugoraMap.Feature) => {
@@ -189,46 +189,10 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /**
-   * Affiche la france métropolitaine
-   */
-  const displayFrance = () => {
-    setCurrentView({
-      GEOJson: GEOJsonReg,
-      zoneCode: Code.Reg,
-      zoneData: metroFranceFeature,
-      continentId: Cont.France,
-    })
-
-    changePageTitle(metroFranceFeature.properties.nom)
-
-    if (mapLoaded) flyToBounds(metroFranceFeature, viewState, setViewState)
-
-    resetHover()
-  }
-
-  /**
-   * Affiche l'outre-mer
-   */
-  const displayOM = () => {
-    setCurrentView({
-      GEOJson: OMGEOJsonDpt,
-      zoneCode: Code.Dpt,
-      zoneData: OMFeature,
-      continentId: Cont.OM,
-    })
-
-    changePageTitle(OMFeature.properties.nom)
-
-    if (mapLoaded) flyToBounds(OMFeature, viewState, setViewState)
-
-    resetHover()
-  }
-
-  /**
-   * Affiche une nouvelle vue, sans changer l'url, ne pas utiliser
+   * Affiche une nouvelle vue, sans changer l'url, ne pas utiliser directement
    * @param {AugoraMap.Feature} feature La feature de la zone à afficher
    */
-  const displayNewZone = (feature: AugoraMap.Feature): void => {
+  const displayZone = (feature: AugoraMap.Feature): void => {
     const zoneCode = getZoneCode(feature)
     let newFeature = feature
 
@@ -237,27 +201,17 @@ export default function MapAugora(props: IMapAugora) {
         newFeature = getFeature(feature.properties[Code.Dpt], Code.Dpt)
       case Code.Dpt:
       case Code.Reg:
-        const childrenZonesCode = zoneCode === Code.Reg ? Code.Dpt : Code.Circ
-
-        const contId = getContinent(newFeature)
-
-        const newZoneGEOJson = getChildFeatures(newFeature)
-
+      case Code.Cont:
         setCurrentView({
-          GEOJson: newZoneGEOJson,
-          zoneCode: childrenZonesCode,
+          GEOJson: getChildFeatures(newFeature),
+          zoneCode: getChildZoneCode(zoneCode),
           zoneData: newFeature,
-          continentId: contId,
+          continentId: getContinent(newFeature),
         })
 
         changePageTitle(newFeature.properties.nom)
 
         if (mapLoaded) flyToBounds(newFeature, viewState, setViewState)
-        break
-      case Code.Cont:
-        newFeature.properties[zoneCode] === Cont.OM
-          ? displayOM()
-          : displayFrance()
         break
       default:
         console.error("Zone à afficher non trouvée")
@@ -356,9 +310,9 @@ export default function MapAugora(props: IMapAugora) {
       mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
       mapStyle="mapbox://styles/mapbox/light-v10?optimize=true"
       ref={(ref) => (mapRef.current = ref && ref.getMap())}
+      {...viewState}
       width="100%"
       height="100%"
-      {...viewState}
       minZoom={2}
       dragRotate={false}
       doubleClickZoom={false}

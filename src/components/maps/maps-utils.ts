@@ -390,6 +390,20 @@ export const getZoneCode = (feature: AugoraMap.Feature): Code => {
 }
 
 /**
+ * Renvoie le code enfant d'un code fourni
+ */
+export const getChildZoneCode = (code: Code): Code => {
+  switch (code) {
+    case Code.Cont:
+      return Code.Reg
+    case Code.Reg:
+      return Code.Dpt
+    default:
+      return Code.Circ
+  }
+}
+
+/**
  * Renvoie la feature FranceZone d'un mousevent, null si la feature n'a pas le bon format
  */
 export const getMouseEventFeature = (e): AugoraMap.Feature => {
