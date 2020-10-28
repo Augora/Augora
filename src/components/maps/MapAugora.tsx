@@ -202,9 +202,13 @@ export default function MapAugora(props: IMapAugora) {
       case Code.Dpt:
       case Code.Reg:
       case Code.Cont:
+        const newGEOJson = getChildFeatures(newFeature)
+
+        const newCode = getZoneCode(newGEOJson.features[0])
+
         setCurrentView({
-          GEOJson: getChildFeatures(newFeature),
-          zoneCode: getChildZoneCode(zoneCode),
+          GEOJson: newGEOJson,
+          zoneCode: newCode,
           zoneData: newFeature,
           continentId: getContinent(newFeature),
         })

@@ -176,6 +176,15 @@ export const OMGEOJsonDistrict: AugoraMap.FeatureCollection = createFeatureColle
 export const OMGEOJsonDpt: AugoraMap.FeatureCollection = createDROMCOMDpts()
 
 /**
+ * Feature collection GeoJSON des circonscriptions hors de france
+ */
+export const HorsGEOJsonDistrict: AugoraMap.FeatureCollection = createFeatureCollection(
+  GEOJsonDistrictFile.features.filter(
+    (feature) => feature.properties[Code.Dpt] === undefined
+  )
+)
+
+/**
  * Feature collection GeoJSON de tous les départements
  */
 export const AllGEOJsonDpt: AugoraMap.FeatureCollection = createFeatureCollection(
@@ -201,7 +210,7 @@ export const franceBox: AugoraMap.Bounds = [
   [11.162109, 51.426614],
 ]
 
-export const OMBox: AugoraMap.Bounds = [
+export const worldBox: AugoraMap.Bounds = [
   [-111.005859, -28.381735],
   [81.914063, 59.800634],
 ]
@@ -224,16 +233,15 @@ export const OMFeature: AugoraMap.Feature = createFeature("Outre-Mer", {
 /**
  * Pseudo-feature des Français établis hors de France
  */
-export const HorsFeature: AugoraMap.Feature = createFeature(
-  "Français établis hors de France",
-  { code_cont: Cont.Hors }
-)
+export const HorsFeature: AugoraMap.Feature = createFeature("Hors de France", {
+  code_cont: Cont.Hors,
+})
 
 /**
  * Pseudo feature collection des continents
  */
 export const GEOJsonCont: AugoraMap.FeatureCollection = createFeatureCollection(
-  [metroFranceFeature, OMFeature]
+  [metroFranceFeature, OMFeature, HorsFeature]
 )
 
 /**
@@ -281,7 +289,7 @@ export const getBoundingBoxFromFeature = (
         ? getBoundingBoxFromCoordinates(feature.geometry.coordinates)
         : getBoundingBoxFromCoordinates(feature.geometry.coordinates, true)
     else if (getContinent(feature) === Cont.France) return franceBox
-    else return OMBox
+    else return worldBox
   } else return null
 }
 
@@ -467,6 +475,8 @@ export const getChildFeatures = (
   switch (zoneCode) {
     case Code.Cont:
       if (feature.properties[zoneCode] === Cont.OM) return OMGEOJsonDpt
+      else if (feature.properties[zoneCode] === Cont.Hors)
+        return HorsGEOJsonDistrict
       else return GEOJsonReg
     case Code.Reg:
       return createFeatureCollection(
@@ -562,29 +572,36 @@ export const getDeputies = (
   list: AugoraMap.DeputiesList
 ): AugoraMap.DeputiesList => {
   const zoneCode = getZoneCode(feature)
+  const props = feature?.properties
+  const contId = getContinent(feature)
 
   switch (zoneCode) {
     case Code.Cont:
       return list.filter((i) => {
-        return feature.properties[zoneCode] === Cont.OM
-          ? parseInt(i.NumeroDepartement) > 900
-          : parseInt(i.NumeroDepartement) < 900
+        if (contId === Cont.OM)
+          return (
+            parseInt(i.NumeroDepartement) > 900 &&
+            parseInt(i.NumeroDepartement) < 999
+          )
+        else if (contId === Cont.Hors) return i.NumeroDepartement === "999"
+        else return parseInt(i.NumeroDepartement) < 900
       })
     case Code.Reg:
       return list.filter((i) => {
-        return i.NumeroRegion == feature.properties[Code.Reg]
+        return i.NumeroRegion == props[Code.Reg]
       })
     case Code.Dpt:
       return list.filter((i) => {
-        return i.NumeroDepartement == feature.properties[Code.Dpt]
+        return i.NumeroDepartement == props[Code.Dpt]
       })
     case Code.Circ:
       return [
         list.find((i) => {
-          return (
-            i.NumeroCirconscription == feature.properties[Code.Circ] &&
-            i.NumeroDepartement == feature.properties[Code.Dpt]
-          )
+          return contId !== Cont.Hors
+            ? i.NumeroCirconscription == props[Code.Circ] &&
+                i.NumeroDepartement == props[Code.Dpt]
+            : i.NumeroCirconscription == props[Code.Circ] &&
+                i.NumeroDepartement === "999"
         }),
       ]
     default:
