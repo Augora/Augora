@@ -19,13 +19,13 @@ export default function MapDistrict(props) {
   const districtPolygon = useMemo(() => {
     return GEOJsonDistrict.features.find((district) => {
       return district.properties.code_dpt
-        ? district.properties.code_dpt == NumeroDepartement &&
+        ? district.properties.code_dpt === NumeroDepartement &&
             parseInt(district.properties.num_circ) === NumeroCirconscription
         : retirerAccentsFR(district.properties.nom_dpt.toLowerCase()) ===
             retirerAccentsFR(NomCirconscription.toLowerCase()) &&
             parseInt(district.properties.num_circ) === NumeroCirconscription
     })
-  }, [NomCirconscription, NumeroCirconscription])
+  }, [NomCirconscription, NumeroCirconscription, NumeroDepartement])
 
   return (
     <Block
