@@ -24,7 +24,6 @@ Ce document est un regroupement des directives pour contribuer au projet Augora.
 - [Commentaires](#Commentaires)
 - [Variables](#Variables)
 - [Conditions](#Conditions)
-- [Boucles](#Boucles)
 - [Méthodes](#Méthodes)
 
 [Guide de style](#Guide-de-style)
