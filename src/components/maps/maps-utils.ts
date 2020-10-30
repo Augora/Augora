@@ -1,9 +1,8 @@
 import { WebMercatorViewport, FlyToInterpolator } from "react-map-gl"
 import polylabel from "polylabel"
-import GEOJsonDistrictFile from "static/list-district.json"
+import GEOJsonDistrictFile from "static/circonscriptions.json"
 import GEOJsonDptFile from "static/departements.json"
 import GEOJsonRegFile from "static/regions.json"
-import { cloneDeep, remove } from "lodash"
 
 /**
  * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
@@ -14,7 +13,7 @@ export enum Code {
   Cont = "code_cont",
   Reg = "code_reg",
   Dpt = "code_dpt",
-  Circ = "num_circ",
+  Circ = "code_circ",
 }
 
 /**
@@ -75,69 +74,10 @@ const removeOutreMer = (
   file: AugoraMap.FeatureCollection
 ): AugoraMap.FeatureCollection => {
   return createFeatureCollection(
-    file.features.filter((feature) => feature.properties[Code.Reg] > 10)
-  )
-}
-
-/**
- * Renvoie une feature array de pseudo-départements DROM-COM
- */
-const createDROMCOMDpts = (): AugoraMap.FeatureCollection => {
-  const COMFeatures: AugoraMap.Feature[] = GEOJsonDistrictFile.features.filter(
-    (feat) => feat.properties[Code.Dpt] > 900
-  )
-
-  let newFeatures: AugoraMap.Feature[] = []
-
-  cloneDeep(COMFeatures).forEach((o) => {
-    //il faire un cloneDeep sinon le fichier est modifié
-    const otherOccurence = newFeatures.find(
-      (entry) => entry.properties.code_dpt === o.properties.code_dpt
+    file.features.filter(
+      (feature) => feature.properties[Code.Reg] !== undefined
     )
-
-    let protoFeature = createFeature(
-      o.properties.nom_dpt,
-      {
-        code_dpt: o.properties.code_dpt,
-      },
-      o.geometry.type,
-      o.geometry.coordinates
-    )
-
-    if (otherOccurence) {
-      if (o.geometry.type === "MultiPolygon") {
-        if (otherOccurence.geometry.type === "MultiPolygon") {
-          protoFeature.geometry.coordinates = [
-            ...otherOccurence.geometry.coordinates,
-            ...o.geometry.coordinates,
-          ]
-        } else {
-          protoFeature.geometry.coordinates = [
-            ...o.geometry.coordinates,
-            otherOccurence.geometry.coordinates,
-          ]
-        }
-      } else {
-        if (otherOccurence.geometry.type === "MultiPolygon") {
-          protoFeature.geometry.coordinates = [
-            o.geometry.coordinates,
-            ...otherOccurence.geometry.coordinates,
-          ]
-          protoFeature.geometry.type = "MultiPolygon"
-        } else {
-          protoFeature.geometry.coordinates = [
-            o.geometry.coordinates,
-            otherOccurence.geometry.coordinates,
-          ]
-          protoFeature.geometry.type = "MultiPolygon"
-        }
-      }
-      remove(newFeatures, (entry) => entry === otherOccurence)
-    }
-    newFeatures.push(protoFeature)
-  })
-
-  return createFeatureCollection(newFeatures)
+  )
 }
 
 /**
@@ -157,30 +97,34 @@ export const GEOJsonDpt: AugoraMap.FeatureCollection = removeOutreMer(
 /**
  * Feature collection GeoJSON des régions sans les DROM-COM
  */
-export const GEOJsonReg: AugoraMap.FeatureCollection = removeOutreMer(
-  GEOJsonRegFile
-)
+export const GEOJsonReg: AugoraMap.FeatureCollection = GEOJsonRegFile
 
 /**
  * Feature collection GeoJSON des circonscriptions DROM-COM
  */
 export const OMGEOJsonDistrict: AugoraMap.FeatureCollection = createFeatureCollection(
   GEOJsonDistrictFile.features.filter(
-    (feature) => feature.properties[Code.Dpt] > 900
+    (feature) =>
+      feature.properties[Code.Dpt] > 900 && feature.properties[Code.Dpt] !== 999
   )
 )
 
 /**
  * Feature collection GeoJSON des départements / régions / collectivités DROM-COM
  */
-export const OMGEOJsonDpt: AugoraMap.FeatureCollection = createDROMCOMDpts()
+export const OMGEOJsonDpt: AugoraMap.FeatureCollection = createFeatureCollection(
+  GEOJsonDptFile.features.filter(
+    (feature) =>
+      feature.properties[Code.Dpt] > 900 && feature.properties[Code.Dpt] !== 999
+  )
+)
 
 /**
  * Feature collection GeoJSON des circonscriptions hors de france
  */
 export const HorsGEOJsonDistrict: AugoraMap.FeatureCollection = createFeatureCollection(
   GEOJsonDistrictFile.features.filter(
-    (feature) => feature.properties[Code.Dpt] === undefined
+    (feature) => feature.properties[Code.Dpt] === "999"
   )
 )
 
@@ -210,6 +154,9 @@ export const franceBox: AugoraMap.Bounds = [
   [11.162109, 51.426614],
 ]
 
+/**
+ * Bounding box de l'atlantique
+ */
 export const worldBox: AugoraMap.Bounds = [
   [-111.005859, -28.381735],
   [81.914063, 59.800634],
@@ -373,7 +320,7 @@ export const getContinent = (feature: AugoraMap.Feature): Cont => {
     case Code.Dpt:
       return feature.properties[Code.Dpt] > 900 ? Cont.OM : Cont.France
     case Code.Circ:
-      if (feature.properties[Code.Dpt] === undefined) return Cont.Hors
+      if (feature.properties[Code.Dpt] === "999") return Cont.Hors
       else if (feature.properties[Code.Dpt] > 900) return Cont.OM
       else return Cont.France
     default:
@@ -395,20 +342,6 @@ export const getZoneCode = (feature: AugoraMap.Feature): Code => {
     else if (featureKeys.includes(Code.Cont)) return Code.Cont
     else return null
   } else return null
-}
-
-/**
- * Renvoie le code enfant d'un code fourni
- */
-export const getChildZoneCode = (code: Code): Code => {
-  switch (code) {
-    case Code.Cont:
-      return Code.Reg
-    case Code.Reg:
-      return Code.Dpt
-    default:
-      return Code.Circ
-  }
 }
 
 /**
@@ -549,14 +482,14 @@ export const getGhostZones = (
   const contId = getContinent(feature)
 
   if (zoneCode === Code.Reg || Code.Dpt) {
-    const Registers = getSisterFeatures(
+    const regSisters = getSisterFeatures(
       getFeature(feature.properties[Code.Reg], Code.Reg)
     )
-    if (zoneCode === Code.Reg) return createFeatureCollection(Registers)
+    if (zoneCode === Code.Reg) return createFeatureCollection(regSisters)
     else {
       const dptSisters = getSisterFeatures(feature)
       return contId === Cont.France
-        ? createFeatureCollection([...Registers, ...dptSisters])
+        ? createFeatureCollection([...regSisters, ...dptSisters])
         : createFeatureCollection(dptSisters)
     }
   } else return createFeatureCollection()
@@ -580,8 +513,7 @@ export const getDeputies = (
       return list.filter((i) => {
         if (contId === Cont.OM)
           return (
-            parseInt(i.NumeroDepartement) > 900 &&
-            parseInt(i.NumeroDepartement) < 999
+            parseInt(i.NumeroDepartement) > 900 && i.NumeroDepartement !== "999"
           )
         else if (contId === Cont.Hors) return i.NumeroDepartement === "999"
         else return parseInt(i.NumeroDepartement) < 900
@@ -597,11 +529,10 @@ export const getDeputies = (
     case Code.Circ:
       return [
         list.find((i) => {
-          return contId !== Cont.Hors
-            ? i.NumeroCirconscription == props[Code.Circ] &&
-                i.NumeroDepartement == props[Code.Dpt]
-            : i.NumeroCirconscription == props[Code.Circ] &&
-                i.NumeroDepartement === "999"
+          return (
+            i.NumeroCirconscription == props[Code.Circ] &&
+            i.NumeroDepartement == props[Code.Dpt]
+          )
         }),
       ]
     default:

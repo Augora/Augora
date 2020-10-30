@@ -20,7 +20,7 @@ export default function MapTooltip(props: IMapTooltip) {
   const zoneCode = getZoneCode(props.zoneFeature)
   const zoneName = props.zoneFeature.properties.nom
     ? props.zoneFeature.properties.nom
-    : `Circonscription n°${props.zoneFeature.properties.num_circ}`
+    : `Circonscription n°${props.zoneFeature.properties[Code.Circ]}`
   const deputies = getDeputies(props.zoneFeature, props.deputiesList)
 
   return (

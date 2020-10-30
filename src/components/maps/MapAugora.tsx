@@ -24,7 +24,6 @@ import {
   getFeature,
   getGhostZones,
   getDeputies,
-  getChildZoneCode,
 } from "components/maps/maps-utils"
 import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"

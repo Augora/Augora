@@ -78,7 +78,7 @@ declare namespace AugoraMap {
     code_cont?: number
     code_reg?: number | string
     code_dpt?: number | string
-    num_circ?: number | string
+    code_circ?: number
   }
 
   /**
