@@ -1626,12 +1626,24 @@
   dependencies:
     "@types/d3-time" "^1"
 
+"@types/d3-scale@^3.1.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/d3-scale/-/d3-scale-3.2.0.tgz#5ea99e6fa203882820dde4b31fc937100800a596"
+  integrity sha512-AhnhueLSDQtS3ZpymlzKqT0siMToe/+mhIFf3UcH/hzlWnqPfPigb3vIFgpEL8k9KARx41t3qQGVFc9awYWpEg==
+  dependencies:
+    "@types/d3-time" "*"
+
 "@types/d3-shape@^1.3.1":
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/@types/d3-shape/-/d3-shape-1.3.4.tgz#5a6d8c3026ba8e8a1a985bda8da40acfc9b7b079"
   integrity sha512-fxmOjs+UqNQGpztD5BOo+KriE0jLFrBP4Ct++0QExv/xfDOT1cpcMxgsZ+5qPmnR0t+GjbwAe1Um1PHpv3G4oA==
   dependencies:
     "@types/d3-path" "^1"
+
+"@types/d3-time@*":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/d3-time/-/d3-time-2.0.0.tgz#831dd093db91f16b83ba980e194bb8e4bcef44d6"
+  integrity sha512-Abz8bTzy8UWDeYs9pCa3D37i29EWDjNTjemdk0ei1ApYVNqulYlGUKip/jLOpogkPSsPz/GvZCYiC7MFlEk0iQ==
 
 "@types/d3-time@^1", "@types/d3-time@^1.0.10":
   version "1.1.1"
@@ -1729,6 +1741,11 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.161.tgz#a21ca0777dabc6e4f44f3d07f37b765f54188b18"
   integrity sha512-EP6O3Jkr7bXvZZSZYlsgt5DIjiGr0dXP1/jVEwVLTFgg0d+3lWVQkRavYVQszV7dYUwvg0B8R0MBDpcmXg7XIA==
 
+"@types/lodash@^4.14.160":
+  version "4.14.164"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.164.tgz#52348bcf909ac7b4c1bcbeda5c23135176e5dfa0"
+  integrity sha512-fXCEmONnrtbYUc5014avwBeMdhHHO8YJCkOBflUL9EoJBSKZ1dei+VO74fA7JkTHZ1GvZack2TyIw5U+1lT8jg==
+
 "@types/lodash@^4.14.92":
   version "4.14.155"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.155.tgz#e2b4514f46a261fd11542e47519c20ebce7bc23a"
@@ -1789,6 +1806,13 @@
   integrity sha512-h0NbqXN/tJuBY/xggZSej1SKQEstbHO7J/omt1tYoFGmj3YXOodZKbbqD4mNDh7zvEGYd7YFrac1LTtAr3xsYQ==
   dependencies:
     "@types/history" "*"
+    "@types/react" "*"
+
+"@types/react-dom@*":
+  version "16.9.9"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.9.tgz#d2d0a6f720a0206369ccbefff752ba37b9583136"
+  integrity sha512-jE16FNWO3Logq/Lf+yvEAjKzhpST/Eac8EMd1i4dgZdMczfgqC8EjpxwNgEe3SExHYLliabXDh9DEhhqnlXJhg==
+  dependencies:
     "@types/react" "*"
 
 "@types/react@*":
@@ -1884,6 +1908,30 @@
   dependencies:
     wonka "^4.0.14"
 
+"@visx/axis@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@visx/axis/-/axis-1.1.0.tgz#6a73420fafb0f8b15f5f179f4d894efb20e43c17"
+  integrity sha512-GN/nk4QgCXqNzrowstQYNEVV/eDWBB1/TWnNavHflyMt/5Ja+R77sOZ2moVetVhTxQIlsocf5GhyyLUFmgH9EQ==
+  dependencies:
+    "@types/classnames" "^2.2.9"
+    "@types/react" "*"
+    "@visx/group" "1.0.0"
+    "@visx/point" "1.0.0"
+    "@visx/scale" "1.1.0"
+    "@visx/shape" "1.1.0"
+    "@visx/text" "1.1.0"
+    classnames "^2.2.5"
+    prop-types "^15.6.0"
+
+"@visx/bounds@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@visx/bounds/-/bounds-1.0.0.tgz#a54eb43a7ddf1bb7f0cd6bf8bf5f94fa5ec562b8"
+  integrity sha512-QxD/OkZVkzpeP6L0YxUnIAsxlFemkDPfOumchVDRlrO4lZ3YXLmsnaEEiJpU5tSgNamZAUh+Tz3d2RbHp3qqxA==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-dom" "*"
+    prop-types "^15.5.10"
+
 "@visx/curve@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@visx/curve/-/curve-1.0.0.tgz#f1928821c0beea05d019f3066b28459b4b185c5b"
@@ -1891,6 +1939,20 @@
   dependencies:
     "@types/d3-shape" "^1.3.1"
     d3-shape "^1.0.6"
+
+"@visx/grid@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@visx/grid/-/grid-1.1.0.tgz#32c34dcfee12bd7d840ef275b7a91efafd271b55"
+  integrity sha512-rK208C2mRdR2EXsglbkP8SQloBHjSW6X+hmIPDP77hCGApSah3l5gK7HJkZvQoPtfnfOWmPOSl3ZWso3iQOGSw==
+  dependencies:
+    "@types/classnames" "^2.2.9"
+    "@types/react" "*"
+    "@visx/group" "1.0.0"
+    "@visx/point" "1.0.0"
+    "@visx/scale" "1.1.0"
+    "@visx/shape" "1.1.0"
+    classnames "^2.2.5"
+    prop-types "^15.6.2"
 
 "@visx/group@1.0.0", "@visx/group@^1.0.0":
   version "1.0.0"
@@ -1902,6 +1964,18 @@
     classnames "^2.2.5"
     prop-types "^15.6.2"
 
+"@visx/legend@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@visx/legend/-/legend-1.1.0.tgz#52c1616c527bb6f54c7c1f01a12cd1dca567909e"
+  integrity sha512-mPue8rqZqGN0J8IgQWu5mAlrpKaeffpTtRXwobcaHK3X2r/9FvMtAMryAdNooFNQCJYWCczzC0tGog7AzN2NlQ==
+  dependencies:
+    "@types/classnames" "^2.2.9"
+    "@types/react" "*"
+    "@visx/group" "1.0.0"
+    "@visx/scale" "1.1.0"
+    classnames "^2.2.5"
+    prop-types "^15.5.10"
+
 "@visx/mock-data@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@visx/mock-data/-/mock-data-1.0.0.tgz#9b3f28c8fba830b38c06cc05a5280efd3bf74449"
@@ -1909,6 +1983,11 @@
   dependencies:
     "@types/d3-random" "^1.1.2"
     d3-random "^1.0.3"
+
+"@visx/point@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@visx/point/-/point-1.0.0.tgz#c93cd540989ded394aab8d56cbdc7ca4891c3dd9"
+  integrity sha512-0L3ILwv6ro0DsQVbA1lo8fo6q3wvIeSTt9C8NarUUkoTNSFZaJtlmvwg2238r8fwwmSv0v9QFBj1hBz4o0bHrg==
 
 "@visx/scale@1.0.0", "@visx/scale@^1.0.0":
   version "1.0.0"
@@ -1921,6 +2000,37 @@
     d3-interpolate "^1.4.0"
     d3-scale "^3.0.1"
     d3-time "^1.1.0"
+
+"@visx/scale@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@visx/scale/-/scale-1.1.0.tgz#5776efbd0fc07e5296732b7f20e711df30b615da"
+  integrity sha512-6m11vrqDD5zPhJdS2KW8fEtdpne3zgJ2YVqnM9naibaUsdA7oLXh54zUlKEd+mzYWLRYuwA+urFPWBSA7kiEaw==
+  dependencies:
+    "@types/d3-interpolate" "^1.3.1"
+    "@types/d3-scale" "^3.1.0"
+    "@types/d3-time" "^1.0.10"
+    d3-interpolate "^1.4.0"
+    d3-scale "^3.0.1"
+    d3-time "^1.1.0"
+
+"@visx/shape@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@visx/shape/-/shape-1.1.0.tgz#a0fdcf21a84f6cf6799aa21e24abca8afdd3e282"
+  integrity sha512-3tf+m0R2fAecz+eGgG4NMIl+LVEKm51CrM+AxSJEOrRiTe4syERgRXxOGa04BHDo75S66coBN+416L38GHri4g==
+  dependencies:
+    "@types/classnames" "^2.2.9"
+    "@types/d3-path" "^1.0.8"
+    "@types/d3-shape" "^1.3.1"
+    "@types/lodash" "^4.14.146"
+    "@types/react" "*"
+    "@visx/curve" "1.0.0"
+    "@visx/group" "1.0.0"
+    "@visx/scale" "1.1.0"
+    classnames "^2.2.5"
+    d3-path "^1.0.5"
+    d3-shape "^1.2.0"
+    lodash "^4.17.15"
+    prop-types "^15.5.10"
 
 "@visx/shape@^1.0.0":
   version "1.0.0"
@@ -1940,6 +2050,31 @@
     d3-shape "^1.2.0"
     lodash "^4.17.15"
     prop-types "^15.5.10"
+
+"@visx/text@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@visx/text/-/text-1.1.0.tgz#da5a89e00014963e58a5a2150c360a7ea935fb7e"
+  integrity sha512-uESE4spCqQUo7Qia+7rAFU5X8Xe1FN/SR5TVeulufih5oQkiDFhu1KL79VUFsb9sZe9D6iQ85GiGuKwErPczRQ==
+  dependencies:
+    "@types/classnames" "^2.2.9"
+    "@types/lodash" "^4.14.160"
+    "@types/react" "*"
+    classnames "^2.2.5"
+    lodash "^4.17.20"
+    prop-types "^15.7.2"
+    reduce-css-calc "^1.3.0"
+
+"@visx/tooltip@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@visx/tooltip/-/tooltip-1.1.0.tgz#97908379342a3f08e9c09e121134f0ddd17dd0a0"
+  integrity sha512-xVB1vjZoL6OqiLp2VjyUYAoklPm/pQJmOD90TaBnLjku9KyYmElziO4q2qEpWmtY+K4XjXful10gBRPkt/e70Q==
+  dependencies:
+    "@types/classnames" "^2.2.9"
+    "@types/react" "*"
+    "@visx/bounds" "1.0.0"
+    classnames "^2.2.5"
+    prop-types "^15.5.10"
+    react-use-measure "2.0.1"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -2733,6 +2868,11 @@ bail@^1.0.0:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/bail/-/bail-1.0.5.tgz#b6fa133404a392cbc1f8c4bf63f5953351e7a776"
   integrity sha512-xFbRxM1tahm08yHBP16MMjVUAvDaBMD38zsM9EMAUN61omwLmKlOpB/Zku5QkjZ8TZ4vn53pj+t518cH0S03RQ==
+
+balanced-match@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
+  integrity sha1-yz8+PHMtwPAe5wtAPzAuYddwmDg=
 
 balanced-match@^1.0.0:
   version "1.0.0"
@@ -4379,6 +4519,11 @@ date-fns@^2.14.0:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.14.0.tgz#359a87a265bb34ef2e38f93ecf63ac453f9bc7ba"
   integrity sha512-1zD+68jhFgDIM0rF05rcwYO8cExdNqxjq4xP1QKM60Q45mnO6zaMWB4tOzrIr4M4GSLntsKeE4c9Bdl2jhL/yw==
+
+debounce@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
+  integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.6, debug@^2.6.9:
   version "2.6.9"
@@ -8479,6 +8624,11 @@ markdown-table@^2.0.0:
   dependencies:
     repeat-string "^1.0.0"
 
+math-expression-evaluator@^1.2.14:
+  version "1.2.22"
+  resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.22.tgz#c14dcb3d8b4d150e5dcea9c68c8dad80309b0d5e"
+  integrity sha512-L0j0tFVZBQQLeEjmWOvDLoRciIY8gQGWahvkztXUal8jH8R5Rlqo9GCvgqvXcy9LQhEWdQCVvzqAbxgYNt4blQ==
+
 md5-file@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/md5-file/-/md5-file-3.2.3.tgz#f9bceb941eca2214a4c0727f5e700314e770f06f"
@@ -10347,7 +10497,7 @@ prompts@^2.3.2:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
 
-prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10747,6 +10897,13 @@ react-use-fuzzy@1.0.4:
   resolved "https://registry.yarnpkg.com/react-use-fuzzy/-/react-use-fuzzy-1.0.4.tgz#8697aec1ca6d858721d93dca334044787ce6fa0b"
   integrity sha512-eAxNa67Av7h6WNnJ7Bnqn3qmMb/AdBDpPHGRatv8Dg1is4WpEjJA5Cah4nZncH7w5lHeAD77WduHDZRYdke2Lg==
 
+react-use-measure@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-use-measure/-/react-use-measure-2.0.1.tgz#4f23f94c832cd4512da55acb300d1915dcbf3ae8"
+  integrity sha512-lFfHiqcXbJ2/6aUkZwt8g5YYM7EGqNVxJhMqMPqv1BVXRKp8D7jYLlmma0SvhRY4WYxxkZpCdbJvhDylb5gcEA==
+  dependencies:
+    debounce "^1.2.0"
+
 react-virtualized-auto-sizer@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.2.tgz#a61dd4f756458bbf63bd895a92379f9b70f803bd"
@@ -10884,6 +11041,22 @@ redent@^1.0.0:
   dependencies:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
+
+reduce-css-calc@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/reduce-css-calc/-/reduce-css-calc-1.3.0.tgz#747c914e049614a4c9cfbba629871ad1d2927716"
+  integrity sha1-dHyRTgSWFKTJz7umKYca0dKSdxY=
+  dependencies:
+    balanced-match "^0.4.2"
+    math-expression-evaluator "^1.2.14"
+    reduce-function-call "^1.0.1"
+
+reduce-function-call@^1.0.1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/reduce-function-call/-/reduce-function-call-1.0.3.tgz#60350f7fb252c0a67eb10fd4694d16909971300f"
+  integrity sha512-Hl/tuV2VDgWgCSEeWMLwxLZqX7OK59eU1guxXsRKTAyeYimivsKdtcV4fu3r710tpG5GmDKDhQ0HSZLExnNmyQ==
+  dependencies:
+    balanced-match "^1.0.0"
 
 redux-thunk@^2.3.0:
   version "2.3.0"
