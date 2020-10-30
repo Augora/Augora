@@ -382,9 +382,11 @@ export const getFeature = (
         (entry) => entry.properties[zoneCode] == zoneId
       )
     case Code.Dpt:
-      return AllGEOJsonDpt.features.find(
-        (entry) => entry.properties[zoneCode] == zoneId
-      )
+      return zoneId !== "999"
+        ? AllGEOJsonDpt.features.find(
+            (entry) => entry.properties[zoneCode] == zoneId
+          )
+        : HorsFeature
     case Code.Circ:
       return GEOJsonDistrictFile.features.find(
         (entry) =>

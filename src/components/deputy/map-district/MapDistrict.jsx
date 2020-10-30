@@ -3,8 +3,7 @@ import ReactMapGL, { Source, Layer } from "react-map-gl"
 import { Link } from "gatsby"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { France, flyToBounds } from "components/maps/maps-utils"
-import GEOJsonDistrict from "static/list-district.json"
-import { retirerAccentsFR } from "utils/string-format/accent"
+import GEOJsonDistrict from "static/circonscriptions.json"
 import Block from "components/deputy/_block/_Block"
 
 export default function MapDistrict(props) {
@@ -18,14 +17,12 @@ export default function MapDistrict(props) {
   //récupère le polygone de la circonscription
   const districtPolygon = useMemo(() => {
     return GEOJsonDistrict.features.find((district) => {
-      return district.properties.code_dpt
-        ? district.properties.code_dpt === NumeroDepartement &&
-            parseInt(district.properties.num_circ) === NumeroCirconscription
-        : retirerAccentsFR(district.properties.nom_dpt.toLowerCase()) ===
-            retirerAccentsFR(NomCirconscription.toLowerCase()) &&
-            parseInt(district.properties.num_circ) === NumeroCirconscription
+      return (
+        district.properties.code_dpt === NumeroDepartement &&
+        district.properties.code_circ === NumeroCirconscription
+      )
     })
-  }, [NomCirconscription, NumeroCirconscription, NumeroDepartement])
+  }, [NumeroCirconscription, NumeroDepartement])
 
   return (
     <Block
@@ -81,18 +78,12 @@ export default function MapDistrict(props) {
               }}
             />
           </Source>
-          {districtPolygon?.properties?.code_dpt !== undefined ? (
-            <Link
-              to={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`}
-              className="map__redirect"
-            >
-              Cliquer pour voir la carte entière
-            </Link>
-          ) : (
-            <div className="map__redirect">
-              Français hors de france pas encore implementés
-            </div>
-          )}
+          <Link
+            to={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`}
+            className="map__redirect"
+          >
+            Cliquer pour voir la carte entière
+          </Link>
         </ReactMapGL>
       </div>
     </Block>
