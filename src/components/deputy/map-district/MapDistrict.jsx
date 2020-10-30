@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react"
 import ReactMapGL, { Source, Layer } from "react-map-gl"
-import { Link } from "gatsby"
 import "mapbox-gl/dist/mapbox-gl.css"
+import { Link } from "gatsby"
 import { France, flyToBounds } from "components/maps/maps-utils"
 import GEOJsonDistrict from "static/circonscriptions.json"
 import Block from "components/deputy/_block/_Block"

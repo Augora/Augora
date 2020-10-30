@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { Marker } from "react-map-gl"
 import { Code, getDeputies, getPolygonCenter } from "components/maps/maps-utils"
 import { ICurrentView } from "components/maps/MapAugora"
@@ -54,18 +54,21 @@ function MapDeputyPin({ deputy, coords }) {
  * @param {AugoraMap.DeputiesList} deputiesList Liste des députés à filtrer
  */
 export default function MapPins({ viewData, deputiesList }: IMapPin) {
+  const centerCoords = useMemo(
+    () => viewData.GEOJson.features.map((o) => getPolygonCenter(o)),
+    [viewData]
+  )
+
   return (
     <div className="map__pins">
       {viewData.GEOJson.features.map((feature, index) => {
-        const centerCoords = getPolygonCenter(feature)
         const deputies = getDeputies(feature, deputiesList)
-
         if (viewData.zoneCode === Code.Circ) {
           return deputies[0] ? (
             <MapDeputyPin
               key={`${feature.properties.nom_dpt} ${index}`}
               deputy={deputies[0]}
-              coords={centerCoords}
+              coords={centerCoords[index]}
             />
           ) : null
         } else {
@@ -73,7 +76,7 @@ export default function MapPins({ viewData, deputiesList }: IMapPin) {
             <MapNumberPin
               key={`${feature.properties.nom} ${index}`}
               number={deputies.length}
-              coords={centerCoords}
+              coords={centerCoords[index]}
             />
           )
         }
