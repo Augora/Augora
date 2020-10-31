@@ -1,5 +1,5 @@
 import React from "react"
-import SEO, { PageType } from "../components/seo/seo"
+import SEO, { PageType } from "components/seo/seo"
 
 import DeputiesList from "../components/deputies-list/DeputiesList"
 import PageTitle from "../components/titles/PageTitle"

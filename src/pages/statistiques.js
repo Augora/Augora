@@ -1,15 +1,10 @@
 import React, { useContext } from "react"
 
-import {
-  calculateAgeDomain,
-  calculateNbDepute,
-  groupeIconByGroupeSigle,
-} from "components/deputies-list/deputies-list-utils"
+import { calculateAgeDomain, calculateNbDepute, groupeIconByGroupeSigle } from "components/deputies-list/deputies-list-utils"
 import { DeputiesListContext } from "../context/deputies-filters/deputiesFiltersContext"
 import Filters from "components/deputies-list/filters/Filters"
-import Deputy from "components/deputies-list/deputy/Deputy"
 import Tooltip from "components/tooltip/Tooltip"
-import SEO from "../components/seo"
+import SEO from "components/seo/seo"
 import PageTitle from "../components/titles/PageTitle"
 import ComplexBarChart from "components/deputies-list/complexe-bar-chart/ComplexBarChart"
 import Frame from "../components/frames/Frame"
@@ -26,11 +21,7 @@ const Statistiques = (props) => {
   } = useContext(DeputiesListContext)
 
   const groupesData = state.GroupesList.map((groupe) => {
-    const nbDeputeGroup = calculateNbDepute(
-      state.FilteredList,
-      "groupe",
-      groupe.Sigle
-    )
+    const nbDeputeGroup = calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)
     return Object.assign({
       id: groupe.Sigle,
       label: groupe.NomComplet,
@@ -42,9 +33,7 @@ const Statistiques = (props) => {
   const allGroupes = state.GroupesList.map((groupe) => {
     return (
       <div
-        className={`groupe groupe--${groupe.Sigle} ${
-          state.GroupeValue[groupe.Sigle] ? "selected" : ""
-        }`}
+        className={`groupe groupe--${groupe.Sigle} ${state.GroupeValue[groupe.Sigle] ? "selected" : ""}`}
         key={`groupe--${groupe.Sigle}`}
         style={{ order: groupe.Ordre }}
       >
@@ -56,28 +45,15 @@ const Statistiques = (props) => {
         />
         <div className="groupe__img-container">
           <img
-            src={groupeIconByGroupeSigle(
-              groupe.Sigle,
-              !state.GroupeValue[groupe.Sigle]
-            )}
+            src={groupeIconByGroupeSigle(groupe.Sigle, !state.GroupeValue[groupe.Sigle])}
             alt={`Icône groupe parlementaire ${groupe.Sigle}`}
           />
         </div>
-        <div
-          className="groupe__border"
-          style={{ borderColor: groupe.Couleur }}
-        ></div>
-        <div
-          className="groupe__background-color"
-          style={{ backgroundColor: groupe.Couleur }}
-        ></div>
+        <div className="groupe__border" style={{ borderColor: groupe.Couleur }}></div>
+        <div className="groupe__background-color" style={{ backgroundColor: groupe.Couleur }}></div>
         <Tooltip
           title={groupe.NomComplet}
-          nbDeputes={calculateNbDepute(
-            state.FilteredList,
-            "groupe",
-            groupe.Sigle
-          )}
+          nbDeputes={calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)}
           totalDeputes={state.FilteredList.length}
           color={groupe.Couleur}
         />
@@ -96,17 +72,13 @@ const Statistiques = (props) => {
     const groupeValueByAge = () =>
       Object.keys(state.GroupeValue).reduce((acc, groupe) => {
         return Object.assign(acc, {
-          [groupe]: valueOfDeputesByAge.filter(
-            (depute) => depute.GroupeParlementaire.Sigle === groupe
-          ).length,
+          [groupe]: valueOfDeputesByAge.filter((depute) => depute.GroupeParlementaire.Sigle === groupe).length,
         })
       }, {})
     const groupeColorByAge = () =>
       Object.keys(state.GroupeValue).reduce((acc, groupe) => {
         return Object.assign(acc, {
-          [groupe + "Color"]: state.GroupesList.filter(
-            (groupeFiltered) => groupeFiltered.Sigle === groupe
-          )[0].Couleur,
+          [groupe + "Color"]: state.GroupesList.filter((groupeFiltered) => groupeFiltered.Sigle === groupe)[0].Couleur,
         })
       }, {})
     return Object.assign(

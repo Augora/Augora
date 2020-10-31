@@ -1,6 +1,6 @@
 import React from "react"
 
-import SEO, { PageType } from "../components/seo/seo"
+import SEO, { PageType } from "components/seo/seo"
 // import { Link } from "gatsby"
 import Question from "components/faq/Question"
 import PageTitle from "../components/titles/PageTitle"
