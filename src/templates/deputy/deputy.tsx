@@ -146,7 +146,6 @@ export const query = graphql`
         NombreMandats
         NumeroCirconscription
         NumeroDepartement
-        parti_ratt_financier
         PlaceEnHemicycle
         Prenom
         Profession

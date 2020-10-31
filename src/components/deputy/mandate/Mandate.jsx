@@ -43,17 +43,9 @@ export default function Mandate(props) {
   }, [props.dateBegin])
 
   let numberComplement = ""
-  props.numberMandates < 2
-    ? (numberComplement = "er")
-    : (numberComplement = "ème")
+  props.numberMandates < 2 ? (numberComplement = "er") : (numberComplement = "ème")
   return (
-    <Block
-      title="Mandats"
-      type="mandate"
-      color={props.color}
-      size={props.size}
-      wip={props.wip ? props.wip : false}
-    >
+    <Block title="Mandats" type="mandate" color={props.color} size={props.size} wip={props.wip ? props.wip : false}>
       <div className="icon-wrapper">
         <IconMandat />
       </div>
@@ -68,20 +60,17 @@ export default function Mandate(props) {
         <div className="mandate__since">
           {Date.yearsPassed > 0 ? (
             <p>
-              <span style={{ color: props.color }}>{Date.yearsPassed}</span>{" "}
-              <strong>Ans</strong>
+              <span style={{ color: props.color }}>{Date.yearsPassed}</span> <strong>Ans</strong>
             </p>
           ) : null}
           {Date.monthsPassed > 0 ? (
             <p>
-              <span style={{ color: props.color }}>{Date.monthsPassed}</span>{" "}
-              <strong>Mois</strong>
+              <span style={{ color: props.color }}>{Date.monthsPassed}</span> <strong>Mois</strong>
             </p>
           ) : null}
           {Date.monthsPassed === 0 && Date.yearsPassed === 0 ? (
             <p>
-              <span style={{ color: props.color }}>{Date.daysPassed}</span>{" "}
-              <strong>Jours</strong>
+              <span style={{ color: props.color }}>{Date.daysPassed}</span> <strong>Jours</strong>
             </p>
           ) : null}
           <p></p>

@@ -45,7 +45,6 @@ export default function DeputiesListProvider(props) {
             NumeroCirconscription
             NumeroDepartement
             NumeroRegion
-            parti_ratt_financier
             PlaceEnHemicycle
             Prenom
             Profession
@@ -73,20 +72,10 @@ export default function DeputiesListProvider(props) {
     }
   `)
 
-  const [orderedGroupes] = useState(
-    data.faunadb.GroupesParlementairesDetailsActifs.data.sort(
-      (a, b) => a.Ordre - b.Ordre
-    )
-  )
-  const [deputies] = useState(
-    data.faunadb.DeputesEnMandat.data.sort((a, b) => a.Ordre - b.Ordre)
-  )
+  const [orderedGroupes] = useState(data.faunadb.GroupesParlementairesDetailsActifs.data.sort((a, b) => a.Ordre - b.Ordre))
+  const [deputies] = useState(data.faunadb.DeputesEnMandat.data.sort((a, b) => a.Ordre - b.Ordre))
 
   const fullState = useDeputiesFilters(deputies, orderedGroupes)
 
-  return (
-    <DeputiesListContext.Provider value={fullState}>
-      {props.children}
-    </DeputiesListContext.Provider>
-  )
+  return <DeputiesListContext.Provider value={fullState}>{props.children}</DeputiesListContext.Provider>
 }

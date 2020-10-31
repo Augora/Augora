@@ -29,20 +29,12 @@ const Header = ({ siteTitle, location }) => {
   const [Size, setSize] = useState("normal")
 
   function isActivePage(path) {
-    return `menu__item ${
-      location.pathname === path || location.pathname === path + "/"
-        ? "menu__item--current"
-        : ""
-    }`
+    return `menu__item ${location.pathname === path || location.pathname === path + "/" ? "menu__item--current" : ""}`
   }
 
   function setLinks(pageGroup) {
     return Object.keys(pageGroup).map((page) => (
-      <Link
-        key={pageGroup[page].path}
-        to={pageGroup[page].path}
-        className={isActivePage(pageGroup[page].path)}
-      >
+      <Link key={pageGroup[page].path} to={pageGroup[page].path} className={isActivePage(pageGroup[page].path)}>
         {pageGroup[page].title}
       </Link>
     ))

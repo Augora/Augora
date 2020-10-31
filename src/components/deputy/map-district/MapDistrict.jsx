@@ -7,20 +7,13 @@ import GEOJsonDistrict from "static/circonscriptions.json"
 import Block from "components/deputy/_block/_Block"
 
 export default function MapDistrict(props) {
-  const {
-    NomCirconscription,
-    NumeroCirconscription,
-    NumeroDepartement,
-  } = props.deputy
+  const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
   const [viewport, setViewport] = useState({})
 
   //récupère le polygone de la circonscription
   const districtPolygon = useMemo(() => {
     return GEOJsonDistrict.features.find((district) => {
-      return (
-        district.properties.code_dpt === NumeroDepartement &&
-        district.properties.code_circ === NumeroCirconscription
-      )
+      return district.properties.code_dpt === NumeroDepartement && district.properties.code_circ === NumeroCirconscription
     })
   }, [NumeroCirconscription, NumeroDepartement])
 
@@ -78,10 +71,7 @@ export default function MapDistrict(props) {
               }}
             />
           </Source>
-          <Link
-            to={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`}
-            className="map__redirect"
-          >
+          <Link to={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`} className="map__redirect">
             Cliquer pour voir la carte entière
           </Link>
         </ReactMapGL>
