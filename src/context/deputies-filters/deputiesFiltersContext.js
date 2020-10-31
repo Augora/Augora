@@ -42,7 +42,6 @@ export default function DeputiesListProvider(props) {
             NombreMandats
             NumeroCirconscription
             NumeroDepartement
-            parti_ratt_financier
             PlaceEnHemicycle
             Prenom
             Profession
