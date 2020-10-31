@@ -28,10 +28,7 @@ export default function ComplexBarChart(props) {
       innerPadding={0}
       borderRadius={0}
       colors={(data) => {
-        if (
-          data.indexValue < props.ageDomain[0] ||
-          data.indexValue > props.ageDomain[1]
-        ) {
+        if (data.indexValue < props.ageDomain[0] || data.indexValue > props.ageDomain[1]) {
           return "grey"
         } else {
           return data.data[data.id + "Color"]
@@ -59,8 +56,7 @@ export default function ComplexBarChart(props) {
       motionDamping={15}
       tooltip={(tooltipInfo) => {
         return Tooltip({
-          title: props.groupesDetails.find((g) => g.Sigle === tooltipInfo.id) //iterate through groupedetails's acronym list until it find the correct one
-            .NomComplet, //retrieve the full name of that acronym
+          title: props.groupesDetails.find((g) => g.Sigle === tooltipInfo.id).NomComplet, //iterate through groupedetails's acronym list until it find the correct one //retrieve the full name of that acronym
           nbDeputes: tooltipInfo.value,
           totalDeputes: props.totalNumberDeputies,
           color: tooltipInfo.color,

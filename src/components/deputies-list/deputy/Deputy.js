@@ -15,11 +15,7 @@ export default function OneDeputy(props) {
         }}
       >
         <h2>{props.data.Nom}</h2>
-        <DeputyImage
-          src={props.data.URLPhotoAugora}
-          alt={props.data.Slug}
-          sex={props.data.Sexe}
-        />
+        <DeputyImage src={props.data.URLPhotoAugora} alt={props.data.Slug} sex={props.data.Sexe} />
         <div className="deputy__icon-container">
           <img
             className="deputy__groupe-icon"

@@ -61,17 +61,19 @@
           height: 100%;
           &-container {
             overflow: hidden;
-            border-radius: 100px;
+            border-radius: 10px;
             border-style: solid;
-            border-width: 3px;
+            border-width: 2px;
+            box-shadow: 0px 5px 20px rgba($black, 0.2);
           }
           .deputy__photo {
             height: 100%;
             margin-bottom: 0px;
             display: block;
-            svg {
-              fill: white;
-              height: 100%;
+            &--errored {
+              width: 150px;
+              filter: invert(1);
+              opacity: 0.7;
             }
           }
         }

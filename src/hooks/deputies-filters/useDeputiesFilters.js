@@ -2,19 +2,13 @@ import { useState } from "react"
 import { useFuzzy } from "react-use-fuzzy"
 import { deburr } from "lodash"
 
-import {
-  calculateAgeDomain,
-  filterList,
-  groupesArrayToObject,
-} from "../../components/deputies-list/deputies-list-utils"
+import { calculateAgeDomain, filterList, groupesArrayToObject } from "../../components/deputies-list/deputies-list-utils"
 
 export default function useDeputiesFilters(deputiesList, groupesList) {
   /*----------------------------------------------------*/
   // States
   /*----------------------------------------------------*/
-  const [GroupeValue, setGroupeValue] = useState(
-    groupesArrayToObject(groupesList.map((g) => g.Sigle))
-  )
+  const [GroupeValue, setGroupeValue] = useState(groupesArrayToObject(groupesList.map((g) => g.Sigle)))
 
   const [SexValue, setSexValue] = useState({
     H: true,
@@ -24,9 +18,7 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
   const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(deputiesList))
 
   const { result, keyword, search } = useFuzzy(
-    deputiesList.map((d) =>
-      Object.assign({}, d, { NomToSearch: deburr(d.Nom) })
-    ),
+    deputiesList.map((d) => Object.assign({}, d, { NomToSearch: deburr(d.Nom) })),
     {
       keys: ["NomToSearch"],
     }
@@ -57,6 +49,7 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
     const allActive = groupesAsArray.every(([key, value]) => {
       return value
     })
+
     const isClickedIsAloneAsActive =
       GroupeValue[sigle] &&
       groupesAsArray
@@ -73,7 +66,7 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
       } else if (isClickedIsAloneAsActive) {
         GroupeValue[key] = key !== sigle ? true : false
       } else {
-        GroupeValue[sigle] = !GroupeValue[sigle]
+        if (key === sigle) GroupeValue[sigle] = !GroupeValue[sigle]
       }
     })
 

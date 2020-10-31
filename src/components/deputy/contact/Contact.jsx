@@ -13,28 +13,18 @@ const formatAddress = (address, codepostal) => {
  */
 const Contact = (props) => {
   return (
-    <Block
-      title="Contact"
-      type="contact"
-      color={props.color}
-      size={props.size}
-      wip={props.wip ? props.wip : false}
-    >
+    <Block title="Contact" type="contact" color={props.color} size={props.size} wip={props.wip ? props.wip : false}>
       {props.adresses.map((adresseDetails, index, array) => {
-        const formatedAddress = formatAddress(
-          adresseDetails.Adresse,
-          adresseDetails.CodePostal
-        )
+        const formatedAddress = formatAddress(adresseDetails.Adresse, adresseDetails.CodePostal)
+
         return (
-          <>
-            <Adresse
-              adresseDetails={adresseDetails}
-              formatedAddress={formatedAddress}
-            />
-            {index + 1 < array.length ? (
-              <div className="contact__separator"></div>
-            ) : null}
-          </>
+          <Adresse
+            key={`adresse-${index}`}
+            adresseDetails={adresseDetails}
+            formatedAddress={formatedAddress}
+            index={index}
+            separator={index % 2 !== 1 && index + 1 < array.length ? true : false}
+          />
         )
       })}
       <div className="icon-wrapper">

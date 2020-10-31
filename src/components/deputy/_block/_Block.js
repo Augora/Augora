@@ -6,17 +6,10 @@ export default function _Block(props) {
   return (
     <div
       color={props.color}
-      className={`deputy__block block__${props.type} deputy__block--${
-        props.size ? props.size : "medium"
-      }`}
+      className={`deputy__block block__${props.type} deputy__block--${props.size ? props.size : "medium"}`}
       style={{ borderColor: props.color }}
     >
-      <Header
-        type={props.type}
-        title={props.title}
-        color={props.color}
-        circ={props.circ}
-      />
+      <Header type={props.type} title={props.title} color={props.color} circ={props.circ} />
       <div
         color={props.color}
         className={`block__background ${props.type}__background`}
@@ -25,11 +18,7 @@ export default function _Block(props) {
         }}
       />
 
-      <div
-        className={`block__content ${props.type}__content ${
-          props.wip ? "block__content--wip" : ""
-        }`}
-      >
+      <div className={`block__content ${props.type}__content ${props.wip ? "block__content--wip" : ""}`}>
         {!props.wip ? (
           props.children
         ) : (

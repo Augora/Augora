@@ -4,11 +4,15 @@
 
 @import "easing";
 
+/*----------------------------------------------------*/
+
 $roboto: "Roboto Slab", "Open Sans", sans-serif;
 $opensans: "Open Sans", sans-serif;
 
 $font: $opensans;
 $font-title: $roboto;
+
+/*----------------------------------------------------*/
 
 $black: #101010;
 $trueblack: #000000;
@@ -22,8 +26,11 @@ $darkergrey: #4d4d4d;
 $teal: #14ccae;
 $turquoise: #00bbcc;
 
+/*----------------------------------------------------*/
+
 $main-color: $turquoise;
 $secondary-color: $teal;
+
 $text-color: $darkergrey;
 $frame-color: $lithestgrey;
 $btn-hover: $lightergrey;
