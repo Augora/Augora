@@ -7,7 +7,6 @@ import lt from "images/logos/groupes-parlementaires/lt/lt_blanc.png"
 import modem from "images/logos/groupes-parlementaires/modem/modem_blanc.png"
 import ni from "images/logos/groupes-parlementaires/ni/ni_blanc.png"
 import ps from "images/logos/groupes-parlementaires/ps/ps_blanc.png"
-import eds from "images/logos/groupes-parlementaires/eds/eds_blanc.png"
 import ae from "images/logos/groupes-parlementaires/ae/ae_blanc.png"
 import udicolor from "images/logos/groupes-parlementaires/udi/udi_color.png"
 import gdrcolor from "images/logos/groupes-parlementaires/gdr/gdr_color.png"
@@ -18,7 +17,6 @@ import ltcolor from "images/logos/groupes-parlementaires/lt/lt_color.png"
 import modemcolor from "images/logos/groupes-parlementaires/modem/modem_color.png"
 import nicolor from "images/logos/groupes-parlementaires/ni/ni_color.png"
 import pscolor from "images/logos/groupes-parlementaires/ps/ps_color.png"
-import edscolor from "images/logos/groupes-parlementaires/eds/eds_color.png"
 import aecolor from "images/logos/groupes-parlementaires/ae/ae_color.png"
 
 export const calculateNbDepute = (list, type, value) => {
@@ -57,9 +55,7 @@ export const filterList = (list, state) => {
       return state.SexValue[depute.Sexe] ? true : false
     })
     .filter((depute) => {
-      return (
-        depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
-      )
+      return depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
     })
 }
 
@@ -76,9 +72,7 @@ export const groupeIconByGroupeSigle = (groupe, isDisabled) => {
       isDisabled ? (selectedGroupeIcon = ltcolor) : (selectedGroupeIcon = lt)
       break
     case "MODEM":
-      isDisabled
-        ? (selectedGroupeIcon = modemcolor)
-        : (selectedGroupeIcon = modem)
+      isDisabled ? (selectedGroupeIcon = modemcolor) : (selectedGroupeIcon = modem)
       break
     case "SOC":
       isDisabled ? (selectedGroupeIcon = pscolor) : (selectedGroupeIcon = ps)
@@ -87,18 +81,13 @@ export const groupeIconByGroupeSigle = (groupe, isDisabled) => {
       isDisabled ? (selectedGroupeIcon = lrcolor) : (selectedGroupeIcon = lr)
       break
     case "LREM":
-      isDisabled
-        ? (selectedGroupeIcon = lremcolor)
-        : (selectedGroupeIcon = lrem)
+      isDisabled ? (selectedGroupeIcon = lremcolor) : (selectedGroupeIcon = lrem)
       break
     case "UDI":
       isDisabled ? (selectedGroupeIcon = udicolor) : (selectedGroupeIcon = udi)
       break
     case "UAI":
       isDisabled ? (selectedGroupeIcon = udicolor) : (selectedGroupeIcon = udi)
-      break
-    case "EDS":
-      isDisabled ? (selectedGroupeIcon = edscolor) : (selectedGroupeIcon = eds)
       break
     case "AE":
       isDisabled ? (selectedGroupeIcon = aecolor) : (selectedGroupeIcon = ae)

@@ -2,12 +2,11 @@
 // Imports
 /*----------------------------------------------------*/
 
-// Fonts
+// global
 // -----------------------------------------------------
 @import "global/font";
-// Variables
-// -----------------------------------------------------
 @import "global/variables";
+@import "global/animations";
 
 // Layout
 // -----------------------------------------------------
@@ -25,7 +24,8 @@
 @import "components/header/header";
 @import "components/footer/footer";
 @import "components/tooltip/tooltip";
-@import "components/tooltip/simple-tooltip";
+@import "components/filters";
+@import "components/buttons/button";
 // Templates
 // -----------------------------------------------------
 @import "templates/deputy";

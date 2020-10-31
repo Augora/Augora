@@ -5,8 +5,11 @@
   "version": "0.2.0",
   "author": "",
   "dependencies": {
-    "@nivo/bar": "0.62.0",
-    "@nivo/pie": "0.62.0",
+    "@nivo/bar": "0.63.1",
+    "@nivo/pie": "0.63.1",
+    "apollo-link": "^1.2.14",
+    "apollo-link-http": "^1.5.17",
+    "apollo-link-retry": "^2.2.16",
     "fuse.js": "3.4.6",
     "gatsby": "2.24.11",
     "gatsby-plugin-layout": "^1.3.10",
@@ -21,18 +24,19 @@
     "gatsby-source-graphql": "^2.6.2",
     "graphql": "14.7.0",
     "lodash": "^4.17.20",
-    "mapbox-gl": "1.11.1",
+    "mapbox-gl": "1.12.0",
     "moment-with-locales-es6": "^1.0.1",
+    "node-fetch": "^2.6.1",
     "node-sass": "4.14.1",
-    "prettier": "2.0.5",
+    "prettier": "2.1.2",
     "react": "16.13.1",
     "react-compound-slider": "2.5.0",
     "react-dom": "16.13.1",
     "react-helmet": "6.1.0",
     "react-lazy-load-image-component": "^1.5.0",
-    "react-map-gl": "^5.2.8",
+    "react-map-gl": "^5.2.9",
     "react-use-fuzzy": "1.0.4",
-    "typescript": "3.9.7"
+    "typescript": "4.0.5"
   },
   "resolutions": {
     "graphql": "14.7.0"

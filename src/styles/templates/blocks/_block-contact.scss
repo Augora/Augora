@@ -6,6 +6,7 @@
   .contact {
     &__content {
       align-items: center;
+      justify-content: center;
       & > .icon-wrapper {
         height: calc(75% - 75px);
         opacity: 0.04;
@@ -18,6 +19,8 @@
       justify-content: center;
 
       max-width: calc(100% - 50px);
+
+      padding: 20px 0;
       button,
       a {
         display: flex;
@@ -76,8 +79,10 @@
           }
         }
 
-        .simple-tooltip {
+        .copy-tooltip {
+          position: absolute;
           transition: top 0.3s $ease-in-out-cubic;
+          min-width: unset;
           opacity: 0;
           top: -30px;
           &--visible {
@@ -109,9 +114,12 @@
     &__separator {
       width: 70%;
       height: 1px;
-      top: 100%;
+
+      position: relative;
+      bottom: -20px;
+
       margin: 0 auto;
-      // transform: translate(-50%, 0);
+
       background-color: $text-color;
       opacity: 0.5;
     }

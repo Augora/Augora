@@ -1,12 +1,14 @@
 import React from "react"
 
 export interface ITooltip {
+  children?: React.ReactNode
   title?: string
   color?: string
   age?: number
-  nbDeputes: number
-  totalDeputes: number
-  hideNbDeputes?: boolean
+  nbDeputes?: number
+  totalDeputes?: number
+  style?: React.CSSProperties
+  className?: string
 }
 
 /**
@@ -20,7 +22,10 @@ export interface ITooltip {
  */
 export default function Tooltip(props: ITooltip) {
   return (
-    <div className="tooltip">
+    <div
+      className={`tooltip ${props.className ? props.className : ""}`}
+      style={props.style}
+    >
       {props.age ? (
         <div className="tooltip__age">
           <span>{props.age}</span>
@@ -37,25 +42,23 @@ export default function Tooltip(props: ITooltip) {
           {props.title}
         </div>
       ) : null}
-      <div
-        className={`tooltip__numbers ${
-          props.hideNbDeputes ? "tooltip__numbers--centered" : ""
-        }`}
-      >
-        {!props.hideNbDeputes ? (
+      <div className="tooltip__content">{props.children}</div>
+      {props.totalDeputes !== undefined && props.nbDeputes !== undefined ? (
+        <div className="tooltip__numbers">
           <div className="tooltip__value">
             <span>{props.nbDeputes}</span>
             <small>{props.nbDeputes > 1 ? "Députés" : "Député"}</small>
           </div>
-        ) : null}
-        <div className="tooltip__percentage">
-          {props.totalDeputes > 0
-            ? Math.round(((props.nbDeputes * 100) / props.totalDeputes) * 10) /
-              10
-            : 0}
-          %
+          <div className="tooltip__percentage">
+            {props.totalDeputes > 0
+              ? Math.round(
+                  ((props.nbDeputes * 100) / props.totalDeputes) * 10
+                ) / 10
+              : 0}
+            %
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   )
 }
