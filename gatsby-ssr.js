@@ -2,10 +2,7 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import DeputiesListProvider from "./src/context/deputies-filters/deputiesFiltersContext"
 
-export const onRenderBody = (
-  { setHeadComponents, setHtmlAttributes, setBodyAttributes },
-  pluginOptions
-) => {
+export const onRenderBody = ({ setHeadComponents, setHtmlAttributes, setBodyAttributes }, pluginOptions) => {
   const helmet = Helmet.renderStatic()
   setHtmlAttributes(helmet.htmlAttributes.toComponent())
   setBodyAttributes(helmet.bodyAttributes.toComponent())

@@ -55,9 +55,7 @@ export const filterList = (list, state) => {
       return state.SexValue[depute.Sexe] ? true : false
     })
     .filter((depute) => {
-      return (
-        depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
-      )
+      return depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
     })
 }
 
@@ -74,9 +72,7 @@ export const groupeIconByGroupeSigle = (groupe, isDisabled) => {
       isDisabled ? (selectedGroupeIcon = ltcolor) : (selectedGroupeIcon = lt)
       break
     case "MODEM":
-      isDisabled
-        ? (selectedGroupeIcon = modemcolor)
-        : (selectedGroupeIcon = modem)
+      isDisabled ? (selectedGroupeIcon = modemcolor) : (selectedGroupeIcon = modem)
       break
     case "SOC":
       isDisabled ? (selectedGroupeIcon = pscolor) : (selectedGroupeIcon = ps)
@@ -85,9 +81,7 @@ export const groupeIconByGroupeSigle = (groupe, isDisabled) => {
       isDisabled ? (selectedGroupeIcon = lrcolor) : (selectedGroupeIcon = lr)
       break
     case "LREM":
-      isDisabled
-        ? (selectedGroupeIcon = lremcolor)
-        : (selectedGroupeIcon = lrem)
+      isDisabled ? (selectedGroupeIcon = lremcolor) : (selectedGroupeIcon = lrem)
       break
     case "UDI":
       isDisabled ? (selectedGroupeIcon = udicolor) : (selectedGroupeIcon = udi)

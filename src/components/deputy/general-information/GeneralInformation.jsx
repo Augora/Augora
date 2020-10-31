@@ -46,9 +46,7 @@ export default function GeneralInformation(props) {
       size={props.size}
       wip={props.wip ? props.wip : false}
     >
-      <div className="icon-wrapper">
-        {props.sexe === "F" ? <IconFemale /> : <IconMale />}
-      </div>
+      <div className="icon-wrapper">{props.sexe === "F" ? <IconFemale /> : <IconMale />}</div>
       <div className={`block__main general__main`}>
         <div className="main__picture">
           <div

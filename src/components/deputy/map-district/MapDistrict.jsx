@@ -64,17 +64,14 @@ export default function MapDistrict(props) {
   const districtPolygon = useMemo(() => {
     return GEOJsonDistrict.features.find((district) => {
       return (
-        district.properties.nom_dpt.toLowerCase() ===
-          retirerAccentsFR(props.nom.toLowerCase()) &&
+        district.properties.nom_dpt.toLowerCase() === retirerAccentsFR(props.nom.toLowerCase()) &&
         parseInt(district.properties.num_circ) === props.num
       )
     })
   }, [props.nom, props.num])
 
   //récupère la bounding box à paris du polygone de la circonscription
-  const districtBox = useMemo(() => getSelectedDistrictBox(districtPolygon), [
-    districtPolygon,
-  ])
+  const districtBox = useMemo(() => getSelectedDistrictBox(districtPolygon), [districtPolygon])
 
   //récupère le centre de la bounding box
   const districtCenter = useMemo(() => {
@@ -115,8 +112,7 @@ export default function MapDistrict(props) {
           touchZoom: true,
           scrollZoom: true,
         })
-      if (!userInteracted && (state.isPanning || state.isZooming))
-        setUserInteracted(true)
+      if (!userInteracted && (state.isPanning || state.isZooming)) setUserInteracted(true)
     } else if (interactionSettings.dragPan)
       setInteractionSettings({
         dragPan: false,
@@ -181,22 +177,9 @@ export default function MapDistrict(props) {
             />
           </Source>
           {viewport.zoom < 6 ? (
-            <Marker
-              latitude={districtCenter.lat}
-              longitude={districtCenter.lng}
-              offsetLeft={-15}
-              offsetTop={-30}
-            >
-              <Tooltip
-                className={`circ-tooltip ${
-                  pinClicked ? "circ-tooltip--visible" : ""
-                }`}
-              >
-                <span>
-                  {`${props.nom}, ${props.num}${
-                    props.num < 2 ? "ère " : "ème "
-                  }Circonscription `}
-                </span>
+            <Marker latitude={districtCenter.lat} longitude={districtCenter.lng} offsetLeft={-15} offsetTop={-30}>
+              <Tooltip className={`circ-tooltip ${pinClicked ? "circ-tooltip--visible" : ""}`}>
+                <span>{`${props.nom}, ${props.num}${props.num < 2 ? "ère " : "ème "}Circonscription `}</span>
               </Tooltip>
               <div
                 role="button"
@@ -211,17 +194,11 @@ export default function MapDistrict(props) {
             </Marker>
           ) : null}
           <div className="map__navigation">
-            <NavigationControl
-              showCompass={false}
-              zoomInLabel="Zoomer"
-              zoomOutLabel="Dézoomer"
-            />
+            <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
             <FullscreenControl />
             <ResetControl
               onReset={handleReset}
-              className={`map__navigation-reset ${
-                userInteracted ? "visible" : null
-              }`}
+              className={`map__navigation-reset ${userInteracted ? "visible" : null}`}
               title="Revenir à la position initiale"
             />
           </div>

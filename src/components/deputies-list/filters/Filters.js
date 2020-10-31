@@ -12,21 +12,12 @@ import Frame from "components/frames/Frame"
 import Button from "components/buttons/Button"
 import ButtonInput from "components/buttons/ButtonInput"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
-import {
-  calculateAgeDomain,
-  calculateNbDepute,
-  groupeIconByGroupeSigle,
-} from "../deputies-list-utils"
+import { calculateAgeDomain, calculateNbDepute, groupeIconByGroupeSigle } from "../deputies-list-utils"
 
 function Filters(props) {
-  const {
-    state,
-    handleSearchValue,
-    handleClickOnGroupe,
-    handleClickOnSex,
-    handleAgeSelection,
-    handleReset,
-  } = useContext(DeputiesListContext)
+  const { state, handleSearchValue, handleClickOnGroupe, handleClickOnSex, handleAgeSelection, handleReset } = useContext(
+    DeputiesListContext
+  )
 
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
   const searchField = useRef(null)
@@ -47,22 +38,12 @@ function Filters(props) {
         checked={state.GroupeValue[groupe.Sigle]}
       >
         <div className="groupe__img-container">
-          <img
-            src={groupeIconByGroupeSigle(groupe.Sigle, false)}
-            alt={`Icône groupe parlementaire ${groupe.Sigle}`}
-          />
-          <img
-            src={groupeIconByGroupeSigle(groupe.Sigle, true)}
-            alt={`Icône groupe parlementaire ${groupe.Sigle} en couleur`}
-          />
+          <img src={groupeIconByGroupeSigle(groupe.Sigle, false)} alt={`Icône groupe parlementaire ${groupe.Sigle}`} />
+          <img src={groupeIconByGroupeSigle(groupe.Sigle, true)} alt={`Icône groupe parlementaire ${groupe.Sigle} en couleur`} />
         </div>
         <Tooltip
           title={groupe.NomComplet}
-          nbDeputes={calculateNbDepute(
-            state.FilteredList,
-            "groupe",
-            groupe.Sigle
-          )}
+          nbDeputes={calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)}
           totalDeputes={state.FilteredList.length}
           color={groupe.Couleur}
         />
@@ -74,21 +55,13 @@ function Filters(props) {
     <Frame
       className="frame-filters"
       title="Filtres"
-      center={`${state.FilteredList.length} ${
-        state.FilteredList.length > 1 ? "Députés" : "Député"
-      }`}
+      center={`${state.FilteredList.length} ${state.FilteredList.length > 1 ? "Députés" : "Député"}`}
       right={`
-        ${
-          Math.round(
-            ((state.FilteredList.length * 100) / state.DeputiesList.length) * 10
-          ) / 10
-        }%
+        ${Math.round(((state.FilteredList.length * 100) / state.DeputiesList.length) * 10) / 10}%
       `}
     >
       <form
-        className={`filters__search ${
-          isSearchInteracted ? "filters__search--focus" : ""
-        }`}
+        className={`filters__search ${isSearchInteracted ? "filters__search--focus" : ""}`}
         onSubmit={(e) => {
           e.preventDefault()
           searchField.current.blur()
@@ -109,11 +82,7 @@ function Filters(props) {
           onFocus={() => setIsSearchInteracted(true)}
           onBlur={() => setIsSearchInteracted(false)}
         />
-        <div
-          className={`search__clear ${
-            state.Keyword.length > 0 ? "search__clear--visible" : ""
-          }`}
-        >
+        <div className={`search__clear ${state.Keyword.length > 0 ? "search__clear--visible" : ""}`}>
           <input
             className="search__clear-btn"
             type="reset"
@@ -131,9 +100,7 @@ function Filters(props) {
       <div className="filters__middle-line">
         <div className="filters__sexes">
           <Button
-            className={`sexes__btn female ${
-              state.SexValue["F"] ? "checked" : ""
-            }`}
+            className={`sexes__btn female ${state.SexValue["F"] ? "checked" : ""}`}
             onClick={() => handleClickOnSex("F")}
             color="main"
             checked={state.SexValue.F}
@@ -149,9 +116,7 @@ function Filters(props) {
             />
           </Button>
           <Button
-            className={`sexes__btn male ${
-              state.SexValue["H"] ? "checked" : ""
-            }`}
+            className={`sexes__btn male ${state.SexValue["H"] ? "checked" : ""}`}
             onClick={(e) => handleClickOnSex("H")}
             color="secondary"
             checked={state.SexValue.H}
@@ -168,21 +133,13 @@ function Filters(props) {
           </Button>
         </div>
         <div className="filters__groupe">{allGroupes}</div>
-        <Button
-          className="reset__btn"
-          onClick={() => handleReset()}
-          title="Réinitialiser les filtres"
-        >
+        <Button className="reset__btn" onClick={() => handleReset()} title="Réinitialiser les filtres">
           <div className="icon-wrapper">
             <IconReset />
           </div>
         </Button>
       </div>
-      <AgeSlider
-        selectedDomain={state.AgeDomain}
-        domain={calculateAgeDomain(state.DeputiesList)}
-        callback={handleAgeSelection}
-      >
+      <AgeSlider selectedDomain={state.AgeDomain} domain={calculateAgeDomain(state.DeputiesList)} callback={handleAgeSelection}>
         <span className="filters__slider-label">ÂGE</span>
       </AgeSlider>
     </Frame>
