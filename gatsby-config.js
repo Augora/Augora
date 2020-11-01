@@ -5,6 +5,10 @@ const { HttpLink } = require("apollo-link-http")
 const { RetryLink } = require("apollo-link-retry")
 const fetch = require("node-fetch")
 
+require("dotenv").config({
+  path: ".env.local",
+})
+
 module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
