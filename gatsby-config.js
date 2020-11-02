@@ -5,6 +5,10 @@ const { HttpLink } = require("apollo-link-http")
 const { RetryLink } = require("apollo-link-retry")
 const fetch = require("node-fetch")
 
+require("dotenv").config({
+  path: ".env.local",
+})
+
 module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -45,10 +49,7 @@ module.exports = {
             new HttpLink({
               uri: "https://graphql.fauna.com/graphql",
               headers: {
-                Authorization: `Bearer ${
-                  process.env.FAUNADB_TOKEN ||
-                  "fnADtFRXPrACB6WCFPNkcNwEOSCfXW574OOspy5t"
-                }`,
+                Authorization: `Bearer ${process.env.FAUNADB_TOKEN || "fnADtFRXPrACB6WCFPNkcNwEOSCfXW574OOspy5t"}`,
               },
               fetch,
             }),
@@ -72,10 +73,7 @@ module.exports = {
       resolve: `gatsby-plugin-web-font-loader`,
       options: {
         google: {
-          families: [
-            "Open Sans:100,200,300,400,500,600,700,800,900",
-            "Roboto Slab:100,200,300,400,500,600,700,800,900",
-          ],
+          families: ["Open Sans:100,200,300,400,500,600,700,800,900", "Roboto Slab:100,200,300,400,500,600,700,800,900"],
         },
         custom: {
           families: ["Augora"],

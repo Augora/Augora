@@ -28,9 +28,7 @@ const Rectangles = () => {
         height={svgHeight}
         style={{
           fill: `rgba(255,255,255,${Math.random() * 0.05 + 0.05})`,
-          transform: `skew(-${rectSkew}deg) translate3d(${
-            Math.random() * 500 - 250
-          }px, 0, 0)`,
+          transform: `skew(-${rectSkew}deg) translate3d(${Math.random() * 500 - 250}px, 0, 0)`,
         }}
       />
     )

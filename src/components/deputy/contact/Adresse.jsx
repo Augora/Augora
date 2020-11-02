@@ -20,17 +20,8 @@ export default function Adresse(props) {
 
   return (
     <div className="contact__adresse" key={`adresse-${props.index}`}>
-      <button
-        onClick={() =>
-          handleClick(props.adresseDetails.Adresse, setCopyClicked)
-        }
-        title="Copier"
-      >
-        <Tooltip
-          className={`copy-tooltip ${
-            copyClicked ? "copy-tooltip--visible" : ""
-          }`}
-        >
+      <button onClick={() => handleClick(props.adresseDetails.Adresse, setCopyClicked)} title="Copier">
+        <Tooltip className={`copy-tooltip ${copyClicked ? "copy-tooltip--visible" : ""}`}>
           <span>Copié !</span>
         </Tooltip>
         <p className="adresse__street">{props.formatedAddress[0]}</p>
@@ -40,11 +31,7 @@ export default function Adresse(props) {
         </div>
       </button>
       {props.adresseDetails.Telephone ? (
-        <a
-          className="contact__tel"
-          href={`tel: ${props.adresseDetails.Telephone}`}
-          title="Appeler le numéro"
-        >
+        <a className="contact__tel" href={`tel: ${props.adresseDetails.Telephone}`} title="Appeler le numéro">
           {formatTelephoneNumber(props.adresseDetails.Telephone)}
           <div className="tel__icon icon-wrapper">
             <IconTel />

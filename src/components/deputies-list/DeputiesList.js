@@ -17,11 +17,7 @@ const DeputiesList = (props) => {
   }
 
   const groupesData = state.GroupesList.map((groupe) => {
-    const nbDeputeGroup = calculateNbDepute(
-      state.FilteredList,
-      "groupe",
-      groupe.Sigle
-    )
+    const nbDeputeGroup = calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)
     return Object.assign({
       id: groupe.Sigle,
       label: groupe.NomComplet,
@@ -83,11 +79,7 @@ const DeputiesList = (props) => {
                   role="button"
                   tabIndex={0}
                 >
-                  <PieChart
-                    data={groupesData}
-                    filteredDeputies={state.FilteredList.length}
-                    groupesDetails={state.GroupesList}
-                  />
+                  <PieChart data={groupesData} filteredDeputies={state.FilteredList.length} groupesDetails={state.GroupesList} />
                 </div>
               ) : (
                 <div
@@ -97,11 +89,7 @@ const DeputiesList = (props) => {
                   role="button"
                   tabIndex={0}
                 >
-                  <BarChart
-                    data={groupesData}
-                    filteredDeputies={state.FilteredList.length}
-                    groupesDetails={state.GroupesList}
-                  />
+                  <BarChart data={groupesData} filteredDeputies={state.FilteredList.length} groupesDetails={state.GroupesList} />
                 </div>
               )}
             </div>
@@ -119,9 +107,7 @@ const DeputiesList = (props) => {
             )
           })
         ) : (
-          <div className="deputies__no-result">
-            Aucun résultat ne correspond à votre recherche
-          </div>
+          <div className="deputies__no-result">Aucun résultat ne correspond à votre recherche</div>
         )}
       </section>
     </>

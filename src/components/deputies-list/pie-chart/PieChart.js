@@ -32,8 +32,7 @@ const PieChart = (props) => {
       motionDamping={15}
       tooltip={(tooltipInfo) => {
         return Tooltip({
-          title: props.groupesDetails.find((g) => g.Sigle === tooltipInfo.id) //iterate through groupedetails's acronym list until it find the correct one
-            .NomComplet, //retrieve the full name of that acronym
+          title: props.groupesDetails.find((g) => g.Sigle === tooltipInfo.id).NomComplet, //iterate through groupedetails's acronym list until it find the correct one //retrieve the full name of that acronym
           nbDeputes: tooltipInfo.value,
           totalDeputes: props.filteredDeputies,
           color: tooltipInfo.color,
