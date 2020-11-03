@@ -386,32 +386,32 @@ export const getGhostZones = (feature: AugoraMap.Feature): AugoraMap.FeatureColl
 /**
  * Renvoie un array de députés dans une zone, une array avec un seul élément si la zone est une circonscription, ou une array vide si aucun député trouvé
  * @param {AugoraMap.Feature} feature La feature à analyser
- * @param {AugoraMap.DeputiesList} list La liste de députés à filtrer
+ * @param {AugoraMap.DeputiesList} deputies La liste de députés à filtrer
  */
-export const getDeputies = (feature: AugoraMap.Feature, list: AugoraMap.DeputiesList): AugoraMap.DeputiesList => {
+export const getDeputies = (feature: AugoraMap.Feature, deputies: AugoraMap.DeputiesList): AugoraMap.DeputiesList => {
   const zoneCode = getZoneCode(feature)
   const props = feature?.properties
   const contId = getContinent(feature)
 
   switch (zoneCode) {
     case Code.Cont:
-      return list.filter((i) => {
-        if (contId === Cont.OM) return parseInt(i.NumeroDepartement) > 900 && i.NumeroDepartement !== "999"
-        else if (contId === Cont.Hors) return i.NumeroDepartement === "999"
-        else return parseInt(i.NumeroDepartement) < 900
+      return deputies.filter((deputy) => {
+        if (contId === Cont.OM) return parseInt(deputy.NumeroDepartement) > 900 && deputy.NumeroDepartement !== "999"
+        else if (contId === Cont.Hors) return deputy.NumeroDepartement === "999"
+        else return parseInt(deputy.NumeroDepartement) < 900
       })
     case Code.Reg:
-      return list.filter((i) => {
-        return i.NumeroRegion == props[Code.Reg]
+      return deputies.filter((deputy) => {
+        return deputy.NumeroRegion == props[Code.Reg]
       })
     case Code.Dpt:
-      return list.filter((i) => {
-        return i.NumeroDepartement == props[Code.Dpt]
+      return deputies.filter((deputy) => {
+        return deputy.NumeroDepartement == props[Code.Dpt]
       })
     case Code.Circ:
       return [
-        list.find((i) => {
-          return i.NumeroCirconscription == props[Code.Circ] && i.NumeroDepartement == props[Code.Dpt]
+        deputies.find((deputy) => {
+          return deputy.NumeroCirconscription == props[Code.Circ] && deputy.NumeroDepartement == props[Code.Dpt]
         }),
       ]
     default:
