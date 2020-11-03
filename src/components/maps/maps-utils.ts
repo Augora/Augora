@@ -1,8 +1,12 @@
 import { WebMercatorViewport, FlyToInterpolator } from "react-map-gl"
 import polylabel from "polylabel"
-import GEOJsonDistrictFile from "static/circonscriptions.json"
-import GEOJsonDptFile from "static/departements.json"
-import GEOJsonRegFile from "static/regions.json"
+import MetroFranceContFile from "static/cont-france.json"
+import MetroRegFile from "static/reg-metro.json"
+import MetroDptFile from "static/dpt-metro.json"
+import OMDptFile from "static/dpt-om.json"
+import MetroCircFile from "static/circ-metro.json"
+import OMCircFile from "static/circ-om.json"
+import HorsCircFile from "static/circ-hors.json"
 
 /**
  * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
@@ -57,9 +61,7 @@ export const createFeature = (
  * Formate une feature array sous forme feature collection GEOJson
  * @param {AugoraMap.Feature[]} featureArray La feature collection renvoyée sera vide sans cet argument
  */
-export const createFeatureCollection = (
-  featureArray?: AugoraMap.Feature[]
-): AugoraMap.FeatureCollection => {
+export const createFeatureCollection = (featureArray?: AugoraMap.Feature[]): AugoraMap.FeatureCollection => {
   return {
     type: "FeatureCollection",
     features: featureArray ? featureArray : [],
@@ -67,73 +69,23 @@ export const createFeatureCollection = (
 }
 
 /**
- * Renvoie une feature collection sans les DROM-TOM-COM
- * @param {AugoraMap.FeatureCollection} file Le fichier à filtrer
+ * Feature collection GeoJSON de tous les départements
  */
-const removeOutreMer = (
-  file: AugoraMap.FeatureCollection
-): AugoraMap.FeatureCollection => {
-  return createFeatureCollection(
-    file.features.filter(
-      (feature) => feature.properties[Code.Reg] !== undefined
-    )
-  )
-}
-
-/**
- * Feature collection GeoJSON des circonscriptions sans les DROM-COM
- */
-export const GEOJsonDistrict: AugoraMap.FeatureCollection = removeOutreMer(
-  GEOJsonDistrictFile
-)
-
-/**
- * Feature collection GeoJSON des départements sans les DROM-COM
- */
-export const GEOJsonDpt: AugoraMap.FeatureCollection = removeOutreMer(
-  GEOJsonDptFile
-)
-
-/**
- * Feature collection GeoJSON des régions sans les DROM-COM
- */
-export const GEOJsonReg: AugoraMap.FeatureCollection = GEOJsonRegFile
-
-/**
- * Feature collection GeoJSON des circonscriptions DROM-COM
- */
-export const OMGEOJsonDistrict: AugoraMap.FeatureCollection = createFeatureCollection(
-  GEOJsonDistrictFile.features.filter(
-    (feature) =>
-      feature.properties[Code.Dpt] > 900 && feature.properties[Code.Dpt] !== 999
-  )
-)
-
-/**
- * Feature collection GeoJSON des départements / régions / collectivités DROM-COM
- */
-export const OMGEOJsonDpt: AugoraMap.FeatureCollection = createFeatureCollection(
-  GEOJsonDptFile.features.filter(
-    (feature) =>
-      feature.properties[Code.Dpt] > 900 && feature.properties[Code.Dpt] !== 999
-  )
-)
-
-/**
- * Feature collection GeoJSON des circonscriptions hors de france
- */
-export const HorsGEOJsonDistrict: AugoraMap.FeatureCollection = createFeatureCollection(
-  GEOJsonDistrictFile.features.filter(
-    (feature) => feature.properties[Code.Dpt] === "999"
-  )
-)
+export const AllReg: AugoraMap.FeatureCollection = MetroRegFile
 
 /**
  * Feature collection GeoJSON de tous les départements
  */
-export const AllGEOJsonDpt: AugoraMap.FeatureCollection = createFeatureCollection(
-  [...GEOJsonDpt.features, ...OMGEOJsonDpt.features]
-)
+export const AllCirc: AugoraMap.FeatureCollection = createFeatureCollection([
+  ...MetroCircFile.features,
+  ...OMCircFile.features,
+  ...HorsCircFile.features,
+])
+
+/**
+ * Feature collection GeoJSON de tous les départements
+ */
+export const AllDpt: AugoraMap.FeatureCollection = createFeatureCollection([...MetroDptFile.features, ...OMDptFile.features])
 
 /**
  * Différentes coordonnées de la france métropolitaine
@@ -165,10 +117,7 @@ export const worldBox: AugoraMap.Bounds = [
 /**
  * Pseudo-feature de la france metropolitaine
  */
-export const metroFranceFeature: AugoraMap.Feature = createFeature(
-  "France métropolitaine",
-  { code_cont: Cont.France }
-)
+export const MetroFeature: AugoraMap.Feature = MetroFranceContFile
 
 /**
  * Pseudo-feature des DROM-COM
@@ -187,19 +136,14 @@ export const HorsFeature: AugoraMap.Feature = createFeature("Hors de France", {
 /**
  * Pseudo feature collection des continents
  */
-export const GEOJsonCont: AugoraMap.FeatureCollection = createFeatureCollection(
-  [metroFranceFeature, OMFeature, HorsFeature]
-)
+export const GEOJsonCont: AugoraMap.FeatureCollection = createFeatureCollection([MetroFeature, OMFeature, HorsFeature])
 
 /**
  * Renvoie une bounding box utilisable par mapbox depuis un array GEOJson coordinates de type polygon ou multipolygon
  * @param {AugoraMap.Position} coordinates L'array de coordonnées GEOJson
  * @param {boolean} [multiPolygon] Mettre true si les coordonnées envoyées sont de type multipolygon
  */
-const getBoundingBoxFromCoordinates = (
-  coordinates: AugoraMap.Position,
-  multiPolygon?: boolean
-): AugoraMap.Bounds => {
+const getBoundingBoxFromCoordinates = (coordinates: AugoraMap.Position, multiPolygon?: boolean): AugoraMap.Bounds => {
   var boxListOfLng = []
   var boxListOfLat = []
 
@@ -227,9 +171,7 @@ const getBoundingBoxFromCoordinates = (
  * Renvoie une bounding box utilisable par mapbox depuis un ou plusieurs polygones GeoJSON
  * @param {AugoraMap.Feature} feature Une feature GeoJSON de type polygon ou multipolygone
  */
-export const getBoundingBoxFromFeature = (
-  feature: AugoraMap.Feature
-): AugoraMap.Bounds => {
+export const getBoundingBoxFromFeature = (feature: AugoraMap.Feature): AugoraMap.Bounds => {
   if (feature?.geometry?.type) {
     if (getZoneCode(feature) !== Code.Cont)
       return feature.geometry.type === "Polygon"
@@ -244,13 +186,8 @@ export const getBoundingBoxFromFeature = (
  * Renvoie les coordonnées du centre d'une bounding box
  * @param {AugoraMap.Bounds} bbox Bounding box de type [[number, number], [number, number]]
  */
-export const getBoundingBoxCenter = (
-  bbox: AugoraMap.Bounds
-): AugoraMap.Coordinates => {
-  return [
-    bbox[1][0] - (bbox[1][0] - bbox[0][0]) / 2,
-    bbox[1][1] - (bbox[1][1] - bbox[0][1]) / 2,
-  ]
+export const getBoundingBoxCenter = (bbox: AugoraMap.Bounds): AugoraMap.Coordinates => {
+  return [bbox[1][0] - (bbox[1][0] - bbox[0][0]) / 2, bbox[1][1] - (bbox[1][1] - bbox[0][1]) / 2]
 }
 
 /**
@@ -265,17 +202,13 @@ export const getBoundingBoxSize = (bbox: AugoraMap.Bounds): number => {
  * Renvoie les coordonnées du centre visuel d'une feature GEOJson de type polygon ou multipolygon en utilisant la lib polylabel
  * @param {AugoraMap.Feature} polygon La feature contenant le ou les polygones
  */
-export const getPolygonCenter = (
-  polygon: AugoraMap.Feature
-): AugoraMap.Coordinates => {
+export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordinates => {
   if (polygon.geometry.type === "Polygon") {
     return polylabel(polygon.geometry.coordinates) as AugoraMap.Coordinates
   } else if (polygon.geometry.type === "MultiPolygon") {
     return polylabel(
       polygon.geometry.coordinates.reduce((acc, element) => {
-        const elementSize = getBoundingBoxSize(
-          getBoundingBoxFromCoordinates(element)
-        )
+        const elementSize = getBoundingBoxSize(getBoundingBoxFromCoordinates(element))
         const accSize = getBoundingBoxSize(getBoundingBoxFromCoordinates(acc))
 
         return elementSize > accSize ? element : acc
@@ -295,9 +228,7 @@ export const flyToBounds = (
   viewState: any,
   setViewState: React.Dispatch<React.SetStateAction<{}>>
 ): void => {
-  const bounds = new WebMercatorViewport(
-    viewState
-  ).fitBounds(getBoundingBoxFromFeature(feature), { padding: 100 })
+  const bounds = new WebMercatorViewport(viewState).fitBounds(getBoundingBoxFromFeature(feature), { padding: 100 })
   setViewState({
     ...bounds,
     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
@@ -352,11 +283,7 @@ export const getMouseEventFeature = (e): AugoraMap.Feature => {
     if (e.features[0]?.properties) {
       const featureProps = e.features[0].properties
       const zoneCode = getZoneCode(e.features[0])
-      return getFeature(
-        featureProps[zoneCode],
-        zoneCode,
-        zoneCode === Code.Circ ? featureProps[Code.Dpt] : null
-      )
+      return getFeature(featureProps[zoneCode], zoneCode, zoneCode === Code.Circ ? featureProps[Code.Dpt] : null)
     } else return null
   } else return null
 }
@@ -367,32 +294,16 @@ export const getMouseEventFeature = (e): AugoraMap.Feature => {
  * @param {Code} Code Le code de la zone
  * @param {number} [dptID] L'id du département, obligatoire si c'est une circonscription
  */
-export const getFeature = (
-  zoneId: number | string,
-  zoneCode: Code,
-  dptId?: number
-): AugoraMap.Feature => {
+export const getFeature = (zoneId: number | string, zoneCode: Code, dptId?: number): AugoraMap.Feature => {
   switch (zoneCode) {
     case Code.Cont:
-      return GEOJsonCont.features.find(
-        (entry) => entry.properties[zoneCode] == zoneId
-      )
+      return GEOJsonCont.features.find((entry) => entry.properties[zoneCode] == zoneId)
     case Code.Reg:
-      return GEOJsonReg.features.find(
-        (entry) => entry.properties[zoneCode] == zoneId
-      )
+      return MetroRegFile.features.find((entry) => entry.properties[zoneCode] == zoneId)
     case Code.Dpt:
-      return zoneId !== "999"
-        ? AllGEOJsonDpt.features.find(
-            (entry) => entry.properties[zoneCode] == zoneId
-          )
-        : HorsFeature
+      return zoneId !== "999" ? AllDpt.features.find((entry) => entry.properties[zoneCode] == zoneId) : HorsFeature
     case Code.Circ:
-      return GEOJsonDistrictFile.features.find(
-        (entry) =>
-          entry.properties[zoneCode] == zoneId &&
-          entry.properties[Code.Dpt] == dptId
-      )
+      return AllCirc.features.find((entry) => entry.properties[zoneCode] == zoneId && entry.properties[Code.Dpt] == dptId)
     default:
       return null
   }
@@ -402,30 +313,21 @@ export const getFeature = (
  * Renvoie une feature collection GEOJson contenant les zones enfant de la feature fournie
  * @param {AugoraMap.Feature} feature La feature à analyser
  */
-export const getChildFeatures = (
-  feature: AugoraMap.Feature
-): AugoraMap.FeatureCollection => {
+export const getChildFeatures = (feature: AugoraMap.Feature): AugoraMap.FeatureCollection => {
   const zoneCode = getZoneCode(feature)
 
   switch (zoneCode) {
     case Code.Cont:
-      if (feature.properties[zoneCode] === Cont.OM) return OMGEOJsonDpt
-      else if (feature.properties[zoneCode] === Cont.Hors)
-        return HorsGEOJsonDistrict
-      else return GEOJsonReg
+      if (feature.properties[zoneCode] === Cont.OM) return OMDptFile
+      else if (feature.properties[zoneCode] === Cont.Hors) return HorsCircFile
+      else return MetroRegFile
     case Code.Reg:
       return createFeatureCollection(
-        GEOJsonDpt.features.filter(
-          (element) =>
-            element.properties[zoneCode] === feature.properties[zoneCode]
-        )
+        AllDpt.features.filter((element) => element.properties[zoneCode] === feature.properties[zoneCode])
       )
     case Code.Dpt:
       return createFeatureCollection(
-        GEOJsonDistrictFile.features.filter(
-          (element) =>
-            element.properties[zoneCode] === feature.properties[zoneCode]
-        )
+        AllCirc.features.filter((element) => element.properties[zoneCode] === feature.properties[zoneCode])
       )
     default:
       return createFeatureCollection()
@@ -436,37 +338,25 @@ export const getChildFeatures = (
  * Renvoie une feature array contenant toutes les zones soeurs de la zone fournie
  * @param {AugoraMap.Feature} feature La feature à analyser
  */
-export const getSisterFeatures = (
-  feature: AugoraMap.Feature
-): AugoraMap.Feature[] => {
+export const getSisterFeatures = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
   const zoneCode = getZoneCode(feature)
   const props = feature?.properties
   const contId = getContinent(feature)
 
   switch (zoneCode) {
     case Code.Cont:
-      return GEOJsonCont.features.filter(
-        (entry) => entry.properties[zoneCode] !== props[zoneCode]
-      )
+      return GEOJsonCont.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode])
     case Code.Reg:
-      return GEOJsonReg.features.filter(
-        (entry) => entry.properties[zoneCode] !== props[zoneCode]
-      )
+      return MetroRegFile.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode])
     case Code.Dpt:
       return contId === Cont.France
-        ? GEOJsonDpt.features.filter(
-            (entry) =>
-              entry.properties[zoneCode] !== props[zoneCode] &&
-              entry.properties[Code.Reg] === props[Code.Reg]
+        ? MetroDptFile.features.filter(
+            (entry) => entry.properties[zoneCode] !== props[zoneCode] && entry.properties[Code.Reg] === props[Code.Reg]
           )
-        : OMGEOJsonDpt.features.filter(
-            (entry) => entry.properties[zoneCode] !== props[zoneCode]
-          )
+        : OMDptFile.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode])
     case Code.Circ:
-      return GEOJsonDistrictFile.features.filter(
-        (entry) =>
-          entry.properties[zoneCode] !== props[zoneCode] &&
-          entry.properties[Code.Dpt] === props[Code.Dpt]
+      return AllCirc.features.filter(
+        (entry) => entry.properties[zoneCode] !== props[zoneCode] && entry.properties[Code.Dpt] === props[Code.Dpt]
       )
     default:
       return []
@@ -477,16 +367,12 @@ export const getSisterFeatures = (
  * Renvoie une feature collection contenant les zones soeurs, et les zones soeurs parentes
  * @param {AugoraMap.Feature} feature La feature à analyser
  */
-export const getGhostZones = (
-  feature: AugoraMap.Feature
-): AugoraMap.FeatureCollection => {
+export const getGhostZones = (feature: AugoraMap.Feature): AugoraMap.FeatureCollection => {
   const zoneCode = getZoneCode(feature)
   const contId = getContinent(feature)
 
   if (zoneCode === Code.Reg || Code.Dpt) {
-    const regSisters = getSisterFeatures(
-      getFeature(feature.properties[Code.Reg], Code.Reg)
-    )
+    const regSisters = getSisterFeatures(getFeature(feature.properties[Code.Reg], Code.Reg))
     if (zoneCode === Code.Reg) return createFeatureCollection(regSisters)
     else {
       const dptSisters = getSisterFeatures(feature)
@@ -502,10 +388,7 @@ export const getGhostZones = (
  * @param {AugoraMap.Feature} feature La feature à analyser
  * @param {AugoraMap.DeputiesList} list La liste de députés à filtrer
  */
-export const getDeputies = (
-  feature: AugoraMap.Feature,
-  list: AugoraMap.DeputiesList
-): AugoraMap.DeputiesList => {
+export const getDeputies = (feature: AugoraMap.Feature, list: AugoraMap.DeputiesList): AugoraMap.DeputiesList => {
   const zoneCode = getZoneCode(feature)
   const props = feature?.properties
   const contId = getContinent(feature)
@@ -513,10 +396,7 @@ export const getDeputies = (
   switch (zoneCode) {
     case Code.Cont:
       return list.filter((i) => {
-        if (contId === Cont.OM)
-          return (
-            parseInt(i.NumeroDepartement) > 900 && i.NumeroDepartement !== "999"
-          )
+        if (contId === Cont.OM) return parseInt(i.NumeroDepartement) > 900 && i.NumeroDepartement !== "999"
         else if (contId === Cont.Hors) return i.NumeroDepartement === "999"
         else return parseInt(i.NumeroDepartement) < 900
       })
@@ -531,10 +411,7 @@ export const getDeputies = (
     case Code.Circ:
       return [
         list.find((i) => {
-          return (
-            i.NumeroCirconscription == props[Code.Circ] &&
-            i.NumeroDepartement == props[Code.Dpt]
-          )
+          return i.NumeroCirconscription == props[Code.Circ] && i.NumeroDepartement == props[Code.Dpt]
         }),
       ]
     default:

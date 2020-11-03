@@ -2,7 +2,7 @@ import React from "react"
 import {
   Code,
   Cont,
-  metroFranceFeature,
+  MetroFeature,
   OMFeature,
   getContinent,
   getZoneCode,
@@ -30,14 +30,10 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
     case Code.Cont:
       return [feature]
     case Code.Reg:
-      return [metroFranceFeature, feature]
+      return [MetroFeature, feature]
     case Code.Dpt:
       return continentId === Cont.France
-        ? [
-            metroFranceFeature,
-            getFeature(feature.properties[Code.Reg], Code.Reg),
-            feature,
-          ]
+        ? [MetroFeature, getFeature(feature.properties[Code.Reg], Code.Reg), feature]
         : [OMFeature, feature]
     default:
       return []
@@ -45,10 +41,7 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
 }
 
 function MapBreadcrumbItem({ feature, handleClick }: IMapBreadcrumb) {
-  const sisterZones = sortBy(
-    getSisterFeatures(feature),
-    (o) => o.properties.nom
-  )
+  const sisterZones = sortBy(getSisterFeatures(feature), (o) => o.properties.nom)
 
   return (
     <div className="map__breadcrumb-item">
@@ -58,9 +51,7 @@ function MapBreadcrumbItem({ feature, handleClick }: IMapBreadcrumb) {
         title={`Revenir sur ${feature.properties.nom}`}
       >
         {feature.properties.nom}
-        {feature.properties.code_dpt
-          ? ` (${feature.properties.code_dpt})`
-          : null}
+        {feature.properties.code_dpt ? ` (${feature.properties.code_dpt})` : null}
       </button>
       <Tooltip className="map__breadcrumb-tooltip">
         {sisterZones.map((feat, index) => (
@@ -90,11 +81,7 @@ export default function MapBreadcrumb(props: IMapBreadcrumb) {
     <CustomControl>
       <div className="map__breadcrumb">
         {history.map((item, index) => (
-          <MapBreadcrumbItem
-            key={`breadcrumb-${index}`}
-            feature={item}
-            handleClick={props.handleClick}
-          />
+          <MapBreadcrumbItem key={`breadcrumb-${index}`} feature={item} handleClick={props.handleClick} />
         ))}
       </div>
     </CustomControl>

@@ -2,8 +2,7 @@ import React, { useState, useMemo } from "react"
 import ReactMapGL, { Source, Layer } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import { Link } from "gatsby"
-import { France, flyToBounds } from "components/maps/maps-utils"
-import GEOJsonDistrict from "static/circonscriptions.json"
+import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
 
 export default function MapDistrict(props) {
@@ -12,7 +11,7 @@ export default function MapDistrict(props) {
 
   //récupère le polygone de la circonscription
   const districtPolygon = useMemo(() => {
-    return GEOJsonDistrict.features.find((district) => {
+    return AllCirc.features.find((district) => {
       return district.properties.code_dpt === NumeroDepartement && district.properties.code_circ === NumeroCirconscription
     })
   }, [NumeroCirconscription, NumeroDepartement])

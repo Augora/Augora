@@ -1,20 +1,13 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
 import { navigate } from "gatsby"
-import InteractiveMap, {
-  NavigationControl,
-  FullscreenControl,
-  Source,
-  Layer,
-  LayerProps,
-  ViewState,
-} from "react-map-gl"
+import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   Code,
   Cont,
   France,
-  GEOJsonReg,
-  metroFranceFeature,
+  MetroFeature,
+  AllReg,
   OMFeature,
   flyToBounds,
   getContinent,
@@ -62,18 +55,8 @@ const fillLayerProps: LayerProps = {
   id: "zone-fill",
   type: "fill",
   paint: {
-    "fill-color": [
-      "case",
-      ["boolean", ["feature-state", "hover"], false],
-      "#14ccae",
-      "#00bbcc",
-    ],
-    "fill-opacity": [
-      "case",
-      ["boolean", ["feature-state", "hover"], false],
-      0.4,
-      0.1,
-    ],
+    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], "#14ccae", "#00bbcc"],
+    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.4, 0.1],
   },
 }
 
@@ -90,18 +73,8 @@ const fillGhostLayerProps: LayerProps = {
   id: "zone-ghost-fill",
   type: "fill",
   paint: {
-    "fill-color": [
-      "case",
-      ["boolean", ["feature-state", "hover"], false],
-      "#14ccae",
-      "#00bbcc",
-    ],
-    "fill-opacity": [
-      "case",
-      ["boolean", ["feature-state", "hover"], false],
-      0.4,
-      0.04,
-    ],
+    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], "#14ccae", "#00bbcc"],
+    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.4, 0.04],
   },
 }
 
@@ -144,9 +117,9 @@ export default function MapAugora(props: IMapAugora) {
     latitude: France.center.lat,
   })
   const [currentView, setCurrentView] = useState<ICurrentView>({
-    GEOJson: GEOJsonReg,
+    GEOJson: AllReg,
     zoneCode: Code.Reg,
-    zoneData: metroFranceFeature,
+    zoneData: MetroFeature,
     continentId: Cont.France,
   })
   const [hover, setHover] = useState<IHover>(null)
@@ -228,10 +201,7 @@ export default function MapAugora(props: IMapAugora) {
    */
   const resetHover = () => {
     if (hover) {
-      mapRef.current.setFeatureState(
-        { source: hover.source, id: hover.id },
-        { hover: false }
-      )
+      mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
       setHover(null)
     }
   }
@@ -240,19 +210,9 @@ export default function MapAugora(props: IMapAugora) {
     const feature = getMouseEventFeature(e)
     if (feature && viewState.zoom < 13) {
       const eventFeature = e.features[0]
-      if (
-        hover?.id !== eventFeature.id ||
-        hover?.source !== eventFeature.source
-      ) {
-        if (hover)
-          mapRef.current.setFeatureState(
-            { source: hover.source, id: hover.id },
-            { hover: false }
-          )
-        mapRef.current.setFeatureState(
-          { source: eventFeature.source, id: eventFeature.id },
-          { hover: true }
-        )
+      if (hover?.id !== eventFeature.id || hover?.source !== eventFeature.source) {
+        if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
+        mapRef.current.setFeatureState({ source: eventFeature.source, id: eventFeature.id }, { hover: true })
       }
       setHover({
         lngLat: e.lngLat,
@@ -284,12 +244,9 @@ export default function MapAugora(props: IMapAugora) {
   const handleBack = () => {
     if (currentView.continentId === Cont.France) {
       if (currentView.zoneCode === Code.Circ) {
-        const regionFeature = getFeature(
-          currentView.GEOJson.features[0].properties[Code.Reg],
-          Code.Reg
-        )
+        const regionFeature = getFeature(currentView.GEOJson.features[0].properties[Code.Reg], Code.Reg)
         changeZone(regionFeature)
-      } else changeZone(metroFranceFeature)
+      } else changeZone(MetroFeature)
     } else if (currentView.continentId === Cont.OM) {
       changeZone(OMFeature)
     }
@@ -331,48 +288,25 @@ export default function MapAugora(props: IMapAugora) {
         <Layer {...lineLayerProps} />
         <Layer {...fillLayerProps} />
       </Source>
-      <Source
-        type="geojson"
-        data={getGhostZones(currentView.zoneData)}
-        generateId={true}
-      >
+      <Source type="geojson" data={getGhostZones(currentView.zoneData)} generateId={true}>
         <Layer {...lineGhostLayerProps} />
         <Layer {...fillGhostLayerProps} />
       </Source>
       {hover && viewState.zoom < 13 ? (
-        <MapTooltip
-          lngLat={hover.lngLat}
-          zoneFeature={hover.zoneData}
-          deputiesList={FilteredList}
-        />
+        <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.zoneData} deputiesList={FilteredList} />
       ) : null}
       <MapPins viewData={currentView} deputiesList={FilteredList} />
       <div className="map__navigation map__navigation-right">
-        <NavigationControl
-          showCompass={false}
-          zoomInLabel="Zoomer"
-          zoomOutLabel="Dézoomer"
-        />
+        <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
         <FullscreenControl />
-        <MapButton
-          className="visible"
-          title="Revenir sur la France métropolitaine"
-          onClick={() => changeZone(metroFranceFeature)}
-        >
+        <MapButton className="visible" title="Revenir sur la France métropolitaine" onClick={() => changeZone(MetroFeature)}>
           <IconFrance />
         </MapButton>
       </div>
       <div className="map__navigation map__navigation-left">
-        <MapBreadcrumb
-          feature={currentView.zoneData}
-          handleClick={changeZone}
-        />
+        <MapBreadcrumb feature={currentView.zoneData} handleClick={changeZone} />
         <MapButton
-          className={
-            currentView.zoneData.properties[Code.Cont] === undefined
-              ? "visible"
-              : ""
-          }
+          className={currentView.zoneData.properties[Code.Cont] === undefined ? "visible" : ""}
           title="Revenir à la vue précédente"
           onClick={handleBack}
         >
@@ -383,24 +317,13 @@ export default function MapAugora(props: IMapAugora) {
           />
         </MapButton>
       </div>
-      <div
-        className={`map__navigation map__navigation-bottom ${
-          filterDisplayed ? "" : "visible"
-        }`}
-      >
-        <MapMiniFilter
-          onClick={() => setFilterDisplayed(true)}
-          zoneList={getDeputies(currentView.zoneData, FilteredList)}
-        />
+      <div className={`map__navigation map__navigation-bottom ${filterDisplayed ? "" : "visible"}`}>
+        <MapMiniFilter onClick={() => setFilterDisplayed(true)} zoneList={getDeputies(currentView.zoneData, FilteredList)} />
       </div>
       <div className={`map__filters ${filterDisplayed ? "visible" : ""}`}>
         <CustomControl>
           <Filters />
-          <button
-            className="map__filters-close"
-            onClick={() => setFilterDisplayed(false)}
-            title="Cacher les filtres"
-          >
+          <button className="map__filters-close" onClick={() => setFilterDisplayed(false)} title="Cacher les filtres">
             <div className="icon-wrapper">
               <IconClose />
             </div>
