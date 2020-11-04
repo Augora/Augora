@@ -45,4 +45,11 @@ Une fois fait, le site est accessible sur l'adresse : http://localhost:8000
 
 Pour faciliter le déploiement, nous utilisons un fichier <strong>.env.local</strong>.
 
-Pour l'utiliser, il suffit de copier le contenu du fichier <a href="https://github.com/Augora/Augora/blob/develop/.env.sample" target="_blank">.env.sample</a> dans le fichier <strong>.env.local</strong>. Ce dernier ne sera pas pris en compte lors des commits. En effet, il est renseigné dans le fichier <a href="https://github.com/Augora/Augora/blob/develop/.gitignore#L55" target="_blank">.gitignore</a>.
+Pour l'utiliser, il suffit de copier le contenu du fichier :
+```
+.env.sample
+```
+dans le fichier :
+```
+.env.local
+```
