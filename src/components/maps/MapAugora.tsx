@@ -237,15 +237,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleLoad = () => {
-    //Enlève les frontières
-    mapRef.current.removeLayer("admin-0-boundary") //Les frontières des pays
-    mapRef.current.removeLayer("admin-0-boundary-bg")
-    mapRef.current.removeLayer("admin-1-boundary") //Les frontières des régions
-    mapRef.current.removeLayer("admin-1-boundary-bg")
-    mapRef.current.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
-
     flyToBounds(currentView.feature, viewState, setViewState)
-
     setMapLoaded(true)
   }
 
@@ -294,11 +286,7 @@ export default function MapAugora(props: IMapAugora) {
           title="Revenir à la vue précédente"
           onClick={handleBack}
         >
-          <IconArrow
-            style={{
-              transform: "rotate(90deg)",
-            }}
-          />
+          <IconArrow style={{ transform: "rotate(90deg)" }} />
         </MapButton>
       </div>
       <div className={`map__navigation map__navigation-bottom ${filterDisplayed ? "" : "visible"}`}>
