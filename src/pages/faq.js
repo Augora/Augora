@@ -95,6 +95,28 @@ const contentAbout = [
       </p>
     ),
   },
+  {
+    title: "Où récupérons-nous les données cartographiques ?",
+    description: (
+      <p>
+        Avant toutes choses, les données utilisées pour les cartes sont dans des fichiers au format <strong>geojson</strong>.
+        <br />
+        <ul><li>
+        Pour les départements et régions, nous utilisons : <a href="https://github.com/gregoiredavid/france-geojson" target="_blank" rel="noreferrer">
+        https://github.com/gregoiredavid/france-geojson
+        </a>
+        </li><li>
+        Pour les circonscriptions, nous utilisons : <a href="https://www.data.gouv.fr/en/datasets/contours-detailles-des-circonscriptions-des-legislatives/" target="_blank" rel="noreferrer">
+        https://www.data.gouv.fr/en/datasets/contours-detailles-des-circonscriptions-des-legislatives/
+        </a>
+        </li><li>
+        Enfin, pour les zones géographiques des députés des français établis hors de France, nous utilisons : <a href="https://github.com/datasets/geo-countries" target="_blank" rel="noreferrer">
+        https://github.com/datasets/geo-countries
+        </a>
+        </li></ul>
+      </p>
+    ),
+  },
   // {
   //   title: "Comment nous soutenir ?",
   //   description: (
