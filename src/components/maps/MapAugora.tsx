@@ -252,7 +252,7 @@ export default function MapAugora(props: IMapAugora) {
   return (
     <InteractiveMap
       mapboxApiAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
-      mapStyle="mapbox://styles/augora/ckh3h62oh2nma19qt1fgb0kq7"
+      mapStyle="mapbox://styles/augora/ckh3h62oh2nma19qt1fgb0kq7?optimize=true"
       ref={(ref) => (mapRef.current = ref && ref.getMap())}
       {...viewState}
       width="100%"
