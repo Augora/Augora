@@ -60,20 +60,19 @@
         position: relative;
 
         &:last-child {
-          .map__breadcrumb-zone {
-            background: $text-color;
-            color: white;
-            font-weight: bold;
-            box-shadow: none;
-            &:hover {
-              background: $black;
+          .map__breadcrumb {
+            &-zone {
+              background: $text-color;
+              color: white;
+              font-weight: bold;
+              box-shadow: none;
+              &:hover {
+                background: $black;
+              }
             }
           }
-        }
-
-        &:hover {
-          .map__breadcrumb-tooltip {
-            display: block;
+          .sisters__btn > .icon-wrapper > svg {
+            fill: white;
           }
         }
       }
@@ -83,7 +82,7 @@
         background: white;
         box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
         border: none;
-        padding: 5px 15px;
+        padding: 5px 30px;
         border-radius: 5px;
         min-width: 250px;
         text-transform: capitalize;
@@ -99,36 +98,62 @@
         }
       }
 
-      &-tooltip {
-        min-width: 230px;
+      .sisters {
         position: absolute;
-        left: 50%;
-        transform: translate(-50%, 0);
+        left: 2px;
+        top: 50%;
+        transform: translate(0, -50%);
 
-        padding: 10px 0;
-        font-weight: normal;
-
-        pointer-events: auto;
-        display: none;
-        button {
-          width: 100%;
-          background: none;
-          border: none;
-          padding: 3px 10px;
-          text-transform: capitalize;
+        &__btn {
           cursor: pointer;
+          background: none;
+          outline: none;
+          border: none;
 
-          &:hover {
-            background: $text-color;
-            color: white;
+          position: absolute;
+          top: -4px;
+          .icon-wrapper {
+            width: 15px;
+            pointer-events: none;
+            svg {
+              fill: $text-color;
+            }
           }
-
-          &:active {
-            background: $black;
+          &:hover {
+            transform: scale(1.2);
           }
         }
-        &--visible {
-          display: block;
+        &__tooltip {
+          min-width: 230px;
+          position: absolute;
+          left: 50%;
+          top: 15px;
+
+          padding: 10px 0;
+          font-weight: normal;
+
+          pointer-events: auto;
+          display: none;
+          button {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 3px 10px;
+            text-transform: capitalize;
+            cursor: pointer;
+
+            &:hover {
+              background: $text-color;
+              color: white;
+            }
+
+            &:active {
+              background: $black;
+            }
+          }
+          &.visible {
+            display: block;
+          }
         }
       }
     }

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Code,
   Cont,
@@ -11,6 +11,7 @@ import {
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 import CustomControl from "components/maps/CustomControl"
+import IconArrow from "images/ui-kit/icon-arrow.svg"
 import sortBy from "lodash/sortBy"
 
 interface IMapBreadcrumb {
@@ -42,31 +43,45 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
 }
 
 function MapBreadcrumbItem({ feature, handleClick }: IMapBreadcrumb) {
+  const [sistersVisible, setSistersVisible] = useState(false)
   const sisterZones = sortBy(getSisterFeatures(feature), (o) => o.properties.nom)
 
   return (
-    <div className="map__breadcrumb-item">
+    <div className="map__breadcrumb-item" onMouseLeave={() => setSistersVisible(false)}>
       <button
         className="map__breadcrumb-zone"
-        onClick={() => handleClick(feature)}
+        onClick={() => {
+          handleClick(feature)
+          setSistersVisible(false)
+        }}
         title={`Revenir sur ${feature.properties.nom}`}
       >
         {feature.properties.nom}
         {feature.properties.code_dpt ? ` (${feature.properties.code_dpt})` : null}
       </button>
       {sisterZones.length > 0 ? (
-        <Tooltip className="map__breadcrumb-tooltip">
-          {sisterZones.map((feat, index) => (
-            <button
-              key={`${feature.properties.nom}-tooltip-button-${index}`}
-              onClick={() => handleClick(feat)}
-              title={`Aller sur ${feat.properties.nom}`}
-            >
-              {feat.properties.nom}
-              {feat.properties.code_dpt ? ` (${feat.properties.code_dpt})` : null}
-            </button>
-          ))}
-        </Tooltip>
+        <div className="sisters">
+          <button className="sisters__btn" title="Voir les zones associées" onClick={() => setSistersVisible(!sistersVisible)}>
+            <div className="icon-wrapper">
+              <IconArrow />
+            </div>
+          </button>
+          <Tooltip className={`sisters__tooltip ${sistersVisible ? "visible" : ""}`}>
+            {sisterZones.map((feat, index) => (
+              <button
+                key={`${feature.properties.nom}-tooltip-button-${index}`}
+                onClick={() => {
+                  handleClick(feat)
+                  setSistersVisible(false)
+                }}
+                title={`Aller sur ${feat.properties.nom}`}
+              >
+                {feat.properties.nom}
+                {feat.properties.code_dpt ? ` (${feat.properties.code_dpt})` : null}
+              </button>
+            ))}
+          </Tooltip>
+        </div>
       ) : null}
     </div>
   )
