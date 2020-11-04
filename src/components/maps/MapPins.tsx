@@ -1,6 +1,6 @@
 import React, { useMemo } from "react"
 import { Marker } from "react-map-gl"
-import { getDeputies, getPolygonCenter } from "components/maps/maps-utils"
+import { getDeputies, getPolygonCenter, getZoneCode } from "components/maps/maps-utils"
 import { ICurrentView } from "components/maps/MapAugora"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
@@ -48,7 +48,7 @@ export default function MapPins({ viewData, deputiesList }: IMapPin) {
           if (deputies.length === 1) {
             return (
               <MapDeputyPin
-                key={`${index}-${deputies[0].Slug}-${viewData.zoneCode}`}
+                key={`${index}-${deputies[0].Slug}-${getZoneCode(feature)}`}
                 deputy={deputies[0]}
                 coords={centerCoords[index]}
               />

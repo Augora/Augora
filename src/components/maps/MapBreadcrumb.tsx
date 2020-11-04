@@ -3,11 +3,11 @@ import {
   Code,
   Cont,
   MetroFeature,
-  OMFeature,
   getContinent,
   getZoneCode,
   getFeature,
   getSisterFeatures,
+  WorldFeature,
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 import CustomControl from "components/maps/CustomControl"
@@ -24,18 +24,19 @@ interface IMapBreadcrumb {
  */
 const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
   const zoneCode = getZoneCode(feature)
-  const continentId = getContinent(feature)
+  const contId = getContinent(feature)
 
   switch (zoneCode) {
     case Code.Cont:
-      return [feature]
+      return contId === Cont.France ? [WorldFeature, MetroFeature] : [WorldFeature]
     case Code.Reg:
-      return [MetroFeature, feature]
+      return [WorldFeature, MetroFeature, feature]
     case Code.Dpt:
-      return continentId === Cont.France
-        ? [MetroFeature, getFeature(feature.properties[Code.Reg], Code.Reg), feature]
-        : [OMFeature, feature]
+      return contId === Cont.France
+        ? [WorldFeature, MetroFeature, getFeature(feature.properties[Code.Reg], Code.Reg), feature]
+        : [WorldFeature, feature]
     default:
+      console.error("Le breadcrumb n'a pas réussi à déduire le chemin de la zone")
       return []
   }
 }
@@ -53,18 +54,20 @@ function MapBreadcrumbItem({ feature, handleClick }: IMapBreadcrumb) {
         {feature.properties.nom}
         {feature.properties.code_dpt ? ` (${feature.properties.code_dpt})` : null}
       </button>
-      <Tooltip className="map__breadcrumb-tooltip">
-        {sisterZones.map((feat, index) => (
-          <button
-            key={`${feature.properties.nom}-tooltip-button-${index}`}
-            onClick={() => handleClick(feat)}
-            title={`Aller sur ${feat.properties.nom}`}
-          >
-            {feat.properties.nom}
-            {feat.properties.code_dpt ? ` (${feat.properties.code_dpt})` : null}
-          </button>
-        ))}
-      </Tooltip>
+      {sisterZones.length > 0 ? (
+        <Tooltip className="map__breadcrumb-tooltip">
+          {sisterZones.map((feat, index) => (
+            <button
+              key={`${feature.properties.nom}-tooltip-button-${index}`}
+              onClick={() => handleClick(feat)}
+              title={`Aller sur ${feat.properties.nom}`}
+            >
+              {feat.properties.nom}
+              {feat.properties.code_dpt ? ` (${feat.properties.code_dpt})` : null}
+            </button>
+          ))}
+        </Tooltip>
+      ) : null}
     </div>
   )
 }

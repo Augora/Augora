@@ -4,19 +4,18 @@ import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, La
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
   Code,
-  Cont,
   France,
   MetroFeature,
+  WorldFeature,
   AllReg,
-  OMFeature,
   flyToBounds,
-  getContinent,
   getChildFeatures,
   getZoneCode,
   getMouseEventFeature,
   getFeature,
   getGhostZones,
   getDeputies,
+  getParentFeature,
 } from "components/maps/maps-utils"
 import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"
@@ -32,14 +31,12 @@ import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersCon
 
 export interface ICurrentView {
   GEOJson: AugoraMap.FeatureCollection
-  zoneCode: Code
-  zoneData: AugoraMap.Feature
-  continentId: Cont
+  feature: AugoraMap.Feature
 }
 
 interface IHover {
   lngLat?: AugoraMap.Coordinates
-  zoneData?: AugoraMap.Feature
+  feature?: AugoraMap.Feature
   source?: string
   id?: string
 }
@@ -118,9 +115,7 @@ export default function MapAugora(props: IMapAugora) {
   })
   const [currentView, setCurrentView] = useState<ICurrentView>({
     GEOJson: AllReg,
-    zoneCode: Code.Reg,
-    zoneData: MetroFeature,
-    continentId: Cont.France,
+    feature: MetroFeature,
   })
   const [hover, setHover] = useState<IHover>(null)
   const [filterDisplayed, setFilterDisplayed] = useState(false)
@@ -141,7 +136,7 @@ export default function MapAugora(props: IMapAugora) {
    * @param {AugoraMap.Feature} feature La feature de la nouvelle zone
    */
   const changeZone = (feature: AugoraMap.Feature) => {
-    if (feature !== currentView.zoneData) {
+    if (feature !== currentView.feature) {
       const zoneCode = getZoneCode(feature)
       switch (zoneCode) {
         case Code.Cont:
@@ -170,19 +165,15 @@ export default function MapAugora(props: IMapAugora) {
 
     switch (zoneCode) {
       case Code.Circ:
-        newFeature = getFeature(feature.properties[Code.Dpt], Code.Dpt)
+        newFeature = getParentFeature(feature)
       case Code.Dpt:
       case Code.Reg:
       case Code.Cont:
         const newGEOJson = getChildFeatures(newFeature)
 
-        const newCode = getZoneCode(newGEOJson.features[0])
-
         setCurrentView({
           GEOJson: newGEOJson,
-          zoneCode: newCode,
-          zoneData: newFeature,
-          continentId: getContinent(newFeature),
+          feature: newFeature,
         })
 
         changePageTitle(newFeature.properties.nom)
@@ -216,7 +207,7 @@ export default function MapAugora(props: IMapAugora) {
       }
       setHover({
         lngLat: e.lngLat,
-        zoneData: feature,
+        feature: feature,
         source: eventFeature.source,
         id: eventFeature.id,
       })
@@ -242,14 +233,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleBack = () => {
-    if (currentView.continentId === Cont.France) {
-      if (currentView.zoneCode === Code.Circ) {
-        const regionFeature = getFeature(currentView.GEOJson.features[0].properties[Code.Reg], Code.Reg)
-        changeZone(regionFeature)
-      } else changeZone(MetroFeature)
-    } else if (currentView.continentId === Cont.OM) {
-      changeZone(OMFeature)
-    }
+    changeZone(getParentFeature(currentView.feature))
   }
 
   const handleLoad = () => {
@@ -260,7 +244,7 @@ export default function MapAugora(props: IMapAugora) {
     mapRef.current.removeLayer("admin-1-boundary-bg")
     mapRef.current.removeLayer("admin-0-boundary-disputed") //Les frontières contestées
 
-    flyToBounds(currentView.zoneData, viewState, setViewState)
+    flyToBounds(currentView.feature, viewState, setViewState)
 
     setMapLoaded(true)
   }
@@ -288,12 +272,12 @@ export default function MapAugora(props: IMapAugora) {
         <Layer {...lineLayerProps} />
         <Layer {...fillLayerProps} />
       </Source>
-      <Source type="geojson" data={getGhostZones(currentView.zoneData)} generateId={true}>
+      <Source type="geojson" data={getGhostZones(currentView.feature)} generateId={true}>
         <Layer {...lineGhostLayerProps} />
         <Layer {...fillGhostLayerProps} />
       </Source>
       {hover && viewState.zoom < 13 ? (
-        <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.zoneData} deputiesList={FilteredList} />
+        <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.feature} deputiesList={FilteredList} />
       ) : null}
       <MapPins viewData={currentView} deputiesList={FilteredList} />
       <div className="map__navigation map__navigation-right">
@@ -304,9 +288,9 @@ export default function MapAugora(props: IMapAugora) {
         </MapButton>
       </div>
       <div className="map__navigation map__navigation-left">
-        <MapBreadcrumb feature={currentView.zoneData} handleClick={changeZone} />
+        <MapBreadcrumb feature={currentView.feature} handleClick={changeZone} />
         <MapButton
-          className={currentView.zoneData.properties[Code.Cont] === undefined ? "visible" : ""}
+          className={currentView.feature !== WorldFeature ? "visible" : ""}
           title="Revenir à la vue précédente"
           onClick={handleBack}
         >
@@ -318,7 +302,7 @@ export default function MapAugora(props: IMapAugora) {
         </MapButton>
       </div>
       <div className={`map__navigation map__navigation-bottom ${filterDisplayed ? "" : "visible"}`}>
-        <MapMiniFilter onClick={() => setFilterDisplayed(true)} zoneList={getDeputies(currentView.zoneData, FilteredList)} />
+        <MapMiniFilter onClick={() => setFilterDisplayed(true)} zoneList={getDeputies(currentView.feature, FilteredList)} />
       </div>
       <div className={`map__filters ${filterDisplayed ? "visible" : ""}`}>
         <CustomControl>
