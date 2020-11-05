@@ -292,25 +292,42 @@
     }
 
     &__mini-filter {
-      padding: 10px 20px;
-      &__header {
-        margin-bottom: 10px;
-      }
+      min-width: unset;
+      max-width: unset;
+      position: relative;
+      pointer-events: auto;
+      .tooltip__content {
+        display: flex;
+        align-items: center;
 
-      .mini-filter {
-        &__btn {
-          min-width: unset;
-          min-height: unset;
-          height: 40px;
-          padding: 10px;
-          position: relative;
-          .icon-wrapper {
-            width: 30px;
+        .mini-filter {
+          &__btn {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: none;
+            left: 0;
+            cursor: pointer;
+
+            &:hover {
+              box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            }
           }
-        }
-        &__bar {
-          width: 250px;
-          margin-bottom: 15px;
+          &__number {
+            font-weight: bold;
+          }
+          &__bar {
+            width: 250px;
+            margin: 0 10px;
+          }
+          &__reset {
+            padding: 0;
+            min-width: unset;
+            min-height: unset;
+            width: 30px;
+            height: 20px;
+          }
         }
       }
     }
