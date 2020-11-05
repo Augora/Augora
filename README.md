@@ -40,3 +40,16 @@ yarn start
 ```
 
 Une fois fait, le site est accessible sur l'adresse : http://localhost:8000
+
+### Variables d'environnement
+
+Pour faciliter le déploiement, nous utilisons un fichier <strong>.env.local</strong>.
+
+Pour l'utiliser, il suffit de copier le contenu du fichier :
+```
+.env.sample
+```
+dans le fichier :
+```
+.env.local
+```
