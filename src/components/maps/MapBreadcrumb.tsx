@@ -92,11 +92,11 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
                   props.onClick(feature)
                   setIsTooltipVisible(false)
                 }}
-                title={`${feature.properties.nom ? "Aller sur" : "Voir le député de la"} ${zoneName} ${
-                  feature.properties.nom_dpt ? "de " + feature.properties.nom_dpt : ""
+                title={`${feature.properties.nom ? "Aller sur" : "Voir le député de la"} ${zoneName}${
+                  feature.properties.nom_dpt ? " de " + feature.properties.nom_dpt : ""
                 }`}
               >
-                {zoneName}
+                <div>{zoneName}</div>
               </button>
             )
           })}
