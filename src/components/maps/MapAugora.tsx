@@ -23,7 +23,6 @@ import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapButton from "components/maps/MapButton"
 import MapPins from "components/maps/MapPins"
 import MapMiniFilter from "components/maps/MapMiniFilter"
-import IconFrance from "images/logos/projet/augora-logo.svg"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import Filters from "components/deputies-list/filters/Filters"
@@ -269,9 +268,9 @@ export default function MapAugora(props: IMapAugora) {
       <div className="map__navigation map__navigation-right">
         <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
         <FullscreenControl />
-        <MapButton className="visible" title="Revenir sur la France métropolitaine" onClick={() => changeZone(MetroFeature)}>
+        {/* <MapButton className="visible" title="Revenir sur la France métropolitaine" onClick={() => changeZone(MetroFeature)}>
           <IconFrance />
-        </MapButton>
+        </MapButton> */}
       </div>
       <div className="map__navigation map__navigation-left">
         <MapBreadcrumb feature={currentView.feature} handleClick={changeZone} />

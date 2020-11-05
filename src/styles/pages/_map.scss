@@ -182,7 +182,7 @@
         top: 10px;
         display: flex;
         flex-direction: column;
-        height: 140px;
+        height: 100px;
         justify-content: space-between;
       }
 
@@ -253,7 +253,7 @@
           right: 0;
           pointer-events: none;
           svg {
-            fill: $text-color;
+            fill: "%23334";
           }
         }
       }
