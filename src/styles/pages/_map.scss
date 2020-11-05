@@ -89,6 +89,7 @@
 
           cursor: pointer;
 
+          transition: background-color 0.5s $ease-in-out-cubic;
           &:hover {
             background: $btn-hover;
           }
@@ -100,7 +101,7 @@
 
         &__menu {
           width: 30px;
-          height: 30px;
+          height: 100%;
           position: absolute;
 
           .menu {
@@ -116,6 +117,8 @@
               display: flex;
               justify-content: center;
               align-items: center;
+
+              transition: transform 0.1s linear;
               .icon-wrapper {
                 width: 13px;
                 pointer-events: none;
@@ -129,6 +132,7 @@
             }
             &__tooltip {
               min-width: 200px;
+              max-width: none;
               position: absolute;
 
               padding: 7px 0;
@@ -141,20 +145,25 @@
                 width: 100%;
                 background: none;
                 border: none;
-                padding: 2px 7px;
+                padding: 2px 15px;
                 text-transform: capitalize;
+                white-space: nowrap;
                 cursor: pointer;
 
                 transition: transform 0.1s linear;
 
                 &:hover {
-                  color: black;
                   transform: scale(1.1);
                 }
 
                 &:active {
-                  text-shadow: 0 0 10px rgba($main-color, 0.5);
+                  text-shadow: 0 0 1px #000;
                 }
+              }
+
+              &--sisters {
+                left: 50%;
+                transform: translate(-30%, 0);
               }
 
               &--children {
