@@ -357,6 +357,9 @@ export const getSisterFeatures = (feature: AugoraMap.Feature): AugoraMap.Feature
   const contId = getContinent(feature)
 
   switch (zoneCode) {
+    case Code.Cont:
+      if (contId === Cont.France) return OMDptFile.features
+      break
     case Code.Reg:
       return MetroRegFile.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode])
     case Code.Dpt:
@@ -364,7 +367,7 @@ export const getSisterFeatures = (feature: AugoraMap.Feature): AugoraMap.Feature
         ? MetroDptFile.features.filter(
             (entry) => entry.properties[zoneCode] !== props[zoneCode] && entry.properties[Code.Reg] === props[Code.Reg]
           )
-        : OMDptFile.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode])
+        : [...OMDptFile.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode]), MetroFeature]
     case Code.Circ:
       return AllCirc.features.filter(
         (entry) => entry.properties[zoneCode] !== props[zoneCode] && entry.properties[Code.Dpt] === props[Code.Dpt]
@@ -396,7 +399,7 @@ export const getGhostZones = (feature: AugoraMap.Feature): AugoraMap.FeatureColl
 
 /**
  * Renvoie un array de députés dans une zone, une array avec un seul élément si la zone est une circonscription, ou une array vide si aucun député trouvé
- * @param {AugoraMap.Feature} feature La feature à analyser
+ * @param {AugoraMap.Feature} feature La zone feature à analyser
  * @param {AugoraMap.DeputiesList} deputies La liste de députés à filtrer
  */
 export const getDeputies = (feature: AugoraMap.Feature, deputies: AugoraMap.DeputiesList): AugoraMap.DeputiesList => {
@@ -427,5 +430,23 @@ export const getDeputies = (feature: AugoraMap.Feature, deputies: AugoraMap.Depu
       ]
     default:
       return []
+  }
+}
+
+/**
+ * Renvoie le nom d'une feature
+ * @param {AugoraMap.Feature} feature
+ */
+export const getZoneName = (feature: AugoraMap.Feature): string => {
+  const code = getZoneCode(feature)
+
+  switch (code) {
+    case Code.Cont:
+    case Code.Reg:
+      return feature.properties.nom
+    case Code.Dpt:
+      return `${feature.properties.nom} (${feature.properties[Code.Dpt]})`
+    case Code.Circ:
+      return `${feature.properties[Code.Circ]}${feature.properties[Code.Circ] < 2 ? "ère" : "ème"} Circonscription`
   }
 }

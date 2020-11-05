@@ -9,7 +9,7 @@ import {
   getSisterFeatures,
   WorldFeature,
   getChildFeatures,
-  getDeputies,
+  getZoneName,
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 import CustomControl from "components/maps/CustomControl"
@@ -56,24 +56,6 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
 }
 
 /**
- * Renvoie le nom d'une feature
- * @param {AugoraMap.Feature} feature
- */
-const getZoneName = (feature: AugoraMap.Feature): string => {
-  const code = getZoneCode(feature)
-
-  switch (code) {
-    case Code.Cont:
-    case Code.Reg:
-      return feature.properties.nom
-    case Code.Dpt:
-      return `${feature.properties.nom} (${feature.properties.code_dpt})`
-    case Code.Circ:
-      return `(Temporaire - ne fait rien)`
-  }
-}
-
-/**
  * Renvoie un bouton de menu déroulant pour des zones apparentées
  * @param {AugoraMap.Feature[]} zones La liste des zones apparentées
  * @param {Function} onClick La fonction au click des zones
@@ -99,7 +81,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
           <IconArrow />
         </div>
       </button>
-      {isTooltipVisible ? (
+      {isTooltipVisible && (
         <Tooltip className={`menu__tooltip ${props.className ? "menu__tooltip--" + props.className : ""}`}>
           {props.zones.map((feature, index) => {
             const zoneName = getZoneName(feature)
@@ -110,14 +92,16 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
                   props.onClick(feature)
                   setIsTooltipVisible(false)
                 }}
-                title={`Aller sur ${zoneName}`}
+                title={`${feature.properties.nom ? "Aller sur" : "Voir le député de la"} ${zoneName} ${
+                  feature.properties.nom_dpt ? "de " + feature.properties.nom_dpt : ""
+                }`}
               >
                 {zoneName}
               </button>
             )
           })}
         </Tooltip>
-      ) : null}
+      )}
     </div>
   )
 }
@@ -137,12 +121,12 @@ function BreadcrumbItem({ feature, handleClick, isLast }: IBreadcrumbItem) {
       <button className="breadcrumb__zone" onClick={() => handleClick(feature)} title={`Revenir sur ${getZoneName(feature)}`}>
         {getZoneName(feature)}
       </button>
-      {sisterZones.length > 0 ? (
+      {sisterZones.length > 0 && (
         <BreadcrumbMenu zones={sisterZones} onClick={handleClick} className="sisters" title="Voir les zones soeurs" />
-      ) : null}
-      {childZones.length > 0 ? (
+      )}
+      {childZones.length > 0 && (
         <BreadcrumbMenu zones={childZones} onClick={handleClick} className="children" title="Voir les zones enfants" />
-      ) : null}
+      )}
     </div>
   )
 }

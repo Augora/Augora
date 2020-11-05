@@ -146,9 +146,11 @@ export default function MapAugora(props: IMapAugora) {
           navigate(`/map?codeReg=${feature.properties[Code.Reg]}`)
           return
         case Code.Dpt:
-        case Code.Circ:
           navigate(`/map?codeDpt=${feature.properties[Code.Dpt]}`)
           return
+        case Code.Circ:
+          const deputy = getDeputies(feature, FilteredList)[0]
+          if (deputy) navigate(`/depute/${deputy.Slug}`)
         default:
           return
       }
@@ -219,17 +221,9 @@ export default function MapAugora(props: IMapAugora) {
   const handleClick = (e) => {
     if (e.leftButton) {
       const feature = getMouseEventFeature(e)
-      if (feature) {
-        const zoneCode = getZoneCode(feature)
-        if (zoneCode === Code.Circ) {
-          const deputy = getDeputies(feature, FilteredList)[0]
-          if (deputy) navigate(`/depute/${deputy.Slug}`)
-        } else {
-          changeZone(feature)
-        }
-      }
-      resetHover()
+      if (feature) changeZone(feature)
     } else if (e.rightButton) handleBack()
+    resetHover()
   }
 
   const handleBack = () => {
