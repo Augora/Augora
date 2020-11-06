@@ -140,17 +140,15 @@ export default function MapBreadcrumb({ feature, handleClick }: IMapBreadcrumb) 
   const history = getHistory(feature)
 
   return (
-    <CustomControl>
-      <div className="map__breadcrumb">
-        {history.map((item, index) => (
-          <BreadcrumbItem
-            key={`breadcrumb-${index}`}
-            feature={item}
-            handleClick={handleClick}
-            isLast={index + 1 === history.length}
-          />
-        ))}
-      </div>
+    <CustomControl className="map__breadcrumb">
+      {history.map((item, index) => (
+        <BreadcrumbItem
+          key={`breadcrumb-${index}`}
+          feature={item}
+          handleClick={handleClick}
+          isLast={index + 1 === history.length}
+        />
+      ))}
     </CustomControl>
   )
 }

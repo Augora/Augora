@@ -230,12 +230,9 @@
 
       &-bottom {
         position: absolute;
-        left: 10px;
-        bottom: 35px;
-        display: none;
-        &.visible {
-          display: block;
-        }
+        left: 50%;
+        transform: translate(-50%, 0);
+        bottom: 0;
       }
 
       &-custom {
@@ -296,6 +293,11 @@
       max-width: unset;
       position: relative;
       pointer-events: auto;
+
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+      border-radius: 5px 5px 0 0;
+      padding: 0;
+      padding-left: 10px;
       .tooltip__content {
         display: flex;
         align-items: center;
@@ -325,38 +327,24 @@
             padding: 0;
             min-width: unset;
             min-height: unset;
-            width: 30px;
-            height: 20px;
+            width: 40px;
+            height: 40px;
           }
         }
       }
     }
 
     &__filters {
-      position: absolute;
-      left: 10px;
-      bottom: 35px;
       max-width: 1000px;
-
-      display: flex;
-      justify-content: space-between;
-
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+
       cursor: default;
 
-      display: none;
-
-      &.visible {
-        display: block;
-      }
-
-      &-close {
+      .filters__close {
         position: absolute;
-        right: -100px;
-        top: 50%;
-        transform: translate(0, -50%);
-        width: 80px;
-        height: 80px;
+        right: 5px;
+        top: 13px;
+        width: 30px;
         border: none;
         background: none;
 

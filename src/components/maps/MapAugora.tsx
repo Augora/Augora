@@ -282,18 +282,20 @@ export default function MapAugora(props: IMapAugora) {
           <IconArrow style={{ transform: "rotate(90deg)" }} />
         </MapButton>
       </div>
-      <div className={`map__navigation map__navigation-bottom ${filterDisplayed ? "" : "visible"}`}>
-        <MapMiniFilter onClick={() => setFilterDisplayed(true)} zoneList={getDeputies(currentView.feature, FilteredList)} />
-      </div>
-      <div className={`map__filters ${filterDisplayed ? "visible" : ""}`}>
-        <CustomControl>
-          <Filters />
-          <button className="map__filters-close" onClick={() => setFilterDisplayed(false)} title="Cacher les filtres">
-            <div className="icon-wrapper">
-              <IconClose />
-            </div>
-          </button>
-        </CustomControl>
+      <div className="map__navigation map__navigation-bottom">
+        {!filterDisplayed && (
+          <MapMiniFilter onClick={() => setFilterDisplayed(true)} zoneList={getDeputies(currentView.feature, FilteredList)} />
+        )}
+        {filterDisplayed && (
+          <CustomControl className="map__filters">
+            <Filters />
+            <button className="filters__close" onClick={() => setFilterDisplayed(false)} title="Cacher les filtres">
+              <div className="icon-wrapper">
+                <IconClose />
+              </div>
+            </button>
+          </CustomControl>
+        )}
       </div>
     </InteractiveMap>
   )
