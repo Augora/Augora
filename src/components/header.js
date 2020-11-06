@@ -10,7 +10,7 @@ const mainPages = {
   },
   carte: {
     path: "/map",
-    title: "Carte de France",
+    title: "Carte",
   },
 }
 
