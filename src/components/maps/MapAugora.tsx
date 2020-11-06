@@ -21,10 +21,12 @@ import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapButton from "components/maps/MapButton"
+import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
 import MapMiniFilter from "components/maps/MapMiniFilter"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
+import IconPin from "images/ui-kit/icon-pin.svg"
 import Filters from "components/deputies-list/filters/Filters"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
 
@@ -117,8 +119,9 @@ export default function MapAugora(props: IMapAugora) {
     feature: MetroFeature,
   })
   const [hover, setHover] = useState<IHover>(null)
-  const [filterDisplayed, setFilterDisplayed] = useState(false)
-  const [mapLoaded, setMapLoaded] = useState(false)
+  const [inExploreMode, setInExploreMode] = useState(false)
+  const [isFilterDisplayed, setIsFilterDisplayed] = useState(false)
+  const [isMapLoaded, setIsMapLoaded] = useState(false)
 
   const mapRef = useRef<mapboxgl.Map>()
 
@@ -179,7 +182,7 @@ export default function MapAugora(props: IMapAugora) {
 
         changePageTitle(newFeature.properties.nom)
 
-        if (mapLoaded) flyToBounds(newFeature, viewState, setViewState)
+        if (isMapLoaded) flyToBounds(newFeature, viewState, setViewState)
         break
       default:
         console.error("Zone à afficher non trouvée")
@@ -200,7 +203,7 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleHover = (e) => {
     const feature = getMouseEventFeature(e)
-    if (feature && viewState.zoom < 13) {
+    if (feature && !inExploreMode) {
       const eventFeature = e.features[0]
       if (hover?.id !== eventFeature.id || hover?.source !== eventFeature.source) {
         if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
@@ -231,7 +234,7 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleLoad = () => {
     flyToBounds(currentView.feature, viewState, setViewState)
-    setMapLoaded(true)
+    setIsMapLoaded(true)
   }
 
   return (
@@ -246,7 +249,7 @@ export default function MapAugora(props: IMapAugora) {
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
-      interactiveLayerIds={["zone-fill", "zone-ghost-fill"]}
+      interactiveLayerIds={!inExploreMode ? ["zone-fill", "zone-ghost-fill"] : []}
       onLoad={handleLoad}
       onViewStateChange={(change) => setViewState(change.viewState)}
       onClick={handleClick}
@@ -255,22 +258,28 @@ export default function MapAugora(props: IMapAugora) {
     >
       <Source type="geojson" data={currentView.GEOJson} generateId={true}>
         <Layer {...lineLayerProps} />
-        <Layer {...fillLayerProps} />
+        <Layer {...fillLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
       <Source type="geojson" data={getGhostZones(currentView.feature)} generateId={true}>
         <Layer {...lineGhostLayerProps} />
-        <Layer {...fillGhostLayerProps} />
+        <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
-      {hover && viewState.zoom < 13 ? (
-        <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.feature} deputiesList={FilteredList} />
-      ) : null}
-      <MapPins viewData={currentView} deputiesList={FilteredList} />
+      {!inExploreMode && hover && <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.feature} deputiesList={FilteredList} />}
+      {!inExploreMode && <MapPins viewData={currentView} deputiesList={FilteredList} />}
       <div className="map__navigation map__navigation-right">
         <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
         <FullscreenControl />
         {/* <MapButton className="visible" title="Revenir sur la France métropolitaine" onClick={() => changeZone(MetroFeature)}>
           <IconFrance />
         </MapButton> */}
+        <MapInput
+          type="checkbox"
+          title={`${inExploreMode ? "Désactiver" : "Activer"} le mode exploration`}
+          checked={inExploreMode}
+          onChange={() => setInExploreMode(!inExploreMode)}
+        >
+          <IconPin style={inExploreMode ? { fill: "white" } : {}} />
+        </MapInput>
       </div>
       <div className="map__navigation map__navigation-left">
         <MapBreadcrumb feature={currentView.feature} handleClick={changeZone} />
@@ -279,17 +288,19 @@ export default function MapAugora(props: IMapAugora) {
           title="Revenir à la vue précédente"
           onClick={handleBack}
         >
-          <IconArrow style={{ transform: "rotate(90deg)" }} />
+          <div className="icon-wrapper">
+            <IconArrow style={{ transform: "rotate(90deg)" }} />
+          </div>
         </MapButton>
       </div>
       <div className="map__navigation map__navigation-bottom">
-        {!filterDisplayed && (
-          <MapMiniFilter onClick={() => setFilterDisplayed(true)} zoneList={getDeputies(currentView.feature, FilteredList)} />
+        {!isFilterDisplayed && (
+          <MapMiniFilter onClick={() => setIsFilterDisplayed(true)} zoneList={getDeputies(currentView.feature, FilteredList)} />
         )}
-        {filterDisplayed && (
+        {isFilterDisplayed && (
           <CustomControl className="map__filters">
             <Filters />
-            <button className="filters__close" onClick={() => setFilterDisplayed(false)} title="Cacher les filtres">
+            <button className="filters__close" onClick={() => setIsFilterDisplayed(false)} title="Cacher les filtres">
               <div className="icon-wrapper">
                 <IconClose />
               </div>
