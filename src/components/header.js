@@ -1,7 +1,7 @@
-import { Link } from "gatsby"
+import Link from "next/link"
 import React, { useState, useEffect } from "react"
-import Logo from "../images/logos/projet/augora-logo.svg"
-import LogoText from "../images/logos/projet/augora-texte.svg"
+import Logo from "images/logos/projet/augora-logo.svg"
+import LogoText from "images/logos/projet/augora-texte.svg"
 
 const mainPages = {
   home: {
@@ -34,8 +34,8 @@ const Header = ({ siteTitle, location }) => {
 
   function setLinks(pageGroup) {
     return Object.keys(pageGroup).map((page) => (
-      <Link key={pageGroup[page].path} to={pageGroup[page].path} className={isActivePage(pageGroup[page].path)}>
-        {pageGroup[page].title}
+      <Link key={pageGroup[page].path} href={pageGroup[page].path}>
+        <a className={isActivePage(pageGroup[page].path)}>{pageGroup[page].title}</a>
       </Link>
     ))
   }
@@ -60,11 +60,13 @@ const Header = ({ siteTitle, location }) => {
   return (
     <header id="header" className={`header ${Size}`}>
       <div className="header__wrapper wrapper">
-        <Link to="/" className="header__home-btn">
-          <div className={`header__logo-wrapper `}>
-            <Logo className="logo" />
-            <LogoText className="text" />
-          </div>
+        <Link href="/">
+          <a className="header__home-btn">
+            <div className={`header__logo-wrapper `}>
+              <Logo className="logo" />
+              <LogoText className="text" />
+            </div>
+          </a>
         </Link>
         <div className="header__menu menu">
           {setLinks(mainPages)}

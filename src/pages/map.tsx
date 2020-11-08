@@ -1,7 +1,8 @@
 import React, { useState } from "react"
 import { Helmet } from "react-helmet"
 import MapAugora from "components/maps/MapAugora"
-import queryString from "query-string"
+import { getDeputes } from "../lib/deputes/Wrapper"
+import { useRouter } from "next/router"
 
 function convertArrayOfStringToString(arr: string | string[]) {
   if (arr instanceof Array) {
@@ -23,32 +24,37 @@ export default function MapPage({
 }: {
   location: {
     search: string
-    state?: { feature?: AugoraMap.Feature }
   }
 }) {
   const [pageTitle, setPageTitle] = useState<string>("Carte")
-  const parsedQueryString = queryString.parse(location.search)
+  const router = useRouter()
 
   return (
     <>
       <Helmet>
-        {process.env.GATSBY_TARGET_ENV !== "production" ? (
-          <meta name="robots" content="noindex,nofollow" />
-        ) : null}
+        {process.env.NEXT_PUBLIC_ENV !== "production" ? <meta name="robots" content="noindex,nofollow" /> : null}
         <title>{`${pageTitle} | Augora`}</title>
       </Helmet>
       <div className="page page__map">
         <div className="map__container">
           <MapAugora
-            codeCont={stringToInt(
-              convertArrayOfStringToString(parsedQueryString.codeCont)
-            )}
-            codeDpt={convertArrayOfStringToString(parsedQueryString.codeDpt)}
-            codeReg={convertArrayOfStringToString(parsedQueryString.codeReg)}
+            codeCont={stringToInt(convertArrayOfStringToString(router.query.codeCont))}
+            codeDpt={convertArrayOfStringToString(router.query.codeDpt)}
+            codeReg={convertArrayOfStringToString(router.query.codeReg)}
             setPageTitle={setPageTitle}
           />
         </div>
       </div>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const deputes = await getDeputes()
+
+  return {
+    props: {
+      deputes,
+    },
+  }
 }

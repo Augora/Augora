@@ -17,7 +17,7 @@
           opacity: 0.04;
           height: 100%;
           width: auto;
-          path:nth-child(2) {
+          path:nth-child(1) {
             animation: full-rotation 60s linear infinite;
             transform-origin: center;
             transform: rotate(360deg);

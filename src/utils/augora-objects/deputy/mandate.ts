@@ -1,7 +1,5 @@
-import { IMandate } from "components/deputy/current-mandate/CurrentMandate"
-
-export function getMandate(deputy: any): IMandate {
-  var props: IMandate = {
+export function getMandate(deputy: any) {
+  var props = {
     dateBegin: deputy.DebutDuMandat,
     isInMandate: true,
     numberMandates: deputy.NombreMandats + deputy.AnciensMandats.data.length,

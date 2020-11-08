@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
         os: [macOS-latest, windows-latest, ubuntu-latest]
         node-version: [14.x]
     steps:
@@ -17,6 +16,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Yarn cache directory
         id: yarn-cache-dir
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -30,25 +30,16 @@ jobs:
           restore-keys: |
             ${{ matrix.os }}-yarn-
 
-      - name: yarn install, build, and test
+      - name: yarn install, build
         env:
           CI: "true"
           NODE_ENV: "pull_request"
-          GATSBY_TARGET_ENV: "pull_request"
+          NEXT_PUBLIC_ENV: "pull_request"
           FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
-          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: |
           yarn install
-          yarn build -- --no-uglify --profile
-          yarn test
+          yarn build
 
-      - name: Upload build output as artifact
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.node-version == '14.x' }}
-        uses: actions/upload-artifact@v1
-        with:
-          name: build
-          path: public
       - name: The build has failed
         if: ${{ failure() }}
         uses: 8398a7/action-slack@v3
@@ -94,17 +85,12 @@ jobs:
         with:
           node-version: 14.x
 
-      - uses: actions/download-artifact@v1
-        with:
-          name: build
-          path: public
-
       - uses: amondnet/vercel-action@v19
         with:
           vercel-token: ${{ secrets.ZEIT_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
-          vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
+          vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
+          vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
           scope: augora
           alias-domains: |
             {{PR_NUMBER}}.pullrequests.augora.fr

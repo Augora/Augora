@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
-import { navigate } from "gatsby"
+import { useRouter } from "next/router"
 import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
@@ -98,6 +98,7 @@ export default function MapAugora(props: IMapAugora) {
   const {
     state: { FilteredList },
   } = useContext(DeputiesListContext)
+  const router = useRouter()
 
   useEffect(() => {
     if (props.codeCont !== undefined) {
@@ -142,17 +143,17 @@ export default function MapAugora(props: IMapAugora) {
       const zoneCode = getZoneCode(feature)
       switch (zoneCode) {
         case Code.Cont:
-          navigate(`/map?codeCont=${feature.properties[Code.Cont]}`)
+          router.push(`/map?codeCont=${feature.properties[Code.Cont]}`)
           return
         case Code.Reg:
-          navigate(`/map?codeReg=${feature.properties[Code.Reg]}`)
+          router.push(`/map?codeReg=${feature.properties[Code.Reg]}`)
           return
         case Code.Dpt:
-          navigate(`/map?codeDpt=${feature.properties[Code.Dpt]}`)
+          router.push(`/map?codeDpt=${feature.properties[Code.Dpt]}`)
           return
         case Code.Circ:
           const deputy = getDeputies(feature, FilteredList)[0]
-          if (deputy) navigate(`/depute/${deputy.Slug}`)
+          if (deputy) router.push(`/depute/${deputy.Slug}`)
         default:
           return
       }

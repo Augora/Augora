@@ -1,11 +1,7 @@
 import React from "react"
 import Helmet from "react-helmet"
 
-import {
-  buildMetaTagsFromPageType,
-  buildTitleFromPageType,
-  PageType,
-} from "./seo-utils"
+import { buildMetaTagsFromPageType, buildTitleFromPageType, PageType } from "./seo-utils"
 
 interface ISEOProps {
   pageType: PageType
