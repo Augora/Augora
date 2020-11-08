@@ -5,6 +5,7 @@ const client = new ApolloClient({
   headers: {
     Authorization: `Bearer ${process.env.FAUNADB_TOKEN || "fnADtFRXPrACB6WCFPNkcNwEOSCfXW574OOspy5t"}`,
   },
+  connectToDevTools: process.env.NEXT_PUBLIC_ENV !== "production",
   cache: new InMemoryCache(),
 })
 
