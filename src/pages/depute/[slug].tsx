@@ -14,7 +14,7 @@ import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 
-import { isEmpty } from "lodash"
+import isEmpty from "lodash/isEmpty"
 
 import ButtonIcon from "components/buttons/ButtonIcon"
 import IconMail from "images/ui-kit/icon-mail.svg"

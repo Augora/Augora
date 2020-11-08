@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useFuzzy } from "react-use-fuzzy"
-import { deburr } from "lodash"
+import deburr from "lodash/deburr"
 
 import { calculateAgeDomain, filterList, groupesArrayToObject } from "../../components/deputies-list/deputies-list-utils"
 
