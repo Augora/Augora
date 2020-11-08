@@ -151,7 +151,7 @@ const contentAbout = [
   },
 ]
 
-const About = () => {
+export default function FAQ() {
   return (
     <>
       <SEO pageType={PageType.FAQ} />
@@ -165,5 +165,3 @@ const About = () => {
     </>
   )
 }
-
-export default About
