@@ -7,10 +7,10 @@ export enum PageType {
   // CarteDeFrance,
 }
 
-export function buildMetaTags(title: string, description: string, url: string, imageUrl: string, gatsbyEnv: string) {
+export function buildMetaTags(title: string, description: string, url: string, imageUrl: string, env: string) {
   return [
     // robots
-    gatsbyEnv !== "production" ? { name: "robots", content: "noindex,nofollow" } : { name: "robots", content: "index,follow" },
+    env !== "production" ? { name: "robots", content: "noindex,nofollow" } : { name: "robots", content: "index,follow" },
     // viewport
     { name: "viewport", content: "width=device-width, initial-scale=1.0" },
     // type
