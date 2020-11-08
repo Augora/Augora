@@ -89,8 +89,8 @@ jobs:
         with:
           vercel-token: ${{ secrets.ZEIT_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
-          vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
+          vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
+          vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
           scope: augora
           alias-domains: |
             {{PR_NUMBER}}.pullrequests.augora.fr
