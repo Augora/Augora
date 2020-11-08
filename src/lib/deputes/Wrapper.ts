@@ -33,7 +33,7 @@ export function getDeputes() {
             Emails
             SitesWeb
             URLPhotoAugora
-            # Ordre
+            Ordre @client
           }
         }
         GroupesParlementairesDetailsActifs(Actif: true) {
