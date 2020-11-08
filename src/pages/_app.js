@@ -4,7 +4,6 @@ import Head from "next/head"
 import { ApolloProvider } from "@apollo/client"
 
 import DeputiesListProvider from "../context/deputies-filters/deputiesFiltersContext"
-import { getDeputes } from "../lib/deputes/Wrapper"
 import Layout from "components/layout"
 import client from "lib/faunadb/client"
 
@@ -29,13 +28,3 @@ export default withRouter(function MyApp({ Component, pageProps, router }) {
     </ApolloProvider>
   )
 })
-
-export async function getStaticProps() {
-  const deputes = await getDeputes()
-
-  return {
-    props: {
-      deputes,
-    },
-  }
-}
