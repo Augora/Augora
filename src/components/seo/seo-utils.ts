@@ -42,9 +42,9 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
     return buildMetaTags(
       buildTitleFromPageType(pageType, depute),
       "Vous voulez en savoir plus sur les députés de l'Assemblée Nationale ? Augora est un projet open source qui permet à chacun d'être mieux renseigné sur la politique Française.",
-      process.env.NODE_ENV !== "production" ? "https://preprod.augora.fr" : "https://augora.fr",
+      process.env.NEXT_PUBLIC_ENV !== "production" ? "https://preprod.augora.fr" : "https://augora.fr",
       "icons/icon-512x512.png",
-      process.env.NODE_ENV
+      process.env.NEXT_PUBLIC_ENV
     )
   }
   if (pageType === PageType.Depute) {
@@ -55,20 +55,20 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
       } de la ${depute.NumeroCirconscription}${depute.NumeroCirconscription < 2 ? "ère" : "ème"} circonscription de ${
         depute.NomDepartement
       }.`,
-      process.env.NODE_ENV !== "production"
+      process.env.NEXT_PUBLIC_ENV !== "production"
         ? `https://preprod.augora.fr/depute/${depute.Slug}`
         : `https://augora.fr/depute/${depute.Slug}`,
       "icons/icon-512x512.png",
-      process.env.NODE_ENV
+      process.env.NEXT_PUBLIC_ENV
     )
   }
   if (pageType === PageType.FAQ) {
     return buildMetaTags(
       buildTitleFromPageType(pageType, depute),
       "Trouvez les réponses aux questions les plus fréquentes sur le site Augora et l'assemblée nationale.",
-      process.env.NODE_ENV !== "production" ? "https://preprod.augora.fr/faq" : "https://augora.fr/faq",
+      process.env.NEXT_PUBLIC_ENV !== "production" ? "https://preprod.augora.fr/faq" : "https://augora.fr/faq",
       "icons/icon-512x512.png",
-      process.env.NODE_ENV
+      process.env.NEXT_PUBLIC_ENV
     )
   }
   if (pageType === PageType.NotFound) {
