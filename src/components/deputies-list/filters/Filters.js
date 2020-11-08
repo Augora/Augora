@@ -39,16 +39,8 @@ function Filters(props) {
         checked={state.GroupeValue[groupe.Sigle]}
       >
         <div className="groupe__img-container">
-          <Image
-            layout="fill"
-            src={groupeIconByGroupeSigle(groupe.Sigle, false)}
-            alt={`Icône groupe parlementaire ${groupe.Sigle}`}
-          />
-          <Image
-            layout="fill"
-            src={groupeIconByGroupeSigle(groupe.Sigle, true)}
-            alt={`Icône groupe parlementaire ${groupe.Sigle} en couleur`}
-          />
+          <img src={groupeIconByGroupeSigle(groupe.Sigle, false)} alt={`Icône groupe parlementaire ${groupe.Sigle}`} />
+          <img src={groupeIconByGroupeSigle(groupe.Sigle, true)} alt={`Icône groupe parlementaire ${groupe.Sigle} en couleur`} />
         </div>
         <Tooltip
           title={groupe.NomComplet}

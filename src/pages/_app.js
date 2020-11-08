@@ -19,7 +19,7 @@ export default withRouter(function MyApp({ Component, pageProps, router }) {
           media="all"
         />
       </Head>
-      <Layout location={router.pathname}>
+      <Layout location={router}>
         <Component {...pageProps} />
       </Layout>
     </DeputiesListProvider>
