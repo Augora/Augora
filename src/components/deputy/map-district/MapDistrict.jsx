@@ -14,7 +14,7 @@ import { retirerAccentsFR } from "../../../utils/string-format/accent"
 import Block from "../_block/_Block"
 import ResetControl from "./ResetControl"
 import Tooltip from "../../tooltip/Tooltip"
-import IconPin from "../../../images/ui-kit/icon-pin.svg"
+import IconPin from "images/ui-kit/icon-pin.svg"
 
 const France = {
   center: { lng: 1.88, lat: 46.6 },

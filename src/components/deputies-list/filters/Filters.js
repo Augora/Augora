@@ -1,11 +1,11 @@
 import React, { useState, useRef, useContext } from "react"
 import Image from "next/image"
 
-import IconClose from "../../../../public/images/ui-kit/icon-close.svg"
-import IconSearch from "../../../../public/images/ui-kit/icon-loupe.svg"
-import IconMaleSymbol from "../../../../public/images/ui-kit/icon-male.svg"
-import IconFemaleSymbol from "../../../../public/images/ui-kit/icon-female.svg"
-import IconReset from "../../../../public/images/ui-kit/icon-refresh.svg"
+import IconClose from "images/ui-kit/icon-close.svg"
+import IconSearch from "images/ui-kit/icon-loupe.svg"
+import IconMaleSymbol from "images/ui-kit/icon-male.svg"
+import IconFemaleSymbol from "images/ui-kit/icon-female.svg"
+import IconReset from "images/ui-kit/icon-refresh.svg"
 
 import AgeSlider from "../slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"

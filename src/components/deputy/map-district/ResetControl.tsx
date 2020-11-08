@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React from "react"
 import { BaseControl, BaseControlProps } from "react-map-gl"
-import IconReset from "../../../images/ui-kit/icon-refresh.svg"
+import IconReset from "images/ui-kit/icon-refresh.svg"
 
 export interface ResetControlProps extends BaseControlProps {
   onReset: Function
