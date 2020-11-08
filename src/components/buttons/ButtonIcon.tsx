@@ -3,7 +3,7 @@ import Button from "./Button"
 
 export interface IButtonIcon {
   className?: string
-  onClick: <T>(args?: T) => void | string | undefined
+  onClick: (<T>(args?: T) => void) | string
   style?: React.CSSProperties
   color?: string
   children?: React.ReactNode
@@ -25,15 +25,10 @@ export interface IButtonIcon {
  * @param {ButtonType} [type] - Type of input
  */
 export default function ButtonIcon(props: IButtonIcon) {
-  const classNames = `${props.className} btn--icon ${props.deactivated ? 'btn--deactivated' : ''}`
-  if (props.onClick || typeof props.onClick === 'string') {
+  const classNames = `${props.className} btn--icon ${props.deactivated ? "btn--deactivated" : ""}`
+  if (typeof props.onClick === "string") {
     return (
-      <a
-        href={props.onClick}
-        className={`btn ${classNames}`}
-        title={props.title}
-        target={props.onClick ? props.target : ''}
-      >
+      <a href={props.onClick} className={`btn ${classNames}`} title={props.title} target={props.onClick ? props.target : ""}>
         {props.children}
       </a>
     )

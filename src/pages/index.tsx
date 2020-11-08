@@ -1,10 +1,11 @@
 import React from "react"
-import SEO, { PageType } from "../components/seo/seo"
 
+import SEO, { PageType } from "../components/seo/seo"
+import { getDeputes } from "../lib/deputes/Wrapper"
 import DeputiesList from "../components/deputies-list/DeputiesList"
 import PageTitle from "../components/titles/PageTitle"
 
-const IndexPage = () => {
+export default function IndexPage() {
   return (
     <>
       <SEO pageType={PageType.Accueil} />
@@ -16,4 +17,12 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+export async function getStaticProps() {
+  const deputes = await getDeputes()
+
+  return {
+    props: {
+      deputes,
+    },
+  }
+}

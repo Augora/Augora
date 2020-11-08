@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react"
 import { BaseControl, BaseControlProps } from "react-map-gl"
 import IconReset from "../../../images/ui-kit/icon-refresh.svg"
@@ -8,10 +9,7 @@ export interface ResetControlProps extends BaseControlProps {
   title?: string
 }
 
-export default class ResetControl extends BaseControl<
-  ResetControlProps,
-  HTMLButtonElement
-> {
+export default class ResetControl extends BaseControl<ResetControlProps, HTMLButtonElement> {
   public static defaultProps = {
     className: "",
     title: "Réinitialiser",

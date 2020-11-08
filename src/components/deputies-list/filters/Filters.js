@@ -1,10 +1,11 @@
 import React, { useState, useRef, useContext } from "react"
+import Image from "next/image"
 
-import IconClose from "../../../images/ui-kit/icon-close.svg"
-import IconSearch from "../../../images/ui-kit/icon-loupe.svg"
-import IconMaleSymbol from "../../../images/ui-kit/icon-male.svg"
-import IconFemaleSymbol from "../../../images/ui-kit/icon-female.svg"
-import IconReset from "../../../images/ui-kit/icon-refresh.svg"
+import IconClose from "../../../../public/images/ui-kit/icon-close.svg"
+import IconSearch from "../../../../public/images/ui-kit/icon-loupe.svg"
+import IconMaleSymbol from "../../../../public/images/ui-kit/icon-male.svg"
+import IconFemaleSymbol from "../../../../public/images/ui-kit/icon-female.svg"
+import IconReset from "../../../../public/images/ui-kit/icon-refresh.svg"
 
 import AgeSlider from "../slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"
@@ -38,8 +39,16 @@ function Filters(props) {
         checked={state.GroupeValue[groupe.Sigle]}
       >
         <div className="groupe__img-container">
-          <img src={groupeIconByGroupeSigle(groupe.Sigle, false)} alt={`Icône groupe parlementaire ${groupe.Sigle}`} />
-          <img src={groupeIconByGroupeSigle(groupe.Sigle, true)} alt={`Icône groupe parlementaire ${groupe.Sigle} en couleur`} />
+          <Image
+            layout="fill"
+            src={groupeIconByGroupeSigle(groupe.Sigle, false)}
+            alt={`Icône groupe parlementaire ${groupe.Sigle}`}
+          />
+          <Image
+            layout="fill"
+            src={groupeIconByGroupeSigle(groupe.Sigle, true)}
+            alt={`Icône groupe parlementaire ${groupe.Sigle} en couleur`}
+          />
         </div>
         <Tooltip
           title={groupe.NomComplet}
