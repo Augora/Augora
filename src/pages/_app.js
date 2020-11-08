@@ -29,13 +29,3 @@ export default withRouter(function MyApp({ Component, pageProps, router }) {
     </ApolloProvider>
   )
 })
-
-export async function getStaticProps() {
-  const deputes = await getDeputes()
-
-  return {
-    props: {
-      deputes,
-    },
-  }
-}
