@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react"
 import ReactMapGL, { Source, Layer } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
-import { Link } from "gatsby"
+import Link from "next/link"
 import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
 
@@ -70,8 +70,10 @@ export default function MapDistrict(props) {
               }}
             />
           </Source>
-          <Link to={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`} className="map__redirect">
-            Cliquer pour voir la carte entière
+          <Link href={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`} >
+            <a className="map__redirect">
+              Cliquer pour voir la carte entière
+            </a>
           </Link>
         </ReactMapGL>
       </div>

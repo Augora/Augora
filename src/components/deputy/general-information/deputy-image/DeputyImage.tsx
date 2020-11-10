@@ -1,8 +1,9 @@
 import React, { useState } from "react"
+import Image from "next/image"
 
 // Force using url-loader instead of gatsby-plugin-react-svg in order to have url instead of component
-import MissingFemale from "-!url-loader!images/ui-kit/icon-missingfemale.svg"
-import MissingMale from "-!url-loader!images/ui-kit/icon-missingmale.svg"
+const MissingFemale = "/images/ui-kit/icon-missingfemale.svg"
+const MissingMale = "/images/ui-kit/icon-missingmale.svg"
 
 /**
  * Retrieve default Component deputy's placeholder
@@ -43,11 +44,7 @@ export default function DeputyImage(props: IDeputyImageInformation) {
 
   return (
     <img
-      className={
-        HasErrored
-          ? "icon-wrapper deputy__photo deputy__photo--errored"
-          : "deputy__photo"
-      }
+      className={HasErrored ? "icon-wrapper deputy__photo deputy__photo--errored" : "deputy__photo"}
       src={Src}
       alt={props.alt}
       onError={() => onError()}

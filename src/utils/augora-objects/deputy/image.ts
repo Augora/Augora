@@ -1,13 +1,13 @@
-import UDI from "images/logos/groupes-parlementaires/udi/udi_blanc.png"
-import GDR from "images/logos/groupes-parlementaires/gdr/gdr_blanc.png"
-import LT from "images/logos/groupes-parlementaires/lt/lt_blanc.png"
-import LFI from "images/logos/groupes-parlementaires/lfi/lfi_blanc.png"
-import LR from "images/logos/groupes-parlementaires/lr/lr_blanc.png"
-import LREM from "images/logos/groupes-parlementaires/lrem/lrem_blanc.png"
-import MODEM from "images/logos/groupes-parlementaires/modem/modem_blanc.png"
-import NonInscrits from "images/logos/groupes-parlementaires/ni/ni_blanc.png"
-import PS from "images/logos/groupes-parlementaires/ps/ps_blanc.png"
-import uai from "images/logos/groupes-parlementaires/udi/udi_blanc.png"
+const UDI = "/images/logos/groupes-parlementaires/udi/udi_blanc.png"
+const GDR = "/images/logos/groupes-parlementaires/gdr/gdr_blanc.png"
+const LT = "/images/logos/groupes-parlementaires/lt/lt_blanc.png"
+const LFI = "/images/logos/groupes-parlementaires/lfi/lfi_blanc.png"
+const LR = "/images/logos/groupes-parlementaires/lr/lr_blanc.png"
+const LREM = "/images/logos/groupes-parlementaires/lrem/lrem_blanc.png"
+const MODEM = "/images/logos/groupes-parlementaires/modem/modem_blanc.png"
+const NonInscrits = "/images/logos/groupes-parlementaires/ni/ni_blanc.png"
+const PS = "/images/logos/groupes-parlementaires/ps/ps_blanc.png"
+const uai = "/images/logos/groupes-parlementaires/udi/udi_blanc.png"
 
 /**
  * Match the politic group's photo import with his acronym

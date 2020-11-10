@@ -1,7 +1,6 @@
 import React from "react"
 
 import SEO, { PageType } from "../components/seo/seo"
-// import { Link } from "gatsby"
 import Question from "components/faq/Question"
 import PageTitle from "../components/titles/PageTitle"
 
@@ -101,19 +100,30 @@ const contentAbout = [
       <p>
         Avant toutes choses, les données utilisées pour les cartes sont dans des fichiers au format <strong>geojson</strong>.
         <br />
-        <ul><li>
-        Pour les départements et régions, nous utilisons : <a href="https://github.com/gregoiredavid/france-geojson" target="_blank" rel="noreferrer">
-        https://github.com/gregoiredavid/france-geojson
-        </a>
-        </li><li>
-        Pour les circonscriptions, nous utilisons : <a href="https://www.data.gouv.fr/en/datasets/contours-detailles-des-circonscriptions-des-legislatives/" target="_blank" rel="noreferrer">
-        https://www.data.gouv.fr/en/datasets/contours-detailles-des-circonscriptions-des-legislatives/
-        </a>
-        </li><li>
-        Enfin, pour les zones géographiques des députés des français établis hors de France, nous utilisons : <a href="https://github.com/datasets/geo-countries" target="_blank" rel="noreferrer">
-        https://github.com/datasets/geo-countries
-        </a>
-        </li></ul>
+        <ul>
+          <li>
+            Pour les départements et régions, nous utilisons :{" "}
+            <a href="https://github.com/gregoiredavid/france-geojson" target="_blank" rel="noreferrer">
+              https://github.com/gregoiredavid/france-geojson
+            </a>
+          </li>
+          <li>
+            Pour les circonscriptions, nous utilisons :{" "}
+            <a
+              href="https://www.data.gouv.fr/en/datasets/contours-detailles-des-circonscriptions-des-legislatives/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://www.data.gouv.fr/en/datasets/contours-detailles-des-circonscriptions-des-legislatives/
+            </a>
+          </li>
+          <li>
+            Enfin, pour les zones géographiques des députés des français établis hors de France, nous utilisons :{" "}
+            <a href="https://github.com/datasets/geo-countries" target="_blank" rel="noreferrer">
+              https://github.com/datasets/geo-countries
+            </a>
+          </li>
+        </ul>
       </p>
     ),
   },
@@ -141,7 +151,7 @@ const contentAbout = [
   },
 ]
 
-const FAQPage = () => {
+export default function FAQ() {
   return (
     <>
       <SEO pageType={PageType.FAQ} />
@@ -155,5 +165,3 @@ const FAQPage = () => {
     </>
   )
 }
-
-export default FAQPage
