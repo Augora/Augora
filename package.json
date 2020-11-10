@@ -9,7 +9,7 @@
     "@nivo/bar": "0.63.1",
     "@nivo/pie": "0.63.1",
     "@svgr/webpack": "^5.4.0",
-    "fuse.js": "3.4.6",
+    "fuse.js": "6.4.3",
     "graphql": "^15.4.0",
     "lodash": "^4.17.20",
     "mapbox-gl": "1.12.0",
@@ -22,9 +22,9 @@
     "react-helmet": "6.1.0",
     "react-lazy-load-image-component": "^1.5.0",
     "react-map-gl": "^5.2.10",
-    "react-use-fuzzy": "1.0.4",
     "sass": "^1.29.0",
-    "typescript": "4.0.5"
+    "typescript": "4.0.5",
+    "zustand": "^3.1.4"
   },
   "license": "MIT",
   "scripts": {
