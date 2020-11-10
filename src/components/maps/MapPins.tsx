@@ -38,8 +38,6 @@ function MapDeputyPin({ deputy, coords }) {
  * @param {AugoraMap.DeputiesList} deputiesList Liste des députés à filtrer
  */
 export default function MapPins({ viewData, deputiesList }: IMapPin) {
-  const centerCoords = useMemo(() => viewData.GEOJson.features.map((o) => getPolygonCenter(o)), [viewData])
-
   return (
     <div className="map__pins">
       {viewData.GEOJson.features.map((feature, index) => {
@@ -50,12 +48,16 @@ export default function MapPins({ viewData, deputiesList }: IMapPin) {
               <MapDeputyPin
                 key={`${index}-${deputies[0].Slug}-${getZoneCode(feature)}`}
                 deputy={deputies[0]}
-                coords={centerCoords[index]}
+                coords={feature.properties.center}
               />
             )
           } else {
             return (
-              <MapNumberPin key={`${index}-${feature.properties.nom}`} number={deputies.length} coords={centerCoords[index]} />
+              <MapNumberPin
+                key={`${index}-${feature.properties.nom}`}
+                number={deputies.length}
+                coords={feature.properties.center}
+              />
             )
           }
         }
