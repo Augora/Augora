@@ -8,15 +8,6 @@ import MetroCircFile from "static/circ-metro.json"
 import OMCircFile from "static/circ-om.json"
 import HorsCircFile from "static/circ-hors.json"
 
-// Convert to any types
-const MetroFranceContFileAsAny = MetroFranceContFile as any
-const MetroRegFileAsAny = MetroRegFile as any
-const MetroDptFileAsAny = MetroDptFile as any
-const OMDptFileAsAny = OMDptFile as any
-const MetroCircFileAsAny = MetroCircFile as any
-const OMCircFileAsAny = OMCircFile as any
-const HorsCircFileAsAny = HorsCircFile as any
-
 /**
  * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
  *
@@ -80,20 +71,20 @@ export const createFeatureCollection = (featureArray?: AugoraMap.Feature[]): Aug
 /**
  * Feature collection GeoJSON de toutes les régions
  */
-export const AllReg: AugoraMap.FeatureCollection = MetroRegFileAsAny
+export const AllReg: AugoraMap.FeatureCollection = MetroRegFile
 
 /**
  * Feature collection GeoJSON de tous les départements
  */
-export const AllDpt: AugoraMap.FeatureCollection = createFeatureCollection([...MetroDptFileAsAny.features, ...OMDptFile.features])
+export const AllDpt: AugoraMap.FeatureCollection = createFeatureCollection([...MetroDptFile.features, ...OMDptFile.features])
 
 /**
  * Feature collection GeoJSON de toutes les circonscriptions
  */
 export const AllCirc: AugoraMap.FeatureCollection = createFeatureCollection([
-  ...MetroCircFileAsAny.features,
+  ...MetroCircFile.features,
   ...OMCircFile.features,
-  ...HorsCircFileAsAny.features,
+  ...HorsCircFile.features,
 ])
 
 /**
@@ -107,7 +98,7 @@ export const worldBox: AugoraMap.Bounds = [
 /**
  * Feature de la france metropolitaine
  */
-export const MetroFeature: AugoraMap.Feature = MetroFranceContFileAsAny
+export const MetroFeature: AugoraMap.Feature = MetroFranceContFile
 
 /**
  * Pseudo-feature du monde
@@ -119,7 +110,7 @@ export const WorldFeature: AugoraMap.Feature = createFeature("Monde", { code_con
  */
 export const WorldCont: AugoraMap.FeatureCollection = createFeatureCollection([
   MetroFeature,
-  ...HorsCircFileAsAny.features,
+  ...HorsCircFile.features,
   ...OMDptFile.features,
 ])
 
@@ -304,7 +295,7 @@ export const getFeature = (zoneId: number | string, zoneCode: Code, dptId?: numb
       if (zoneId === Cont.France) return MetroFeature
       else return WorldFeature
     case Code.Reg:
-      return MetroRegFileAsAny.features.find((entry) => entry.properties[zoneCode] == zoneId)
+      return MetroRegFile.features.find((entry) => entry.properties[zoneCode] == zoneId)
     case Code.Dpt:
       return zoneId !== "999" ? AllDpt.features.find((entry) => entry.properties[zoneCode] == zoneId) : WorldFeature
     case Code.Circ:
@@ -340,9 +331,9 @@ export const getChildFeatures = (feature: AugoraMap.Feature): AugoraMap.FeatureC
 
   switch (zoneCode) {
     case Code.Cont:
-      if (feature.properties[zoneCode] === Cont.OM) return OMDptFileAsAny
+      if (feature.properties[zoneCode] === Cont.OM) return OMDptFile
       else if (feature.properties[zoneCode] === Cont.World) return WorldCont
-      else return MetroRegFileAsAny
+      else return MetroRegFile
     case Code.Reg:
       return createFeatureCollection(
         AllDpt.features.filter((element) => element.properties[zoneCode] === feature.properties[zoneCode])
@@ -367,13 +358,13 @@ export const getSisterFeatures = (feature: AugoraMap.Feature): AugoraMap.Feature
 
   switch (zoneCode) {
     case Code.Cont:
-      if (contId === Cont.France) return OMDptFileAsAny.features
+      if (contId === Cont.France) return OMDptFile.features
       break
     case Code.Reg:
-      return MetroRegFileAsAny.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode])
+      return MetroRegFile.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode])
     case Code.Dpt:
       return contId === Cont.France
-        ? MetroDptFileAsAny.features.filter(
+        ? MetroDptFile.features.filter(
             (entry) => entry.properties[zoneCode] !== props[zoneCode] && entry.properties[Code.Reg] === props[Code.Reg]
           )
         : [...OMDptFile.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode]), MetroFeature]
