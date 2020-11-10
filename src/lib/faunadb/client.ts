@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, from, HttpLink } from "@apollo/client"
+import { ApolloClient, InMemoryCache, from, HttpLink, ApolloLink } from "@apollo/client"
 import { RetryLink } from "@apollo/client/link/retry"
 
 const cache = new InMemoryCache({
@@ -16,7 +16,19 @@ const cache = new InMemoryCache({
 })
 
 const link = from([
-  new RetryLink(),
+  new RetryLink({
+    attempts: (count, operation, error) => {
+      return !!error && count < 3
+    },
+  }),
+  new ApolloLink((operation, forward) => {
+    return forward(operation).map((data) => {
+      if (data && data.errors && data.errors.length > 0) {
+        throw new Error(data.errors.map((e) => e.message).join("\n"))
+      }
+      return data
+    })
+  }),
   new HttpLink({
     uri: "https://graphql.fauna.com/graphql",
     headers: {
