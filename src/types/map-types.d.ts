@@ -75,6 +75,8 @@ declare namespace AugoraMap {
    */
   export interface Properties extends GeoJSON.GeoJsonProperties {
     nom?: string
+    nom_dpt?: string
+    nom_reg?: string
     code_cont?: number
     code_reg?: number | string
     code_dpt?: number | string
