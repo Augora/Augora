@@ -51,13 +51,17 @@ export const createFeature = (
   nom?: string,
   otherProps?: AugoraMap.Properties,
   type?: "Polygon" | "MultiPolygon",
-  coords?: any[]
+  coords?: any[],
+  center?: AugoraMap.Coordinates,
+  bbox?: AugoraMap.Bounds
 ): AugoraMap.Feature => {
   return {
     type: "Feature",
     geometry: {
       type: type ? type : "Polygon",
       coordinates: coords ? coords : [],
+      center: center ? center : null,
+      bbox: bbox ? bbox : null,
     },
     properties: {
       nom: nom ? nom : "",
@@ -150,7 +154,10 @@ export const franceBox: AugoraMap.Bounds = [
  * @param {AugoraMap.Position} coordinates L'array de coordonnées GEOJson
  * @param {boolean} [multiPolygon] Mettre true si les coordonnées envoyées sont de type multipolygon
  */
-const getBoundingBoxFromCoordinates = (coordinates: AugoraMap.Position, multiPolygon?: boolean): AugoraMap.Bounds => {
+const getBoundingBoxFromCoordinates = (
+  coordinates: GeoJSON.Position[][] | GeoJSON.Position[][][],
+  multiPolygon?: boolean
+): AugoraMap.Bounds => {
   var boxListOfLng = []
   var boxListOfLat = []
 
