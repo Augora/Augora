@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
-import { useRouter } from "next/router"
+import router from "next/router"
 import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 import {
@@ -98,7 +98,6 @@ export default function MapAugora(props: IMapAugora) {
   const {
     state: { FilteredList },
   } = useContext(DeputiesListContext)
-  const router = useRouter()
 
   useEffect(() => {
     if (props.codeCont !== undefined) {
