@@ -6,7 +6,7 @@
   "author": "",
   "dependencies": {
     "@apollo/client": "^3.2.5",
-    "@nivo/bar": "0.63.1",
+    "@nivo/bar": "0.64.0",
     "@nivo/pie": "0.63.1",
     "@svgr/webpack": "^5.4.0",
     "fuse.js": "6.4.3",
@@ -17,7 +17,7 @@
     "next": "^10.0.1",
     "prettier": "2.1.2",
     "react": "17.0.1",
-    "react-compound-slider": "2.5.0",
+    "react-compound-slider": "3.1.0",
     "react-dom": "17.0.1",
     "react-helmet": "6.1.0",
     "react-lazy-load-image-component": "^1.5.0",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/moment": "^2.13.0",
-    "@types/node": "^14.14.6",
+    "@types/node": "^14.14.7",
     "@types/react": "^16.9.56"
   }
 }
