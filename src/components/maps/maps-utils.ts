@@ -238,9 +238,10 @@ export const flyToBounds = (
   viewState: any,
   setViewState: React.Dispatch<React.SetStateAction<{}>>
 ): void => {
-  const bounds = new WebMercatorViewport(viewState).fitBounds(getBoundingBoxFromFeature(feature), { padding: 100 })
+  const bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
+  const mercaViewport = new WebMercatorViewport(viewState).fitBounds(bounds, { padding: 100 })
   setViewState({
-    ...bounds,
+    ...mercaViewport,
     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
     transitionDuration: "auto",
   })
