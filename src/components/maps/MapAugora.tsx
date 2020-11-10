@@ -30,7 +30,7 @@ import IconPin from "images/ui-kit/icon-pin.svg"
 import Filters from "components/deputies-list/filters/Filters"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
 
-export interface ICurrentView {
+interface ICurrentView {
   GEOJson: AugoraMap.FeatureCollection
   feature: AugoraMap.Feature
 }
@@ -265,7 +265,7 @@ export default function MapAugora(props: IMapAugora) {
         <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
       {!inExploreMode && hover && <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.feature} deputiesList={FilteredList} />}
-      {!inExploreMode && <MapPins viewData={currentView} deputiesList={FilteredList} />}
+      {!inExploreMode && <MapPins features={currentView.GEOJson.features} deputiesList={FilteredList} />}
       <div className="map__navigation map__navigation-right">
         <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
         <FullscreenControl />

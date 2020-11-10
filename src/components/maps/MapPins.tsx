@@ -1,34 +1,31 @@
-import React, { useMemo } from "react"
+import React from "react"
 import { Marker } from "react-map-gl"
-import { getDeputies, getPolygonCenter, getZoneCode } from "components/maps/maps-utils"
-import { ICurrentView } from "components/maps/MapAugora"
+import { getDeputies, getZoneCode } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
 interface IMapPin {
-  viewData: ICurrentView
+  features: AugoraMap.Feature[]
   deputiesList: AugoraMap.DeputiesList
 }
 
-function MapNumberPin({ number, coords }) {
+function MapPin({ deputies, coords }) {
   return (
-    <Marker className="map__pins--marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-40} offsetLeft={-40}>
-      <div className="map__number-pin">{number}</div>
-    </Marker>
-  )
-}
-
-function MapDeputyPin({ deputy, coords }) {
-  return (
-    <Marker className="map__pins--marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-50} offsetLeft={-50}>
-      <div
-        className="map__deputy-pin"
-        style={{
-          borderColor: deputy.GroupeParlementaire.Couleur,
-        }}
-      >
-        <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
-      </div>
-    </Marker>
+    deputies[0] !== undefined && (
+      <Marker className="map__pins--marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-50} offsetLeft={-50}>
+        {deputies.length === 1 ? (
+          <div
+            className="map__deputy-pin"
+            style={{
+              borderColor: deputies[0].GroupeParlementaire.Couleur,
+            }}
+          >
+            <DeputyImage src={deputies[0].URLPhotoAugora} alt={deputies[0].Nom} sex={deputies[0].Sexe} />
+          </div>
+        ) : (
+          <div className="map__number-pin">{deputies.length}</div>
+        )}
+      </Marker>
+    )
   )
 }
 
@@ -37,30 +34,20 @@ function MapDeputyPin({ deputy, coords }) {
  * @param {ICurrentView} viewData Le state currentView
  * @param {AugoraMap.DeputiesList} deputiesList Liste des députés à filtrer
  */
-export default function MapPins({ viewData, deputiesList }: IMapPin) {
+export default function MapPins({ features, deputiesList }: IMapPin) {
   return (
     <div className="map__pins">
-      {viewData.GEOJson.features.map((feature, index) => {
+      {features.map((feature, index) => {
         const deputies = getDeputies(feature, deputiesList)
-        if (deputies[0] !== undefined) {
-          if (deputies.length === 1) {
-            return (
-              <MapDeputyPin
-                key={`${index}-${deputies[0].Slug}-${getZoneCode(feature)}`}
-                deputy={deputies[0]}
-                coords={feature.properties.center}
-              />
-            )
-          } else {
-            return (
-              <MapNumberPin
-                key={`${index}-${feature.properties.nom}`}
-                number={deputies.length}
-                coords={feature.properties.center}
-              />
-            )
-          }
-        }
+        return (
+          <MapPin
+            key={`${index}-${getZoneCode(feature)}-${
+              feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt
+            }`}
+            deputies={deputies}
+            coords={feature.properties.center}
+          />
+        )
       })}
     </div>
   )
