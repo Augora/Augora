@@ -61,30 +61,9 @@ declare namespace AugoraMap {
   export type Bounds = [Coordinates, Coordinates]
 
   /**
-   * Un Object GEOJson geometry Polygon avec une bounding box et coordonnées du centre optionnels
-   */
-  export interface Polygon extends GeoJSON.GeoJsonObject {
-    type: "Polygon"
-    coordinates: GeoJSON.Position[][]
-    bbox?: Bounds
-    center?: Coordinates
-  }
-
-  /**
-   * Un Object GEOJson geometry MultiPolygon avec une bounding box et coordonnées du centre optionnels
-   */
-
-  export interface MultiPolygon extends GeoJsonObject {
-    type: "MultiPolygon"
-    coordinates: GeoJSON.Position[][][]
-    bbox?: Bounds
-    center?: Coordinates
-  }
-
-  /**
    * Un object GEOJson geometry ne contenant que polygon ou multipolygon
    */
-  export type Geometry = Polygon | MultiPolygon
+  export type Geometry = GeoJSON.Polygon | GeoJSON.MultiPolygon
 
   /**
    * Un object GEOJson properties contenant les clés de nos fichiers GEOJson
@@ -97,6 +76,8 @@ declare namespace AugoraMap {
     code_reg?: number | string
     code_dpt?: number | string
     code_circ?: number
+    center?: Coordinates
+    bbox?: Bounds
   }
 
   /**

@@ -51,17 +51,13 @@ export const createFeature = (
   nom?: string,
   otherProps?: AugoraMap.Properties,
   type?: "Polygon" | "MultiPolygon",
-  coords?: any[],
-  center?: AugoraMap.Coordinates,
-  bbox?: AugoraMap.Bounds
+  coords?: any[]
 ): AugoraMap.Feature => {
   return {
     type: "Feature",
     geometry: {
       type: type ? type : "Polygon",
       coordinates: coords ? coords : [],
-      center: center ? center : null,
-      bbox: bbox ? bbox : null,
     },
     properties: {
       nom: nom ? nom : "",
