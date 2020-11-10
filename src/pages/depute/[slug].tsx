@@ -1,5 +1,5 @@
 import React from "react"
-import Helmet from "react-helmet"
+import Head from "next/head"
 import { colors } from "utils/variables"
 import { getDepute, getDeputes } from "../../lib/deputes/Wrapper"
 
@@ -32,9 +32,6 @@ export default function Deputy({ depute }) {
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
-      <Helmet>
-        <style>{`:root { --groupe-color: ${color}; }`}</style>
-      </Helmet>
       <div className="page page__deputy">
         <div className="deputy__header">
           <h1>
