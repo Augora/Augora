@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Virtual envs : https://help.github.com/en/articles/virtual-environments-for-github-actions
         os: [macOS-latest, windows-latest, ubuntu-latest]
         node-version: [14.x]
     steps:
@@ -39,27 +38,17 @@ jobs:
         env:
           CI: "true"
           NODE_ENV: "staging"
+          NEXT_PUBLIC_ENV: "staging"
         run: yarn install
 
       - name: yarn build
         env:
           CI: "true"
           NODE_ENV: "staging"
-          GATSBY_TARGET_ENV: "staging"
+          NEXT_PUBLIC_ENV: "staging"
           FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
-          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
         run: yarn build
 
-      - name: yarn test
-        env:
-          CI: "true"
-          NODE_ENV: "staging"
-          GATSBY_TARGET_ENV: "staging"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
-          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
-        run: yarn test
       - name: The build has failed
         if: ${{ failure() }}
         uses: 8398a7/action-slack@v3
@@ -105,43 +94,12 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Yarn cache directory
-        id: yarn-cache-dir
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Yarn cache
-        uses: actions/cache@v1
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir.outputs.dir }}
-          key: ubuntu-latest-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ubuntu-latest-yarn-${{ hashFiles('**/yarn.lock') }}
-            ubuntu-latest-yarn-
-
-      - name: yarn install
-        env:
-          CI: "true"
-          NODE_ENV: "staging"
-        run: yarn install
-
-      - name: yarn build
-        env:
-          CI: "true"
-          NODE_ENV: "staging"
-          GATSBY_TARGET_ENV: "staging"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
-          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
-        run: yarn build
-
       - uses: amondnet/vercel-action@v19
         with:
           vercel-token: ${{ secrets.ZEIT_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-comment: false
-          vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
-          vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
+          vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
+          vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
           scope: augora
           alias-domains: |
             preprod.augora.fr
