@@ -243,7 +243,9 @@ export const flyToBounds = (
   setViewState({
     ...mercaViewport,
     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
+    transitionEasing: (x) => -(Math.cos(Math.PI * x) - 1) / 2, //ease in-out sine
     transitionDuration: "auto",
+    transitionInterruption: 3,
   })
 }
 
