@@ -141,9 +141,7 @@ export default function Deputy({ depute }) {
 }
 
 export async function getStaticProps({ params: { slug } }) {
-  console.time(`slug, getDepute ${slug}`)
   const depute = await getDepute(slug)
-  console.timeEnd(`slug, getDepute ${slug}`)
 
   return {
     props: {
@@ -153,7 +151,6 @@ export async function getStaticProps({ params: { slug } }) {
 }
 
 export async function getStaticPaths() {
-  console.time("slug, getDeputes")
   if (!fs.existsSync(".cache/")) {
     fs.mkdirSync(".cache")
   }
@@ -175,7 +172,6 @@ export async function getStaticPaths() {
       fs.writeFileSync(".cache/DeputesSlugs.json", JSON.stringify(paths))
     }
   }
-  console.timeEnd("slug, getDeputes")
 
   return {
     paths,
