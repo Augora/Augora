@@ -18,4 +18,8 @@ module.exports = {
 
     return config
   },
+  onDemandEntries: {
+    maxInactiveAge: 30 * 60 * 1000,
+    pagesBufferLength: 100,
+  },
 }

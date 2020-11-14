@@ -1,7 +1,9 @@
 import React from "react"
 import Helmet from "react-helmet"
+import fs from "fs"
+
 import { colors } from "utils/variables"
-import { getDepute, getDeputes } from "../../lib/deputes/Wrapper"
+import { getDepute, getDeputesSlugs } from "../../lib/deputes/Wrapper"
 
 import Coworkers from "components/deputy/coworkers/Coworkers"
 import MapDistrict from "components/deputy/map-district/MapDistrict"
@@ -139,7 +141,9 @@ export default function Deputy({ depute }) {
 }
 
 export async function getStaticProps({ params: { slug } }) {
+  console.time(`slug, getDepute ${slug}`)
   const depute = await getDepute(slug)
+  console.timeEnd(`slug, getDepute ${slug}`)
 
   return {
     props: {
@@ -149,14 +153,32 @@ export async function getStaticProps({ params: { slug } }) {
 }
 
 export async function getStaticPaths() {
-  const deputes = await getDeputes()
+  console.time("slug, getDeputes")
+  if (!fs.existsSync(".cache/")) {
+    fs.mkdirSync(".cache")
+  }
+  var paths = null
+  if (process.env.USE_CACHE) {
+    if (fs.existsSync(".cache/DeputesSlugs.json")) {
+      paths = JSON.parse(fs.readFileSync(".cache/DeputesSlugs.json").toString())
+    }
+  }
 
-  return {
-    paths: deputes.data.DeputesEnMandat.data.map((d) => ({
+  if (!paths) {
+    const deputes = await getDeputesSlugs()
+    paths = deputes.data.DeputesEnMandat.data.map((d) => ({
       params: {
         slug: d.Slug,
       },
-    })),
+    }))
+    if (process.env.USE_CACHE) {
+      fs.writeFileSync(".cache/DeputesSlugs.json", JSON.stringify(paths))
+    }
+  }
+  console.timeEnd("slug, getDeputes")
+
+  return {
+    paths,
     fallback: false,
   }
 }

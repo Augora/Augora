@@ -18,7 +18,9 @@ export default function IndexPage() {
 }
 
 export async function getStaticProps() {
+  console.time("Index, getDeputes")
   const deputes = await getDeputes()
+  console.timeEnd("Index, getDeputes")
 
   return {
     props: {

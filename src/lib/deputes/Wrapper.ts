@@ -51,6 +51,20 @@ export function getDeputes() {
   })
 }
 
+export function getDeputesSlugs() {
+  return client.query({
+    query: gql`
+      query DeputesEnMandat {
+        DeputesEnMandat(EstEnMandat: true, _size: 700) {
+          data {
+            Slug
+          }
+        }
+      }
+    `,
+  })
+}
+
 export function getDepute(slug: string) {
   return client
     .query({

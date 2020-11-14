@@ -142,17 +142,26 @@ export default function MapAugora(props: IMapAugora) {
       const zoneCode = getZoneCode(feature)
       switch (zoneCode) {
         case Code.Cont:
-          router.push(`/map?codeCont=${feature.properties[Code.Cont]}`)
+          router.push(`/map?codeCont=${feature.properties[Code.Cont]}`, `/map?codeCont=${feature.properties[Code.Cont]}`, {
+            shallow: true,
+          })
           return
         case Code.Reg:
-          router.push(`/map?codeReg=${feature.properties[Code.Reg]}`)
+          router.push(`/map?codeReg=${feature.properties[Code.Reg]}`, `/map?codeReg=${feature.properties[Code.Reg]}`, {
+            shallow: true,
+          })
           return
         case Code.Dpt:
-          router.push(`/map?codeDpt=${feature.properties[Code.Dpt]}`)
+          router.push(`/map?codeDpt=${feature.properties[Code.Dpt]}`, `/map?codeDpt=${feature.properties[Code.Dpt]}`, {
+            shallow: true,
+          })
           return
         case Code.Circ:
           const deputy = getDeputies(feature, FilteredList)[0]
-          if (deputy) router.push(`/depute/${deputy.Slug}`)
+          if (deputy)
+            router.push(`/depute/${deputy.Slug}`, `/depute/${deputy.Slug}`, {
+              shallow: true,
+            })
         default:
           return
       }

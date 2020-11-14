@@ -5,7 +5,9 @@ const client = new ApolloClient({
   headers: {
     Authorization: `Bearer ${process.env.FAUNADB_TOKEN || "fnADtFRXPrACB6WCFPNkcNwEOSCfXW574OOspy5t"}`,
   },
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    resultCaching: true,
+  }),
 })
 
 export default client

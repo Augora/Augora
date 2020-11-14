@@ -73,3 +73,6 @@ yarn-error.log
 # .next files
 .next
 .vercel
+
+# .cache files
+.cache/
