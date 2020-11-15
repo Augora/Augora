@@ -61,7 +61,9 @@ export default function GeneralInformation(props) {
           </div>
         </div>
         <div className="main__info">
-          <img src={props.pictureGroup} alt={props.groupe} />
+          <div className="icon-wrapper" title={props.groupeComplet}>
+            <props.pictureGroup />
+          </div>
           <div className="main__age">
             <div className="main__age-date">
               {props.age}
