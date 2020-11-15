@@ -49,29 +49,29 @@ export const filterList = (list, state) => {
     })
 }
 
-export const groupeIconByGroupeSigle = (groupe) => {
+export const groupeIconByGroupeSigle = (groupe, color) => {
   switch (groupe) {
     case "LFI":
-      return <LFI />
+      return <LFI style={{ fill: color }} />
     case "GDR":
-      return <GDR />
+      return <GDR style={{ fill: color }} />
     case "LT":
-      return <LT />
+      return <LT style={{ fill: color }} />
     case "MODEM":
-      return <MODEM />
+      return <MODEM style={{ fill: color }} />
     case "SOC":
-      return <PS />
+      return <PS style={{ fill: color }} />
     case "LR":
-      return <LR />
+      return <LR style={{ fill: color }} />
     case "LREM":
-      return <LREM />
+      return <LREM style={{ fill: color }} />
     case "UDI":
-      return <UDI />
+      return <UDI style={{ fill: color }} />
     case "UAI":
-      return <UDI />
+      return <UDI style={{ fill: color }} />
     case "AE":
-      return <AE />
+      return <AE style={{ fill: color }} />
     default:
-      return <NI />
+      return <NI style={{ fill: color }} />
   }
 }

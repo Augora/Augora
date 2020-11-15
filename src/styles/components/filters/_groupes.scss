@@ -34,23 +34,6 @@
       appearance: none;
       outline: none;
     }
-    // &__img-container {
-    //   width: 100px;
-    //   height: 60px;
-    //   position: relative;
-    //   z-index: 1;
-
-    //   overflow: hidden;
-
-    //   img {
-    //       object-fit: contain;
-    //       height: 100%;
-    //       width: 100%;
-    //       margin: 0px;
-    //       transform: translateY(0);
-    //       transition: transform 0.4s $ease-out-cubic;
-    //     }
-    //   }
 
     .icon-wrapper {
       max-height: 60px;
@@ -70,14 +53,10 @@
       min-width: 200px;
     }
 
-    &.checked {
-      // background: green !important;
-    }
     &:not(.checked) {
-      .groupe__img-container {
-        img {
-          transition: transform 0.2s $ease-out-cubic;
-          transform: translateY(calc(-100% - 5px));
+      .icon-wrapper {
+        svg * {
+          fill: unset;
         }
       }
     }

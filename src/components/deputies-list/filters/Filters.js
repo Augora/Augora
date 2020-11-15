@@ -43,11 +43,7 @@ function Filters(props) {
         type="checkbox"
         checked={state.GroupeValue[groupe.Sigle]}
       >
-        {/* <div className="groupe__img-container"> */}
-        <div className="icon-wrapper">{groupeIconByGroupeSigle(groupe.Sigle)}</div>
-        {/* <img src={groupeIconByGroupeSigle(groupe.Sigle, false)} alt={`Icône groupe parlementaire ${groupe.Sigle}`} />
-          <img src={groupeIconByGroupeSigle(groupe.Sigle, true)} alt={`Icône groupe parlementaire ${groupe.Sigle} en couleur`} /> */}
-        {/* </div> */}
+        <div className="icon-wrapper">{groupeIconByGroupeSigle(groupe.Sigle, groupe.Couleur)}</div>
         <Tooltip
           title={groupe.NomComplet}
           nbDeputes={calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)}
