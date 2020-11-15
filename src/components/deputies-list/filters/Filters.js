@@ -43,7 +43,9 @@ function Filters(props) {
         type="checkbox"
         checked={state.GroupeValue[groupe.Sigle]}
       >
-        <div className="icon-wrapper">{groupeIconByGroupeSigle(groupe.Sigle, groupe.Couleur)}</div>
+        <div className="groupe__img-container">
+          <div className="icon-wrapper">{groupeIconByGroupeSigle(groupe.Sigle, groupe.Couleur)}</div>
+        </div>
         <Tooltip
           title={groupe.NomComplet}
           nbDeputes={calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)}

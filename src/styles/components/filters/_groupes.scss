@@ -20,7 +20,7 @@
     border-style: dashed;
     border-width: 2px;
 
-    // overflow: hidden;
+    overflow: hidden;
     pointer-events: none;
 
     &__checkbox {
@@ -34,12 +34,20 @@
       appearance: none;
       outline: none;
     }
-
-    .icon-wrapper {
-      max-height: 60px;
+    &__img-container {
+      max-height: 70px;
       width: 80px;
-      svg * {
-        fill: white;
+      position: relative;
+      z-index: 1;
+
+      overflow: hidden;
+
+      .icon-wrapper {
+        width: 100%;
+
+        svg * {
+          fill: white;
+        }
       }
     }
 
@@ -53,10 +61,15 @@
       min-width: 200px;
     }
 
+    &.checked {
+      // background: green !important;
+    }
     &:not(.checked) {
-      .icon-wrapper {
-        svg * {
-          fill: unset;
+      .groupe__img-container {
+        .icon-wrapper {
+          svg * {
+            fill: unset;
+          }
         }
       }
     }
