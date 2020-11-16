@@ -29,6 +29,7 @@ function Filters(props) {
   const searchField = useRef(null)
 
   const allGroupes = state.GroupesList.map((groupe) => {
+    const GroupeLogo = groupeIconByGroupeSigle(groupe.Sigle)
     return (
       <ButtonInput
         className={`groupe groupe--${groupe.Sigle.toLowerCase()}`}
@@ -44,7 +45,9 @@ function Filters(props) {
         checked={state.GroupeValue[groupe.Sigle]}
       >
         <div className="groupe__img-container">
-          <div className="icon-wrapper">{groupeIconByGroupeSigle(groupe.Sigle, groupe.Couleur)}</div>
+          <div className="icon-wrapper">
+            <GroupeLogo style={{ fill: groupe.Couleur }} />
+          </div>
         </div>
         <Tooltip
           title={groupe.NomComplet}
