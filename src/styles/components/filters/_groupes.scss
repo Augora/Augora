@@ -35,19 +35,19 @@
       outline: none;
     }
     &__img-container {
-      width: 100px;
-      height: 60px;
+      max-height: 70px;
+      width: 80px;
       position: relative;
       z-index: 1;
 
       overflow: hidden;
-      img {
-        object-fit: contain;
-        height: 100%;
+
+      .icon-wrapper {
         width: 100%;
-        margin: 0px;
-        transform: translateY(0);
-        transition: transform 0.4s $ease-out-cubic;
+
+        svg * {
+          fill: white;
+        }
       }
     }
 
@@ -66,9 +66,10 @@
     }
     &:not(.checked) {
       .groupe__img-container {
-        img {
-          transition: transform 0.2s $ease-out-cubic;
-          transform: translateY(calc(-100% - 5px));
+        .icon-wrapper {
+          svg * {
+            fill: unset;
+          }
         }
       }
     }
