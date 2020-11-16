@@ -1,13 +1,13 @@
-import UDI from "images/logos/groupes-parlementaires/udi/udi.svg"
-import GDR from "images/logos/groupes-parlementaires/gdr/gdr.svg"
-import LFI from "images/logos/groupes-parlementaires/lfi/lfi.svg"
-import LR from "images/logos/groupes-parlementaires/lr/lr.svg"
-import LREM from "images/logos/groupes-parlementaires/lrem/lrem.svg"
-import LT from "images/logos/groupes-parlementaires/lt/lt.svg"
-import MODEM from "images/logos/groupes-parlementaires/modem/modem.svg"
-import NI from "images/logos/groupes-parlementaires/ni/ni.svg"
-import PS from "images/logos/groupes-parlementaires/ps/ps.svg"
-import AE from "images/logos/groupes-parlementaires/ae/ae.svg"
+import UDI from "images/logos/groupes-parlementaires/udi.svg"
+import GDR from "images/logos/groupes-parlementaires/gdr.svg"
+import LFI from "images/logos/groupes-parlementaires/lfi.svg"
+import LR from "images/logos/groupes-parlementaires/lr.svg"
+import LREM from "images/logos/groupes-parlementaires/lrem.svg"
+import LT from "images/logos/groupes-parlementaires/lt.svg"
+import MODEM from "images/logos/groupes-parlementaires/modem.svg"
+import NI from "images/logos/groupes-parlementaires/ni.svg"
+import PS from "images/logos/groupes-parlementaires/ps.svg"
+import AE from "images/logos/groupes-parlementaires/ae.svg"
 
 export const calculateNbDepute = (list, type, value) => {
   if (list.length > 0) {
