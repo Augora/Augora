@@ -32,6 +32,9 @@ export default function Deputy({ depute }) {
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
+      <Head>
+        <style>{`:root { --groupe-color: ${color}; }`}</style>
+      </Head>
       <div className="page page__deputy">
         <div className="deputy__header">
           <h1>
