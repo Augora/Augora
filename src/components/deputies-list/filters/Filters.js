@@ -1,23 +1,29 @@
 import React, { useState, useRef, useContext } from "react"
+import Image from "next/image"
 
-import IconClose from "../../../images/ui-kit/icon-close.svg"
-import IconSearch from "../../../images/ui-kit/icon-loupe.svg"
-import IconMaleSymbol from "../../../images/ui-kit/icon-male.svg"
-import IconFemaleSymbol from "../../../images/ui-kit/icon-female.svg"
-import IconReset from "../../../images/ui-kit/icon-refresh.svg"
+import IconClose from "images/ui-kit/icon-close.svg"
+import IconSearch from "images/ui-kit/icon-loupe.svg"
+import IconMaleSymbol from "images/ui-kit/icon-male.svg"
+import IconFemaleSymbol from "images/ui-kit/icon-female.svg"
+import IconReset from "images/ui-kit/icon-refresh.svg"
 
 import AgeSlider from "../slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"
 import Frame from "components/frames/Frame"
 import Button from "components/buttons/Button"
 import ButtonInput from "components/buttons/ButtonInput"
-import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { calculateAgeDomain, calculateNbDepute, groupeIconByGroupeSigle } from "../deputies-list-utils"
 
 function Filters(props) {
-  const { state, handleSearchValue, handleClickOnGroupe, handleClickOnSex, handleAgeSelection, handleReset } = useContext(
-    DeputiesListContext
-  )
+  const {
+    state,
+    handleSearchValue,
+    handleClickOnGroupe,
+    handleClickOnSex,
+    handleAgeSelection,
+    handleReset,
+  } = useDeputiesFilters()
 
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
   const searchField = useRef(null)

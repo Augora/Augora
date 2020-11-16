@@ -1,11 +1,7 @@
 import React from "react"
-import Helmet from "react-helmet"
+import Head from "next/head"
 
-import {
-  buildMetaTagsFromPageType,
-  buildTitleFromPageType,
-  PageType,
-} from "./seo-utils"
+import { buildMetaTagsFromPageType, buildTitleFromPageType, PageType } from "./seo-utils"
 
 interface ISEOProps {
   pageType: PageType
@@ -17,15 +13,10 @@ function SEO(props: ISEOProps) {
   const title = buildTitleFromPageType(props.pageType, props.depute)
 
   return (
-    <Helmet
-      htmlAttributes={{
-        lang: "fr",
-        charset: "UTF-8",
-      }}
-      title={title}
-      titleTemplate={`%s | Augora`}
-      meta={meta}
-    />
+    <Head>
+      <title>{title} | Augora</title>
+      {meta}
+    </Head>
   )
 }
 

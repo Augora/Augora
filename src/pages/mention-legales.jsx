@@ -3,8 +3,6 @@ import React from "react"
 import SEO from "../components/seo/seo"
 import PageTitle from "../components/titles/PageTitle"
 
-// Content
-
 const Mentions = () => {
   return (
     <>

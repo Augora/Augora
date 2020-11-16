@@ -1,23 +1,23 @@
-import udi from "images/logos/groupes-parlementaires/udi/udi_blanc.png"
-import gdr from "images/logos/groupes-parlementaires/gdr/gdr_blanc.png"
-import lfi from "images/logos/groupes-parlementaires/lfi/lfi_blanc.png"
-import lr from "images/logos/groupes-parlementaires/lr/lr_blanc.png"
-import lrem from "images/logos/groupes-parlementaires/lrem/lrem_blanc.png"
-import lt from "images/logos/groupes-parlementaires/lt/lt_blanc.png"
-import modem from "images/logos/groupes-parlementaires/modem/modem_blanc.png"
-import ni from "images/logos/groupes-parlementaires/ni/ni_blanc.png"
-import ps from "images/logos/groupes-parlementaires/ps/ps_blanc.png"
-import ae from "images/logos/groupes-parlementaires/ae/ae_blanc.png"
-import udicolor from "images/logos/groupes-parlementaires/udi/udi_color.png"
-import gdrcolor from "images/logos/groupes-parlementaires/gdr/gdr_color.png"
-import lficolor from "images/logos/groupes-parlementaires/lfi/lfi_color.png"
-import lrcolor from "images/logos/groupes-parlementaires/lr/lr_color.png"
-import lremcolor from "images/logos/groupes-parlementaires/lrem/lrem_color.png"
-import ltcolor from "images/logos/groupes-parlementaires/lt/lt_color.png"
-import modemcolor from "images/logos/groupes-parlementaires/modem/modem_color.png"
-import nicolor from "images/logos/groupes-parlementaires/ni/ni_color.png"
-import pscolor from "images/logos/groupes-parlementaires/ps/ps_color.png"
-import aecolor from "images/logos/groupes-parlementaires/ae/ae_color.png"
+const udi = "/images/logos/groupes-parlementaires/udi/udi_blanc.png"
+const gdr = "/images/logos/groupes-parlementaires/gdr/gdr_blanc.png"
+const lfi = "/images/logos/groupes-parlementaires/lfi/lfi_blanc.png"
+const lr = "/images/logos/groupes-parlementaires/lr/lr_blanc.png"
+const lrem = "/images/logos/groupes-parlementaires/lrem/lrem_blanc.png"
+const lt = "/images/logos/groupes-parlementaires/lt/lt_blanc.png"
+const modem = "/images/logos/groupes-parlementaires/modem/modem_blanc.png"
+const ni = "/images/logos/groupes-parlementaires/ni/ni_blanc.png"
+const ps = "/images/logos/groupes-parlementaires/ps/ps_blanc.png"
+const ae = "/images/logos/groupes-parlementaires/ae/ae_blanc.png"
+const udicolor = "/images/logos/groupes-parlementaires/udi/udi_color.png"
+const gdrcolor = "/images/logos/groupes-parlementaires/gdr/gdr_color.png"
+const lficolor = "/images/logos/groupes-parlementaires/lfi/lfi_color.png"
+const lrcolor = "/images/logos/groupes-parlementaires/lr/lr_color.png"
+const lremcolor = "/images/logos/groupes-parlementaires/lrem/lrem_color.png"
+const ltcolor = "/images/logos/groupes-parlementaires/lt/lt_color.png"
+const modemcolor = "/images/logos/groupes-parlementaires/modem/modem_color.png"
+const nicolor = "/images/logos/groupes-parlementaires/ni/ni_color.png"
+const pscolor = "/images/logos/groupes-parlementaires/ps/ps_color.png"
+const aecolor = "/images/logos/groupes-parlementaires/ae/ae_color.png"
 
 export const calculateNbDepute = (list, type, value) => {
   if (list.length > 0) {
@@ -60,42 +60,28 @@ export const filterList = (list, state) => {
 }
 
 export const groupeIconByGroupeSigle = (groupe, isDisabled) => {
-  let selectedGroupeIcon = ni
   switch (groupe) {
     case "LFI":
-      isDisabled ? (selectedGroupeIcon = lficolor) : (selectedGroupeIcon = lfi)
-      break
+      return isDisabled ? lficolor : lfi
     case "GDR":
-      isDisabled ? (selectedGroupeIcon = gdrcolor) : (selectedGroupeIcon = gdr)
-      break
+      return isDisabled ? gdrcolor : gdr
     case "LT":
-      isDisabled ? (selectedGroupeIcon = ltcolor) : (selectedGroupeIcon = lt)
-      break
+      return isDisabled ? ltcolor : lt
     case "MODEM":
-      isDisabled ? (selectedGroupeIcon = modemcolor) : (selectedGroupeIcon = modem)
-      break
+      return isDisabled ? modemcolor : modem
     case "SOC":
-      isDisabled ? (selectedGroupeIcon = pscolor) : (selectedGroupeIcon = ps)
-      break
+      return isDisabled ? pscolor : ps
     case "LR":
-      isDisabled ? (selectedGroupeIcon = lrcolor) : (selectedGroupeIcon = lr)
-      break
+      return isDisabled ? lrcolor : lr
     case "LREM":
-      isDisabled ? (selectedGroupeIcon = lremcolor) : (selectedGroupeIcon = lrem)
-      break
+      return isDisabled ? lremcolor : lrem
     case "UDI":
-      isDisabled ? (selectedGroupeIcon = udicolor) : (selectedGroupeIcon = udi)
-      break
+      return isDisabled ? udicolor : udi
     case "UAI":
-      isDisabled ? (selectedGroupeIcon = udicolor) : (selectedGroupeIcon = udi)
-      break
+      return isDisabled ? udicolor : udi
     case "AE":
-      isDisabled ? (selectedGroupeIcon = aecolor) : (selectedGroupeIcon = ae)
-      break
+      return isDisabled ? aecolor : ae
     default:
-      isDisabled ? (selectedGroupeIcon = nicolor) : (selectedGroupeIcon = ni)
-      break
+      return isDisabled ? nicolor : ni
   }
-
-  return selectedGroupeIcon
 }

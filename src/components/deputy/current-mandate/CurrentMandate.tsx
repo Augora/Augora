@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import moment from "moment"
-import "moment/locale/fr"
 import Block from "../_block/_Block"
 
 /**

@@ -1,31 +1,28 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
 import React from "react"
-import Helmet from "react-helmet"
+import Head from "next/head"
 import { colors } from "utils/variables"
 
 import Header from "./header"
 import Footer from "./footer"
-import "../styles/app.scss"
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
 
-// Dynamic header current page
 // TODO : Get current route to give state to Header ?
 
 const Layout = ({ children, location }) => {
   return (
     <>
-      <Helmet>
+      <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>
-      </Helmet>
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+        <meta name="theme-color" content="#ffffff" />
+      </Head>
       <Header siteTitle={"Augora"} location={location} />
       <main className="layout">{children}</main>
       <Footer />

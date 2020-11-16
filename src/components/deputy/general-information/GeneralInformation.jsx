@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react"
-import moment from "moment-with-locales-es6"
-import Block from "../_block/_Block"
+import moment from "moment"
+
 import IconMale from "images/ui-kit/icon-persontie.svg"
 import IconFemale from "images/ui-kit/icon-personw.svg"
+
+import Block from "../_block/_Block"
 import DeputyImage from "./deputy-image/DeputyImage"
 
 const getDates = (date) => {
