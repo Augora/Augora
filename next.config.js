@@ -22,6 +22,10 @@ module.exports = withSourceMaps(
         },
         use: ["@svgr/webpack"],
       })
+      config.module.rules.push({
+        test: /\.geojson$/,
+        loader: "json-loader",
+      })
 
       return config
     },
