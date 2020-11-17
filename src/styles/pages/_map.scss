@@ -119,8 +119,8 @@
               justify-content: center;
               align-items: center;
 
-              transition: transform 0.1s linear;
               .icon-wrapper {
+                transition: transform 0.1s linear;
                 width: 13px;
                 pointer-events: none;
                 svg {
@@ -128,7 +128,9 @@
                 }
               }
               &:hover {
-                transform: scale(1.3);
+                .icon-wrapper {
+                  transform: scale(1.3);
+                }
               }
             }
             &__tooltip {
@@ -166,20 +168,13 @@
 
                 &__btn {
                   width: 100%;
-                  padding: 3px 30px;
-
+                  padding: 0;
                   background: none;
                   border: none;
-                  text-transform: capitalize;
-                  position: relative;
                   cursor: pointer;
 
-                  div {
-                    transition: transform 0.1s linear;
-                  }
-
                   &:hover {
-                    div {
+                    .tooltip__name {
                       transform: scale(1.1);
                     }
                   }
@@ -188,11 +183,16 @@
                     text-shadow: 0 0 1px #000;
                   }
                 }
-              }
 
-              &--children {
-                left: 30px;
-                top: 0;
+                &__name {
+                  padding: 3px 30px;
+                  text-transform: capitalize;
+                  transition: transform 0.1s linear;
+
+                  &--virtual {
+                    cursor: default;
+                  }
+                }
               }
             }
           }
@@ -210,6 +210,23 @@
 
             .menu__btn > .icon-wrapper > svg {
               transform: rotate(-90deg);
+            }
+
+            .menu__tooltip {
+              left: 30px;
+              top: 0;
+            }
+
+            &.virtual {
+              width: 100%;
+
+              .menu__btn > .icon-wrapper {
+                position: absolute;
+                right: 8px;
+              }
+              .menu__tooltip {
+                left: 230px;
+              }
             }
           }
         }

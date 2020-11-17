@@ -27,7 +27,6 @@ import IconArrow from "images/ui-kit/icon-arrow.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import IconPin from "images/ui-kit/icon-pin.svg"
 import Filters from "components/deputies-list/filters/Filters"
-import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
 
@@ -279,9 +278,6 @@ export default function MapAugora(props: IMapAugora) {
       <div className="map__navigation map__navigation-right">
         <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
         <FullscreenControl />
-        {/* <MapButton className="visible" title="Revenir sur la France métropolitaine" onClick={() => changeZone(MetroFeature)}>
-          <IconFrance />
-        </MapButton> */}
         <MapInput
           type="checkbox"
           title={`${inExploreMode ? "Désactiver" : "Activer"} le mode exploration`}

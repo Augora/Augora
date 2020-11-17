@@ -8,6 +8,7 @@ import {
   getFeature,
   getSisterFeatures,
   WorldFeature,
+  WorldFeatures,
   getChildFeatures,
   getZoneName,
 } from "components/maps/maps-utils"
@@ -83,30 +84,35 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
         </div>
       </button>
       {isTooltipVisible && (
-        <Tooltip className={`menu__tooltip ${props.className ? "menu__tooltip--" + props.className : ""}`}>
+        <Tooltip className="menu__tooltip">
           {props.zones.map((feature, index) => {
             const zoneName = getZoneName(feature)
             const zoneCode = getZoneCode(feature)
+            const isReal = feature.geometry.coordinates.length > 0
 
             return (
               <div className="tooltip__item" key={`tooltip-btn-${index}-${feature.properties[zoneCode]}-${zoneCode}`}>
-                <button
-                  className="tooltip__btn"
-                  onClick={() => {
-                    props.onClick(feature)
-                    setIsTooltipVisible(false)
-                  }}
-                  title={`${feature.properties.nom ? "Aller sur" : "Voir le député de la"} ${zoneName}${
-                    feature.properties.nom_dpt ? " de " + feature.properties.nom_dpt : ""
-                  }`}
-                >
-                  <div>{zoneName}</div>
-                </button>
+                {isReal ? (
+                  <button
+                    className="tooltip__btn"
+                    onClick={() => {
+                      props.onClick(feature)
+                      setIsTooltipVisible(false)
+                    }}
+                    title={`${feature.properties.nom ? "Aller sur" : "Voir le député de la"} ${zoneName}${
+                      feature.properties.nom_dpt ? " de " + feature.properties.nom_dpt : ""
+                    }`}
+                  >
+                    <div className="tooltip__name">{zoneName}</div>
+                  </button>
+                ) : (
+                  <div className="tooltip__name tooltip__name--virtual">{zoneName}</div>
+                )}
                 {zoneCode !== Code.Dpt && zoneCode !== Code.Circ ? (
                   <BreadcrumbMenu
-                    zones={getChildFeatures(feature).features}
+                    zones={getBreadcrumbChildren(feature)}
                     onClick={props.onClick}
-                    className="children"
+                    className={`children ${!isReal ? "virtual" : ""}`}
                     title="Voir les zones enfants"
                   />
                 ) : null}
@@ -119,6 +125,14 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
   )
 }
 
+const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
+  if (feature !== WorldFeature)
+    return sortBy(getChildFeatures(feature).features, (o) => {
+      return o.properties.nom ? o.properties.nom : o.properties.code_circ
+    })
+  else return WorldFeatures
+}
+
 /**
  * Renvoie un bouton de breadcrumb
  * @param {AugoraMap.Feature} feature La feature du bouton
@@ -127,7 +141,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
  */
 function BreadcrumbItem({ feature, handleClick, isLast }: IBreadcrumbItem) {
   const sisterZones = sortBy(getSisterFeatures(feature), (o) => o.properties.nom)
-  const childZones = isLast ? sortBy(getChildFeatures(feature).features, (o) => o.properties.nom) : []
+  const childZones = isLast ? getBreadcrumbChildren(feature) : []
 
   return (
     <div className="breadcrumb__item">
