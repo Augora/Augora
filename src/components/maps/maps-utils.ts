@@ -427,11 +427,12 @@ export const getDeputies = (feature: AugoraMap.Feature, deputies: AugoraMap.Depu
 
   switch (zoneCode) {
     case Code.Cont:
-      return deputies.filter((deputy) => {
-        if (contId === Cont.OM) return parseInt(deputy.NumeroDepartement) > 900 && deputy.NumeroDepartement !== "999"
-        else if (contId === Cont.World) return deputy.NumeroDepartement === "999"
-        else return parseInt(deputy.NumeroDepartement) < 900
-      })
+      return contId === Cont.World
+        ? deputies
+        : deputies.filter((deputy) => {
+            if (contId === Cont.OM) return parseInt(deputy.NumeroDepartement) > 900 && deputy.NumeroDepartement !== "999"
+            else return parseInt(deputy.NumeroDepartement) < 900
+          })
     case Code.Reg:
       return deputies.filter((deputy) => {
         return deputy.NumeroRegion == props[Code.Reg]
