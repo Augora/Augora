@@ -4,7 +4,7 @@ import GroupBar from "components/deputies-list/GroupBar"
 import Tooltip from "components/tooltip/Tooltip"
 import Button from "components/buttons/Button"
 import IconReset from "images/ui-kit/icon-refresh.svg"
-import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
+import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IMapMiniFilter {
   zoneList: AugoraMap.DeputiesList
@@ -15,7 +15,7 @@ export default function MapMiniFilter({ zoneList, onClick }: IMapMiniFilter) {
   const {
     state: { DeputiesList },
     handleReset,
-  } = useContext(DeputiesListContext)
+  } = useDeputiesFilters()
 
   return (
     <CustomControl>
