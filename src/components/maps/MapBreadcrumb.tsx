@@ -15,6 +15,7 @@ import Tooltip from "components/tooltip/Tooltip"
 import CustomControl from "components/maps/CustomControl"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
 import sortBy from "lodash/sortBy"
+import { slugify } from "utils/utils"
 
 interface IMapBreadcrumb {
   feature: AugoraMap.Feature
@@ -85,19 +86,31 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
         <Tooltip className={`menu__tooltip ${props.className ? "menu__tooltip--" + props.className : ""}`}>
           {props.zones.map((feature, index) => {
             const zoneName = getZoneName(feature)
+            const zoneCode = getZoneCode(feature)
+
             return (
-              <button
-                key={`${feature.properties.nom}-tooltip-button-${index}`}
-                onClick={() => {
-                  props.onClick(feature)
-                  setIsTooltipVisible(false)
-                }}
-                title={`${feature.properties.nom ? "Aller sur" : "Voir le député de la"} ${zoneName}${
-                  feature.properties.nom_dpt ? " de " + feature.properties.nom_dpt : ""
-                }`}
-              >
-                <div>{zoneName}</div>
-              </button>
+              <div className="tooltip__item" key={`tooltip-btn-${index}-${feature.properties[zoneCode]}-${zoneCode}`}>
+                <button
+                  className="tooltip__btn"
+                  onClick={() => {
+                    props.onClick(feature)
+                    setIsTooltipVisible(false)
+                  }}
+                  title={`${feature.properties.nom ? "Aller sur" : "Voir le député de la"} ${zoneName}${
+                    feature.properties.nom_dpt ? " de " + feature.properties.nom_dpt : ""
+                  }`}
+                >
+                  <div>{zoneName}</div>
+                </button>
+                {zoneCode !== Code.Dpt && zoneCode !== Code.Circ ? (
+                  <BreadcrumbMenu
+                    zones={getChildFeatures(feature).features}
+                    onClick={props.onClick}
+                    className="children"
+                    title="Voir les zones enfants"
+                  />
+                ) : null}
+              </div>
             )
           })}
         </Tooltip>
@@ -143,7 +156,7 @@ export default function MapBreadcrumb({ feature, handleClick }: IMapBreadcrumb) 
     <CustomControl className="map__breadcrumb">
       {history.map((item, index) => (
         <BreadcrumbItem
-          key={`breadcrumb-${index}`}
+          key={`breadcrumb-${index}-${slugify(item.properties.nom)}`}
           feature={item}
           handleClick={handleClick}
           isLast={index + 1 === history.length}

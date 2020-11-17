@@ -9,13 +9,13 @@ import OMCircFile from "static/circ-om.json"
 import HorsCircFile from "static/circ-hors.json"
 
 // Convert to any types
-const MetroFranceContFileAsAny = MetroFranceContFile as any
-const MetroRegFileAsAny = MetroRegFile as any
-const MetroDptFileAsAny = MetroDptFile as any
-const OMDptFileAsAny = OMDptFile as any
-const MetroCircFileAsAny = MetroCircFile as any
-const OMCircFileAsAny = OMCircFile as any
-const HorsCircFileAsAny = HorsCircFile as any
+const MetroFranceContFileAsAny: AugoraMap.Feature = MetroFranceContFile as any
+const MetroRegFileAsAny: AugoraMap.FeatureCollection = MetroRegFile as any
+const MetroDptFileAsAny: AugoraMap.FeatureCollection = MetroDptFile as any
+const OMDptFileAsAny: AugoraMap.FeatureCollection = OMDptFile as any
+const MetroCircFileAsAny: AugoraMap.FeatureCollection = MetroCircFile as any
+const OMCircFileAsAny: AugoraMap.FeatureCollection = OMCircFile as any
+const HorsCircFileAsAny: AugoraMap.FeatureCollection = HorsCircFile as any
 
 /**
  * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
@@ -245,7 +245,7 @@ export const flyToBounds = (
     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
     transitionEasing: (x) => -(Math.cos(Math.PI * x) - 1) / 2, //ease in-out sine
     transitionDuration: "auto",
-    transitionInterruption: 3,
+    transitionInterruption: 0,
   })
 }
 
@@ -385,7 +385,7 @@ export const getSisterFeatures = (feature: AugoraMap.Feature): AugoraMap.Feature
         ? MetroDptFileAsAny.features.filter(
             (entry) => entry.properties[zoneCode] !== props[zoneCode] && entry.properties[Code.Reg] === props[Code.Reg]
           )
-        : [...OMDptFile.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode]), MetroFeature]
+        : [...OMDptFileAsAny.features.filter((entry) => entry.properties[zoneCode] !== props[zoneCode]), MetroFeature]
     case Code.Circ:
       return AllCirc.features.filter(
         (entry) => entry.properties[zoneCode] !== props[zoneCode] && entry.properties[Code.Dpt] === props[Code.Dpt]
@@ -427,11 +427,12 @@ export const getDeputies = (feature: AugoraMap.Feature, deputies: AugoraMap.Depu
 
   switch (zoneCode) {
     case Code.Cont:
-      return deputies.filter((deputy) => {
-        if (contId === Cont.OM) return parseInt(deputy.NumeroDepartement) > 900 && deputy.NumeroDepartement !== "999"
-        else if (contId === Cont.World) return deputy.NumeroDepartement === "999"
-        else return parseInt(deputy.NumeroDepartement) < 900
-      })
+      return contId === Cont.World
+        ? deputies
+        : deputies.filter((deputy) => {
+            if (contId === Cont.OM) return parseInt(deputy.NumeroDepartement) > 900 && deputy.NumeroDepartement !== "999"
+            else return parseInt(deputy.NumeroDepartement) < 900
+          })
     case Code.Reg:
       return deputies.filter((deputy) => {
         return deputy.NumeroRegion == props[Code.Reg]
