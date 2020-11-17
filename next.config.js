@@ -14,11 +14,7 @@ module.exports = withSourceMaps(
     sassOptions: {
       includePaths: [path.join(__dirname, "src", "styles"), path.join(__dirname, "public")],
     },
-    webpack(config, { isServer }) {
-      // if (isServer && process.env.NEXT_PUBLIC_ENV === "production") {
-      //   require("./src/scripts/generate-sitemap")
-      // }
-
+    webpack(config) {
       config.module.rules.push({
         test: /\.svg$/,
         issuer: {
@@ -26,11 +22,6 @@ module.exports = withSourceMaps(
         },
         use: ["@svgr/webpack"],
       })
-
-      // ignore locals for moment
-      config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/))
-      // load only fr local for moment
-      config.plugins.push(new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /fr/))
 
       return config
     },
