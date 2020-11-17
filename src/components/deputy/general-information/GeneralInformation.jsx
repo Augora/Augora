@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
-import moment from "moment-with-locales-es6"
-import Image from "next/image"
+import moment from "moment"
 
 import IconMale from "images/ui-kit/icon-persontie.svg"
 import IconFemale from "images/ui-kit/icon-personw.svg"
@@ -62,7 +61,9 @@ export default function GeneralInformation(props) {
           </div>
         </div>
         <div className="main__info">
-          <img src={props.pictureGroup} alt={props.groupe} />
+          <div className="icon-wrapper" title={props.groupeComplet}>
+            <props.pictureGroup />
+          </div>
           <div className="main__age">
             <div className="main__age-date">
               {props.age}

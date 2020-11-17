@@ -1,23 +1,13 @@
-const udi = "/images/logos/groupes-parlementaires/udi/udi_blanc.png"
-const gdr = "/images/logos/groupes-parlementaires/gdr/gdr_blanc.png"
-const lfi = "/images/logos/groupes-parlementaires/lfi/lfi_blanc.png"
-const lr = "/images/logos/groupes-parlementaires/lr/lr_blanc.png"
-const lrem = "/images/logos/groupes-parlementaires/lrem/lrem_blanc.png"
-const lt = "/images/logos/groupes-parlementaires/lt/lt_blanc.png"
-const modem = "/images/logos/groupes-parlementaires/modem/modem_blanc.png"
-const ni = "/images/logos/groupes-parlementaires/ni/ni_blanc.png"
-const ps = "/images/logos/groupes-parlementaires/ps/ps_blanc.png"
-const ae = "/images/logos/groupes-parlementaires/ae/ae_blanc.png"
-const udicolor = "/images/logos/groupes-parlementaires/udi/udi_color.png"
-const gdrcolor = "/images/logos/groupes-parlementaires/gdr/gdr_color.png"
-const lficolor = "/images/logos/groupes-parlementaires/lfi/lfi_color.png"
-const lrcolor = "/images/logos/groupes-parlementaires/lr/lr_color.png"
-const lremcolor = "/images/logos/groupes-parlementaires/lrem/lrem_color.png"
-const ltcolor = "/images/logos/groupes-parlementaires/lt/lt_color.png"
-const modemcolor = "/images/logos/groupes-parlementaires/modem/modem_color.png"
-const nicolor = "/images/logos/groupes-parlementaires/ni/ni_color.png"
-const pscolor = "/images/logos/groupes-parlementaires/ps/ps_color.png"
-const aecolor = "/images/logos/groupes-parlementaires/ae/ae_color.png"
+import UDI from "images/logos/groupes-parlementaires/udi.svg"
+import GDR from "images/logos/groupes-parlementaires/gdr.svg"
+import LFI from "images/logos/groupes-parlementaires/lfi.svg"
+import LR from "images/logos/groupes-parlementaires/lr.svg"
+import LREM from "images/logos/groupes-parlementaires/lrem.svg"
+import LT from "images/logos/groupes-parlementaires/lt.svg"
+import MODEM from "images/logos/groupes-parlementaires/modem.svg"
+import NI from "images/logos/groupes-parlementaires/ni.svg"
+import PS from "images/logos/groupes-parlementaires/ps.svg"
+import AE from "images/logos/groupes-parlementaires/ae.svg"
 
 export const calculateNbDepute = (list, type, value) => {
   if (list.length > 0) {
@@ -43,7 +33,7 @@ export const calculateAgeDomain = (list) => {
 }
 
 export const groupesArrayToObject = (array, value = true) => {
-  return array.reduce((a, b) => ((a[b] = value), a), {}) // eslint-disable-line
+  return array.reduce((a, b) => ((a[b] = value), a), {})
 }
 
 export const filterList = (list, state) => {
@@ -59,29 +49,29 @@ export const filterList = (list, state) => {
     })
 }
 
-export const groupeIconByGroupeSigle = (groupe, isDisabled) => {
+export function groupeIconByGroupeSigle(groupe) {
   switch (groupe) {
     case "LFI":
-      return isDisabled ? lficolor : lfi
+      return LFI
     case "GDR":
-      return isDisabled ? gdrcolor : gdr
+      return GDR
     case "LT":
-      return isDisabled ? ltcolor : lt
+      return LT
     case "MODEM":
-      return isDisabled ? modemcolor : modem
+      return MODEM
     case "SOC":
-      return isDisabled ? pscolor : ps
+      return PS
     case "LR":
-      return isDisabled ? lrcolor : lr
+      return LR
     case "LREM":
-      return isDisabled ? lremcolor : lrem
+      return LREM
     case "UDI":
-      return isDisabled ? udicolor : udi
+      return UDI
     case "UAI":
-      return isDisabled ? udicolor : udi
+      return UDI
     case "AE":
-      return isDisabled ? aecolor : ae
+      return AE
     default:
-      return isDisabled ? nicolor : ni
+      return NI
   }
 }

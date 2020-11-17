@@ -10,13 +10,7 @@ import IconGroupe from "images/ui-kit/icon-group.svg"
  */
 function Coworkers(props) {
   return (
-    <Block
-      title="Assistants"
-      type="coworkers"
-      color={props.color}
-      size={props.size}
-      wip={props.wip ? props.wip : false}
-    >
+    <Block title="Assistants" type="coworkers" color={props.color} size={props.size} wip={props.wip ? props.wip : false}>
       <div className="icon-wrapper">
         <IconGroupe />
       </div>

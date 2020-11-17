@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react"
 import { calculateNbDepute } from "./deputies-list-utils"
-import { DeputiesListContext } from "../../context/deputies-filters/deputiesFiltersContext"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import Frame from "components/frames/Frame"
@@ -9,7 +9,8 @@ import BarChart from "./bar-chart/BarChart"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 const DeputiesList = (props) => {
-  const { state } = useContext(DeputiesListContext)
+  const { state } = useDeputiesFilters()
+
   const [HasPieChart, setHasPieChart] = useState(true)
 
   const handleChartSelection = (event) => {

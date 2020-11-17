@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import { Helmet } from "react-helmet"
 import MapAugora from "components/maps/MapAugora"
 import { getDeputes } from "../lib/deputes/Wrapper"
 import { useRouter } from "next/router"
+import SEO, { PageType } from "src/components/seo/seo"
 
 function convertArrayOfStringToString(arr: string | string[]) {
   if (arr instanceof Array) {
@@ -31,10 +31,7 @@ export default function MapPage({
 
   return (
     <>
-      <Helmet>
-        {process.env.NEXT_PUBLIC_ENV !== "production" ? <meta name="robots" content="noindex,nofollow" /> : null}
-        <title>{`${pageTitle} | Augora`}</title>
-      </Helmet>
+      <SEO pageType={PageType.Carte} />
       <div className="page page__map">
         <div className="map__container">
           <MapAugora

@@ -76,3 +76,7 @@ yarn-error.log
 
 # .cache files
 .cache/
+
+# Sitemap files
+public/robots.txt
+public/sitemap.xml

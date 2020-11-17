@@ -42,8 +42,8 @@ const Footer = () => {
         <div className="footer__menus">
           {Menu("Ressources", [
             {
-              label: "Gatsby",
-              link: "https://www.gatsbyjs.org/",
+              label: "NextJS",
+              link: "https://nextjs.org/",
               target: true,
               internal: false,
             },

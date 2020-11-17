@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import Image from "next/image"
 
-// Force using url-loader instead of gatsby-plugin-react-svg in order to have url instead of component
 const MissingFemale = "/images/ui-kit/icon-missingfemale.svg"
 const MissingMale = "/images/ui-kit/icon-missingmale.svg"
 

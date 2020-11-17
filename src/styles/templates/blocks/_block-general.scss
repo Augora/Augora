@@ -81,8 +81,13 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-          img {
-            width: 120px;
+          .icon-wrapper {
+            pointer-events: auto;
+            width: 50%;
+            margin-bottom: 2em;
+            svg * {
+              fill: white;
+            }
           }
         }
         &__age {

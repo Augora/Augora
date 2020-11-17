@@ -1,7 +1,6 @@
 import React from "react"
-import Helmet from "react-helmet"
 import fs from "fs"
-
+import Head from "next/head"
 import { colors } from "utils/variables"
 import { getDepute, getDeputesSlugs } from "../../lib/deputes/Wrapper"
 
@@ -16,7 +15,7 @@ import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 
-import { isEmpty } from "lodash"
+import isEmpty from "lodash/isEmpty"
 
 import ButtonIcon from "components/buttons/ButtonIcon"
 import IconMail from "images/ui-kit/icon-mail.svg"
@@ -34,9 +33,9 @@ export default function Deputy({ depute }) {
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
-      <Helmet>
+      <Head>
         <style>{`:root { --groupe-color: ${color}; }`}</style>
-      </Helmet>
+      </Head>
       <div className="page page__deputy">
         <div className="deputy__header">
           <h1>

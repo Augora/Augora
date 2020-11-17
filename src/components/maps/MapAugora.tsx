@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import router from "next/router"
 import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
-import "mapbox-gl/dist/mapbox-gl.css"
 import {
   Code,
   France,
@@ -29,6 +28,8 @@ import IconClose from "images/ui-kit/icon-close.svg"
 import IconPin from "images/ui-kit/icon-pin.svg"
 import Filters from "components/deputies-list/filters/Filters"
 import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
+import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
+import { getDeputes } from "src/lib/deputes/Wrapper"
 
 interface ICurrentView {
   GEOJson: AugoraMap.FeatureCollection
@@ -97,7 +98,7 @@ const lineGhostLayerProps: LayerProps = {
 export default function MapAugora(props: IMapAugora) {
   const {
     state: { FilteredList },
-  } = useContext(DeputiesListContext)
+  } = useDeputiesFilters()
 
   useEffect(() => {
     if (props.codeCont !== undefined) {
@@ -319,4 +320,14 @@ export default function MapAugora(props: IMapAugora) {
       </div>
     </InteractiveMap>
   )
+}
+
+export async function getStaticProps() {
+  const deputes = await getDeputes()
+
+  return {
+    props: {
+      deputes,
+    },
+  }
 }
