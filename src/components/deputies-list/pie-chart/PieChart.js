@@ -12,7 +12,7 @@ const PieChart = (props) => {
       innerRadius={0.5}
       padAngle={0.7}
       cornerRadius={5}
-      colors={({ data }) => {
+      colors={(data) => {
         return data.color
       }}
       borderWidth={0}
@@ -25,17 +25,17 @@ const PieChart = (props) => {
       radialLabelsLinkHorizontalLength={10}
       radialLabelsLinkStrokeWidth={1}
       radialLabelsLinkColor={{ from: "color" }}
-      sliceLabelsSkipAngle={10}
-      sliceLabelsTextColor="white"
+      slicesLabelsSkipAngle={10}
+      slicesLabelsTextColor="white"
       animate={true}
       motionStiffness={90}
       motionDamping={15}
       tooltip={(tooltipInfo) => {
         return Tooltip({
-          title: props.groupesDetails.find((g) => g.Sigle === tooltipInfo.datum.id).NomComplet, //iterate through groupedetails's acronym list until it find the correct one //retrieve the full name of that acronym
-          nbDeputes: tooltipInfo.datum.value,
+          title: props.groupesDetails.find((g) => g.Sigle === tooltipInfo.id).NomComplet,
+          nbDeputes: tooltipInfo.value,
           totalDeputes: props.filteredDeputies,
-          color: tooltipInfo.datum.color,
+          color: tooltipInfo.color,
         })
       }}
       theme={{
