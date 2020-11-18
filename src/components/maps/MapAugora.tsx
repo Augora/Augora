@@ -275,44 +275,46 @@ export default function MapAugora(props: IMapAugora) {
       </Source>
       {!inExploreMode && hover && <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.feature} deputiesList={FilteredList} />}
       {!inExploreMode && <MapPins features={currentView.GEOJson.features} deputiesList={FilteredList} />}
-      <div className="map__navigation map__navigation-right">
-        <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
-        <FullscreenControl />
-        <MapInput
-          type="checkbox"
-          title={`${inExploreMode ? "Désactiver" : "Activer"} le mode exploration`}
-          checked={inExploreMode}
-          onChange={() => setInExploreMode(!inExploreMode)}
-        >
-          <IconPin style={inExploreMode ? { fill: "white" } : {}} />
-        </MapInput>
-      </div>
-      <div className="map__navigation map__navigation-left">
-        <MapBreadcrumb feature={currentView.feature} handleClick={changeZone} />
-        <MapButton
-          className={currentView.feature !== WorldFeature ? "visible" : ""}
-          title="Revenir à la vue précédente"
-          onClick={handleBack}
-        >
-          <div className="icon-wrapper">
-            <IconArrow style={{ transform: "rotate(90deg)" }} />
-          </div>
-        </MapButton>
-      </div>
-      <div className="map__navigation map__navigation-bottom">
-        {!isFilterDisplayed && (
-          <MapMiniFilter onClick={() => setIsFilterDisplayed(true)} zoneList={getDeputies(currentView.feature, FilteredList)} />
-        )}
-        {isFilterDisplayed && (
-          <CustomControl className="map__filters">
-            <Filters />
-            <button className="filters__close" onClick={() => setIsFilterDisplayed(false)} title="Cacher les filtres">
-              <div className="icon-wrapper">
-                <IconClose />
-              </div>
-            </button>
-          </CustomControl>
-        )}
+      <div className="map__navigation">
+        <div className="navigation__right">
+          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
+          <FullscreenControl />
+          <MapInput
+            type="checkbox"
+            title={`${inExploreMode ? "Désactiver" : "Activer"} le mode exploration`}
+            checked={inExploreMode}
+            onChange={() => setInExploreMode(!inExploreMode)}
+          >
+            <IconPin style={inExploreMode ? { fill: "white" } : {}} />
+          </MapInput>
+        </div>
+        <div className="navigation__left">
+          <MapBreadcrumb feature={currentView.feature} handleClick={changeZone} />
+          <MapButton
+            className={currentView.feature !== WorldFeature ? "visible" : ""}
+            title="Revenir à la vue précédente"
+            onClick={handleBack}
+          >
+            <div className="icon-wrapper">
+              <IconArrow style={{ transform: "rotate(90deg)" }} />
+            </div>
+          </MapButton>
+        </div>
+        <div className="navigation__bottom">
+          {!isFilterDisplayed && (
+            <MapMiniFilter onClick={() => setIsFilterDisplayed(true)} zoneList={getDeputies(currentView.feature, FilteredList)} />
+          )}
+          {isFilterDisplayed && (
+            <CustomControl className="map__filters">
+              <Filters />
+              <button className="filters__close" onClick={() => setIsFilterDisplayed(false)} title="Cacher les filtres">
+                <div className="icon-wrapper">
+                  <IconClose />
+                </div>
+              </button>
+            </CustomControl>
+          )}
+        </div>
       </div>
     </InteractiveMap>
   )

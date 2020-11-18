@@ -9,7 +9,7 @@ export default function MapButton(props: React.HTMLAttributes<HTMLButtonElement>
 
   return (
     <CustomControl>
-      <button {...other} className={`map__btn ${props.className ? props.className : ""}`}>
+      <button {...other} className={`navigation__btn ${props.className ? props.className : ""}`}>
         {children}
       </button>
     </CustomControl>
