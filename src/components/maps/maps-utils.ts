@@ -29,7 +29,6 @@ export enum Cont {
   France,
   World,
   OM,
-  Hors,
 }
 
 /**
@@ -111,10 +110,10 @@ export const WorldFeature: AugoraMap.Feature = createFeature("Monde", { code_con
  */
 export const OMFeature: AugoraMap.Feature = createFeature("DROM-COM", { code_cont: Cont.OM })
 
-/**
- * Pseudo-feature des Hors de france
- */
-export const HorsFeature: AugoraMap.Feature = createFeature("Hors de France", { code_cont: Cont.Hors })
+// /**
+//  * Pseudo-feature des Hors de france
+//  */
+// export const HorsFeature: AugoraMap.Feature = createFeature("Hors de France", { code_cont: Cont.Hors })
 
 /**
  * Feature collection du monde
@@ -125,7 +124,7 @@ export const WorldCont: AugoraMap.FeatureCollection = createFeatureCollection([
   ...OMDptFile.features,
 ])
 
-export const WorldFeatures: AugoraMap.Feature[] = [MetroFeature, OMFeature, HorsFeature]
+export const WorldFeatures: AugoraMap.Feature[] = [MetroFeature, OMFeature]
 
 /**
  * Différentes coordonnées de la france métropolitaine
@@ -352,7 +351,7 @@ export const getChildFeatures = (feature: AugoraMap.Feature): AugoraMap.FeatureC
     case Code.Cont:
       if (feature.properties[zoneCode] === Cont.OM) return OMDptFile
       else if (feature.properties[zoneCode] === Cont.World) return WorldCont
-      else if (feature.properties[zoneCode] === Cont.Hors) return HorsCircFile
+      // else if (feature.properties[zoneCode] === Cont.Hors) return HorsCircFile
       else return MetroRegFile
     case Code.Reg:
       return createFeatureCollection(

@@ -140,7 +140,7 @@ const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] 
  */
 function BreadcrumbItem({ feature, handleClick, isLast }: IBreadcrumbItem) {
   const sisterZones = sortBy(getSisterFeatures(feature), (o) => o.properties.nom)
-  const childZones = isLast ? getBreadcrumbChildren(feature) : []
+  const childZones = isLast && getZoneCode(feature) !== Code.Dpt ? getBreadcrumbChildren(feature) : []
 
   return (
     <div className="breadcrumb__item">
