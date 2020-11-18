@@ -162,7 +162,9 @@ export default function MapAugora(props: IMapAugora) {
             router.push(`/depute/${deputy.Slug}`, `/depute/${deputy.Slug}`, {
               shallow: true,
             })
+          return
         default:
+          console.error("Feature à afficher non valide")
           return
       }
     } else flyToBounds(feature, viewState, setViewState)
@@ -172,7 +174,7 @@ export default function MapAugora(props: IMapAugora) {
    * Affiche une nouvelle vue, sans changer l'url, ne pas utiliser directement
    * @param {AugoraMap.Feature} feature La feature de la zone à afficher
    */
-  const displayZone = (feature: AugoraMap.Feature): void => {
+  const displayZone = (feature: AugoraMap.Feature) => {
     const zoneCode = getZoneCode(feature)
     let newFeature = feature
 
