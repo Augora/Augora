@@ -105,6 +105,10 @@
           height: 100%;
           position: absolute;
 
+          &.large {
+            width: 40%;
+          }
+
           .menu {
             &__btn {
               cursor: pointer;
@@ -127,6 +131,7 @@
                   fill: $text-color;
                 }
               }
+
               &:hover {
                 .icon-wrapper {
                   transform: scale(1.3);
@@ -191,6 +196,7 @@
 
                   &--virtual {
                     cursor: default;
+                    color: $darkgrey;
                   }
                 }
               }
@@ -201,6 +207,12 @@
             left: 0;
             top: 50%;
             transform: translate(0, -50%);
+
+            &.large {
+              .menu__btn {
+                justify-content: left;
+              }
+            }
           }
 
           &--children {
@@ -208,24 +220,25 @@
             top: 50%;
             transform: translate(0, -50%);
 
+            &.large {
+              .menu__btn {
+                justify-content: flex-end;
+              }
+            }
+
             .menu__btn > .icon-wrapper > svg {
               transform: rotate(-90deg);
             }
 
             .menu__tooltip {
-              left: 30px;
+              left: 100%;
               top: 0;
             }
 
             &.virtual {
               width: 100%;
-
-              .menu__btn > .icon-wrapper {
-                position: absolute;
-                right: 8px;
-              }
-              .menu__tooltip {
-                left: 230px;
+              .menu__btn {
+                justify-content: flex-end;
               }
             }
           }

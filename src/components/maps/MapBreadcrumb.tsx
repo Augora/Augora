@@ -69,7 +69,9 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
 
   return (
     <div
-      className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`}
+      className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""} ${
+        isTooltipVisible ? "large" : ""
+      }`}
       onMouseLeave={() => setIsTooltipVisible(false)}
     >
       <button
@@ -98,9 +100,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
                       props.onClick(feature)
                       setIsTooltipVisible(false)
                     }}
-                    title={`${feature.properties.nom ? "Aller sur" : "Voir le député de la"} ${zoneName}${
-                      feature.properties.nom_dpt ? " de " + feature.properties.nom_dpt : ""
-                    }`}
+                    title={`Aller sur" ${zoneName}`}
                   >
                     <div className="tooltip__name">{zoneName}</div>
                   </button>
