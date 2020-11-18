@@ -56,7 +56,7 @@ declare namespace AugoraMap {
   export type Coordinates = [number, number]
 
   /**
-   * Un array de 2 coordonnées: southwest lng, lat & northeast lng, lat utilisable par mapbox pour les bounding boxes
+   * Un array de 2 coordonnées: southwest [lng, lat] & northeast [lng, lat] utilisable par mapbox pour les bounding boxes
    */
   export type Bounds = [Coordinates, Coordinates]
 
