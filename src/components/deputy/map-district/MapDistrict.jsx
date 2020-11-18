@@ -28,8 +28,8 @@ export default function MapDistrict(props) {
     >
       <div className="map__container">
         <ReactMapGL
-          mapboxApiAccessToken="pk.eyJ1Ijoia29iYXJ1IiwiYSI6ImNrMXBhdnV6YjBwcWkzbnJ5NDd5NXpja2sifQ.vvykENe0q1tLZ7G476OC2A"
-          mapStyle="mapbox://styles/mapbox/streets-v11"
+          mapboxApiAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
+          mapStyle="mapbox://styles/augora/ckh3h62oh2nma19qt1fgb0kq7?optimize=true"
           {...viewport}
           width="100%"
           height="100%"
@@ -69,10 +69,8 @@ export default function MapDistrict(props) {
               }}
             />
           </Source>
-          <Link href={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`} >
-            <a className="map__redirect">
-              Cliquer pour voir la carte entière
-            </a>
+          <Link href={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`}>
+            <a className="map__redirect">Cliquer pour voir la carte entière</a>
           </Link>
         </ReactMapGL>
       </div>
