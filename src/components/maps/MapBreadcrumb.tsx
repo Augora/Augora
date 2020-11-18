@@ -75,9 +75,8 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
       <button
         className="menu__btn"
         title={props.title}
-        onClick={() => {
-          setIsTooltipVisible(!isTooltipVisible)
-        }}
+        onClick={() => setIsTooltipVisible(!isTooltipVisible)}
+        onMouseEnter={() => setIsTooltipVisible(true)}
       >
         <div className="icon-wrapper">
           <IconArrow />
