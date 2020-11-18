@@ -34,17 +34,12 @@ export default function MapTooltip(props: IMapTooltip) {
       offsetTop={20}
     >
       {zoneCode !== Code.Circ ? (
-        <Tooltip
-          className="map__tooltip"
-          title={zoneName}
-          nbDeputes={deputies.length}
-          totalDeputes={props.deputiesList.length}
-        >
+        <Tooltip className="map__tooltip" title={zoneName} nbDeputes={deputies.length} totalDeputes={props.deputiesList.length}>
           <GroupBar className="map__tooltip-bar" deputiesList={deputies} />
         </Tooltip>
       ) : (
         <Tooltip className="map__tooltip-solo" title={zoneName}>
-          {deputies[0] !== undefined ? (
+          {deputies.length ? (
             <>
               <div className="tooltip__nom">
                 {deputies[0].Sexe === "F" ? "MME " : "M. "}
@@ -58,9 +53,7 @@ export default function MapTooltip(props: IMapTooltip) {
               >
                 {deputies[0].GroupeParlementaire.NomComplet}
               </div>
-              <div className="tooltip__savoirplus">
-                Cliquer pour en savoir plus...
-              </div>
+              <div className="tooltip__savoirplus">Cliquer pour en savoir plus...</div>
             </>
           ) : (
             <div className="tooltip__nom">Pas de député trouvé</div>

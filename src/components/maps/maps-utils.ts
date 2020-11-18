@@ -443,11 +443,10 @@ export const getDeputies = (feature: AugoraMap.Feature, deputies: AugoraMap.Depu
         return deputy.NumeroDepartement == props[Code.Dpt]
       })
     case Code.Circ:
-      return [
-        deputies.find((deputy) => {
-          return deputy.NumeroCirconscription == props[Code.Circ] && deputy.NumeroDepartement == props[Code.Dpt]
-        }),
-      ]
+      const depute = deputies.find((deputy) => {
+        return deputy.NumeroCirconscription == props[Code.Circ] && deputy.NumeroDepartement == props[Code.Dpt]
+      })
+      return depute !== undefined ? [depute] : []
     default:
       return []
   }

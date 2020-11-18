@@ -14,7 +14,7 @@ interface IMapPin {
 }
 
 function MapPin({ deputies, coords }: IMapPin) {
-  return deputies[0] !== undefined ? (
+  return deputies.length ? (
     deputies.length === 1 ? (
       <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-38} offsetLeft={-38}>
         <div
