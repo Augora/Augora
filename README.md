@@ -36,7 +36,7 @@ Une fois le projet disponible, il suffit de faire les actions suivantes :
 
 ```
 yarn
-yarn start
+yarn dev
 ```
 
 Une fois fait, le site est accessible sur l'adresse : http://localhost:8000
