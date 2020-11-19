@@ -17,14 +17,7 @@ interface IMapTooltip {
 const getTooltipName = (feature: AugoraMap.Feature): string => {
   if (feature?.properties?.nom) return feature.properties.nom
   else if (feature?.properties?.nom_dpt) {
-    let particle: string
-    if (
-      feature.properties.nom_dpt.match(/^([a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]+[sS])([-\ ]|$).*/)
-    )
-      particle = "des "
-    else if (feature.properties.nom_dpt.match(/^[aàieèéêëouyAÀIEÈÉÊËOUY].*/)) particle = "d'"
-    else particle = "de "
-    return `Circonscription n°${feature.properties[Code.Circ]} ${particle + feature.properties.nom_dpt}`
+    return `Circonscription n°${feature.properties[Code.Circ]}\n${feature.properties.nom_dpt}`
   } else return null
 }
 
