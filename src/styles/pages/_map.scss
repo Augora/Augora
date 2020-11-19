@@ -504,6 +504,7 @@
         .mapboxgl-popup-content {
           background: none;
           box-shadow: none;
+          pointer-events: none;
         }
       }
     }
