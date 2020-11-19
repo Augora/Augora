@@ -16,17 +16,14 @@ import {
   getDeputies,
   getParentFeature,
 } from "components/maps/maps-utils"
-import CustomControl from "components/maps/CustomControl"
 import MapTooltip from "components/maps/MapTooltip"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapButton from "components/maps/MapButton"
 import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
-import MapMiniFilter from "components/maps/MapMiniFilter"
+import MapFilters from "components/maps/MapFilters"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
-import IconClose from "images/ui-kit/icon-close.svg"
 import IconPin from "images/ui-kit/icon-pin.svg"
-import Filters from "components/deputies-list/filters/Filters"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
 
@@ -303,19 +300,7 @@ export default function MapAugora(props: IMapAugora) {
           </MapButton>
         </div>
         <div className="navigation__bottom">
-          {!isFilterDisplayed && (
-            <MapMiniFilter onClick={() => setIsFilterDisplayed(true)} zoneList={getDeputies(currentView.feature, FilteredList)} />
-          )}
-          {isFilterDisplayed && (
-            <CustomControl className="map__filters">
-              <Filters filteredDeputes={getDeputies(currentView.feature, FilteredList)} />
-              <button className="filters__close" onClick={() => setIsFilterDisplayed(false)} title="Cacher les filtres">
-                <div className="icon-wrapper">
-                  <IconClose />
-                </div>
-              </button>
-            </CustomControl>
-          )}
+          <MapFilters zoneDeputies={getDeputies(currentView.feature, FilteredList)} />
         </div>
       </div>
     </InteractiveMap>

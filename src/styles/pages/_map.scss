@@ -358,116 +358,119 @@
       }
     }
 
-    &__mini-filter {
-      min-width: unset;
-      max-width: unset;
-      position: relative;
-      pointer-events: auto;
+    &__filters {
+      .filters {
+        &__mini {
+          min-width: unset;
+          max-width: unset;
+          position: relative;
+          pointer-events: auto;
 
-      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-      border-radius: 5px 5px 0 0;
-      padding: 0;
-      padding-left: 10px;
-      .tooltip__content {
-        display: flex;
-        align-items: center;
+          box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+          border-radius: 5px 5px 0 0;
+          padding: 0;
+          padding-left: 10px;
+          .tooltip__content {
+            display: flex;
+            align-items: center;
+            .mini {
+              &__btn {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: none;
+                border: none;
+                left: 0;
+                cursor: pointer;
 
-        .mini-filter {
-          &__btn {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: none;
-            border: none;
-            left: 0;
-            cursor: pointer;
-
-            &:hover {
-              box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                &:hover {
+                  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                }
+              }
+              &__number {
+                font-weight: bold;
+              }
+              &__bar {
+                width: 250px;
+                margin: 0 10px;
+              }
+              &__reset {
+                padding: 0;
+                min-width: unset;
+                min-height: unset;
+                width: 40px;
+                height: 40px;
+              }
             }
           }
-          &__number {
-            font-weight: bold;
-          }
-          &__bar {
-            width: 250px;
-            margin: 0 10px;
-          }
-          &__reset {
-            padding: 0;
-            min-width: unset;
-            min-height: unset;
-            width: 40px;
-            height: 40px;
-          }
-        }
-      }
-    }
-
-    &__filters {
-      max-width: 1000px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-
-      cursor: default;
-
-      .filters__close {
-        position: absolute;
-        right: 5px;
-        top: 13px;
-        width: 30px;
-        border: none;
-        background: none;
-
-        cursor: pointer;
-
-        .icon-wrapper {
-          pointer-events: none;
-          svg {
-            fill: $text-color;
-          }
         }
 
-        &:hover {
-          .icon-wrapper > svg {
-            fill: black;
+        &__big {
+          max-width: 1000px;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+
+          cursor: default;
+
+          .big__close {
+            position: absolute;
+            right: 5px;
+            top: 13px;
+            width: 30px;
+            border: none;
+            background: none;
+
+            cursor: pointer;
+
+            .icon-wrapper {
+              pointer-events: none;
+              svg {
+                fill: $text-color;
+              }
+            }
+
+            &:hover {
+              .icon-wrapper > svg {
+                fill: black;
+              }
+            }
+
+            &:active {
+              .icon-wrapper > svg {
+                fill: $btn-active;
+              }
+            }
           }
-        }
 
-        &:active {
-          .icon-wrapper > svg {
-            fill: $btn-active;
+          @import "../../styles/components/filters/search";
+          @import "../../styles/components/filters/sexes";
+          @import "../../styles/components/filters/groupes";
+
+          //sex / group / allornone group
+          &__middle-line {
+            display: flex;
+            margin-top: 20px;
           }
-        }
-      }
 
-      @import "../../styles/components/filters/search";
-      @import "../../styles/components/filters/sexes";
-      @import "../../styles/components/filters/groupes";
+          &__order {
+            width: 25%;
+            background: grey;
+          }
 
-      //sex / group / allornone group
-      &__middle-line {
-        display: flex;
-        margin-top: 20px;
-      }
+          //Slider
+          &__slider {
+            position: relative;
+            height: 60px;
+            margin-left: 17px;
+            margin-right: 100px;
+            pointer-events: none;
 
-      &__order {
-        width: 25%;
-        background: grey;
-      }
-
-      //Slider
-      &__slider {
-        position: relative;
-        height: 60px;
-        margin-left: 17px;
-        margin-right: 100px;
-        pointer-events: none;
-
-        &-label {
-          position: absolute;
-          right: -80px;
-          top: 16px;
-          font-weight: bold;
+            &-label {
+              position: absolute;
+              right: -80px;
+              top: 16px;
+              font-weight: bold;
+            }
+          }
         }
       }
     }
@@ -508,5 +511,8 @@
         }
       }
     }
+  }
+
+  @media (max-width: 875px) {
   }
 }
