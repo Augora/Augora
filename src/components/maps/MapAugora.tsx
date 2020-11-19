@@ -308,7 +308,7 @@ export default function MapAugora(props: IMapAugora) {
           )}
           {isFilterDisplayed && (
             <CustomControl className="map__filters">
-              <Filters />
+              <Filters filteredDeputes={getDeputies(currentView.feature, FilteredList)} />
               <button className="filters__close" onClick={() => setIsFilterDisplayed(false)} title="Cacher les filtres">
                 <div className="icon-wrapper">
                   <IconClose />

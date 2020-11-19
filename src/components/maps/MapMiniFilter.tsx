@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import CustomControl from "components/maps/CustomControl"
 import GroupBar from "components/deputies-list/GroupBar"
 import Tooltip from "components/tooltip/Tooltip"
