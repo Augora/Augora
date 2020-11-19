@@ -70,7 +70,7 @@ export default function Mandate(props) {
           ) : null}
           {Date.monthsPassed === 0 && Date.yearsPassed === 0 ? (
             <p>
-              <span style={{ color: props.color }}>{Date.daysPassed}</span> <strong>Jours</strong>
+              <span style={{ color: props.color }}>{Date.daysPassed}</span> <strong>{Date.daysPassed < 2 ? Jour : Jours}</strong>
             </p>
           ) : null}
           <p></p>
