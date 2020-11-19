@@ -440,37 +440,6 @@
               }
             }
           }
-
-          @import "../../styles/components/filters/search";
-          @import "../../styles/components/filters/sexes";
-          @import "../../styles/components/filters/groupes";
-
-          //sex / group / allornone group
-          &__middle-line {
-            display: flex;
-            margin-top: 20px;
-          }
-
-          &__order {
-            width: 25%;
-            background: grey;
-          }
-
-          //Slider
-          &__slider {
-            position: relative;
-            height: 60px;
-            margin-left: 17px;
-            margin-right: 100px;
-            pointer-events: none;
-
-            &-label {
-              position: absolute;
-              right: -80px;
-              top: 16px;
-              font-weight: bold;
-            }
-          }
         }
       }
     }
