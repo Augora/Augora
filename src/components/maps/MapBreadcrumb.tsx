@@ -100,7 +100,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
                       props.onClick(feature)
                       setIsTooltipVisible(false)
                     }}
-                    title={`Aller sur" ${zoneName}`}
+                    title={`Aller sur ${zoneName}`}
                   >
                     <div className="tooltip__name">{zoneName}</div>
                   </button>
