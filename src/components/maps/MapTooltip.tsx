@@ -11,6 +11,24 @@ interface IMapTooltip {
 }
 
 /**
+ * Renvoie le nom de la zone affiché sur la tooltip
+ * @param {AugoraMap.Feature} feature
+ */
+const getTooltipName = (feature: AugoraMap.Feature): string => {
+  if (feature?.properties?.nom) return feature.properties.nom
+  else if (feature?.properties?.nom_dpt) {
+    let particle: string
+    if (
+      feature.properties.nom_dpt.match(/^([a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]+[sS])([-\ ]|$).*/)
+    )
+      particle = "des "
+    else if (feature.properties.nom_dpt.match(/^[aàieèéêëouyAÀIEÈÉÊËOUY].*/)) particle = "d'"
+    else particle = "de "
+    return `Circonscription n°${feature.properties[Code.Circ]} ${particle + feature.properties.nom_dpt}`
+  } else return null
+}
+
+/**
  * Renvoie une tooltip dans un component Popup de mapbox
  * @param {[number, number]} lngLat Array de [lgn, lat] pour positionner la popup
  * @param {AugoraMap.Feature} zoneFeature La feature de la zone à analyser
@@ -18,9 +36,7 @@ interface IMapTooltip {
  */
 export default function MapTooltip(props: IMapTooltip) {
   const zoneCode = getZoneCode(props.zoneFeature)
-  const zoneName = props.zoneFeature.properties.nom
-    ? props.zoneFeature.properties.nom
-    : `Circonscription n°${props.zoneFeature.properties[Code.Circ]}`
+  const zoneName = getTooltipName(props.zoneFeature)
   const deputies = getDeputies(props.zoneFeature, props.deputiesList)
 
   return (
