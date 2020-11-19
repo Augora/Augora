@@ -66,5 +66,47 @@
   }
 }
 
-@import "../filters";
+//chart frame
+.frame-chart {
+  min-width: 30vw;
+  margin: 0 0 0 40px;
+  &__content {
+    margin: auto 0;
+    .chart {
+      min-height: 250px;
+      height: 250px;
+      width: 100%;
+      outline: none;
+      &.piechart,
+      &.barchart {
+        background: rgba(black, 0);
+        transition: 0.225s linear;
+        cursor: pointer;
+        &:hover {
+          background: rgba(black, 0.05);
+        }
+      }
+      &.piechart {
+        svg g text {
+          &[text-anchor="middle"] {
+            font-size: 22px !important;
+            font-weight: bold;
+          }
+        }
+      }
+      &.complex-barchart {
+        width: 70%;
+        position: relative;
+      }
+      .chart-wrapper {
+        height: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 1500px) {
+    display: none;
+  }
+}
+
 @import "deputy";
