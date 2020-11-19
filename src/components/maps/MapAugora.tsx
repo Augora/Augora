@@ -262,6 +262,7 @@ export default function MapAugora(props: IMapAugora) {
       onViewStateChange={(change) => setViewState(change.viewState)}
       onClick={handleClick}
       onHover={handleHover}
+      onMouseOut={() => resetHover()}
       reuseMaps={true}
     >
       <Source type="geojson" data={currentView.GEOJson} generateId={true}>
