@@ -5,7 +5,6 @@ import {
   Code,
   France,
   MetroFeature,
-  WorldFeature,
   AllReg,
   flyToBounds,
   getChildFeatures,
@@ -18,11 +17,9 @@ import {
 } from "components/maps/maps-utils"
 import MapTooltip from "components/maps/MapTooltip"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
-import MapButton from "components/maps/MapButton"
 import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
 import MapFilters from "components/maps/MapFilters"
-import IconArrow from "images/ui-kit/icon-arrow.svg"
 import IconPin from "images/ui-kit/icon-pin.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
@@ -117,7 +114,6 @@ export default function MapAugora(props: IMapAugora) {
   })
   const [hover, setHover] = useState<IHover>(null)
   const [inExploreMode, setInExploreMode] = useState(false)
-  const [isFilterDisplayed, setIsFilterDisplayed] = useState(false)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
 
   const mapRef = useRef<mapboxgl.Map>()

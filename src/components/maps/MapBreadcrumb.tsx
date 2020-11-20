@@ -6,9 +6,7 @@ import {
   getContinent,
   getZoneCode,
   getFeature,
-  getSisterFeatures,
   WorldFeature,
-  WorldFeatures,
   getChildFeatures,
   getZoneName,
 } from "components/maps/maps-utils"
@@ -23,16 +21,13 @@ interface IMapBreadcrumb {
   handleClick: (args?: any) => any
 }
 
-interface IBreadcrumbItem extends IMapBreadcrumb {
-  isLast?: boolean
-}
+interface IBreadcrumbItem extends IMapBreadcrumb {}
 
 interface IBreadcrumbMenu {
   zones: AugoraMap.Feature[]
   onClick: (args?: any) => any
   closeParent?: (args?: any) => any
   className?: string
-  title?: string
 }
 
 /**
@@ -58,12 +53,17 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
   }
 }
 
+/**
+ * Renvoie les enfants de la feature pour le breadcrumb (sans les circonscriptions, et rangé par ordre alphabétique)
+ * @param {AugoraMap.Feature} feature
+ */
 const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
-  if (feature !== WorldFeature)
-    return sortBy(getChildFeatures(feature).features, (o) => {
+  return sortBy(
+    getChildFeatures(feature).features.filter((feat) => getZoneCode(feat) !== Code.Circ),
+    (o) => {
       return o.properties.nom ? o.properties.nom : o.properties.code_circ
-    })
-  else return WorldFeatures
+    }
+  )
 }
 
 /**
@@ -76,7 +76,7 @@ const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] 
 function BreadcrumbMenu(props: IBreadcrumbMenu) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const parentRef = useRef<HTMLDivElement>()
+  const container = useRef<HTMLDivElement>()
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClick)
@@ -91,16 +91,20 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
   }
 
   const handleClick = (e) => {
-    if (parentRef?.current) {
-      if (!parentRef.current.contains(e.target)) {
+    if (container?.current) {
+      if (!container.current.contains(e.target)) {
         setIsOpen(false)
       }
     }
   }
 
   return (
-    <div className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`} ref={parentRef}>
-      <button className={`menu__btn ${isOpen ? "menu__btn--active" : ""}`} title={props.title} onClick={() => setIsOpen(!isOpen)}>
+    <div className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`} ref={container}>
+      <button
+        className={`menu__btn ${isOpen ? "menu__btn--active" : ""}`}
+        title="Voir les zones enfants"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <div className="icon-wrapper">
           <IconArrow />
         </div>
@@ -110,33 +114,23 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
           {props.zones.map((feature, index) => {
             const zoneName = getZoneName(feature)
             const zoneCode = getZoneCode(feature)
-            const isReal = feature.geometry.coordinates.length > 0
+            const childZones = getBreadcrumbChildren(feature)
 
             return (
               <div className="tooltip__item" key={`tooltip-btn-${index}-${feature.properties[zoneCode]}-${zoneCode}`}>
-                {isReal ? (
-                  <button
-                    className="tooltip__btn"
-                    onClick={() => {
-                      props.onClick(feature)
-                      closeAll()
-                    }}
-                    title={`Aller sur ${zoneName}`}
-                  >
-                    <div className="tooltip__name">{zoneName}</div>
-                  </button>
-                ) : (
-                  <div className="tooltip__name tooltip__name--virtual">{zoneName}</div>
+                <button
+                  className="tooltip__btn"
+                  onClick={() => {
+                    props.onClick(feature)
+                    closeAll()
+                  }}
+                  title={`Aller sur ${zoneName}`}
+                >
+                  <div className="tooltip__name">{zoneName}</div>
+                </button>
+                {childZones.length > 0 && (
+                  <BreadcrumbMenu className="list" zones={childZones} onClick={props.onClick} closeParent={closeAll} />
                 )}
-                {zoneCode !== Code.Dpt && zoneCode !== Code.Circ ? (
-                  <BreadcrumbMenu
-                    zones={getBreadcrumbChildren(feature)}
-                    onClick={props.onClick}
-                    closeParent={closeAll}
-                    className="list"
-                    title="Voir les zones enfants"
-                  />
-                ) : null}
               </div>
             )
           })}
@@ -152,8 +146,8 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
  * @param {Function} handleClick La fonction au click du bouton
  * @param {boolean} [isLast] Si l'item est le dernier du breadcrumb
  */
-function BreadcrumbItem({ feature, handleClick, isLast }: IBreadcrumbItem) {
-  const childZones = getZoneCode(feature) !== Code.Dpt ? getBreadcrumbChildren(feature) : []
+function BreadcrumbItem({ feature, handleClick }: IBreadcrumbItem) {
+  const childZones = getBreadcrumbChildren(feature)
 
   return (
     <div className="breadcrumb__item">
@@ -164,9 +158,7 @@ function BreadcrumbItem({ feature, handleClick, isLast }: IBreadcrumbItem) {
       >
         {getZoneName(feature)}
       </button>
-      {childZones.length > 0 && (
-        <BreadcrumbMenu zones={childZones} onClick={handleClick} className="zone" title="Voir les zones enfants" />
-      )}
+      {childZones.length > 0 && <BreadcrumbMenu className="zone" zones={childZones} onClick={handleClick} />}
     </div>
   )
 }
@@ -182,12 +174,7 @@ export default function MapBreadcrumb({ feature, handleClick }: IMapBreadcrumb) 
   return (
     <CustomControl className="map__breadcrumb">
       {history.map((item, index) => (
-        <BreadcrumbItem
-          key={`breadcrumb-${index}-${slugify(item.properties.nom)}`}
-          feature={item}
-          handleClick={handleClick}
-          isLast={index + 1 === history.length}
-        />
+        <BreadcrumbItem key={`breadcrumb-${index}-${slugify(item.properties.nom)}`} feature={item} handleClick={handleClick} />
       ))}
     </CustomControl>
   )
