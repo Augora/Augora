@@ -9,7 +9,7 @@ interface ICustomControlProps extends BaseControlProps {
 /**
  * Renvoie un CustomControl contenant un div contenant les children, avec toutes les props captures = true
  *
- * Utilisé pour afficher un bouton sur la map qui ne trigger pas la navigation de la map en dessous
+ * Utilisé pour afficher un overlay sur la map qui ne trigger pas la navigation de la map en dessous
  */
 export default class CustomControl extends BaseControl<ICustomControlProps, HTMLDivElement> {
   static defaultProps = {

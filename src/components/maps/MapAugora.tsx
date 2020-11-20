@@ -290,15 +290,6 @@ export default function MapAugora(props: IMapAugora) {
         </div>
         <div className="navigation__left">
           <MapBreadcrumb feature={currentView.feature} handleClick={changeZone} />
-          <MapButton
-            className={currentView.feature !== WorldFeature ? "visible" : ""}
-            title="Revenir à la vue précédente"
-            onClick={handleBack}
-          >
-            <div className="icon-wrapper">
-              <IconArrow style={{ transform: "rotate(90deg)" }} />
-            </div>
-          </MapButton>
         </div>
         <div className="navigation__bottom">
           <MapFilters zoneDeputies={getDeputies(currentView.feature, FilteredList)} />
