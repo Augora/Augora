@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import {
   Code,
   Cont,
@@ -30,6 +30,7 @@ interface IBreadcrumbItem extends IMapBreadcrumb {
 interface IBreadcrumbMenu {
   zones: AugoraMap.Feature[]
   onClick: (args?: any) => any
+  closeParent?: (args?: any) => any
   className?: string
   title?: string
 }
@@ -57,6 +58,14 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
   }
 }
 
+const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
+  if (feature !== WorldFeature)
+    return sortBy(getChildFeatures(feature).features, (o) => {
+      return o.properties.nom ? o.properties.nom : o.properties.code_circ
+    })
+  else return WorldFeatures
+}
+
 /**
  * Renvoie un bouton de menu déroulant pour des zones apparentées
  * @param {AugoraMap.Feature[]} zones La liste des zones apparentées
@@ -65,24 +74,38 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
  * @param {string} [title] Title du bouton optionel
  */
 function BreadcrumbMenu(props: IBreadcrumbMenu) {
-  const [isTooltipVisible, setIsTooltipVisible] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const parentRef = useRef<HTMLDivElement>()
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClick)
+    return () => {
+      document.removeEventListener("mousedown", handleClick)
+    }
+  }, [])
+
+  const closeAll = () => {
+    if (props.closeParent) props.closeParent()
+    setIsOpen(false)
+  }
+
+  const handleClick = (e) => {
+    if (parentRef?.current) {
+      if (!parentRef.current.contains(e.target)) {
+        setIsOpen(false)
+      }
+    }
+  }
 
   return (
-    <div
-      className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`}
-      onMouseLeave={() => setIsTooltipVisible(false)}
-    >
-      <button
-        className="menu__btn"
-        title={props.title}
-        onClick={() => setIsTooltipVisible(!isTooltipVisible)}
-        onMouseEnter={() => setIsTooltipVisible(true)}
-      >
+    <div className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`} ref={parentRef}>
+      <button className={`menu__btn ${isOpen ? "menu__btn--active" : ""}`} title={props.title} onClick={() => setIsOpen(!isOpen)}>
         <div className="icon-wrapper">
           <IconArrow />
         </div>
       </button>
-      {isTooltipVisible && (
+      {isOpen && (
         <Tooltip className="menu__tooltip">
           {props.zones.map((feature, index) => {
             const zoneName = getZoneName(feature)
@@ -96,7 +119,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
                     className="tooltip__btn"
                     onClick={() => {
                       props.onClick(feature)
-                      setIsTooltipVisible(false)
+                      closeAll()
                     }}
                     title={`Aller sur ${zoneName}`}
                   >
@@ -109,6 +132,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
                   <BreadcrumbMenu
                     zones={getBreadcrumbChildren(feature)}
                     onClick={props.onClick}
+                    closeParent={closeAll}
                     className="list"
                     title="Voir les zones enfants"
                   />
@@ -122,14 +146,6 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
   )
 }
 
-const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
-  if (feature !== WorldFeature)
-    return sortBy(getChildFeatures(feature).features, (o) => {
-      return o.properties.nom ? o.properties.nom : o.properties.code_circ
-    })
-  else return WorldFeatures
-}
-
 /**
  * Renvoie un bouton de breadcrumb
  * @param {AugoraMap.Feature} feature La feature du bouton
@@ -141,7 +157,11 @@ function BreadcrumbItem({ feature, handleClick, isLast }: IBreadcrumbItem) {
 
   return (
     <div className="breadcrumb__item">
-      <button className="breadcrumb__zone" onClick={() => handleClick(feature)} title={`Revenir sur ${getZoneName(feature)}`}>
+      <button
+        className={`breadcrumb__zone ${!childZones.length ? "breadcrumb__zone--solo" : ""}`}
+        onClick={() => handleClick(feature)}
+        title={`Revenir sur ${getZoneName(feature)}`}
+      >
         {getZoneName(feature)}
       </button>
       {childZones.length > 0 && (
