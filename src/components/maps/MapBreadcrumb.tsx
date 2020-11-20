@@ -69,9 +69,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
 
   return (
     <div
-      className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""} ${
-        isTooltipVisible ? "large" : ""
-      }`}
+      className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`}
       onMouseLeave={() => setIsTooltipVisible(false)}
     >
       <button
@@ -111,7 +109,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
                   <BreadcrumbMenu
                     zones={getBreadcrumbChildren(feature)}
                     onClick={props.onClick}
-                    className={`children ${!isReal ? "virtual" : ""}`}
+                    className="list"
                     title="Voir les zones enfants"
                   />
                 ) : null}
@@ -139,19 +137,15 @@ const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] 
  * @param {boolean} [isLast] Si l'item est le dernier du breadcrumb
  */
 function BreadcrumbItem({ feature, handleClick, isLast }: IBreadcrumbItem) {
-  const sisterZones = sortBy(getSisterFeatures(feature), (o) => o.properties.nom)
-  const childZones = isLast && getZoneCode(feature) !== Code.Dpt ? getBreadcrumbChildren(feature) : []
+  const childZones = getZoneCode(feature) !== Code.Dpt ? getBreadcrumbChildren(feature) : []
 
   return (
     <div className="breadcrumb__item">
       <button className="breadcrumb__zone" onClick={() => handleClick(feature)} title={`Revenir sur ${getZoneName(feature)}`}>
         {getZoneName(feature)}
       </button>
-      {sisterZones.length > 0 && (
-        <BreadcrumbMenu zones={sisterZones} onClick={handleClick} className="sisters" title="Voir les zones soeurs" />
-      )}
       {childZones.length > 0 && (
-        <BreadcrumbMenu zones={childZones} onClick={handleClick} className="children" title="Voir les zones enfants" />
+        <BreadcrumbMenu zones={childZones} onClick={handleClick} className="zone" title="Voir les zones enfants" />
       )}
     </div>
   )
