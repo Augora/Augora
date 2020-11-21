@@ -25,12 +25,12 @@ function MapDeputyPin({ deputy, coords }: IMapDeputyPin) {
         className="pins__deputy"
         style={{
           borderColor: deputy.GroupeParlementaire.Couleur,
-          boxShadow: `0px 0px 10px ${deputy.GroupeParlementaire.Couleur}`,
+          boxShadow: `0px 5px 10px ${deputy.GroupeParlementaire.Couleur}`,
         }}
       >
         <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
       </div>
-      <div className="pins__arrowdown pins__arrowdown--deputy" style={{ borderTopColor: deputy.GroupeParlementaire.Couleur }} />
+      <div className="pins__arrowdown arrowdown__deputy" style={{ borderTopColor: deputy.GroupeParlementaire.Couleur }} />
     </Marker>
   )
 }
@@ -39,7 +39,7 @@ function MapPin({ deputies, coords }: IMapPin) {
   return (
     <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-82} offsetLeft={-35}>
       <div className="pins__number">{deputies.length}</div>
-      <div className="pins__arrowdown pins__arrowdown--number" />
+      <div className="pins__arrowdown arrowdown__number" />
     </Marker>
   )
 }
