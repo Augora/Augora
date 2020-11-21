@@ -20,7 +20,7 @@ import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
 import MapFilters from "components/maps/MapFilters"
-import IconPin from "images/ui-kit/icon-pin.svg"
+import IconInfo from "images/ui-kit/icon-info-crossed.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
 
@@ -281,7 +281,7 @@ export default function MapAugora(props: IMapAugora) {
             checked={inExploreMode}
             onChange={() => setInExploreMode(!inExploreMode)}
           >
-            <IconPin style={inExploreMode ? { fill: "white" } : {}} />
+            <IconInfo style={inExploreMode ? { fill: "white" } : {}} />
           </MapInput>
         </div>
         <div className="navigation__left">

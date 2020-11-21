@@ -357,6 +357,9 @@
 
           &--container {
             position: relative;
+            .icon-wrapper > svg {
+              fill: "%23334";
+            }
           }
 
           &--wrapper {
