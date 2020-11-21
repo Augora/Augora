@@ -270,7 +270,7 @@ export default function MapAugora(props: IMapAugora) {
         <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
       {!inExploreMode && hover && <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.feature} deputiesList={FilteredList} />}
-      {!inExploreMode && <MapPins features={currentView.GEOJson.features} deputiesList={FilteredList} />}
+      {!inExploreMode && <MapPins features={currentView.GEOJson.features} deputiesList={FilteredList} handleClick={changeZone} />}
       <div className="map__navigation">
         <div className="navigation__right">
           <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
