@@ -48,10 +48,10 @@ function MapPin({ deputies, coords, handleClick, isSolo }: IMapPin) {
         </>
       ) : (
         <>
-          <button className="pins__number" onClick={() => handleClick()}>
-            {deputies.length}
+          <button className="pins__deputies" onClick={() => handleClick()}>
+            <div className="deputies__number">{deputies.length}</div>
           </button>
-          <div className="pins__arrowdown arrowdown__number" />
+          <div className="pins__arrowdown arrowdown__deputies" />
         </>
       )}
     </Popup>

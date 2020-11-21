@@ -80,7 +80,7 @@
                 &__separator {
                   width: 50%;
                   height: 2px;
-                  margin: 2px 0;
+                  margin: 4px 0;
                 }
               }
             }
@@ -97,12 +97,12 @@
           }
         }
 
-        &__number {
+        &__deputies {
           pointer-events: auto;
           border: none;
           outline: none;
           border-radius: 20px;
-          background: rgba(white, 0.9);
+          background: white;
           box-shadow: 0px 5px 20px rgba($black, 0.2);
           width: 70px;
           height: 70px;
@@ -127,8 +127,8 @@
               border-top-width: 12px;
               border-top-style: solid;
             }
-            &__number {
-              border-top: 12px solid rgba(white, 0.95);
+            &__deputies {
+              border-top: 12px solid white;
             }
           }
         }
