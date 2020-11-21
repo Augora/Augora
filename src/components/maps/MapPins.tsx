@@ -20,23 +20,26 @@ interface IMapDeputyPin {
 
 function MapDeputyPin({ deputy, coords }: IMapDeputyPin) {
   return (
-    <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-38} offsetLeft={-38}>
+    <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-82} offsetLeft={-35}>
       <div
         className="pins__deputy"
         style={{
           borderColor: deputy.GroupeParlementaire.Couleur,
+          boxShadow: `0px 0px 10px ${deputy.GroupeParlementaire.Couleur}`,
         }}
       >
         <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
       </div>
+      <div className="pins__arrowdown pins__arrowdown--deputy" style={{ borderTopColor: deputy.GroupeParlementaire.Couleur }} />
     </Marker>
   )
 }
 
 function MapPin({ deputies, coords }: IMapPin) {
   return (
-    <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-35} offsetLeft={-35}>
+    <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-82} offsetLeft={-35}>
       <div className="pins__number">{deputies.length}</div>
+      <div className="pins__arrowdown pins__arrowdown--number" />
     </Marker>
   )
 }
