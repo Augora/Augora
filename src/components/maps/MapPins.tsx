@@ -1,6 +1,6 @@
 import React from "react"
 import { Marker } from "react-map-gl"
-import { getDeputies, getZoneCode } from "components/maps/maps-utils"
+import { Code, getDeputies, getZoneCode } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
 interface IMapPins {
@@ -13,25 +13,32 @@ interface IMapPin {
   coords: AugoraMap.Coordinates
 }
 
+interface IMapDeputyPin {
+  deputy: AugoraMap.Depute
+  coords: AugoraMap.Coordinates
+}
+
+function MapDeputyPin({ deputy, coords }: IMapDeputyPin) {
+  return (
+    <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-38} offsetLeft={-38}>
+      <div
+        className="pins__deputy"
+        style={{
+          borderColor: deputy.GroupeParlementaire.Couleur,
+        }}
+      >
+        <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
+      </div>
+    </Marker>
+  )
+}
+
 function MapPin({ deputies, coords }: IMapPin) {
-  return deputies.length ? (
-    deputies.length === 1 ? (
-      <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-38} offsetLeft={-38}>
-        <div
-          className="pins__deputy"
-          style={{
-            borderColor: deputies[0].GroupeParlementaire.Couleur,
-          }}
-        >
-          <DeputyImage src={deputies[0].URLPhotoAugora} alt={deputies[0].Nom} sex={deputies[0].Sexe} />
-        </div>
-      </Marker>
-    ) : (
-      <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-35} offsetLeft={-35}>
-        <div className="pins__number">{deputies.length}</div>
-      </Marker>
-    )
-  ) : null
+  return (
+    <Marker className="pins__marker" longitude={coords[0]} latitude={coords[1]} offsetTop={-35} offsetLeft={-35}>
+      <div className="pins__number">{deputies.length}</div>
+    </Marker>
+  )
 }
 
 /**
@@ -44,14 +51,18 @@ export default function MapPins({ features, deputiesList }: IMapPins) {
     <div className="map__pins">
       {features.map((feature, index) => {
         const deputies = getDeputies(feature, deputiesList)
-        return (
-          <MapPin
-            key={`${index}-${getZoneCode(feature)}-${
-              feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt
-            }`}
-            deputies={deputies}
-            coords={feature.properties.center}
-          />
+        const zoneCode = getZoneCode(feature)
+
+        return zoneCode !== Code.Circ ? (
+          <MapPin key={`${index}-${zoneCode}-${feature.properties.nom}`} deputies={deputies} coords={feature.properties.center} />
+        ) : (
+          deputies[0] && (
+            <MapDeputyPin
+              key={`${index}-${zoneCode}-${feature.properties.nom_dpt}`}
+              deputy={deputies[0]}
+              coords={feature.properties.center}
+            />
+          )
         )
       })}
     </div>
