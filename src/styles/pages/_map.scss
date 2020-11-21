@@ -13,13 +13,24 @@
 
     &__pins {
       .pins {
-        &__marker {
-          pointer-events: none;
-          display: flex;
-          flex-direction: column;
+        &__popup {
+          .mapboxgl {
+            &-popup-tip {
+              display: none;
+            }
+            &-popup-content {
+              pointer-events: none;
+              display: flex;
+              flex-direction: column;
+              background: none;
+              box-shadow: none;
+              padding: 0;
+            }
+          }
         }
 
         &__deputy {
+          pointer-events: auto;
           border-style: solid;
           border-width: 2px;
           border-radius: 20px;
@@ -29,7 +40,9 @@
 
           overflow: hidden;
           position: relative;
+          cursor: pointer;
           .deputy__photo {
+            pointer-events: none;
             display: block;
             margin-bottom: 0;
             max-width: 120%;
@@ -41,6 +54,9 @@
         }
 
         &__number {
+          pointer-events: auto;
+          border: none;
+          outline: none;
           border-radius: 20px;
           background: rgba(white, 0.9);
           box-shadow: 0px 5px 20px rgba($black, 0.2);
@@ -50,6 +66,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          cursor: pointer;
 
           font-size: 26px;
         }
