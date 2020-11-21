@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 
 // Icons
-import IconArrow from "../../images/ui-kit/icon-arrow.svg"
+import IconArrow from "images/ui-kit/icon-arrow.svg"
 
 // Graphics
 import GradientBanner from "components/graphics/GradientBanner"

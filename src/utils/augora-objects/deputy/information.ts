@@ -8,6 +8,7 @@ export function getGeneralInformation(deputy: any) {
     picture: deputy.URLPhotoAugora,
     pictureGroup: getPoliticGroupPhotoImport(deputy.GroupeParlementaire.Sigle),
     groupe: deputy.GroupeParlementaire.Sigle,
+    groupeComplet: deputy.GroupeParlementaire.NomComplet,
     age: deputy.Age,
     job: deputy.Profession,
     website: deputy.SitesWeb,

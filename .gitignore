@@ -57,10 +57,6 @@ typings/
 .env.test.local
 .env.production.local
 
-# gatsby files
-.cache/
-public
-
 # Mac files
 .DS_Store
 
@@ -73,3 +69,11 @@ yarn-error.log
 
 # Vercel config
 .vercel
+
+# .next files
+.next
+.vercel
+
+# Sitemap files
+public/robots.txt
+public/sitemap.xml

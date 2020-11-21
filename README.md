@@ -10,7 +10,7 @@ Augora, c'est un projet qui a pour vocation de mettre à disposition des outils 
 
 - <a href="https://yarnpkg.com" target="_blank">Yarn</a>
 - <a href="https://nodejs.org" target="_blank">Node</a>
-- <a href="https://www.gatsbyjs.com" target="_blank">Gatsby</a>
+- <a href="https://nextjs.org" target="_blank">NextJS</a>
 - <a href="https://reactjs.org" target="_blank">React</a>
 - <a href="https://www.mapbox.com" target="_blank">Mapbox</a>
 - <a href="https://prettier.io" target="_blank">Prettier</a>
@@ -38,7 +38,23 @@ Une fois le projet disponible, il suffit de faire les actions suivantes :
 
 ```
 yarn
-yarn start
+yarn dev
 ```
 
 Une fois fait, le site est accessible sur l'adresse : http://localhost:8000
+
+### Variables d'environnement
+
+Pour faciliter le déploiement, nous utilisons un fichier <strong>.env.local</strong>.
+
+Pour l'utiliser, il suffit de copier le contenu du fichier :
+
+```
+.env.sample
+```
+
+dans le fichier :
+
+```
+.env.local
+```

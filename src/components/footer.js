@@ -1,7 +1,7 @@
-import { Link } from "gatsby"
+import Link from "next/link"
 import React from "react"
-import IconMail from "../../src/images/ui-kit/icon-mail.svg"
-import IconTwitter from "../../src/images/ui-kit/icon-twitter.svg"
+import IconMail from "images/ui-kit/icon-mail.svg"
+import IconTwitter from "images/ui-kit/icon-twitter.svg"
 
 const Menu = (title, items) => {
   return (
@@ -16,7 +16,7 @@ const Menu = (title, items) => {
                 {item.label}
               </a>
             ) : (
-              <Link key={item.link} to={item.link} target={item.target ? "_blank" : ""}>
+              <Link key={item.link} href={item.link}>
                 {item.icon ? <div className="icon-wrapper">{item.icon}</div> : null}
                 {item.label}
               </Link>
@@ -42,29 +42,34 @@ const Footer = () => {
         <div className="footer__menus">
           {Menu("Ressources", [
             {
-              label: "Gatsby",
-              link: "https://www.gatsbyjs.org/",
+              label: "NextJS",
+              link: "https://nextjs.org/",
               target: true,
+              internal: false,
             },
             {
               label: "React",
               link: "https://reactjs.org/",
               target: true,
+              internal: false,
             },
             {
               label: "GraphQL",
               link: "https://graphql.org/",
               target: true,
+              internal: false,
             },
             {
               label: "Fauna",
               link: "https://fauna.com/",
               target: true,
+              internal: false,
             },
             {
               label: "Mapbox",
               link: "https://www.mapbox.com/",
               target: true,
+              internal: false,
             },
           ])}
           {Menu("Liens utiles", [
@@ -72,33 +77,40 @@ const Footer = () => {
               label: "Nosdéputés.fr",
               link: "https://www.nosdeputes.fr/",
               target: true,
+              internal: false,
             },
             {
               label: "Regards Citoyens",
               link: "https://www.regardscitoyens.org/",
               target: true,
+              internal: false,
             },
             {
               label: "Accropolis",
               link: "http://accropolis.fr/",
               target: true,
+              internal: false,
             },
             {
               label: "Mentions légales",
               link: "/mention-legales",
-              internal: true,
+              target: true,
+              internal: false,
             },
           ])}
           {Menu("Contact", [
             {
               label: "contact@augora.fr",
               link: "mailto:contact@augora.fr",
+              target: true,
+              internal: false,
               icon: <IconMail />,
             },
             {
               label: "@AugoraFR",
               link: "https://twitter.com/AugoraFR",
               target: true,
+              internal: false,
               icon: <IconTwitter />,
             },
           ])}

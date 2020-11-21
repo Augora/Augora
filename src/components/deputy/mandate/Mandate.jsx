@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Block from "../_block/_Block"
-import moment from "moment-with-locales-es6"
+import moment from "moment"
 import IconMandat from "images/ui-kit/icon-mandat.svg"
 
 const getDates = (date) => {

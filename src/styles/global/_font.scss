@@ -3,10 +3,8 @@
 /*----------------------------------------------------*/
 @font-face {
   font-family: "Augora";
-  src: url("../fonts/augora/Augora.eot"),
-    url("../fonts/augora/Augora.ttf") format("truetype"),
-    url("../fonts/augora/Augora.woff") format("woff"),
-    url("../fonts/augora/Augora.woff2") format("woff2");
+  src: url("/fonts/augora/Augora.eot"), url("/fonts/augora/Augora.ttf") format("truetype"),
+    url("/fonts/augora/Augora.woff") format("woff"), url("/fonts/augora/Augora.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }

@@ -1,28 +1,35 @@
 import React, { useState, useRef, useContext } from "react"
+import Image from "next/image"
 
-import IconClose from "../../../images/ui-kit/icon-close.svg"
-import IconSearch from "../../../images/ui-kit/icon-loupe.svg"
-import IconMaleSymbol from "../../../images/ui-kit/icon-male.svg"
-import IconFemaleSymbol from "../../../images/ui-kit/icon-female.svg"
-import IconReset from "../../../images/ui-kit/icon-refresh.svg"
+import IconClose from "images/ui-kit/icon-close.svg"
+import IconSearch from "images/ui-kit/icon-loupe.svg"
+import IconMaleSymbol from "images/ui-kit/icon-male.svg"
+import IconFemaleSymbol from "images/ui-kit/icon-female.svg"
+import IconReset from "images/ui-kit/icon-refresh.svg"
 
 import AgeSlider from "../slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"
 import Frame from "components/frames/Frame"
 import Button from "components/buttons/Button"
 import ButtonInput from "components/buttons/ButtonInput"
-import { DeputiesListContext } from "context/deputies-filters/deputiesFiltersContext"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { calculateAgeDomain, calculateNbDepute, groupeIconByGroupeSigle } from "../deputies-list-utils"
 
 function Filters(props) {
-  const { state, handleSearchValue, handleClickOnGroupe, handleClickOnSex, handleAgeSelection, handleReset } = useContext(
-    DeputiesListContext
-  )
+  const {
+    state,
+    handleSearchValue,
+    handleClickOnGroupe,
+    handleClickOnSex,
+    handleAgeSelection,
+    handleReset,
+  } = useDeputiesFilters()
 
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
   const searchField = useRef(null)
 
   const allGroupes = state.GroupesList.map((groupe) => {
+    const GroupeLogo = groupeIconByGroupeSigle(groupe.Sigle)
     return (
       <ButtonInput
         className={`groupe groupe--${groupe.Sigle.toLowerCase()}`}
@@ -38,8 +45,9 @@ function Filters(props) {
         checked={state.GroupeValue[groupe.Sigle]}
       >
         <div className="groupe__img-container">
-          <img src={groupeIconByGroupeSigle(groupe.Sigle, false)} alt={`Icône groupe parlementaire ${groupe.Sigle}`} />
-          <img src={groupeIconByGroupeSigle(groupe.Sigle, true)} alt={`Icône groupe parlementaire ${groupe.Sigle} en couleur`} />
+          <div className="icon-wrapper">
+            <GroupeLogo style={{ fill: groupe.Couleur }} />
+          </div>
         </div>
         <Tooltip
           title={groupe.NomComplet}

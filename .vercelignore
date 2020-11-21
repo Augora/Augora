@@ -1,10 +1,2 @@
 # dependencies
 /node_modules
-
-# Gatsby cache
-.cache
-
-# Src files
-.github/
-src/
-types/

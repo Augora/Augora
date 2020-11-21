@@ -1,34 +1,36 @@
-import { useState } from "react"
-import { useFuzzy } from "react-use-fuzzy"
-import { deburr } from "lodash"
+import deputeStore from "stores/deputesStore"
 
-import { calculateAgeDomain, filterList, groupesArrayToObject } from "../../components/deputies-list/deputies-list-utils"
+import { calculateAgeDomain, groupesArrayToObject } from "../../components/deputies-list/deputies-list-utils"
 
-export default function useDeputiesFilters(deputiesList, groupesList) {
+export default function useDeputiesFilters(deputiesList = [], groupesList = []) {
   /*----------------------------------------------------*/
-  // States
+  // Store
   /*----------------------------------------------------*/
-  const [GroupeValue, setGroupeValue] = useState(groupesArrayToObject(groupesList.map((g) => g.Sigle)))
-
-  const [SexValue, setSexValue] = useState({
-    H: true,
-    F: true,
-  })
-
-  const [AgeDomain, setAgeDomain] = useState(calculateAgeDomain(deputiesList))
-
-  const { result, keyword, search } = useFuzzy(
-    deputiesList.map((d) => Object.assign({}, d, { NomToSearch: deburr(d.Nom) })),
-    {
-      keys: ["NomToSearch"],
-    }
-  )
-
-  const FilteredList = filterList(result, {
+  const {
+    initialDeputesList,
+    initialGroupesList,
+    FilteredList,
     GroupeValue,
+    setGroupeValue,
     SexValue,
+    setSexValue,
     AgeDomain,
-  })
+    setAgeDomain,
+    keyword,
+    search,
+  } = deputeStore((state) => ({
+    initialDeputesList: state.deputesInitialList,
+    initialGroupesList: state.groupesInitialList,
+    FilteredList: state.deputesFilteredList,
+    GroupeValue: state.selectedGroupes,
+    setGroupeValue: state.setSelectedGroupes,
+    SexValue: state.selectedGenders,
+    setSexValue: state.setSelectedGenders,
+    AgeDomain: state.ageDomain,
+    setAgeDomain: state.setAgeDomain,
+    keyword: state.keyword,
+    search: state.setKeyword,
+  }))
 
   /*----------------------------------------------------*/
   // Handlers
@@ -93,18 +95,18 @@ export default function useDeputiesFilters(deputiesList, groupesList) {
 
   const handleReset = () => {
     search("")
-    setGroupeValue(groupesArrayToObject(groupesList.map((g) => g.Sigle)))
+    setGroupeValue(groupesArrayToObject(initialGroupesList.map((g) => g.Sigle)))
     setSexValue({ H: true, F: true })
-    setAgeDomain(calculateAgeDomain(deputiesList))
+    setAgeDomain(calculateAgeDomain(initialDeputesList))
   }
 
   const state = {
     GroupeValue,
     SexValue,
     AgeDomain,
-    DeputiesList: deputiesList,
+    DeputiesList: initialDeputesList,
     FilteredList,
-    GroupesList: groupesList,
+    GroupesList: initialGroupesList,
     Keyword: keyword,
   }
 

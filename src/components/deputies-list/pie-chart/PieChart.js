@@ -12,8 +12,8 @@ const PieChart = (props) => {
       innerRadius={0.5}
       padAngle={0.7}
       cornerRadius={5}
-      colors={(groupe) => {
-        return groupe.color
+      colors={(data) => {
+        return data.color
       }}
       borderWidth={0}
       borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
@@ -32,7 +32,7 @@ const PieChart = (props) => {
       motionDamping={15}
       tooltip={(tooltipInfo) => {
         return Tooltip({
-          title: props.groupesDetails.find((g) => g.Sigle === tooltipInfo.id).NomComplet, //iterate through groupedetails's acronym list until it find the correct one //retrieve the full name of that acronym
+          title: props.groupesDetails.find((g) => g.Sigle === tooltipInfo.id).NomComplet,
           nbDeputes: tooltipInfo.value,
           totalDeputes: props.filteredDeputies,
           color: tooltipInfo.color,
