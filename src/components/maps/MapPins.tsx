@@ -13,10 +13,10 @@ interface IMapPin {
   deputies: AugoraMap.DeputiesList
   coords: AugoraMap.Coordinates
   isSolo?: boolean
-  onClick?: (args?: any) => any
+  handleClick?: (args?: any) => any
 }
 
-function MapPin({ deputies, coords, onClick, isSolo }: IMapPin) {
+function MapPin({ deputies, coords, handleClick, isSolo }: IMapPin) {
   return (
     <Popup className="pins__popup" longitude={coords[0]} latitude={coords[1]} closeButton={false} tipSize={0} anchor={"bottom"}>
       {isSolo ? (
@@ -27,9 +27,19 @@ function MapPin({ deputies, coords, onClick, isSolo }: IMapPin) {
               borderColor: deputies[0].GroupeParlementaire.Couleur,
               boxShadow: `0px 5px 10px ${deputies[0].GroupeParlementaire.Couleur}`,
             }}
-            onClick={() => onClick()}
+            onClick={() => handleClick()}
           >
             <DeputyImage src={deputies[0].URLPhotoAugora} alt={deputies[0].Nom} sex={deputies[0].Sexe} />
+            <div className="deputy__info">
+              <div className="info__name">
+                <div>{deputies[0].Prenom}</div>
+                <div>{deputies[0].NomDeFamille}</div>
+              </div>
+              <div className="info__separator" style={{ backgroundColor: deputies[0].GroupeParlementaire.Couleur }} />
+              <div className="info__group" style={{ color: deputies[0].GroupeParlementaire.Couleur }}>
+                {deputies[0].GroupeParlementaire.Sigle}
+              </div>
+            </div>
           </button>
           <div
             className="pins__arrowdown arrowdown__deputy"
@@ -38,7 +48,7 @@ function MapPin({ deputies, coords, onClick, isSolo }: IMapPin) {
         </>
       ) : (
         <>
-          <button className="pins__number" onClick={() => onClick()}>
+          <button className="pins__number" onClick={() => handleClick()}>
             {deputies.length}
           </button>
           <div className="pins__arrowdown arrowdown__number" />
@@ -62,11 +72,11 @@ export default function MapPins({ features, deputiesList, handleClick }: IMapPin
 
         return (
           <MapPin
-            key={`${index}-${zoneCode}-${feature.properties.nom}`}
+            key={`${index}-${zoneCode}-${feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt}`}
             deputies={deputies}
             coords={feature.properties.center}
             isSolo={zoneCode === Code.Circ ? true : false}
-            onClick={() => handleClick(feature)}
+            handleClick={() => handleClick(feature)}
           />
         )
       })}

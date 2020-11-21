@@ -14,6 +14,8 @@
     &__pins {
       .pins {
         &__popup {
+          z-index: 0;
+
           .mapboxgl {
             &-popup-tip {
               display: none;
@@ -27,6 +29,10 @@
               padding: 0;
             }
           }
+
+          &:hover {
+            z-index: 1;
+          }
         }
 
         &__deputy {
@@ -36,20 +42,58 @@
           border-radius: 20px;
           width: 70px;
           height: 70px;
+          padding: 0;
           // box-shadow: 0px 5px 20px rgba($black, 0.2);
 
           overflow: hidden;
           position: relative;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
           cursor: pointer;
-          .deputy__photo {
-            pointer-events: none;
-            display: block;
-            margin-bottom: 0;
-            max-width: 120%;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+
+          .deputy {
+            &__photo {
+              pointer-events: none;
+              display: block;
+              margin-bottom: 0;
+            }
+            &__info {
+              display: none;
+              flex-direction: column;
+              align-items: flex-start;
+              margin: 0 10px;
+
+              text-transform: uppercase;
+              color: $text-color;
+              font-size: 1rem;
+              font-weight: bold;
+
+              .info {
+                &__name {
+                  text-align: left;
+                }
+                &__group {
+                  position: relative;
+                }
+                &__separator {
+                  width: 50%;
+                  height: 2px;
+                  margin: 2px 0;
+                }
+              }
+            }
+          }
+
+          &:hover {
+            width: unset;
+            height: 100px;
+            .deputy {
+              &__info {
+                display: flex;
+              }
+            }
           }
         }
 
