@@ -3,6 +3,9 @@ import { Popup } from "react-map-gl"
 import { Code, getDeputies, getZoneCode } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import orderBy from "lodash/orderBy"
+import Tooltip from "components/tooltip/Tooltip"
+import GroupBar from "components/deputies-list/GroupBar"
+import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IMapPins {
   features: AugoraMap.Feature[]
@@ -18,6 +21,10 @@ interface IMapPin {
 }
 
 function MapPin({ deputies, feature, coords, handleClick }: IMapPin) {
+  const {
+    state: { FilteredList },
+  } = useDeputiesFilters()
+
   const zoneCode = getZoneCode(feature)
 
   return (
@@ -62,12 +69,21 @@ function MapPin({ deputies, feature, coords, handleClick }: IMapPin) {
           </div>
         ) : null
       ) : (
-        <>
-          <button className="pins__deputies" onClick={() => handleClick(feature)}>
+        <div className="pins__deputies">
+          <button className="deputies__btn" onClick={() => handleClick(feature)}></button>
+          <div className="deputies__visuals">
             <div className="deputies__number">{deputies.length}</div>
-          </button>
+            <Tooltip
+              className="deputies__info"
+              title={feature.properties.nom}
+              nbDeputes={deputies.length}
+              totalDeputes={FilteredList.length}
+            >
+              <GroupBar className="map__tooltip-bar" deputiesList={deputies} />
+            </Tooltip>
+          </div>
           <div className="pins__arrowdown arrowdown__deputies" />
-        </>
+        </div>
       )}
     </Popup>
   )

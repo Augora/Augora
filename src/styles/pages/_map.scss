@@ -120,21 +120,63 @@
         }
 
         &__deputies {
-          pointer-events: auto;
-          border: none;
-          outline: none;
-          border-radius: 20px;
-          background: white;
-          box-shadow: 0px 5px 20px rgba($black, 0.2);
-          width: 70px;
-          height: 70px;
-
           display: flex;
-          justify-content: center;
           align-items: center;
-          cursor: pointer;
+          flex-direction: column;
 
-          font-size: 26px;
+          .deputies {
+            &__btn {
+              pointer-events: auto;
+              background: none;
+              border: none;
+              outline: none;
+              width: 70px;
+              height: 70px;
+              bottom: 12px;
+
+              position: absolute;
+
+              cursor: pointer;
+            }
+
+            &__visuals {
+              width: 70px;
+              height: 70px;
+              border-radius: 20px;
+              background: white;
+              box-shadow: 0px 5px 20px rgba($black, 0.2);
+
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+
+            &__number {
+              display: block;
+              font-size: 26px;
+            }
+
+            &__info {
+              display: none;
+              width: 250px;
+              box-shadow: none;
+            }
+          }
+
+          &:hover {
+            .deputies {
+              &__visuals {
+                width: unset;
+                height: unset;
+              }
+              &__number {
+                display: none;
+              }
+              &__info {
+                display: block;
+              }
+            }
+          }
         }
 
         &__arrowdown {
