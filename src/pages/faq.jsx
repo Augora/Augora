@@ -131,8 +131,8 @@ const contentAbout = [
     title: "Qu'est-ce que les DROM-COM ?",
     description: (
       <p>
-        Il s'agit des "Députés, Régions d'Outre-Mer et Collectivités d'Outre-Mer". Il s'agit du nouveau sigle utilisé pour
-        désigner ces territoires. Avant, l'acronyme utilisé était "DOM-TOM".
+        Ce nouveau sigle désigne les territoires "Départements, Régions d'Outre-Mer et Collectivités d'Outre-Mer". Avant,
+        l'acronyme utilisé était "DOM-TOM".
       </p>
     ),
   },
