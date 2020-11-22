@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 import { Popup } from "react-map-gl"
 import { Code, getDeputies, getZoneCode } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
+import orderBy from "lodash/orderBy"
 
 interface IMapPins {
   features: AugoraMap.Feature[]
@@ -68,7 +69,7 @@ function MapPin({ deputies, coords, handleClick, isSolo }: IMapPin) {
 export default function MapPins({ features, deputiesList, handleClick }: IMapPins) {
   return (
     <div className="map__pins">
-      {features.map((feature, index) => {
+      {orderBy(features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
         const deputies = getDeputies(feature, deputiesList)
         const zoneCode = getZoneCode(feature)
 
