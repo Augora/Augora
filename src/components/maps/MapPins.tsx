@@ -12,27 +12,39 @@ interface IMapPins {
 
 interface IMapPin {
   deputies: AugoraMap.DeputiesList
+  feature: AugoraMap.Feature
   coords: AugoraMap.Coordinates
-  isSolo?: boolean
   handleClick?: (args?: any) => any
 }
 
-function MapPin({ deputies, coords, handleClick, isSolo }: IMapPin) {
+function MapPin({ deputies, feature, coords, handleClick }: IMapPin) {
+  const zoneCode = getZoneCode(feature)
+
   return (
-    <Popup className="pins__popup" longitude={coords[0]} latitude={coords[1]} closeButton={false} tipSize={0} anchor={"bottom"}>
-      {isSolo ? (
+    <Popup
+      className="pins__popup"
+      longitude={coords[0]}
+      latitude={coords[1]}
+      closeButton={false}
+      tipSize={0}
+      anchor={"bottom"}
+      dynamicPosition={false}
+    >
+      {zoneCode === Code.Circ ? (
         deputies.length ? (
-          <>
-            <button
-              className="pins__deputy"
+          <div className="pins__deputy">
+            <button className="deputy__btn" onClick={() => handleClick(feature)} />
+            <div
+              className="deputy__visuals"
               style={{
                 borderColor: deputies[0].GroupeParlementaire.Couleur,
-                boxShadow: `0px 5px 10px ${deputies[0].GroupeParlementaire.Couleur}`,
+                boxShadow: `0px 0px 10px ${deputies[0].GroupeParlementaire.Couleur}`,
               }}
-              onClick={() => handleClick()}
             >
               <DeputyImage src={deputies[0].URLPhotoAugora} alt={deputies[0].Nom} sex={deputies[0].Sexe} />
               <div className="deputy__info">
+                <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
+                <div className="info__separator" />
                 <div className="info__name">
                   <div>{deputies[0].Prenom}</div>
                   <div>{deputies[0].NomDeFamille}</div>
@@ -42,16 +54,16 @@ function MapPin({ deputies, coords, handleClick, isSolo }: IMapPin) {
                   {deputies[0].GroupeParlementaire.Sigle}
                 </div>
               </div>
-            </button>
+            </div>
             <div
               className="pins__arrowdown arrowdown__deputy"
               style={{ borderTopColor: deputies[0].GroupeParlementaire.Couleur }}
             />
-          </>
+          </div>
         ) : null
       ) : (
         <>
-          <button className="pins__deputies" onClick={() => handleClick()}>
+          <button className="pins__deputies" onClick={() => handleClick(feature)}>
             <div className="deputies__number">{deputies.length}</div>
           </button>
           <div className="pins__arrowdown arrowdown__deputies" />
@@ -71,15 +83,16 @@ export default function MapPins({ features, deputiesList, handleClick }: IMapPin
     <div className="map__pins">
       {orderBy(features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
         const deputies = getDeputies(feature, deputiesList)
-        const zoneCode = getZoneCode(feature)
 
         return (
           <MapPin
-            key={`${index}-${zoneCode}-${feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt}`}
+            key={`${index}-${getZoneCode(feature)}-${
+              feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt
+            }`}
             deputies={deputies}
+            feature={feature}
             coords={feature.properties.center}
-            isSolo={zoneCode === Code.Circ ? true : false}
-            handleClick={() => handleClick(feature)}
+            handleClick={handleClick}
           />
         )
       })}

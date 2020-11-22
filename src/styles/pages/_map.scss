@@ -36,38 +36,57 @@
         }
 
         &__deputy {
-          pointer-events: auto;
-          border-style: solid;
-          border-width: 2px;
-          border-radius: 20px;
-          width: 70px;
-          height: 70px;
-          padding: 0;
-          // box-shadow: 0px 5px 20px rgba($black, 0.2);
-
-          overflow: hidden;
-          position: relative;
-
           display: flex;
           align-items: center;
-          justify-content: center;
-          cursor: pointer;
-
+          flex-direction: column;
           .deputy {
+            &__btn {
+              width: 70px;
+              height: 70px;
+              bottom: 12px;
+
+              pointer-events: auto;
+              padding: 0;
+              border: none;
+              outline: none;
+              background: none;
+
+              position: absolute;
+
+              cursor: pointer;
+            }
+
+            &__visuals {
+              width: 70px;
+              height: 70px;
+              background: $lithestgrey;
+              border-style: solid;
+              border-width: 2px;
+              border-radius: 20px;
+              overflow: hidden;
+
+              display: flex;
+              position: relative;
+
+              transition: height 0.2s $ease-in-out-cubic;
+            }
+
             &__photo {
-              pointer-events: none;
               display: block;
               margin-bottom: 0;
+              align-self: center;
+              pointer-events: none;
             }
+
             &__info {
               display: none;
               flex-direction: column;
               align-items: flex-start;
+              justify-content: center;
               margin: 0 10px;
 
               text-transform: uppercase;
               color: $text-color;
-              font-size: 1rem;
               font-weight: bold;
 
               .info {
@@ -78,6 +97,7 @@
                   position: relative;
                 }
                 &__separator {
+                  background-color: $text-color;
                   width: 50%;
                   height: 2px;
                   margin: 4px 0;
@@ -87,9 +107,11 @@
           }
 
           &:hover {
-            width: unset;
-            height: 100px;
             .deputy {
+              &__visuals {
+                width: unset;
+                height: 140px;
+              }
               &__info {
                 display: flex;
               }
