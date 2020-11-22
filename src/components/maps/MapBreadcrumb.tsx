@@ -76,7 +76,7 @@ const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] 
 function BreadcrumbMenu(props: IBreadcrumbMenu) {
   const [isOpen, setIsOpen] = useState(false)
 
-  const container = useRef<HTMLDivElement>()
+  const node = useRef<HTMLDivElement>()
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClick)
@@ -91,15 +91,15 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
   }
 
   const handleClick = (e) => {
-    if (container?.current) {
-      if (!container.current.contains(e.target)) {
+    if (node?.current) {
+      if (!node.current.contains(e.target)) {
         setIsOpen(false)
       }
     }
   }
 
   return (
-    <div className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`} ref={container}>
+    <div className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`} ref={node}>
       <button
         className={`menu__btn ${isOpen ? "menu__btn--active" : ""}`}
         title="Voir les zones enfants"

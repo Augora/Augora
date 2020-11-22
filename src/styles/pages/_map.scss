@@ -13,33 +13,96 @@
 
     &__pins {
       .pins {
-        &__marker {
-          pointer-events: none;
-        }
+        &__popup {
+          z-index: 0;
 
-        &__deputy {
-          border-style: solid;
-          border-width: 3px;
-          border-radius: 70px;
-          width: 76px;
-          height: 76px;
-          overflow: hidden;
-          position: relative;
-          .deputy__photo {
-            display: block;
-            margin-bottom: 0;
-            max-width: 120%;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+          .mapboxgl {
+            &-popup-tip {
+              display: none;
+            }
+            &-popup-content {
+              pointer-events: none;
+              display: flex;
+              flex-direction: column;
+              background: none;
+              box-shadow: none;
+              padding: 0;
+            }
+          }
+
+          &:hover {
+            z-index: 1;
           }
         }
 
-        &__number {
-          // border: 2px solid $text-color;
-          border-radius: 70px;
-          background: rgba(white, 0.8);
+        &__deputy {
+          pointer-events: auto;
+          border-style: solid;
+          border-width: 2px;
+          border-radius: 20px;
+          width: 70px;
+          height: 70px;
+          padding: 0;
+          // box-shadow: 0px 5px 20px rgba($black, 0.2);
+
+          overflow: hidden;
+          position: relative;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+
+          .deputy {
+            &__photo {
+              pointer-events: none;
+              display: block;
+              margin-bottom: 0;
+            }
+            &__info {
+              display: none;
+              flex-direction: column;
+              align-items: flex-start;
+              margin: 0 10px;
+
+              text-transform: uppercase;
+              color: $text-color;
+              font-size: 1rem;
+              font-weight: bold;
+
+              .info {
+                &__name {
+                  text-align: left;
+                }
+                &__group {
+                  position: relative;
+                }
+                &__separator {
+                  width: 50%;
+                  height: 2px;
+                  margin: 4px 0;
+                }
+              }
+            }
+          }
+
+          &:hover {
+            width: unset;
+            height: 100px;
+            .deputy {
+              &__info {
+                display: flex;
+              }
+            }
+          }
+        }
+
+        &__deputies {
+          pointer-events: auto;
+          border: none;
+          outline: none;
+          border-radius: 20px;
+          background: white;
           box-shadow: 0px 5px 20px rgba($black, 0.2);
           width: 70px;
           height: 70px;
@@ -47,8 +110,27 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          cursor: pointer;
 
           font-size: 26px;
+        }
+
+        &__arrowdown {
+          align-self: center;
+          width: 0;
+          height: 0;
+          border-left: 15px solid transparent;
+          border-right: 15px solid transparent;
+
+          &.arrowdown {
+            &__deputy {
+              border-top-width: 12px;
+              border-top-style: solid;
+            }
+            &__deputies {
+              border-top: 12px solid white;
+            }
+          }
         }
       }
     }
@@ -357,6 +439,9 @@
 
           &--container {
             position: relative;
+            .icon-wrapper > svg {
+              fill: "%23334";
+            }
           }
 
           &--wrapper {
