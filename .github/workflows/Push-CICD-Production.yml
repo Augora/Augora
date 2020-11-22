@@ -18,43 +18,13 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Yarn cache directory
-        id: yarn-cache-dir
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Yarn cache
-        uses: actions/cache@v1
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-yarn-
-
-      - name: yarn install
-        env:
-          CI: "true"
-          NODE_ENV: "production"
-          GATSBY_TARGET_ENV: "production"
-        run: yarn install
-
-      - name: yarn build
-        env:
-          CI: "true"
-          NODE_ENV: "production"
-          GATSBY_TARGET_ENV: "production"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_READONLY_PRODUCTION }}
-          GATSBY_EXPERIMENTAL_QUERY_CONCURRENCY: 50
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
-        run: yarn build
-
       - uses: amondnet/vercel-action@v19
         with:
           vercel-token: ${{ secrets.ZEIT_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-comment: false
-          vercel-org-id: ${{ secrets.ZEIT_ORGID_AUGORA }}
-          vercel-project-id: ${{ secrets.ZEIT_PROJECTID_AUGORA }}
+          vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
+          vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
+          vercel-args: --prod
           scope: augora
           alias-domains: |
             augora.fr

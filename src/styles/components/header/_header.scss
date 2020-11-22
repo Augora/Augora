@@ -138,7 +138,7 @@ header#header.header {
           transform: translate(-50px, 0);
         }
       }
-      //   .header__site-name {
+      //   &__site-name {
       //   opacity: 1;
       //   transform: translate(0);
       //   color: $main-color;
@@ -232,6 +232,21 @@ header#header.header {
         &__wrapper {
           padding-left: 15px;
           padding-right: 15px;
+        }
+      }
+
+      &__menu {
+        .menu__item {
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+    &.small {
+      .header {
+        &__wrapper {
+          padding: 10px 15px;
         }
       }
     }
