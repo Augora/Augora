@@ -20,32 +20,34 @@ function MapPin({ deputies, coords, handleClick, isSolo }: IMapPin) {
   return (
     <Popup className="pins__popup" longitude={coords[0]} latitude={coords[1]} closeButton={false} tipSize={0} anchor={"bottom"}>
       {isSolo ? (
-        <>
-          <button
-            className="pins__deputy"
-            style={{
-              borderColor: deputies[0].GroupeParlementaire.Couleur,
-              boxShadow: `0px 5px 10px ${deputies[0].GroupeParlementaire.Couleur}`,
-            }}
-            onClick={() => handleClick()}
-          >
-            <DeputyImage src={deputies[0].URLPhotoAugora} alt={deputies[0].Nom} sex={deputies[0].Sexe} />
-            <div className="deputy__info">
-              <div className="info__name">
-                <div>{deputies[0].Prenom}</div>
-                <div>{deputies[0].NomDeFamille}</div>
+        deputies.length ? (
+          <>
+            <button
+              className="pins__deputy"
+              style={{
+                borderColor: deputies[0].GroupeParlementaire.Couleur,
+                boxShadow: `0px 5px 10px ${deputies[0].GroupeParlementaire.Couleur}`,
+              }}
+              onClick={() => handleClick()}
+            >
+              <DeputyImage src={deputies[0].URLPhotoAugora} alt={deputies[0].Nom} sex={deputies[0].Sexe} />
+              <div className="deputy__info">
+                <div className="info__name">
+                  <div>{deputies[0].Prenom}</div>
+                  <div>{deputies[0].NomDeFamille}</div>
+                </div>
+                <div className="info__separator" style={{ backgroundColor: deputies[0].GroupeParlementaire.Couleur }} />
+                <div className="info__group" style={{ color: deputies[0].GroupeParlementaire.Couleur }}>
+                  {deputies[0].GroupeParlementaire.Sigle}
+                </div>
               </div>
-              <div className="info__separator" style={{ backgroundColor: deputies[0].GroupeParlementaire.Couleur }} />
-              <div className="info__group" style={{ color: deputies[0].GroupeParlementaire.Couleur }}>
-                {deputies[0].GroupeParlementaire.Sigle}
-              </div>
-            </div>
-          </button>
-          <div
-            className="pins__arrowdown arrowdown__deputy"
-            style={{ borderTopColor: deputies[0].GroupeParlementaire.Couleur }}
-          />
-        </>
+            </button>
+            <div
+              className="pins__arrowdown arrowdown__deputy"
+              style={{ borderTopColor: deputies[0].GroupeParlementaire.Couleur }}
+            />
+          </>
+        ) : null
       ) : (
         <>
           <button className="pins__deputies" onClick={() => handleClick()}>
