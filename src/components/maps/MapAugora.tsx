@@ -23,6 +23,7 @@ import MapFilters from "components/maps/MapFilters"
 import IconInfo from "images/ui-kit/icon-info-crossed.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
+import { features } from "process"
 
 interface ICurrentView {
   GEOJson: AugoraMap.FeatureCollection
@@ -30,10 +31,7 @@ interface ICurrentView {
 }
 
 interface IHover {
-  lngLat?: AugoraMap.Coordinates
-  feature?: AugoraMap.Feature
-  source?: string
-  id?: string
+  feature?: mapboxgl.MapboxGeoJSONFeature
 }
 
 interface IMapAugora {
@@ -112,7 +110,7 @@ export default function MapAugora(props: IMapAugora) {
     GEOJson: AllReg,
     feature: MetroFeature,
   })
-  const [hover, setHover] = useState<IHover>(null)
+  const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [inExploreMode, setInExploreMode] = useState(false)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
 
@@ -195,6 +193,26 @@ export default function MapAugora(props: IMapAugora) {
     resetHover()
   }
 
+  const getRenderedFeature = (feature: AugoraMap.Feature): mapboxgl.MapboxGeoJSONFeature => {
+    const zoneCode = getZoneCode(feature)
+
+    return mapRef.current.queryRenderedFeatures(null, { layers: ["zone-fill"] }).find((feat) => {
+      return zoneCode !== Code.Circ
+        ? feat.properties[zoneCode] === feature.properties[zoneCode]
+        : feat.properties[zoneCode] === feature.properties[zoneCode] && feat.properties[Code.Dpt] === feature.properties[Code.Dpt]
+    })
+  }
+
+  const simulateHover = (feature: AugoraMap.Feature) => {
+    const renderedFeature = getRenderedFeature(feature)
+
+    if (renderedFeature) {
+      if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
+      mapRef.current.setFeatureState({ source: renderedFeature.source, id: renderedFeature.id }, { hover: true })
+      setHover(renderedFeature)
+    }
+  }
+
   /**
    * Reset les data de hover
    */
@@ -206,21 +224,19 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleHover = (e) => {
-    const feature = getMouseEventFeature(e)
-    if (feature && !inExploreMode) {
-      const eventFeature = e.features[0]
-      if (hover?.id !== eventFeature.id || hover?.source !== eventFeature.source) {
-        if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
-        mapRef.current.setFeatureState({ source: eventFeature.source, id: eventFeature.id }, { hover: true })
+    if (e.target.className !== "deputies__btn" && e.target.className !== "deputy__btn") {
+      const feature = getMouseEventFeature(e)
+      if (feature && !inExploreMode) {
+        const eventFeature: mapboxgl.MapboxGeoJSONFeature = e.features[0]
+
+        if (hover !== eventFeature) {
+          if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
+          mapRef.current.setFeatureState({ source: eventFeature.source, id: eventFeature.id }, { hover: true })
+        }
+        setHover(eventFeature)
+      } else {
+        resetHover()
       }
-      setHover({
-        lngLat: e.lngLat,
-        feature: feature,
-        source: eventFeature.source,
-        id: eventFeature.id,
-      })
-    } else {
-      resetHover()
     }
   }
 
@@ -270,7 +286,14 @@ export default function MapAugora(props: IMapAugora) {
         <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
       {/* {!inExploreMode && hover && <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.feature} deputiesList={FilteredList} />} */}
-      {!inExploreMode && <MapPins features={currentView.GEOJson.features} deputiesList={FilteredList} handleClick={changeZone} />}
+      {!inExploreMode && isMapLoaded && (
+        <MapPins
+          features={currentView.GEOJson.features}
+          deputiesList={FilteredList}
+          handleClick={changeZone}
+          handleHover={simulateHover}
+        />
+      )}
       <div className="map__navigation">
         <div className="navigation__right">
           <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />

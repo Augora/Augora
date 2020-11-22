@@ -42,7 +42,8 @@ export const createFeature = (
   nom?: string,
   otherProps?: AugoraMap.Properties,
   type?: "Polygon" | "MultiPolygon",
-  coords?: any[]
+  coords?: any[],
+  id?: string
 ): AugoraMap.Feature => {
   return {
     type: "Feature",
@@ -54,6 +55,7 @@ export const createFeature = (
       nom: nom ? nom : "",
       ...otherProps,
     },
+    id: id ? id : "",
   }
 }
 

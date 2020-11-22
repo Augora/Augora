@@ -10,6 +10,7 @@ import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 interface IMapPins {
   features: AugoraMap.Feature[]
   deputiesList: AugoraMap.DeputiesList
+  handleHover?: (args?: any) => any
   handleClick?: (args?: any) => any
 }
 
@@ -18,9 +19,10 @@ interface IMapPin {
   feature: AugoraMap.Feature
   coords: AugoraMap.Coordinates
   handleClick?: (args?: any) => any
+  handleHover?: (args?: any) => any
 }
 
-function MapPin({ deputies, feature, coords, handleClick }: IMapPin) {
+function MapPin({ deputies, feature, coords, handleClick, handleHover }: IMapPin) {
   const {
     state: { FilteredList },
   } = useDeputiesFilters()
@@ -40,7 +42,7 @@ function MapPin({ deputies, feature, coords, handleClick }: IMapPin) {
       {zoneCode === Code.Circ ? (
         deputies.length ? (
           <div className="pins__deputy">
-            <button className="deputy__btn" onClick={() => handleClick(feature)} />
+            <button className="deputy__btn" onClick={() => handleClick(feature)} onMouseOver={() => handleHover(feature)} />
             <div
               className="deputy__visuals"
               style={{
@@ -70,7 +72,7 @@ function MapPin({ deputies, feature, coords, handleClick }: IMapPin) {
         ) : null
       ) : (
         <div className="pins__deputies">
-          <button className="deputies__btn" onClick={() => handleClick(feature)}></button>
+          <button className="deputies__btn" onClick={() => handleClick(feature)} onMouseOver={() => handleHover(feature)} />
           <div className="deputies__visuals">
             <div className="deputies__number">{deputies.length}</div>
             <Tooltip
@@ -94,7 +96,7 @@ function MapPin({ deputies, feature, coords, handleClick }: IMapPin) {
  * @param {AugoraMap.Feature[]} features Array des features
  * @param {AugoraMap.DeputiesList} deputiesList Liste des députés à filtrer
  */
-export default function MapPins({ features, deputiesList, handleClick }: IMapPins) {
+export default function MapPins({ features, deputiesList, handleClick, handleHover }: IMapPins) {
   return (
     <div className="map__pins">
       {orderBy(features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
@@ -109,6 +111,7 @@ export default function MapPins({ features, deputiesList, handleClick }: IMapPin
             feature={feature}
             coords={feature.properties.center}
             handleClick={handleClick}
+            handleHover={handleHover}
           />
         )
       })}
