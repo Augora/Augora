@@ -12,30 +12,29 @@ const PieChart = (props) => {
       innerRadius={0.5}
       padAngle={0.7}
       cornerRadius={5}
-      colors={(data) => {
-        return data.color
+      colors={(groupe) => {
+        return groupe.data.color
       }}
       borderWidth={0}
       borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
       radialLabelsSkipAngle={1}
       radialLabelsTextXOffset={6}
       radialLabelsTextColor="#333333"
-      radialLabelsLinkOffset={0}
       radialLabelsLinkDiagonalLength={5}
       radialLabelsLinkHorizontalLength={10}
-      radialLabelsLinkStrokeWidth={1}
       radialLabelsLinkColor={{ from: "color" }}
-      slicesLabelsSkipAngle={10}
-      slicesLabelsTextColor="white"
+      sliceLabelsSkipAngle={10}
+      sliceLabelsTextColor="white"
       animate={true}
       motionStiffness={90}
       motionDamping={15}
       tooltip={(tooltipInfo) => {
+        const data = tooltipInfo.datum.data
         return Tooltip({
-          title: props.groupesDetails.find((g) => g.Sigle === tooltipInfo.id).NomComplet,
-          nbDeputes: tooltipInfo.value,
+          title: props.groupesDetails.find((g) => g.Sigle === data.id).NomComplet,
+          nbDeputes: data.value,
           totalDeputes: props.filteredDeputies,
-          color: tooltipInfo.color,
+          color: data.color,
         })
       }}
       theme={{
