@@ -7,8 +7,8 @@
   "dependencies": {
     "@apollo/client": "^3.2.5",
     "@nivo/bar": "0.65.1",
-    "@nivo/pie": "0.65.1",
     "@nivo/core": "0.65.0",
+    "@nivo/pie": "0.65.1",
     "@svgr/webpack": "^5.5.0",
     "fuse.js": "6.4.3",
     "graphql": "^15.4.0",
@@ -18,7 +18,7 @@
     "next": "^10.0.1",
     "prettier": "2.1.2",
     "react": "17.0.1",
-    "react-compound-slider": "3.3.0",
+    "react-compound-slider": "3.3.1",
     "react-dom": "17.0.1",
     "react-lazy-load-image-component": "^1.5.0",
     "react-map-gl": "^5.2.10",
