@@ -100,7 +100,6 @@
     }
     .charts {
       &__switch {
-        opacity: 0.5;
         background-color: transparent;
         position: absolute;
         right: 10px;
@@ -113,6 +112,7 @@
         .icon-switch {
           width: 30px;
           height: 30px;
+          fill: $text-color;
         }
 
         &:hover {
