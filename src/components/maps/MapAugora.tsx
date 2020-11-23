@@ -23,7 +23,6 @@ import MapFilters from "components/maps/MapFilters"
 import IconInfo from "images/ui-kit/icon-info-crossed.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
-import { features } from "process"
 
 interface ICurrentView {
   GEOJson: AugoraMap.FeatureCollection
@@ -190,9 +189,13 @@ export default function MapAugora(props: IMapAugora) {
         console.error("Zone à afficher non trouvée")
         break
     }
-    resetHover()
+    renderHover()
   }
 
+  /**
+   * Renvoie la feature mapbox actuellement affichée correspondant à la feature fournie, undefined si elle n'est pas rendered
+   * @param {AugoraMap.Feature} feature
+   */
   const getRenderedFeature = (feature: AugoraMap.Feature): mapboxgl.MapboxGeoJSONFeature => {
     const zoneCode = getZoneCode(feature)
 
@@ -203,39 +206,36 @@ export default function MapAugora(props: IMapAugora) {
     })
   }
 
+  /**
+   * Active le hover de la feature si elle est actuellement affichée sur la map
+   * @param {AugoraMap.Feature} feature
+   */
   const simulateHover = (feature: AugoraMap.Feature) => {
     const renderedFeature = getRenderedFeature(feature)
+    renderHover(renderedFeature)
+  }
 
+  /**
+   * Crée un effet de hover sur la feature mapbox fournie
+   * @param {mapboxgl.MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
+   */
+  const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
+    if (hover && hover !== renderedFeature) {
+      mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
+      setHover(null)
+    }
     if (renderedFeature) {
-      if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
       mapRef.current.setFeatureState({ source: renderedFeature.source, id: renderedFeature.id }, { hover: true })
       setHover(renderedFeature)
     }
   }
 
-  /**
-   * Reset les data de hover
-   */
-  const resetHover = () => {
-    if (hover) {
-      mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
-      setHover(null)
-    }
-  }
-
   const handleHover = (e) => {
-    if (e.target.className !== "deputies__btn" && e.target.className !== "deputy__btn") {
-      const feature = getMouseEventFeature(e)
-      if (feature && !inExploreMode) {
-        const eventFeature: mapboxgl.MapboxGeoJSONFeature = e.features[0]
-
-        if (hover !== eventFeature) {
-          if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
-          mapRef.current.setFeatureState({ source: eventFeature.source, id: eventFeature.id }, { hover: true })
+    if (!inExploreMode) {
+      if (e.target.className !== "deputies__btn" && e.target.className !== "deputy__btn") {
+        if (e.target.className === "overlays") {
+          renderHover(e.features[0])
         }
-        setHover(eventFeature)
-      } else {
-        resetHover()
       }
     }
   }
@@ -245,7 +245,6 @@ export default function MapAugora(props: IMapAugora) {
       const feature = getMouseEventFeature(e)
       if (feature) changeZone(feature)
     } else if (e.rightButton) handleBack()
-    resetHover()
   }
 
   const handleBack = () => {
@@ -274,7 +273,7 @@ export default function MapAugora(props: IMapAugora) {
       onViewStateChange={(change) => setViewState(change.viewState)}
       onClick={handleClick}
       onHover={handleHover}
-      onMouseOut={() => resetHover()}
+      onMouseOut={() => renderHover()}
       reuseMaps={true}
     >
       <Source type="geojson" data={currentView.GEOJson} generateId={true}>
