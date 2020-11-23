@@ -81,7 +81,6 @@
             &__info {
               display: none;
               flex-direction: column;
-              align-items: flex-start;
               justify-content: center;
               margin: 0 10px;
 
@@ -90,12 +89,6 @@
               font-weight: bold;
 
               .info {
-                &__name {
-                  text-align: left;
-                }
-                &__group {
-                  position: relative;
-                }
                 &__separator {
                   background-color: $text-color;
                   width: 50%;
@@ -111,6 +104,7 @@
               &__visuals {
                 width: unset;
                 height: 140px;
+                border-radius: 5px;
               }
               &__info {
                 display: flex;
@@ -153,7 +147,8 @@
 
             &__number {
               display: block;
-              font-size: 26px;
+              font-size: 24px;
+              font-weight: bold;
             }
 
             &__info {
