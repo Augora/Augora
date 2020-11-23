@@ -288,7 +288,7 @@ export default function MapAugora(props: IMapAugora) {
       {!inExploreMode && isMapLoaded && (
         <MapPins
           features={currentView.GEOJson.features}
-          deputiesList={FilteredList}
+          deputies={FilteredList}
           handleClick={changeZone}
           handleHover={simulateHover}
         />

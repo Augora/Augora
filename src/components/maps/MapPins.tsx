@@ -10,89 +10,113 @@ import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IMapPins {
   features: AugoraMap.Feature[]
-  deputiesList: AugoraMap.DeputiesList
+  deputies: AugoraMap.DeputiesList
   handleHover?: (args?: any) => any
   handleClick?: (args?: any) => any
 }
 
-interface IMapPin {
-  deputies: AugoraMap.DeputiesList
+interface IMapPin extends Omit<IMapPins, "features"> {
   feature: AugoraMap.Feature
   coords: AugoraMap.Coordinates
-  handleClick?: (args?: any) => any
-  handleHover?: (args?: any) => any
 }
 
-function MapPin({ deputies, feature, coords, handleClick, handleHover }: IMapPin) {
+interface IPinDeputy {
+  deputy: AugoraMap.Depute
+  feature: AugoraMap.Feature
+}
+
+interface IPinNumber {
+  deputies: AugoraMap.DeputiesList
+  feature: AugoraMap.Feature
+}
+
+/**
+ * Renvoie le contenu d'un pin député
+ */
+function PinDeputy({ deputy, feature }: IPinDeputy) {
+  return deputy ? (
+    <div className="deputy__visuals">
+      <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
+      <div className="deputy__info">
+        <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
+        <div className="info__separator" />
+        <div className="info__name">
+          <div>{deputy.Prenom}</div>
+          <div>{deputy.NomDeFamille}</div>
+        </div>
+        <div className="info__separator" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }} />
+        <div className="info__group" style={{ color: deputy.GroupeParlementaire.Couleur }}>
+          {deputy.GroupeParlementaire.Sigle}
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="deputy__visuals deputy__visuals--missing">
+      <div className="icon-wrapper">
+        <IconMissing />
+      </div>
+      <div className="deputy__info">Pas de député trouvé</div>
+    </div>
+  )
+}
+
+/**
+ * Renvoie le contenu d'un pin nombre
+ */
+function PinNumber({ deputies, feature }: IPinNumber) {
   const {
     state: { FilteredList },
   } = useDeputiesFilters()
 
-  const zoneCode = getZoneCode(feature)
+  return (
+    <div className="number__visuals">
+      <div className="number__number">{deputies.length}</div>
+      <Tooltip
+        className="number__info"
+        title={feature.properties.nom}
+        nbDeputes={deputies.length}
+        totalDeputes={FilteredList.length}
+      >
+        <GroupBar className="tooltip__bar" deputiesList={deputies} />
+      </Tooltip>
+    </div>
+  )
+}
+
+/**
+ * Render un pin
+ */
+export function MapPin(props: IMapPin) {
+  const zoneCode = getZoneCode(props.feature)
 
   return (
     <Popup
       className="pins__popup"
-      longitude={coords[0]}
-      latitude={coords[1]}
+      longitude={props.coords[0]}
+      latitude={props.coords[1]}
       closeButton={false}
       tipSize={0}
       anchor={"bottom"}
       dynamicPosition={false}
     >
-      {zoneCode === Code.Circ ? (
-        deputies.length ? (
-          <div className="pins__deputy">
-            <button className="deputy__btn" onClick={() => handleClick(feature)} onMouseOver={() => handleHover(feature)} />
-            <div className="deputy__visuals">
-              <DeputyImage src={deputies[0].URLPhotoAugora} alt={deputies[0].Nom} sex={deputies[0].Sexe} />
-              <div className="deputy__info">
-                <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
-                <div className="info__separator" />
-                <div className="info__name">
-                  <div>{deputies[0].Prenom}</div>
-                  <div>{deputies[0].NomDeFamille}</div>
-                </div>
-                <div className="info__separator" style={{ backgroundColor: deputies[0].GroupeParlementaire.Couleur }} />
-                <div className="info__group" style={{ color: deputies[0].GroupeParlementaire.Couleur }}>
-                  {deputies[0].GroupeParlementaire.Sigle}
-                </div>
-              </div>
-            </div>
-            <div
-              className="pins__arrowdown arrowdown__deputy"
-              style={{ borderTopColor: deputies[0].GroupeParlementaire.Couleur }}
-            />
-          </div>
+      <div className="pins__container">
+        <button
+          className="pins__btn"
+          onClick={() => props.handleClick(props.feature)}
+          onMouseOver={() => props.handleHover(props.feature)}
+        />
+        {zoneCode === Code.Circ ? (
+          <PinDeputy deputy={props.deputies[0]} feature={props.feature} />
         ) : (
-          <div className="pins__deputy">
-            <button className="deputy__btn" onMouseOver={() => handleHover(feature)} />
-            <div className="deputy__visuals deputy__visuals--missing">
-              <div className="icon-wrapper deputy__missing">
-                <IconMissing />
-              </div>
-              <div className="deputy__info">Pas de député trouvé</div>
-            </div>
-            <div className="pins__arrowdown arrowdown__deputy" />
-          </div>
-        )
-      ) : (
-        <div className="pins__deputies">
-          <button className="deputies__btn" onClick={() => handleClick(feature)} onMouseOver={() => handleHover(feature)} />
-          <div className="deputies__visuals">
-            <div className="deputies__number">{deputies.length}</div>
-            <Tooltip
-              className="deputies__info"
-              title={feature.properties.nom}
-              nbDeputes={deputies.length}
-              totalDeputes={FilteredList.length}
-            >
-              <GroupBar className="map__tooltip-bar" deputiesList={deputies} />
-            </Tooltip>
-          </div>
-          <div className="pins__arrowdown arrowdown__deputies" />
-        </div>
-      )}
+          <PinNumber deputies={props.deputies} feature={props.feature} />
+        )}
+        <div
+          className="pins__arrowdown"
+          style={{
+            borderTopColor: props.deputies.length && zoneCode === Code.Circ ? props.deputies[0].GroupeParlementaire.Couleur : "",
+          }}
+        />
+      </div>
     </Popup>
   )
 }
@@ -100,24 +124,26 @@ function MapPin({ deputies, feature, coords, handleClick, handleHover }: IMapPin
 /**
  * Renvoie un pin pour chaque zone affichée
  * @param {AugoraMap.Feature[]} features Array des features
- * @param {AugoraMap.DeputiesList} deputiesList Liste des députés à filtrer
+ * @param {AugoraMap.DeputiesList} deputies Liste des députés à filtrer
+ * @param {Function} handleClick Fonction appelée quand le pin est cliqué
+ * @param {Function} handleHover Fonction appelée quand le pin est hover
  */
-export default function MapPins({ features, deputiesList, handleClick, handleHover }: IMapPins) {
+export default function MapPins(props: IMapPins) {
   return (
     <div className="map__pins">
-      {orderBy(features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
-        const deputies = getDeputies(feature, deputiesList)
+      {orderBy(props.features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
+        const featureDeputies = getDeputies(feature, props.deputies)
 
         return (
           <MapPin
             key={`${index}-${getZoneCode(feature)}-${
               feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt
             }`}
-            deputies={deputies}
+            deputies={featureDeputies}
             feature={feature}
             coords={feature.properties.center}
-            handleClick={handleClick}
-            handleHover={handleHover}
+            handleClick={props.handleClick}
+            handleHover={props.handleHover}
           />
         )
       })}
