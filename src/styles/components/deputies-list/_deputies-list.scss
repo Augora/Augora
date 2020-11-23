@@ -81,10 +81,6 @@
       &.barchart {
         background: rgba(black, 0);
         transition: 0.225s linear;
-        cursor: pointer;
-        &:hover {
-          background: rgba(black, 0.05);
-        }
       }
       &.piechart {
         svg g text {
@@ -100,6 +96,24 @@
       }
       .chart-wrapper {
         height: 100%;
+      }
+    }
+    .charts {
+      &__switch {
+        opacity: 0.5;
+        background-color: transparent;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        padding: 10px;
+        border: none;
+        height: 50px;
+        cursor: pointer;
+
+        .icon-switch {
+          width: 30px;
+          height: 30px;
+        }
       }
     }
   }
