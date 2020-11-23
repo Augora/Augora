@@ -5,6 +5,7 @@ import DeputyImage from "components/deputy/general-information/deputy-image/Depu
 import orderBy from "lodash/orderBy"
 import Tooltip from "components/tooltip/Tooltip"
 import GroupBar from "components/deputies-list/GroupBar"
+import IconMissing from "images/ui-kit/icon-missingmale.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IMapPins {
@@ -43,13 +44,7 @@ function MapPin({ deputies, feature, coords, handleClick, handleHover }: IMapPin
         deputies.length ? (
           <div className="pins__deputy">
             <button className="deputy__btn" onClick={() => handleClick(feature)} onMouseOver={() => handleHover(feature)} />
-            <div
-              className="deputy__visuals"
-              style={{
-                borderColor: deputies[0].GroupeParlementaire.Couleur,
-                boxShadow: `0px 0px 10px ${deputies[0].GroupeParlementaire.Couleur}`,
-              }}
-            >
+            <div className="deputy__visuals">
               <DeputyImage src={deputies[0].URLPhotoAugora} alt={deputies[0].Nom} sex={deputies[0].Sexe} />
               <div className="deputy__info">
                 <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
@@ -69,7 +64,18 @@ function MapPin({ deputies, feature, coords, handleClick, handleHover }: IMapPin
               style={{ borderTopColor: deputies[0].GroupeParlementaire.Couleur }}
             />
           </div>
-        ) : null
+        ) : (
+          <div className="pins__deputy">
+            <button className="deputy__btn" onMouseOver={() => handleHover(feature)} />
+            <div className="deputy__visuals deputy__visuals--missing">
+              <div className="icon-wrapper deputy__missing">
+                <IconMissing />
+              </div>
+              <div className="deputy__info">Pas de député trouvé</div>
+            </div>
+            <div className="pins__arrowdown arrowdown__deputy" />
+          </div>
+        )
       ) : (
         <div className="pins__deputies">
           <button className="deputies__btn" onClick={() => handleClick(feature)} onMouseOver={() => handleHover(feature)} />
