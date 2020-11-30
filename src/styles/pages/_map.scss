@@ -114,6 +114,10 @@
               }
               &--missing {
                 height: 70px;
+
+                .deputy__info {
+                  text-align: center;
+                }
               }
             }
 

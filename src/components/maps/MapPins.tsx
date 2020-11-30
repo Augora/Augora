@@ -22,23 +22,44 @@ interface IMapPin extends Omit<IMapPins, "features" | "hoveredFeature"> {
   isHovered?: boolean
 }
 
-interface IPinDeputy {
-  deputy: AugoraMap.Depute
+interface IPinContent {
   feature: AugoraMap.Feature
   isOpen?: boolean
 }
 
-interface IPinNumber {
+interface IDeputyContent extends IPinContent {
+  deputy: AugoraMap.Depute
+}
+
+interface INumberContent extends IPinContent {
   deputies: AugoraMap.DeputiesList
-  feature: AugoraMap.Feature
-  isOpen?: boolean
+}
+
+/**
+ * Renvoie le contenu d'un pin député si pas de député trouvé
+ */
+function MissingContent({ feature, isOpen }: IPinContent) {
+  return (
+    <div className={`deputy__visuals deputy__visuals--missing ${isOpen ? "deputy__visuals--opened" : ""}`}>
+      {!isOpen ? (
+        <div className="icon-wrapper">
+          <IconMissing />
+        </div>
+      ) : (
+        <div className="deputy__info">
+          <div>{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
+          <div>Pas de député trouvé</div>
+        </div>
+      )}
+    </div>
+  )
 }
 
 /**
  * Renvoie le contenu d'un pin député
  */
-function PinDeputy({ deputy, feature, isOpen }: IPinDeputy) {
-  return deputy ? (
+function DeputyContent({ deputy, feature, isOpen }: IDeputyContent) {
+  return (
     <div className={`deputy__visuals ${isOpen ? "deputy__visuals--opened" : ""}`}>
       <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
       {isOpen && (
@@ -56,23 +77,13 @@ function PinDeputy({ deputy, feature, isOpen }: IPinDeputy) {
         </div>
       )}
     </div>
-  ) : (
-    <div className={`deputy__visuals deputy__visuals--missing ${isOpen ? "deputy__visuals--opened" : ""}`}>
-      {!isOpen ? (
-        <div className="icon-wrapper">
-          <IconMissing />
-        </div>
-      ) : (
-        <div className="deputy__info">Pas de député trouvé</div>
-      )}
-    </div>
   )
 }
 
 /**
  * Renvoie le contenu d'un pin nombre
  */
-function PinNumber({ deputies, feature, isOpen }: IPinNumber) {
+function NumberContent({ deputies, feature, isOpen }: INumberContent) {
   const {
     state: { FilteredList },
   } = useDeputiesFilters()
@@ -129,9 +140,13 @@ export function MapPin(props: IMapPin) {
           }}
         />
         {zoneCode === Code.Circ ? (
-          <PinDeputy deputy={props.deputies[0]} feature={props.feature} isOpen={isOpen} />
+          props.deputies.length > 0 ? (
+            <DeputyContent deputy={props.deputies[0]} feature={props.feature} isOpen={isOpen} />
+          ) : (
+            <MissingContent feature={props.feature} isOpen={isOpen} />
+          )
         ) : (
-          <PinNumber deputies={props.deputies} feature={props.feature} isOpen={isOpen} />
+          <NumberContent deputies={props.deputies} feature={props.feature} isOpen={isOpen} />
         )}
         <div
           className="pins__arrowdown"
@@ -150,18 +165,18 @@ export function MapPin(props: IMapPin) {
  * @param {AugoraMap.DeputiesList} deputies Liste des députés à filtrer
  * @param {Function} handleClick Fonction appelée quand le pin est cliqué
  * @param {Function} handleHover Fonction appelée quand le pin est hover
+ * @param {mapboxgl.MapboxGeoJSONFeature} hoveredFeature La zone de la map s'il y a actuellement un hover
  */
 export default function MapPins(props: IMapPins) {
   return (
     <div className="map__pins">
       {orderBy(props.features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
         const featureDeputies = getDeputies(feature, props.deputies)
+        const zoneCode = getZoneCode(feature)
 
         return (
           <MapPin
-            key={`${index}-${getZoneCode(feature)}-${
-              feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt
-            }`}
+            key={`${index}-${zoneCode}-${feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt}`}
             deputies={featureDeputies}
             feature={feature}
             coords={feature.properties.center}
