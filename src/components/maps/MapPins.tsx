@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Popup } from "react-map-gl"
-import { Code, getDeputies, getZoneCode } from "components/maps/maps-utils"
+import { Code, compareFeatures, getDeputies, getZoneCode } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import orderBy from "lodash/orderBy"
 import Tooltip from "components/tooltip/Tooltip"
@@ -11,13 +11,15 @@ import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 interface IMapPins {
   features: AugoraMap.Feature[]
   deputies: AugoraMap.DeputiesList
+  hoveredFeature?: mapboxgl.MapboxGeoJSONFeature
   handleHover?: (args?: any) => any
   handleClick?: (args?: any) => any
 }
 
-interface IMapPin extends Omit<IMapPins, "features"> {
+interface IMapPin extends Omit<IMapPins, "features" | "hoveredFeature"> {
   feature: AugoraMap.Feature
   coords: AugoraMap.Coordinates
+  isHovered?: boolean
 }
 
 interface IPinDeputy {
@@ -37,7 +39,7 @@ interface IPinNumber {
  */
 function PinDeputy({ deputy, feature, isOpen }: IPinDeputy) {
   return deputy ? (
-    <div className="deputy__visuals">
+    <div className={`deputy__visuals ${isOpen ? "deputy__visuals--opened" : ""}`}>
       <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
       {isOpen && (
         <div className="deputy__info">
@@ -55,11 +57,14 @@ function PinDeputy({ deputy, feature, isOpen }: IPinDeputy) {
       )}
     </div>
   ) : (
-    <div className="deputy__visuals deputy__visuals--missing">
-      <div className="icon-wrapper">
-        <IconMissing />
-      </div>
-      <div className="deputy__info">Pas de député trouvé</div>
+    <div className={`deputy__visuals deputy__visuals--missing ${isOpen ? "deputy__visuals--opened" : ""}`}>
+      {!isOpen ? (
+        <div className="icon-wrapper">
+          <IconMissing />
+        </div>
+      ) : (
+        <div className="deputy__info">Pas de député trouvé</div>
+      )}
     </div>
   )
 }
@@ -73,7 +78,7 @@ function PinNumber({ deputies, feature, isOpen }: IPinNumber) {
   } = useDeputiesFilters()
 
   return (
-    <div className="number__visuals">
+    <div className={`number__visuals ${isOpen ? "number__visuals--opened" : ""}`}>
       {!isOpen ? (
         <div className="number__number">{deputies.length}</div>
       ) : (
@@ -94,8 +99,12 @@ function PinNumber({ deputies, feature, isOpen }: IPinNumber) {
  * Render un pin
  */
 export function MapPin(props: IMapPin) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(props.isHovered)
   const zoneCode = getZoneCode(props.feature)
+
+  useEffect(() => {
+    setIsOpen(props.isHovered)
+  }, [props.isHovered])
 
   return (
     <Popup
@@ -113,9 +122,11 @@ export function MapPin(props: IMapPin) {
           onClick={() => props.handleClick(props.feature)}
           onMouseOver={() => {
             props.handleHover(props.feature)
-            setIsOpen(true)
+            if (!isOpen) setIsOpen(true)
           }}
-          onMouseLeave={() => setIsOpen(false)}
+          onMouseLeave={() => {
+            if (!props.isHovered) setIsOpen(false)
+          }}
         />
         {zoneCode === Code.Circ ? (
           <PinDeputy deputy={props.deputies[0]} feature={props.feature} isOpen={isOpen} />
@@ -156,6 +167,7 @@ export default function MapPins(props: IMapPins) {
             coords={feature.properties.center}
             handleClick={props.handleClick}
             handleHover={props.handleHover}
+            isHovered={compareFeatures(feature, props.hoveredFeature)}
           />
         )
       })}

@@ -59,6 +59,11 @@
 
               transition: height 0.2s $ease-in-out-cubic;
 
+              &--opened {
+                width: unset;
+                border-radius: 5px;
+              }
+
               &--missing {
                 .icon-wrapper {
                   align-self: center;
@@ -103,12 +108,25 @@
           }
 
           .deputy {
+            &__visuals {
+              &--opened {
+                height: 140px;
+              }
+              &--missing {
+                height: 70px;
+              }
+            }
+
             &__info {
               text-transform: uppercase;
             }
           }
 
           .number {
+            &__visuals--opened {
+              height: unset;
+            }
+
             &__info {
               max-width: unset;
               width: 210px;
@@ -135,41 +153,6 @@
                 &__bar {
                   margin-top: 10px;
                 }
-              }
-            }
-          }
-
-          &:hover {
-            .deputy,
-            .number {
-              &__visuals {
-                width: unset;
-                border-radius: 5px;
-              }
-
-              &__number {
-                display: none;
-              }
-            }
-
-            .deputy {
-              &__visuals {
-                height: 140px;
-                &--missing {
-                  height: 70px;
-                  .icon-wrapper {
-                    display: none;
-                  }
-                }
-              }
-              &__info {
-              }
-            }
-            .number {
-              &__visuals {
-                height: unset;
-              }
-              &__info {
               }
             }
           }

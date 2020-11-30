@@ -14,6 +14,7 @@ import {
   getGhostZones,
   getDeputies,
   getParentFeature,
+  compareFeatures,
 } from "components/maps/maps-utils"
 import MapTooltip from "components/maps/MapTooltip"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
@@ -27,10 +28,6 @@ import { getDeputes } from "src/lib/deputes/Wrapper"
 interface ICurrentView {
   GEOJson: AugoraMap.FeatureCollection
   feature: AugoraMap.Feature
-}
-
-interface IHover {
-  feature?: mapboxgl.MapboxGeoJSONFeature
 }
 
 interface IMapAugora {
@@ -220,7 +217,7 @@ export default function MapAugora(props: IMapAugora) {
    * @param {mapboxgl.MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
    */
   const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
-    if (hover && hover !== renderedFeature) {
+    if (hover && !compareFeatures(hover, renderedFeature)) {
       mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
       setHover(null)
     }
@@ -233,7 +230,7 @@ export default function MapAugora(props: IMapAugora) {
   const handleHover = (e) => {
     if (!inExploreMode) {
       if (e.target.className !== "deputies__btn" && e.target.className !== "deputy__btn") {
-        if (e.target.className === "overlays" && e.features) {
+        if (e.features && e.target.className === "overlays") {
           renderHover(e.features[0])
         }
       }
@@ -291,6 +288,7 @@ export default function MapAugora(props: IMapAugora) {
           deputies={FilteredList}
           handleClick={changeZone}
           handleHover={simulateHover}
+          hoveredFeature={hover}
         />
       )}
       <div className="map__navigation">
