@@ -29,6 +29,7 @@ interface IPinDeputy {
 interface IPinNumber {
   deputies: AugoraMap.DeputiesList
   feature: AugoraMap.Feature
+  isOpen?: boolean
 }
 
 /**
@@ -66,22 +67,25 @@ function PinDeputy({ deputy, feature, isOpen }: IPinDeputy) {
 /**
  * Renvoie le contenu d'un pin nombre
  */
-function PinNumber({ deputies, feature }: IPinNumber) {
+function PinNumber({ deputies, feature, isOpen }: IPinNumber) {
   const {
     state: { FilteredList },
   } = useDeputiesFilters()
 
   return (
     <div className="number__visuals">
-      <div className="number__number">{deputies.length}</div>
-      <Tooltip
-        className="number__info"
-        title={feature.properties.nom}
-        nbDeputes={deputies.length}
-        totalDeputes={FilteredList.length}
-      >
-        <GroupBar className="tooltip__bar" deputiesList={deputies} />
-      </Tooltip>
+      {!isOpen ? (
+        <div className="number__number">{deputies.length}</div>
+      ) : (
+        <Tooltip
+          className="number__info"
+          title={feature.properties.nom}
+          nbDeputes={deputies.length}
+          totalDeputes={FilteredList.length}
+        >
+          <GroupBar className="tooltip__bar" deputiesList={deputies} />
+        </Tooltip>
+      )}
     </div>
   )
 }
@@ -116,7 +120,7 @@ export function MapPin(props: IMapPin) {
         {zoneCode === Code.Circ ? (
           <PinDeputy deputy={props.deputies[0]} feature={props.feature} isOpen={isOpen} />
         ) : (
-          <PinNumber deputies={props.deputies} feature={props.feature} />
+          <PinNumber deputies={props.deputies} feature={props.feature} isOpen={isOpen} />
         )}
         <div
           className="pins__arrowdown"

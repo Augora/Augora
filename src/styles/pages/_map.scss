@@ -84,7 +84,6 @@
             }
 
             &__info {
-              // display: none;
               flex-direction: column;
               justify-content: center;
               margin: 0 10px;
@@ -164,7 +163,6 @@
                 }
               }
               &__info {
-                // display: flex;
               }
             }
             .number {
@@ -172,7 +170,6 @@
                 height: unset;
               }
               &__info {
-                display: block;
               }
             }
           }
