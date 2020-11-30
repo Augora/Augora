@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Popup } from "react-map-gl"
 import { Code, getDeputies, getZoneCode } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
@@ -23,6 +23,7 @@ interface IMapPin extends Omit<IMapPins, "features"> {
 interface IPinDeputy {
   deputy: AugoraMap.Depute
   feature: AugoraMap.Feature
+  isOpen?: boolean
 }
 
 interface IPinNumber {
@@ -33,22 +34,24 @@ interface IPinNumber {
 /**
  * Renvoie le contenu d'un pin député
  */
-function PinDeputy({ deputy, feature }: IPinDeputy) {
+function PinDeputy({ deputy, feature, isOpen }: IPinDeputy) {
   return deputy ? (
     <div className="deputy__visuals">
       <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
-      <div className="deputy__info">
-        <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
-        <div className="info__separator" />
-        <div className="info__name">
-          <div>{deputy.Prenom}</div>
-          <div>{deputy.NomDeFamille}</div>
+      {isOpen && (
+        <div className="deputy__info">
+          <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
+          <div className="info__separator" />
+          <div className="info__name">
+            <div>{deputy.Prenom}</div>
+            <div>{deputy.NomDeFamille}</div>
+          </div>
+          <div className="info__separator" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }} />
+          <div className="info__group" style={{ color: deputy.GroupeParlementaire.Couleur }}>
+            {deputy.GroupeParlementaire.Sigle}
+          </div>
         </div>
-        <div className="info__separator" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }} />
-        <div className="info__group" style={{ color: deputy.GroupeParlementaire.Couleur }}>
-          {deputy.GroupeParlementaire.Sigle}
-        </div>
-      </div>
+      )}
     </div>
   ) : (
     <div className="deputy__visuals deputy__visuals--missing">
@@ -87,6 +90,7 @@ function PinNumber({ deputies, feature }: IPinNumber) {
  * Render un pin
  */
 export function MapPin(props: IMapPin) {
+  const [isOpen, setIsOpen] = useState(false)
   const zoneCode = getZoneCode(props.feature)
 
   return (
@@ -103,10 +107,14 @@ export function MapPin(props: IMapPin) {
         <button
           className="pins__btn"
           onClick={() => props.handleClick(props.feature)}
-          onMouseOver={() => props.handleHover(props.feature)}
+          onMouseOver={() => {
+            props.handleHover(props.feature)
+            setIsOpen(true)
+          }}
+          onMouseLeave={() => setIsOpen(false)}
         />
         {zoneCode === Code.Circ ? (
-          <PinDeputy deputy={props.deputies[0]} feature={props.feature} />
+          <PinDeputy deputy={props.deputies[0]} feature={props.feature} isOpen={isOpen} />
         ) : (
           <PinNumber deputies={props.deputies} feature={props.feature} />
         )}
