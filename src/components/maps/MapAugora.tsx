@@ -229,10 +229,10 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleHover = (e) => {
     if (!inExploreMode) {
-      if (e.target.className !== "deputies__btn" && e.target.className !== "deputy__btn") {
+      if (e.target.className !== "pins__btn") {
         if (e.features && e.target.className === "overlays") {
           renderHover(e.features[0])
-        }
+        } else renderHover()
       }
     }
   }
