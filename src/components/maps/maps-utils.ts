@@ -240,10 +240,26 @@ export const flyToBounds = (
 }
 
 /**
+ * Determine dans quelle vue la feature passée devrait être, renvoie null si la feature ne contient pas les infos nécéssaires
+ * @param {AugoraMap.Feature} feature L'objet feature GeoJSON à analyser
+ */
+export const getZoneCode = <T extends GeoJSON.Feature>(feature: T): Code => {
+  if (feature?.properties) {
+    const featureKeys = Object.keys(feature.properties)
+
+    if (featureKeys.includes(Code.Circ)) return Code.Circ
+    else if (featureKeys.includes(Code.Dpt)) return Code.Dpt
+    else if (featureKeys.includes(Code.Reg)) return Code.Reg
+    else if (featureKeys.includes(Code.Cont)) return Code.Cont
+    else return null
+  } else return null
+}
+
+/**
  * Renvoie l'id du continent d'une feature
  * @param {AugoraMap.Feature} feature La feature à analyser
  */
-export const getContinent = (feature: AugoraMap.Feature): Cont => {
+export const getContinent = <T extends GeoJSON.Feature>(feature: T): Cont => {
   const zoneCode = getZoneCode(feature)
 
   switch (zoneCode) {
@@ -260,35 +276,6 @@ export const getContinent = (feature: AugoraMap.Feature): Cont => {
     default:
       return null
   }
-}
-
-/**
- * Determine dans quelle vue la feature passée devrait être, renvoie null si la feature ne contient pas les infos nécéssaires
- * @param {AugoraMap.Feature} feature L'objet feature GeoJSON à analyser
- */
-export const getZoneCode = (feature: AugoraMap.Feature): Code => {
-  if (feature?.properties) {
-    const featureKeys = Object.keys(feature.properties)
-
-    if (featureKeys.includes(Code.Circ)) return Code.Circ
-    else if (featureKeys.includes(Code.Dpt)) return Code.Dpt
-    else if (featureKeys.includes(Code.Reg)) return Code.Reg
-    else if (featureKeys.includes(Code.Cont)) return Code.Cont
-    else return null
-  } else return null
-}
-
-/**
- * Renvoie la feature FranceZone d'un mousevent, null si la feature n'a pas le bon format
- */
-export const getMouseEventFeature = (e): AugoraMap.Feature => {
-  if (e.features && e.target.className === "overlays") {
-    if (e.features[0]?.properties) {
-      const featureProps = e.features[0].properties
-      const zoneCode = getZoneCode(e.features[0])
-      return getFeature(featureProps[zoneCode], zoneCode, zoneCode === Code.Circ ? featureProps[Code.Dpt] : null)
-    } else return null
-  } else return null
 }
 
 /**
@@ -311,6 +298,46 @@ export const getFeature = (zoneId: number | string, zoneCode: Code, dptId?: numb
     default:
       return null
   }
+}
+
+/**
+ * Renvoie la feature stockée dans les fichiers à partir d'une feature rendered de mapbox
+ * @param {mapboxgl.MapboxGeoJSONFeature} renderedFeature
+ */
+export const getRealFeature = (renderedFeature: mapboxgl.MapboxGeoJSONFeature): AugoraMap.Feature => {
+  const props = renderedFeature.properties
+  const zoneCode = getZoneCode(renderedFeature as any)
+
+  return getFeature(props[zoneCode], zoneCode, zoneCode === Code.Circ ? props[Code.Dpt] : null)
+}
+
+/**
+ * Renvoie la feature FranceZone d'un mousevent, null si la feature n'a pas le bon format
+ */
+export const getMouseEventFeature = (e): AugoraMap.Feature => {
+  if (e.features && e.target.className === "overlays") {
+    if (e.features[0]?.properties) {
+      return getRealFeature(e.features[0])
+    } else return null
+  } else return null
+}
+
+/**
+ * Compare des features et renvoie true si elles ont les mêmes clés d'identification de nos geojson
+ * @param {T} feature1
+ * @param {U} feature2
+ */
+export const compareFeatures = <T extends GeoJSON.Feature, U extends GeoJSON.Feature>(feature1: T, feature2: U): boolean => {
+  const zoneCode1 = getZoneCode(feature1)
+  const zoneCode2 = getZoneCode(feature2)
+  const props1 = feature1?.properties
+  const props2 = feature2?.properties
+
+  if (zoneCode1 && zoneCode2 && zoneCode1 === zoneCode2) {
+    return zoneCode1 !== Code.Circ
+      ? props1[zoneCode1] === props2[zoneCode1]
+      : props1[zoneCode1] === props2[zoneCode1] && props1[Code.Dpt] === props2[Code.Dpt]
+  } else return false
 }
 
 /**
