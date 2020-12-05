@@ -440,7 +440,7 @@
           transition: opacity 0.2s $ease-in-out-cubic;
           pointer-events: none;
           cursor: pointer;
-          &::after {
+          &::before {
             content: "";
             display: block;
             position: absolute;
@@ -452,7 +452,7 @@
           }
 
           &:hover {
-            &::after {
+            &::before {
               background-color: rgba(0, 0, 0, 0.05);
             }
           }
@@ -492,15 +492,33 @@
             background: $text-color;
             box-shadow: 0 0 3px 3px $main-color;
           }
+        }
 
-          &--container {
-            position: relative;
-            .icon-wrapper > svg {
-              fill: "%23334";
+        &__explorer {
+          &::after {
+            display: none;
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            height: 5px;
+            z-index: 1;
+            background-color: $text-color;
+            transform: translate(0, -50%) rotate(-45deg);
+          }
+          &:checked {
+            &::after {
+              display: block;
             }
           }
+        }
+      }
 
-          &--wrapper {
+      .input {
+        &__container {
+          position: relative;
+
+          .icon-wrapper {
             pointer-events: none;
             position: absolute;
             display: inline-block;
@@ -510,6 +528,9 @@
             width: 100%;
             height: 100%;
             padding: 4px;
+            svg {
+              fill: "%23334";
+            }
           }
         }
       }

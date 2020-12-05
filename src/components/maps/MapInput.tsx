@@ -9,9 +9,9 @@ export default function MapInput(props: React.InputHTMLAttributes<HTMLInputEleme
 
   return (
     <CustomControl>
-      <div className="navigation__input--container">
+      <div className="input__container">
         <input {...other} className={`navigation__input ${other.className ? other.className : ""}`} />
-        <div className="icon-wrapper navigation__input--wrapper">{props.children}</div>
+        <div className="icon-wrapper">{props.children}</div>
       </div>
     </CustomControl>
   )

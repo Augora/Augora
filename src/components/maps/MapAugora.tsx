@@ -21,7 +21,7 @@ import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
 import MapFilters from "components/maps/MapFilters"
-import IconInfo from "images/ui-kit/icon-info-crossed.svg"
+import IconInfo from "images/ui-kit/icon-info.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
 
@@ -296,8 +296,9 @@ export default function MapAugora(props: IMapAugora) {
           <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
           <FullscreenControl />
           <MapInput
+            className="navigation__explorer"
             type="checkbox"
-            title={`${inExploreMode ? "Désactiver" : "Activer"} le mode exploration`}
+            title={`${inExploreMode ? "Activer" : "Désactiver"} l'affichage des informations'`}
             checked={inExploreMode}
             onChange={() => setInExploreMode(!inExploreMode)}
           >
