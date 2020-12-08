@@ -284,15 +284,14 @@ export default function MapAugora(props: IMapAugora) {
         <Layer {...lineGhostLayerProps} />
         <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
-      {/* {!inExploreMode && hover && <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.feature} deputiesList={FilteredList} />} */}
       {!inExploreMode && isMapLoaded && (
         <MapPins
           features={currentView.geoJSON.features}
           ghostFeatures={currentView.ghostGeoJSON.features}
+          hoveredFeature={hover}
           deputies={FilteredList}
           handleClick={changeZone}
           handleHover={simulateHover}
-          hoveredFeature={hover}
         />
       )}
       <div className="map__navigation">
@@ -302,7 +301,7 @@ export default function MapAugora(props: IMapAugora) {
           <MapInput
             className="navigation__explorer"
             type="checkbox"
-            title={`${inExploreMode ? "Activer" : "Désactiver"} l'affichage des informations'`}
+            title={`${inExploreMode ? "Activer" : "Désactiver"} l'affichage des informations`}
             checked={inExploreMode}
             onChange={() => setInExploreMode(!inExploreMode)}
           >

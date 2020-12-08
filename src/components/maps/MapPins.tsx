@@ -128,7 +128,7 @@ export function MapPin(props: IMapPin) {
       closeButton={false}
       tipSize={0}
       anchor={"bottom"}
-      dynamicPosition={false}
+      dynamicPosition={isExpanded}
     >
       <div className="pins__container">
         {props.handleClick || props.handleHover ? (
