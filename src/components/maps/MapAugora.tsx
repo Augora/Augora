@@ -26,8 +26,9 @@ import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
 
 interface ICurrentView {
-  GEOJson: AugoraMap.FeatureCollection
+  geoJSON: AugoraMap.FeatureCollection
   feature: AugoraMap.Feature
+  ghostGeoJSON?: AugoraMap.FeatureCollection
 }
 
 interface IMapAugora {
@@ -103,8 +104,9 @@ export default function MapAugora(props: IMapAugora) {
     latitude: France.center.lat,
   })
   const [currentView, setCurrentView] = useState<ICurrentView>({
-    GEOJson: AllReg,
+    geoJSON: AllReg,
     feature: MetroFeature,
+    ghostGeoJSON: getGhostZones(MetroFeature),
   })
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [inExploreMode, setInExploreMode] = useState(false)
@@ -174,8 +176,9 @@ export default function MapAugora(props: IMapAugora) {
         const newGEOJson = getChildFeatures(newFeature)
 
         setCurrentView({
-          GEOJson: newGEOJson,
+          geoJSON: newGEOJson,
           feature: newFeature,
+          ghostGeoJSON: getGhostZones(newFeature),
         })
 
         changePageTitle(newFeature.properties.nom)
@@ -213,7 +216,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /**
-   * Crée un effet de hover sur la feature mapbox fournie
+   * Crée un effet de hover sur la rendered feature mapbox fournie
    * @param {mapboxgl.MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
    */
   const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
@@ -273,18 +276,19 @@ export default function MapAugora(props: IMapAugora) {
       onMouseOut={() => renderHover()}
       reuseMaps={true}
     >
-      <Source type="geojson" data={currentView.GEOJson} generateId={true}>
+      <Source type="geojson" data={currentView.geoJSON} generateId={true}>
         <Layer {...lineLayerProps} />
         <Layer {...fillLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
-      <Source type="geojson" data={getGhostZones(currentView.feature)} generateId={true}>
+      <Source type="geojson" data={currentView.ghostGeoJSON} generateId={true}>
         <Layer {...lineGhostLayerProps} />
         <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
       {/* {!inExploreMode && hover && <MapTooltip lngLat={hover.lngLat} zoneFeature={hover.feature} deputiesList={FilteredList} />} */}
       {!inExploreMode && isMapLoaded && (
         <MapPins
-          features={currentView.GEOJson.features}
+          features={currentView.geoJSON.features}
+          ghostFeatures={currentView.ghostGeoJSON.features}
           deputies={FilteredList}
           handleClick={changeZone}
           handleHover={simulateHover}

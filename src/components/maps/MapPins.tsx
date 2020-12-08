@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Popup } from "react-map-gl"
-import { Code, compareFeatures, getDeputies, getZoneCode } from "components/maps/maps-utils"
+import { Code, compareFeatures, getDeputies, getZoneCode, getPolygonCenter } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import orderBy from "lodash/orderBy"
 import Tooltip from "components/tooltip/Tooltip"
@@ -11,34 +11,34 @@ import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 interface IMapPins {
   features: AugoraMap.Feature[]
   deputies: AugoraMap.DeputiesList
+  ghostFeatures?: AugoraMap.Feature[]
   hoveredFeature?: mapboxgl.MapboxGeoJSONFeature
   handleHover?: (args?: any) => any
   handleClick?: (args?: any) => any
 }
 
-interface IMapPin extends Omit<IMapPins, "features" | "hoveredFeature"> {
+interface IMapPin extends Omit<IMapPins, "features" | "hoveredFeature" | "ghostFeatures"> {
   feature: AugoraMap.Feature
-  coords: AugoraMap.Coordinates
-  isHovered?: boolean
+  isExpanded?: boolean
 }
 
-interface IPinContent {
+interface IMissingContent {
   feature: AugoraMap.Feature
   isOpen?: boolean
 }
 
-interface IDeputyContent extends IPinContent {
+interface IDeputyContent extends IMissingContent {
   deputy: AugoraMap.Depute
 }
 
-interface INumberContent extends IPinContent {
+interface INumberContent extends IMissingContent {
   deputies: AugoraMap.DeputiesList
 }
 
 /**
  * Renvoie le contenu d'un pin député si pas de député trouvé
  */
-function MissingContent({ feature, isOpen }: IPinContent) {
+function MissingContent({ feature, isOpen }: IMissingContent) {
   return (
     <div className={`deputy__visuals deputy__visuals--missing ${isOpen ? "deputy__visuals--opened" : ""}`}>
       {!isOpen ? (
@@ -108,37 +108,50 @@ function NumberContent({ deputies, feature, isOpen }: INumberContent) {
 
 /**
  * Render un pin
+ * @param {AugoraMap.Feature} feature La feature du pin
+ * @param {AugoraMap.DeputiesList} deputies Les / le député(s) de la feature
+ * @param {boolean} [isExpanded] Si le pin est en version expanded ou non. Default: true
+ * @param {Function} [handleClick] Le click handler du bouton, optionel
+ * @param {Function} [handleHover] Le hover handler du bouton, optionel
  */
 export function MapPin(props: IMapPin) {
-  const [isOpen, setIsOpen] = useState(props.isHovered)
+  const { isExpanded = true } = props
+
+  const [isOpen, setIsOpen] = useState(isExpanded)
+
   const zoneCode = getZoneCode(props.feature)
+  const coords = props.feature.properties.center ? props.feature.properties.center : getPolygonCenter(props.feature)
 
   useEffect(() => {
-    setIsOpen(props.isHovered)
-  }, [props.isHovered])
+    setIsOpen(isExpanded)
+  }, [isExpanded])
 
   return (
     <Popup
       className="pins__popup"
-      longitude={props.coords[0]}
-      latitude={props.coords[1]}
+      longitude={coords[0]}
+      latitude={coords[1]}
       closeButton={false}
       tipSize={0}
       anchor={"bottom"}
       dynamicPosition={false}
     >
       <div className="pins__container">
-        <button
-          className="pins__btn"
-          onClick={() => props.handleClick(props.feature)}
-          onMouseOver={() => {
-            props.handleHover(props.feature)
-            if (!isOpen) setIsOpen(true)
-          }}
-          onMouseLeave={() => {
-            if (!props.isHovered) setIsOpen(false)
-          }}
-        />
+        {props.handleClick || props.handleHover ? (
+          <button
+            className="pins__btn"
+            onClick={() => {
+              if (props.handleClick) props.handleClick()
+            }}
+            onMouseOver={() => {
+              if (props.handleHover) props.handleHover()
+              if (!isOpen) setIsOpen(true)
+            }}
+            onMouseLeave={() => {
+              if (!isExpanded) setIsOpen(false)
+            }}
+          />
+        ) : null}
         {zoneCode === Code.Circ ? (
           props.deputies.length > 0 ? (
             <DeputyContent deputy={props.deputies[0]} feature={props.feature} isOpen={isOpen} />
@@ -163,11 +176,15 @@ export function MapPin(props: IMapPin) {
  * Renvoie un pin pour chaque zone affichée
  * @param {AugoraMap.Feature[]} features Array des features
  * @param {AugoraMap.DeputiesList} deputies Liste des députés à filtrer
- * @param {Function} handleClick Fonction appelée quand le pin est cliqué
- * @param {Function} handleHover Fonction appelée quand le pin est hover
- * @param {mapboxgl.MapboxGeoJSONFeature} hoveredFeature La zone de la map s'il y a actuellement un hover
+ * @param {mapboxgl.MapboxGeoJSONFeature} hoveredFeature La zone de la map hovered s'il y a actuellement un hover
+ * @param {Function} [handleClick] Fonction appelée quand le pin est cliqué
+ * @param {Function} [handleHover] Fonction appelée quand le pin est hover
  */
 export default function MapPins(props: IMapPins) {
+  const activeGhostFeature = props.hoveredFeature
+    ? props.ghostFeatures.find((feature) => compareFeatures(feature, props.hoveredFeature))
+    : null
+
   return (
     <div className="map__pins">
       {orderBy(props.features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
@@ -179,13 +196,17 @@ export default function MapPins(props: IMapPins) {
             key={`${index}-${zoneCode}-${feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt}`}
             deputies={featureDeputies}
             feature={feature}
-            coords={feature.properties.center}
-            handleClick={props.handleClick}
-            handleHover={props.handleHover}
-            isHovered={compareFeatures(feature, props.hoveredFeature)}
+            handleClick={() => {
+              if (props.handleClick) props.handleClick(feature)
+            }}
+            handleHover={() => {
+              if (props.handleHover) props.handleHover(feature)
+            }}
+            isExpanded={compareFeatures(feature, props.hoveredFeature)}
           />
         )
       })}
+      {activeGhostFeature && <MapPin feature={activeGhostFeature} deputies={getDeputies(activeGhostFeature, props.deputies)} />}
     </div>
   )
 }
