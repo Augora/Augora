@@ -117,18 +117,18 @@ function NumberContent({ deputies, feature, isOpen }: INumberContent) {
 export function MapPin(props: IMapPin) {
   const { isExpanded = true } = props
 
-  const [isOpen, setIsOpen] = useState(isExpanded)
+  // const [isOpen, setIsOpen] = useState(isExpanded)
 
   const zoneCode = getZoneCode(props.feature)
   const coords = props.feature.properties.center ? props.feature.properties.center : getPolygonCenter(props.feature)
 
-  useEffect(() => {
-    setIsOpen(isExpanded)
-  }, [isExpanded])
+  // useEffect(() => {
+  //   setIsOpen(isExpanded)
+  // }, [isExpanded])
 
   return (
     <Popup
-      className="pins__popup"
+      className={`pins__popup ${isExpanded && "pins__popup--expanded"}`}
       longitude={coords[0]}
       latitude={coords[1]}
       closeButton={false}
@@ -145,21 +145,21 @@ export function MapPin(props: IMapPin) {
             }}
             onMouseOver={() => {
               if (props.handleHover) props.handleHover()
-              if (!isOpen) setIsOpen(true)
+              // if (!isOpen) setIsOpen(true)
             }}
             onMouseLeave={() => {
-              if (!isExpanded) setIsOpen(false)
+              // if (!isExpanded) setIsOpen(false)
             }}
           />
         ) : null}
         {zoneCode === Code.Circ ? (
           props.deputies.length > 0 ? (
-            <DeputyContent deputy={props.deputies[0]} feature={props.feature} isOpen={isOpen} />
+            <DeputyContent deputy={props.deputies[0]} feature={props.feature} isOpen={isExpanded} />
           ) : (
-            <MissingContent feature={props.feature} isOpen={isOpen} />
+            <MissingContent feature={props.feature} isOpen={isExpanded} />
           )
         ) : (
-          <NumberContent deputies={props.deputies} feature={props.feature} isOpen={isOpen} />
+          <NumberContent deputies={props.deputies} feature={props.feature} isOpen={isExpanded} />
         )}
         <div
           className="pins__arrowdown"
