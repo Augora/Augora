@@ -223,8 +223,8 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
  * @param {*} viewState Le state du viewport
  * @param {React.Dispatch<React.SetStateAction<{}>>} setViewState Le setState du viewport
  */
-export const flyToBounds = (
-  feature: AugoraMap.Feature,
+export const flyToBounds = <T extends GeoJSON.Feature>(
+  feature: T,
   viewState: any,
   setViewState: React.Dispatch<React.SetStateAction<{}>>
 ): void => {
@@ -342,9 +342,9 @@ export const compareFeatures = <T extends GeoJSON.Feature, U extends GeoJSON.Fea
 
 /**
  * Renvoie la feature parente de la feature fournie
- * @param {AugoraMap.Feature} feature
+ * @param {GeoJSON.Feature} feature
  */
-export const getParentFeature = (feature: AugoraMap.Feature) => {
+export const getParentFeature = <T extends GeoJSON.Feature>(feature: T): AugoraMap.Feature => {
   switch (getZoneCode(feature)) {
     case Code.Reg:
       return MetroFeature
@@ -359,9 +359,9 @@ export const getParentFeature = (feature: AugoraMap.Feature) => {
 
 /**
  * Renvoie une feature collection GEOJson contenant les zones enfant de la feature fournie
- * @param {AugoraMap.Feature} feature
+ * @param {GeoJSON.Feature} feature
  */
-export const getChildFeatures = (feature: AugoraMap.Feature): AugoraMap.FeatureCollection => {
+export const getChildFeatures = <T extends GeoJSON.Feature>(feature: T): AugoraMap.FeatureCollection => {
   const zoneCode = getZoneCode(feature)
 
   switch (zoneCode) {
@@ -384,9 +384,9 @@ export const getChildFeatures = (feature: AugoraMap.Feature): AugoraMap.FeatureC
 
 /**
  * Renvoie une feature array contenant toutes les zones soeurs de la zone fournie
- * @param {AugoraMap.Feature} feature La feature à analyser
+ * @param {GeoJSON.Feature} feature La feature à analyser
  */
-export const getSisterFeatures = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
+export const getSisterFeatures = <T extends GeoJSON.Feature>(feature: T): AugoraMap.Feature[] => {
   const zoneCode = getZoneCode(feature)
   const props = feature?.properties
   const contId = getContinent(feature)
@@ -411,9 +411,9 @@ export const getSisterFeatures = (feature: AugoraMap.Feature): AugoraMap.Feature
 
 /**
  * Renvoie une feature collection contenant les zones soeurs, et les zones soeurs parentes
- * @param {AugoraMap.Feature} feature La feature à analyser
+ * @param {GeoJSON.Feature} feature La feature à analyser
  */
-export const getGhostZones = (feature: AugoraMap.Feature): AugoraMap.FeatureCollection => {
+export const getGhostZones = <T extends GeoJSON.Feature>(feature: T): AugoraMap.FeatureCollection => {
   const zoneCode = getZoneCode(feature)
   const contId = getContinent(feature)
 
@@ -431,10 +431,10 @@ export const getGhostZones = (feature: AugoraMap.Feature): AugoraMap.FeatureColl
 
 /**
  * Renvoie un array de députés dans une zone, une array avec un seul élément si la zone est une circonscription, ou une array vide si aucun député trouvé
- * @param {AugoraMap.Feature} feature La zone feature à analyser
+ * @param {GeoJSON.Feature} feature La zone feature à analyser
  * @param {AugoraMap.DeputiesList} deputies La liste de députés à filtrer
  */
-export const getDeputies = (feature: AugoraMap.Feature, deputies: AugoraMap.DeputiesList): AugoraMap.DeputiesList => {
+export const getDeputies = <T extends GeoJSON.Feature>(feature: T, deputies: AugoraMap.DeputiesList): AugoraMap.DeputiesList => {
   const zoneCode = getZoneCode(feature)
   const props = feature?.properties
   const contId = getContinent(feature)
@@ -467,9 +467,9 @@ export const getDeputies = (feature: AugoraMap.Feature, deputies: AugoraMap.Depu
 
 /**
  * Renvoie le nom d'une feature
- * @param {AugoraMap.Feature} feature
+ * @param {GeoJSON.Feature} feature
  */
-export const getZoneName = (feature: AugoraMap.Feature): string => {
+export const getZoneName = <T extends GeoJSON.Feature>(feature: T): string => {
   const code = getZoneCode(feature)
 
   switch (code) {
@@ -480,5 +480,7 @@ export const getZoneName = (feature: AugoraMap.Feature): string => {
       return `${feature.properties.nom} (${feature.properties[Code.Dpt]})`
     case Code.Circ:
       return `${feature.properties[Code.Circ]}${feature.properties[Code.Circ] < 2 ? "ère" : "ème"} Circonscription`
+    default:
+      return ""
   }
 }

@@ -124,10 +124,10 @@ export default function MapAugora(props: IMapAugora) {
 
   /**
    * Change de zone sur la feature fournie, reset le viewport si on est deja sur la zone
-   * @param {AugoraMap.Feature} feature La feature de la nouvelle zone
+   * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
    */
-  const changeZone = (feature: AugoraMap.Feature) => {
-    if (feature !== currentView.feature) {
+  const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
+    if (!compareFeatures(feature, currentView.feature)) {
       const zoneCode = getZoneCode(feature)
       switch (zoneCode) {
         case Code.Cont:
@@ -211,8 +211,10 @@ export default function MapAugora(props: IMapAugora) {
    * @param {AugoraMap.Feature} feature
    */
   const simulateHover = (feature: AugoraMap.Feature) => {
-    const renderedFeature = getRenderedFeature(feature)
-    renderHover(renderedFeature)
+    if (!compareFeatures(hover, feature)) {
+      const renderedFeature = getRenderedFeature(feature)
+      renderHover(renderedFeature)
+    }
   }
 
   /**
@@ -231,12 +233,10 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleHover = (e) => {
-    if (!inExploreMode) {
-      if (e.target.className !== "pins__btn") {
-        if (e.features && e.target.className === "overlays") {
-          renderHover(e.features[0])
-        } else renderHover()
-      }
+    if (!inExploreMode && e.target.className !== "pins__btn") {
+      if (e.features && e.target.className === "overlays") {
+        renderHover(e.features[0])
+      } else renderHover()
     }
   }
 
