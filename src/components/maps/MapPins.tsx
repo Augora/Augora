@@ -117,14 +117,8 @@ function NumberContent({ deputies, feature, isOpen }: INumberContent) {
 export function MapPin(props: IMapPin) {
   const { isExpanded = true } = props
 
-  // const [isOpen, setIsOpen] = useState(isExpanded)
-
   const zoneCode = getZoneCode(props.feature)
   const coords = props.feature.properties.center ? props.feature.properties.center : getPolygonCenter(props.feature)
-
-  // useEffect(() => {
-  //   setIsOpen(isExpanded)
-  // }, [isExpanded])
 
   return (
     <Popup
@@ -145,10 +139,6 @@ export function MapPin(props: IMapPin) {
             }}
             onMouseOver={() => {
               if (props.handleHover) props.handleHover()
-              // if (!isOpen) setIsOpen(true)
-            }}
-            onMouseLeave={() => {
-              // if (!isExpanded) setIsOpen(false)
             }}
           />
         ) : null}
