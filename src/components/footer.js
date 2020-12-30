@@ -98,7 +98,7 @@ const Footer = () => {
               internal: false,
             },
           ])}
-          {Menu("Contact", [
+          {Menu("Nous contacter", [
             {
               label: "contact@augora.fr",
               link: "mailto:contact@augora.fr",
