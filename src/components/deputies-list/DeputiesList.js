@@ -5,7 +5,8 @@ import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import Frame from "components/frames/Frame"
 import PieChart from "./pie-chart/PieChart"
-import BarChart from "./bar-chart/BarChart"
+//import BarChart from "./bar-chart/BarChart"
+import BarChart from "../charts/Bar"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 const DeputiesList = (props) => {
@@ -103,7 +104,15 @@ const DeputiesList = (props) => {
                 </div>
               ) : (
                 <div className="barchart chart">
-                  <BarChart data={groupesData} filteredDeputies={state.FilteredList.length} groupesDetails={state.GroupesList} />
+                  {/* <BarChart data={groupesData} filteredDeputies={state.FilteredList.length} groupesDetails={state.GroupesList} /> */}
+                  <BarChart
+                    width={420}
+                    height={280}
+                    margin={{ top: 20, left: 0, right: 30, bottom: 40 }}
+                    data={groupesData}
+                    filteredDeputies={state.FilteredList.length}
+                    groupesDetails={state.GroupesList}
+                  ></BarChart>
                 </div>
               )}
             </div>
