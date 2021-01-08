@@ -110,8 +110,8 @@ const DeputiesList = (props) => {
                     height={280}
                     margin={{ top: 20, left: 0, right: 30, bottom: 40 }}
                     data={groupesData}
-                    filteredDeputies={state.FilteredList.length}
-                    groupesDetails={state.GroupesList}
+                    // filteredDeputies={state.FilteredList.length}
+                    // groupesDetails={state.GroupesList}
                   ></BarChart>
                 </div>
               )}
