@@ -24,8 +24,6 @@ export default function BarChart({ width, height, margin, events = false, data }
   // bounds
   const xMax = width
   const yMax = height - verticalMargin
-  const rowMax = 300
-  var nbTicks = [0, 50, 100, 150, 200, 250, 300]
 
   // accessors
   const sigle = (d) => d.id
@@ -53,22 +51,13 @@ export default function BarChart({ width, height, margin, events = false, data }
     [yMax]
   )
 
-  const rowScale = useMemo(
-    () =>
-      scaleLinear<number>({
-        range: [rowMax, 0],
-        round: true,
-        domain: nbTicks,
-      }),
-    [yMax]
-  )
-
   return width < 10 ? null : (
     <svg width={width} height={height}>
       <rect width={width} height={height} fill="url(#teal)" rx={14} />
       <Group top={verticalMargin / 2}>
         <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
         <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
+        <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} />
         <text x="-70" y="15" transform="rotate(-90)" fontSize={10}>
           Nombre de députés
         </text>
@@ -96,22 +85,17 @@ export default function BarChart({ width, height, margin, events = false, data }
                   if (events) alert(`clicked: ${JSON.stringify(Object.values(d))}`)
                 }}
               />
-              {/* <AxisBottom top={xMax} scale={sigle(d)} /> */}
-
-              <text x={barX} y={barY} fill="black" fontSize={12} dx={"-.2em"} dy={"-.33em"} style={{ fontFamily: "arial" }}>
-                {nombreDeputes(d)}
-              </text>
-              <text
-                x={xScale(sigle(d))}
-                y={yMax}
-                fill="black"
-                fontSize={12}
-                dx={".32em"}
-                dy={"1em"}
-                style={{ fontFamily: "arial" }}
-              >
-                {sigleAccessor}
-              </text>
+              return(
+              {nombreDeputes(d) < 100 ? (
+                <text x={barX} y={barY} fill="black" fontSize={12} dx={"+.4em"} dy={"-.33em"} style={{ fontFamily: "arial" }}>
+                  {nombreDeputes(d)}
+                </text>
+              ) : (
+                <text x={barX} y={barY} fill="black" fontSize={12} dy={"-.33em"} style={{ fontFamily: "arial" }}>
+                  {nombreDeputes(d)}
+                </text>
+              )}
+              )
             </Group>
           )
         })}
