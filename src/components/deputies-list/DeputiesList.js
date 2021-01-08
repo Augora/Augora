@@ -5,7 +5,6 @@ import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import Frame from "components/frames/Frame"
 import PieChart from "./pie-chart/PieChart"
-//import BarChart from "./bar-chart/BarChart"
 import BarChart from "../charts/Bar"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
@@ -27,44 +26,6 @@ const DeputiesList = (props) => {
       color: groupe.Couleur,
     })
   }).filter((groupe) => groupe.value !== 0)
-
-  /**
-   * Reliquat de la complex bar chart
-   */
-  // let ages = []
-  // for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
-  //   ages.push(i)
-  // }
-
-  // const groupesByAge = ages.map((age) => {
-  //   const valueOfDeputesByAge = state.DeputiesList.filter((depute) => {
-  //     return depute.Age === age
-  //   })
-  //   const groupeValueByAge = () =>
-  //     Object.keys(state.GroupeValue).reduce((acc, groupe) => {
-  //       return Object.assign(acc, {
-  //         [groupe]: valueOfDeputesByAge.filter(
-  //           (depute) => depute.GroupeParlementaire.Sigle === groupe
-  //         ).length,
-  //       })
-  //     }, {})
-  //   const groupeColorByAge = () =>
-  //     Object.keys(state.GroupeValue).reduce((acc, groupe) => {
-  //       return Object.assign(acc, {
-  //         [groupe + "Color"]: state.GroupesList.filter(
-  //           (groupeFiltered) => groupeFiltered.Sigle === groupe
-  //         )[0].Couleur,
-  //       })
-  //     }, {})
-  //   return Object.assign(
-  //     {},
-  //     {
-  //       age: age.toString(),
-  //       ...groupeValueByAge(),
-  //       ...groupeColorByAge(),
-  //     }
-  //   )
-  // })
 
   return (
     <>
@@ -104,14 +65,11 @@ const DeputiesList = (props) => {
                 </div>
               ) : (
                 <div className="barchart chart">
-                  {/* <BarChart data={groupesData} filteredDeputies={state.FilteredList.length} groupesDetails={state.GroupesList} /> */}
                   <BarChart
                     width={420}
                     height={280}
                     margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
                     data={groupesData}
-                    // filteredDeputies={state.FilteredList.length}
-                    // groupesDetails={state.GroupesList}
                   ></BarChart>
                 </div>
               )}
