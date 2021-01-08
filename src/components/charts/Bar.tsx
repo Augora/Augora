@@ -5,23 +5,17 @@ import { AxisLeft, AxisBottom } from "@visx/axis"
 import { GridRows } from "@visx/grid"
 import { scaleBand, scaleLinear } from "@visx/scale"
 
-//const data = letterFrequency.slice(5)
-const verticalMargin = 120
-
-// accessors
-//const getLetter = (d: data) => d.letter
-// const getLetterFrequency = (d: LetterFrequency) => Number(d.frequency) * 100
-
 export type BarsProps = {
   width: number
   height: number
-  margin: { [key: string]: string }
+  margin: { top: number; left: number; right: number; bottom: number }
   events?: boolean
-  data: { [key: string]: string }
+  data: { id: string; label: string; value: number; color: string }[]
 }
 
 export default function BarChart({ width, height, margin, events = false, data }: BarsProps) {
   // bounds
+  const verticalMargin = 120
   const xMax = width
   const yMax = height - verticalMargin
 
@@ -41,6 +35,7 @@ export default function BarChart({ width, height, margin, events = false, data }
       }),
     [xMax]
   )
+
   const yScale = useMemo(
     () =>
       scaleLinear<number>({
@@ -71,8 +66,6 @@ export default function BarChart({ width, height, margin, events = false, data }
           const barY = yMax - barHeight
           return (
             <Group key={`bar-${sigleAccessor}`} left={margin.left} top={margin.top}>
-              {/* <AxisLeft scale={yScale.range([yMax, 0])} />
-              <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} /> */}
               <Bar
                 key={`bar-${sigleAccessor}`}
                 x={barX}
