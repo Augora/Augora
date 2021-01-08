@@ -1,8 +1,8 @@
 import React, { useMemo } from "react"
 import { Bar } from "@visx/shape"
 import { Group } from "@visx/group"
-import { AxisLeft } from "@visx/axis"
-import letterFrequency, { LetterFrequency } from "@visx/mock-data/lib/mocks/letterFrequency"
+import { AxisLeft, AxisBottom } from "@visx/axis"
+import { GridRows } from "@visx/grid"
 import { scaleBand, scaleLinear } from "@visx/scale"
 
 //const data = letterFrequency.slice(5)
@@ -24,6 +24,8 @@ export default function BarChart({ width, height, margin, events = false, data }
   // bounds
   const xMax = width
   const yMax = height - verticalMargin
+  const rowMax = 300
+  var nbTicks = [0, 50, 100, 150, 200, 250, 300]
 
   // accessors
   const sigle = (d) => d.id
@@ -51,9 +53,26 @@ export default function BarChart({ width, height, margin, events = false, data }
     [yMax]
   )
 
+  const rowScale = useMemo(
+    () =>
+      scaleLinear<number>({
+        range: [rowMax, 0],
+        round: true,
+        domain: nbTicks,
+      }),
+    [yMax]
+  )
+
   return width < 10 ? null : (
     <svg width={width} height={height}>
       <rect width={width} height={height} fill="url(#teal)" rx={14} />
+      <Group top={verticalMargin / 2}>
+        <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
+        <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
+        <text x="-70" y="15" transform="rotate(-90)" fontSize={10}>
+          Nombre de députés
+        </text>
+      </Group>
       <Group top={verticalMargin / 2}>
         {data.map((d) => {
           const sigleAccessor = sigle(d)
@@ -63,7 +82,8 @@ export default function BarChart({ width, height, margin, events = false, data }
           const barY = yMax - barHeight
           return (
             <Group key={`bar-${sigleAccessor}`} left={margin.left} top={margin.top}>
-              {/* <Group key={`bar-${letter}`}> */}
+              {/* <AxisLeft scale={yScale.range([yMax, 0])} />
+              <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} /> */}
               <Bar
                 key={`bar-${sigleAccessor}`}
                 x={barX}
@@ -76,7 +96,8 @@ export default function BarChart({ width, height, margin, events = false, data }
                   if (events) alert(`clicked: ${JSON.stringify(Object.values(d))}`)
                 }}
               />
-              {/* <AxisLeft scale={yScale.range([yMax, 0])} /> */}
+              {/* <AxisBottom top={xMax} scale={sigle(d)} /> */}
+
               <text x={barX} y={barY} fill="black" fontSize={12} dx={"-.2em"} dy={"-.33em"} style={{ fontFamily: "arial" }}>
                 {nombreDeputes(d)}
               </text>
