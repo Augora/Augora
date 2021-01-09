@@ -97,9 +97,11 @@ const contentAbout = [
   {
     title: "Où récupérons-nous les données cartographiques ?",
     description: (
-      <p>
-        Avant toutes choses, les données utilisées pour les cartes sont dans des fichiers au format <strong>geojson</strong>.
-        <br />
+      <>
+        <p>
+          Avant toutes choses, les données utilisées pour les cartes sont dans des fichiers au format <strong>geojson</strong>.
+          <br />
+        </p>
         <ul>
           <li>
             Pour les départements et régions, nous utilisons :{" "}
@@ -124,7 +126,7 @@ const contentAbout = [
             </a>
           </li>
         </ul>
-      </p>
+      </>
     ),
   },
   // {
