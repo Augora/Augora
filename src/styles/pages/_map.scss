@@ -621,45 +621,35 @@
         }
       }
     }
-
-    // &__tooltip {
-    //   max-width: unset;
-    //   width: 250px;
-    //   &-solo {
-    //     min-width: 250px;
-    //     .tooltip {
-    //       &__nom {
-    //         margin: 10px 0;
-    //       }
-    //       &__groupe {
-    //         font-size: 20px;
-    //         font-weight: bold;
-    //         text-transform: uppercase;
-    //         line-height: 1.3em;
-    //         letter-spacing: -0.03em;
-    //         text-align: center;
-    //       }
-    //       &__savoirplus {
-    //         margin-top: 6px;
-    //         font-size: 14px;
-    //         font-style: italic;
-    //       }
-    //     }
-    //   }
-    //   &-bar {
-    //     margin-top: 10px;
-    //   }
-    //   &--popup {
-    //     z-index: 1;
-    //     .mapboxgl-popup-content {
-    //       background: none;
-    //       box-shadow: none;
-    //       pointer-events: none;
-    //     }
-    //   }
-    // }
   }
 
-  @media (max-width: 875px) {
+  @media (max-width: 1200px) {
+    .map {
+      &__breadcrumb {
+        flex-direction: column;
+        align-items: flex-start;
+        .breadcrumb {
+          &__item {
+            margin-right: 0;
+            margin-bottom: 10px;
+          }
+        }
+      }
+
+      &__filters {
+        .filters {
+          &__mini {
+            min-width: 300px;
+            .tooltip__content {
+              .mini {
+                &__bar {
+                  width: 150px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
