@@ -264,7 +264,7 @@ export default function MapAugora(props: IMapAugora) {
       {...viewState}
       width="100%"
       height="100%"
-      minZoom={2}
+      minZoom={1}
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
