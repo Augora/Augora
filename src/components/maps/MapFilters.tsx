@@ -38,7 +38,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
           </Button>
         </Tooltip>
       ) : (
-        <div className="filters__big">
+        <div className="filters">
           <Filters filteredDeputes={zoneDeputies} />
           <button className="big__close" onClick={() => setIsBigFilter(false)} title="Cacher les filtres">
             <div className="icon-wrapper">

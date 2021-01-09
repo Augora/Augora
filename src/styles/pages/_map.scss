@@ -538,6 +538,43 @@
 
     &__filters {
       .filters {
+        min-width: 650px;
+        max-width: 1000px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+        margin: 0;
+
+        cursor: default;
+
+        .big__close {
+          position: absolute;
+          right: 5px;
+          top: 13px;
+          width: 30px;
+          border: none;
+          background: none;
+
+          cursor: pointer;
+
+          .icon-wrapper {
+            pointer-events: none;
+            svg {
+              fill: $text-color;
+            }
+          }
+
+          &:hover {
+            .icon-wrapper > svg {
+              fill: black;
+            }
+          }
+
+          &:active {
+            .icon-wrapper > svg {
+              fill: $btn-active;
+            }
+          }
+        }
+
         &__mini {
           min-width: unset;
           max-width: unset;
@@ -582,49 +619,10 @@
             }
           }
         }
-
-        &__big {
-          max-width: 1000px;
-          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-
-          cursor: default;
-
-          .big__close {
-            position: absolute;
-            right: 5px;
-            top: 13px;
-            width: 30px;
-            border: none;
-            background: none;
-
-            cursor: pointer;
-
-            .icon-wrapper {
-              pointer-events: none;
-              svg {
-                fill: $text-color;
-              }
-            }
-
-            &:hover {
-              .icon-wrapper > svg {
-                fill: black;
-              }
-            }
-
-            &:active {
-              .icon-wrapper > svg {
-                fill: $btn-active;
-              }
-            }
-          }
-        }
       }
     }
-  }
 
-  @media (max-width: 1200px) {
-    .map {
+    @media (max-width: 1200px) {
       &__breadcrumb {
         flex-direction: column;
         align-items: flex-start;
@@ -654,6 +652,14 @@
               }
             }
           }
+        }
+      }
+    }
+
+    @media (max-width: 875px) {
+      &__filters {
+        .filters {
+          min-width: unset;
         }
       }
     }
