@@ -57,11 +57,14 @@
 
     &__sexes {
       display: flex;
+      justify-content: center;
       width: calc(100% + 10px);
       margin-bottom: 10px;
       .sexes {
         &__btn {
           height: 60px;
+          width: 100%;
+
           margin-right: 10px;
         }
       }
@@ -86,7 +89,7 @@
       }
     }
 
-    &__reset {
+    .reset__btn {
       width: 100%;
       margin: 10px 0;
       button {
