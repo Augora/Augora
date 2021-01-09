@@ -23,7 +23,7 @@ function Question(props) {
           <IconArrow />
         </div>
       </div>
-      <div className="faq__description">{props.description}</div>
+      <div className="faq__description">{props.children}</div>
     </div>
   )
 }

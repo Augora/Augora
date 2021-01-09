@@ -159,7 +159,9 @@ export default function FAQ() {
         <PageTitle title="Foire aux Questions" />
 
         {contentAbout.map((question, index) => (
-          <Question key={`faq-question-${index}`} title={question.title} description={question.description} />
+          <Question key={`faq-question-${index}`} title={question.title}>
+            {question.description}
+          </Question>
         ))}
       </div>
     </>
