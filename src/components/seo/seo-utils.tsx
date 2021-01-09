@@ -8,36 +8,38 @@ export enum PageType {
 }
 
 export function buildMetaTags(title: string, description: string, url: string, imageUrl: string, env: string) {
-  return [
-    // robots
-    env !== "production" ? <meta name="robots" content="noindex,nofollow" /> : <meta name="robots" content="index,follow" />,
-    // viewport
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />,
-    // type
-    <meta name="og:type" content="website" />,
-    // local
-    <meta name="og:local" content="fr_FR" />,
-    // title
-    <meta name="og:title" content={title} />,
-    <meta name="twitter:title" content={title} />,
-    // charset
-    <meta charSet="utf-8" />,
-    // description
-    <meta name="description" content={description} />,
-    <meta name="og:description" content={description} />,
-    <meta name="twitter:description" content={description} />,
-    // url
-    <meta name="og:url" content={url} />,
-    <meta name="twitter:url" content={url} />,
-    //image
-    <meta name="og:image" content={imageUrl} />,
-    <meta name="og:image:url" content={imageUrl} />,
-    <meta name="og:image:secure_url" content={imageUrl} />,
-    <meta name="og:image:secure" content={imageUrl} />,
-    <meta name="twitter:image" content={imageUrl} />,
-    <meta name="twitter:card" content={imageUrl} />,
-    <meta name="og:image:alt" content="Icône de l'association Augora" />,
-  ]
+  return (
+    <>
+      {/* robots */}
+      {env !== "production" ? <meta name="robots" content="noindex,nofollow" /> : <meta name="robots" content="index,follow" />}
+      {/* viewport */}
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+      {/* type */}
+      <meta name="og:type" content="website" />
+      {/* local */}
+      <meta name="og:local" content="fr_FR" />
+      {/* title */}
+      <meta name="og:title" content={title} />
+      <meta name="twitter:title" content={title} />
+      {/* charset */}
+      <meta charSet="utf-8" />
+      {/* description */}
+      <meta name="description" content={description} />
+      <meta name="og:description" content={description} />
+      <meta name="twitter:description" content={description} />
+      {/* url */}
+      <meta name="og:url" content={url} />
+      <meta name="twitter:url" content={url} />
+      {/* image */}
+      <meta name="og:image" content={imageUrl} />
+      <meta name="og:image:url" content={imageUrl} />
+      <meta name="og:image:secure_url" content={imageUrl} />
+      <meta name="og:image:secure" content={imageUrl} />
+      <meta name="twitter:image" content={imageUrl} />
+      <meta name="twitter:card" content={imageUrl} />
+      <meta name="og:image:alt" content="Icône de l'association Augora" />
+    </>
+  )
 }
 
 export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
