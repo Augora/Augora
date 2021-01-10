@@ -19,6 +19,10 @@ const secondaryPages = {
     path: "/faq",
     title: "FAQ",
   },
+  statistiques: {
+    path: "/statistiques",
+    title: "STATISTIQUES",
+  },
 }
 
 const Header = ({ siteTitle, location }) => {
