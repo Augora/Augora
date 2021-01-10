@@ -4,6 +4,7 @@ import SEO, { PageType } from "../components/seo/seo"
 import PageTitle from "../components/titles/PageTitle"
 import Filters from "components/deputies-list/filters/Filters"
 import BarChart from "components/charts/Bar"
+import BarStackChart from "components/charts/BarStack"
 import PieChart from "components/deputies-list/pie-chart/PieChart"
 import Frame from "components/frames/Frame"
 import { calculateNbDepute } from "components/deputies-list/deputies-list-utils"
@@ -14,7 +15,7 @@ const Statistiques = (props) => {
 
   const [HasPieChart, setHasPieChart] = useState(true)
 
-  const handleChartSelection = (event) => {
+  const handleChartSelection = () => {
     setHasPieChart(!HasPieChart)
   }
 
@@ -28,12 +29,48 @@ const Statistiques = (props) => {
     })
   }).filter((groupe) => groupe.value !== 0)
 
+  let ages = []
+  for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
+    ages.push(i)
+  }
+  const groupesByAge = ages.map((age) => {
+    const valueOfDeputesByAge = state.DeputiesList.filter((depute) => {
+      return depute.Age === age
+    })
+    const groupeValueByAge = () =>
+      Object.keys(state.GroupeValue).reduce((acc, groupe) => {
+        return Object.assign(acc, {
+          [groupe]: valueOfDeputesByAge.filter((depute) => depute.GroupeParlementaire.Sigle === groupe).length,
+        })
+      }, {})
+
+    const groupeColorByAge = () =>
+      Object.keys(state.GroupeValue).reduce((acc, groupe) => {
+        return Object.assign(acc, {
+          [groupe + "Color"]: state.GroupesList.filter((groupeFiltered) => groupeFiltered.Sigle === groupe)[0].Couleur,
+        })
+      }, {})
+    // return Object.assign(
+    //   {},
+    //   {
+    //     age: age.toString(),
+    //     ...groupeValueByAge(),
+    //     ...groupeColorByAge(),
+    //   }
+    // )
+    return Object.assign({
+      age: age.toString(),
+      valueByAge: groupeValueByAge,
+      colorByAge: groupeColorByAge,
+    })
+  })
+
   return (
     <>
       <section className="filters">
-        {/* <Filters /> */}
+        <Filters />
         <Frame className="frame-chart" title="Répartition">
-          {/* {state.FilteredList.length > 0 ? (
+          {state.FilteredList.length > 0 ? (
             <div className="filters__charts">
               <button className="charts__switch" onClick={() => handleChartSelection()} title="Changer le graphique">
                 <svg viewBox="0 0 232 247" className="icon-switch">
@@ -59,24 +96,37 @@ const Statistiques = (props) => {
                     <path d="M90.224,32.089C92.241,31.733 94.312,32.287 95.882,33.603C97.451,34.919 98.358,36.863 98.358,38.911C98.38,42.418 98.38,46.494 98.38,49.749C98.379,53.017 96.102,55.843 92.909,56.538C84.57,58.327 76.676,62.518 70.374,69.072C62.432,77.332 57.977,88.346 57.943,99.805L67.897,89.453C72.264,84.935 79.568,84.792 84.109,89.135L85.08,90.069C89.598,94.436 89.742,101.74 85.399,106.28L56.483,136.354C52.116,140.872 44.812,141.015 40.271,136.671L6.049,103.766C1.531,99.399 1.387,92.095 5.73,87.555L6.664,86.584C11.03,82.066 18.334,81.923 22.875,86.267L33.474,96.458C34.291,79.836 41.11,64.062 52.658,52.08L52.664,52.074C63.095,41.225 76.338,34.55 90.224,32.089Z" />
                   </g>
                 </svg>
-              </button> */}
-          {/* {HasPieChart ? (
+              </button>
+              {HasPieChart ? (
                 <div className="piechart chart">
                   <PieChart data={groupesData} filteredDeputies={state.FilteredList.length} groupesDetails={state.GroupesList} />
                 </div>
-              ) : ( */}
-          <div className="barchart chart">
-            <BarChart width={420} height={280} margin={{ top: 0, left: 0, right: 0, bottom: 0 }} data={groupesData}></BarChart>
-          </div>
-          {/* )}
+              ) : (
+                <div className="barchart chart">
+                  <BarChart
+                    width={420}
+                    height={280}
+                    margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
+                    data={groupesData}
+                  ></BarChart>
+                </div>
+              )}
             </div>
-          ) : null} */}
+          ) : null}
         </Frame>
       </section>
 
       <section className="pyramide">
         <Frame className="frame-chart" title="Pyramide des âges">
-          <div className="pyramide chart"></div>
+          <div className="pyramide chart">
+            <BarStackChart
+              width={800}
+              height={300}
+              margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
+              data={groupesData}
+              dataAge={groupesByAge}
+            ></BarStackChart>
+          </div>
         </Frame>
       </section>
     </>

@@ -5,7 +5,7 @@ import { AxisLeft, AxisBottom } from "@visx/axis"
 import { GridRows } from "@visx/grid"
 import { scaleBand, scaleLinear } from "@visx/scale"
 
-export type BarsProps = {
+interface BarsProps {
   width: number
   height: number
   margin: { top: number; left: number; right: number; bottom: number }
