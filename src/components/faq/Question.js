@@ -4,7 +4,10 @@ import React, { useState } from "react"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
 
 // Graphics
-import GradientBanner from "components/graphics/GradientBanner"
+import dynamic from "next/dynamic"
+const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
+  ssr: false,
+})
 
 function Question(props) {
   const [Open, setOpen] = useState(false)
@@ -23,7 +26,7 @@ function Question(props) {
           <IconArrow />
         </div>
       </div>
-      <div className="faq__description">{props.description}</div>
+      <div className="faq__description">{props.children}</div>
     </div>
   )
 }

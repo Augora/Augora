@@ -19,13 +19,6 @@
     transition: transform 3s $ease-out-cubic;
   }
 
-  &:hover {
-    svg rect {
-      transform: skew(-25deg) translate3d(0, 0, 0);
-      transition: transform 1s $ease-in-out-cubic;
-    }
-  }
-
   @media (max-width: 900px) {
     &__title {
       text-align: center;

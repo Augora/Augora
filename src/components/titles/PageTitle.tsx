@@ -1,5 +1,8 @@
 import React, { useState } from "react"
-import GradientBanner from "../graphics/GradientBanner"
+import dynamic from "next/dynamic"
+const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
+  ssr: false,
+})
 
 export default function PageTitle(props: { title: string }) {
   const [hovered, setHovered] = useState(false)
