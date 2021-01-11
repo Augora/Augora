@@ -639,27 +639,24 @@
           }
         }
       }
-
-      &__filters {
-        .filters {
-          &__mini {
-            min-width: 300px;
-            .tooltip__content {
-              .mini {
-                &__bar {
-                  width: 150px;
-                }
-              }
-            }
-          }
-        }
-      }
     }
 
     @media (max-width: 875px) {
       &__filters {
         .filters {
           min-width: unset;
+          &__mini {
+            .tooltip__content {
+              .mini {
+                &__btn {
+                  display: none;
+                }
+                &__bar {
+                  display: none;
+                }
+              }
+            }
+          }
         }
       }
     }
