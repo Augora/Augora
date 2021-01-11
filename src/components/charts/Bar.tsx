@@ -16,15 +16,10 @@ interface BarsProps {
 }
 
 type TooltipData = {
-  bar: SeriesPoint<{ id: string; label: string; value: number; color: string }>
-  key: String
-  index: number
-  height: number
-  width: number
-  x: number
-  y: number
+  key: string
+  bar: string
   color: string
-}
+}[]
 
 let tooltipTimeout: number
 
@@ -55,7 +50,7 @@ export default function BarChart({ width, height, margin, events = false, data }
       scaleBand<string>({
         range: [0, xMax],
         round: true,
-        domain: data.map(sigle),
+        domain: data.reverse().map(sigle),
         padding: 0.4,
       }),
     [xMax]
@@ -125,10 +120,10 @@ export default function BarChart({ width, height, margin, events = false, data }
                     {nombreDeputes(d)}
                   </text>
                 ) : (
-                    <text x={barX} y={barY} fill="black" fontSize={12} dy={"-.33em"} style={{ fontFamily: "arial" }}>
-                      {nombreDeputes(d)}
-                    </text>
-                  )}
+                  <text x={barX} y={barY} fill="black" fontSize={12} dy={"-.33em"} style={{ fontFamily: "arial" }}>
+                    {nombreDeputes(d)}
+                  </text>
+                )}
                 )
               </Group>
             )
@@ -145,9 +140,6 @@ export default function BarChart({ width, height, margin, events = false, data }
           left={tooltipLeft}
           style={tooltipStyles}
         >
-          <div style={{ color: tooltipData[2] }}>
-            <strong>{tooltipData.key}</strong>
-          </div>
           <div>{tooltipData[0]}</div>
           <div>{tooltipData[1]} députés x% </div>
           {/* <div>{tooltipData}</div> */}
