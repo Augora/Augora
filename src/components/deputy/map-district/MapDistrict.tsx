@@ -1,12 +1,18 @@
 import React, { useState, useMemo } from "react"
-import ReactMapGL, { Source, Layer } from "react-map-gl"
+import ReactMapGL, { Source, Layer, ViewState } from "react-map-gl"
 import Link from "next/link"
 import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
 
-export default function MapDistrict(props) {
+interface IMapDistrict {
+  deputy: AugoraMap.Depute
+  color: string
+  size: string
+}
+
+export default function MapDistrict(props: IMapDistrict) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
-  const [viewport, setViewport] = useState({})
+  const [viewport, setViewport] = useState<ViewState>({ latitude: France.center.lat, longitude: France.center.lng, zoom: 2 })
 
   //récupère le polygone de la circonscription
   const districtPolygon = useMemo(() => {
@@ -40,16 +46,9 @@ export default function MapDistrict(props) {
           dragPan={false}
           touchZoom={false}
           scrollZoom={false}
-          //appelé Au chargement de la page
           onLoad={() => {
-            setViewport({
-              latitude: France.center.lat,
-              longitude: France.center.lng,
-              zoom: 2,
-            })
             flyToBounds(districtPolygon, viewport, setViewport)
           }}
-          //appelé quand le viewport change - nécéssaire pour que la map bouge
           onViewportChange={(change) => setViewport(change)}
         >
           <Source type="geojson" data={districtPolygon}>
