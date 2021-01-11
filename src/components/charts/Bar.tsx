@@ -52,7 +52,7 @@ export default function BarChart({ width, height, margin, events = false, data }
       <Group top={verticalMargin / 2}>
         <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
         <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
-        <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} />
+
         <text x="-70" y="15" transform="rotate(-90)" fontSize={10}>
           Nombre de députés
         </text>
@@ -92,6 +92,9 @@ export default function BarChart({ width, height, margin, events = false, data }
             </Group>
           )
         })}
+      </Group>
+      <Group top={verticalMargin / 2}>
+        <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} />
       </Group>
     </svg>
   )

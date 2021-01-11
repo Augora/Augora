@@ -37,33 +37,41 @@ const Statistiques = (props) => {
     const valueOfDeputesByAge = state.DeputiesList.filter((depute) => {
       return depute.Age === age
     })
-    const groupeValueByAge = () =>
-      Object.keys(state.GroupeValue).reduce((acc, groupe) => {
-        return Object.assign(acc, {
-          [groupe]: valueOfDeputesByAge.filter((depute) => depute.GroupeParlementaire.Sigle === groupe).length,
-        })
-      }, {})
+    const groupeValueByAge = Object.keys(state.GroupeValue).reduce((acc, groupe) => {
+      return Object.assign(acc, {
+        [groupe]: valueOfDeputesByAge.filter((depute) => depute.GroupeParlementaire.Sigle === groupe).length,
+      })
+    }, {})
 
-    const groupeColorByAge = () =>
-      Object.keys(state.GroupeValue).reduce((acc, groupe) => {
-        return Object.assign(acc, {
-          [groupe + "Color"]: state.GroupesList.filter((groupeFiltered) => groupeFiltered.Sigle === groupe)[0].Couleur,
-        })
-      }, {})
-    // return Object.assign(
-    //   {},
-    //   {
-    //     age: age.toString(),
-    //     ...groupeValueByAge(),
-    //     ...groupeColorByAge(),
-    //   }
-    // )
-    return Object.assign({
-      age: age.toString(),
-      valueByAge: groupeValueByAge,
-      colorByAge: groupeColorByAge,
-    })
+    return Object.assign(
+      {},
+      {
+        age: age.toString(),
+        //...groupeValueByAge(),
+      },
+      groupeValueByAge
+    )
   })
+
+  const sigle = (d) => d.id
+  const sigleList = groupesData.map(sigle)
+
+  const getTotalByAge = (ages, sigles) => {
+    return ages.map((age) => {
+      let deputiesByAge = 0
+      sigles.forEach((sigle) => {
+        deputiesByAge += age[sigle]
+      })
+      return { total: deputiesByAge }
+    })
+  }
+
+  const maxGroupeAge = Math.max.apply(
+    Math,
+    getTotalByAge(groupesByAge, sigleList).map(function (o) {
+      return o.total.toString()
+    })
+  )
 
   return (
     <>
@@ -122,9 +130,9 @@ const Statistiques = (props) => {
             <BarStackChart
               width={800}
               height={300}
-              margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
               data={groupesData}
               dataAge={groupesByAge}
+              maxAge={maxGroupeAge}
             ></BarStackChart>
           </div>
         </Frame>
