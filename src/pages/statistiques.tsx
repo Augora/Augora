@@ -47,7 +47,6 @@ const Statistiques = (props) => {
       {},
       {
         age: age.toString(),
-        //...groupeValueByAge(),
       },
       groupeValueByAge
     )
@@ -68,9 +67,7 @@ const Statistiques = (props) => {
 
   const maxGroupeAge = Math.max.apply(
     Math,
-    getTotalByAge(groupesByAge, sigleList).map(function (o) {
-      return o.total.toString()
-    })
+    getTotalByAge(groupesByAge, sigleList).map((o) => o.total.toString())
   )
 
   return (
