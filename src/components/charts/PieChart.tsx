@@ -31,6 +31,7 @@ export default function PieChart({ width, height, margin = defaultMargin, data }
   const top = centerY + margin.top
   const left = centerX + margin.left
   const pieSortValues = (a, b) => b - a
+  const HALF_PI = Math.PI / 2
 
   const getGroupeFrequencyColor = scaleOrdinal({
     domain: data.map(nombreDeputes),
@@ -46,6 +47,8 @@ export default function PieChart({ width, height, margin = defaultMargin, data }
           outerRadius={200}
           innerRadius={70}
           padAngle={0.01}
+          startAngle={-HALF_PI}
+          endAngle={HALF_PI}
           cornerRadius={5}
         >
           {(pie) => {
