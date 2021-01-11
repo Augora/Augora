@@ -36,9 +36,6 @@ export default function PieChart({ width, height, margin = defaultMargin, data }
     domain: data.map(nombreDeputes),
     range: [data.map(colorGroupe)],
   })
-
-  console.log(data.map(nombreDeputes))
-
   return (
     <svg width={width} height={height}>
       <Group top={top} left={left}>
@@ -58,7 +55,6 @@ export default function PieChart({ width, height, margin = defaultMargin, data }
               const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.1
               const arcPath = pie.path(arc)
               const arcFill = getGroupeFrequencyColor(groupeArc)
-              console.log(arcFill)
               return (
                 <g key={`arc-${groupeArc}-${index}`}>
                   <path d={arcPath} fill={colorGroupe(groupeArc)} />
