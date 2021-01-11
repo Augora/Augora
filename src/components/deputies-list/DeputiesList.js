@@ -4,7 +4,7 @@ import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import Frame from "components/frames/Frame"
-import PieChart from "./pie-chart/PieChart"
+import PieChart from "../charts/PieChart"
 import BarChart from "../charts/Bar"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
@@ -61,7 +61,12 @@ const DeputiesList = (props) => {
               </button>
               {HasPieChart ? (
                 <div className="piechart chart">
-                  <PieChart data={groupesData} filteredDeputies={state.FilteredList.length} groupesDetails={state.GroupesList} />
+                  <PieChart
+                    width={420}
+                    height={280}
+                    margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
+                    data={groupesData}
+                  ></PieChart>
                 </div>
               ) : (
                 <div className="barchart chart">

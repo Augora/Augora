@@ -3,9 +3,9 @@ import React, { useContext, useState } from "react"
 import SEO, { PageType } from "../components/seo/seo"
 import PageTitle from "../components/titles/PageTitle"
 import Filters from "components/deputies-list/filters/Filters"
+import PieChart from "components/charts/PieChart"
 import BarChart from "components/charts/Bar"
 import BarStackChart from "components/charts/BarStack"
-import PieChart from "components/deputies-list/pie-chart/PieChart"
 import Frame from "components/frames/Frame"
 import { calculateNbDepute } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
@@ -104,7 +104,12 @@ const Statistiques = (props) => {
               </button>
               {HasPieChart ? (
                 <div className="piechart chart">
-                  <PieChart data={groupesData} filteredDeputies={state.FilteredList.length} groupesDetails={state.GroupesList} />
+                  <PieChart
+                    width={420}
+                    height={280}
+                    margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
+                    data={groupesData}
+                  ></PieChart>
                 </div>
               ) : (
                 <div className="barchart chart">
