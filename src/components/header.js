@@ -8,6 +8,10 @@ const mainPages = {
     path: "/",
     title: "Députés",
   },
+  statistiques: {
+    path: "/statistiques",
+    title: "STATISTIQUES",
+  },
 }
 
 const secondaryPages = {
@@ -18,10 +22,6 @@ const secondaryPages = {
   faq: {
     path: "/faq",
     title: "FAQ",
-  },
-  statistiques: {
-    path: "/statistiques",
-    title: "STATISTIQUES",
   },
 }
 
