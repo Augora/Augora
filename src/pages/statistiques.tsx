@@ -139,7 +139,7 @@ const Statistiques = (props) => {
   )
 }
 
-export default function STATISTIQUES() {
+export default function StatsPage() {
   return (
     <>
       <SEO pageType={PageType.Statistiques} />
