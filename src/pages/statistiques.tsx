@@ -34,7 +34,7 @@ const Statistiques = (props) => {
     ages.push(i)
   }
   const groupesByAge = ages.map((age) => {
-    const valueOfDeputesByAge = state.DeputiesList.filter((depute) => {
+    const valueOfDeputesByAge = state.FilteredList.filter((depute) => {
       return depute.Age === age
     })
     const groupeValueByAge = Object.keys(state.GroupeValue).reduce((acc, groupe) => {
