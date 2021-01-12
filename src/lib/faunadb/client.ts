@@ -13,6 +13,7 @@ const cache = new InMemoryCache({
       },
     },
   },
+  resultCaching: true,
 })
 
 const link = from([

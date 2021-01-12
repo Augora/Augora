@@ -25,6 +25,8 @@ function Filters(props) {
     handleReset,
   } = useDeputiesFilters()
 
+  const { filteredDeputes = state.FilteredList } = props
+
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
   const searchField = useRef(null)
 
@@ -51,8 +53,8 @@ function Filters(props) {
         </div>
         <Tooltip
           title={groupe.NomComplet}
-          nbDeputes={calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)}
-          totalDeputes={state.FilteredList.length}
+          nbDeputes={calculateNbDepute(filteredDeputes, "groupe", groupe.Sigle)}
+          totalDeputes={filteredDeputes.length}
           color={groupe.Couleur}
         />
       </ButtonInput>
@@ -63,9 +65,9 @@ function Filters(props) {
     <Frame
       className="frame-filters"
       title="Filtres"
-      center={`${state.FilteredList.length} ${state.FilteredList.length > 1 ? "Députés" : "Député"}`}
+      center={`${filteredDeputes.length} ${filteredDeputes.length > 1 ? "Députés" : "Député"}`}
       right={`
-        ${Math.round(((state.FilteredList.length * 100) / state.DeputiesList.length) * 10) / 10}%
+        ${Math.round(((filteredDeputes.length * 100) / state.DeputiesList.length) * 10) / 10}%
       `}
     >
       <form
@@ -118,8 +120,8 @@ function Filters(props) {
             </div>
             <Tooltip
               title="Femmes"
-              nbDeputes={calculateNbDepute(state.FilteredList, "sexe", "F")}
-              totalDeputes={state.FilteredList.length}
+              nbDeputes={calculateNbDepute(filteredDeputes, "sexe", "F")}
+              totalDeputes={filteredDeputes.length}
               color="secondary"
             />
           </Button>
@@ -134,8 +136,8 @@ function Filters(props) {
             </div>
             <Tooltip
               title="Hommes"
-              nbDeputes={calculateNbDepute(state.FilteredList, "sexe", "H")}
-              totalDeputes={state.FilteredList.length}
+              nbDeputes={calculateNbDepute(filteredDeputes, "sexe", "H")}
+              totalDeputes={filteredDeputes.length}
               color="secondary"
             />
           </Button>

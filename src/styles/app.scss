@@ -18,6 +18,7 @@
 @import "pages/statistiques";
 @import "pages/404";
 @import "pages/faq";
+@import "pages/map";
 @import "pages/mentions-legales";
 
 // Components
@@ -27,6 +28,7 @@
 @import "components/tooltip/tooltip";
 @import "components/buttons/button";
 @import "components/filters";
+@import "components/deputies-list/group-bar";
 // Templates
 // -----------------------------------------------------
 @import "templates/deputy";

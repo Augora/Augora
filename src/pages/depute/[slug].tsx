@@ -1,7 +1,8 @@
 import React from "react"
+import fs from "fs"
 import Head from "next/head"
 import { colors } from "utils/variables"
-import { getDepute, getDeputes } from "../../lib/deputes/Wrapper"
+import { getDepute, getDeputesSlugs } from "../../lib/deputes/Wrapper"
 
 import Coworkers from "components/deputy/coworkers/Coworkers"
 import MapDistrict from "components/deputy/map-district/MapDistrict"
@@ -129,7 +130,7 @@ export default function Deputy({ depute }) {
           <GeneralInformation {...getGeneralInformation(deputy)} color={color} size="medium" dateBegin={deputy.DateDeNaissance} />
           <Mandate {...getMandate(deputy)} color={color} size="small" />
           <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
-          <MapDistrict nom={deputy.NomCirconscription} num={deputy.NumeroCirconscription} color={color} size="medium" />
+          <MapDistrict deputy={deputy} color={color} size="medium" />
           <Presence color={color} size="large" wip={true} />
           <Contact color={color} size="medium" adresses={deputy.AdressesDetails.data} />
         </div>
@@ -149,14 +150,30 @@ export async function getStaticProps({ params: { slug } }) {
 }
 
 export async function getStaticPaths() {
-  const deputes = await getDeputes()
+  if (!fs.existsSync(".cache/")) {
+    fs.mkdirSync(".cache")
+  }
+  var paths = null
+  if (process.env.USE_CACHE) {
+    if (fs.existsSync(".cache/DeputesSlugs.json")) {
+      paths = JSON.parse(fs.readFileSync(".cache/DeputesSlugs.json").toString())
+    }
+  }
 
-  return {
-    paths: deputes.data.DeputesEnMandat.data.map((d) => ({
+  if (!paths) {
+    const deputes = await getDeputesSlugs()
+    paths = deputes.data.DeputesEnMandat.data.map((d) => ({
       params: {
         slug: d.Slug,
       },
-    })),
+    }))
+    if (process.env.USE_CACHE) {
+      fs.writeFileSync(".cache/DeputesSlugs.json", JSON.stringify(paths))
+    }
+  }
+
+  return {
+    paths,
     fallback: false,
   }
 }

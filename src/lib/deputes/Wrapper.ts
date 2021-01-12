@@ -17,10 +17,13 @@ export function getDeputes() {
             }
             Nom
             NomCirconscription
+            NomDepartement
+            NomRegion
             NomDeFamille
             NombreMandats
             NumeroCirconscription
             NumeroDepartement
+            NumeroRegion
             PlaceEnHemicycle
             Prenom
             Profession
@@ -38,10 +41,24 @@ export function getDeputes() {
         }
         GroupesParlementairesDetailsActifs(Actif: true) {
           data {
-            Sigle
-            NomComplet
             Couleur
+            Sigle
             Ordre
+            NomComplet
+          }
+        }
+      }
+    `,
+  })
+}
+
+export function getDeputesSlugs() {
+  return client.query({
+    query: gql`
+      query DeputesEnMandat {
+        DeputesEnMandat(EstEnMandat: true, _size: 700) {
+          data {
+            Slug
           }
         }
       }

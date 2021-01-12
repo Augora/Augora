@@ -97,9 +97,11 @@ const contentAbout = [
   {
     title: "Où récupérons-nous les données cartographiques ?",
     description: (
-      <p>
-        Avant toutes choses, les données utilisées pour les cartes sont dans des fichiers au format <strong>geojson</strong>.
-        <br />
+      <>
+        <p>
+          Avant toutes choses, les données utilisées pour les cartes sont dans des fichiers au format <strong>geojson</strong>.
+          <br />
+        </p>
         <ul>
           <li>
             Pour les départements et régions, nous utilisons :{" "}
@@ -124,6 +126,28 @@ const contentAbout = [
             </a>
           </li>
         </ul>
+      </>
+    ),
+  },
+  {
+    title: "Qu'est-ce que les DROM-COM ?",
+    description: (
+      <p>
+        Ce nouveau sigle désigne les territoires "Départements, Régions d'Outre-Mer et Collectivités d'Outre-Mer". Avant,
+        l'acronyme utilisé était "DOM-TOM".
+      </p>
+    ),
+  },
+  {
+    title: "A quoi correspondent les Français établis hors de France ?",
+    description: (
+      <p>
+        Les députés des "français établis hors de France", sont les représentants des français qui habitent plus de 6 mois dans un
+        pays à l'étranger. Il faut qu'ils aient réalisés une{" "}
+        <a href="https://www.service-public.fr/particuliers/vosdroits/F33307" target="_blank" rel="noreferrer">
+          inscription consulaire
+        </a>
+        .
       </p>
     ),
   },
@@ -159,7 +183,9 @@ export default function FAQ() {
         <PageTitle title="Foire aux Questions" />
 
         {contentAbout.map((question, index) => (
-          <Question key={`faq-question-${index}`} title={question.title} description={question.description} />
+          <Question key={`faq-question-${index}`} title={question.title}>
+            {question.description}
+          </Question>
         ))}
       </div>
     </>

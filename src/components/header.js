@@ -12,6 +12,10 @@ const mainPages = {
     path: "/statistiques",
     title: "STATISTIQUES",
   },
+  carte: {
+    path: "/map",
+    title: "Carte",
+  },
 }
 
 const secondaryPages = {

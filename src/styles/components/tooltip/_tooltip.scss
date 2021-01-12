@@ -10,7 +10,7 @@
   z-index: 2;
   pointer-events: none;
 
-  transition: 0.225s linear;
+  transition: opacity 0.225s linear, top 0.225s linear;
 
   &__age {
     font-size: 24px;

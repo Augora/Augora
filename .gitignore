@@ -74,6 +74,9 @@ yarn-error.log
 .next
 .vercel
 
+# .cache files
+.cache/
+
 # Sitemap files
 public/robots.txt
 public/sitemap.xml
