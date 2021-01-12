@@ -3,8 +3,8 @@ export enum PageType {
   Depute,
   FAQ,
   NotFound,
+  Carte,
   // About,
-  // CarteDeFrance,
 }
 
 export function buildMetaTags(title: string, description: string, url: string, imageUrl: string, env: string) {
@@ -76,6 +76,15 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
       process.env.NEXT_PUBLIC_ENV
     )
   }
+  if (pageType === PageType.Carte) {
+    return buildMetaTags(
+      buildTitleFromPageType(pageType, depute),
+      "Nos députés, représentés sous forme de carte.",
+      process.env.NEXT_PUBLIC_ENV !== "production" ? "https://preprod.augora.fr/map" : "https://augora.fr/map",
+      "icons/icon-512x512.png",
+      process.env.NEXT_PUBLIC_ENV
+    )
+  }
   if (pageType === PageType.NotFound) {
     return []
   }
@@ -91,6 +100,9 @@ export function buildTitleFromPageType(pageType: PageType, depute: any) {
   }
   if (pageType === PageType.FAQ) {
     return "Foire aux Questions"
+  }
+  if (pageType === PageType.Carte) {
+    return "Carte du monde"
   }
   if (pageType === PageType.NotFound) {
     return "Page introuvable"

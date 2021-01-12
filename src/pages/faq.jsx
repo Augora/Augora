@@ -129,6 +129,28 @@ const contentAbout = [
       </>
     ),
   },
+  {
+    title: "Qu'est-ce que les DROM-COM ?",
+    description: (
+      <p>
+        Ce nouveau sigle désigne les territoires "Départements, Régions d'Outre-Mer et Collectivités d'Outre-Mer". Avant,
+        l'acronyme utilisé était "DOM-TOM".
+      </p>
+    ),
+  },
+  {
+    title: "A quoi correspondent les Français établis hors de France ?",
+    description: (
+      <p>
+        Les députés des "français établis hors de France", sont les représentants des français qui habitent plus de 6 mois dans un
+        pays à l'étranger. Il faut qu'ils aient réalisés une{" "}
+        <a href="https://www.service-public.fr/particuliers/vosdroits/F33307" target="_blank" rel="noreferrer">
+          inscription consulaire
+        </a>
+        .
+      </p>
+    ),
+  },
   // {
   //   title: "Comment nous soutenir ?",
   //   description: (
