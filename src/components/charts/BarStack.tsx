@@ -54,11 +54,9 @@ export default function BarStackChart({ width, height, events = false, data, dat
   )
 
   const colorScale = (key, index) => {
-    console.log("colorScale :", key, index)
     const foundValue = data.find((value) => {
       if (value.id === key) return true
     })
-    console.log("colorScale", "foundValue", foundValue)
     if (foundValue) return foundValue.color
     else return ""
   }
