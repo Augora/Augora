@@ -5,8 +5,8 @@ import deburr from "lodash/deburr"
 import { calculateAgeDomain, filterList, groupesArrayToObject } from "components/deputies-list/deputies-list-utils"
 
 type SelectedGenders = {
-  H: Boolean
-  F: Boolean
+  H: boolean
+  F: boolean
 }
 
 type State = {

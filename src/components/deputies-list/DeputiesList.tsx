@@ -13,10 +13,6 @@ const DeputiesList = (props) => {
 
   const [HasPieChart, setHasPieChart] = useState(true)
 
-  const handleChartSelection = (event) => {
-    setHasPieChart(!HasPieChart)
-  }
-
   const groupesData = state.GroupesList.map((groupe) => {
     const nbDeputeGroup = calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)
     return Object.assign({
@@ -72,7 +68,7 @@ const DeputiesList = (props) => {
         <Frame className="frame-chart" title="Répartition">
           {state.FilteredList.length > 0 ? (
             <div className="filters__charts">
-              <button className="charts__switch" onClick={() => handleChartSelection()} title="Changer le graphique">
+              <button className="charts__switch" onClick={() => setHasPieChart(!HasPieChart)} title="Changer le graphique">
                 <svg viewBox="0 0 232 247" className="icon-switch">
                   <g className="icon-switch__graph-bar" transform="matrix(1.45231,0,0,1.45231,-104.801,17.4629)">
                     <path d="M231.7,5.146C231.7,2.306 229.394,0 226.554,0L216.261,0C213.421,0 211.115,2.306 211.115,5.146L211.115,62.797C211.115,65.637 213.421,67.943 216.261,67.943L226.554,67.943C229.394,67.943 231.7,65.637 231.7,62.797L231.7,5.146Z" />

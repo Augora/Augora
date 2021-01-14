@@ -9,6 +9,19 @@ import NI from "images/logos/groupes-parlementaires/ni.svg"
 import PS from "images/logos/groupes-parlementaires/ps.svg"
 import AE from "images/logos/groupes-parlementaires/ae.svg"
 
+export enum Sigle {
+  LFI = "LFI",
+  GDR = "GDR",
+  SOC = "SOC",
+  LT = "LT",
+  MODEM = "MODEM",
+  LREM = "LREM",
+  UDI = "UDI",
+  AE = "AE",
+  LR = "LR",
+  NI = "NI",
+}
+
 export const calculateNbDepute = (list, type, value) => {
   if (list.length > 0) {
     const filteredList = list
@@ -49,27 +62,25 @@ export const filterList = (list, state) => {
     })
 }
 
-export function groupeIconByGroupeSigle(groupe) {
+export function groupeIconByGroupeSigle(groupe: Sigle) {
   switch (groupe) {
-    case "LFI":
+    case Sigle.LFI:
       return LFI
-    case "GDR":
+    case Sigle.GDR:
       return GDR
-    case "LT":
+    case Sigle.LT:
       return LT
-    case "MODEM":
+    case Sigle.MODEM:
       return MODEM
-    case "SOC":
+    case Sigle.SOC:
       return PS
-    case "LR":
+    case Sigle.LR:
       return LR
-    case "LREM":
+    case Sigle.LREM:
       return LREM
-    case "UDI":
+    case Sigle.UDI:
       return UDI
-    case "UAI":
-      return UDI
-    case "AE":
+    case Sigle.AE:
       return AE
     default:
       return NI
