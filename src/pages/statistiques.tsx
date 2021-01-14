@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react"
-
+import React, { useState } from "react"
 import SEO, { PageType } from "../components/seo/seo"
 import PageTitle from "../components/titles/PageTitle"
 import Filters from "components/deputies-list/filters/Filters"
@@ -10,61 +9,59 @@ import Frame from "components/frames/Frame"
 import { calculateNbDepute } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
+type Groups = {
+  id: string
+  label: string
+  value: number
+  color: string
+}
+
 const Statistiques = (props) => {
   const { state } = useDeputiesFilters()
 
   const [HasPieChart, setHasPieChart] = useState(true)
 
-  const groupesData = state.GroupesList.map((groupe) => {
+  const groupesData: Groups[] = state.GroupesList.map((groupe) => {
     const nbDeputeGroup = calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)
-    return Object.assign({
+    return {
       id: groupe.Sigle,
       label: groupe.NomComplet,
       value: nbDeputeGroup,
       color: groupe.Couleur,
-    })
+    }
   }).filter((groupe) => groupe.value !== 0)
 
-  let ages = []
-  for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
-    ages.push(i)
-  }
-  const groupesByAge = ages.map((age) => {
-    const valueOfDeputesByAge = state.FilteredList.filter((depute) => {
-      return depute.Age === age
-    })
-    const groupeValueByAge = Object.keys(state.GroupeValue).reduce((acc, groupe) => {
-      return Object.assign(acc, {
-        [groupe]: valueOfDeputesByAge.filter((depute) => depute.GroupeParlementaire.Sigle === groupe).length,
-      })
-    }, {})
-
-    return Object.assign(
-      {},
-      {
-        age: age.toString(),
-      },
-      groupeValueByAge
-    )
-  })
-
-  const sigle = (d) => d.id
-  const sigleList = groupesData.map(sigle)
-
-  const getTotalByAge = (ages, sigles) => {
+  const getAgeData = (): any[] => {
+    let ages: number[] = []
+    for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
+      ages.push(i)
+    }
     return ages.map((age) => {
-      let deputiesByAge = 0
-      sigles.forEach((sigle) => {
-        deputiesByAge += age[sigle]
-      })
-      return { total: deputiesByAge }
+      const groups = Object.keys(state.GroupeValue).reduce((acc, cur) => {
+        const ageDeputies = state.FilteredList.filter((depute) => depute.Age === age)
+        return { ...acc, [cur]: ageDeputies.filter((depute) => depute.GroupeParlementaire.Sigle === cur).length }
+      }, {})
+
+      return {
+        age: age.toString(),
+        ...groups,
+      }
     })
   }
 
-  const maxGroupeAge = Math.max.apply(
-    Math,
-    getTotalByAge(groupesByAge, sigleList).map((o) => o.total.toString())
-  )
+  /**
+   * Renvoie le nombre de députés maximum possible sur un age
+   */
+  const getMaxAge = (): number => {
+    let ages: number[] = []
+    for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
+      ages.push(i)
+    }
+    return ages.reduce((acc, cur) => {
+      const nbDeputies = state.FilteredList.filter((depute) => depute.Age === cur).length
+      return nbDeputies > acc ? nbDeputies : acc
+    }, 0)
+  }
 
   return (
     <>
@@ -129,8 +126,8 @@ const Statistiques = (props) => {
               width={800}
               height={300}
               data={groupesData}
-              dataAge={groupesByAge}
-              maxAge={maxGroupeAge}
+              dataAge={getAgeData()}
+              maxAge={getMaxAge()}
             ></BarStackChart>
           </div>
         </Frame>
