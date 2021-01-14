@@ -28,7 +28,7 @@ export default function PieChart({ width, height, margin = defaultMargin, data }
   //const radius = Math.min(innerWidth, innerHeight) / 2
   const centerY = innerHeight / 2
   const centerX = innerWidth / 2
-  const top = centerY + margin.top
+  const top = innerHeight + margin.top
   const left = centerX + margin.left
   const pieSortValues = (a, b) => b - a
   const HALF_PI = Math.PI / 2
