@@ -35,7 +35,7 @@ declare namespace Deputy {
     Adresses?: string[]
     Collaborateurs?: string[]
     GroupeParlementaire?: {
-      Sigle: string
+      Sigle: Group.Sigle
       NomComplet?: string
       Couleur?: string
       URLImage?: string
