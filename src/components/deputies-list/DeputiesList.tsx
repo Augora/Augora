@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { getNbDeputiesGroup } from "./deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import Filters from "./filters/Filters"
@@ -8,19 +8,19 @@ import PieChart from "./pie-chart/PieChart"
 import BarChart from "./bar-chart/BarChart"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
-const DeputiesList = (props) => {
+export default function DeputiesList() {
   const { state } = useDeputiesFilters()
 
   const [HasPieChart, setHasPieChart] = useState(true)
 
   const groupesData = state.GroupesList.map((groupe) => {
     const nbDeputeGroup = getNbDeputiesGroup(state.FilteredList, groupe.Sigle)
-    return Object.assign({
+    return {
       id: groupe.Sigle,
       label: groupe.NomComplet,
       value: nbDeputeGroup,
       color: groupe.Couleur,
-    })
+    }
   }).filter((groupe) => groupe.value !== 0)
 
   /**
@@ -123,5 +123,3 @@ const DeputiesList = (props) => {
     </>
   )
 }
-
-export default DeputiesList
