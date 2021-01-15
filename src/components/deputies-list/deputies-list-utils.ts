@@ -9,21 +9,29 @@ import NI from "images/logos/groupes-parlementaires/ni.svg"
 import PS from "images/logos/groupes-parlementaires/ps.svg"
 import AE from "images/logos/groupes-parlementaires/ae.svg"
 
-export const calculateNbDepute = (list: Deputy.DeputiesList, type: string, value: string): number => {
+/**
+ * Renvoie le nombre de députés d'un groupe donné
+ * @param {Deputy.DeputiesList} list La liste à analyser
+ * @param {Group.Sigle} value Le sigle du group
+ */
+export const getNbDeputiesGroup = (list: Deputy.DeputiesList, value: Group.Sigle): number => {
   if (list.length > 0) {
-    const filteredList = list
-    switch (type) {
-      case "groupe":
-        return filteredList.filter((depute) => {
-          return depute.GroupeParlementaire.Sigle === value ? true : false
-        }).length
-      case "sexe":
-        return filteredList.filter((depute) => {
-          return depute.Sexe === value ? true : false
-        }).length
-      default:
-        return filteredList.length
-    }
+    return list.filter((depute) => {
+      return depute.GroupeParlementaire.Sigle === value ? true : false
+    }).length
+  } else return 0
+}
+
+/**
+ * Renvoie le nombre de députés d'un sexe donné
+ * @param {Deputy.DeputiesList} list La liste à analyser
+ * @param {"H" | "F"} value Le sigle du sexe, "H", ou "F"
+ */
+export const getNbDeputiesGender = (list: Deputy.DeputiesList, value: "H" | "F"): number => {
+  if (list.length > 0) {
+    return list.filter((depute) => {
+      return depute.Sexe === value ? true : false
+    }).length
   } else return 0
 }
 

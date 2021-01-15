@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { calculateNbDepute } from "./deputies-list-utils"
+import { getNbDeputiesGroup } from "./deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
@@ -14,7 +14,7 @@ const DeputiesList = (props) => {
   const [HasPieChart, setHasPieChart] = useState(true)
 
   const groupesData = state.GroupesList.map((groupe) => {
-    const nbDeputeGroup = calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)
+    const nbDeputeGroup = getNbDeputiesGroup(state.FilteredList, groupe.Sigle)
     return Object.assign({
       id: groupe.Sigle,
       label: groupe.NomComplet,

@@ -13,7 +13,7 @@ import Frame from "components/frames/Frame"
 import Button from "components/buttons/Button"
 import ButtonInput from "components/buttons/ButtonInput"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { calculateAgeDomain, calculateNbDepute, groupeIconByGroupeSigle } from "../deputies-list-utils"
+import { calculateAgeDomain, getNbDeputiesGroup, getNbDeputiesGender, groupeIconByGroupeSigle } from "../deputies-list-utils"
 
 function Filters(props) {
   const {
@@ -53,7 +53,7 @@ function Filters(props) {
         </div>
         <Tooltip
           title={groupe.NomComplet}
-          nbDeputes={calculateNbDepute(filteredDeputes, "groupe", groupe.Sigle)}
+          nbDeputes={getNbDeputiesGroup(filteredDeputes, groupe.Sigle)}
           totalDeputes={filteredDeputes.length}
           color={groupe.Couleur}
         />
@@ -120,7 +120,7 @@ function Filters(props) {
             </div>
             <Tooltip
               title="Femmes"
-              nbDeputes={calculateNbDepute(filteredDeputes, "sexe", "F")}
+              nbDeputes={getNbDeputiesGender(filteredDeputes, "F")}
               totalDeputes={filteredDeputes.length}
               color="secondary"
             />
@@ -136,7 +136,7 @@ function Filters(props) {
             </div>
             <Tooltip
               title="Hommes"
-              nbDeputes={calculateNbDepute(filteredDeputes, "sexe", "H")}
+              nbDeputes={getNbDeputiesGender(filteredDeputes, "H")}
               totalDeputes={filteredDeputes.length}
               color="secondary"
             />
