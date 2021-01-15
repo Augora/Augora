@@ -34,14 +34,16 @@ declare namespace Deputy {
     Emails?: string[]
     Adresses?: string[]
     Collaborateurs?: string[]
-    GroupeParlementaire?: {
-      Sigle: Group.Sigle
-      NomComplet?: string
-      Couleur?: string
-      URLImage?: string
-      Ordre?: number
-      Actif?: boolean
-    }
+    GroupeParlementaire?: GroupeParlementaire
+  }
+
+  interface GroupeParlementaire {
+    Sigle: Group.Sigle
+    NomComplet?: string
+    Couleur?: string
+    URLImage?: string
+    Ordre?: number
+    Actif?: boolean
   }
 
   /**

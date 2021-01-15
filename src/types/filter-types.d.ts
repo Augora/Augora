@@ -1,7 +1,12 @@
 declare namespace Filter {
+  /**
+   * Exemple: [26, 82]
+   */
   type AgeDomain = [number, number]
 
   type Keyword = string
+
+  type Gender = "H" | "F"
 
   type SelectedGenders = {
     H: boolean

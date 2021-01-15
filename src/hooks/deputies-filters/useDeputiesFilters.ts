@@ -39,7 +39,7 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
     search(value)
   }
 
-  const handleClickOnGroupe = (sigle) => {
+  const handleClickOnGroupe = (sigle: Group.Sigle) => {
     const groupesAsArray = Object.entries(GroupeValue)
     const allActive = groupesAsArray.every(([key, value]) => {
       return value
@@ -68,7 +68,7 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
     setGroupeValue(Object.assign({}, GroupeValue))
   }
 
-  const handleClickOnSex = (clickedSex) => {
+  const handleClickOnSex = (clickedSex: Filter.Gender) => {
     const currentSexValue = SexValue[clickedSex]
     const otherSex = clickedSex === "F" ? "H" : "F"
 
@@ -82,7 +82,7 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
     setSexValue(Object.assign({}, SexValue))
   }
 
-  const handleAgeSelection = (domain) => {
+  const handleAgeSelection = (domain: Filter.AgeDomain) => {
     setAgeDomain(domain)
   }
 
