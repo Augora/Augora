@@ -1,6 +1,6 @@
 import deputeStore from "stores/deputesStore"
 
-import { calculateAgeDomain, groupesArrayToObject } from "../../components/deputies-list/deputies-list-utils"
+import { getAgeDomain, groupesArrayToObject } from "../../components/deputies-list/deputies-list-utils"
 
 export default function useDeputiesFilters(deputiesList = [], groupesList = []) {
   /*----------------------------------------------------*/
@@ -97,7 +97,7 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
     search("")
     setGroupeValue(groupesArrayToObject(initialGroupesList.map((g) => g.Sigle)) as any)
     setSexValue({ H: true, F: true })
-    setAgeDomain(calculateAgeDomain(initialDeputesList))
+    setAgeDomain(getAgeDomain(initialDeputesList))
   }
 
   const state = {

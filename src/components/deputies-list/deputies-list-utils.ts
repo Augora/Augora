@@ -35,11 +35,20 @@ export const getNbDeputiesGender = (list: Deputy.DeputiesList, value: "H" | "F")
   } else return 0
 }
 
-export const calculateAgeDomain = (list: Deputy.DeputiesList): Filter.AgeDomain => {
+/**
+ * Renvoie un array de 2 chiffres, le plus petit et le plus grand âge des députés
+ * @param {Deputy.DeputiesList} list
+ */
+export const getAgeDomain = (list: Deputy.DeputiesList): Filter.AgeDomain => {
   const listAge = list.map((depute) => depute.Age)
   return [Math.min(...listAge), Math.max(...listAge)]
 }
 
+/**
+ * Renvoie un object avec tous les groupes en clé et un boolean de s'ils sont actifs sur les filtres
+ * @param array
+ * @param value
+ */
 export const groupesArrayToObject = (array: string[], value = true): Filter.GroupValue => {
   const defaultGroups: Filter.GroupValue = {
     AE: true,
@@ -56,6 +65,11 @@ export const groupesArrayToObject = (array: string[], value = true): Filter.Grou
   return array.reduce((a, b) => ((a[b] = value), a), defaultGroups)
 }
 
+/**
+ * Filtre la liste de députés selon le state des filtres
+ * @param {Deputy.DeputiesList} list
+ * @param state
+ */
 export const filterList = (
   list: Deputy.DeputiesList,
   state: {

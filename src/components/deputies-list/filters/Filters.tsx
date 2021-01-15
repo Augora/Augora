@@ -13,7 +13,7 @@ import Frame from "components/frames/Frame"
 import Button from "components/buttons/Button"
 import ButtonInput from "components/buttons/ButtonInput"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { calculateAgeDomain, getNbDeputiesGroup, getNbDeputiesGender, groupeIconByGroupeSigle } from "../deputies-list-utils"
+import { getAgeDomain, getNbDeputiesGroup, getNbDeputiesGender, groupeIconByGroupeSigle } from "../deputies-list-utils"
 
 function Filters(props) {
   const {
@@ -149,7 +149,7 @@ function Filters(props) {
           </div>
         </Button>
       </div>
-      <AgeSlider selectedDomain={state.AgeDomain} domain={calculateAgeDomain(state.DeputiesList)} callback={handleAgeSelection}>
+      <AgeSlider selectedDomain={state.AgeDomain} domain={getAgeDomain(state.DeputiesList)} callback={handleAgeSelection}>
         <span className="filters__slider-label">ÂGE</span>
       </AgeSlider>
     </Frame>
