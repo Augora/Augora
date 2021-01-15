@@ -35,15 +35,8 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
   /*----------------------------------------------------*/
   // Handlers
   /*----------------------------------------------------*/
-  const handleSearchValue = (value) => {
+  const handleSearchValue = (value: string) => {
     search(value)
-  }
-
-  const handleClickOnAllGroupes = (bool) => {
-    const allGroupesNewValues = Object.keys(GroupeValue).forEach((groupe) => {
-      GroupeValue[groupe] = bool
-    })
-    setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
   }
 
   const handleClickOnGroupe = (sigle) => {
@@ -113,7 +106,6 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
   return {
     state,
     handleSearchValue,
-    handleClickOnAllGroupes,
     handleClickOnGroupe,
     handleClickOnSex,
     handleAgeSelection,

@@ -14,7 +14,6 @@ const initialState = {
     Keyword: "",
   },
   handleSearchValue: (f) => f,
-  handleClickOnAllGroupes: (f) => f,
   handleClickOnGroupe: (f) => f,
   handleClickOnSex: (f) => f,
   handleAgeSelection: (f) => f,
