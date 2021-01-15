@@ -2,7 +2,7 @@ import create, { SetState, UseStore, StoreApi } from "zustand"
 import Fuse from "fuse.js"
 import deburr from "lodash/deburr"
 
-import { getAgeDomain, filterList, groupesArrayToObject } from "components/deputies-list/deputies-list-utils"
+import { getAgeDomain, filterList, getGroupValue } from "components/deputies-list/deputies-list-utils"
 
 type FilterState = {
   deputesInitialList: Deputy.DeputiesList
@@ -116,7 +116,7 @@ export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, g
       deputesInitialList: deputesList.map((d) => Object.assign({}, d, { NomToSearch: deburr(d.Nom) })),
       deputesFilteredList: applyFilters(
         deputesList,
-        groupesArrayToObject(groupSigles),
+        getGroupValue(groupSigles),
         {
           H: true,
           F: true,
@@ -125,7 +125,7 @@ export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, g
         ""
       ),
       groupesInitialList: groupesList,
-      selectedGroupes: groupesArrayToObject(groupSigles),
+      selectedGroupes: getGroupValue(groupSigles),
       selectedGenders: {
         H: true,
         F: true,

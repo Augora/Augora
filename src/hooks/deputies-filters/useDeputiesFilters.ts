@@ -1,6 +1,6 @@
 import deputeStore from "stores/deputesStore"
 
-import { getAgeDomain, groupesArrayToObject } from "../../components/deputies-list/deputies-list-utils"
+import { getAgeDomain, getGroupValue } from "../../components/deputies-list/deputies-list-utils"
 
 export default function useDeputiesFilters() {
   /*----------------------------------------------------*/
@@ -88,7 +88,7 @@ export default function useDeputiesFilters() {
 
   const handleReset = () => {
     search("")
-    setGroupeValue(groupesArrayToObject(initialGroupesList.map((g) => g.Sigle)) as any)
+    setGroupeValue(getGroupValue(initialGroupesList.map((g) => g.Sigle)) as any)
     setSexValue({ H: true, F: true })
     setAgeDomain(getAgeDomain(initialDeputesList))
   }

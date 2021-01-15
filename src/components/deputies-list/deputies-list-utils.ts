@@ -49,7 +49,7 @@ export const getAgeDomain = (list: Deputy.DeputiesList): Filter.AgeDomain => {
  * @param sigles Array des sigles
  * @param value Valeur à set, true par défaut
  */
-export const groupesArrayToObject = (sigles: Group.Sigle[], value = true): Filter.GroupValue => {
+export const getGroupValue = (sigles: Group.Sigle[], value = true): Filter.GroupValue => {
   return sigles.reduce((a, b) => ((a[b] = value), a), {})
 }
 
