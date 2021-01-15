@@ -10,7 +10,7 @@ import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IMapPins {
   features: AugoraMap.Feature[]
-  deputies: AugoraMap.DeputiesList
+  deputies: Deputy.DeputiesList
   ghostFeatures?: AugoraMap.Feature[]
   hoveredFeature?: mapboxgl.MapboxGeoJSONFeature
   handleHover?: (args?: any) => any
@@ -28,11 +28,11 @@ interface IMissingContent {
 }
 
 interface IDeputyContent extends IMissingContent {
-  deputy: AugoraMap.Depute
+  deputy: Deputy.Depute
 }
 
 interface INumberContent extends IMissingContent {
-  deputies: AugoraMap.DeputiesList
+  deputies: Deputy.DeputiesList
 }
 
 /**

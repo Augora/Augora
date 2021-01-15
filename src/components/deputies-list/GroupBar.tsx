@@ -4,7 +4,7 @@ import { calculatePercentage } from "utils/math/percentage"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IGroupBar {
-  deputiesList: AugoraMap.DeputiesList
+  deputiesList: Deputy.DeputiesList
   className?: string
 }
 

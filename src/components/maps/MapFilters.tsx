@@ -9,7 +9,7 @@ import IconClose from "images/ui-kit/icon-close.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IMapFilters {
-  zoneDeputies: AugoraMap.DeputiesList
+  zoneDeputies: Deputy.DeputiesList
 }
 
 /**

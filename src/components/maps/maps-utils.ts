@@ -434,7 +434,7 @@ export const getGhostZones = <T extends GeoJSON.Feature>(feature: T): AugoraMap.
  * @param {GeoJSON.Feature} feature La zone feature à analyser
  * @param {AugoraMap.DeputiesList} deputies La liste de députés à filtrer
  */
-export const getDeputies = <T extends GeoJSON.Feature>(feature: T, deputies: AugoraMap.DeputiesList): AugoraMap.DeputiesList => {
+export const getDeputies = <T extends GeoJSON.Feature>(feature: T, deputies: Deputy.DeputiesList): Deputy.DeputiesList => {
   const zoneCode = getZoneCode(feature)
   const props = feature?.properties
   const contId = getContinent(feature)

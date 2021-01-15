@@ -7,7 +7,7 @@ import Tooltip from "components/tooltip/Tooltip"
 interface IMapTooltip {
   lngLat: [number, number]
   zoneFeature: AugoraMap.Feature
-  deputiesList: AugoraMap.DeputiesList
+  deputiesList: Deputy.DeputiesList
 }
 
 /**

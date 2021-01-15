@@ -1,55 +1,5 @@
 declare namespace AugoraMap {
   /**
-   * Un object contenant les attributs des députés, tiré de faunaDB
-   */
-  interface Depute {
-    Slug: string
-    Nom?: string
-    NomDeFamille?: string
-    Prenom?: string
-    Sexe?: string
-    DateDeNaissance?: string
-    LieuDeNaissance?: string
-    NumeroDepartement?: string
-    NomDepartement?: string
-    NumeroRegion?: string
-    NomRegion?: string
-    NomCirconscription?: string
-    NumeroCirconscription?: number
-    DebutDuMandat?: string
-    RattachementFinancier?: string
-    Profession?: string
-    PlaceEnHemicycle?: string
-    URLAssembleeNationale?: string
-    IDAssembleeNationale?: string
-    URLNosdeputes?: string
-    URLNosdeputesAPI?: string
-    NombreMandats?: number
-    Twitter?: string
-    EstEnMandat?: boolean
-    Age?: number
-    URLPhotoAssembleeNationnale?: string
-    URLPhotoAugora?: string
-    SitesWeb?: string[]
-    Emails?: string[]
-    Adresses?: string[]
-    Collaborateurs?: string[]
-    GroupeParlementaire?: {
-      Sigle: string
-      NomComplet?: string
-      Couleur?: string
-      URLImage?: string
-      Ordre?: number
-      Actif?: boolean
-    }
-  }
-
-  /**
-   * Un array de députés
-   */
-  type DeputiesList = Depute[]
-
-  /**
    * Un array de 2 nombres: longitude en premier et latitude, utilisable par mapbox pour les coordonées
    */
   type Coordinates = [number, number]
