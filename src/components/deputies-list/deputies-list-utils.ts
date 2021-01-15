@@ -94,7 +94,7 @@ export const filterList = (
  * Renvoie le SVG d'un groupe
  * @param {string} groupe Le sigle du groupe
  */
-export function groupeIconByGroupeSigle(groupe: Group.Sigle) {
+export function getGroupLogo(groupe: Group.Sigle) {
   switch (groupe) {
     case "LFI":
       return LFI

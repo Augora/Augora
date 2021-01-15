@@ -1,6 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import { groupeIconByGroupeSigle } from "../deputies-list-utils"
+import { getGroupLogo } from "../deputies-list-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
 interface IOneDeputy {
@@ -8,7 +8,7 @@ interface IOneDeputy {
 }
 
 export default function OneDeputy({ depute }: IOneDeputy) {
-  const GroupLogo = groupeIconByGroupeSigle(depute.GroupeParlementaire.Sigle)
+  const GroupLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
 
   return (
     <>
