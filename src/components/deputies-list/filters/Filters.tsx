@@ -16,14 +16,7 @@ import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getAgeDomain, getNbDeputiesGroup, getNbDeputiesGender, getGroupLogo } from "../deputies-list-utils"
 
 function Filters(props) {
-  const {
-    state,
-    handleSearchValue,
-    handleClickOnGroupe,
-    handleClickOnSex,
-    handleAgeSelection,
-    handleReset,
-  } = useDeputiesFilters()
+  const { state, handleSearch, handleGroupClick, handleSexClick, handleAgeSlider, handleReset } = useDeputiesFilters()
 
   const { filteredDeputes = state.FilteredList } = props
 
@@ -42,7 +35,7 @@ function Filters(props) {
           backgroundColor: groupe.Couleur,
         }}
         color={groupe.Couleur}
-        onClick={() => handleClickOnGroupe(groupe.Sigle)}
+        onClick={() => handleGroupClick(groupe.Sigle)}
         type="checkbox"
         checked={state.GroupeValue[groupe.Sigle]}
       >
@@ -87,7 +80,7 @@ function Filters(props) {
           placeholder="Chercher..."
           value={state.Keyword}
           onChange={(e) => {
-            handleSearchValue(e.target.value)
+            handleSearch(e.target.value)
           }}
           onFocus={() => setIsSearchInteracted(true)}
           onBlur={() => setIsSearchInteracted(false)}
@@ -99,7 +92,7 @@ function Filters(props) {
             value=""
             title="Effacer"
             onClick={() => {
-              handleSearchValue("")
+              handleSearch("")
             }}
           />
           <div className="icon-wrapper">
@@ -111,7 +104,7 @@ function Filters(props) {
         <div className="filters__sexes">
           <Button
             className={`sexes__btn female ${state.SexValue["F"] ? "checked" : ""}`}
-            onClick={() => handleClickOnSex("F")}
+            onClick={() => handleSexClick("F")}
             color="main"
             checked={state.SexValue.F}
           >
@@ -127,7 +120,7 @@ function Filters(props) {
           </Button>
           <Button
             className={`sexes__btn male ${state.SexValue["H"] ? "checked" : ""}`}
-            onClick={(e) => handleClickOnSex("H")}
+            onClick={(e) => handleSexClick("H")}
             color="secondary"
             checked={state.SexValue.H}
           >
@@ -149,7 +142,7 @@ function Filters(props) {
           </div>
         </Button>
       </div>
-      <AgeSlider selectedDomain={state.AgeDomain} domain={getAgeDomain(state.DeputiesList)} callback={handleAgeSelection}>
+      <AgeSlider selectedDomain={state.AgeDomain} domain={getAgeDomain(state.DeputiesList)} callback={handleAgeSlider}>
         <span className="filters__slider-label">ÂGE</span>
       </AgeSlider>
     </Frame>

@@ -39,7 +39,7 @@ export default function useDeputiesFilters() {
    * Recherche un nom de député
    * @param value le string de recherche
    */
-  const handleSearchValue = (value: string) => {
+  const handleSearch = (value: string) => {
     search(value)
   }
 
@@ -47,13 +47,11 @@ export default function useDeputiesFilters() {
    * Change l'état des filtres au clic d'un bouton groupe
    * @param sigle Le sigle du groupe
    */
-  const handleClickOnGroupe = (sigle: string) => {
+  const handleGroupClick = (sigle: string) => {
     const groupesAsArray = Object.entries(GroupeValue)
-    const allActive = groupesAsArray.every(([key, value]) => {
-      return value
-    })
+    const allActive = groupesAsArray.every(([key, value]) => value)
 
-    const isClickedIsAloneAsActive =
+    const isClickedAloneActive =
       GroupeValue[sigle] &&
       groupesAsArray
         .filter(([key, value]) => {
@@ -63,24 +61,26 @@ export default function useDeputiesFilters() {
           return !value
         })
 
+    let newGroupValue: Filter.GroupValue = GroupeValue
+
     Object.keys(GroupeValue).forEach((key) => {
       if (allActive) {
-        GroupeValue[key] = key !== sigle ? false : true
-      } else if (isClickedIsAloneAsActive) {
-        GroupeValue[key] = key !== sigle ? true : false
+        newGroupValue[key] = key !== sigle ? false : true
+      } else if (isClickedAloneActive) {
+        newGroupValue[key] = key !== sigle ? true : false
       } else {
-        if (key === sigle) GroupeValue[sigle] = !GroupeValue[sigle]
+        if (key === sigle) newGroupValue[sigle] = !newGroupValue[sigle]
       }
     })
 
-    setGroupeValue(Object.assign({}, GroupeValue))
+    setGroupeValue(newGroupValue)
   }
 
   /**
    * Change les filtres au clic d'un bouton sexe
    * @param clickedSex L'initiale du sexe séléctionné, "H", ou "F"
    */
-  const handleClickOnSex = (clickedSex: Filter.Gender) => {
+  const handleSexClick = (clickedSex: Filter.Gender) => {
     const currentSexValue = SexValue[clickedSex]
     const otherSex = clickedSex === "F" ? "H" : "F"
     let newSexValue = {
@@ -102,7 +102,7 @@ export default function useDeputiesFilters() {
    * Change l'état des filtres au changement du slider âge
    * @param domain Range des âges
    */
-  const handleAgeSelection = (domain: Filter.AgeDomain) => {
+  const handleAgeSlider = (domain: Filter.AgeDomain) => {
     setAgeDomain(domain)
   }
 
@@ -128,10 +128,10 @@ export default function useDeputiesFilters() {
 
   return {
     state,
-    handleSearchValue,
-    handleClickOnGroupe,
-    handleClickOnSex,
-    handleAgeSelection,
+    handleSearch,
+    handleGroupClick,
+    handleSexClick,
+    handleAgeSlider,
     handleReset,
   }
 }
