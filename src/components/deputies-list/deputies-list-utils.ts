@@ -9,7 +9,7 @@ import NI from "images/logos/groupes-parlementaires/ni.svg"
 import PS from "images/logos/groupes-parlementaires/ps.svg"
 import AE from "images/logos/groupes-parlementaires/ae.svg"
 
-export const calculateNbDepute = (list, type, value) => {
+export const calculateNbDepute = (list: Deputy.DeputiesList, type: string, value: string): number => {
   if (list.length > 0) {
     const filteredList = list
     switch (type) {
@@ -27,7 +27,7 @@ export const calculateNbDepute = (list, type, value) => {
   } else return 0
 }
 
-export const calculateAgeDomain = (list): Filter.AgeDomain => {
+export const calculateAgeDomain = (list: Deputy.DeputiesList): Filter.AgeDomain => {
   const listAge = list.map((depute) => depute.Age)
   return [Math.min(...listAge), Math.max(...listAge)]
 }
