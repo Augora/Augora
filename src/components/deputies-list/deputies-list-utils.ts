@@ -12,9 +12,9 @@ import AE from "images/logos/groupes-parlementaires/ae.svg"
 /**
  * Renvoie le nombre de députés d'un groupe donné
  * @param {Deputy.DeputiesList} list La liste à analyser
- * @param {Group.Sigle} value Le sigle du group
+ * @param {string} value Le sigle du groupe
  */
-export const getNbDeputiesGroup = (list: Deputy.DeputiesList, value: Group.Sigle): number => {
+export const getNbDeputiesGroup = (list: Deputy.DeputiesList, value: string): number => {
   if (list.length > 0) {
     return list.filter((depute) => {
       return depute.GroupeParlementaire.Sigle === value ? true : false
@@ -49,7 +49,7 @@ export const getAgeDomain = (list: Deputy.DeputiesList): Filter.AgeDomain => {
  * @param sigles Array des sigles
  * @param value Valeur à set, true par défaut
  */
-export const getGroupValue = (sigles: Group.Sigle[], value = true): Filter.GroupValue => {
+export const getGroupValue = (sigles: string[], value = true): Filter.GroupValue => {
   return sigles.reduce((a, b) => ((a[b] = value), a), {})
 }
 
@@ -82,7 +82,7 @@ export const filterList = (
  * Renvoie le SVG d'un groupe
  * @param {string} groupe Le sigle du groupe
  */
-export function getGroupLogo(groupe: Group.Sigle) {
+export function getGroupLogo(groupe: string) {
   switch (groupe) {
     case "LFI":
       return LFI

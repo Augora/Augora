@@ -38,7 +38,7 @@ declare namespace Deputy {
   }
 
   interface GroupeParlementaire {
-    Sigle: Group.Sigle
+    Sigle: string
     NomComplet?: string
     Couleur?: string
     URLImage?: string

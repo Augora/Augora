@@ -1,8 +1,6 @@
 declare namespace Group {
-  type Sigle = "GDR" | "LFI" | "SOC" | "LT" | "MODEM" | "LREM" | "UDI" | "AE" | "LR" | "NI"
-
   interface Group {
-    Sigle: Sigle
+    Sigle: string
     NomComplet?: string
     Couleur?: string
     Ordre?: number

@@ -39,7 +39,7 @@ export default function useDeputiesFilters() {
     search(value)
   }
 
-  const handleClickOnGroupe = (sigle: Group.Sigle) => {
+  const handleClickOnGroupe = (sigle: string) => {
     const groupesAsArray = Object.entries(GroupeValue)
     const allActive = groupesAsArray.every(([key, value]) => {
       return value
