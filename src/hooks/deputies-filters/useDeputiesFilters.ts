@@ -35,10 +35,18 @@ export default function useDeputiesFilters() {
   /*----------------------------------------------------*/
   // Handlers
   /*----------------------------------------------------*/
+  /**
+   * Recherche un nom de député
+   * @param value le string de recherche
+   */
   const handleSearchValue = (value: string) => {
     search(value)
   }
 
+  /**
+   * Change l'état des filtres au clic d'un bouton groupe
+   * @param sigle Le sigle du groupe
+   */
   const handleClickOnGroupe = (sigle: string) => {
     const groupesAsArray = Object.entries(GroupeValue)
     const allActive = groupesAsArray.every(([key, value]) => {
@@ -68,27 +76,42 @@ export default function useDeputiesFilters() {
     setGroupeValue(Object.assign({}, GroupeValue))
   }
 
+  /**
+   * Change les filtres au clic d'un bouton sexe
+   * @param clickedSex L'initiale du sexe séléctionné, "H", ou "F"
+   */
   const handleClickOnSex = (clickedSex: Filter.Gender) => {
     const currentSexValue = SexValue[clickedSex]
     const otherSex = clickedSex === "F" ? "H" : "F"
-
-    if (!SexValue[otherSex]) {
-      SexValue[clickedSex] = false
-      SexValue[otherSex] = true
-    } else {
-      SexValue[clickedSex] = !currentSexValue
+    let newSexValue = {
+      F: true,
+      H: true,
     }
 
-    setSexValue(Object.assign({}, SexValue))
+    if (!SexValue[otherSex]) {
+      newSexValue[clickedSex] = false
+      newSexValue[otherSex] = true
+    } else {
+      newSexValue[clickedSex] = !currentSexValue
+    }
+
+    setSexValue(newSexValue)
   }
 
+  /**
+   * Change l'état des filtres au changement du slider âge
+   * @param domain Range des âges
+   */
   const handleAgeSelection = (domain: Filter.AgeDomain) => {
     setAgeDomain(domain)
   }
 
+  /**
+   * Reset les filtres
+   */
   const handleReset = () => {
     search("")
-    setGroupeValue(getGroupValue(initialGroupesList.map((g) => g.Sigle)) as any)
+    setGroupeValue(getGroupValue(initialGroupesList.map((g) => g.Sigle)))
     setSexValue({ H: true, F: true })
     setAgeDomain(getAgeDomain(initialDeputesList))
   }
