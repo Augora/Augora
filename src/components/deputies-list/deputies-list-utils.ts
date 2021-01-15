@@ -46,23 +46,11 @@ export const getAgeDomain = (list: Deputy.DeputiesList): Filter.AgeDomain => {
 
 /**
  * Renvoie un object avec tous les groupes en clé et un boolean de s'ils sont actifs sur les filtres
- * @param array
- * @param value
+ * @param sigles Array des sigles
+ * @param value Valeur à set, true par défaut
  */
-export const groupesArrayToObject = (array: string[], value = true): Filter.GroupValue => {
-  const defaultGroups: Filter.GroupValue = {
-    AE: true,
-    GDR: true,
-    LFI: true,
-    LR: true,
-    LREM: true,
-    LT: true,
-    MODEM: true,
-    NI: true,
-    SOC: true,
-    UDI: true,
-  }
-  return array.reduce((a, b) => ((a[b] = value), a), defaultGroups)
+export const groupesArrayToObject = (sigles: Group.Sigle[], value = true): Filter.GroupValue => {
+  return sigles.reduce((a, b) => ((a[b] = value), a), {})
 }
 
 /**

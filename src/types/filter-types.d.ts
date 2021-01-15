@@ -1,5 +1,6 @@
 declare namespace Filter {
   /**
+   * Range des âges
    * Exemple: [26, 82]
    */
   type AgeDomain = [number, number]
@@ -8,21 +9,18 @@ declare namespace Filter {
 
   type Gender = "H" | "F"
 
+  /**
+   * State des boutons de sexe
+   */
   type SelectedGenders = {
     H: boolean
     F: boolean
   }
 
+  /**
+   * Object utilisé pour le state des boutons de groupe
+   */
   type GroupValue = {
-    AE: boolean
-    GDR: boolean
-    LFI: boolean
-    SOC: boolean
-    LT: boolean
-    MODEM: boolean
-    LREM: boolean
-    UDI: boolean
-    LR: boolean
-    NI: boolean
+    [sigle: string]: boolean
   }
 }

@@ -2,7 +2,7 @@ import deputeStore from "stores/deputesStore"
 
 import { getAgeDomain, groupesArrayToObject } from "../../components/deputies-list/deputies-list-utils"
 
-export default function useDeputiesFilters(deputiesList = [], groupesList = []) {
+export default function useDeputiesFilters() {
   /*----------------------------------------------------*/
   // Store
   /*----------------------------------------------------*/

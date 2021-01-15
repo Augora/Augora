@@ -4,7 +4,7 @@ import deburr from "lodash/deburr"
 
 import { getAgeDomain, filterList, groupesArrayToObject } from "components/deputies-list/deputies-list-utils"
 
-type State = {
+type FilterState = {
   deputesInitialList: Deputy.DeputiesList
   deputesFilteredList: Deputy.DeputiesList
   groupesInitialList: Group.GroupsList
@@ -43,22 +43,11 @@ function applyFilters(
   })
 }
 
-const deputeStore = create<State>((set) => ({
+const deputeStore = create<FilterState>((set) => ({
   deputesInitialList: [],
   deputesFilteredList: [],
   groupesInitialList: [],
-  selectedGroupes: {
-    AE: true,
-    GDR: true,
-    LFI: true,
-    SOC: true,
-    LT: true,
-    MODEM: true,
-    LREM: true,
-    UDI: true,
-    LR: true,
-    NI: true,
-  },
+  selectedGroupes: {},
   selectedGenders: {
     H: true,
     F: true,
@@ -121,12 +110,13 @@ const deputeStore = create<State>((set) => ({
 
 export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, groupesList: Group.GroupsList) {
   const state = deputeStore.getState()
+  const groupSigles = groupesList.map((g) => g.Sigle)
   if (state.deputesInitialList.length === 0 && deputesList && groupesList) {
     deputeStore.setState({
       deputesInitialList: deputesList.map((d) => Object.assign({}, d, { NomToSearch: deburr(d.Nom) })),
       deputesFilteredList: applyFilters(
         deputesList,
-        groupesArrayToObject(groupesList.map((g) => g.Sigle)),
+        groupesArrayToObject(groupSigles),
         {
           H: true,
           F: true,
@@ -135,7 +125,7 @@ export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, g
         ""
       ),
       groupesInitialList: groupesList,
-      selectedGroupes: groupesArrayToObject(groupesList.map((g) => g.Sigle)) as any,
+      selectedGroupes: groupesArrayToObject(groupSigles),
       selectedGenders: {
         H: true,
         F: true,
