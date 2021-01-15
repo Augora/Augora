@@ -9,19 +9,6 @@ import NI from "images/logos/groupes-parlementaires/ni.svg"
 import PS from "images/logos/groupes-parlementaires/ps.svg"
 import AE from "images/logos/groupes-parlementaires/ae.svg"
 
-export enum Sigle {
-  LFI = "LFI",
-  GDR = "GDR",
-  SOC = "SOC",
-  LT = "LT",
-  MODEM = "MODEM",
-  LREM = "LREM",
-  UDI = "UDI",
-  AE = "AE",
-  LR = "LR",
-  NI = "NI",
-}
-
 export const calculateNbDepute = (list, type, value) => {
   if (list.length > 0) {
     const filteredList = list
@@ -40,16 +27,35 @@ export const calculateNbDepute = (list, type, value) => {
   } else return 0
 }
 
-export const calculateAgeDomain = (list) => {
+export const calculateAgeDomain = (list): Filter.AgeDomain => {
   const listAge = list.map((depute) => depute.Age)
   return [Math.min(...listAge), Math.max(...listAge)]
 }
 
-export const groupesArrayToObject = (array, value = true) => {
-  return array.reduce((a, b) => ((a[b] = value), a), {})
+export const groupesArrayToObject = (array: string[], value = true): Filter.GroupValue => {
+  const defaultGroups: Filter.GroupValue = {
+    AE: true,
+    GDR: true,
+    LFI: true,
+    LR: true,
+    LREM: true,
+    LT: true,
+    MODEM: true,
+    NI: true,
+    SOC: true,
+    UDI: true,
+  }
+  return array.reduce((a, b) => ((a[b] = value), a), defaultGroups)
 }
 
-export const filterList = (list, state) => {
+export const filterList = (
+  list: Deputy.DeputiesList,
+  state: {
+    AgeDomain: Filter.AgeDomain
+    GroupeValue: Filter.GroupValue
+    SexValue: Filter.SelectedGenders
+  }
+): Deputy.DeputiesList => {
   return list
     .filter((depute) => {
       return state.GroupeValue[depute.GroupeParlementaire.Sigle] ? true : false
@@ -62,25 +68,29 @@ export const filterList = (list, state) => {
     })
 }
 
-export function groupeIconByGroupeSigle(groupe: Sigle) {
+/**
+ * Renvoie le SVG d'un groupe
+ * @param {string} groupe Le sigle du groupe
+ */
+export function groupeIconByGroupeSigle(groupe: Group.Sigle) {
   switch (groupe) {
-    case Sigle.LFI:
+    case "LFI":
       return LFI
-    case Sigle.GDR:
+    case "GDR":
       return GDR
-    case Sigle.LT:
+    case "LT":
       return LT
-    case Sigle.MODEM:
+    case "MODEM":
       return MODEM
-    case Sigle.SOC:
+    case "SOC":
       return PS
-    case Sigle.LR:
+    case "LR":
       return LR
-    case Sigle.LREM:
+    case "LREM":
       return LREM
-    case Sigle.UDI:
+    case "UDI":
       return UDI
-    case Sigle.AE:
+    case "AE":
       return AE
     default:
       return NI

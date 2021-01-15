@@ -4,22 +4,17 @@ import deburr from "lodash/deburr"
 
 import { calculateAgeDomain, filterList, groupesArrayToObject } from "components/deputies-list/deputies-list-utils"
 
-type SelectedGenders = {
-  H: boolean
-  F: boolean
-}
-
 type State = {
-  deputesInitialList: Array<any>
-  deputesFilteredList: Array<any>
-  groupesInitialList: Array<any>
-  selectedGroupes: Array<any>
-  selectedGenders: SelectedGenders
-  ageDomain: Array<any>
-  keyword: string
-  setSelectedGroupes(selectedGroupes: Array<any>): void
-  setAgeDomain(ageDomain: Array<any>): void
-  setSelectedGenders(selectedGenders: SelectedGenders): void
+  deputesInitialList: Deputy.DeputiesList
+  deputesFilteredList: Deputy.DeputiesList
+  groupesInitialList: Group.GroupsList
+  selectedGroupes: any
+  selectedGenders: Filter.SelectedGenders
+  ageDomain: Filter.AgeDomain
+  keyword: Filter.Keyword
+  setSelectedGroupes(selectedGroupes: Array<string>): void
+  setAgeDomain(ageDomain: Filter.AgeDomain): void
+  setSelectedGenders(selectedGenders: Filter.SelectedGenders): void
   setKeyword(keyword: string): void
 }
 
@@ -28,7 +23,13 @@ const fuseOptions = {
   keys: ["NomToSearch"],
 }
 
-function applyFilters(initialList: Array<any>, GroupeValue: Array<any>, SexValue, AgeDomain: Array<any>, keyword: string) {
+function applyFilters(
+  initialList: Deputy.DeputiesList,
+  GroupeValue: any,
+  SexValue: Filter.SelectedGenders,
+  AgeDomain: Filter.AgeDomain,
+  keyword: string
+) {
   var result = initialList
   if (keyword.length > 1) {
     const fuse = new Fuse(initialList, fuseOptions)
@@ -54,7 +55,7 @@ const deputeStore = create<State>((set) => ({
   },
   keyword: "",
 
-  setSelectedGroupes(selectedGroupes: Array<any>) {
+  setSelectedGroupes(selectedGroupes: any) {
     set((state) => ({
       deputesFilteredList: applyFilters(
         state.deputesInitialList,
@@ -67,7 +68,7 @@ const deputeStore = create<State>((set) => ({
     }))
   },
 
-  setAgeDomain(ageDomain: Array<any>) {
+  setAgeDomain(ageDomain: Filter.AgeDomain) {
     set((state) => ({
       deputesFilteredList: applyFilters(
         state.deputesInitialList,
@@ -80,7 +81,7 @@ const deputeStore = create<State>((set) => ({
     }))
   },
 
-  setSelectedGenders(selectedGenders: SelectedGenders) {
+  setSelectedGenders(selectedGenders: Filter.SelectedGenders) {
     set((state) => ({
       deputesFilteredList: applyFilters(
         state.deputesInitialList,
@@ -107,7 +108,7 @@ const deputeStore = create<State>((set) => ({
   },
 }))
 
-export function hydrateStoreWithInitialLists(deputesList, groupesList) {
+export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, groupesList: Group.GroupsList) {
   const state = deputeStore.getState()
   if (state.deputesInitialList.length === 0 && deputesList && groupesList) {
     deputeStore.setState({
@@ -123,7 +124,7 @@ export function hydrateStoreWithInitialLists(deputesList, groupesList) {
         ""
       ),
       groupesInitialList: groupesList,
-      selectedGroupes: groupesArrayToObject(groupesList.map((g) => g.Sigle)),
+      selectedGroupes: groupesArrayToObject(groupesList.map((g) => g.Sigle)) as any,
       selectedGenders: {
         H: true,
         F: true,

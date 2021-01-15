@@ -95,7 +95,7 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
 
   const handleReset = () => {
     search("")
-    setGroupeValue(groupesArrayToObject(initialGroupesList.map((g) => g.Sigle)))
+    setGroupeValue(groupesArrayToObject(initialGroupesList.map((g) => g.Sigle)) as any)
     setSexValue({ H: true, F: true })
     setAgeDomain(calculateAgeDomain(initialDeputesList))
   }
