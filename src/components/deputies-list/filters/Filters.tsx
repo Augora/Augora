@@ -1,5 +1,4 @@
-import React, { useState, useRef, useContext } from "react"
-import Image from "next/image"
+import React, { useState, useRef } from "react"
 
 import IconClose from "images/ui-kit/icon-close.svg"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
@@ -7,23 +6,27 @@ import IconMaleSymbol from "images/ui-kit/icon-male.svg"
 import IconFemaleSymbol from "images/ui-kit/icon-female.svg"
 import IconReset from "images/ui-kit/icon-refresh.svg"
 
-import AgeSlider from "../slider/Slider"
+import AgeSlider from "components/deputies-list/slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"
 import Frame from "components/frames/Frame"
 import Button from "components/buttons/Button"
 import ButtonInput from "components/buttons/ButtonInput"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { getAgeDomain, getNbDeputiesGroup, getNbDeputiesGender, getGroupLogo } from "../deputies-list-utils"
+import { getAgeDomain, getNbDeputiesGroup, getNbDeputiesGender, getGroupLogo } from "components/deputies-list/deputies-list-utils"
 
-function Filters(props) {
+interface IFilters {
+  filteredDeputes?: Deputy.DeputiesList
+}
+
+export default function Filters(props: IFilters) {
   const { state, handleSearch, handleGroupClick, handleSexClick, handleAgeSlider, handleReset } = useDeputiesFilters()
 
   const { filteredDeputes = state.FilteredList } = props
 
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
-  const searchField = useRef(null)
+  const searchField = useRef<HTMLInputElement>()
 
-  const allGroupes = state.GroupesList.map((groupe) => {
+  const groupButtons = state.GroupesList.map((groupe) => {
     const GroupeLogo = getGroupLogo(groupe.Sigle)
     return (
       <ButtonInput
@@ -135,7 +138,7 @@ function Filters(props) {
             />
           </Button>
         </div>
-        <div className="filters__groupe">{allGroupes}</div>
+        <div className="filters__groupe">{groupButtons}</div>
         <Button className="reset__btn" onClick={() => handleReset()} title="Réinitialiser les filtres">
           <div className="icon-wrapper">
             <IconReset />
@@ -148,5 +151,3 @@ function Filters(props) {
     </Frame>
   )
 }
-
-export default Filters
