@@ -8,11 +8,11 @@ type State = {
   deputesInitialList: Deputy.DeputiesList
   deputesFilteredList: Deputy.DeputiesList
   groupesInitialList: Group.GroupsList
-  selectedGroupes: any
+  selectedGroupes: Filter.GroupValue
   selectedGenders: Filter.SelectedGenders
   ageDomain: Filter.AgeDomain
-  keyword: Filter.Keyword
-  setSelectedGroupes(selectedGroupes: Array<string>): void
+  keyword: string
+  setSelectedGroupes(selectedGroupes: Filter.GroupValue): void
   setAgeDomain(ageDomain: Filter.AgeDomain): void
   setSelectedGenders(selectedGenders: Filter.SelectedGenders): void
   setKeyword(keyword: string): void
@@ -47,15 +47,26 @@ const deputeStore = create<State>((set) => ({
   deputesInitialList: [],
   deputesFilteredList: [],
   groupesInitialList: [],
-  selectedGroupes: [],
-  ageDomain: [0, 100],
+  selectedGroupes: {
+    AE: true,
+    GDR: true,
+    LFI: true,
+    SOC: true,
+    LT: true,
+    MODEM: true,
+    LREM: true,
+    UDI: true,
+    LR: true,
+    NI: true,
+  },
   selectedGenders: {
     H: true,
     F: true,
   },
+  ageDomain: [0, 100],
   keyword: "",
 
-  setSelectedGroupes(selectedGroupes: any) {
+  setSelectedGroupes(selectedGroupes: Filter.GroupValue) {
     set((state) => ({
       deputesFilteredList: applyFilters(
         state.deputesInitialList,

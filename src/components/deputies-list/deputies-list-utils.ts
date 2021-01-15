@@ -25,7 +25,7 @@ export const getNbDeputiesGroup = (list: Deputy.DeputiesList, value: Group.Sigle
 /**
  * Renvoie le nombre de députés d'un sexe donné
  * @param {Deputy.DeputiesList} list La liste à analyser
- * @param {"H" | "F"} value Le sigle du sexe, "H", ou "F"
+ * @param {Filter.Gender} value Le sigle du sexe, "H", ou "F"
  */
 export const getNbDeputiesGender = (list: Deputy.DeputiesList, value: Filter.Gender): number => {
   if (list.length > 0) {
