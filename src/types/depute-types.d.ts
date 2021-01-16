@@ -2,7 +2,7 @@ declare namespace Deputy {
   /**
    * Un object contenant les attributs des députés, tiré de faunaDB
    */
-  interface Depute {
+  interface Deputy {
     Slug: string
     Nom?: string
     NomDeFamille?: string
@@ -28,26 +28,105 @@ declare namespace Deputy {
     Twitter?: string
     EstEnMandat?: boolean
     Age?: number
-    URLPhotoAssembleeNationnale?: string
+    URLPhotoAssembleeNationale?: string
+    URLTwitter?: string
+    URLFacebook?: string
+    URLLinkedIn?: string
+    URLInstagram?: string
     URLPhotoAugora?: string
     SitesWeb?: string[]
     Emails?: string[]
     Adresses?: string[]
     Collaborateurs?: string[]
+    ResponsabiliteGroupe?: ResponsabiliteGroupe
     GroupeParlementaire?: GroupeParlementaire
+    Activites: {
+      data: Activite[]
+    }
+    AdressesDetails?: {
+      data: Adresses[]
+    }
+    AutresMandats?: {
+      data: AutresMandats[]
+    }
+    AnciensMandats?: {
+      data: AnciensMandats[]
+    }
   }
 
   interface GroupeParlementaire {
     Sigle: string
     NomComplet?: string
     Couleur?: string
+    CouleurDetail?: CouleurDetail
     URLImage?: string
     Ordre?: number
     Actif?: boolean
   }
 
+  interface ResponsabiliteGroupe {
+    GroupeParlementaire: GroupeParlementaire
+    Fonction: string
+    DebutFonction: string
+    FinFonction: string
+  }
+
+  interface Adresses {
+    AdresseComplete?: string
+    Adresse?: string
+    CodePostal?: string
+    Telephone?: string
+    Fax?: string
+  }
+
+  interface Activite {
+    NumeroDeSemaine: number
+    DateDeDebut?: string
+    DateDeFin?: string
+    PresencesEnCommission?: number
+    PresenceEnHemicycle?: number
+    ParticipationsEnCommission?: number
+    ParticipationEnHemicycle?: number
+    Question?: number
+    Vacances?: number
+  }
+
+  interface AutresMandats {
+    AutreMandatComplet: string
+    Localite?: string
+    Institution?: string
+    Intitule?: string
+  }
+
+  interface AnciensMandats {
+    AncienMandatComplet: string
+    DateDeDebut?: string
+    DateDeFin?: string
+    Intitule?: string
+  }
+
+  interface CouleurDetail {
+    HSL: HSLDetail
+    RGB: RGBDetail
+    HEX: string
+  }
+
+  interface HSLDetail {
+    Full: string
+    H: number
+    S: number
+    L: number
+  }
+
+  interface RGBDetail {
+    Full: string
+    R: number
+    G: number
+    B: number
+  }
+
   /**
    * Un array de députés
    */
-  type DeputiesList = Depute[]
+  type DeputiesList = Deputy[]
 }

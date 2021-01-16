@@ -4,7 +4,7 @@ import { getGroupLogo } from "../deputies-list-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
 interface IOneDeputy {
-  depute: Deputy.Depute
+  depute: Deputy.Deputy
 }
 
 export default function OneDeputy({ depute }: IOneDeputy) {

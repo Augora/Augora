@@ -28,7 +28,7 @@ interface IMissingContent {
 }
 
 interface IDeputyContent extends IMissingContent {
-  deputy: Deputy.Depute
+  deputy: Deputy.Deputy
 }
 
 interface INumberContent extends IMissingContent {
