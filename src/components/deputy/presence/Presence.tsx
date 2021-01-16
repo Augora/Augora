@@ -12,8 +12,6 @@ interface IPresence {
  * @param {*} props
  */
 const Presence = (props: IPresence) => {
-  console.log(props)
-
   return (
     <Block
       title="Présence et participation"
