@@ -1,6 +1,6 @@
 import { getPoliticGroupPhotoImport } from "./image"
 
-export function getGeneralInformation(deputy: any) {
+export function getGeneralInformation(deputy: Deputy.Deputy) {
   const props = {
     id: deputy.Slug,
     lastName: deputy.NomDeFamille,

@@ -1,5 +1,5 @@
-export function getMandate(deputy: any) {
-  var props = {
+export function getMandate(deputy: Deputy.Deputy) {
+  const props = {
     dateBegin: deputy.DebutDuMandat,
     isInMandate: true,
     numberMandates: deputy.NombreMandats + deputy.AnciensMandats.data.length,
