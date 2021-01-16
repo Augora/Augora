@@ -2,6 +2,10 @@
  * Tous les types concernants les blocs de la page détail
  */
 declare namespace Bloc {
+  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map"
+
+  type Size = "large" | "medium" | "small"
+
   interface Base {
     /**
      * Couleur du groupe parlementaire
@@ -10,7 +14,7 @@ declare namespace Bloc {
     /**
      * "large", "medium" ou "small"
      */
-    size?: string
+    size?: Size
     wip?: boolean
   }
 
@@ -23,11 +27,10 @@ declare namespace Bloc {
     /**
      * Identifier du bloc: "general", "mandate", "coworkers", "presence", "contact" ou "map"
      */
-    type: string
+    type: Type
     /**
      * Infos de la circonscription du député pour le bloc map
      */
-
     circ?: {
       circNb: number
       region: string
@@ -77,6 +80,9 @@ declare namespace Bloc {
     dateBegin: string
   }
 
+  /**
+   * Gestion de la date avec moment pour les blocs
+   */
   interface Date {
     day: string
     month: string

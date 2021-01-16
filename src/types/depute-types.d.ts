@@ -38,8 +38,8 @@ declare namespace Deputy {
     Emails?: string[]
     Adresses?: string[]
     Collaborateurs?: string[]
-    ResponsabiliteGroupe?: ResponsabiliteGroupe
-    GroupeParlementaire?: GroupeParlementaire
+    ResponsabiliteGroupe?: Group.ResponsabiliteGroupe
+    GroupeParlementaire?: Group.GroupeParlementaire
     Activites: {
       data: Activite[]
     }
@@ -52,23 +52,6 @@ declare namespace Deputy {
     AnciensMandats?: {
       data: AncienMandat[]
     }
-  }
-
-  interface GroupeParlementaire {
-    Sigle: string
-    NomComplet?: string
-    Couleur?: string
-    CouleurDetail?: CouleurDetail
-    URLImage?: string
-    Ordre?: number
-    Actif?: boolean
-  }
-
-  interface ResponsabiliteGroupe {
-    GroupeParlementaire: GroupeParlementaire
-    Fonction: string
-    DebutFonction: string
-    FinFonction: string
   }
 
   interface Adresse {
