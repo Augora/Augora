@@ -44,13 +44,13 @@ declare namespace Deputy {
       data: Activite[]
     }
     AdressesDetails?: {
-      data: Adresses[]
+      data: Adresse[]
     }
-    AutresMandats?: {
-      data: AutresMandats[]
+    AutreMandat?: {
+      data: AutreMandat[]
     }
-    AnciensMandats?: {
-      data: AnciensMandats[]
+    AncienMandat?: {
+      data: AncienMandat[]
     }
   }
 
@@ -71,7 +71,7 @@ declare namespace Deputy {
     FinFonction: string
   }
 
-  interface Adresses {
+  interface Adresse {
     AdresseComplete?: string
     Adresse?: string
     CodePostal?: string
@@ -91,14 +91,14 @@ declare namespace Deputy {
     Vacances?: number
   }
 
-  interface AutresMandats {
+  interface AutreMandat {
     AutreMandatComplet: string
     Localite?: string
     Institution?: string
     Intitule?: string
   }
 
-  interface AnciensMandats {
+  interface AncienMandat {
     AncienMandatComplet: string
     DateDeDebut?: string
     DateDeFin?: string
