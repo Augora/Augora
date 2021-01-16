@@ -16,7 +16,7 @@ type IGroupWeight = {
 
 /**
  * Renvoie une barre de répartition des groupes parlementaires
- * @param {AugoraMap.DeputiesList} deputiesList La liste de députés à analyser
+ * @param {Deputy.DeputiesList} deputiesList La liste de députés à analyser
  */
 export default function GroupBar({ deputiesList, className }: IGroupBar) {
   const {

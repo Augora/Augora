@@ -14,7 +14,7 @@ interface IMapFilters {
 
 /**
  * Renvoie le mini filtre et filtre qui s'intervertissent au clic
- * @param {AugoraMap.DeputiesList} zoneDeputies La liste de députés dans la zone visible actuellement
+ * @param {Deputy.DeputiesList} zoneDeputies La liste de députés dans la zone visible actuellement
  */
 export default function MapFilters({ zoneDeputies }: IMapFilters) {
   const [isBigFilter, setIsBigFilter] = useState(false)

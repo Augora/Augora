@@ -109,7 +109,7 @@ function NumberContent({ deputies, feature, isOpen }: INumberContent) {
 /**
  * Render un pin
  * @param {AugoraMap.Feature} feature La feature du pin
- * @param {AugoraMap.DeputiesList} deputies Les / le député(s) de la feature
+ * @param {Deputy.DeputiesList} deputies Les / le député(s) de la feature
  * @param {boolean} [isExpanded] Si le pin est en version expanded ou non. Default: true
  * @param {Function} [handleClick] Le click handler du bouton, optionel
  * @param {Function} [handleHover] Le hover handler du bouton, optionel
@@ -165,7 +165,7 @@ export function MapPin(props: IMapPin) {
 /**
  * Renvoie un pin pour chaque zone affichée
  * @param {AugoraMap.Feature[]} features Array des features
- * @param {AugoraMap.DeputiesList} deputies Liste des députés à filtrer
+ * @param {Deputy.DeputiesList} deputies Liste des députés à filtrer
  * @param {mapboxgl.MapboxGeoJSONFeature} hoveredFeature La zone de la map hovered s'il y a actuellement un hover
  * @param {Function} [handleClick] Fonction appelée quand le pin est cliqué
  * @param {Function} [handleHover] Fonction appelée quand le pin est hover

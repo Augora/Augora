@@ -5,7 +5,7 @@ import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
 
 interface IMapDistrict {
-  deputy: AugoraMap.Depute
+  deputy: Deputy.Deputy
   color: string
   size: string
 }
