@@ -4,11 +4,20 @@ import { slugify } from "utils/utils"
 import Block from "../_block/_Block"
 import IconGroupe from "images/ui-kit/icon-group.svg"
 
+interface ICoworkers {
+  coworkers: {
+    coworker: string
+  }[]
+  color: string
+  size?: string
+  wip?: boolean
+}
+
 /**
  * Return deputy's coworkers in a Block component
  * @param props
  */
-function Coworkers(props) {
+function Coworkers(props: ICoworkers) {
   return (
     <Block title="Assistants" type="coworkers" color={props.color} size={props.size} wip={props.wip ? props.wip : false}>
       <div className="icon-wrapper">
