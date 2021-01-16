@@ -46,10 +46,10 @@ declare namespace Deputy {
     AdressesDetails?: {
       data: Adresse[]
     }
-    AutreMandat?: {
+    AutresMandats?: {
       data: AutreMandat[]
     }
-    AncienMandat?: {
+    AnciensMandats?: {
       data: AncienMandat[]
     }
   }

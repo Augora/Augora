@@ -7,33 +7,6 @@ import IconFemale from "images/ui-kit/icon-personw.svg"
 import Block from "../_block/_Block"
 import DeputyImage from "./deputy-image/DeputyImage"
 
-interface IGeneralInformation {
-  id: string
-  lastName: string
-  firstName: string
-  picture: string
-  pictureGroup: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
-  groupe: string
-  groupeComplet: string
-  age: number
-  job: string
-  website: string[]
-  twitter: string
-  sexe: string
-  color: string
-  dateBegin: string
-  size?: string
-  wip?: boolean
-}
-
-interface IDate {
-  day: string
-  month: string
-  year: number
-  yearsPassed?: string
-  monthsPassed?: string
-}
-
 const getDates = (date: string) => {
   moment.locale("fr")
   const now = moment() // eslint-disable-line
@@ -53,13 +26,13 @@ const getDates = (date: string) => {
  * Return deputy's general information in a Block component
  * @param {*} props
  */
-export default function GeneralInformation(props: IGeneralInformation) {
-  const [Date, setDate] = useState<IDate>({
+export default function GeneralInformation(props: Bloc.General) {
+  const [Date, setDate] = useState<Bloc.Date>({
     day: "01",
     month: "janvier",
     year: 2020,
-    yearsPassed: "1",
-    monthsPassed: "1",
+    yearsPassed: 1,
+    monthsPassed: 1,
   })
 
   useEffect(() => {

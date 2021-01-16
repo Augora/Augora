@@ -4,7 +4,8 @@ import React from "react"
  * Return header block in a div
  * @param {*} props
  */
-export default function Header(props) {
+export default function Header(props: Bloc.Header) {
+  console.log(props)
   return (
     <div className={`${props.type}__header block__header`}>
       {/* Verify if the block is general infos */}
