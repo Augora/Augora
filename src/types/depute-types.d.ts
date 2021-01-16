@@ -3,11 +3,23 @@ declare namespace Deputy {
    * Un object contenant les attributs des députés, tiré de faunaDB
    */
   interface Deputy {
+    /**
+     * Exemple: "cedric-roussel"
+     */
     Slug: string
+    /**
+     * Exemple: "Cédric Roussel"
+     */
     Nom?: string
     NomDeFamille?: string
     Prenom?: string
+    /**
+     * "H" ou "F"
+     */
     Sexe?: string
+    /**
+     * Format "yyyy-mm-dd"
+     */
     DateDeNaissance?: string
     LieuDeNaissance?: string
     NumeroDepartement?: string
@@ -16,6 +28,9 @@ declare namespace Deputy {
     NomRegion?: string
     NomCirconscription?: string
     NumeroCirconscription?: number
+    /**
+     * Format "yyyy-mm-dd"
+     */
     DebutDuMandat?: string
     RattachementFinancier?: string
     Profession?: string
@@ -34,12 +49,25 @@ declare namespace Deputy {
     URLLinkedIn?: string
     URLInstagram?: string
     URLPhotoAugora?: string
+    /**
+     * Array de toutes les adresses web renseignées
+     */
     SitesWeb?: string[]
+    /**
+     * Array de tous les e-mail renseignées
+     */
     Emails?: string[]
+    /**
+     * Array de toutes les adresses renseignées
+     */
     Adresses?: string[]
+    /**
+     * Array des noms des assistants parlementaires
+     * Exemple: ["Luc Derai", "Julie Phan-Pérain",...]
+     */
     Collaborateurs?: string[]
     ResponsabiliteGroupe?: Group.ResponsabiliteGroupe
-    GroupeParlementaire?: Group.GroupeParlementaire
+    GroupeParlementaire?: Group.Group
     Activites: {
       data: Activite[]
     }
@@ -54,8 +82,14 @@ declare namespace Deputy {
     }
   }
 
+  /**
+   *
+   */
   interface Adresse {
     AdresseComplete?: string
+    /**
+     * Exemple: "Assemblée nationale, 126 Rue de l'Université, 75355 PARIS 07 SP"
+     */
     Adresse?: string
     CodePostal?: string
     Telephone?: string
@@ -86,26 +120,6 @@ declare namespace Deputy {
     DateDeDebut?: string
     DateDeFin?: string
     Intitule?: string
-  }
-
-  interface CouleurDetail {
-    HSL: HSLDetail
-    RGB: RGBDetail
-    HEX: string
-  }
-
-  interface HSLDetail {
-    Full: string
-    H: number
-    S: number
-    L: number
-  }
-
-  interface RGBDetail {
-    Full: string
-    R: number
-    G: number
-    B: number
   }
 
   /**

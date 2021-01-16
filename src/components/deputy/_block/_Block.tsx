@@ -2,6 +2,10 @@ import React from "react"
 import Header from "./Header"
 import IconWIP from "images/ui-kit/icon-wip.svg"
 
+/**
+ * Renvoie un bloc générique de la page détail
+ * @param props
+ */
 export default function _Block(props: Bloc.Block) {
   return (
     <div

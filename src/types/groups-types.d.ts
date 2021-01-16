@@ -1,7 +1,21 @@
 declare namespace Group {
-  interface GroupeParlementaire {
+  type GroupsList = Group[]
+
+  /**
+   * Objet groupe de la database
+   */
+  interface Group {
+    /**
+     * Exemple: "LFI"
+     */
     Sigle: string
+    /**
+     * Exemple: "La France Insoumise"
+     */
     NomComplet?: string
+    /**
+     * Format "hsl(255, 100%, 100%)"
+     */
     Couleur?: string
     CouleurDetail?: CouleurDetail
     URLImage?: string
@@ -9,19 +23,30 @@ declare namespace Group {
     Actif?: boolean
   }
 
+  interface CouleurDetail {
+    HSL: HSLDetail
+    RGB: RGBDetail
+    HEX: string
+  }
+
+  interface HSLDetail {
+    Full: string
+    H: number
+    S: number
+    L: number
+  }
+
+  interface RGBDetail {
+    Full: string
+    R: number
+    G: number
+    B: number
+  }
+
   interface ResponsabiliteGroupe {
-    GroupeParlementaire: GroupeParlementaire
+    GroupeParlementaire: Group
     Fonction: string
     DebutFonction: string
     FinFonction: string
   }
-
-  interface Group {
-    Sigle: string
-    NomComplet?: string
-    Couleur?: string
-    Ordre?: number
-  }
-
-  type GroupsList = Group[]
 }
