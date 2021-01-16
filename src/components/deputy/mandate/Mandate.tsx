@@ -3,6 +3,25 @@ import Block from "../_block/_Block"
 import moment from "moment"
 import IconMandat from "images/ui-kit/icon-mandat.svg"
 
+interface IMandate {
+  dateBegin: string
+  isInMandate: boolean
+  numberMandates: number
+  othersMandates: Deputy.AutresMandats[]
+  oldMandates: Deputy.AnciensMandats[]
+  color: string
+  size?: string
+  wip?: boolean
+}
+interface IDate {
+  day: string
+  month: string
+  year: number
+  yearsPassed: number
+  monthsPassed: number
+  daysPassed: number
+}
+
 const getDates = (date) => {
   moment.locale("fr")
   const now = moment()
@@ -29,15 +48,16 @@ const getDates = (date) => {
  * Return deputy's mandate in a Block component
  * @param {*} props
  */
-export default function Mandate(props) {
-  const [Date, setDate] = useState({
+export default function Mandate(props: IMandate) {
+  const [Date, setDate] = useState<IDate>({
     day: "01",
     month: "janvier",
-    year: "2020",
+    year: 2020,
     yearsPassed: 0,
     monthsPassed: 0,
     daysPassed: 0,
   })
+
   useEffect(() => {
     setDate(getDates(props.dateBegin))
   }, [props.dateBegin])
