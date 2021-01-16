@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react"
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
+dayjs.locale("fr")
+import duration from 'dayjs/plugin/duration'
+
 import Block from "../_block/_Block"
-import moment from "moment"
 import IconMandat from "images/ui-kit/icon-mandat.svg"
 
 const getDates = (date) => {
-  moment.locale("fr")
-  const now = moment()
-  const formatedDate = moment(date)
+  const now = dayjs()
+  const formatedDate = dayjs(date)
   const dateDay = formatedDate.day("").format("DD")
   const dateMonth = formatedDate.month("").format("MMMM")
   const dateYear = formatedDate.year()
-  const timePassed = -formatedDate.diff(now)
-  const yearsPassed = Math.floor(moment.duration(timePassed).asYears())
-  const monthsPassed = Math.floor(moment.duration(timePassed).asMonths() % 12)
-  const daysPassed = Math.floor(moment.duration(timePassed).asDays())
+  const timePassed = formatedDate.diff(now, "")
+  const yearsPassed = now.diff(formatedDate, "years")
+  const monthsPassed = now.diff(formatedDate, "months") % 12
+  const daysPassed = now.diff(formatedDate, "days")
 
   return {
     day: dateDay,
