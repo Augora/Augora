@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
-import moment from "moment"
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
+dayjs.locale("fr")
 
 import IconMale from "images/ui-kit/icon-persontie.svg"
 import IconFemale from "images/ui-kit/icon-personw.svg"
@@ -7,10 +9,8 @@ import IconFemale from "images/ui-kit/icon-personw.svg"
 import Block from "../_block/_Block"
 import DeputyImage from "./deputy-image/DeputyImage"
 
-const getDates = (date: string) => {
-  moment.locale("fr")
-  const now = moment() // eslint-disable-line
-  const formatedDate = moment(date)
+const getDates = (date) => {
+  const formatedDate = dayjs(date)
   const dateDay = formatedDate.day("").format("DD")
   const dateMonth = formatedDate.month("").format("MMMM")
   const dateYear = formatedDate.year()
@@ -27,7 +27,7 @@ const getDates = (date: string) => {
  * @param {*} props
  */
 export default function GeneralInformation(props: Bloc.General) {
-  const [Date, setDate] = useState<Bloc.Date>({
+  const [Date, setDate] = useState({
     day: "01",
     month: "janvier",
     year: 2020,
