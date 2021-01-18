@@ -8,6 +8,10 @@ const mainPages = {
     path: "/",
     title: "Députés",
   },
+  carte: {
+    path: "/map",
+    title: "Carte",
+  },
 }
 
 const secondaryPages = {

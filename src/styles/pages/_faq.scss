@@ -20,10 +20,6 @@
         opacity: 0.5;
       }
       &--opened {
-        svg rect {
-          transform: skew(-25deg) translate3d(0, 0, 0);
-          transition: transform 1s $ease-in-out-cubic;
-        }
         .faq {
           &__description {
             display: block;
@@ -52,8 +48,7 @@
 
       box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0);
       transform: translateY(0);
-      transition: box-shadow 0.2s $ease-in-out-cubic,
-        transform 0.2s $ease-in-out-cubic;
+      transition: box-shadow 0.2s $ease-in-out-cubic, transform 0.2s $ease-in-out-cubic;
 
       &:focus {
         outline: none;
