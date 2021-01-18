@@ -1,5 +1,8 @@
 import React, { useState } from "react"
-import moment from "moment"
+import dayjs from "dayjs"
+import "dayjs/locale/fr"
+dayjs.locale("fr")
+
 import Block from "../_block/_Block"
 
 /**
@@ -8,8 +11,7 @@ import Block from "../_block/_Block"
  */
 export function CurrentMandate(props) {
   const [blockSize, setBlockSize] = useState("block")
-  moment.locale("fr")
-  const dateToDisplay = moment(props.dateBegin).format("Do MMMM YYYY")
+  const dateToDisplay = dayjs(props.dateBegin).format("Do MMMM YYYY")
 
   if (props.isInMandate === true) {
     return (
