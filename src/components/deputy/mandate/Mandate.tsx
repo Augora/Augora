@@ -7,13 +7,12 @@ import duration from "dayjs/plugin/duration"
 import Block from "../_block/_Block"
 import IconMandat from "images/ui-kit/icon-mandat.svg"
 
-const getDates = (date) => {
+const getDates = (date: string) => {
   const now = dayjs()
   const formatedDate = dayjs(date)
-  const dateDay = formatedDate.day("").format("DD")
-  const dateMonth = formatedDate.month("").format("MMMM")
-  const dateYear = formatedDate.year()
-  const timePassed = formatedDate.diff(now, "")
+  const dateDay = formatedDate.format("DD")
+  const dateMonth = formatedDate.format("MMMM")
+  const dateYear = formatedDate.format("YYYY")
   const yearsPassed = now.diff(formatedDate, "years")
   const monthsPassed = now.diff(formatedDate, "months") % 12
   const daysPassed = now.diff(formatedDate, "days")
@@ -36,7 +35,7 @@ export default function Mandate(props: Bloc.Mandate) {
   const [Date, setDate] = useState({
     day: "01",
     month: "janvier",
-    year: 2020,
+    year: "2020",
     yearsPassed: 0,
     monthsPassed: 0,
     daysPassed: 0,

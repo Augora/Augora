@@ -79,16 +79,4 @@ declare namespace Bloc {
     sexe: string
     dateBegin: string
   }
-
-  /**
-   * Gestion de la date avec moment pour les blocs
-   */
-  interface Date {
-    day: string
-    month: string
-    year: number
-    yearsPassed?: number
-    monthsPassed?: number
-    daysPassed?: number
-  }
 }
