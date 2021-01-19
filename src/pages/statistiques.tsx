@@ -6,7 +6,7 @@ import PieChart from "components/charts/PieChart"
 import BarChart from "components/charts/Bar"
 import BarStackChart from "components/charts/BarStack"
 import Frame from "components/frames/Frame"
-import { calculateNbDepute } from "components/deputies-list/deputies-list-utils"
+import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
 type Groups = {
@@ -22,7 +22,7 @@ const Statistiques = (props) => {
   const [HasPieChart, setHasPieChart] = useState(true)
 
   const groupesData: Groups[] = state.GroupesList.map((groupe) => {
-    const nbDeputeGroup = calculateNbDepute(state.FilteredList, "groupe", groupe.Sigle)
+    const nbDeputeGroup = getNbDeputiesGroup(state.FilteredList, groupe.Sigle)
     return {
       id: groupe.Sigle,
       label: groupe.NomComplet,
