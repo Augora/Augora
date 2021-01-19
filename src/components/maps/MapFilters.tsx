@@ -9,12 +9,12 @@ import IconClose from "images/ui-kit/icon-close.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IMapFilters {
-  zoneDeputies: AugoraMap.DeputiesList
+  zoneDeputies: Deputy.DeputiesList
 }
 
 /**
  * Renvoie le mini filtre et filtre qui s'intervertissent au clic
- * @param {AugoraMap.DeputiesList} zoneDeputies La liste de députés dans la zone visible actuellement
+ * @param {Deputy.DeputiesList} zoneDeputies La liste de députés dans la zone visible actuellement
  */
 export default function MapFilters({ zoneDeputies }: IMapFilters) {
   const [isBigFilter, setIsBigFilter] = useState(false)

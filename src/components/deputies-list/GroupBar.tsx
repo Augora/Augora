@@ -1,10 +1,10 @@
 import React, { useContext } from "react"
-import { calculateNbDepute } from "components/deputies-list/deputies-list-utils"
+import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import { calculatePercentage } from "utils/math/percentage"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IGroupBar {
-  deputiesList: AugoraMap.DeputiesList
+  deputiesList: Deputy.DeputiesList
   className?: string
 }
 
@@ -16,7 +16,7 @@ type IGroupWeight = {
 
 /**
  * Renvoie une barre de répartition des groupes parlementaires
- * @param {AugoraMap.DeputiesList} deputiesList La liste de députés à analyser
+ * @param {Deputy.DeputiesList} deputiesList La liste de députés à analyser
  */
 export default function GroupBar({ deputiesList, className }: IGroupBar) {
   const {
@@ -25,7 +25,7 @@ export default function GroupBar({ deputiesList, className }: IGroupBar) {
 
   const groups: IGroupWeight = GroupesList.map((o) => {
     return {
-      percent: Math.round(calculatePercentage(deputiesList.length, calculateNbDepute(deputiesList, "groupe", o.Sigle)) * 10) / 10,
+      percent: Math.round(calculatePercentage(deputiesList.length, getNbDeputiesGroup(deputiesList, o.Sigle)) * 10) / 10,
       color: o.Couleur,
       sigle: o.Sigle,
     }

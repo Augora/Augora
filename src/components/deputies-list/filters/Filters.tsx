@@ -1,5 +1,4 @@
-import React, { useState, useRef, useContext } from "react"
-import Image from "next/image"
+import React, { useState, useRef } from "react"
 
 import IconClose from "images/ui-kit/icon-close.svg"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
@@ -7,31 +6,28 @@ import IconMaleSymbol from "images/ui-kit/icon-male.svg"
 import IconFemaleSymbol from "images/ui-kit/icon-female.svg"
 import IconReset from "images/ui-kit/icon-refresh.svg"
 
-import AgeSlider from "../slider/Slider"
+import AgeSlider from "components/deputies-list/slider/Slider"
 import Tooltip from "components/tooltip/Tooltip"
 import Frame from "components/frames/Frame"
 import Button from "components/buttons/Button"
 import ButtonInput from "components/buttons/ButtonInput"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { calculateAgeDomain, calculateNbDepute, groupeIconByGroupeSigle } from "../deputies-list-utils"
+import { getAgeDomain, getNbDeputiesGroup, getNbDeputiesGender, getGroupLogo } from "components/deputies-list/deputies-list-utils"
 
-function Filters(props) {
-  const {
-    state,
-    handleSearchValue,
-    handleClickOnGroupe,
-    handleClickOnSex,
-    handleAgeSelection,
-    handleReset,
-  } = useDeputiesFilters()
+interface IFilters {
+  filteredDeputes?: Deputy.DeputiesList
+}
+
+export default function Filters(props: IFilters) {
+  const { state, handleSearch, handleGroupClick, handleSexClick, handleAgeSlider, handleReset } = useDeputiesFilters()
 
   const { filteredDeputes = state.FilteredList } = props
 
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
-  const searchField = useRef(null)
+  const searchField = useRef<HTMLInputElement>()
 
-  const allGroupes = state.GroupesList.map((groupe) => {
-    const GroupeLogo = groupeIconByGroupeSigle(groupe.Sigle)
+  const groupButtons = state.GroupesList.map((groupe) => {
+    const GroupeLogo = getGroupLogo(groupe.Sigle)
     return (
       <ButtonInput
         className={`groupe groupe--${groupe.Sigle.toLowerCase()}`}
@@ -42,7 +38,7 @@ function Filters(props) {
           backgroundColor: groupe.Couleur,
         }}
         color={groupe.Couleur}
-        onClick={() => handleClickOnGroupe(groupe.Sigle)}
+        onClick={() => handleGroupClick(groupe.Sigle)}
         type="checkbox"
         checked={state.GroupeValue[groupe.Sigle]}
       >
@@ -53,7 +49,7 @@ function Filters(props) {
         </div>
         <Tooltip
           title={groupe.NomComplet}
-          nbDeputes={calculateNbDepute(filteredDeputes, "groupe", groupe.Sigle)}
+          nbDeputes={getNbDeputiesGroup(filteredDeputes, groupe.Sigle)}
           totalDeputes={filteredDeputes.length}
           color={groupe.Couleur}
         />
@@ -87,7 +83,7 @@ function Filters(props) {
           placeholder="Chercher..."
           value={state.Keyword}
           onChange={(e) => {
-            handleSearchValue(e.target.value)
+            handleSearch(e.target.value)
           }}
           onFocus={() => setIsSearchInteracted(true)}
           onBlur={() => setIsSearchInteracted(false)}
@@ -99,7 +95,7 @@ function Filters(props) {
             value=""
             title="Effacer"
             onClick={() => {
-              handleSearchValue("")
+              handleSearch("")
             }}
           />
           <div className="icon-wrapper">
@@ -111,7 +107,7 @@ function Filters(props) {
         <div className="filters__sexes">
           <Button
             className={`sexes__btn female ${state.SexValue["F"] ? "checked" : ""}`}
-            onClick={() => handleClickOnSex("F")}
+            onClick={() => handleSexClick("F")}
             color="main"
             checked={state.SexValue.F}
           >
@@ -120,14 +116,14 @@ function Filters(props) {
             </div>
             <Tooltip
               title="Femmes"
-              nbDeputes={calculateNbDepute(filteredDeputes, "sexe", "F")}
+              nbDeputes={getNbDeputiesGender(filteredDeputes, "F")}
               totalDeputes={filteredDeputes.length}
               color="secondary"
             />
           </Button>
           <Button
             className={`sexes__btn male ${state.SexValue["H"] ? "checked" : ""}`}
-            onClick={(e) => handleClickOnSex("H")}
+            onClick={(e) => handleSexClick("H")}
             color="secondary"
             checked={state.SexValue.H}
           >
@@ -136,24 +132,22 @@ function Filters(props) {
             </div>
             <Tooltip
               title="Hommes"
-              nbDeputes={calculateNbDepute(filteredDeputes, "sexe", "H")}
+              nbDeputes={getNbDeputiesGender(filteredDeputes, "H")}
               totalDeputes={filteredDeputes.length}
               color="secondary"
             />
           </Button>
         </div>
-        <div className="filters__groupe">{allGroupes}</div>
+        <div className="filters__groupe">{groupButtons}</div>
         <Button className="reset__btn" onClick={() => handleReset()} title="Réinitialiser les filtres">
           <div className="icon-wrapper">
             <IconReset />
           </div>
         </Button>
       </div>
-      <AgeSlider selectedDomain={state.AgeDomain} domain={calculateAgeDomain(state.DeputiesList)} callback={handleAgeSelection}>
+      <AgeSlider selectedDomain={state.AgeDomain} domain={getAgeDomain(state.DeputiesList)} callback={handleAgeSlider}>
         <span className="filters__slider-label">ÂGE</span>
       </AgeSlider>
     </Frame>
   )
 }
-
-export default Filters

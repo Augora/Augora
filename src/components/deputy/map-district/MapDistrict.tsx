@@ -4,13 +4,7 @@ import Link from "next/link"
 import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
 
-interface IMapDistrict {
-  deputy: AugoraMap.Depute
-  color: string
-  size: string
-}
-
-export default function MapDistrict(props: IMapDistrict) {
+export default function MapDistrict(props: Bloc.Map) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
   const [viewport, setViewport] = useState<ViewState>({ latitude: France.center.lat, longitude: France.center.lng, zoom: 2 })
 

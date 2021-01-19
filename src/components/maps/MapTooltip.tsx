@@ -7,7 +7,7 @@ import Tooltip from "components/tooltip/Tooltip"
 interface IMapTooltip {
   lngLat: [number, number]
   zoneFeature: AugoraMap.Feature
-  deputiesList: AugoraMap.DeputiesList
+  deputiesList: Deputy.DeputiesList
 }
 
 /**
@@ -25,7 +25,7 @@ const getTooltipName = (feature: AugoraMap.Feature): string => {
  * Renvoie une tooltip dans un component Popup de mapbox
  * @param {[number, number]} lngLat Array de [lgn, lat] pour positionner la popup
  * @param {AugoraMap.Feature} zoneFeature La feature de la zone à analyser
- * @param {AugoraMap.DeputiesList} deputiesList La liste de députés à filtrer
+ * @param {Deputy.DeputiesList} deputiesList La liste de députés à filtrer
  */
 export default function MapTooltip(props: IMapTooltip) {
   const zoneCode = getZoneCode(props.zoneFeature)
