@@ -2,24 +2,19 @@ import create, { SetState, UseStore, StoreApi } from "zustand"
 import Fuse from "fuse.js"
 import deburr from "lodash/deburr"
 
-import { calculateAgeDomain, filterList, groupesArrayToObject } from "components/deputies-list/deputies-list-utils"
+import { getAgeDomain, filterList, getGroupValue } from "components/deputies-list/deputies-list-utils"
 
-type SelectedGenders = {
-  H: Boolean
-  F: Boolean
-}
-
-type State = {
-  deputesInitialList: Array<any>
-  deputesFilteredList: Array<any>
-  groupesInitialList: Array<any>
-  selectedGroupes: Array<any>
-  selectedGenders: SelectedGenders
-  ageDomain: Array<any>
+type FilterState = {
+  deputesInitialList: Deputy.DeputiesList
+  deputesFilteredList: Deputy.DeputiesList
+  groupesInitialList: Group.GroupsList
+  selectedGroupes: Filter.GroupValue
+  selectedGenders: Filter.SelectedGenders
+  ageDomain: Filter.AgeDomain
   keyword: string
-  setSelectedGroupes(selectedGroupes: Array<any>): void
-  setAgeDomain(ageDomain: Array<any>): void
-  setSelectedGenders(selectedGenders: SelectedGenders): void
+  setSelectedGroupes(selectedGroupes: Filter.GroupValue): void
+  setAgeDomain(ageDomain: Filter.AgeDomain): void
+  setSelectedGenders(selectedGenders: Filter.SelectedGenders): void
   setKeyword(keyword: string): void
 }
 
@@ -28,7 +23,13 @@ const fuseOptions = {
   keys: ["NomToSearch"],
 }
 
-function applyFilters(initialList: Array<any>, GroupeValue: Array<any>, SexValue, AgeDomain: Array<any>, keyword: string) {
+function applyFilters(
+  initialList: Deputy.DeputiesList,
+  GroupeValue: any,
+  SexValue: Filter.SelectedGenders,
+  AgeDomain: Filter.AgeDomain,
+  keyword: string
+) {
   var result = initialList
   if (keyword.length > 1) {
     const fuse = new Fuse(initialList, fuseOptions)
@@ -42,19 +43,19 @@ function applyFilters(initialList: Array<any>, GroupeValue: Array<any>, SexValue
   })
 }
 
-const deputeStore = create<State>((set) => ({
+const deputeStore = create<FilterState>((set) => ({
   deputesInitialList: [],
   deputesFilteredList: [],
   groupesInitialList: [],
-  selectedGroupes: [],
-  ageDomain: [0, 100],
+  selectedGroupes: {},
   selectedGenders: {
     H: true,
     F: true,
   },
+  ageDomain: [0, 100],
   keyword: "",
 
-  setSelectedGroupes(selectedGroupes: Array<any>) {
+  setSelectedGroupes(selectedGroupes: Filter.GroupValue) {
     set((state) => ({
       deputesFilteredList: applyFilters(
         state.deputesInitialList,
@@ -67,7 +68,7 @@ const deputeStore = create<State>((set) => ({
     }))
   },
 
-  setAgeDomain(ageDomain: Array<any>) {
+  setAgeDomain(ageDomain: Filter.AgeDomain) {
     set((state) => ({
       deputesFilteredList: applyFilters(
         state.deputesInitialList,
@@ -80,7 +81,7 @@ const deputeStore = create<State>((set) => ({
     }))
   },
 
-  setSelectedGenders(selectedGenders: SelectedGenders) {
+  setSelectedGenders(selectedGenders: Filter.SelectedGenders) {
     set((state) => ({
       deputesFilteredList: applyFilters(
         state.deputesInitialList,
@@ -107,28 +108,29 @@ const deputeStore = create<State>((set) => ({
   },
 }))
 
-export function hydrateStoreWithInitialLists(deputesList, groupesList) {
+export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, groupesList: Group.GroupsList) {
   const state = deputeStore.getState()
+  const groupSigles = groupesList.map((g) => g.Sigle)
   if (state.deputesInitialList.length === 0 && deputesList && groupesList) {
     deputeStore.setState({
       deputesInitialList: deputesList.map((d) => Object.assign({}, d, { NomToSearch: deburr(d.Nom) })),
       deputesFilteredList: applyFilters(
         deputesList,
-        groupesArrayToObject(groupesList.map((g) => g.Sigle)),
+        getGroupValue(groupSigles),
         {
           H: true,
           F: true,
         },
-        calculateAgeDomain(deputesList),
+        getAgeDomain(deputesList),
         ""
       ),
       groupesInitialList: groupesList,
-      selectedGroupes: groupesArrayToObject(groupesList.map((g) => g.Sigle)),
+      selectedGroupes: getGroupValue(groupSigles),
       selectedGenders: {
         H: true,
         F: true,
       },
-      ageDomain: calculateAgeDomain(deputesList),
+      ageDomain: getAgeDomain(deputesList),
       keyword: "",
     })
   }

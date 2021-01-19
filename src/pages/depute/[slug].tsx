@@ -23,11 +23,15 @@ import IconWebsite from "images/ui-kit/icon-web.svg"
 import IconTwitter from "images/ui-kit/icon-twitter.svg"
 import SEO, { PageType } from "components/seo/seo"
 
-const allColors = colors.map((color) => {
-  return "--" + color.name + "-color :" + color.hex + ";\n"
-})
+interface IDeputy {
+  depute: Deputy.Deputy
+}
 
-export default function Deputy({ depute }) {
+// const allColors = colors.map((color) => {
+//   return "--" + color.name + "-color :" + color.hex + ";\n"
+// })
+
+export default function Deputy({ depute }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.Couleur
   return (

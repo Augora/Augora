@@ -3,6 +3,13 @@ import Tooltip from "../../tooltip/Tooltip"
 import IconCopy from "images/ui-kit/icon-copy.svg"
 import IconTel from "images/ui-kit/icon-phone.svg"
 
+interface IAdresse {
+  adresseDetails: Deputy.Adresse
+  formatedAddress: string[]
+  index: number
+  separator?: boolean
+}
+
 const formatTelephoneNumber = (number) => {
   return number.match(/.{1,2}/g).join(" ")
 }
@@ -15,7 +22,7 @@ const handleClick = (content, setCopyClicked) => {
   }, 1500)
 }
 
-export default function Adresse(props) {
+export default function Adresse(props: IAdresse) {
   const [copyClicked, setCopyClicked] = useState(false)
 
   return (

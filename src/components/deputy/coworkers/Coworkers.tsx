@@ -8,7 +8,7 @@ import IconGroupe from "images/ui-kit/icon-group.svg"
  * Return deputy's coworkers in a Block component
  * @param props
  */
-function Coworkers(props) {
+function Coworkers(props: Bloc.Coworkers) {
   return (
     <Block title="Assistants" type="coworkers" color={props.color} size={props.size} wip={props.wip ? props.wip : false}>
       <div className="icon-wrapper">

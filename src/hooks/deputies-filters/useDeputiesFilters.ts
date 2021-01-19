@@ -1,8 +1,8 @@
 import deputeStore from "stores/deputesStore"
 
-import { calculateAgeDomain, groupesArrayToObject } from "../../components/deputies-list/deputies-list-utils"
+import { getAgeDomain, getGroupValue } from "../../components/deputies-list/deputies-list-utils"
 
-export default function useDeputiesFilters(deputiesList = [], groupesList = []) {
+export default function useDeputiesFilters() {
   /*----------------------------------------------------*/
   // Store
   /*----------------------------------------------------*/
@@ -35,24 +35,23 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
   /*----------------------------------------------------*/
   // Handlers
   /*----------------------------------------------------*/
-  const handleSearchValue = (value) => {
+  /**
+   * Recherche un nom de député
+   * @param value le string de recherche
+   */
+  const handleSearch = (value: string) => {
     search(value)
   }
 
-  const handleClickOnAllGroupes = (bool) => {
-    const allGroupesNewValues = Object.keys(GroupeValue).forEach((groupe) => {
-      GroupeValue[groupe] = bool
-    })
-    setGroupeValue(Object.assign({}, GroupeValue, allGroupesNewValues))
-  }
-
-  const handleClickOnGroupe = (sigle) => {
+  /**
+   * Change l'état des filtres au clic d'un bouton groupe
+   * @param sigle Le sigle du groupe
+   */
+  const handleGroupClick = (sigle: string) => {
     const groupesAsArray = Object.entries(GroupeValue)
-    const allActive = groupesAsArray.every(([key, value]) => {
-      return value
-    })
+    const allActive = groupesAsArray.every(([key, value]) => value)
 
-    const isClickedIsAloneAsActive =
+    const isClickedAloneActive =
       GroupeValue[sigle] &&
       groupesAsArray
         .filter(([key, value]) => {
@@ -62,42 +61,59 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
           return !value
         })
 
+    let newGroupValue: Filter.GroupValue = GroupeValue
+
     Object.keys(GroupeValue).forEach((key) => {
       if (allActive) {
-        GroupeValue[key] = key !== sigle ? false : true
-      } else if (isClickedIsAloneAsActive) {
-        GroupeValue[key] = key !== sigle ? true : false
+        newGroupValue[key] = key !== sigle ? false : true
+      } else if (isClickedAloneActive) {
+        newGroupValue[key] = key !== sigle ? true : false
       } else {
-        if (key === sigle) GroupeValue[sigle] = !GroupeValue[sigle]
+        if (key === sigle) newGroupValue[sigle] = !newGroupValue[sigle]
       }
     })
 
-    setGroupeValue(Object.assign({}, GroupeValue))
+    setGroupeValue(newGroupValue)
   }
 
-  const handleClickOnSex = (clickedSex) => {
+  /**
+   * Change les filtres au clic d'un bouton sexe
+   * @param clickedSex L'initiale du sexe séléctionné, "H", ou "F"
+   */
+  const handleSexClick = (clickedSex: Filter.Gender) => {
     const currentSexValue = SexValue[clickedSex]
     const otherSex = clickedSex === "F" ? "H" : "F"
-
-    if (!SexValue[otherSex]) {
-      SexValue[clickedSex] = false
-      SexValue[otherSex] = true
-    } else {
-      SexValue[clickedSex] = !currentSexValue
+    let newSexValue = {
+      F: true,
+      H: true,
     }
 
-    setSexValue(Object.assign({}, SexValue))
+    if (!SexValue[otherSex]) {
+      newSexValue[clickedSex] = false
+      newSexValue[otherSex] = true
+    } else {
+      newSexValue[clickedSex] = !currentSexValue
+    }
+
+    setSexValue(newSexValue)
   }
 
-  const handleAgeSelection = (domain) => {
+  /**
+   * Change l'état des filtres au changement du slider âge
+   * @param domain Range des âges
+   */
+  const handleAgeSlider = (domain: Filter.AgeDomain) => {
     setAgeDomain(domain)
   }
 
+  /**
+   * Reset les filtres
+   */
   const handleReset = () => {
     search("")
-    setGroupeValue(groupesArrayToObject(initialGroupesList.map((g) => g.Sigle)))
+    setGroupeValue(getGroupValue(initialGroupesList.map((g) => g.Sigle)))
     setSexValue({ H: true, F: true })
-    setAgeDomain(calculateAgeDomain(initialDeputesList))
+    setAgeDomain(getAgeDomain(initialDeputesList))
   }
 
   const state = {
@@ -112,11 +128,10 @@ export default function useDeputiesFilters(deputiesList = [], groupesList = []) 
 
   return {
     state,
-    handleSearchValue,
-    handleClickOnAllGroupes,
-    handleClickOnGroupe,
-    handleClickOnSex,
-    handleAgeSelection,
+    handleSearch,
+    handleGroupClick,
+    handleSexClick,
+    handleAgeSlider,
     handleReset,
   }
 }
