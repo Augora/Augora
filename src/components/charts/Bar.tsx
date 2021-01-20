@@ -48,9 +48,9 @@ export default function BarChart({ width, height, margin, events = false, data }
   const xScale = useMemo(
     () =>
       scaleBand<string>({
-        range: [0, xMax],
+        range: [xMax, 0],
         round: true,
-        domain: data.reverse().map(sigle),
+        domain: data.map(sigle).reverse(),
         padding: 0.4,
       }),
     [xMax]

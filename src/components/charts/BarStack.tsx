@@ -28,8 +28,6 @@ export default function BarStackChart({ width, height, events = false, data, dat
 
   const sigleList = data.map(sigle)
 
-  //const barX = xScale(sigleAccessor)
-
   // scales, memoize for performance
 
   const xScale = useMemo(
@@ -37,7 +35,7 @@ export default function BarStackChart({ width, height, events = false, data, dat
       scaleBand<string>({
         range: [0, xMax],
         round: true,
-        domain: dataAge.reverse().map(age),
+        domain: dataAge.map(age).reverse(),
         padding: 0.4,
       }),
     [xMax]
@@ -100,7 +98,7 @@ export default function BarStackChart({ width, height, events = false, data, dat
         </BarStack>
       </Group>
       <Group top={verticalMargin / 2}>
-        <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={dataAge.reverse().map(age).length} />
+        <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={dataAge.map(age).length} />
       </Group>
     </svg>
   )
