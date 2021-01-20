@@ -2,7 +2,6 @@ import React from "react"
 import { Pie } from "@visx/shape"
 import { Group } from "@visx/group"
 import { scaleOrdinal } from "@visx/scale"
-import { letterFrequency } from "@visx/mock-data"
 
 interface PieProps {
   width: number
@@ -16,9 +15,6 @@ interface PieProps {
 const sigle = (d) => d.id
 const nombreDeputes = (d) => d.value
 const colorGroupe = (d) => d.color
-
-const letters = letterFrequency.slice(0, 4)
-const frequency = (d) => d.frequency
 
 const defaultMargin = { top: 20, right: 20, bottom: 20, left: 20 }
 
@@ -54,7 +50,7 @@ export default function PieChart({ width, height, margin = defaultMargin, data }
             return pie.arcs.map((arc, index) => {
               const groupeArc = arc.data
               const [centroidX, centroidY] = pie.path.centroid(arc)
-              const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.1
+              const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.2
               const arcPath = pie.path(arc)
               const arcFill = getGroupeFrequencyColor(groupeArc)
               return (
