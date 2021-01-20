@@ -107,8 +107,8 @@ const Statistiques = (props) => {
               ) : (
                 <div className="barchart chart">
                   <BarChart
-                    width={420}
-                    height={280}
+                    width={480}
+                    height={300}
                     margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
                     data={groupesData}
                   ></BarChart>
@@ -120,11 +120,11 @@ const Statistiques = (props) => {
       </section>
 
       <section className="pyramide">
-        <Frame className="frame-chart" title="Pyramide des âges">
+        <Frame className="frame-pyramide" title="Pyramide des âges">
           <div className="pyramide chart">
             <BarStackChart
-              width={800}
-              height={300}
+              width={1500}
+              height={400}
               data={groupesData}
               dataAge={getAgeData()}
               maxAge={getMaxAge()}

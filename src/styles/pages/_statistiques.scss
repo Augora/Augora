@@ -26,3 +26,52 @@
     }
   }
 }
+
+.frame-chart {
+  min-width: 30vw;
+  margin: 0 0 0 40px;
+  &__content {
+    margin: auto 10px;
+    .chart {
+      min-height: 250px;
+      height: 250px;
+      width: 100%;
+      outline: none;
+      &.piechart,
+      &.barchart {
+        background: rgba(black, 0);
+        transition: 0.225s linear;
+        padding-left: 20px;
+        svg g text {
+          &[text-anchor="middle"] {
+            font-size: 13px !important;
+          }
+          &[text-anchor="end"] {
+            font-size: 16px !important;
+          }
+          &.description_y {
+            font-size: 14px !important;
+          }
+          &.label {
+            font-weight: bold;
+          }
+          font-size: 18px !important;
+          font-family: "Open sans, sans-serif";
+          fill: black;
+        }
+      }
+      &.piechart {
+        svg g text {
+          &[text-anchor="middle"] {
+            font-size: 22px !important;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
+
+.frame.frame-pyramide {
+  max-width: none;
+}

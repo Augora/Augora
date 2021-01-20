@@ -51,7 +51,7 @@ export default function BarChart({ width, height, margin, events = false, data }
         range: [xMax, 0],
         round: true,
         domain: data.map(sigle).reverse(),
-        padding: 0.4,
+        padding: 0.15,
       }),
     [xMax]
   )
@@ -74,7 +74,7 @@ export default function BarChart({ width, height, margin, events = false, data }
           <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
           <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
 
-          <text x="-70" y="15" transform="rotate(-90)" fontSize={10}>
+          <text x="-70" y="15" transform="rotate(-90)" className="description_y">
             Nombre de députés
           </text>
         </Group>
@@ -93,7 +93,6 @@ export default function BarChart({ width, height, margin, events = false, data }
                   y={barY}
                   width={barWidth}
                   height={barHeight}
-                  //fill="rgba(23, 233, 217, .5)"
                   fill={colorGroupe(d)}
                   onClick={() => {
                     if (events) alert(`clicked: ${JSON.stringify(Object.values(d))}`)
@@ -116,11 +115,11 @@ export default function BarChart({ width, height, margin, events = false, data }
                 />
                 return(
                 {nombreDeputes(d) < 100 ? (
-                  <text x={barX} y={barY} fill="black" fontSize={12} dx={"+.4em"} dy={"-.33em"} style={{ fontFamily: "arial" }}>
+                  <text x={barX} y={barY} dx={"+.6em"} dy={"-.33em"} className="label">
                     {nombreDeputes(d)}
                   </text>
                 ) : (
-                  <text x={barX} y={barY} fill="black" fontSize={12} dy={"-.33em"} style={{ fontFamily: "arial" }}>
+                  <text x={barX} y={barY} dx={"+.3em"} dy={"-.33em"} className="label">
                     {nombreDeputes(d)}
                   </text>
                 )}
