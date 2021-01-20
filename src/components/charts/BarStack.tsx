@@ -12,9 +12,10 @@ interface BarStackProps {
   data: { id: string; label: string; value: number; color: string }[]
   dataAge: { age: any; [x: string]: number }[]
   maxAge: number
+  averageAge: number
 }
 
-export default function BarStackChart({ width, height, events = false, data, dataAge, maxAge }: BarStackProps) {
+export default function BarStackChart({ width, height, events = false, data, dataAge, maxAge, averageAge }: BarStackProps) {
   // bounds
   const verticalMargin = 120
   const xMax = width
@@ -100,7 +101,7 @@ export default function BarStackChart({ width, height, events = false, data, dat
       </Group>
       <Group top={verticalMargin}>
         <text x={xMax / 2 - 33} y={yMax} className="age_moyen">
-          Âge moyen : {}
+          Âge moyen : {averageAge} ans
         </text>
       </Group>
     </svg>

@@ -63,6 +63,23 @@ const Statistiques = (props) => {
     }, 0)
   }
 
+  /**
+   * Renvoie la somme des âges des députés
+   */
+  const getSumAge = (): number => {
+    let ages: number[] = []
+    for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
+      ages.push(i)
+    }
+
+    return ages.reduce((acc, cur) => {
+      const nbDeputies = state.FilteredList.filter((depute) => depute.Age === cur).length
+      return acc + nbDeputies * cur
+    }, 0)
+  }
+
+  const AverageAge = Math.round((getSumAge() / state.FilteredList.filter((depute) => depute.Age).length) * 10) / 10
+
   return (
     <>
       <section className="filters">
@@ -128,6 +145,7 @@ const Statistiques = (props) => {
               data={groupesData}
               dataAge={getAgeData()}
               maxAge={getMaxAge()}
+              averageAge={AverageAge}
             ></BarStackChart>
           </div>
         </Frame>
