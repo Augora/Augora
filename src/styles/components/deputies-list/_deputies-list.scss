@@ -71,7 +71,7 @@
   min-width: 30vw;
   margin: 0 0 0 40px;
   &__content {
-    margin: auto 0;
+    margin: auto 10px;
     .chart {
       min-height: 250px;
       height: 250px;
@@ -81,21 +81,33 @@
       &.barchart {
         background: rgba(black, 0);
         transition: 0.225s linear;
+        padding-left: 20px;
+        svg g text {
+          &[text-anchor="middle"] {
+            font-size: 13px !important;
+          }
+          &[text-anchor="end"] {
+            font-size: 16px !important;
+          }
+          &.description_y {
+            font-size: 14px !important;
+          }
+          &.label {
+            font-weight: bold;
+          }
+          font-size: 18px !important;
+          font-family: "Open sans, sans-serif";
+          fill: black;
+        }
       }
       &.piechart {
         svg g text {
           &[text-anchor="middle"] {
-            font-size: 22px !important;
+            font-size: 28px !important;
             font-weight: bold;
+            fill: white;
           }
         }
-      }
-      &.complex-barchart {
-        width: 70%;
-        position: relative;
-      }
-      .chart-wrapper {
-        height: 100%;
       }
     }
     .charts {
