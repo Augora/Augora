@@ -23,8 +23,6 @@ export default function BarStackChart({ width, height, events = false, data, dat
   // accessors
   const age = (d) => d.age
   const sigle = (d) => d.id
-  const nombreDeputes = (d) => d.LFI
-  const colorGroupe = (d) => d.color
 
   const sigleList = data.map(sigle)
 
@@ -36,7 +34,7 @@ export default function BarStackChart({ width, height, events = false, data, dat
         range: [0, xMax],
         round: true,
         domain: dataAge.map(age).reverse(),
-        padding: 0.4,
+        padding: 0.15,
       }),
     [xMax]
   )
@@ -65,10 +63,10 @@ export default function BarStackChart({ width, height, events = false, data, dat
       <Group top={verticalMargin / 2}>
         <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
         <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
-        <text x="-70" y="15" transform="rotate(-90)" fontSize={10}>
+        <text x="-70" y="15" transform="rotate(-90)" className="description_y">
           Nombre de députés
         </text>
-        <text x={xMax + 10} y={yMax} fontSize={10}>
+        <text x={xMax + 10} y={yMax} className="description_x">
           Âge
         </text>
       </Group>
@@ -99,6 +97,11 @@ export default function BarStackChart({ width, height, events = false, data, dat
       </Group>
       <Group top={verticalMargin / 2}>
         <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={dataAge.map(age).length} />
+      </Group>
+      <Group top={verticalMargin}>
+        <text x={xMax / 2 - 33} y={yMax} className="age_moyen">
+          Âge moyen : {}
+        </text>
       </Group>
     </svg>
   )

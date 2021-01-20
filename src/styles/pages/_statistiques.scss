@@ -75,4 +75,19 @@
 
 .frame.frame-pyramide {
   max-width: none;
+  svg g text {
+    &[text-anchor="middle"] {
+      font-size: 14px !important;
+    }
+    &[text-anchor="end"] {
+      font-size: 14px !important;
+    }
+    &.description_y {
+      font-size: 14px !important;
+    }
+    &.description_x {
+      font-size: 14px !important;
+    }
+    font-family: "Open sans, sans-serif";
+  }
 }
