@@ -63,8 +63,9 @@
       &.piechart {
         svg g text {
           &[text-anchor="middle"] {
-            font-size: 22px !important;
+            font-size: 28px !important;
             font-weight: bold;
+            fill: white;
           }
         }
       }
