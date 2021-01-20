@@ -45,26 +45,18 @@ export default function BarChart({ width, height, margin, events = false, data }
   const labelGroupe = (d) => d.label
 
   // scales, memoize for performance
-  const xScale = useMemo(
-    () =>
-      scaleBand<string>({
-        range: [xMax, 0],
-        round: true,
-        domain: data.map(sigle).reverse(),
-        padding: 0.15,
-      }),
-    [xMax]
-  )
+  const xScale = scaleBand<string>({
+    range: [xMax, 0],
+    round: true,
+    domain: data.map(sigle).reverse(),
+    padding: 0.15,
+  })
 
-  const yScale = useMemo(
-    () =>
-      scaleLinear<number>({
-        range: [yMax, 0],
-        round: true,
-        domain: [0, Math.max(...data.map(nombreDeputes))],
-      }),
-    [yMax]
-  )
+  const yScale = scaleLinear<number>({
+    range: [yMax, 0],
+    round: true,
+    domain: [0, Math.max(...data.map(nombreDeputes))],
+  })
 
   return width < 10 ? null : (
     <div style={{ position: "relative" }}>

@@ -29,26 +29,20 @@ export default function BarStackChart({ width, height, events = false, data, dat
 
   // scales, memoize for performance
 
-  const xScale = useMemo(
-    () =>
-      scaleBand<string>({
-        range: [0, xMax],
-        round: true,
-        domain: dataAge.map(age).reverse(),
-        padding: 0.15,
-      }),
-    [xMax]
-  )
+  const xScale = scaleBand<string>({
+    range: [0, xMax],
+    round: true,
+    domain: dataAge.map(age).reverse(),
+    padding: 0.15,
+  })
 
-  const yScale = useMemo(
-    () =>
-      scaleLinear<number>({
-        range: [yMax, 0],
-        round: true,
-        domain: [0, maxAge],
-      }),
-    [yMax]
-  )
+  const yScale = scaleLinear<number>({
+    range: [yMax, 0],
+    round: true,
+    domain: [0, maxAge],
+  })
+
+  console.log(yScale)
 
   const colorScale = (key, index) => {
     const foundValue = data.find((value) => {
