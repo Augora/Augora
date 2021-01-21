@@ -42,8 +42,6 @@ export default function BarStackChart({ width, height, events = false, data, dat
     domain: [0, maxAge],
   })
 
-  console.log(yScale)
-
   const colorScale = (key, index) => {
     const foundValue = data.find((value) => {
       if (value.id === key) return true
