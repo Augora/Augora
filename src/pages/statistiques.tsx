@@ -83,20 +83,6 @@ const Statistiques = (props) => {
    */
   const AverageAge = Math.round((getSumAge() / state.FilteredList.filter((depute) => depute.Age).length) * 10) / 10
 
-  /**
-   * Renvoie le nombre de députés total
-   */
-  const GetNombreDeputes = (): number => {
-    let ages: number[] = []
-    for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
-      ages.push(i)
-    }
-
-    return ages.reduce((acc, cur) => {
-      const nbDeputies = state.FilteredList.filter((depute) => depute.Age === cur).length
-      return acc + nbDeputies
-    }, 0)
-  }
   return (
     <>
       <section className="filters">
@@ -145,7 +131,7 @@ const Statistiques = (props) => {
                     height={300}
                     margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
                     data={groupesData}
-                    totalDeputes={GetNombreDeputes()}
+                    totalDeputes={state.FilteredList.length}
                   ></BarChart>
                 </div>
               )}
