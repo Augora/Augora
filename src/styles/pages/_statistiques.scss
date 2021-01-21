@@ -56,7 +56,7 @@
             font-weight: bold;
           }
           font-size: 18px !important;
-          font-family: "Open sans, sans-serif";
+          font-family: $font;
           fill: black;
         }
       }
@@ -88,6 +88,6 @@
     &.description_x {
       font-size: 14px !important;
     }
-    font-family: "Open sans, sans-serif";
+    font-family: $font;
   }
 }
