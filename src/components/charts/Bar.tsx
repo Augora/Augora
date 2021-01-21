@@ -1,11 +1,11 @@
-import React, { useMemo } from "react"
+import React from "react"
 import { Bar } from "@visx/shape"
 import { Group } from "@visx/group"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { GridRows } from "@visx/grid"
 import { scaleBand, scaleLinear } from "@visx/scale"
-import { SeriesPoint } from "@visx/shape/lib/types"
-import { useTooltip, useTooltipInPortal, defaultStyles } from "@visx/tooltip"
+import { useTooltip } from "@visx/tooltip"
+import ChartTooltip from "components/charts/ChartTooltip"
 
 interface BarsProps {
   width: number
@@ -13,30 +13,24 @@ interface BarsProps {
   margin: { top: number; left: number; right: number; bottom: number }
   events?: boolean
   data: { id: string; label: string; value: number; color: string }[]
+  totalDeputes: number
 }
 
 type TooltipData = {
   key: string
-  bar: string
+  bar: number
   color: string
-}[]
+}
 
 let tooltipTimeout: number
 
-export default function BarChart({ width, height, margin, events = false, data }: BarsProps) {
+export default function BarChart({ width, height, margin, data, totalDeputes }: BarsProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<TooltipData>()
-  const { containerRef, TooltipInPortal } = useTooltipInPortal()
 
   // bounds
   const verticalMargin = 120
   const xMax = width
   const yMax = height - verticalMargin
-  const tooltipStyles = {
-    ...defaultStyles,
-    minWidth: 60,
-    backgroundColor: "black",
-    color: "white",
-  }
 
   // accessors
   const sigle = (d) => d.id
@@ -57,6 +51,27 @@ export default function BarChart({ width, height, margin, events = false, data }
     round: true,
     domain: [0, Math.max(...data.map(nombreDeputes))],
   })
+
+  const handleMouseLeave = () => {
+    tooltipTimeout = window.setTimeout(() => {
+      hideTooltip()
+    }, 300)
+  }
+
+  const handleMouseMove = (event, data) => {
+    if (tooltipTimeout) clearTimeout(tooltipTimeout)
+    const top = event.clientY
+    const left = event.clientX
+    showTooltip({
+      tooltipData: {
+        key: labelGroupe(data),
+        bar: nombreDeputes(data),
+        color: colorGroupe(data),
+      },
+      tooltipTop: top,
+      tooltipLeft: left,
+    })
+  }
 
   return width < 10 ? null : (
     <div style={{ position: "relative" }}>
@@ -86,26 +101,9 @@ export default function BarChart({ width, height, margin, events = false, data }
                   width={barWidth}
                   height={barHeight}
                   fill={colorGroupe(d)}
-                  onClick={() => {
-                    if (events) alert(`clicked: ${JSON.stringify(Object.values(d))}`)
-                  }}
-                  onMouseLeave={() => {
-                    tooltipTimeout = window.setTimeout(() => {
-                      hideTooltip()
-                    }, 300)
-                  }}
-                  onMouseMove={(event) => {
-                    if (tooltipTimeout) clearTimeout(tooltipTimeout)
-                    const top = event.clientY - margin.top - height
-                    const left = barX + width / 2
-                    showTooltip({
-                      tooltipData: [sigle(d), nombreDeputes(d), colorGroupe(d)],
-                      tooltipTop: top,
-                      tooltipLeft: left,
-                    })
-                  }}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseMove={(event) => handleMouseMove(event, d)}
                 />
-                return(
                 {nombreDeputes(d) < 100 ? (
                   <text x={barX} y={barY} dx={"+.6em"} dy={"-.33em"} className="label">
                     {nombreDeputes(d)}
@@ -115,7 +113,6 @@ export default function BarChart({ width, height, margin, events = false, data }
                     {nombreDeputes(d)}
                   </text>
                 )}
-                )
               </Group>
             )
           })}
@@ -125,16 +122,7 @@ export default function BarChart({ width, height, margin, events = false, data }
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (
-        <TooltipInPortal
-          key={Math.random()} // update tooltip bounds each render
-          top={tooltipTop}
-          left={tooltipLeft}
-          style={tooltipStyles}
-        >
-          <div>{tooltipData[0]}</div>
-          <div>{tooltipData[1]} députés x% </div>
-          {/* <div>{tooltipData}</div> */}
-        </TooltipInPortal>
+        <ChartTooltip tooltipTop={tooltipTop} tooltipLeft={tooltipLeft} totalDeputes={totalDeputes} tooltipData={tooltipData} />
       )}
     </div>
   )
