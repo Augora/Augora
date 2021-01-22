@@ -7,27 +7,22 @@ import { Group } from "@visx/group"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
-type AgeData = { age: number; groups: { [x: string]: number } }
-
-interface BarStackProps extends Chart.BaseProps {
-  dataAge: AgeData[]
+interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
+  dataAge: Chart.AgeData[]
+  groups: Group.GroupsList
   maxAge: number
   averageAge: number
 }
 
-export default function BarStackChart({ width, height, data, dataAge, maxAge, averageAge, totalDeputes }: BarStackProps) {
+export default function BarStackChart({ width, height, groups, dataAge, maxAge, averageAge, totalDeputes }: BarStackProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+
   // bounds
   const verticalMargin = 120
   const xMax = width
   const yMax = height - verticalMargin
 
-  // accessors
-  const age = (d) => d.age
-  const sigle = (d) => d.id
-
   // scales, memoize for performance
-
   const xScale = scaleBand<number>({
     range: [0, xMax],
     round: true,
@@ -41,12 +36,8 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
     domain: [0, maxAge],
   })
 
-  const colorScale = (key, index) => {
-    const foundValue = data.find((value) => {
-      if (value.id === key) return true
-    })
-    if (foundValue) return foundValue.color
-    else return ""
+  const getGroupColor = (sigle: string): string => {
+    return groups.find((group) => group.Sigle === sigle).Couleur
   }
 
   const handleMouseLeave = () => {
@@ -57,7 +48,7 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
     showTooltip({
       tooltipData: {
         key: data.key,
-        bar: data.bar.data.groups[data.key],
+        bar: data.bar.data.groups[data.key].length,
         color: data.color,
         age: data.bar.data.age,
       },
@@ -81,14 +72,14 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
           </text>
         </Group>
         <Group top={verticalMargin / 2}>
-          <BarStack<AgeData, string>
+          <BarStack<Chart.AgeData, string>
             data={dataAge}
-            keys={Object.keys(dataAge[0].groups)}
-            value={(d, key) => d.groups[key]}
+            keys={groups.map((group) => group.Sigle)}
+            value={(d, key) => d.groups[key].length}
             x={(d) => d.age}
             xScale={xScale}
             yScale={yScale}
-            color={colorScale}
+            color={getGroupColor}
           >
             {(barStacks) =>
               barStacks.map((barStack) =>
@@ -109,7 +100,7 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
           </BarStack>
         </Group>
         <Group top={verticalMargin / 2}>
-          <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={dataAge.map(age).length} />
+          <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={dataAge.map((d) => d.age).length} />
         </Group>
         {/* Il faut enlever les 40 du padding sur ce groupe */}
         <Group left={width / 2 - 40} top={height}>

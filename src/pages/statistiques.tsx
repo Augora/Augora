@@ -17,6 +17,26 @@ type Groups = {
   color: string
 }
 
+const getAgeData = (groupList: Group.GroupsList, list: Deputy.DeputiesList, ages: Filter.AgeDomain) => {
+  return Array(ages[1] - ages[0] + 1)
+    .fill(null)
+    .map((nothing, index) => {
+      const age = ages[0] + index
+      const groups = groupList.reduce((acc, cur) => {
+        const ageDeputies = list.filter((depute) => depute.Age === age)
+        return {
+          ...acc,
+          [cur.Sigle]: ageDeputies.filter((depute) => depute.GroupeParlementaire.Sigle === cur.Sigle),
+        }
+      }, {})
+
+      return {
+        age: age,
+        groups: groups,
+      }
+    })
+}
+
 const Statistiques = (props) => {
   const { state } = useDeputiesFilters()
 
@@ -31,24 +51,6 @@ const Statistiques = (props) => {
       color: groupe.Couleur,
     }
   }).filter((groupe) => groupe.value !== 0)
-
-  const getAgeData = (): any[] => {
-    let ages: number[] = []
-    for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
-      ages.push(i)
-    }
-    return ages.map((age) => {
-      const groups = Object.keys(state.GroupeValue).reduce((acc, cur) => {
-        const ageDeputies = state.FilteredList.filter((depute) => depute.Age === age)
-        return { ...acc, [cur]: ageDeputies.filter((depute) => depute.GroupeParlementaire.Sigle === cur).length }
-      }, {})
-
-      return {
-        age: age.toString(),
-        groups: groups,
-      }
-    })
-  }
 
   /**
    * Renvoie le nombre de députés maximum possible sur un age
@@ -131,8 +133,8 @@ const Statistiques = (props) => {
           <BarStackChart
             width={1540}
             height={400}
-            data={groupesData}
-            dataAge={getAgeData()}
+            groups={state.GroupesList}
+            dataAge={getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)}
             maxAge={getMaxAge()}
             averageAge={AverageAge}
             totalDeputes={state.FilteredList.length}

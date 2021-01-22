@@ -15,7 +15,7 @@ declare namespace Chart {
   /**
    * Data des tooltip pour le component tooltip visx
    */
-  type Tooltip = {
+  interface Tooltip {
     /**
      * Nom Complet du groupe
      */
@@ -54,5 +54,10 @@ declare namespace Chart {
      * Couleur du groupe
      */
     color: string
+  }
+
+  interface AgeData {
+    age: number
+    groups: { [x: string]: Deputy.DeputiesList }
   }
 }
