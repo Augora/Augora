@@ -151,6 +151,7 @@ const Statistiques = (props) => {
               dataAge={getAgeData()}
               maxAge={getMaxAge()}
               averageAge={AverageAge}
+              totalDeputes={state.FilteredList.length}
             ></BarStackChart>
           </div>
         </Frame>

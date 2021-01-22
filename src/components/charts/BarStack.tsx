@@ -15,6 +15,7 @@ interface BarStackProps {
   dataAge: { age: any; [x: string]: number }[]
   maxAge: number
   averageAge: number
+  totalDeputes: number
 }
 
 type TooltipData = {
@@ -25,7 +26,16 @@ type TooltipData = {
 
 let tooltipTimeout: number
 
-export default function BarStackChart({ width, height, events = false, data, dataAge, maxAge, averageAge }: BarStackProps) {
+export default function BarStackChart({
+  width,
+  height,
+  events = false,
+  data,
+  dataAge,
+  maxAge,
+  averageAge,
+  totalDeputes,
+}: BarStackProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<TooltipData>()
   // bounds
   const verticalMargin = 120
@@ -74,7 +84,7 @@ export default function BarStackChart({ width, height, events = false, data, dat
     showTooltip({
       tooltipData: {
         key: data.key,
-        bar: age(data),
+        bar: data.bar.data[data.key],
         color: data.color,
       },
       tooltipTop: top,
@@ -117,7 +127,6 @@ export default function BarStackChart({ width, height, events = false, data, dat
                     fill={bar.color}
                     onMouseLeave={handleMouseLeave}
                     onMouseMove={(event) => handleMouseMove(event, bar)}
-                    //onMouseMove={(event) => console.log(bar)}
                   />
                 ))
               )
@@ -133,7 +142,9 @@ export default function BarStackChart({ width, height, events = false, data, dat
           </text>
         </Group>
       </svg>
-      {tooltipOpen && tooltipData && <ChartTooltip tooltipTop={tooltipTop} tooltipLeft={tooltipLeft} tooltipData={tooltipData} />}
+      {tooltipOpen && tooltipData && (
+        <ChartTooltip tooltipTop={tooltipTop} tooltipLeft={tooltipLeft} totalDeputes={totalDeputes} tooltipData={tooltipData} />
+      )}
     </div>
   )
 }
