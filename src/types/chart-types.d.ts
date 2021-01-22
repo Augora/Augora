@@ -28,6 +28,10 @@ declare namespace Chart {
      * Couleur du groupe
      */
     color: string
+    /**
+     * Age, optionnel
+     */
+    age?: number
   }
 
   /**

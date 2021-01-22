@@ -72,7 +72,14 @@ export default function PieChart({ width, height, data, totalDeputes }: Chart.Ba
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (
-        <ChartTooltip tooltipTop={tooltipTop} tooltipLeft={tooltipLeft} totalDeputes={totalDeputes} tooltipData={tooltipData} />
+        <ChartTooltip
+          tooltipTop={tooltipTop}
+          tooltipLeft={tooltipLeft}
+          title={tooltipData.key}
+          nbDeputes={tooltipData.bar}
+          totalDeputes={totalDeputes}
+          color={tooltipData.color}
+        />
       )}
     </div>
   )

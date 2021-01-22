@@ -54,16 +54,14 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
   }
 
   const handleMouseMove = (event, data) => {
-    const top = event.clientY
-    const left = event.clientX
     showTooltip({
       tooltipData: {
         key: data.key,
         bar: data.bar.data[data.key],
         color: data.color,
       },
-      tooltipTop: top,
-      tooltipLeft: left,
+      tooltipTop: event.clientY,
+      tooltipLeft: event.clientX,
     })
   }
 
@@ -117,7 +115,15 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (
-        <ChartTooltip tooltipTop={tooltipTop} tooltipLeft={tooltipLeft} totalDeputes={totalDeputes} tooltipData={tooltipData} />
+        <ChartTooltip
+          tooltipTop={tooltipTop}
+          tooltipLeft={tooltipLeft}
+          title={tooltipData.key}
+          nbDeputes={tooltipData.bar}
+          totalDeputes={totalDeputes}
+          color={tooltipData.color}
+          age={3}
+        />
       )}
     </div>
   )

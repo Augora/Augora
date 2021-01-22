@@ -1,8 +1,8 @@
 import React from "react"
 import { useTooltipInPortal, defaultStyles } from "@visx/tooltip"
-import Tooltip from "components/tooltip/Tooltip"
+import Tooltip, { ITooltip } from "components/tooltip/Tooltip"
 
-interface IChartTooltip {
+interface IChartTooltip extends Omit<ITooltip, "children"> {
   /**
    * Position Y sur l'écran
    */
@@ -11,12 +11,12 @@ interface IChartTooltip {
    * Position X sur l'écran
    */
   tooltipLeft?: number
-  tooltipData: Chart.Tooltip
   totalDeputes?: number
 }
 
-export default function ChartTooltip({ tooltipTop = 0, tooltipLeft = 0, tooltipData, totalDeputes = 0 }: IChartTooltip) {
+export default function ChartTooltip({ tooltipTop = 0, tooltipLeft = 0, ...props }: IChartTooltip) {
   const { TooltipInPortal } = useTooltipInPortal()
+
   const tooltipStyles = {
     ...defaultStyles,
     background: "none",
@@ -25,13 +25,8 @@ export default function ChartTooltip({ tooltipTop = 0, tooltipLeft = 0, tooltipD
   }
 
   return (
-    <TooltipInPortal
-      key={Math.random()} // update tooltip bounds each render
-      top={tooltipTop}
-      left={tooltipLeft}
-      style={tooltipStyles}
-    >
-      <Tooltip title={tooltipData.key} nbDeputes={tooltipData.bar} totalDeputes={totalDeputes} color={tooltipData.color} />
+    <TooltipInPortal top={tooltipTop} left={tooltipLeft} style={tooltipStyles}>
+      <Tooltip {...props} />
     </TooltipInPortal>
   )
 }
