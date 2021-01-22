@@ -8,6 +8,7 @@ import BarStackChart from "components/charts/BarStack"
 import Frame from "components/frames/Frame"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { getDeputes } from "src/lib/deputes/Wrapper"
 
 type Groups = {
   id: string
@@ -171,4 +172,14 @@ export default function StatsPage() {
       </div>
     </>
   )
+}
+
+export async function getStaticProps() {
+  const deputes = await getDeputes()
+
+  return {
+    props: {
+      deputes,
+    },
+  }
 }
