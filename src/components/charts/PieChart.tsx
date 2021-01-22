@@ -1,7 +1,6 @@
 import React from "react"
 import { Pie } from "@visx/shape"
 import { Group } from "@visx/group"
-import { scaleOrdinal } from "@visx/scale"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
@@ -34,11 +33,6 @@ export default function PieChart({ width, height, margin = defaultMargin, data, 
   const left = centerX + margin.left
   const HALF_PI = Math.PI / 2
 
-  const getGroupeFrequencyColor = scaleOrdinal({
-    domain: data.map(nombreDeputes),
-    range: [data.map(colorGroupe)],
-  })
-
   const handleMouseLeave = () => {
     hideTooltip()
   }
@@ -58,7 +52,7 @@ export default function PieChart({ width, height, margin = defaultMargin, data, 
   }
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="piechart chart" style={{ position: "relative" }}>
       <svg width={width} height={height}>
         <Group top={top} left={left}>
           <Pie
@@ -78,7 +72,6 @@ export default function PieChart({ width, height, margin = defaultMargin, data, 
                 const [centroidX, centroidY] = pie.path.centroid(arc)
                 const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.2
                 const arcPath = pie.path(arc)
-                const arcFill = getGroupeFrequencyColor(groupeArc)
                 return (
                   <g key={`arc-${groupeArc}-${index}`}>
                     <path

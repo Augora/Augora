@@ -117,13 +117,9 @@ const Statistiques = (props) => {
                 </svg>
               </button>
               {HasPieChart ? (
-                <div className="piechart chart">
-                  <PieChart width={420} height={230} data={groupesData} totalDeputes={state.FilteredList.length}></PieChart>
-                </div>
+                <PieChart width={420} height={230} data={groupesData} totalDeputes={state.FilteredList.length}></PieChart>
               ) : (
-                <div className="barchart chart">
-                  <BarChart width={480} height={300} data={groupesData} totalDeputes={state.FilteredList.length}></BarChart>
-                </div>
+                <BarChart width={480} height={280} data={groupesData} totalDeputes={state.FilteredList.length}></BarChart>
               )}
             </div>
           ) : null}

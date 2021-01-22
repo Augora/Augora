@@ -32,16 +32,20 @@
   margin: 0 0 0 40px;
   &__content {
     margin: auto 10px;
+    height: 80%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
     .chart {
-      min-height: 250px;
-      height: 250px;
       width: 100%;
       outline: none;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
       &.piechart,
       &.barchart {
-        background: rgba(black, 0);
-        transition: 0.225s linear;
-        padding-left: 20px;
         svg g text {
           &[text-anchor="middle"] {
             font-size: 13px !important;

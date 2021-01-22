@@ -22,7 +22,7 @@ export default function BarChart({ width, height, margin = defaultMargin, data, 
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
   // bounds
-  const verticalMargin = 120
+  const verticalMargin = 60
   const xMax = width
   const yMax = height - verticalMargin
 
@@ -65,14 +65,14 @@ export default function BarChart({ width, height, margin = defaultMargin, data, 
   }
 
   return width < 10 ? null : (
-    <div style={{ position: "relative" }}>
+    <div className="barchart chart" style={{ position: "relative" }}>
       <svg width={width} height={height}>
         <rect width={width} height={height} fill="url(#teal)" rx={14} />
         <Group top={verticalMargin / 2}>
           <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
           <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
 
-          <text x="-70" y="15" transform="rotate(-90)" className="description_y">
+          <text x="-160" y="-50" transform="rotate(-90)" className="description_y">
             Nombre de députés
           </text>
         </Group>

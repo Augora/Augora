@@ -56,25 +56,9 @@ export default function DeputiesList() {
                 </svg>
               </button>
               {HasPieChart ? (
-                <div className="piechart chart">
-                  <PieChart
-                    width={420}
-                    height={230}
-                    margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
-                    data={groupesData}
-                    totalDeputes={state.FilteredList.length}
-                  ></PieChart>
-                </div>
+                <PieChart width={420} height={230} data={groupesData} totalDeputes={state.FilteredList.length} />
               ) : (
-                <div className="barchart chart">
-                  <BarChart
-                    width={480}
-                    height={300}
-                    margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
-                    data={groupesData}
-                    totalDeputes={state.FilteredList.length}
-                  ></BarChart>
-                </div>
+                <BarChart width={480} height={280} data={groupesData} totalDeputes={state.FilteredList.length} />
               )}
             </div>
           ) : null}
