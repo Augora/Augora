@@ -80,7 +80,7 @@ const Statistiques = (props) => {
   }
 
   /**
-   * Renvoie la moyenne d'âge des députés
+   * Moyenne d'âge des députés
    */
   const AverageAge = Math.round((getSumAge() / state.FilteredList.filter((depute) => depute.Age).length) * 10) / 10
 
@@ -128,17 +128,15 @@ const Statistiques = (props) => {
 
       <section className="pyramide">
         <Frame className="frame-pyramide" title="Pyramide des âges">
-          <div className="pyramide chart">
-            <BarStackChart
-              width={1540}
-              height={400}
-              data={groupesData}
-              dataAge={getAgeData()}
-              maxAge={getMaxAge()}
-              averageAge={AverageAge}
-              totalDeputes={state.FilteredList.length}
-            ></BarStackChart>
-          </div>
+          <BarStackChart
+            width={1540}
+            height={400}
+            data={groupesData}
+            dataAge={getAgeData()}
+            maxAge={getMaxAge()}
+            averageAge={AverageAge}
+            totalDeputes={state.FilteredList.length}
+          />
         </Frame>
       </section>
     </>

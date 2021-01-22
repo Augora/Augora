@@ -82,13 +82,13 @@ export default function BarStackChart({
   }
 
   return width < 10 ? null : (
-    <div style={{ position: "relative" }}>
+    <div className="pyramide chart" style={{ position: "relative" }}>
       <svg width={width} height={height}>
         <rect width={width} height={height} fill="url(#teal)" rx={14} />
         <Group top={verticalMargin / 2}>
           <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
           <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
-          <text x="-70" y="15" transform="rotate(-90)" className="description_y">
+          <text x="-160" y="-50" transform="rotate(-90)" className="description_y">
             Nombre de députés
           </text>
           <text x={xMax + 10} y={yMax} className="description_x">

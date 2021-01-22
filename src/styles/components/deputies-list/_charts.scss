@@ -78,6 +78,17 @@
 
 .frame-pyramide {
   max-width: none;
+
+  &__content {
+    .chart {
+      width: 100%;
+      outline: none;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
   svg g text {
     &[text-anchor="middle"] {
       font-size: 14px !important;
