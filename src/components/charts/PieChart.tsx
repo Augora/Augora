@@ -8,7 +8,7 @@ import ChartTooltip from "components/charts/ChartTooltip"
 interface PieProps {
   width: number
   height: number
-  margin: { top: number; left: number; right: number; bottom: number }
+  margin?: { top: number; left: number; right: number; bottom: number }
   events?: boolean
   data: { id: string; label: string; value: number; color: string }[]
   totalDeputes: number
@@ -20,7 +20,7 @@ const nombreDeputes = (d) => d.value
 const colorGroupe = (d) => d.color
 const labelGroupe = (d) => d.label
 
-const defaultMargin = { top: 20, right: 20, bottom: 20, left: 20 }
+const defaultMargin = { top: 0, right: 0, bottom: 0, left: 0 }
 
 export default function PieChart({ width, height, margin = defaultMargin, data, totalDeputes }: PieProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()

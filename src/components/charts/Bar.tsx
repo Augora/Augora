@@ -10,13 +10,15 @@ import ChartTooltip from "components/charts/ChartTooltip"
 interface BarsProps {
   width: number
   height: number
-  margin: { top: number; left: number; right: number; bottom: number }
+  margin?: { top: number; left: number; right: number; bottom: number }
   events?: boolean
   data: { id: string; label: string; value: number; color: string }[]
   totalDeputes: number
 }
 
-export default function BarChart({ width, height, margin, data, totalDeputes }: BarsProps) {
+const defaultMargin = { top: 0, right: 0, bottom: 0, left: 0 }
+
+export default function BarChart({ width, height, margin = defaultMargin, data, totalDeputes }: BarsProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
   // bounds
