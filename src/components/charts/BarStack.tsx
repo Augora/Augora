@@ -82,7 +82,7 @@ export default function BarStackChart({
   }
 
   return width < 10 ? null : (
-    <div className="pyramide chart" style={{ position: "relative" }}>
+    <div className="pyramide chart">
       <svg width={width} height={height}>
         <rect width={width} height={height} fill="url(#teal)" rx={14} />
         <Group top={verticalMargin / 2}>

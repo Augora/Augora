@@ -52,7 +52,7 @@ export default function PieChart({ width, height, margin = defaultMargin, data, 
   }
 
   return (
-    <div className="piechart chart" style={{ position: "relative" }}>
+    <div className="piechart chart">
       <svg width={width} height={height}>
         <Group top={top} left={left}>
           <Pie

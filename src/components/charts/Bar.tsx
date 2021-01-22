@@ -65,7 +65,7 @@ export default function BarChart({ width, height, margin = defaultMargin, data, 
   }
 
   return width < 10 ? null : (
-    <div className="barchart chart" style={{ position: "relative" }}>
+    <div className="barchart chart">
       <svg width={width} height={height}>
         <rect width={width} height={height} fill="url(#teal)" rx={14} />
         <Group top={verticalMargin / 2}>
