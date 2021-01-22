@@ -1,5 +1,18 @@
 declare namespace Chart {
   /**
+   * Props requis par toutes les chartes
+   */
+  interface BaseProps {
+    width: number
+    height: number
+    /**
+     * Data qui feed les charts
+     */
+    data: Data[]
+    totalDeputes: number
+  }
+
+  /**
    * Data des tooltip pour le component tooltip visx
    */
   type Tooltip = {

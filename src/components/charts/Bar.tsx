@@ -7,18 +7,7 @@ import { scaleBand, scaleLinear } from "@visx/scale"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
-interface BarsProps {
-  width: number
-  height: number
-  margin?: { top: number; left: number; right: number; bottom: number }
-  events?: boolean
-  data: { id: string; label: string; value: number; color: string }[]
-  totalDeputes: number
-}
-
-const defaultMargin = { top: 0, right: 0, bottom: 0, left: 0 }
-
-export default function BarChart({ width, height, margin = defaultMargin, data, totalDeputes }: BarsProps) {
+export default function BarChart({ width, height, data, totalDeputes }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
   // bounds
@@ -26,41 +15,33 @@ export default function BarChart({ width, height, margin = defaultMargin, data, 
   const xMax = width
   const yMax = height - verticalMargin
 
-  // accessors
-  const sigle = (d) => d.id
-  const nombreDeputes = (d) => d.value
-  const colorGroupe = (d) => d.color
-  const labelGroupe = (d) => d.label
-
   // scales, memoize for performance
   const xScale = scaleBand<string>({
     range: [xMax, 0],
     round: true,
-    domain: data.map(sigle).reverse(),
+    domain: data.map((d) => d.id).reverse(),
     padding: 0.15,
   })
 
   const yScale = scaleLinear<number>({
     range: [yMax, 0],
     round: true,
-    domain: [0, Math.max(...data.map(nombreDeputes))],
+    domain: [0, Math.max(...data.map((d) => d.value))],
   })
 
   const handleMouseLeave = () => {
     hideTooltip()
   }
 
-  const handleMouseMove = (event, data) => {
-    const top = event.clientY
-    const left = event.clientX
+  const handleMouseMove = (event, data: Chart.Data) => {
     showTooltip({
       tooltipData: {
-        key: labelGroupe(data),
-        bar: nombreDeputes(data),
-        color: colorGroupe(data),
+        key: data.label,
+        bar: data.value,
+        color: data.color,
       },
-      tooltipTop: top,
-      tooltipLeft: left,
+      tooltipTop: event.clientY,
+      tooltipLeft: event.clientX,
     })
   }
 
@@ -77,35 +58,27 @@ export default function BarChart({ width, height, margin = defaultMargin, data, 
           </text>
         </Group>
         <Group top={verticalMargin / 2}>
-          {data.map((d) => {
-            const sigleAccessor = sigle(d)
+          {data.map((d, index) => {
             const barWidth = xScale.bandwidth()
-            const barHeight = yMax - (yScale(nombreDeputes(d)) ?? 0)
-            const hasSpaceForLabel = barHeight >= 25
-            const barX = xScale(sigleAccessor)
+            const barHeight = yMax - (yScale(d.value) ?? 0)
+            const barX = xScale(d.id)
             const barY = yMax - barHeight
             return (
-              <Group key={`bar-${sigleAccessor}`} left={margin.left} top={margin.top}>
+              <Group key={`bar-${d.id}-${index}`}>
                 <Bar
-                  key={`bar-${sigleAccessor}`}
                   x={barX}
                   y={barY}
                   width={barWidth}
                   height={barHeight}
-                  fill={colorGroupe(d)}
+                  fill={d.color}
                   onMouseLeave={handleMouseLeave}
                   onMouseMove={(event) => handleMouseMove(event, d)}
                 />
-                {hasSpaceForLabel &&
-                  (nombreDeputes(d) < 100 ? (
-                    <text x={barX} y={yMax - barHeight / 2} dx={"+.6em"} dy={"+.33em"} className="label">
-                      {nombreDeputes(d)}
-                    </text>
-                  ) : (
-                    <text x={barX} y={yMax - barHeight / 2} dx={"+.3em"} dy={"+.33em"} className="label">
-                      {nombreDeputes(d)}
-                    </text>
-                  ))}
+                {barHeight >= 25 && (
+                  <text x={barX} y={yMax - barHeight / 2} dx={d.value < 100 ? "+.6em" : "+.3em"} dy={"+.33em"} className="label">
+                    {d.value}
+                  </text>
+                )}
               </Group>
             )
           })}

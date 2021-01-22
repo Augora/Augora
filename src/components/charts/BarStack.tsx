@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React from "react"
 import { BarStack } from "@visx/shape"
 import { GridRows } from "@visx/grid"
 import { AxisLeft, AxisBottom } from "@visx/axis"
@@ -7,27 +7,13 @@ import { Group } from "@visx/group"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
-interface BarStackProps {
-  width: number
-  height: number
-  events?: boolean
-  data: { id: string; label: string; value: number; color: string }[]
+interface BarStackProps extends Chart.BaseProps {
   dataAge: { age: any; [x: string]: number }[]
   maxAge: number
   averageAge: number
-  totalDeputes: number
 }
 
-export default function BarStackChart({
-  width,
-  height,
-  events = false,
-  data,
-  dataAge,
-  maxAge,
-  averageAge,
-  totalDeputes,
-}: BarStackProps) {
+export default function BarStackChart({ width, height, data, dataAge, maxAge, averageAge, totalDeputes }: BarStackProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
   // bounds
   const verticalMargin = 120
