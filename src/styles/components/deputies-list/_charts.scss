@@ -1,0 +1,99 @@
+//chart frame
+.frame-chart {
+  min-width: 30vw;
+  margin: 0 0 0 40px;
+  &__content {
+    margin: auto 10px;
+    height: 80%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .chart {
+      width: 100%;
+      outline: none;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &.piechart,
+      &.barchart {
+        svg g text {
+          &[text-anchor="middle"] {
+            font-size: 13px !important;
+          }
+          &[text-anchor="end"] {
+            font-size: 16px !important;
+          }
+          &.description_y {
+            font-size: 14px !important;
+          }
+          &.label {
+            font-weight: bold;
+            fill: white;
+          }
+          font-size: 18px !important;
+          font-family: $font;
+          fill: black;
+        }
+      }
+      &.piechart {
+        svg g text {
+          &[text-anchor="middle"] {
+            font-size: 28px !important;
+            font-weight: bold;
+            fill: white;
+          }
+        }
+      }
+    }
+    .charts {
+      &__switch {
+        background-color: transparent;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        padding: 10px;
+        border: none;
+        height: 50px;
+        cursor: pointer;
+
+        .icon-switch {
+          width: 30px;
+          height: 30px;
+          fill: $text-color;
+        }
+
+        &:hover {
+          background: $btn-hover;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1500px) {
+    display: none;
+  }
+}
+
+.frame-pyramide {
+  max-width: none;
+  svg g text {
+    &[text-anchor="middle"] {
+      font-size: 14px !important;
+    }
+    &[text-anchor="end"] {
+      font-size: 14px !important;
+    }
+    &.description_y {
+      font-size: 14px !important;
+    }
+    &.description_x {
+      font-size: 14px !important;
+    }
+    &.age_moyen {
+      font-size: 18px !important;
+    }
+    font-family: $font;
+  }
+}

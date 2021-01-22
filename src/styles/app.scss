@@ -21,6 +21,12 @@
 @import "pages/map";
 @import "pages/mentions-legales";
 
+// Templates
+// -----------------------------------------------------
+@import "templates/deputy";
+@import "templates/frames/frame";
+@import "templates/titles/page-title";
+
 // Components
 // -----------------------------------------------------
 @import "components/header/header";
@@ -28,9 +34,5 @@
 @import "components/tooltip/tooltip";
 @import "components/buttons/button";
 @import "components/filters";
+@import "components/deputies-list/charts";
 @import "components/deputies-list/group-bar";
-// Templates
-// -----------------------------------------------------
-@import "templates/deputy";
-@import "templates/frames/frame";
-@import "templates/titles/page-title";
