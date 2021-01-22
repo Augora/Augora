@@ -90,6 +90,7 @@ export default function BarChart({ width, height, margin, data, totalDeputes }: 
             const sigleAccessor = sigle(d)
             const barWidth = xScale.bandwidth()
             const barHeight = yMax - (yScale(nombreDeputes(d)) ?? 0)
+            const hasSpaceForLabel = barHeight >= 25
             const barX = xScale(sigleAccessor)
             const barY = yMax - barHeight
             return (
@@ -104,15 +105,16 @@ export default function BarChart({ width, height, margin, data, totalDeputes }: 
                   onMouseLeave={handleMouseLeave}
                   onMouseMove={(event) => handleMouseMove(event, d)}
                 />
-                {nombreDeputes(d) < 100 ? (
-                  <text x={barX} y={barY} dx={"+.6em"} dy={"-.33em"} className="label">
-                    {nombreDeputes(d)}
-                  </text>
-                ) : (
-                  <text x={barX} y={barY} dx={"+.3em"} dy={"-.33em"} className="label">
-                    {nombreDeputes(d)}
-                  </text>
-                )}
+                {hasSpaceForLabel &&
+                  (nombreDeputes(d) < 100 ? (
+                    <text x={barX} y={yMax - barHeight / 2} dx={"+.6em"} dy={"+.33em"} className="label">
+                      {nombreDeputes(d)}
+                    </text>
+                  ) : (
+                    <text x={barX} y={yMax - barHeight / 2} dx={"+.3em"} dy={"+.33em"} className="label">
+                      {nombreDeputes(d)}
+                    </text>
+                  ))}
               </Group>
             )
           })}
