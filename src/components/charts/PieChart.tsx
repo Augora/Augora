@@ -18,17 +18,15 @@ export default function PieChart({ width, height, data, totalDeputes }: PieProps
     hideTooltip()
   }
 
-  const handleMouseMove = (event, data) => {
-    const top = event.clientY
-    const left = event.clientX
+  const handleMouseMove = (event, data: Chart.Data) => {
     showTooltip({
       tooltipData: {
         key: data.label,
         bar: data.value,
         color: data.color,
       },
-      tooltipTop: top,
-      tooltipLeft: left,
+      tooltipTop: event.clientY,
+      tooltipLeft: event.clientX,
     })
   }
 
