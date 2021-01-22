@@ -136,10 +136,9 @@ export default function BarStackChart({
         <Group top={verticalMargin / 2}>
           <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={dataAge.map(age).length} />
         </Group>
-        <Group top={verticalMargin}>
-          <text x={xMax / 2 - 33} y={yMax} className="age_moyen">
-            Âge moyen : {averageAge} ans
-          </text>
+        {/* Il faut enlever les 40 du padding sur ce groupe */}
+        <Group left={width / 2 - 40} top={height}>
+          <text className="age_moyen">Âge moyen : {averageAge} ans</text>
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (

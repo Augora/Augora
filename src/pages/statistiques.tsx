@@ -145,7 +145,7 @@ const Statistiques = (props) => {
         <Frame className="frame-pyramide" title="Pyramide des âges">
           <div className="pyramide chart">
             <BarStackChart
-              width={1500}
+              width={1540}
               height={400}
               data={groupesData}
               dataAge={getAgeData()}
