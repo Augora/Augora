@@ -14,12 +14,6 @@ interface PieProps {
   totalDeputes: number
 }
 
-type TooltipData = {
-  key: string
-  bar: number
-  color: string
-}
-
 // accessors
 const sigle = (d) => d.id
 const nombreDeputes = (d) => d.value
@@ -31,7 +25,7 @@ const defaultMargin = { top: 20, right: 20, bottom: 20, left: 20 }
 let tooltipTimeout: number
 
 export default function PieChart({ width, height, margin = defaultMargin, data, totalDeputes }: PieProps) {
-  const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<TooltipData>()
+  const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom

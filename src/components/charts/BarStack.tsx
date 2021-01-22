@@ -18,12 +18,6 @@ interface BarStackProps {
   totalDeputes: number
 }
 
-type TooltipData = {
-  key: string
-  bar: number
-  color: string
-}
-
 let tooltipTimeout: number
 
 export default function BarStackChart({
@@ -36,7 +30,7 @@ export default function BarStackChart({
   averageAge,
   totalDeputes,
 }: BarStackProps) {
-  const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<TooltipData>()
+  const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
   // bounds
   const verticalMargin = 120
   const xMax = width
