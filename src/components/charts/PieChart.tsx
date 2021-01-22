@@ -7,31 +7,12 @@ import ChartTooltip from "components/charts/ChartTooltip"
 interface PieProps {
   width: number
   height: number
-  margin?: { top: number; left: number; right: number; bottom: number }
-  events?: boolean
-  data: { id: string; label: string; value: number; color: string }[]
+  data: Chart.Data[]
   totalDeputes: number
 }
 
-// accessors
-const sigle = (d) => d.id
-const nombreDeputes = (d) => d.value
-const colorGroupe = (d) => d.color
-const labelGroupe = (d) => d.label
-
-const defaultMargin = { top: 0, right: 0, bottom: 0, left: 0 }
-
-export default function PieChart({ width, height, margin = defaultMargin, data, totalDeputes }: PieProps) {
+export default function PieChart({ width, height, data, totalDeputes }: PieProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
-
-  const innerWidth = width - margin.left - margin.right
-  const innerHeight = height - margin.top - margin.bottom
-  //const radius = Math.min(innerWidth, innerHeight) / 2
-  const centerY = innerHeight / 2
-  const centerX = innerWidth / 2
-  const top = innerHeight + margin.top
-  const left = centerX + margin.left
-  const HALF_PI = Math.PI / 2
 
   const handleMouseLeave = () => {
     hideTooltip()
@@ -42,9 +23,9 @@ export default function PieChart({ width, height, margin = defaultMargin, data, 
     const left = event.clientX
     showTooltip({
       tooltipData: {
-        key: labelGroupe(data),
-        bar: nombreDeputes(data),
-        color: colorGroupe(data),
+        key: data.label,
+        bar: data.value,
+        color: data.color,
       },
       tooltipTop: top,
       tooltipLeft: left,
@@ -54,16 +35,16 @@ export default function PieChart({ width, height, margin = defaultMargin, data, 
   return (
     <div className="piechart chart">
       <svg width={width} height={height}>
-        <Group top={top} left={left}>
+        <Group top={height} left={width / 2}>
           <Pie
             data={data}
-            pieValue={nombreDeputes}
-            pieSortValues={sigle}
+            pieValue={(d) => d.value}
+            pieSort={null}
             outerRadius={200}
             innerRadius={100}
             padAngle={0.01}
-            startAngle={-HALF_PI}
-            endAngle={HALF_PI}
+            startAngle={-(Math.PI / 2)}
+            endAngle={Math.PI / 2}
             cornerRadius={5}
           >
             {(pie) => {
@@ -71,12 +52,11 @@ export default function PieChart({ width, height, margin = defaultMargin, data, 
                 const groupeArc = arc.data
                 const [centroidX, centroidY] = pie.path.centroid(arc)
                 const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.2
-                const arcPath = pie.path(arc)
                 return (
-                  <g key={`arc-${groupeArc}-${index}`}>
+                  <g key={`arc-${groupeArc.id}-${index}`}>
                     <path
-                      d={arcPath}
-                      fill={colorGroupe(groupeArc)}
+                      d={pie.path(arc)}
+                      fill={groupeArc.color}
                       onMouseLeave={handleMouseLeave}
                       onMouseMove={(event) => handleMouseMove(event, arc.data)}
                     />
@@ -90,7 +70,7 @@ export default function PieChart({ width, height, margin = defaultMargin, data, 
                         textAnchor="middle"
                         pointerEvents="none"
                       >
-                        {nombreDeputes(groupeArc)}
+                        {groupeArc.value}
                       </text>
                     )}
                   </g>

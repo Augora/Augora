@@ -3,7 +3,13 @@ import { useTooltipInPortal, defaultStyles } from "@visx/tooltip"
 import Tooltip from "components/tooltip/Tooltip"
 
 interface IChartTooltip {
+  /**
+   * Position Y sur l'écran
+   */
   tooltipTop?: number
+  /**
+   * Position X sur l'écran
+   */
   tooltipLeft?: number
   tooltipData: Chart.Tooltip
   totalDeputes?: number
