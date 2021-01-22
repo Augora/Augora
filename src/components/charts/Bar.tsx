@@ -16,8 +16,6 @@ interface BarsProps {
   totalDeputes: number
 }
 
-let tooltipTimeout: number
-
 export default function BarChart({ width, height, margin, data, totalDeputes }: BarsProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
@@ -47,13 +45,10 @@ export default function BarChart({ width, height, margin, data, totalDeputes }: 
   })
 
   const handleMouseLeave = () => {
-    tooltipTimeout = window.setTimeout(() => {
-      hideTooltip()
-    }, 300)
+    hideTooltip()
   }
 
   const handleMouseMove = (event, data) => {
-    if (tooltipTimeout) clearTimeout(tooltipTimeout)
     const top = event.clientY
     const left = event.clientX
     showTooltip({

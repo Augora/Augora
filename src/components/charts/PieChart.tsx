@@ -22,8 +22,6 @@ const labelGroupe = (d) => d.label
 
 const defaultMargin = { top: 20, right: 20, bottom: 20, left: 20 }
 
-let tooltipTimeout: number
-
 export default function PieChart({ width, height, margin = defaultMargin, data, totalDeputes }: PieProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
@@ -42,13 +40,10 @@ export default function PieChart({ width, height, margin = defaultMargin, data, 
   })
 
   const handleMouseLeave = () => {
-    tooltipTimeout = window.setTimeout(() => {
-      hideTooltip()
-    }, 300)
+    hideTooltip()
   }
 
   const handleMouseMove = (event, data) => {
-    if (tooltipTimeout) clearTimeout(tooltipTimeout)
     const top = event.clientY
     const left = event.clientX
     showTooltip({

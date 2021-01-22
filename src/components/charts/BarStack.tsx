@@ -18,8 +18,6 @@ interface BarStackProps {
   totalDeputes: number
 }
 
-let tooltipTimeout: number
-
 export default function BarStackChart({
   width,
   height,
@@ -66,13 +64,10 @@ export default function BarStackChart({
   }
 
   const handleMouseLeave = () => {
-    tooltipTimeout = window.setTimeout(() => {
-      hideTooltip()
-    }, 300)
+    hideTooltip()
   }
 
   const handleMouseMove = (event, data) => {
-    if (tooltipTimeout) clearTimeout(tooltipTimeout)
     const top = event.clientY
     const left = event.clientX
     showTooltip({
