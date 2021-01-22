@@ -7,8 +7,10 @@ import { Group } from "@visx/group"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
+type AgeData = { age: number; groups: { [x: string]: number } }
+
 interface BarStackProps extends Chart.BaseProps {
-  dataAge: { age: any; [x: string]: number }[]
+  dataAge: AgeData[]
   maxAge: number
   averageAge: number
 }
@@ -24,14 +26,12 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
   const age = (d) => d.age
   const sigle = (d) => d.id
 
-  const sigleList = data.map(sigle)
-
   // scales, memoize for performance
 
-  const xScale = scaleBand<string>({
+  const xScale = scaleBand<number>({
     range: [0, xMax],
     round: true,
-    domain: dataAge.map(age).reverse(),
+    domain: dataAge.map((d) => d.age).reverse(),
     padding: 0.15,
   })
 
@@ -57,8 +57,9 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
     showTooltip({
       tooltipData: {
         key: data.key,
-        bar: data.bar.data[data.key],
+        bar: data.bar.data.groups[data.key],
         color: data.color,
+        age: data.bar.data.age,
       },
       tooltipTop: event.clientY,
       tooltipLeft: event.clientX,
@@ -80,10 +81,11 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
           </text>
         </Group>
         <Group top={verticalMargin / 2}>
-          <BarStack<{ age: any; [x: string]: number }, string>
+          <BarStack<AgeData, string>
             data={dataAge}
-            keys={sigleList}
-            x={age}
+            keys={Object.keys(dataAge[0].groups)}
+            value={(d, key) => d.groups[key]}
+            x={(d) => d.age}
             xScale={xScale}
             yScale={yScale}
             color={colorScale}
@@ -122,7 +124,7 @@ export default function BarStackChart({ width, height, data, dataAge, maxAge, av
           nbDeputes={tooltipData.bar}
           totalDeputes={totalDeputes}
           color={tooltipData.color}
-          age={3}
+          age={tooltipData.age}
         />
       )}
     </div>

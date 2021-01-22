@@ -45,7 +45,7 @@ const Statistiques = (props) => {
 
       return {
         age: age.toString(),
-        ...groups,
+        groups: groups,
       }
     })
   }
