@@ -67,10 +67,9 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
     })
   }
 
-  return width < 10 ? null : (
+  return (
     <div className="pyramide chart">
       <svg width={width} height={height}>
-        <rect width={width} height={height} fill="url(#teal)" rx={14} />
         <Group top={verticalMargin / 2}>
           <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
           <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
@@ -113,8 +112,8 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
           <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={dataAge.map((d) => d.age).length} />
         </Group>
         {/* Il faut enlever les 40 du padding sur ce groupe */}
-        <Group left={width / 2 - 40} top={height}>
-          <text className="age_moyen">Âge moyen : {averageAge} ans</text>
+        <Group className="age_moyen" left={width / 2 - 40} top={height}>
+          <text>Âge moyen : {averageAge} ans</text>
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (
