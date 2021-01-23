@@ -17,7 +17,7 @@ type Groups = {
   color: string
 }
 
-const getAgeData = (groupList: Group.GroupsList, list: Deputy.DeputiesList, ages: Filter.AgeDomain) => {
+const getAgeData = (groupList: Group.GroupsList, list: Deputy.DeputiesList, ages: Filter.AgeDomain): Chart.AgeData[] => {
   return Array(ages[1] - ages[0] + 1)
     .fill(null)
     .map((nothing, index) => {
@@ -51,40 +51,6 @@ const Statistiques = (props) => {
       color: groupe.Couleur,
     }
   }).filter((groupe) => groupe.value !== 0)
-
-  /**
-   * Renvoie le nombre de députés maximum possible sur un age
-   */
-  const getMaxAge = (): number => {
-    let ages: number[] = []
-    for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
-      ages.push(i)
-    }
-    return ages.reduce((acc, cur) => {
-      const nbDeputies = state.FilteredList.filter((depute) => depute.Age === cur).length
-      return nbDeputies > acc ? nbDeputies : acc
-    }, 0)
-  }
-
-  /**
-   * Renvoie la somme des âges des députés
-   */
-  const getSumAge = (): number => {
-    let ages: number[] = []
-    for (let i = state.AgeDomain[0]; i <= state.AgeDomain[1]; i++) {
-      ages.push(i)
-    }
-
-    return ages.reduce((acc, cur) => {
-      const nbDeputies = state.FilteredList.filter((depute) => depute.Age === cur).length
-      return acc + nbDeputies * cur
-    }, 0)
-  }
-
-  /**
-   * Moyenne d'âge des députés
-   */
-  const AverageAge = Math.round((getSumAge() / state.FilteredList.filter((depute) => depute.Age).length) * 10) / 10
 
   return (
     <>
@@ -135,7 +101,6 @@ const Statistiques = (props) => {
             height={400}
             groups={state.GroupesList}
             dataAge={getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)}
-            averageAge={AverageAge}
             totalDeputes={state.FilteredList.length}
           />
         </Frame>
