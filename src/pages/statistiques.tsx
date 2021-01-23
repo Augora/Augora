@@ -135,7 +135,6 @@ const Statistiques = (props) => {
             height={400}
             groups={state.GroupesList}
             dataAge={getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)}
-            maxAge={getMaxAge()}
             averageAge={AverageAge}
             totalDeputes={state.FilteredList.length}
           />

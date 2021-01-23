@@ -10,12 +10,16 @@ import ChartTooltip from "components/charts/ChartTooltip"
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAge: Chart.AgeData[]
   groups: Group.GroupsList
-  maxAge: number
   averageAge: number
 }
 
-export default function BarStackChart({ width, height, groups, dataAge, maxAge, averageAge, totalDeputes }: BarStackProps) {
+export default function BarStackChart({ width, height, groups, dataAge, averageAge, totalDeputes }: BarStackProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+
+  const maxAge = dataAge.reduce((acc, cur) => {
+    const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
+    return curSum > acc ? curSum : acc
+  }, 0)
 
   // bounds
   const verticalMargin = 120
