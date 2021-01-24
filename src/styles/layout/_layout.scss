@@ -636,7 +636,9 @@ pre tt:after {
 }
 
 .layout {
-  padding-top: 60px;
+  .no-title & {
+    padding-top: 60px;
+  }
 }
 
 .page {

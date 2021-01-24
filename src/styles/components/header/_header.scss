@@ -6,6 +6,14 @@ header#header.header {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   z-index: 100;
 
+  height: 60px;
+  // background: red;
+
+  display: flex;
+  align-items: center;
+
+  transition: height 0.2s $ease-in-out-cubic;
+
   // Global rules
   .header {
     &__wrapper {
@@ -29,12 +37,9 @@ header#header.header {
       align-items: center;
       transition: width 0.2s linear;
       svg {
-        display: block;
         path,
         rect {
           fill: $text-color;
-          transition: fill 1s $ease-out-quad;
-          transition-delay: 0.5s;
         }
       }
       .logo {
@@ -123,13 +128,16 @@ header#header.header {
 
   // Small (scrolled)
   &.small {
+    height: 40px;
+    transition-duration: 0;
+    transition-delay: 0.2s;
     .header {
       &__wrapper {
         padding: 8px 7vw;
       }
       &__logo-wrapper {
         .logo {
-          width: 38px;
+          // width: 38px;
           opacity: 0;
         }
         .text {

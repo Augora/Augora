@@ -4,16 +4,21 @@ import { colors } from "utils/variables"
 
 import Header from "./header"
 import Footer from "./footer"
+import PageTitle from "../components/titles/PageTitle"
+
+import Popin from "./popin/popin"
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
 
-// TODO : Get current route to give state to Header ?
+// const headerHeight =
 
-const Layout = ({ children, location }) => {
+const Layout = ({ children, location, title }) => {
+  // Check if page has SEO informations
+
   return (
-    <>
+    <div className={`${title ? "with-title" : "no-title"}`}>
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -24,9 +29,12 @@ const Layout = ({ children, location }) => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <Header siteTitle={"Augora"} location={location} />
+      {title ? <PageTitle title={title} /> : null}
+      {/* <PageTitle title={location.title} /> */}
+      {/* <Popin>Je suis une popin</Popin> */}
       <main className="layout">{children}</main>
       <Footer />
-    </>
+    </div>
   )
 }
 
