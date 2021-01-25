@@ -1,16 +1,17 @@
 header#header.header {
-  background: white;
   margin-bottom: 40px;
   position: fixed;
   width: 100%;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   z-index: 100;
 
   height: 60px;
-  // background: red;
 
   display: flex;
   align-items: center;
+
+  background: rgba($white, 0);
+  color: $white;
 
   transition: height 0.2s $ease-in-out-cubic;
 
@@ -29,17 +30,22 @@ header#header.header {
     &__home-btn {
       display: block;
       text-decoration: none;
-      color: $text-color;
-      margin-left: 10px;
+      color: inherit;
     }
     &__logo-wrapper {
       display: flex;
       align-items: center;
       transition: width 0.2s linear;
       svg {
+        display: block;
         path,
         rect {
-          fill: $text-color;
+          fill: $white;
+          // fill: transparent;
+          // stroke: $white;
+          // stroke-width: 4;
+          transition: fill 0.1s $ease-out-quad;
+          transition-delay: 0.5s;
         }
       }
       .logo {
@@ -53,25 +59,12 @@ header#header.header {
         transition: transform 0.4s $ease-out-quad;
       }
     }
-    // &__site-name {
-    //   font-size: 28px;
-    //   margin-left: 20px;
-    //   margin-top: 5px;
-    //   text-transform: uppercase;
-    //   font-family: "Augora", $font;
-    //   color: $text-color;
-    //   transform: translate(-10px);
-    //   opacity: 0;
-    //   transition: transform 0.4s $ease-out-quad, opacity 0.4s $ease-out-quad,
-    //     color 0.4s $ease-in-out-quad;
-    //   transition-delay: 0.5s;
-    // }
 
     // Menu
     &__menu {
       .menu__item {
         position: relative;
-        color: $text-color;
+        color: $white;
         text-decoration: none;
         text-transform: uppercase;
         font-family: $font;
@@ -97,7 +90,8 @@ header#header.header {
           height: 3px;
           margin-top: 3px;
 
-          background: linear-gradient(to right, $main-color, $secondary-color);
+          // background-image: linear-gradient(to right, $main-color, $secondary-color);
+          background-color: $white;
 
           transform: scaleX(0);
           transform-origin: center right;
@@ -107,7 +101,7 @@ header#header.header {
 
         // hover
         &:hover {
-          color: $main-color;
+          color: rgba($white, 1);
           opacity: 1;
           &::after {
             transform: scaleX(1);
@@ -137,7 +131,6 @@ header#header.header {
       }
       &__logo-wrapper {
         .logo {
-          // width: 38px;
           opacity: 0;
         }
         .text {
@@ -146,14 +139,6 @@ header#header.header {
           transform: translate(-50px, 0);
         }
       }
-      //   &__site-name {
-      //   opacity: 1;
-      //   transform: translate(0);
-      //   color: $main-color;
-      //   transition: transform 0.2s $ease-out-back, opacity 0.2s $ease-out-quad,
-      //     color 0.2s $ease-in-out-quad;
-      //   transition-delay: 0s;
-      // }
     }
   }
 
@@ -173,20 +158,14 @@ header#header.header {
     }
   }
 
+  // Media queries
+  /*----------------------------------------------------*/
   @media (max-width: 1700px) {
     .header {
       &__wrapper {
         padding-left: 30px;
         padding-right: 30px;
       }
-
-      // &__svg-wrapper {
-      //   width: 30px;
-      // }
-
-      // &__site-name {
-      //   margin-left: 40px;
-      // }
 
       &__menu {
         .menu__item {
@@ -238,8 +217,7 @@ header#header.header {
     &.small {
       .header {
         &__wrapper {
-          padding-left: 15px;
-          padding-right: 15px;
+          padding: 10px 15px;
         }
       }
 
@@ -248,13 +226,6 @@ header#header.header {
           &:last-child {
             margin-right: 0;
           }
-        }
-      }
-    }
-    &.small {
-      .header {
-        &__wrapper {
-          padding: 10px 15px;
         }
       }
     }

@@ -30,7 +30,6 @@ const Layout = ({ children, location, title }) => {
       </Head>
       <Header siteTitle={"Augora"} location={location} />
       {title ? <PageTitle title={title} /> : null}
-      {/* <PageTitle title={location.title} /> */}
       {/* <Popin>Je suis une popin</Popin> */}
       <main className="layout">{children}</main>
       <Footer />

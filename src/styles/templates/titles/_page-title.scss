@@ -1,22 +1,36 @@
 .page-title {
   position: relative;
-  width: 100vw;
   left: 50%;
-  transform: translate(-50%, 0);
-  background: linear-gradient(to right, $main-color, $secondary-color);
-  padding: 1px 0;
+
+  width: 100vw;
+
+  padding: 60px 0 0;
   margin-bottom: 50px;
+
+  background-image: linear-gradient(to right, $main-color, $secondary-color);
+
   overflow: hidden;
+
+  transform: translate(-50%, 0);
 
   &__title {
     color: white;
-    margin-left: 9vw;
+    padding: 0 7vw;
     margin-top: 50px;
     margin-bottom: 40px;
   }
 
   svg rect {
     transition: transform 3s $ease-out-cubic;
+  }
+
+  // Media queries
+  /*----------------------------------------------------*/
+  @media (max-width: 1700px) {
+    &__title {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
   }
 
   @media (max-width: 900px) {
