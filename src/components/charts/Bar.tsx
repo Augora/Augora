@@ -75,9 +75,9 @@ export default function BarChart({ width, height, data, totalDeputes }: Chart.Ba
                 />
                 {barHeight >= 25 && (
                   <text
-                    x={barX}
+                    x={barX + barWidth / 2}
                     y={yMax - barHeight / 2}
-                    dx={d.value < 100 ? "+.6em" : "+.3em"}
+                    dx={d.value < 100 ? "-.6em" : "-.9em"}
                     dy={"+.33em"}
                     className="label"
                     style={{ pointerEvents: "none" }}
