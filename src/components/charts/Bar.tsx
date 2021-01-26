@@ -11,9 +11,9 @@ export default function BarChart({ width, height, data, totalDeputes }: Chart.Ba
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
   // bounds
-  const verticalMargin = 60
-  const xMax = width
-  const yMax = height - verticalMargin
+  const margin = 50
+  const xMax = width - margin
+  const yMax = height - margin
 
   // scales, memoize for performance
   const xScale = scaleBand<string>({
@@ -48,16 +48,15 @@ export default function BarChart({ width, height, data, totalDeputes }: Chart.Ba
   return width < 10 ? null : (
     <div className="barchart chart">
       <svg width={width} height={height}>
-        <rect width={width} height={height} fill="url(#teal)" rx={14} />
-        <Group top={verticalMargin / 2}>
+        <Group top={margin / 2} left={margin / 2}>
           <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
           <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
 
-          <text x="-160" y="-50" transform="rotate(-90)" className="description_y">
+          <text x={-yMax + 50} y={-50} transform="rotate(-90)" className="description_y">
             Nombre de députés
           </text>
         </Group>
-        <Group top={verticalMargin / 2}>
+        <Group top={margin / 2} left={margin / 2}>
           {data.map((d, index) => {
             const barWidth = xScale.bandwidth()
             const barHeight = yMax - (yScale(d.value) ?? 0)
@@ -75,7 +74,14 @@ export default function BarChart({ width, height, data, totalDeputes }: Chart.Ba
                   onMouseMove={(event) => handleMouseMove(event, d)}
                 />
                 {barHeight >= 25 && (
-                  <text x={barX} y={yMax - barHeight / 2} dx={d.value < 100 ? "+.6em" : "+.3em"} dy={"+.33em"} className="label">
+                  <text
+                    x={barX}
+                    y={yMax - barHeight / 2}
+                    dx={d.value < 100 ? "+.6em" : "+.3em"}
+                    dy={"+.33em"}
+                    className="label"
+                    style={{ pointerEvents: "none" }}
+                  >
                     {d.value}
                   </text>
                 )}
@@ -83,7 +89,7 @@ export default function BarChart({ width, height, data, totalDeputes }: Chart.Ba
             )
           })}
         </Group>
-        <Group top={verticalMargin / 2}>
+        <Group top={margin / 2} left={margin / 2}>
           <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} />
         </Group>
       </svg>

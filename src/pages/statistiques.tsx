@@ -59,7 +59,7 @@ const Statistiques = (props) => {
         <Filters />
         <Frame className="frame-chart" title="Répartition">
           {state.FilteredList.length > 0 ? (
-            <div className="filters__charts">
+            <>
               <button className="charts__switch" onClick={() => setHasPieChart(!HasPieChart)} title="Changer le graphique">
                 <svg viewBox="0 0 232 247" className="icon-switch">
                   <g className="icon-switch__graph-bar" transform="matrix(1.45231,0,0,1.45231,-104.801,17.4629)">
@@ -85,12 +85,21 @@ const Statistiques = (props) => {
                   </g>
                 </svg>
               </button>
-              {HasPieChart ? (
-                <PieChart width={420} height={230} data={groupesData} totalDeputes={state.FilteredList.length}></PieChart>
-              ) : (
-                <BarChart width={480} height={280} data={groupesData} totalDeputes={state.FilteredList.length}></BarChart>
-              )}
-            </div>
+              <ParentSize className="filters__charts" debounceTime={10}>
+                {(parent) =>
+                  HasPieChart ? (
+                    <PieChart width={420} height={230} data={groupesData} totalDeputes={state.FilteredList.length} />
+                  ) : (
+                    <BarChart
+                      width={parent.width}
+                      height={parent.height}
+                      data={groupesData}
+                      totalDeputes={state.FilteredList.length}
+                    />
+                  )
+                }
+              </ParentSize>
+            </>
           ) : null}
         </Frame>
       </section>
