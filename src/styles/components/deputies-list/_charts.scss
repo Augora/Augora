@@ -83,7 +83,7 @@
     min-width: unset;
 
     &__content {
-      height: 400px;
+      height: 350px;
       .bar {
         &__container {
           width: 100%;
@@ -94,9 +94,12 @@
   .frame-pyramide {
     max-width: none;
     width: 100%;
+    &__header {
+      margin-bottom: 0;
+    }
 
     &__content {
-      height: 400px;
+      height: 350px;
       .pyramide {
         &__container {
           width: 100%;
