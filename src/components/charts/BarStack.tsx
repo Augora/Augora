@@ -10,6 +10,7 @@ import ChartTooltip from "components/charts/ChartTooltip"
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAge: Chart.AgeData[]
   groups: Group.GroupsList
+  totalDeputes: number
 }
 
 export default function BarStackChart({ width, height, groups, dataAge, totalDeputes }: BarStackProps) {

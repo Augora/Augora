@@ -88,14 +88,9 @@ const Statistiques = (props) => {
               <ParentSize className="filters__charts" debounceTime={10}>
                 {(parent) =>
                   HasPieChart ? (
-                    <PieChart width={420} height={230} data={groupesData} totalDeputes={state.FilteredList.length} />
+                    <PieChart width={parent.width} height={parent.height} data={groupesData} />
                   ) : (
-                    <BarChart
-                      width={parent.width}
-                      height={parent.height}
-                      data={groupesData}
-                      totalDeputes={state.FilteredList.length}
-                    />
+                    <BarChart width={parent.width} height={parent.height} data={groupesData} />
                   )
                 }
               </ParentSize>

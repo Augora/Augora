@@ -4,8 +4,10 @@ import { Group } from "@visx/group"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
-export default function PieChart({ width, height, data, totalDeputes }: Chart.BaseProps) {
+export default function PieChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+
+  const totalDeputies = data.reduce((a, b) => a + b.value, 0)
 
   const handleMouseLeave = () => {
     hideTooltip()
@@ -77,7 +79,7 @@ export default function PieChart({ width, height, data, totalDeputes }: Chart.Ba
           tooltipLeft={tooltipLeft}
           title={tooltipData.key}
           nbDeputes={tooltipData.bar}
-          totalDeputes={totalDeputes}
+          totalDeputes={totalDeputies}
           color={tooltipData.color}
         />
       )}

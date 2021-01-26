@@ -9,7 +9,6 @@ declare namespace Chart {
      * Data qui feed les charts
      */
     data: Data[]
-    totalDeputes: number
   }
 
   /**

@@ -7,8 +7,10 @@ import { scaleBand, scaleLinear } from "@visx/scale"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
-export default function BarChart({ width, height, data, totalDeputes }: Chart.BaseProps) {
+export default function BarChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+
+  const totalDeputies = data.reduce((a, b) => a + b.value, 0)
 
   // bounds
   const margin = 50
@@ -99,7 +101,7 @@ export default function BarChart({ width, height, data, totalDeputes }: Chart.Ba
           tooltipLeft={tooltipLeft}
           title={tooltipData.key}
           nbDeputes={tooltipData.bar}
-          totalDeputes={totalDeputes}
+          totalDeputes={totalDeputies}
           color={tooltipData.color}
         />
       )}
