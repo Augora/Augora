@@ -6,6 +6,7 @@ import PieChart from "components/charts/PieChart"
 import BarChart from "components/charts/Bar"
 import BarStackChart from "components/charts/BarStack"
 import Frame from "components/frames/Frame"
+import { ParentSize } from "@visx/responsive"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
@@ -96,13 +97,17 @@ const Statistiques = (props) => {
 
       <section className="pyramide">
         <Frame className="frame-pyramide" title="Pyramide des âges">
-          <BarStackChart
-            width={1540}
-            height={400}
-            groups={state.GroupesList}
-            dataAge={getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)}
-            totalDeputes={state.FilteredList.length}
-          />
+          <ParentSize className="pyramide chart" debounceTime={10}>
+            {(parent) => (
+              <BarStackChart
+                width={parent.width}
+                height={parent.height}
+                groups={state.GroupesList}
+                dataAge={getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)}
+                totalDeputes={state.FilteredList.length}
+              />
+            )}
+          </ParentSize>
         </Frame>
       </section>
     </>

@@ -28,9 +28,9 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
   const averageAge = Math.round((sumAge / totalDeputes) * 10) / 10
 
   // bounds
-  const verticalMargin = 120
-  const xMax = width
-  const yMax = height - verticalMargin
+  const margin = 100
+  const xMax = width - margin
+  const yMax = height - margin
 
   // scales, memoize for performance
   const xScale = scaleBand<number>({
@@ -68,19 +68,19 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
   }
 
   return (
-    <div className="pyramide chart">
+    <>
       <svg width={width} height={height}>
-        <Group top={verticalMargin / 2}>
+        <Group top={margin / 2} left={margin / 2}>
           <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
           <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
-          <text x="-160" y="-50" transform="rotate(-90)" className="description_y">
+          <text x={-yMax + 50} y={-50} transform="rotate(-90)" className="description_y">
             Nombre de députés
           </text>
           <text x={xMax + 10} y={yMax} className="description_x">
             Âge
           </text>
         </Group>
-        <Group top={verticalMargin / 2}>
+        <Group top={margin / 2} left={margin / 2}>
           <BarStack<Chart.AgeData, string>
             data={dataAge}
             keys={groups.map((group) => group.Sigle)}
@@ -108,7 +108,7 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
             }
           </BarStack>
         </Group>
-        <Group top={verticalMargin / 2}>
+        <Group top={margin / 2} left={margin / 2}>
           <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={dataAge.map((d) => d.age).length} />
         </Group>
         {/* Il faut enlever les 40 du padding sur ce groupe */}
@@ -127,6 +127,6 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
           age={tooltipData.age}
         />
       )}
-    </div>
+    </>
   )
 }
