@@ -110,7 +110,7 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
           </BarStack>
         </Group>
         <Group top={margin / 2} left={margin / 2}>
-          <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={dataAge.map((d) => d.age).length} />
+          <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={15} />
         </Group>
         {/* Il faut enlever les 40 du padding sur ce groupe */}
         <Group className="age_moyen" left={width / 2 - 40} top={height}>
