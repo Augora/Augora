@@ -56,9 +56,9 @@ export default function DeputiesList() {
                 </svg>
               </button>
               {HasPieChart ? (
-                <PieChart width={420} height={230} data={groupesData} totalDeputes={state.FilteredList.length} />
+                <PieChart width={420} height={230} data={groupesData} />
               ) : (
-                <BarChart width={480} height={280} data={groupesData} totalDeputes={state.FilteredList.length} />
+                <BarChart width={480} height={280} data={groupesData} />
               )}
             </div>
           ) : null}
