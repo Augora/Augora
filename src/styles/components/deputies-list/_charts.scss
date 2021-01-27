@@ -3,78 +3,72 @@
   min-width: 30vw;
   margin: 0 0 0 40px;
 
-  .frame-bar {
-    &__header {
-      margin: 0;
-      .frame-chart {
-        margin: 0;
-      }
-    }
-  }
-  &__content {
-    margin: auto 10px;
-    height: 80%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .chart {
-      width: 100%;
-      outline: none;
+  .frame {
+    &__content {
+      margin: auto 10px;
+      height: 80%;
 
       display: flex;
       justify-content: center;
       align-items: center;
-      &.piechart,
-      &.barchart {
-        svg g text {
-          &[text-anchor="middle"] {
-            font-size: 13px !important;
+      .chart {
+        width: 100%;
+        outline: none;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.piechart,
+        &.barchart {
+          svg g text {
+            &[text-anchor="middle"] {
+              font-size: 13px !important;
+            }
+            &[text-anchor="end"] {
+              font-size: 16px !important;
+            }
+            &.description_y {
+              font-size: 14px !important;
+            }
+            &.label {
+              font-weight: bold;
+              fill: white;
+            }
+            font-size: 18px !important;
+            font-family: $font;
+            fill: black;
           }
-          &[text-anchor="end"] {
-            font-size: 16px !important;
+        }
+        &.piechart {
+          svg g text {
+            &[text-anchor="middle"] {
+              font-size: 28px !important;
+              font-weight: bold;
+              fill: white;
+            }
           }
-          &.description_y {
-            font-size: 14px !important;
-          }
-          &.label {
-            font-weight: bold;
-            fill: white;
-          }
-          font-size: 18px !important;
-          font-family: $font;
-          fill: black;
         }
       }
-      &.piechart {
-        svg g text {
-          &[text-anchor="middle"] {
-            font-size: 28px !important;
-            font-weight: bold;
-            fill: white;
+      .charts {
+        &__switch {
+          background-color: transparent;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          padding: 10px;
+          border: none;
+          height: 50px;
+          cursor: pointer;
+
+          .icon-switch {
+            width: 30px;
+            height: 30px;
+            fill: $text-color;
           }
-        }
-      }
-    }
-    .charts {
-      &__switch {
-        background-color: transparent;
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        padding: 10px;
-        border: none;
-        height: 50px;
-        cursor: pointer;
 
-        .icon-switch {
-          width: 30px;
-          height: 30px;
-          fill: $text-color;
-        }
-
-        &:hover {
-          background: $btn-hover;
+          &:hover {
+            background: $btn-hover;
+          }
         }
       }
     }
@@ -90,12 +84,21 @@
   .frame-bar {
     margin: 0 40px 0 0;
     min-width: unset;
+    width: 30%;
 
-    &__content {
-      height: 350px;
-      .bar {
-        &__container {
-          width: 100%;
+    .frame {
+      &__header {
+        margin: 0;
+        .frame-chart {
+          margin: 0;
+        }
+      }
+      &__content {
+        height: 350px;
+        .bar {
+          &__container {
+            width: 100%;
+          }
         }
       }
     }
@@ -124,41 +127,43 @@
   }
   .frame-pyramide {
     max-width: none;
-    width: 100%;
-    &__header {
-      margin-bottom: 0;
-    }
+    width: 70%;
 
-    &__content {
-      height: 350px;
-      .pyramide {
-        &__container {
-          width: 100%;
-          outline: none;
+    .frame {
+      &__header {
+        margin-bottom: 0;
+      }
+      &__content {
+        height: 350px;
+        .pyramide {
+          &__container {
+            width: 100%;
+            outline: none;
 
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          .age {
-            &__moyen {
-              font-size: 18px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .age {
+              &__moyen {
+                font-size: 18px !important;
+              }
             }
-          }
 
-          svg g text {
-            &[text-anchor="middle"] {
-              font-size: 14px !important;
+            svg g text {
+              &[text-anchor="middle"] {
+                font-size: 14px !important;
+              }
+              &[text-anchor="end"] {
+                font-size: 14px !important;
+              }
+              &.description_y {
+                font-size: 14px !important;
+              }
+              &.description_x {
+                font-size: 14px !important;
+              }
+              font-family: $font;
             }
-            &[text-anchor="end"] {
-              font-size: 14px !important;
-            }
-            &.description_y {
-              font-size: 14px !important;
-            }
-            &.description_x {
-              font-size: 14px !important;
-            }
-            font-family: $font;
           }
         }
       }
