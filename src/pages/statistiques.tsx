@@ -58,7 +58,7 @@ const Statistiques = (props) => {
     return acc + curSum * cur.age
   }, 0)
 
-  const averageAge = Math.round((sumAge / state.FilteredList.length) * 10) / 10
+  const averageAge = sumAge > 0 ? Math.round(sumAge / state.FilteredList.length) : 0
 
   return (
     <>
