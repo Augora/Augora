@@ -2,6 +2,12 @@
 .frame-chart {
   min-width: 30vw;
   margin: 0 0 0 40px;
+
+  .frame {
+    &__header-title {
+      margin: 0;
+    }
+  }
   &__content {
     margin: auto 10px;
     height: 80%;
@@ -90,6 +96,28 @@
         }
       }
     }
+    .chart {
+      &.barchart {
+        svg g text {
+          &[text-anchor="middle"] {
+            font-size: 13px !important;
+          }
+          &[text-anchor="end"] {
+            font-size: 16px !important;
+          }
+          &.description_y {
+            font-size: 14px !important;
+          }
+          &.label {
+            font-weight: bold;
+            fill: white;
+          }
+          font-size: 18px !important;
+          font-family: $font;
+          fill: black;
+        }
+      }
+    }
   }
   .frame-pyramide {
     max-width: none;
@@ -112,23 +140,29 @@
           &__moyen {
             font-size: 18px;
           }
+          svg g {
+            &.age_moyen {
+              justify-content: center;
+            }
+          }
+
+          svg g text {
+            &[text-anchor="middle"] {
+              font-size: 14px !important;
+            }
+            &[text-anchor="end"] {
+              font-size: 14px !important;
+            }
+            &.description_y {
+              font-size: 14px !important;
+            }
+            &.description_x {
+              font-size: 14px !important;
+            }
+            font-family: $font;
+          }
         }
       }
-    }
-    svg g text {
-      &[text-anchor="middle"] {
-        font-size: 14px !important;
-      }
-      &[text-anchor="end"] {
-        font-size: 14px !important;
-      }
-      &.description_y {
-        font-size: 14px !important;
-      }
-      &.description_x {
-        font-size: 14px !important;
-      }
-      font-family: $font;
     }
   }
 }
