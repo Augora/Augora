@@ -3,9 +3,12 @@
   min-width: 30vw;
   margin: 0 0 0 40px;
 
-  .frame {
-    &__header-title {
+  .frame-bar {
+    &__header {
       margin: 0;
+      .frame-chart {
+        margin: 0;
+      }
     }
   }
   &__content {
