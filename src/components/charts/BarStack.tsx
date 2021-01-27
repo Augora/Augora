@@ -4,6 +4,7 @@ import { GridRows } from "@visx/grid"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale"
 import { Group } from "@visx/group"
+import { SeriesPoint } from "@visx/shape/lib/types/barStack"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
@@ -55,7 +56,14 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
     hideTooltip()
   }
 
-  const handleMouseMove = (event, data) => {
+  const handleMouseMove = (
+    event: React.MouseEvent<SVGRectElement, MouseEvent>,
+    data: {
+      bar: SeriesPoint<Chart.AgeData>
+      key: string
+      color: string
+    }
+  ) => {
     showTooltip({
       tooltipData: {
         key: groups.find((group) => group.Sigle === data.key).NomComplet,
