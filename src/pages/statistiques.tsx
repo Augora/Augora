@@ -60,13 +60,7 @@ const Statistiques = (props) => {
         <Frame className="frame-chart" title="Répartition">
           {state.FilteredList.length > 0 ? (
             <ParentSize debounceTime={10}>
-              {(parent) =>
-                HasPieChart ? (
-                  <PieChart width={parent.width} height={parent.height} data={groupesData} />
-                ) : (
-                  <BarChart width={parent.width} height={parent.height} data={groupesData} />
-                )
-              }
+              {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
             </ParentSize>
           ) : null}
         </Frame>
