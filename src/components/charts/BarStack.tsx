@@ -58,7 +58,7 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
   const handleMouseMove = (event, data) => {
     showTooltip({
       tooltipData: {
-        key: data.key,
+        key: groups.find((group) => group.Sigle === data.key).NomComplet,
         bar: data.bar.data.groups[data.key].length,
         color: data.color,
         age: data.bar.data.age,
