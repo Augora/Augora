@@ -79,6 +79,8 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
                 <Bar
                   x={barX}
                   y={barY}
+                  rx="3" //border radius
+                  ry="3"
                   width={barWidth}
                   height={barHeight}
                   fill={d.color}
