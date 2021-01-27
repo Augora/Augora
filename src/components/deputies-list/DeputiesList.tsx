@@ -5,7 +5,7 @@ import Filters from "./filters/Filters"
 import Deputy from "./deputy/Deputy"
 import Frame from "components/frames/Frame"
 import PieChart from "../charts/PieChart"
-import BarChart from "../charts/Bar"
+import BarChart from "../charts/BarChart"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 
 export default function DeputiesList() {
