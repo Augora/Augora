@@ -23,9 +23,10 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
   }, 0)
 
   // bounds
-  const margin = 70
-  const xMax = width - margin
-  const yMax = height - margin
+  const marginTop = 50
+  const marginLeft = 20
+  const xMax = width - marginLeft
+  const yMax = height - marginTop
 
   // scales, memoize for performance
   const xScale = scaleBand<number>({
@@ -70,19 +71,29 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
   }
 
   return (
-    <>
+    <div className="pyramidechart chart">
       <svg width={width} height={height}>
-        <Group top={margin / 2} left={margin / 2}>
-          <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
-          <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
-          <text x={-yMax + 50} y={-50} transform="rotate(-90)" className="description_y">
-            Nombre de députés
-          </text>
-          <text x={xMax + 10} y={yMax} className="description_x">
+        <Group top={marginTop / 2} left={marginLeft / 2}>
+          <AxisLeft
+            axisClassName="chart__axislabel"
+            scale={yScale.range([yMax, 0])}
+            numTicks={6}
+            hideAxisLine={true}
+            hideTicks={true}
+          />
+          <GridRows
+            className="chart__rows"
+            scale={yScale.range([yMax, 0])}
+            width={xMax}
+            height={yMax}
+            numTicks={6}
+            strokeWidth={2}
+          />
+          <text x={xMax + 10} y={yMax} className="chart__description">
             Âge
           </text>
         </Group>
-        <Group top={margin / 2} left={margin / 2}>
+        <Group top={marginTop / 2} left={marginLeft / 2}>
           <BarStack<Chart.AgeData, string>
             data={dataAge}
             keys={groups.map((group) => group.Sigle)}
@@ -110,11 +121,19 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
             }
           </BarStack>
         </Group>
-        <Group top={margin / 2} left={margin / 2}>
+        <Group top={marginTop / 2} left={marginLeft / 2}>
           {/* 250 sur smartphone ==> 4*/}
           {/* 812 sur PC ==> 10*/}
           {/*  */}
-          <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={width > 350 ? 10 : width > 250 ? 5 : 3} />
+          <AxisBottom
+            axisClassName="chart__axislabel axislabel__bottom"
+            tickClassName="chart__axistick"
+            scale={xScale.range([xMax, 0])}
+            top={yMax}
+            numTicks={width > 350 ? 10 : width > 250 ? 5 : 3}
+            hideAxisLine={true}
+            tickLength={6}
+          />
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (
@@ -128,6 +147,6 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
           age={tooltipData.age}
         />
       )}
-    </>
+    </div>
   )
 }
