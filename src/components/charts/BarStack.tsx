@@ -110,7 +110,11 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
           </BarStack>
         </Group>
         <Group top={margin / 2} left={margin / 2}>
-          <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={15} />
+          {/* 250 sur smartphone ==> 4*/}
+          {/* 812 sur PC ==> 10*/}
+          {/*  */}
+          {console.log(width)}
+          <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={width > 350 ? 10 : width > 250 ? 5 : 3} />
         </Group>
         <Group className="age__moyen" left={width / 2 - margin} top={height}>
           <text>Âge moyen : {averageAge} ans</text>
