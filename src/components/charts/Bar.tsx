@@ -13,9 +13,10 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
 
   // bounds
-  const margin = 50
-  const xMax = width - margin
-  const yMax = height - margin
+  const marginTop = 50
+  const marginLeft = 20
+  const xMax = width
+  const yMax = height - marginTop
 
   // scales, memoize for performance
   const xScale = scaleBand<string>({
@@ -50,15 +51,24 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
   return width < 10 ? null : (
     <div className="barchart chart">
       <svg width={width} height={height}>
-        <Group top={margin / 2} left={margin / 2}>
-          <AxisLeft scale={yScale.range([yMax, 0])} numTicks={6} />
-          <GridRows scale={yScale.range([yMax, 0])} width={xMax} height={yMax} stroke="#e0e0e0" numTicks={6} />
-
-          <text x={-yMax + 50} y={-50} transform="rotate(-90)" className="description_y">
-            Nombre de députés
-          </text>
+        <Group top={marginTop / 2} left={marginLeft / 2}>
+          <AxisLeft
+            axisClassName="chart__axislabel"
+            scale={yScale.range([yMax, 0])}
+            numTicks={6}
+            hideAxisLine={true}
+            hideTicks={true}
+          />
+          <GridRows
+            className="chart__rows"
+            scale={yScale.range([yMax, 0])}
+            width={xMax}
+            height={yMax}
+            numTicks={6}
+            strokeWidth={2}
+          />
         </Group>
-        <Group top={margin / 2} left={margin / 2}>
+        <Group top={marginTop / 2} left={marginLeft / 2}>
           {data.map((d, index) => {
             const barWidth = xScale.bandwidth()
             const barHeight = yMax - (yScale(d.value) ?? 0)
@@ -77,12 +87,11 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
                 />
                 {barHeight >= 25 && (
                   <text
+                    className="chart__number barchart__number"
                     x={barX + barWidth / 2}
                     y={yMax - barHeight / 2}
                     dx={d.value < 100 ? "-.6em" : "-.9em"}
                     dy={"+.33em"}
-                    className="label"
-                    style={{ pointerEvents: "none" }}
                   >
                     {d.value}
                   </text>
@@ -91,8 +100,15 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
             )
           })}
         </Group>
-        <Group top={margin / 2} left={margin / 2}>
-          <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} />
+        <Group top={marginTop / 2} left={marginLeft / 2}>
+          <AxisBottom
+            axisClassName="chart__axislabel axislabel__bottom"
+            tickClassName="chart__axistick"
+            scale={xScale.range([xMax, 0])}
+            top={yMax}
+            hideAxisLine={true}
+            tickLength={6}
+          />
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (

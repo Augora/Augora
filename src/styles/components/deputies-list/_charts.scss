@@ -18,37 +18,56 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        &.piechart,
-        &.barchart {
-          svg g text {
-            &[text-anchor="middle"] {
-              font-size: 13px !important;
+
+        &__number {
+          pointer-events: none;
+          fill: white;
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        &__axislabel {
+          g > svg > text {
+            font-size: 14px !important;
+            fill: $text-color !important;
+          }
+          &.axislabel {
+            &__bottom {
+              g > svg > text {
+                font-size: 12px !important;
+              }
             }
-            &[text-anchor="end"] {
-              font-size: 16px !important;
-            }
-            &.description_y {
-              font-size: 14px !important;
-            }
-            &.label {
-              font-weight: bold;
-              fill: white;
-            }
-            font-size: 18px !important;
-            font-family: $font;
-            fill: black;
           }
         }
-        &.piechart {
-          svg g text {
-            &[text-anchor="middle"] {
-              font-size: 28px !important;
-              font-weight: bold;
-              fill: white;
-            }
+
+        &__axistick {
+          line {
+            stroke: rgba($text-color, 0.5);
+          }
+        }
+
+        &__rows {
+          line {
+            stroke: rgba($text-color, 0.1);
           }
         }
       }
+
+      .piechart {
+        &__label {
+          svg text {
+            font-weight: normal !important;
+            font-size: 15px !important;
+          }
+        }
+      }
+
+      .barchart {
+        &__number {
+          font-size: 18px;
+        }
+      }
+
       .charts {
         &__switch {
           background-color: transparent;
@@ -81,6 +100,7 @@
 
 .bars {
   display: flex;
+
   .frame-bar {
     margin: 0 40px 0 0;
     min-width: unset;
@@ -102,29 +122,8 @@
         }
       }
     }
-    .chart {
-      &.barchart {
-        svg g text {
-          &[text-anchor="middle"] {
-            font-size: 13px !important;
-          }
-          &[text-anchor="end"] {
-            font-size: 16px !important;
-          }
-          &.description_y {
-            font-size: 14px !important;
-          }
-          &.label {
-            font-weight: bold;
-            fill: white;
-          }
-          font-size: 18px !important;
-          font-family: $font;
-          fill: black;
-        }
-      }
-    }
   }
+
   .frame-pyramide {
     max-width: none;
     width: 70%;

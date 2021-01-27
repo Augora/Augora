@@ -58,6 +58,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                         dy={centroidY < 0 ? -5 : 5}
                       >
                         <Label
+                          className="piechart__label"
                           horizontalAnchor={centroidX < 0 ? "middle" : "start"}
                           verticalAnchor={"middle"}
                           showAnchorLine={false}
@@ -80,15 +81,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                     />
 
                     {hasSpaceForLabel && (
-                      <text
-                        x={centroidX}
-                        y={centroidY}
-                        dy=".33em"
-                        fill="#ffffff"
-                        fontSize={22}
-                        textAnchor="middle"
-                        pointerEvents="none"
-                      >
+                      <text className="chart__number" x={centroidX} y={centroidY} dy=".33em" textAnchor="middle">
                         {groupeArc.value}
                       </text>
                     )}
