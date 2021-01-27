@@ -3,11 +3,13 @@ import { Pie } from "@visx/shape"
 import { Group } from "@visx/group"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
+import { Annotation, Label, Connector } from "@visx/annotation"
 
 export default function PieChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
+  const rayon = 200
 
   const handleMouseLeave = () => {
     hideTooltip()
@@ -33,7 +35,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
             data={data}
             pieValue={(d) => d.value}
             pieSort={null}
-            outerRadius={200}
+            outerRadius={rayon}
             innerRadius={100}
             padAngle={0.01}
             startAngle={-(Math.PI / 2)}
@@ -45,14 +47,38 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                 const groupeArc = arc.data
                 const [centroidX, centroidY] = pie.path.centroid(arc)
                 const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.2
+                const justifiedMidAngle = (arc.endAngle - arc.startAngle) / 2 + arc.startAngle - Math.PI / 2
                 return (
                   <g key={`arc-${groupeArc.id}-${index}`}>
+                    {
+                      <Annotation
+                        x={rayon * Math.cos(justifiedMidAngle)}
+                        y={rayon * Math.sin(justifiedMidAngle)}
+                        dx={centroidX < 0 ? -20 : 20}
+                        dy={centroidY < 0 ? -5 : 5}
+                      >
+                        <Label
+                          horizontalAnchor={centroidX < 0 ? "middle" : "start"}
+                          verticalAnchor={"middle"}
+                          showAnchorLine={false}
+                          showBackground={false}
+                          title={arc.data.id}
+                          // Permet de gérer les props du bloc de texte
+                          titleProps={
+                            centroidX < 0 ? { verticalAnchor: "start", textAnchor: "end", x: 25, y: 13 } : { x: 10, y: 13 }
+                          }
+                          width={65}
+                        />
+                        <Connector stroke={arc.data.color} />
+                      </Annotation>
+                    }
                     <path
                       d={pie.path(arc)}
                       fill={groupeArc.color}
                       onMouseLeave={handleMouseLeave}
                       onMouseMove={(event) => handleMouseMove(event, arc.data)}
                     />
+
                     {hasSpaceForLabel && (
                       <text
                         x={centroidX}
