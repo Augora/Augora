@@ -22,15 +22,8 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
     return curSum > acc ? curSum : acc
   }, 0)
 
-  const sumAge = dataAge.reduce((acc, cur) => {
-    const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
-    return acc + curSum * cur.age
-  }, 0)
-
-  const averageAge = Math.round((sumAge / totalDeputes) * 10) / 10
-
   // bounds
-  const margin = 100
+  const margin = 70
   const xMax = width - margin
   const yMax = height - margin
 
@@ -122,9 +115,6 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
           {/* 812 sur PC ==> 10*/}
           {/*  */}
           <AxisBottom scale={xScale.range([xMax, 0])} top={yMax} numTicks={width > 350 ? 10 : width > 250 ? 5 : 3} />
-        </Group>
-        <Group className="age__moyen" left={width / 2 - margin} top={height}>
-          <text>Âge moyen : {averageAge} ans</text>
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (

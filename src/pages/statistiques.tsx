@@ -41,8 +41,6 @@ const getAgeData = (groupList: Group.GroupsList, list: Deputy.DeputiesList, ages
 const Statistiques = (props) => {
   const { state } = useDeputiesFilters()
 
-  const [HasPieChart, setHasPieChart] = useState(true)
-
   const groupesData: Groups[] = state.GroupesList.map((groupe) => {
     const nbDeputeGroup = getNbDeputiesGroup(state.FilteredList, groupe.Sigle)
     return {
@@ -52,6 +50,15 @@ const Statistiques = (props) => {
       color: groupe.Couleur,
     }
   }).filter((groupe) => groupe.value !== 0)
+
+  const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
+
+  const sumAge = dataAge.reduce((acc, cur) => {
+    const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
+    return acc + curSum * cur.age
+  }, 0)
+
+  const averageAge = Math.round((sumAge / state.FilteredList.length) * 10) / 10
 
   return (
     <>
@@ -72,14 +79,14 @@ const Statistiques = (props) => {
             {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
           </ParentSize>
         </Frame>
-        <Frame className="frame-pyramide" title="Pyramide des âges">
+        <Frame className="frame-pyramide" title="Pyramide des âges" right={`Âge moyen : ${averageAge} ans`}>
           <ParentSize className="pyramide__container" debounceTime={10}>
             {(parent) => (
               <BarStackChart
                 width={parent.width}
                 height={parent.height}
                 groups={state.GroupesList}
-                dataAge={getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)}
+                dataAge={dataAge}
                 totalDeputes={state.FilteredList.length}
               />
             )}
