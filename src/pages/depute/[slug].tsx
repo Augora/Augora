@@ -88,28 +88,20 @@ export default function Deputy({ depute }: IDeputy) {
                 <IconFacebook style={{ fill: deputy.GroupeParlementaire.Couleur }} />
               </div>
             </ButtonIcon>
-            <ButtonIcon
-              onClick={deputy.URLInstagram && deputy.URLInstagram}
-              className="btn--instagram"
-              title={"Instagram"}
-              deactivated={!deputy.URLInstagram}
-              target="_blank"
-            >
-              <div className="icon-wrapper" style={{ width: "30px" }}>
-                <IconInstagram style={{ fill: deputy.GroupeParlementaire.Couleur }} />
-              </div>
-            </ButtonIcon>
-            <ButtonIcon
-              onClick={deputy.URLLinkedIn && deputy.URLLinkedIn}
-              className="btn--linkedin"
-              title={"LinkedIn"}
-              deactivated={!deputy.URLLinkedIn}
-              target="_blank"
-            >
-              <div className="icon-wrapper" style={{ width: "30px" }}>
-                <IconLinkedIn style={{ fill: deputy.GroupeParlementaire.Couleur }} />
-              </div>
-            </ButtonIcon>
+            {deputy.URLInstagram && (
+              <ButtonIcon onClick={deputy.URLInstagram} className="btn--instagram" title={"Instagram"} target="_blank">
+                <div className="icon-wrapper" style={{ width: "30px" }}>
+                  <IconInstagram style={{ fill: deputy.GroupeParlementaire.Couleur }} />
+                </div>
+              </ButtonIcon>
+            )}
+            {deputy.URLLinkedIn && (
+              <ButtonIcon onClick={deputy.URLLinkedIn} className="btn--linkedin" title={"LinkedIn"} target="_blank">
+                <div className="icon-wrapper" style={{ width: "30px" }}>
+                  <IconLinkedIn style={{ fill: deputy.GroupeParlementaire.Couleur }} />
+                </div>
+              </ButtonIcon>
+            )}
           </div>
         </div>
         <div className="deputy__content">
