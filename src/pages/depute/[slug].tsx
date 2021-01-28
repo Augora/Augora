@@ -17,6 +17,8 @@ import IconMail from "images/ui-kit/icon-mail.svg"
 import IconWebsite from "images/ui-kit/icon-web.svg"
 import IconTwitter from "images/ui-kit/icon-twitter.svg"
 import IconFacebook from "images/ui-kit/icon-facebook.svg"
+import IconInstagram from "images/ui-kit/icon-instagram.svg"
+import IconLinkedIn from "images/ui-kit/icon-linkedin.svg"
 import SEO, { PageType } from "components/seo/seo"
 
 interface IDeputy {
@@ -84,6 +86,28 @@ export default function Deputy({ depute }: IDeputy) {
             >
               <div className="icon-wrapper" style={{ width: "30px" }}>
                 <IconFacebook style={{ fill: deputy.GroupeParlementaire.Couleur }} />
+              </div>
+            </ButtonIcon>
+            <ButtonIcon
+              onClick={deputy.URLInstagram && deputy.URLInstagram}
+              className={`btn--instagram ${!deputy.URLInstagram ? "btn--deactivated" : ""}`}
+              title={"Instagram"}
+              deactivated={!deputy.URLInstagram}
+              target="_blank"
+            >
+              <div className="icon-wrapper" style={{ width: "30px" }}>
+                <IconInstagram style={{ fill: deputy.GroupeParlementaire.Couleur }} />
+              </div>
+            </ButtonIcon>
+            <ButtonIcon
+              onClick={deputy.URLLinkedIn && deputy.URLLinkedIn}
+              className={`btn--linkedin ${!deputy.URLLinkedIn ? "btn--deactivated" : ""}`}
+              title={"LinkedIn"}
+              deactivated={!deputy.URLLinkedIn}
+              target="_blank"
+            >
+              <div className="icon-wrapper" style={{ width: "30px" }}>
+                <IconLinkedIn style={{ fill: deputy.GroupeParlementaire.Couleur }} />
               </div>
             </ButtonIcon>
           </div>
