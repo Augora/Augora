@@ -107,10 +107,10 @@ export default function Deputy({ depute }: IDeputy) {
               </div>
             </ButtonIcon>
             <ButtonIcon
-              onClick={!isEmpty(deputy.Twitter) ? `https://twitter.com/${deputy.Twitter}` : ""}
-              className={`btn--twitter ${isEmpty(deputy.Twitter) ? "btn--deactivated" : ""}`}
+              onClick={deputy.URLTwitter && deputy.URLTwitter}
+              className={`btn--twitter ${!deputy.URLTwitter ? "btn--deactivated" : ""}`}
               title={"Twitter"}
-              deactivated={isEmpty(deputy.Twitter)}
+              deactivated={!deputy.URLTwitter}
               target="_blank"
             >
               <div className="icon-wrapper" style={{ width: "30px" }}>
