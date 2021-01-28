@@ -46,7 +46,7 @@ export default function Deputy({ depute }: IDeputy) {
           <div className="deputy__contact">
             <ButtonIcon
               onClick={deputy.Emails.length > 0 ? `mailto:${deputy.Emails[0]}` : ""}
-              className={`btn--mail ${deputy.Emails.length < 1 ? "btn--deactivated" : ""}`}
+              className="btn--mail"
               title={"Adresse e-mail"}
               deactivated={deputy.Emails.length < 1}
               color={deputy.GroupeParlementaire.Couleur}
@@ -57,7 +57,7 @@ export default function Deputy({ depute }: IDeputy) {
             </ButtonIcon>
             <ButtonIcon
               onClick={deputy.SitesWeb.length > 0 ? deputy.SitesWeb[0] : ""}
-              className={`btn--website ${deputy.Emails.length < 1 ? "btn--deactivated" : ""}`}
+              className="btn--website"
               title={"Site Web"}
               deactivated={deputy.SitesWeb.length < 1}
               target="_blank"
@@ -68,7 +68,7 @@ export default function Deputy({ depute }: IDeputy) {
             </ButtonIcon>
             <ButtonIcon
               onClick={deputy.URLTwitter && deputy.URLTwitter}
-              className={`btn--twitter ${!deputy.URLTwitter ? "btn--deactivated" : ""}`}
+              className="btn--twitter"
               title={"Twitter"}
               deactivated={!deputy.URLTwitter}
               target="_blank"
@@ -79,7 +79,7 @@ export default function Deputy({ depute }: IDeputy) {
             </ButtonIcon>
             <ButtonIcon
               onClick={deputy.URLFacebook && deputy.URLFacebook}
-              className={`btn--facebook ${!deputy.URLFacebook ? "btn--deactivated" : ""}`}
+              className="btn--facebook"
               title={"Facebook"}
               deactivated={!deputy.URLFacebook}
               target="_blank"
@@ -90,7 +90,7 @@ export default function Deputy({ depute }: IDeputy) {
             </ButtonIcon>
             <ButtonIcon
               onClick={deputy.URLInstagram && deputy.URLInstagram}
-              className={`btn--instagram ${!deputy.URLInstagram ? "btn--deactivated" : ""}`}
+              className="btn--instagram"
               title={"Instagram"}
               deactivated={!deputy.URLInstagram}
               target="_blank"
@@ -101,7 +101,7 @@ export default function Deputy({ depute }: IDeputy) {
             </ButtonIcon>
             <ButtonIcon
               onClick={deputy.URLLinkedIn && deputy.URLLinkedIn}
-              className={`btn--linkedin ${!deputy.URLLinkedIn ? "btn--deactivated" : ""}`}
+              className="btn--linkedin"
               title={"LinkedIn"}
               deactivated={!deputy.URLLinkedIn}
               target="_blank"
