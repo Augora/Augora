@@ -119,6 +119,19 @@ export function getDepute(slug: string) {
                 Telephone
               }
             }
+            Activites {
+              data {
+                DateDeDebut
+                DateDeFin
+                NumeroDeSemaine
+                PresenceEnHemicycle
+                ParticipationEnHemicycle
+                PresencesEnCommission
+                ParticipationsEnCommission
+                Question
+                Vacances
+              }
+            }
           }
         }
       `,

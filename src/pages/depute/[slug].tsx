@@ -135,7 +135,7 @@ export default function Deputy({ depute }: IDeputy) {
           <Mandate {...getMandate(deputy)} color={color} size="small" />
           <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
           <MapDistrict deputy={deputy} color={color} size="medium" />
-          <Presence color={color} size="large" wip={true} />
+          <Presence color={color} size="large" activite={deputy.Activites.data} wip={true} />
           <Contact color={color} size="medium" adresses={deputy.AdressesDetails.data} />
         </div>
       </div>

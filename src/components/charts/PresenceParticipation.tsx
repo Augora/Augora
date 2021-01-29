@@ -4,7 +4,6 @@ import { Group } from "@visx/group"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { GridRows } from "@visx/grid"
 import { scaleBand, scaleLinear, coerceNumber, scaleUtc } from "@visx/scale"
-import cityTemperature, { CityTemperature } from "@visx/mock-data/lib/mocks/cityTemperature"
 import { timeParse, timeFormat } from "d3-time-format"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
@@ -22,7 +21,6 @@ const getDates = () => {
     scaleTime: scaleTime,
   }
 }
-console.log(getDates().scaleTime)
 
 export default function PresenceParticipation({ width, height, data }) {
   // bounds

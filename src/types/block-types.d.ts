@@ -79,4 +79,8 @@ declare namespace Bloc {
     sexe: string
     dateBegin: string
   }
+
+  interface Presence extends Base {
+    activite: Deputy.Activite[]
+  }
 }
