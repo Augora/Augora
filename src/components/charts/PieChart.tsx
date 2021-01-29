@@ -9,7 +9,8 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
-  const rayon = 200
+  const rayon = width / 2.5
+  const inner = width / 5
 
   const handleMouseLeave = () => {
     hideTooltip()
@@ -36,7 +37,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
             pieValue={(d) => d.value}
             pieSort={null}
             outerRadius={rayon}
-            innerRadius={100}
+            innerRadius={inner}
             padAngle={0.01}
             startAngle={-(Math.PI / 2)}
             endAngle={Math.PI / 2}
