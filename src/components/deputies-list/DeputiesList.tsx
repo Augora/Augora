@@ -6,6 +6,7 @@ import Deputy from "./deputy/Deputy"
 import Frame from "components/frames/Frame"
 import PieChart from "../charts/PieChart"
 import BarChart from "../charts/BarChart"
+import { ParentSize } from "@visx/responsive"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
 
@@ -30,16 +31,20 @@ export default function DeputiesList() {
         <Filters />
         <Frame className="frame-chart" title="Répartition">
           {state.FilteredList.length > 0 ? (
-            <div className="filters__charts">
+            <>
               <button className="charts__switch" onClick={() => setHasPieChart(!HasPieChart)} title="Changer le graphique">
                 <IconSwitch className="icon-switch" />
               </button>
               {HasPieChart ? (
-                <PieChart width={420} height={230} data={groupesData} />
+                <ParentSize debounceTime={10}>
+                  {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
+                </ParentSize>
               ) : (
-                <BarChart width={480} height={280} data={groupesData} />
+                <ParentSize className="bar__container" debounceTime={10}>
+                  {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
+                </ParentSize>
               )}
-            </div>
+            </>
           ) : null}
         </Frame>
       </section>
