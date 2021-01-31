@@ -122,9 +122,6 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
           </BarStack>
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          {/* 250 sur smartphone ==> 4*/}
-          {/* 812 sur PC ==> 10*/}
-          {/*  */}
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
