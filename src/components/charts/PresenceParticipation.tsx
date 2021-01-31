@@ -1,11 +1,10 @@
 import React from "react"
-import _ from "lodash"
+import orderBy from "lodash/orderBy"
 import { Bar } from "@visx/shape"
 import { Group } from "@visx/group"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { GridRows } from "@visx/grid"
-import { scaleBand, scaleLinear, coerceNumber, scaleUtc } from "@visx/scale"
-import { timeParse, timeFormat } from "d3-time-format"
+import { scaleBand, scaleLinear } from "@visx/scale"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
@@ -30,12 +29,14 @@ export default function PresenceParticipation({ width, height, data }) {
     domain: [0, getNbActivitesMax(data)],
   })
 
-  const orderedWeeks = _.orderBy(data, "NumeroDeSemaine")
+  const orderedWeeks = orderBy(data, "DateDeDebut")
+
   const dateScale = scaleBand({
     domain: orderedWeeks.map((d) => getDates(d.DateDeFin.split("T")[0]).dateDay),
     range: [xMax, 0],
     padding: 0.15,
   })
+
   return width < 10 ? null : (
     <div className="presence">
       <svg width={width} height={height}>
@@ -51,27 +52,64 @@ export default function PresenceParticipation({ width, height, data }) {
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           {orderedWeeks.map((d, index) => {
-            // filter sur Vacances
             const barWidth = dateScale.bandwidth()
-            const barHeight = yMax
-            const barX = dateScale(getDates(d.DateDeFin.split("T")[0]).dateDay)
-            const barY = yMax - barHeight
+            // Vacances
+            const vacHeight = yMax
+            const dataX = dateScale(getDates(d.DateDeFin.split("T")[0]).dateDay)
+            const vacY = yMax - vacHeight
+            // Questions
+            const questionHeight = yMax - (activiteScale(d.Question) ?? 0)
+            const questionY = yMax - questionHeight
+            // Presence Hémicycle
+            const presenceHeight = yMax - activiteScale(d.PresenceEnHemicycle) ?? 0
+            const presenceHemicycleY = yMax - presenceHeight
 
-            if (d.Vacances !== 0) {
-              return (
-                <Group key={`bar-${d.DateDeFin}-${index}`}>
-                  <Bar
-                    x={barX}
-                    y={barY}
-                    rx="3" //border radius
-                    ry="3"
-                    width={barWidth}
-                    height={barHeight}
-                    fill={"grey"}
-                  />
+            return (
+              <>
+                <Group key={`key-${d.DateDeFin}-${index}`}>
+                  {d.Vacances !== 0 && (
+                    <Group key={`Vacances-${d.Vacances}-${index}`}>
+                      <Bar
+                        x={dataX}
+                        y={vacY}
+                        rx="3" //border radius
+                        ry="3"
+                        width={barWidth}
+                        height={vacHeight}
+                        fill={"grey"}
+                      />
+                    </Group>
+                  )}
+                  {
+                    <Group key={`PresenceHemicycle-${d.PresenceEnHemicycle}-${index}`}>
+                      {/* A convertir en linePath */}
+                      <Bar
+                        x={dataX}
+                        y={presenceHemicycleY}
+                        rx="3" //border radius
+                        ry="3"
+                        width={barWidth}
+                        height={presenceHeight}
+                        fill={"green"}
+                      />
+                    </Group>
+                  }
+                  {
+                    <Group key={`Question-${d.Question}-${index}`}>
+                      <Bar
+                        x={dataX}
+                        y={questionY}
+                        rx="3" //border radius
+                        ry="3"
+                        width={barWidth}
+                        height={questionHeight}
+                        fill={"red"}
+                      />
+                    </Group>
+                  }
                 </Group>
-              )
-            }
+              </>
+            )
           })}
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
