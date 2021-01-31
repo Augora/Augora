@@ -119,7 +119,7 @@ export function getDepute(slug: string) {
                 Telephone
               }
             }
-            Activites {
+            Activites(_size: 100) {
               data {
                 DateDeDebut
                 DateDeFin
