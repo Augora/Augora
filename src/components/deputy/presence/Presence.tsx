@@ -16,7 +16,7 @@ const Presence = (props: Bloc.Presence) => {
       size={props.size}
       //wip={props.wip ? props.wip : true}
     >
-      <PresenceParticipation width={1000} height={300} data={props.activite} />
+      <PresenceParticipation width={1000} height={300} data={props.activite} color={props.color} />
     </Block>
   )
 }
