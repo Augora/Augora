@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { BarStackHorizontal } from "@visx/shape"
 import { GridRows } from "@visx/grid"
 import { AxisLeft, AxisBottom } from "@visx/axis"
@@ -17,6 +17,7 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
 
 export default function PyramideChart({ width, height, groups, dataAgeFemme, dataAgeHomme, totalDeputes }: BarStackProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+  const [isGroupColor, setIsGroupColor] = useState(false)
 
   const maxAgeFemme = dataAgeFemme.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
@@ -28,6 +29,7 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
   }, 0)
 
   const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
+  const ageMoyen = dataAgeFemme[dataAgeFemme.length - 1].age - dataAgeFemme[0].age
 
   // bounds
   const marginTop = 50
@@ -46,7 +48,7 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
     range: [0, yMax],
     round: true,
     domain: dataAgeFemme.map((d) => d.age),
-    padding: 0.15,
+    padding: 0.1,
   })
 
   const xScaleReverse = scaleLinear<number>({
@@ -63,11 +65,11 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
     range: [yMax, 0],
     round: true,
     domain: dataAgeHomme.map((d) => d.age),
-    padding: 0.15,
+    padding: 0.1,
   })
 
-  const getGroupColor = (sigle: string): string => {
-    return groups.find((group) => group.Sigle === sigle).Couleur
+  const getGroupColor = (sigle: string, defaultColor: string): string => {
+    return isGroupColor ? groups.find((group) => group.Sigle === sigle).Couleur : defaultColor
   }
 
   const handleMouseLeave = () => {
@@ -105,7 +107,7 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
             y={(d) => d.age}
             xScale={xScaleHomme}
             yScale={yScaleHomme}
-            color={getGroupColor}
+            color={(key) => getGroupColor(key, "#14ccae")}
           >
             {(barStacks) =>
               barStacks.map((barStack) =>
@@ -142,30 +144,21 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
             width={xMax}
             height={yMax}
             left={-marginLeft / 2}
-            numTicks={6}
+            numTicks={ageMoyen / 2}
             strokeWidth={2}
           />
         </Group>
       </svg>
       <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <AxisLeft
-            axisClassName="chart__axislabel"
-            scale={yScaleFemme.range([yMax, 0])}
-            numTicks={6}
-            hideAxisLine={true}
-            hideTicks={true}
-          />
           <GridRows
             className="chart__rows"
             scale={yScaleFemme.range([yMax, 0])}
             width={xMax}
             height={yMax}
-            numTicks={6}
+            numTicks={ageMoyen / 2}
             strokeWidth={2}
           />
-        </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
           <BarStackHorizontal<Chart.AgeData, string>
             data={dataAgeFemme}
             keys={groups.map((group) => group.Sigle)}
@@ -173,7 +166,7 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
             y={(d) => d.age}
             xScale={xScaleFemme}
             yScale={yScaleFemme}
-            color={getGroupColor}
+            color={(key) => getGroupColor(key, "#00bbcc")}
           >
             {(barStacks) =>
               barStacks.map((barStack) =>
@@ -192,6 +185,15 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
               )
             }
           </BarStackHorizontal>
+        </Group>
+        <Group top={marginTop / 2} left={marginLeft / 2}>
+          <AxisLeft
+            axisClassName="chart__axislabel"
+            scale={yScaleFemme.range([yMax, 0])}
+            hideAxisLine={true}
+            hideTicks={true}
+            numTicks={ageMoyen / 2}
+          />
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <AxisBottom
