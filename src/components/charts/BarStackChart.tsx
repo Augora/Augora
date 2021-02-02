@@ -71,7 +71,7 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
   }
 
   return (
-    <div className="pyramidechart chart">
+    <div className="barstackchart chart">
       <svg width={width} height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <AxisLeft

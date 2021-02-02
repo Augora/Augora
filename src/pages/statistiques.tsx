@@ -4,7 +4,7 @@ import PageTitle from "../components/titles/PageTitle"
 import Filters from "components/deputies-list/filters/Filters"
 import PieChart from "components/charts/PieChart"
 import BarChart from "components/charts/BarChart"
-import PyramideChart from "components/charts/PyramideChart"
+import BarStackChart from "components/charts/BarStackChart"
 import Frame from "components/frames/Frame"
 import { ParentSize } from "@visx/responsive"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
@@ -79,10 +79,10 @@ const Statistiques = (props) => {
             {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
           </ParentSize>
         </Frame>
-        <Frame className="frame-chart frame-pyramide" title="Pyramide des âges" right={`Âge moyen : ${averageAge} ans`}>
-          <ParentSize className="pyramide__container" debounceTime={10}>
+        <Frame className="frame-chart frame-barstack" title="Pyramide des âges" right={`Âge moyen : ${averageAge} ans`}>
+          <ParentSize className="barstack__container" debounceTime={10}>
             {(parent) => (
-              <PyramideChart
+              <BarStackChart
                 width={parent.width}
                 height={parent.height}
                 groups={state.GroupesList}

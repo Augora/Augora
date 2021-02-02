@@ -126,14 +126,14 @@
     }
   }
 
-  .frame-pyramide {
+  .frame-barstack {
     max-width: none;
     width: 70%;
 
     .frame {
       &__content {
         height: 350px;
-        .pyramide {
+        .barstack {
           &__container {
             width: 100%;
           }
