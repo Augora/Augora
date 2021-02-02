@@ -92,7 +92,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
                     className="chart__number barchart__number"
                     x={barX + barWidth / 2}
                     y={yMax - barHeight / 2}
-                    dx={d.value < 100 ? "-.6em" : "-.9em"}
+                    dx={d.value > 100 ? "-.9em" : d.value > 10 ? "-.6em" : "-.3em"}
                     dy={"+.33em"}
                   >
                     {d.value}
