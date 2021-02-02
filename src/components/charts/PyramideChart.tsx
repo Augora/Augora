@@ -1,5 +1,5 @@
 import React from "react"
-import { BarStack } from "@visx/shape"
+import { BarStackHorizontal } from "@visx/shape"
 import { GridRows } from "@visx/grid"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale"
@@ -7,35 +7,59 @@ import { Group } from "@visx/group"
 import { SeriesPoint } from "@visx/shape/lib/types/barStack"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  dataAge: Chart.AgeData[]
+  dataAgeFemme: Chart.AgeData[]
+  dataAgeHomme: Chart.AgeData[]
   groups: Group.GroupsList
   totalDeputes: number
 }
 
-export default function PyramideChart({ width, height, groups, dataAge, totalDeputes }: BarStackProps) {
-  const maxAge = dataAge.reduce((acc, cur) => {
+export default function PyramideChart({ width, height, groups, dataAgeFemme, dataAgeHomme, totalDeputes }: BarStackProps) {
+  const maxAgeFemme = dataAgeFemme.reduce((acc, cur) => {
+    const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
+    return curSum > acc ? curSum : acc
+  }, 0)
+  const maxAgeHomme = dataAgeHomme.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
     return curSum > acc ? curSum : acc
   }, 0)
 
+  const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
+
   // bounds
   const marginTop = 50
-  const marginLeft = 20
-  const xMax = width - marginLeft
+  const marginLeft = 30
+  const xMax = width / 2 - marginLeft
   const yMax = height - marginTop
 
   // scales, memoize for performance
-  const xScale = scaleBand<number>({
+  const xScaleFemme = scaleLinear<number>({
     range: [0, xMax],
     round: true,
-    domain: dataAge.map((d) => d.age).reverse(),
+    domain: [maxAge, 0],
+  })
+
+  const yScaleFemme = scaleBand<number>({
+    range: [0, yMax],
+    round: true,
+    domain: dataAgeFemme.map((d) => d.age),
     padding: 0.15,
   })
 
-  const yScale = scaleLinear<number>({
+  const xScaleReverse = scaleLinear<number>({
+    range: [0, xMax],
+    domain: [maxAge, 0],
+  })
+
+  const xScaleHomme = scaleLinear<number>({
+    range: [0, xMax],
+    domain: [-maxAge, 0],
+  })
+
+  const yScaleHomme = scaleBand<number>({
     range: [yMax, 0],
     round: true,
-    domain: [0, maxAge],
+    domain: dataAgeHomme.map((d) => d.age),
+    padding: 0.15,
   })
 
   const getGroupColor = (sigle: string): string => {
@@ -43,36 +67,82 @@ export default function PyramideChart({ width, height, groups, dataAge, totalDep
   }
 
   return (
-    <div className="barstackchart chart">
-      <svg width={width} height={height}>
+    <div className="pyramidechart chart">
+      <svg height={height}>
+        <Group top={marginTop / 2} left={xMax}>
+          <BarStackHorizontal<Chart.AgeData, string>
+            data={dataAgeHomme}
+            keys={groups.map((group) => group.Sigle)}
+            value={(d, key) => d.groups[key].length}
+            y={(d) => d.age}
+            xScale={xScaleHomme}
+            yScale={yScaleHomme}
+            color={getGroupColor}
+          >
+            {(barStacks) =>
+              barStacks.map((barStack) =>
+                barStack.bars.map((bar) => (
+                  <rect
+                    key={`bar-stack-${barStack.index}-${bar.index}`}
+                    x={bar.x - xMax}
+                    y={bar.y}
+                    height={bar.height}
+                    width={bar.width}
+                    fill={bar.color}
+                    transform="scale(-1,1)"
+                  />
+                ))
+              )
+            }
+          </BarStackHorizontal>
+        </Group>
+        <Group top={marginTop / 2} left={marginLeft / 2}>
+          <AxisBottom
+            axisClassName="chart__axislabel axislabel__bottom"
+            tickClassName="chart__axistick"
+            scale={xScaleReverse.range([0, xMax])}
+            top={yMax}
+            left={-marginLeft / 2}
+            hideAxisLine={true}
+            tickLength={6}
+          />
+          <GridRows
+            className="chart__rows"
+            scale={yScaleFemme.range([yMax, 0])}
+            width={xMax}
+            height={yMax}
+            left={-marginLeft / 2}
+            numTicks={6}
+            strokeWidth={2}
+          />
+        </Group>
+      </svg>
+      <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <AxisLeft
             axisClassName="chart__axislabel"
-            scale={yScale.range([yMax, 0])}
+            scale={yScaleFemme.range([yMax, 0])}
             numTicks={6}
             hideAxisLine={true}
             hideTicks={true}
           />
           <GridRows
             className="chart__rows"
-            scale={yScale.range([yMax, 0])}
+            scale={yScaleFemme.range([yMax, 0])}
             width={xMax}
             height={yMax}
             numTicks={6}
             strokeWidth={2}
           />
-          <text x={xMax + 10} y={yMax} className="chart__description">
-            Âge
-          </text>
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <BarStack<Chart.AgeData, string>
-            data={dataAge}
+          <BarStackHorizontal<Chart.AgeData, string>
+            data={dataAgeFemme}
             keys={groups.map((group) => group.Sigle)}
             value={(d, key) => d.groups[key].length}
-            x={(d) => d.age}
-            xScale={xScale}
-            yScale={yScale}
+            y={(d) => d.age}
+            xScale={xScaleFemme}
+            yScale={yScaleFemme}
             color={getGroupColor}
           >
             {(barStacks) =>
@@ -89,15 +159,14 @@ export default function PyramideChart({ width, height, groups, dataAge, totalDep
                 ))
               )
             }
-          </BarStack>
+          </BarStackHorizontal>
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
-            scale={xScale.range([xMax, 0])}
+            scale={xScaleFemme.range([xMax, 0])}
             top={yMax}
-            numTicks={width > 350 ? 10 : width > 250 ? 5 : 3}
             hideAxisLine={true}
             tickLength={6}
           />

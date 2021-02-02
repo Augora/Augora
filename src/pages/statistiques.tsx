@@ -103,15 +103,17 @@ const Statistiques = (props) => {
             )}
           </ParentSize>
         </Frame>
-
-        <Frame className="frame-chart frame-pyramide" title="Pyramide des âges" right={`Âge moyen : ${averageAge} ans`}>
-          <ParentSize className="barstack__container" debounceTime={10}>
+      </section>
+      <section className="pyramide">
+        <Frame className="frame-chart frame-pyramide" title="Pyramide des âges">
+          <ParentSize className="pyramide__container" debounceTime={10}>
             {(parent) => (
               <PyramideChart
                 width={parent.width}
                 height={parent.height}
                 groups={state.GroupesList}
-                dataAge={dataAge}
+                dataAgeFemme={dataAgeFemme}
+                dataAgeHomme={dataAgeHomme}
                 totalDeputes={state.FilteredList.length}
               />
             )}

@@ -142,3 +142,25 @@
     }
   }
 }
+
+// troisième section
+
+.pyramide {
+  display: flex;
+
+  .frame-pyramide {
+    margin: 0;
+    max-width: none;
+    width: 50%;
+
+    .frame__content {
+      height: 500px;
+      .pyramide__container {
+        width: 100%;
+        svg {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
