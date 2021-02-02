@@ -3,9 +3,12 @@ import orderBy from "lodash/orderBy"
 import { Bar } from "@visx/shape"
 import { Group } from "@visx/group"
 import { AxisLeft, AxisBottom } from "@visx/axis"
+import { LinePath } from "@visx/shape"
+import { curveMonotoneY } from "@visx/curve"
 import { GridRows } from "@visx/grid"
-import { scaleBand, scaleLinear } from "@visx/scale"
+import { scaleBand, scaleLinear, scaleTime } from "@visx/scale"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
+import cityTemperature, { CityTemperature } from "@visx/mock-data/lib/mocks/cityTemperature"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
 dayjs.locale("fr")
@@ -16,7 +19,7 @@ const getDates = (date: string) => {
   }
 }
 
-export default function PresenceParticipation({ width, height, data }) {
+export default function PresenceParticipation({ width, height, data, color }) {
   // bounds
   const marginTop = 50
   const marginLeft = 20
@@ -30,10 +33,11 @@ export default function PresenceParticipation({ width, height, data }) {
   })
 
   const orderedWeeks = orderBy(data, "DateDeDebut")
+  console.log(orderedWeeks.map((d) => getDates(d.DateDeFin.split("T")[0]).dateDay))
 
   const dateScale = scaleBand({
     domain: orderedWeeks.map((d) => getDates(d.DateDeFin.split("T")[0]).dateDay),
-    range: [xMax, 0],
+    range: [0, xMax],
     padding: 0.15,
   })
 
@@ -60,13 +64,35 @@ export default function PresenceParticipation({ width, height, data }) {
             // Questions
             const questionHeight = yMax - (activiteScale(d.Question) ?? 0)
             const questionY = yMax - questionHeight
-            // Presence Hémicycle
-            const presenceHeight = yMax - activiteScale(d.PresenceEnHemicycle) ?? 0
-            const presenceHemicycleY = yMax - presenceHeight
 
             return (
               <>
                 <Group key={`key-${d.DateDeFin}-${index}`}>
+                  {
+                    <Group key={`PresenceHemicycle-${d.PresenceEnHemicycle}-${index}`}>
+                      <LinePath
+                        data={orderedWeeks}
+                        x={(d) => dateScale(getDates(d.DateDeFin.split("T")[0]).dateDay) ?? 0}
+                        y={(d) => activiteScale(d.PresenceEnHemicycle + d.PresencesEnCommission) ?? 0}
+                        curve={curveMonotoneY}
+                        stroke={color}
+                        strokeWidth={1.5}
+                      />
+                    </Group>
+                  }
+                  {console.log(d)}
+                  {
+                    <Group key={`Participations-${d.Participation}-${index}`}>
+                      <LinePath
+                        data={orderedWeeks}
+                        x={(d) => dateScale(getDates(d.DateDeFin.split("T")[0]).dateDay) ?? 0}
+                        y={(d) => activiteScale(d.ParticipationEnHemicycle + d.ParticipationsEnCommission) ?? 0}
+                        curve={curveMonotoneY}
+                        stroke={color}
+                        strokeWidth={0.01}
+                      />
+                    </Group>
+                  }
                   {d.Vacances !== 0 && (
                     <Group key={`Vacances-${d.Vacances}-${index}`}>
                       <Bar
@@ -81,20 +107,6 @@ export default function PresenceParticipation({ width, height, data }) {
                     </Group>
                   )}
                   {
-                    <Group key={`PresenceHemicycle-${d.PresenceEnHemicycle}-${index}`}>
-                      {/* A convertir en linePath */}
-                      <Bar
-                        x={dataX}
-                        y={presenceHemicycleY}
-                        rx="3" //border radius
-                        ry="3"
-                        width={barWidth}
-                        height={presenceHeight}
-                        fill={"green"}
-                      />
-                    </Group>
-                  }
-                  {
                     <Group key={`Question-${d.Question}-${index}`}>
                       <Bar
                         x={dataX}
@@ -103,7 +115,7 @@ export default function PresenceParticipation({ width, height, data }) {
                         ry="3"
                         width={barWidth}
                         height={questionHeight}
-                        fill={"red"}
+                        fill={color}
                       />
                     </Group>
                   }
@@ -116,7 +128,7 @@ export default function PresenceParticipation({ width, height, data }) {
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
-            scale={dateScale.range([0, xMax])}
+            scale={dateScale}
             numTicks={11}
             top={yMax}
             hideAxisLine={true}
