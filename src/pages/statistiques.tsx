@@ -107,7 +107,7 @@ const Statistiques = (props) => {
     <>
       <section className="filters">
         <Filters />
-        <Frame className="frame-chart" title="Demi donut">
+        <Frame className="frame-chart" title="Hémicycle">
           {state.FilteredList.length > 0 ? (
             <ParentSize debounceTime={10}>
               {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
