@@ -47,7 +47,7 @@ const getRangeAgeData = (
   range: number
 ): Chart.RangeAgeData[] => {
   const deltaAge = ages[1] - ages[0]
-  return Array(deltaAge / range === 0 ? deltaAge / range : Math.round(deltaAge / range))
+  return Array(deltaAge / range === 0 ? deltaAge / range : Math.ceil(deltaAge / range))
     .fill(null)
     .map((nothing, index) => {
       const age = `${ages[0] + range * index}-${
