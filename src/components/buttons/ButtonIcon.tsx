@@ -38,6 +38,7 @@ export default function ButtonIcon(props: IButtonIcon) {
       <Button
         className={`${classNames} btn--${props.className.split(" ")[0]}`}
         onClick={props.onClick}
+        title={props.title}
         style={{
           ...props.style,
         }}
