@@ -10,6 +10,7 @@ import { ParentSize } from "@visx/responsive"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
+import PyramideChart from "src/components/charts/PyramideChart"
 
 type Groups = {
   id: string
@@ -52,6 +53,16 @@ const Statistiques = (props) => {
   }).filter((groupe) => groupe.value !== 0)
 
   const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
+  const dataAgeFemme = getAgeData(
+    state.GroupesList,
+    state.FilteredList.filter((depute) => depute.Sexe === "F"),
+    state.AgeDomain
+  )
+  const dataAgeHomme = getAgeData(
+    state.GroupesList,
+    state.FilteredList.filter((depute) => depute.Sexe === "H"),
+    state.AgeDomain
+  )
 
   const sumAge = dataAge.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
@@ -79,10 +90,24 @@ const Statistiques = (props) => {
             {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
           </ParentSize>
         </Frame>
-        <Frame className="frame-chart frame-barstack" title="Pyramide des âges" right={`Âge moyen : ${averageAge} ans`}>
+        <Frame className="frame-chart frame-barstack" title="Cumul des âges" right={`Âge moyen : ${averageAge} ans`}>
           <ParentSize className="barstack__container" debounceTime={10}>
             {(parent) => (
               <BarStackChart
+                width={parent.width}
+                height={parent.height}
+                groups={state.GroupesList}
+                dataAge={dataAge}
+                totalDeputes={state.FilteredList.length}
+              />
+            )}
+          </ParentSize>
+        </Frame>
+
+        <Frame className="frame-chart frame-pyramide" title="Pyramide des âges" right={`Âge moyen : ${averageAge} ans`}>
+          <ParentSize className="barstack__container" debounceTime={10}>
+            {(parent) => (
+              <PyramideChart
                 width={parent.width}
                 height={parent.height}
                 groups={state.GroupesList}
