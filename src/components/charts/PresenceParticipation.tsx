@@ -32,7 +32,6 @@ export default function PresenceParticipation({ width, height, data, color }) {
   })
 
   const orderedWeeks = orderBy(data, "DateDeDebut")
-  console.log(orderedWeeks.map((d) => getDates(d.DateDeFin.split("T")[0]).dateDay))
 
   const dateScale = scaleBand({
     domain: orderedWeeks.map((d) => getDates(d.DateDeFin.split("T")[0]).dateDay),
@@ -79,7 +78,6 @@ export default function PresenceParticipation({ width, height, data, color }) {
                       />
                     </Group>
                   }
-                  {console.log(d)}
                   {
                     <Group key={`Participations-${d.Participation}-${index}`}>
                       <LinePath
