@@ -5,6 +5,8 @@ import { AxisLeft, AxisBottom } from "@visx/axis"
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale"
 import { Group } from "@visx/group"
 import { SeriesPoint } from "@visx/shape/lib/types/barStack"
+import { useTooltip } from "@visx/tooltip"
+import ChartTooltip from "components/charts/ChartTooltip"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAgeFemme: Chart.AgeData[]
@@ -14,6 +16,8 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
 }
 
 export default function PyramideChart({ width, height, groups, dataAgeFemme, dataAgeHomme, totalDeputes }: BarStackProps) {
+  const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+
   const maxAgeFemme = dataAgeFemme.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
     return curSum > acc ? curSum : acc
@@ -66,6 +70,30 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
     return groups.find((group) => group.Sigle === sigle).Couleur
   }
 
+  const handleMouseLeave = () => {
+    hideTooltip()
+  }
+
+  const handleMouseMove = (
+    event: React.MouseEvent<SVGRectElement, MouseEvent>,
+    data: {
+      bar: SeriesPoint<Chart.AgeData>
+      key: string
+      color: string
+    }
+  ) => {
+    showTooltip({
+      tooltipData: {
+        key: groups.find((group) => group.Sigle === data.key).NomComplet,
+        bar: data.bar.data.groups[data.key].length,
+        color: data.color,
+        age: data.bar.data.age,
+      },
+      tooltipTop: event.clientY,
+      tooltipLeft: event.clientX,
+    })
+  }
+
   return (
     <div className="pyramidechart chart">
       <svg height={height}>
@@ -90,6 +118,8 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
                     width={bar.width}
                     fill={bar.color}
                     transform="scale(-1,1)"
+                    onMouseLeave={handleMouseLeave}
+                    onMouseMove={(event) => handleMouseMove(event, bar)}
                   />
                 ))
               )
@@ -155,6 +185,8 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
                     height={bar.height}
                     width={bar.width}
                     fill={bar.color}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseMove={(event) => handleMouseMove(event, bar)}
                   />
                 ))
               )
@@ -172,6 +204,17 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
           />
         </Group>
       </svg>
+      {tooltipOpen && tooltipData && (
+        <ChartTooltip
+          tooltipTop={tooltipTop}
+          tooltipLeft={tooltipLeft}
+          title={tooltipData.key}
+          nbDeputes={tooltipData.bar}
+          totalDeputes={totalDeputes}
+          color={tooltipData.color}
+          age={tooltipData.age}
+        />
+      )}
     </div>
   )
 }
