@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef, useState } from "react"
 import fs from "fs"
 import Head from "next/head"
 import { getDepute, getDeputesSlugs } from "../../lib/deputes/Wrapper"
@@ -13,6 +13,7 @@ import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 import ButtonIcon from "components/buttons/ButtonIcon"
+import ContactTooltip from "src/components/tooltip/ContactTooltip"
 import IconMail from "images/ui-kit/icon-mail.svg"
 import IconWebsite from "images/ui-kit/icon-web.svg"
 import IconTwitter from "images/ui-kit/icon-twitter.svg"
@@ -30,8 +31,42 @@ interface IDeputy {
 // })
 
 export default function Deputy({ depute }: IDeputy) {
+  const [isSiteTooltipVisible, setIsSiteTooltipVisible] = useState(false)
+  const [isMailTooltipVisible, setIsMailTooltipVisible] = useState(false)
+
+  const node = useRef<HTMLDivElement>()
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClick)
+    return () => {
+      document.removeEventListener("mousedown", handleClick)
+    }
+  }, [])
+
   const deputy = depute
   const color = deputy.GroupeParlementaire.Couleur
+
+  const handleClick = (e) => {
+    if (node?.current) {
+      if (!node.current.contains(e.target)) {
+        setIsSiteTooltipVisible(false)
+        setIsMailTooltipVisible(false)
+      }
+    }
+  }
+
+  const handleMailClick = () => {
+    if (deputy.Emails.length) {
+      return deputy.Emails.length > 1 ? () => setIsMailTooltipVisible(!isMailTooltipVisible) : `mailto:${deputy.Emails[0]}`
+    } else return ""
+  }
+
+  const handleSiteClick = () => {
+    if (deputy.SitesWeb.length) {
+      return deputy.SitesWeb.length > 1 ? () => setIsSiteTooltipVisible(!isSiteTooltipVisible) : deputy.SitesWeb[0]
+    } else return ""
+  }
+
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
@@ -43,28 +78,30 @@ export default function Deputy({ depute }: IDeputy) {
           <h1>
             {deputy.Prenom} {deputy.NomDeFamille}
           </h1>
-          <div className="deputy__contact">
+          <div className="deputy__contact" ref={node}>
             <ButtonIcon
-              onClick={deputy.Emails.length > 0 ? `mailto:${deputy.Emails[0]}` : ""}
+              onClick={handleMailClick()}
               className="btn--mail"
-              title={"Adresse e-mail"}
+              title={"Adresse(s) e-mail"}
               deactivated={deputy.Emails.length < 1}
               color={deputy.GroupeParlementaire.Couleur}
             >
               <div className="icon-wrapper">
                 <IconMail style={{ fill: deputy.GroupeParlementaire.Couleur }} />
               </div>
+              {isMailTooltipVisible && <ContactTooltip links={deputy.Emails} />}
             </ButtonIcon>
             <ButtonIcon
-              onClick={deputy.SitesWeb.length > 0 ? deputy.SitesWeb[0] : ""}
+              onClick={handleSiteClick()}
               className="btn--website"
-              title={"Site Web"}
+              title={"Site(s) Web"}
               deactivated={deputy.SitesWeb.length < 1}
               target="_blank"
             >
               <div className="icon-wrapper" style={{ width: "30px" }}>
                 <IconWebsite style={{ fill: deputy.GroupeParlementaire.Couleur }} />
               </div>
+              {isSiteTooltipVisible && <ContactTooltip links={deputy.SitesWeb} title="Visiter le site" target="_blank" />}
             </ButtonIcon>
             <ButtonIcon
               onClick={deputy.URLTwitter && deputy.URLTwitter}
