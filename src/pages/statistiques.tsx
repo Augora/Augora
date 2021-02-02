@@ -39,6 +39,37 @@ const getAgeData = (groupList: Group.GroupsList, list: Deputy.DeputiesList, ages
     })
 }
 
+// Non utilisé actuellement, permet de gérer des ranges d'âge pour la pyramide, ex : 27-32 si range définit à 5
+const getRangeAgeData = (
+  groupList: Group.GroupsList,
+  list: Deputy.DeputiesList,
+  ages: Filter.AgeDomain,
+  range: number
+): Chart.RangeAgeData[] => {
+  const deltaAge = ages[1] - ages[0]
+  return Array(deltaAge / range === 0 ? deltaAge / range : Math.round(deltaAge / range))
+    .fill(null)
+    .map((nothing, index) => {
+      const age = `${ages[0] + range * index}-${
+        ages[0] + range * (index + 1) > ages[1] ? ages[1] : ages[0] + range * (index + 1)
+      }`
+      const groups = groupList.reduce((acc, cur) => {
+        const ageDeputies = list.filter(
+          (depute) => depute.Age <= ages[0] + range * (index + 1) && depute.Age > ages[0] + range * index
+        )
+        return {
+          ...acc,
+          [cur.Sigle]: ageDeputies.filter((depute) => depute.GroupeParlementaire.Sigle === cur.Sigle),
+        }
+      }, {})
+
+      return {
+        age: age,
+        groups: groups,
+      }
+    })
+}
+
 const Statistiques = (props) => {
   const { state } = useDeputiesFilters()
 
@@ -53,6 +84,7 @@ const Statistiques = (props) => {
   }).filter((groupe) => groupe.value !== 0)
 
   const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
+
   const dataAgeFemme = getAgeData(
     state.GroupesList,
     state.FilteredList.filter((depute) => depute.Sexe === "F"),
@@ -114,6 +146,8 @@ const Statistiques = (props) => {
                 groups={state.GroupesList}
                 dataAgeFemme={dataAgeFemme}
                 dataAgeHomme={dataAgeHomme}
+                // dataAgeFemme={dataRangeAgeFemme}
+                // dataAgeHomme={dataRangeAgeHomme}
                 totalDeputes={state.FilteredList.length}
               />
             )}
