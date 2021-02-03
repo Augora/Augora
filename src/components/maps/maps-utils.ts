@@ -1,4 +1,4 @@
-import { WebMercatorViewport, FlyToInterpolator } from "react-map-gl"
+import { WebMercatorViewport, FlyToInterpolator, ViewportProps } from "react-map-gl"
 import polylabel from "polylabel"
 import MetroFranceContFile from "static/cont-france.geojson"
 import MetroRegFile from "static/reg-metro.geojson"
@@ -225,13 +225,15 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
  */
 export const flyToBounds = <T extends GeoJSON.Feature>(
   feature: T,
-  viewState: any,
+  viewState: ViewportProps,
   setViewState: React.Dispatch<React.SetStateAction<{}>>
 ): void => {
-  const bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
-  const mercaViewport = new WebMercatorViewport(viewState).fitBounds(bounds, { padding: 100 })
+  const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
+  const { longitude, latitude, zoom } = new WebMercatorViewport(viewState).fitBounds(bounds, { padding: 100 })
   setViewState({
-    ...mercaViewport,
+    longitude,
+    latitude,
+    zoom,
     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
     transitionEasing: (x) => -(Math.cos(Math.PI * x) - 1) / 2, //ease in-out sine
     transitionDuration: "auto",

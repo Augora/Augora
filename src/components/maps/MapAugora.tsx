@@ -100,6 +100,8 @@ export default function MapAugora(props: IMapAugora) {
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
   const [viewState, setViewState] = useState<ViewportProps>({
+    width: 300,
+    height: 300,
     zoom: 5,
     longitude: France.center.lng,
     latitude: France.center.lat,
@@ -253,8 +255,8 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleLoad = () => {
-    flyToBounds(currentView.feature, viewState, setViewState)
     setIsMapLoaded(true)
+    flyToBounds(currentView.feature, viewState, setViewState)
   }
 
   return (
@@ -271,7 +273,7 @@ export default function MapAugora(props: IMapAugora) {
       touchRotate={false}
       interactiveLayerIds={!inExploreMode ? ["zone-fill", "zone-ghost-fill"] : []}
       onLoad={handleLoad}
-      onViewStateChange={(change) => setViewState(change.viewState)}
+      onViewportChange={setViewState}
       onClick={handleClick}
       onHover={handleHover}
       onMouseOut={() => renderHover()}

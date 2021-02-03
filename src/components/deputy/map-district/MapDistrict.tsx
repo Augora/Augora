@@ -7,7 +7,13 @@ import "mapbox-gl/dist/mapbox-gl.css"
 
 export default function MapDistrict(props: Bloc.Map) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
-  const [viewport, setViewport] = useState<ViewportProps>({ latitude: France.center.lat, longitude: France.center.lng, zoom: 2 })
+  const [viewport, setViewport] = useState<ViewportProps>({
+    latitude: France.center.lat,
+    longitude: France.center.lng,
+    zoom: 3,
+    width: 300,
+    height: 300,
+  })
 
   //récupère le polygone de la circonscription
   const districtPolygon = useMemo(() => {
@@ -44,7 +50,7 @@ export default function MapDistrict(props: Bloc.Map) {
           onLoad={() => {
             flyToBounds(districtPolygon, viewport, setViewport)
           }}
-          onViewportChange={(change) => setViewport(change)}
+          onViewportChange={setViewport}
         >
           <Source type="geojson" data={districtPolygon}>
             <Layer
