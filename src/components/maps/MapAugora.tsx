@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import router from "next/router"
-import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
+import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewportProps } from "react-map-gl"
 import {
   Code,
   France,
@@ -24,6 +24,7 @@ import MapFilters from "components/maps/MapFilters"
 import IconInfo from "images/ui-kit/icon-info.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
+import "mapbox-gl/dist/mapbox-gl.css"
 
 interface ICurrentView {
   geoJSON: AugoraMap.FeatureCollection
@@ -98,7 +99,7 @@ export default function MapAugora(props: IMapAugora) {
     }
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
-  const [viewState, setViewState] = useState<ViewState>({
+  const [viewState, setViewState] = useState<ViewportProps>({
     zoom: 5,
     longitude: France.center.lng,
     latitude: France.center.lat,
