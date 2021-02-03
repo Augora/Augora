@@ -22,6 +22,11 @@ import IconInstagram from "images/ui-kit/icon-instagram.svg"
 import IconLinkedIn from "images/ui-kit/icon-linkedin.svg"
 import SEO, { PageType } from "components/seo/seo"
 
+enum Button {
+  Mail,
+  Site,
+}
+
 interface IDeputy {
   depute: Deputy.Deputy
 }
@@ -55,15 +60,16 @@ export default function Deputy({ depute }: IDeputy) {
     }
   }
 
-  const handleMailClick = () => {
-    if (deputy.Emails.length) {
-      return deputy.Emails.length > 1 ? () => setIsMailTooltipVisible(!isMailTooltipVisible) : `mailto:${deputy.Emails[0]}`
-    } else return ""
-  }
-
-  const handleSiteClick = () => {
-    if (deputy.SitesWeb.length) {
-      return deputy.SitesWeb.length > 1 ? () => setIsSiteTooltipVisible(!isSiteTooltipVisible) : deputy.SitesWeb[0]
+  const handleBtnClick = (links: string[], button: Button) => {
+    if (links.length) {
+      switch (button) {
+        case Button.Mail:
+          return links.length > 1 ? () => setIsMailTooltipVisible(!isMailTooltipVisible) : `mailto:${deputy.Emails[0]}`
+        case Button.Site:
+          return links.length > 1 ? () => setIsSiteTooltipVisible(!isSiteTooltipVisible) : deputy.SitesWeb[0]
+        default:
+          return ""
+      }
     } else return ""
   }
 
@@ -80,7 +86,7 @@ export default function Deputy({ depute }: IDeputy) {
           </h1>
           <div className="deputy__contact" ref={node}>
             <ButtonIcon
-              onClick={handleMailClick()}
+              onClick={handleBtnClick(deputy.Emails, Button.Mail)}
               className="btn--mail"
               title={"Adresse(s) e-mail"}
               deactivated={deputy.Emails.length < 1}
@@ -92,7 +98,7 @@ export default function Deputy({ depute }: IDeputy) {
               {isMailTooltipVisible && <ContactTooltip links={deputy.Emails} />}
             </ButtonIcon>
             <ButtonIcon
-              onClick={handleSiteClick()}
+              onClick={handleBtnClick(deputy.SitesWeb, Button.Site)}
               className="btn--website"
               title={"Site(s) Web"}
               deactivated={deputy.SitesWeb.length < 1}
