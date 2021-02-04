@@ -299,8 +299,8 @@ export default function MapAugora(props: IMapAugora) {
       )}
       <div className="map__navigation">
         <div className="navigation__right">
-          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
-          <FullscreenControl />
+          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" style={{ position: "relative" }} />
+          <FullscreenControl label="Plein écran" style={{ position: "relative" }} />
           <MapInput
             className="navigation__explorer"
             type="checkbox"
