@@ -5,6 +5,9 @@
 // Layout
 /*----------------------------------------------------*/
 .layout {
+  .with-title & {
+    padding-top: 250px;
+  }
   .no-title & {
     padding-top: 60px;
   }

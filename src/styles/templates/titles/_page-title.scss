@@ -1,5 +1,5 @@
 .page-title {
-  position: relative;
+  position: fixed;
   left: 50%;
 
   width: 100vw;
@@ -13,6 +13,10 @@
 
   transform: translate(-50%, 0);
 
+  box-shadow: 0px 0px 20px rgba($black, 0.15);
+
+  z-index: 1;
+
   &__title {
     color: white;
     padding: 0 7vw;
@@ -22,6 +26,15 @@
 
   svg rect {
     transition: transform 3s $ease-out-cubic;
+  }
+
+  // States
+  .scrolled & {
+    padding-top: 40px;
+    &__title {
+      font-size: 30px;
+      margin: 20px 0;
+    }
   }
 
   // Media queries

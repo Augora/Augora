@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import Head from "next/head"
 import { colors } from "utils/variables"
 
@@ -15,10 +15,27 @@ const allColors = colors.map((color) => {
 // const headerHeight =
 
 const Layout = ({ children, location, title }) => {
+  const [scrolled, setScrolled] = useState(false)
+  const handleScroll = (event) => {
+    if (window.scrollY > 50) {
+      setScrolled(true)
+    } else {
+      setScrolled(false)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", (e) => {
+      handleScroll()
+    })
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true)
+    }
+  }, [])
   // Check if page has SEO informations
 
   return (
-    <div className={`${title ? "with-title" : "no-title"}`}>
+    <div className={`${title ? "with-title" : "no-title"} ${scrolled ? "scrolled" : ""}`}>
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
