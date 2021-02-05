@@ -3,6 +3,7 @@ import ReactMapGL, { Source, Layer, ViewState } from "react-map-gl"
 import Link from "next/link"
 import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
+import "mapbox-gl/dist/mapbox-gl.css"
 
 export default function MapDistrict(props: Bloc.Map) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy

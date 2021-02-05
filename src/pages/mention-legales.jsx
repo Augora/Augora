@@ -1,12 +1,12 @@
 import React from "react"
 
-import SEO from "../components/seo/seo"
+import SEO, { PageType } from "../components/seo/seo"
 import PageTitle from "../components/titles/PageTitle"
 
 const Mentions = () => {
   return (
     <>
-      <SEO title="Mentions légales" />
+      <SEO pageType={PageType.MentionsLegales} />
       <div className="page page__mentions-legales">
         <PageTitle title="Mentions légales" />
         <h2>Données personnelles</h2>
