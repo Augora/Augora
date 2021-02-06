@@ -15,9 +15,15 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   totalDeputes: number
 }
 
-export default function PyramideChart({ width, height, groups, dataAgeFemme, dataAgeHomme, totalDeputes }: BarStackProps) {
+export default function PyramideBarStackChart({
+  width,
+  height,
+  groups,
+  dataAgeFemme,
+  dataAgeHomme,
+  totalDeputes,
+}: BarStackProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
-  const [isGroupColor, setIsGroupColor] = useState(false)
 
   const maxAgeFemme = dataAgeFemme.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
@@ -69,7 +75,7 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
   })
 
   const getGroupColor = (sigle: string, defaultColor: string): string => {
-    return isGroupColor ? groups.find((group) => group.Sigle === sigle).Couleur : defaultColor
+    return groups.find((group) => group.Sigle === sigle).Couleur
   }
 
   const handleMouseLeave = () => {
@@ -97,7 +103,7 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
   }
 
   return (
-    <div className="pyramidechart chart">
+    <div className="pyramidebarstackchart chart">
       <svg height={height}>
         <Group top={marginTop / 2} left={xMax}>
           <BarStackHorizontal<Chart.AgeData, string>
