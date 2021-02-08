@@ -12,6 +12,7 @@ import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
 import PyramideBarChart from "src/components/charts/PyramideBarChart"
 import PyramideBarStackChart from "src/components/charts/PyramideBarStackChart"
+import PyramideRangeBarStackChart from "src/components/charts/PyramideRangeBarStackChart"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
 
 type Groups = {
@@ -21,7 +22,11 @@ type Groups = {
   color: string
 }
 
-const getAgeData = (groupList: Group.GroupsList, list: Deputy.DeputiesList, ages: Filter.AgeDomain): Chart.AgeData[] => {
+const getStackAgeData = (
+  groupList: Group.GroupsList,
+  list: Deputy.DeputiesList,
+  ages: Filter.AgeDomain
+): Chart.StackAgeData[] => {
   return Array(ages[1] - ages[0] + 1)
     .fill(null)
     .map((nothing, index) => {
@@ -37,6 +42,19 @@ const getAgeData = (groupList: Group.GroupsList, list: Deputy.DeputiesList, ages
       return {
         age: age,
         groups: groups,
+      }
+    })
+}
+
+const getAgeData = (groupList: Group.GroupsList, list: Deputy.DeputiesList, ages: Filter.AgeDomain): Chart.AgeData[] => {
+  return Array(ages[1] - ages[0] + 1)
+    .fill(null)
+    .map((nothing, index) => {
+      const age = ages[0] + index
+      const deputyCount = list.filter((depute) => depute.Age === age).length
+      return {
+        age: age,
+        deputyCount: deputyCount,
       }
     })
 }
@@ -86,20 +104,47 @@ const Statistiques = (props) => {
     }
   }).filter((groupe) => groupe.value !== 0)
 
-  const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
-
   const dataAgeFemme = getAgeData(
     state.GroupesList,
     state.FilteredList.filter((depute) => depute.Sexe === "F"),
     state.AgeDomain
   )
+
   const dataAgeHomme = getAgeData(
     state.GroupesList,
     state.FilteredList.filter((depute) => depute.Sexe === "H"),
     state.AgeDomain
   )
 
-  const sumAge = dataAge.reduce((acc, cur) => {
+  const dataStackAge = getStackAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
+
+  const dataStackAgeFemme = getStackAgeData(
+    state.GroupesList,
+    state.FilteredList.filter((depute) => depute.Sexe === "F"),
+    state.AgeDomain
+  )
+  const dataStackAgeHomme = getStackAgeData(
+    state.GroupesList,
+    state.FilteredList.filter((depute) => depute.Sexe === "H"),
+    state.AgeDomain
+  )
+
+  const range = 5
+  const dataStackRangeAgeFemme = getRangeAgeData(
+    state.GroupesList,
+    state.FilteredList.filter((depute) => depute.Sexe === "F"),
+    state.AgeDomain,
+    range
+  )
+
+  const dataStackRangeAgeHomme = getRangeAgeData(
+    state.GroupesList,
+    state.FilteredList.filter((depute) => depute.Sexe === "H"),
+    state.AgeDomain,
+    range
+  )
+
+  const sumAge = dataStackAge.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
     return acc + curSum * cur.age
   }, 0)
@@ -132,7 +177,7 @@ const Statistiques = (props) => {
                 width={parent.width}
                 height={parent.height}
                 groups={state.GroupesList}
-                dataAge={dataAge}
+                dataAge={dataStackAge}
                 totalDeputes={state.FilteredList.length}
               />
             )}
@@ -157,8 +202,6 @@ const Statistiques = (props) => {
                   groups={state.GroupesList}
                   dataAgeFemme={dataAgeFemme}
                   dataAgeHomme={dataAgeHomme}
-                  // dataAgeFemme={dataRangeAgeFemme}
-                  // dataAgeHomme={dataRangeAgeHomme}
                   totalDeputes={state.FilteredList.length}
                 />
               )}
@@ -170,13 +213,27 @@ const Statistiques = (props) => {
                   width={parent.width}
                   height={parent.height}
                   groups={state.GroupesList}
-                  dataAgeFemme={dataAgeFemme}
-                  dataAgeHomme={dataAgeHomme}
+                  dataAgeFemme={dataStackAgeFemme}
+                  dataAgeHomme={dataStackAgeHomme}
                   totalDeputes={state.FilteredList.length}
                 />
               )}
             </ParentSize>
           )}
+        </Frame>
+        <Frame className="frame-chart frame-pyramide" title="Pyramide des âges">
+          <ParentSize className="pyramide__container" debounceTime={10}>
+            {(parent) => (
+              <PyramideRangeBarStackChart
+                width={parent.width}
+                height={parent.height}
+                groups={state.GroupesList}
+                dataAgeFemme={dataStackRangeAgeFemme}
+                dataAgeHomme={dataStackRangeAgeHomme}
+                totalDeputes={state.FilteredList.length}
+              />
+            )}
+          </ParentSize>
         </Frame>
       </section>
     </>

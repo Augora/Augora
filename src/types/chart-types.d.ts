@@ -33,6 +33,10 @@ declare namespace Chart {
     age?: number
   }
 
+  interface TooltipRange extends Tooltip {
+    age: string
+  }
+
   /**
    * Object contenant les infos des groupes pour les components visx
    */
