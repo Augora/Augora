@@ -24,6 +24,7 @@ import MapFilters from "components/maps/MapFilters"
 import IconInfo from "images/ui-kit/icon-info.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
+import "mapbox-gl/dist/mapbox-gl.css"
 
 interface ICurrentView {
   geoJSON: AugoraMap.FeatureCollection
