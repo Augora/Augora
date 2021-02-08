@@ -53,7 +53,7 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
   const handleMouseMove = (
     event: React.MouseEvent<SVGRectElement, MouseEvent>,
     data: {
-      bar: SeriesPoint<Chart.AgeData>
+      bar: SeriesPoint<Chart.StackAgeData>
       key: string
       color: string
     }
@@ -94,7 +94,7 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
           </text>
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <BarStack<Chart.AgeData, string>
+          <BarStack<Chart.StackAgeData, string>
             data={dataAge}
             keys={groups.map((group) => group.Sigle)}
             value={(d, key) => d.groups[key].length}
