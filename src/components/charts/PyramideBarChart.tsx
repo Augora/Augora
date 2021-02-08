@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { BarStackHorizontal } from "@visx/shape"
+import { BarGroupHorizontal } from "@visx/shape"
 import { GridRows } from "@visx/grid"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale"
@@ -19,14 +19,8 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
   const [isGroupColor, setIsGroupColor] = useState(false)
 
-  const maxAgeFemme = dataAgeFemme.reduce((acc, cur) => {
-    const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
-    return curSum > acc ? curSum : acc
-  }, 0)
-  const maxAgeHomme = dataAgeHomme.reduce((acc, cur) => {
-    const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
-    return curSum > acc ? curSum : acc
-  }, 0)
+  const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.deputyCount))
+  const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.deputyCount))
 
   const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
   const ageMoyen = dataAgeFemme[dataAgeFemme.length - 1].age - dataAgeFemme[0].age
@@ -72,61 +66,11 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
     return isGroupColor ? groups.find((group) => group.Sigle === sigle).Couleur : defaultColor
   }
 
-  const handleMouseLeave = () => {
-    hideTooltip()
-  }
-
-  const handleMouseMove = (
-    event: React.MouseEvent<SVGRectElement, MouseEvent>,
-    data: {
-      bar: SeriesPoint<Chart.AgeData>
-      key: string
-      color: string
-    }
-  ) => {
-    showTooltip({
-      tooltipData: {
-        key: groups.find((group) => group.Sigle === data.key).NomComplet,
-        bar: data.bar.data.groups[data.key].length,
-        color: data.color,
-        age: data.bar.data.age,
-      },
-      tooltipTop: event.clientY,
-      tooltipLeft: event.clientX,
-    })
-  }
-
   return (
     <div className="pyramidebarchart chart">
       <svg height={height}>
         <Group top={marginTop / 2} left={xMax}>
-          <BarStackHorizontal<Chart.AgeData, string>
-            data={dataAgeHomme}
-            keys={groups.map((group) => group.Sigle)}
-            value={(d, key) => d.groups[key].length}
-            y={(d) => d.age}
-            xScale={xScaleHomme}
-            yScale={yScaleHomme}
-            color={(key) => getGroupColor(key, "#14ccae")}
-          >
-            {(barStacks) =>
-              barStacks.map((barStack) =>
-                barStack.bars.map((bar) => (
-                  <rect
-                    key={`bar-stack-${barStack.index}-${bar.index}`}
-                    x={bar.x - xMax}
-                    y={bar.y}
-                    height={bar.height}
-                    width={bar.width}
-                    fill={bar.color}
-                    transform="scale(-1,1)"
-                    onMouseLeave={handleMouseLeave}
-                    onMouseMove={(event) => handleMouseMove(event, bar)}
-                  />
-                ))
-              )
-            }
-          </BarStackHorizontal>
+          {/* Bar Horizontal Homme */}
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <AxisBottom
@@ -140,7 +84,7 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
           />
           <GridRows
             className="chart__rows"
-            scale={yScaleFemme.range([yMax, 0])}
+            scale={yScaleHomme.range([yMax, 0])}
             width={xMax}
             height={yMax}
             left={-marginLeft / 2}
@@ -159,32 +103,7 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
             numTicks={ageMoyen / 2}
             strokeWidth={2}
           />
-          <BarStackHorizontal<Chart.AgeData, string>
-            data={dataAgeFemme}
-            keys={groups.map((group) => group.Sigle)}
-            value={(d, key) => d.groups[key].length}
-            y={(d) => d.age}
-            xScale={xScaleFemme}
-            yScale={yScaleFemme}
-            color={(key) => getGroupColor(key, "#00bbcc")}
-          >
-            {(barStacks) =>
-              barStacks.map((barStack) =>
-                barStack.bars.map((bar) => (
-                  <rect
-                    key={`bar-stack-${barStack.index}-${bar.index}`}
-                    x={bar.x}
-                    y={bar.y}
-                    height={bar.height}
-                    width={bar.width}
-                    fill={bar.color}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseMove={(event) => handleMouseMove(event, bar)}
-                  />
-                ))
-              )
-            }
-          </BarStackHorizontal>
+          {/* Bar Horizontal Femme */}
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <AxisLeft
