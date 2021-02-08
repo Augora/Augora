@@ -9,7 +9,7 @@ import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  dataAge: Chart.AgeData[]
+  dataAge: Chart.StackAgeData[]
   groups: Group.GroupsList
   totalDeputes: number
 }

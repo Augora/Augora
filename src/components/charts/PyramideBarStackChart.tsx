@@ -9,8 +9,8 @@ import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  dataAgeFemme: Chart.AgeData[]
-  dataAgeHomme: Chart.AgeData[]
+  dataAgeFemme: Chart.StackAgeData[]
+  dataAgeHomme: Chart.StackAgeData[]
   groups: Group.GroupsList
   totalDeputes: number
 }
@@ -85,7 +85,7 @@ export default function PyramideBarStackChart({
   const handleMouseMove = (
     event: React.MouseEvent<SVGRectElement, MouseEvent>,
     data: {
-      bar: SeriesPoint<Chart.AgeData>
+      bar: SeriesPoint<Chart.StackAgeData>
       key: string
       color: string
     }
@@ -106,7 +106,7 @@ export default function PyramideBarStackChart({
     <div className="pyramidebarstackchart chart">
       <svg height={height}>
         <Group top={marginTop / 2} left={xMax}>
-          <BarStackHorizontal<Chart.AgeData, string>
+          <BarStackHorizontal<Chart.StackAgeData, string>
             data={dataAgeHomme}
             keys={groups.map((group) => group.Sigle)}
             value={(d, key) => d.groups[key].length}
@@ -120,7 +120,7 @@ export default function PyramideBarStackChart({
                 barStack.bars.map((bar) => (
                   <rect
                     key={`bar-stack-${barStack.index}-${bar.index}`}
-                    x={bar.x - xMax}
+                    x={bar.x - xMax - marginLeft / 4}
                     y={bar.y}
                     height={bar.height}
                     width={bar.width}
@@ -134,7 +134,7 @@ export default function PyramideBarStackChart({
             }
           </BarStackHorizontal>
         </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
+        <Group top={marginTop / 2} left={marginLeft / 1.4}>
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
@@ -146,7 +146,7 @@ export default function PyramideBarStackChart({
           />
           <GridRows
             className="chart__rows"
-            scale={yScaleFemme.range([yMax, 0])}
+            scale={yScaleHomme.range([yMax, 0])}
             width={xMax}
             height={yMax}
             left={-marginLeft / 2}
@@ -165,7 +165,7 @@ export default function PyramideBarStackChart({
             numTicks={ageMoyen / 2}
             strokeWidth={2}
           />
-          <BarStackHorizontal<Chart.AgeData, string>
+          <BarStackHorizontal<Chart.StackAgeData, string>
             data={dataAgeFemme}
             keys={groups.map((group) => group.Sigle)}
             value={(d, key) => d.groups[key].length}
