@@ -3,6 +3,7 @@ import Button from "./Button"
 
 export interface IButtonIcon {
   className?: string
+  /** Soit une fonction, soit une URL */
   onClick: (<T>(args?: T) => void) | string
   style?: React.CSSProperties
   color?: string
@@ -37,6 +38,7 @@ export default function ButtonIcon(props: IButtonIcon) {
       <Button
         className={`${classNames} btn--${props.className.split(" ")[0]}`}
         onClick={props.onClick}
+        title={props.title}
         style={{
           ...props.style,
         }}
