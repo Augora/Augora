@@ -4,7 +4,7 @@ import { Bar } from "@visx/shape"
 import { Group } from "@visx/group"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { LinePath } from "@visx/shape"
-import { curveMonotoneY } from "@visx/curve"
+import { curveLinear } from "@visx/curve"
 import { GridRows } from "@visx/grid"
 import { scaleBand, scaleLinear } from "@visx/scale"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
@@ -72,7 +72,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
                         data={orderedWeeks}
                         x={(d) => dateScale(getDates(d.DateDeFin.split("T")[0]).dateDay) ?? 0}
                         y={(d) => activiteScale(d.PresenceEnHemicycle + d.PresencesEnCommission) ?? 0}
-                        curve={curveMonotoneY}
+                        curve={curveLinear}
                         stroke={color}
                         strokeWidth={1.5}
                       />
@@ -84,7 +84,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
                         data={orderedWeeks}
                         x={(d) => dateScale(getDates(d.DateDeFin.split("T")[0]).dateDay) ?? 0}
                         y={(d) => activiteScale(d.ParticipationEnHemicycle + d.ParticipationsEnCommission) ?? 0}
-                        curve={curveMonotoneY}
+                        curve={curveLinear}
                         stroke={color}
                         strokeWidth={0.01}
                       />
