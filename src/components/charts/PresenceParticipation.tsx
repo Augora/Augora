@@ -25,10 +25,12 @@ export default function PresenceParticipation({ width, height, data, color }) {
   const xMax = width
   const yMax = height - marginTop
 
+  var maxActivite = getNbActivitesMax(data) < 14 ? 14 : getNbActivitesMax(data)
+
   const activiteScale = scaleLinear({
     range: [yMax, 0],
     round: true,
-    domain: [0, getNbActivitesMax(data)],
+    domain: [0, maxActivite],
   })
 
   const orderedWeeks = orderBy(data, "DateDeDebut")
