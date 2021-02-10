@@ -202,7 +202,6 @@ export default function PyramideRangeBarStackChart({
           nbDeputes={tooltipData.bar}
           totalDeputes={totalDeputes}
           color={tooltipData.color}
-          //age={tooltipData.age}
         />
       )}
     </div>

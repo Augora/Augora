@@ -59,7 +59,6 @@ const getAgeData = (groupList: Group.GroupsList, list: Deputy.DeputiesList, ages
     })
 }
 
-// Non utilisé actuellement, permet de gérer des ranges d'âge pour la pyramide, ex : 27-32 si range définit à 5
 const getRangeAgeData = (
   groupList: Group.GroupsList,
   list: Deputy.DeputiesList,
@@ -151,6 +150,8 @@ const Statistiques = (props) => {
 
   const averageAge = sumAge > 0 ? Math.round(sumAge / state.FilteredList.length) : 0
 
+  const currentRange = dataAgeFemme[dataAgeFemme.length - 1].age - dataAgeFemme[0].age
+
   return (
     <>
       <section className="filters">
@@ -206,6 +207,19 @@ const Statistiques = (props) => {
                 />
               )}
             </ParentSize>
+          ) : currentRange > 20 ? (
+            <ParentSize className="pyramide__container" debounceTime={10}>
+              {(parent) => (
+                <PyramideRangeBarStackChart
+                  width={parent.width}
+                  height={parent.height}
+                  groups={state.GroupesList}
+                  dataAgeFemme={dataStackRangeAgeFemme}
+                  dataAgeHomme={dataStackRangeAgeHomme}
+                  totalDeputes={state.FilteredList.length}
+                />
+              )}
+            </ParentSize>
           ) : (
             <ParentSize className="pyramide__container" debounceTime={10}>
               {(parent) => (
@@ -220,20 +234,6 @@ const Statistiques = (props) => {
               )}
             </ParentSize>
           )}
-        </Frame>
-        <Frame className="frame-chart frame-pyramide" title="Pyramide des âges">
-          <ParentSize className="pyramide__container" debounceTime={10}>
-            {(parent) => (
-              <PyramideRangeBarStackChart
-                width={parent.width}
-                height={parent.height}
-                groups={state.GroupesList}
-                dataAgeFemme={dataStackRangeAgeFemme}
-                dataAgeHomme={dataStackRangeAgeHomme}
-                totalDeputes={state.FilteredList.length}
-              />
-            )}
-          </ParentSize>
         </Frame>
       </section>
     </>
