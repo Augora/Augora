@@ -1,12 +1,11 @@
 import React, { useState } from "react"
-import { BarGroupHorizontal } from "@visx/shape"
 import { GridRows } from "@visx/grid"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale"
 import { Group } from "@visx/group"
-import { SeriesPoint } from "@visx/shape/lib/types/barStack"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
+import { XYChart, BarSeries, AnimatedAxis, AnimatedGrid } from "@visx/xychart"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAgeFemme: Chart.AgeData[]
@@ -68,9 +67,9 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
 
   return (
     <div className="pyramidebarchart chart">
-      <svg height={height}>
+      {/* <svg height={height}>
         <Group top={marginTop / 2} left={xMax}>
-          {/* Bar Horizontal Homme */}
+          Bar Horizontal Homme
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <AxisBottom
@@ -92,37 +91,25 @@ export default function PyramideChart({ width, height, groups, dataAgeFemme, dat
             strokeWidth={2}
           />
         </Group>
-      </svg>
-      <svg height={height}>
+      </svg> */}
+      <svg height={height} width={width}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <GridRows
-            className="chart__rows"
-            scale={yScaleFemme.range([yMax, 0])}
-            width={xMax}
-            height={yMax}
-            numTicks={ageMoyen / 2}
-            strokeWidth={2}
-          />
-          {/* Bar Horizontal Femme */}
-        </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
-          <AxisLeft
-            axisClassName="chart__axislabel"
-            scale={yScaleFemme.range([yMax, 0])}
-            hideAxisLine={true}
-            hideTicks={true}
-            numTicks={ageMoyen / 2}
-          />
-        </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
-          <AxisBottom
-            axisClassName="chart__axislabel axislabel__bottom"
-            tickClassName="chart__axistick"
-            scale={xScaleFemme.range([xMax, 0])}
-            top={yMax}
-            hideAxisLine={true}
-            tickLength={6}
-          />
+          <XYChart
+            margin={{ top: 50, right: 250, bottom: 50, left: 0 }}
+            width={width}
+            height={height}
+            yScale={{ type: "band", paddingInner: 0.5 }}
+            xScale={{ type: "linear" }}
+          >
+            <AnimatedGrid numTicks={3} columns={false} />
+            <BarSeries
+              dataKey={"line"}
+              data={dataAgeFemme}
+              xAccessor={(dataAgeFemme) => dataAgeFemme.deputyCount}
+              yAccessor={(dataAgeFemme) => dataAgeFemme.age}
+            />
+            <AnimatedAxis orientation="bottom" numTicks={3} />
+          </XYChart>
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (
