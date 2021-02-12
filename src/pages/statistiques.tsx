@@ -116,8 +116,6 @@ const Statistiques = (props) => {
   const { state } = useDeputiesFilters()
   const [HasPyramideBarStack, setHasPyramideBarStack] = useState(true)
 
-  console.log(state.FilteredList.filter((depute) => depute.Age <= 32 && depute.Age >= 27).length)
-
   const groupesData: Groups[] = state.GroupesList.map((groupe) => {
     const nbDeputeGroup = getNbDeputiesGroup(state.FilteredList, groupe.Sigle)
     return {
