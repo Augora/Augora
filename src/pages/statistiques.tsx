@@ -10,7 +10,8 @@ import { ParentSize } from "@visx/responsive"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
-import PyramideBarChart from "src/components/charts/PyramideBarChart"
+import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
+import PyramideBarRange from "src/components/charts/PyramideBar/PyramideBarRange"
 import PyramideBarStackChart from "src/components/charts/PyramideBarStackChart"
 import PyramideRangeBarStackChart from "src/components/charts/PyramideRangeBarStackChart"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
@@ -69,9 +70,31 @@ const getRangeAgeData = (
   return Array(deltaAge / range === 0 ? deltaAge / range : Math.ceil(deltaAge / range))
     .fill(null)
     .map((nothing, index) => {
-      const age = `${ages[0] + range * index}-${
-        ages[0] + range * (index + 1) > ages[1] ? ages[1] : ages[0] + range * (index + 1)
-      }`
+      const ageBorneMin = ages[0] + range * index
+      const ageBorneMax = ages[0] + range * (index + 1) > ages[1] ? ages[1] : ages[0] + range * (index + 1)
+      const age = `${ageBorneMin}-${ageBorneMax}`
+      const deputyCount = list.filter((depute) => depute.Age <= ageBorneMax && depute.Age >= ageBorneMin).length
+
+      return {
+        age: age,
+        deputyCount: deputyCount,
+      }
+    })
+}
+
+const getRangeStackAgeData = (
+  groupList: Group.GroupsList,
+  list: Deputy.DeputiesList,
+  ages: Filter.AgeDomain,
+  range: number
+): Chart.RangeStackAgeData[] => {
+  const deltaAge = ages[1] - ages[0]
+  return Array(deltaAge / range === 0 ? deltaAge / range : Math.ceil(deltaAge / range))
+    .fill(null)
+    .map((nothing, index) => {
+      const ageBorneMin = ages[0] + range * index
+      const ageBorneMax = ages[0] + range * (index + 1) > ages[1] ? ages[1] : ages[0] + range * (index + 1)
+      const age = `${ageBorneMin}-${ageBorneMax}`
       const groups = groupList.reduce((acc, cur) => {
         const ageDeputies = list.filter(
           (depute) => depute.Age <= ages[0] + range * (index + 1) && depute.Age > ages[0] + range * index
@@ -92,6 +115,8 @@ const getRangeAgeData = (
 const Statistiques = (props) => {
   const { state } = useDeputiesFilters()
   const [HasPyramideBarStack, setHasPyramideBarStack] = useState(true)
+
+  console.log(state.FilteredList.filter((depute) => depute.Age <= 32 && depute.Age >= 27).length)
 
   const groupesData: Groups[] = state.GroupesList.map((groupe) => {
     const nbDeputeGroup = getNbDeputiesGroup(state.FilteredList, groupe.Sigle)
@@ -115,6 +140,20 @@ const Statistiques = (props) => {
     state.AgeDomain
   )
 
+  const dataRangeAgeFemme = getRangeAgeData(
+    state.GroupesList,
+    state.FilteredList.filter((depute) => depute.Sexe === "F"),
+    state.AgeDomain,
+    5
+  )
+
+  const dataRangeAgeHomme = getRangeAgeData(
+    state.GroupesList,
+    state.FilteredList.filter((depute) => depute.Sexe === "H"),
+    state.AgeDomain,
+    5
+  )
+
   const dataStackAge = getStackAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
 
   const dataStackAgeFemme = getStackAgeData(
@@ -129,14 +168,14 @@ const Statistiques = (props) => {
   )
 
   const range = 5
-  const dataStackRangeAgeFemme = getRangeAgeData(
+  const dataStackRangeAgeFemme = getRangeStackAgeData(
     state.GroupesList,
     state.FilteredList.filter((depute) => depute.Sexe === "F"),
     state.AgeDomain,
     range
   )
 
-  const dataStackRangeAgeHomme = getRangeAgeData(
+  const dataStackRangeAgeHomme = getRangeStackAgeData(
     state.GroupesList,
     state.FilteredList.filter((depute) => depute.Sexe === "H"),
     state.AgeDomain,
@@ -195,18 +234,31 @@ const Statistiques = (props) => {
             <IconSwitch className="icon-switch" />
           </button>
           {HasPyramideBarStack ? (
-            <ParentSize className="pyramide__container" debounceTime={10}>
-              {(parent) => (
-                <PyramideBarChart
-                  width={parent.width}
-                  height={parent.height}
-                  groups={state.GroupesList}
-                  dataAgeFemme={dataAgeFemme}
-                  dataAgeHomme={dataAgeHomme}
-                  totalDeputes={state.FilteredList.length}
-                />
-              )}
-            </ParentSize>
+            currentRange > 20 ? (
+              <ParentSize className="pyramide__container" debounceTime={10}>
+                {(parent) => (
+                  <PyramideBarRange
+                    width={parent.width}
+                    height={parent.height}
+                    dataAgeFemme={dataRangeAgeFemme}
+                    dataAgeHomme={dataRangeAgeHomme}
+                    totalDeputes={state.FilteredList.length}
+                  />
+                )}
+              </ParentSize>
+            ) : (
+              <ParentSize className="pyramide__container" debounceTime={10}>
+                {(parent) => (
+                  <PyramideBar
+                    width={parent.width}
+                    height={parent.height}
+                    dataAgeFemme={dataAgeFemme}
+                    dataAgeHomme={dataAgeHomme}
+                    totalDeputes={state.FilteredList.length}
+                  />
+                )}
+              </ParentSize>
+            )
           ) : currentRange > 20 ? (
             <ParentSize className="pyramide__container" debounceTime={10}>
               {(parent) => (
