@@ -9,8 +9,8 @@ import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  dataAgeFemme: Chart.RangeAgeData[]
-  dataAgeHomme: Chart.RangeAgeData[]
+  dataAgeFemme: Chart.RangeStackAgeData[]
+  dataAgeHomme: Chart.RangeStackAgeData[]
   groups: Group.GroupsList
   totalDeputes: number
 }
@@ -84,7 +84,7 @@ export default function PyramideRangeBarStackChart({
   const handleMouseMove = (
     event: React.MouseEvent<SVGRectElement, MouseEvent>,
     data: {
-      bar: SeriesPoint<Chart.RangeAgeData>
+      bar: SeriesPoint<Chart.RangeStackAgeData>
       key: string
       color: string
     }
@@ -105,7 +105,7 @@ export default function PyramideRangeBarStackChart({
     <div className="pyramidebarstackchart chart">
       <svg height={height}>
         <Group top={marginTop / 2} left={xMax}>
-          <BarStackHorizontal<Chart.RangeAgeData, string>
+          <BarStackHorizontal<Chart.RangeStackAgeData, string>
             data={dataAgeHomme}
             keys={groups.map((group) => group.Sigle)}
             value={(d, key) => d.groups[key].length}
@@ -147,7 +147,7 @@ export default function PyramideRangeBarStackChart({
       </svg>
       <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <BarStackHorizontal<Chart.RangeAgeData, string>
+          <BarStackHorizontal<Chart.RangeStackAgeData, string>
             data={dataAgeFemme}
             keys={groups.map((group) => group.Sigle)}
             value={(d, key) => d.groups[key].length}
