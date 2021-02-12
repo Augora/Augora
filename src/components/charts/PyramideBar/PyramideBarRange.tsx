@@ -23,7 +23,7 @@ export default function PyramideBar({ width, height, dataAgeFemme, dataAgeHomme,
 
   return (
     <div className="pyramidebarchart chart">
-      <svg height={height} width={width / 2}>
+      <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <PyramideBarRangeChart
             width={width / 2}
@@ -37,13 +37,11 @@ export default function PyramideBar({ width, height, dataAgeFemme, dataAgeHomme,
             yMax={yMax}
             animationTrajectoire={animationTrajectoire}
             pyramideRight={false}
-            tooltipTop={300}
-            tooltipLeft={150}
             margin={{ top: 0, right: 0, bottom: 50, left: 0 }}
           />
         </Group>
       </svg>
-      <svg height={height} width={width / 2}>
+      <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft}>
           <PyramideBarRangeChart
             width={width / 2}
@@ -57,8 +55,6 @@ export default function PyramideBar({ width, height, dataAgeFemme, dataAgeHomme,
             yMax={yMax}
             animationTrajectoire={animationTrajectoire}
             pyramideRight={true}
-            tooltipTop={300}
-            tooltipLeft={680}
             margin={{ top: 0, right: 0, bottom: 50, left: 0 }}
           />
         </Group>

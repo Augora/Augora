@@ -1,5 +1,6 @@
 import { XYChart, AnimatedAxis, Tooltip, AnimatedBarSeries } from "@visx/xychart"
 import ChartTooltip from "../ChartTooltip"
+import AugoraTooltip from "components/tooltip/Tooltip"
 
 const PyramideBarChart = ({
   width,
@@ -13,8 +14,6 @@ const PyramideBarChart = ({
   yMax,
   animationTrajectoire,
   pyramideRight,
-  tooltipTop,
-  tooltipLeft,
   margin,
 }) => (
   <XYChart
@@ -31,8 +30,8 @@ const PyramideBarChart = ({
     <AnimatedBarSeries
       dataKey={dataKey}
       data={data}
-      xAccessor={(data: Chart.RangeAgeData) => data.deputyCount}
-      yAccessor={(data: Chart.RangeAgeData) => data.age}
+      xAccessor={(data: Chart.AgeData) => data.deputyCount}
+      yAccessor={(data: Chart.AgeData) => data.age}
       colorAccessor={() => color}
     />
     {pyramideRight && (
@@ -55,9 +54,7 @@ const PyramideBarChart = ({
     <Tooltip<Chart.AgeData>
       snapTooltipToDatumY
       renderTooltip={({ tooltipData }) => (
-        <ChartTooltip
-          tooltipTop={tooltipTop}
-          tooltipLeft={tooltipLeft}
+        <AugoraTooltip
           title={dataKey}
           nbDeputes={tooltipData.datumByKey[dataKey].datum.deputyCount}
           totalDeputes={totalDeputes}

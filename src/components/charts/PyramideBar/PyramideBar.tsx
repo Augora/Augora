@@ -37,8 +37,6 @@ export default function PyramideBar({ width, height, dataAgeFemme, dataAgeHomme,
             yMax={yMax}
             animationTrajectoire={animationTrajectoire}
             pyramideRight={false}
-            tooltipTop={300}
-            tooltipLeft={150}
           />
         </Group>
       </svg>
@@ -56,8 +54,6 @@ export default function PyramideBar({ width, height, dataAgeFemme, dataAgeHomme,
             yMax={yMax}
             animationTrajectoire={animationTrajectoire}
             pyramideRight={true}
-            tooltipTop={300}
-            tooltipLeft={680}
           />
         </Group>
       </svg>
