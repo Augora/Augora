@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react"
-import ReactMapGL, { Source, Layer, ViewportProps } from "react-map-gl"
+import ReactMapGL, { Source, Layer, ViewState } from "react-map-gl"
 import Link from "next/link"
 import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
@@ -7,12 +7,10 @@ import "mapbox-gl/dist/mapbox-gl.css"
 
 export default function MapDistrict(props: Bloc.Map) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
-  const [viewport, setViewport] = useState<ViewportProps>({
+  const [viewport, setViewport] = useState<ViewState>({
     latitude: France.center.lat,
     longitude: France.center.lng,
     zoom: 3,
-    width: 300,
-    height: 300,
   })
 
   //récupère le polygone de la circonscription

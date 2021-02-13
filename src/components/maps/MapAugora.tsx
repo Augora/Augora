@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import router from "next/router"
-import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewportProps } from "react-map-gl"
+import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
 import {
   Code,
   France,
@@ -99,9 +99,7 @@ export default function MapAugora(props: IMapAugora) {
     }
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
-  const [viewState, setViewState] = useState<ViewportProps>({
-    width: 300,
-    height: 300,
+  const [viewState, setViewState] = useState<ViewState>({
     zoom: 5,
     longitude: France.center.lng,
     latitude: France.center.lat,
@@ -255,8 +253,8 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleLoad = () => {
-    setIsMapLoaded(true)
     flyToBounds(currentView.feature, viewState, setViewState)
+    setIsMapLoaded(true)
   }
 
   return (
@@ -273,7 +271,7 @@ export default function MapAugora(props: IMapAugora) {
       touchRotate={false}
       interactiveLayerIds={!inExploreMode ? ["zone-fill", "zone-ghost-fill"] : []}
       onLoad={handleLoad}
-      onViewportChange={setViewState}
+      onViewStateChange={(change) => setViewState(change.viewState)}
       onClick={handleClick}
       onHover={handleHover}
       onMouseOut={() => renderHover()}
@@ -299,8 +297,8 @@ export default function MapAugora(props: IMapAugora) {
       )}
       <div className="map__navigation">
         <div className="navigation__right">
-          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" style={{ position: "relative" }} />
-          <FullscreenControl label="Plein écran" style={{ position: "relative" }} />
+          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
+          <FullscreenControl />
           <MapInput
             className="navigation__explorer"
             type="checkbox"
