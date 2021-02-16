@@ -105,8 +105,7 @@
   }
 }
 
-.visx-tooltip {
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
+.charttooltip__container {
+  position: absolute;
+  pointer-events: none;
 }

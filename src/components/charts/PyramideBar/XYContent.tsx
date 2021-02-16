@@ -57,7 +57,9 @@ export default function XYContent(props: IXYContent) {
       />
 
       <Tooltip<Chart.AgeData>
-        snapTooltipToDatumY
+        className="charttooltip__container"
+        unstyled={true}
+        snapTooltipToDatumY={true}
         renderTooltip={({ tooltipData }) => (
           <AugoraTooltip
             title={dataKey}
