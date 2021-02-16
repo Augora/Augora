@@ -98,6 +98,10 @@ export function getDepute(slug: string) {
             Collaborateurs
             DateDeNaissance
             NomDepartement
+            URLTwitter
+            URLFacebook
+            URLInstagram
+            URLLinkedIn
             AnciensMandats {
               data {
                 DateDeDebut
