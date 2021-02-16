@@ -41,7 +41,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
                 dataKey={"Vacances"}
                 data={orderedWeeks}
                 xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateDay ?? 0}
-                yAccessor={(d) => d.Vacances ?? 0}
+                yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
                 colorAccessor={() => "#B7B7B7"}
               />
             </>
