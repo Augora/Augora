@@ -27,10 +27,10 @@ export default function PyramideBar(props: BarStackProps) {
       <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <XYContent
-            width={width}
+            width={width / 2}
             height={height}
             data={dataAgeHomme}
-            dataKey={"homme"}
+            dataKey={"hommes"}
             color={"#14ccae"}
             totalDeputes={totalDeputes}
             maxAge={maxAge}
@@ -44,10 +44,10 @@ export default function PyramideBar(props: BarStackProps) {
       <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
           <XYContent
-            width={width}
+            width={width / 2}
             height={height}
             data={dataAgeFemme}
-            dataKey={"femme"}
+            dataKey={"femmes"}
             color={"#00bbcc"}
             totalDeputes={totalDeputes}
             maxAge={maxAge}
