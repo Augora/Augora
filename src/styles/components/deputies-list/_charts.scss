@@ -59,7 +59,8 @@
 
         &__rows {
           line {
-            stroke: rgba($text-color, 0.1);
+            stroke: rgba($text-color, 0.1) !important;
+            stroke-width: 2 !important;
           }
         }
       }

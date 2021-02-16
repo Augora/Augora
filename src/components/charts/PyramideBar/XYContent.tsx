@@ -1,4 +1,4 @@
-import { XYChart, AnimatedAxis, Tooltip, AnimatedBarSeries } from "@visx/xychart"
+import { XYChart, AnimatedAxis, AnimatedGrid, Tooltip, AnimatedBarSeries } from "@visx/xychart"
 import AugoraTooltip from "components/tooltip/Tooltip"
 
 interface IXYContent {
@@ -18,6 +18,7 @@ interface IXYContent {
 
 export default function XYContent(props: IXYContent) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, animationTrajectoire, pyramideRight } = props
+  const numTicks = maxAge / 10
 
   return (
     <XYChart
@@ -31,15 +32,10 @@ export default function XYContent(props: IXYContent) {
           : { type: "linear", range: [0, xMax], domain: [maxAge, 0] }
       }
     >
-      <AnimatedBarSeries
-        dataKey={dataKey}
-        data={data}
-        xAccessor={(data: Chart.AgeData) => data.total}
-        yAccessor={(data: Chart.AgeData) => data.age}
-        colorAccessor={() => color}
-      />
+      <AnimatedGrid className="chart__rows" numTicks={numTicks} rows={false} />
       {pyramideRight && (
         <AnimatedAxis
+          axisClassName="chart__axislabel axislabel__verticalpyramide"
           orientation="left"
           hideAxisLine={true}
           tickStroke={"none"}
@@ -48,18 +44,24 @@ export default function XYContent(props: IXYContent) {
         />
       )}
       <AnimatedAxis
+        axisClassName="chart__axislabel axislabel__bottom"
         orientation="bottom"
         hideAxisLine={true}
-        tickLength={6}
+        hideTicks={true}
         tickFormat={(v: string) => v}
-        numTicks={maxAge > 12 ? 12 : maxAge}
+        numTicks={numTicks}
         animationTrajectory={animationTrajectoire}
       />
-
+      <AnimatedBarSeries
+        dataKey={dataKey}
+        data={data}
+        xAccessor={(data: Chart.AgeData) => data.total}
+        yAccessor={(data: Chart.AgeData) => data.age}
+        colorAccessor={() => color}
+      />
       <Tooltip<Chart.AgeData>
         className="charttooltip__container"
         unstyled={true}
-        snapTooltipToDatumY={true}
         renderTooltip={({ tooltipData }) => (
           <AugoraTooltip
             title={dataKey}
