@@ -12,13 +12,12 @@ interface IXYContent {
   maxAge: number
   xMax: number
   yMax: number
-  animationTrajectoire: any
   pyramideRight: boolean
 }
 
 export default function XYContent(props: IXYContent) {
-  const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, animationTrajectoire, pyramideRight } = props
-  const numTicks = maxAge / 10
+  const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
+  const numTicks = maxAge > 50 ? maxAge / 10 : maxAge > 15 ? maxAge / 2 : maxAge
 
   return (
     <XYChart
@@ -38,9 +37,7 @@ export default function XYContent(props: IXYContent) {
           axisClassName="chart__axislabel axislabel__verticalpyramide"
           orientation="left"
           hideAxisLine={true}
-          tickStroke={"none"}
-          tickLength={6}
-          animationTrajectory={animationTrajectoire}
+          hideTicks={true}
         />
       )}
       <AnimatedAxis
@@ -50,7 +47,6 @@ export default function XYContent(props: IXYContent) {
         hideTicks={true}
         tickFormat={(v: string) => v}
         numTicks={numTicks}
-        animationTrajectory={animationTrajectoire}
       />
       <AnimatedBarSeries
         dataKey={dataKey}

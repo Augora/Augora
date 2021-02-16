@@ -14,8 +14,6 @@ export default function PyramideBar(props: BarStackProps) {
   const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
   const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
 
-  const animationTrajectoire = "center"
-
   // bounds
   const marginTop = 50
   const marginLeft = 30
@@ -23,9 +21,9 @@ export default function PyramideBar(props: BarStackProps) {
   const yMax = height - marginTop
 
   return (
-    <div className="pyramidebarchart chart">
+    <div className="pyramidechart chart">
       <svg height={height}>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
+        <Group top={marginTop / 2}>
           <XYContent
             width={width / 2}
             height={height}
@@ -36,13 +34,12 @@ export default function PyramideBar(props: BarStackProps) {
             maxAge={maxAge}
             xMax={xMax}
             yMax={yMax}
-            animationTrajectoire={animationTrajectoire}
             pyramideRight={false}
           />
         </Group>
       </svg>
       <svg height={height}>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
+        <Group top={marginTop / 2} left={marginLeft}>
           <XYContent
             width={width / 2}
             height={height}
@@ -53,7 +50,6 @@ export default function PyramideBar(props: BarStackProps) {
             maxAge={maxAge}
             xMax={xMax}
             yMax={yMax}
-            animationTrajectoire={animationTrajectoire}
             pyramideRight={true}
           />
         </Group>

@@ -92,7 +92,7 @@ export default function PyramideBarStack(props: BarStackProps) {
     <div className="pyramidechart chart">
       <svg height={height}>
         {/* Axes hommes */}
-        <Group top={marginTop / 2} left={marginLeft / 1.4}>
+        <Group top={marginTop / 2} left={marginLeft / 2}>
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
@@ -112,7 +112,7 @@ export default function PyramideBarStack(props: BarStackProps) {
           />
         </Group>
         {/* Barres hommes */}
-        <Group top={marginTop / 2} left={xMax}>
+        <Group top={marginTop / 2} left={xMax - marginLeft / 4}>
           <BarStackHorizontal<Chart.AgeData, string>
             data={dataAgeHomme}
             keys={groups.map((group) => group.Sigle)}
@@ -144,7 +144,7 @@ export default function PyramideBarStack(props: BarStackProps) {
       </svg>
       <svg height={height}>
         {/* Barres femmes */}
-        <Group top={marginTop / 2} left={marginLeft / 2}>
+        <Group top={marginTop / 2} left={marginLeft}>
           <AxisLeft
             axisClassName="chart__axislabel axislabel__verticalpyramide"
             scale={yScaleFemme.range([yMax, 0])}
