@@ -1,15 +1,11 @@
 import React from "react"
 import orderBy from "lodash/orderBy"
-import { Bar } from "@visx/shape"
 import { Group } from "@visx/group"
-import { AxisLeft, AxisBottom } from "@visx/axis"
-import { LinePath } from "@visx/shape"
 import { curveLinear } from "@visx/curve"
-import { GridRows } from "@visx/grid"
-import { scaleBand, scaleLinear } from "@visx/scale"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
+import { XYChart, AnimatedAreaSeries, AnimatedAxis, AnimatedBarSeries } from "@visx/xychart"
 dayjs.locale("fr")
 
 const getDates = (date: string) => {
@@ -27,112 +23,82 @@ export default function PresenceParticipation({ width, height, data, color }) {
 
   var maxActivite = getNbActivitesMax(data) < 14 ? 14 : getNbActivitesMax(data)
 
-  const activiteScale = scaleLinear({
-    range: [yMax, 0],
-    round: true,
-    domain: [0, maxActivite],
-  })
-
   const orderedWeeks = orderBy(data, "DateDeDebut")
-
-  const dateScale = scaleBand({
-    domain: orderedWeeks.map((d) => getDates(d.DateDeFin.split("T")[0]).dateDay),
-    range: [0, xMax],
-    padding: 0.15,
-  })
+  const animationTrajectoire = "center"
+  console.log(orderedWeeks)
 
   return width < 10 ? null : (
     <div className="presence">
       <svg width={width} height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <AxisLeft
-            axisClassName="chart__axislabel"
-            scale={activiteScale.range([yMax, 0])}
-            numTicks={6}
-            hideAxisLine={true}
-            hideTicks={true}
-          />
-          <GridRows className="chart__rows" scale={activiteScale} width={xMax} height={yMax} numTicks={6} strokeWidth={2} />
-        </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
-          {orderedWeeks.map((d, index) => {
-            const barWidth = dateScale.bandwidth()
-            // Vacances
-            const vacHeight = yMax
-            const dataX = dateScale(getDates(d.DateDeFin.split("T")[0]).dateDay)
-            const vacY = yMax - vacHeight
-            // Questions
-            const questionHeight = yMax - (activiteScale(d.Question) ?? 0)
-            const questionY = yMax - questionHeight
-
-            return (
-              <>
-                <Group key={`key-${d.DateDeFin}-${index}`}>
-                  {
-                    <Group key={`PresenceHemicycle-${d.PresenceEnHemicycle}-${index}`}>
-                      <LinePath
-                        data={orderedWeeks}
-                        x={(d) => dateScale(getDates(d.DateDeFin.split("T")[0]).dateDay) ?? 0}
-                        y={(d) => activiteScale(d.PresenceEnHemicycle + d.PresencesEnCommission) ?? 0}
-                        curve={curveLinear}
-                        stroke={color}
-                        strokeWidth={1.5}
-                      />
-                    </Group>
-                  }
-                  {
-                    <Group key={`Participations-${d.Participation}-${index}`}>
-                      <LinePath
-                        data={orderedWeeks}
-                        x={(d) => dateScale(getDates(d.DateDeFin.split("T")[0]).dateDay) ?? 0}
-                        y={(d) => activiteScale(d.ParticipationEnHemicycle + d.ParticipationsEnCommission) ?? 0}
-                        curve={curveLinear}
-                        stroke={color}
-                        strokeWidth={0.01}
-                      />
-                    </Group>
-                  }
-                  {d.Vacances !== 0 && (
-                    <Group key={`Vacances-${d.Vacances}-${index}`}>
-                      <Bar
-                        x={dataX}
-                        y={vacY}
-                        rx="3" //border radius
-                        ry="3"
-                        width={barWidth}
-                        height={vacHeight}
-                        fill={"grey"}
-                      />
-                    </Group>
-                  )}
-                  {
-                    <Group key={`Question-${d.Question}-${index}`}>
-                      <Bar
-                        x={dataX}
-                        y={questionY}
-                        rx="3" //border radius
-                        ry="3"
-                        width={barWidth}
-                        height={questionHeight}
-                        fill={color}
-                      />
-                    </Group>
-                  }
-                </Group>
-              </>
-            )
-          })}
-        </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
-          <AxisBottom
-            axisClassName="chart__axislabel axislabel__bottom"
-            tickClassName="chart__axistick"
-            scale={dateScale}
-            numTicks={11}
-            top={yMax}
-            hideAxisLine={true}
-            tickLength={6}
-          />
+          <XYChart
+            width={width}
+            height={height}
+            xScale={{ type: "band", range: [0, xMax] }}
+            yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
+          >
+            <>
+              <AnimatedBarSeries
+                dataKey={"Vacances"}
+                data={orderedWeeks}
+                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateDay ?? 0}
+                yAccessor={(d) => d.Vacances ?? 0}
+                colorAccessor={() => "#B7B7B7"}
+              />
+            </>
+            <>
+              <AnimatedAreaSeries
+                dataKey={"Participation"}
+                data={orderedWeeks}
+                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateDay}
+                yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
+                fill={color}
+                color={color}
+                fillOpacity={0.4}
+                curve={curveLinear}
+                renderLine={false}
+              />
+              <AnimatedAreaSeries
+                dataKey={"Presence"}
+                data={orderedWeeks}
+                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateDay}
+                yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
+                fill={color}
+                color={color}
+                fillOpacity={0.4}
+                curve={curveLinear}
+                renderLine={false}
+              />
+            </>
+            <AnimatedAxis
+              orientation="left"
+              hideAxisLine={true}
+              tickStroke={"none"}
+              tickLength={6}
+              animationTrajectory={animationTrajectoire}
+            />
+            <AnimatedAxis
+              orientation="bottom"
+              hideAxisLine={true}
+              tickLength={6}
+              numTicks={11}
+              animationTrajectory={animationTrajectoire}
+            />
+          </XYChart>
+          <XYChart
+            width={width}
+            height={height}
+            xScale={{ type: "band", range: [0, xMax], padding: 1 }}
+            yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
+          >
+            <AnimatedBarSeries
+              dataKey={"Question"}
+              data={orderedWeeks}
+              xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateDay ?? 0}
+              yAccessor={(d) => d.Question}
+              colorAccessor={() => color}
+            />
+          </XYChart>
         </Group>
       </svg>
     </div>
