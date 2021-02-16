@@ -25,7 +25,6 @@ export default function PresenceParticipation({ width, height, data, color }) {
 
   const orderedWeeks = orderBy(data, "DateDeDebut")
   const animationTrajectoire = "center"
-  console.log(orderedWeeks)
 
   return width < 10 ? null : (
     <div className="presence">
