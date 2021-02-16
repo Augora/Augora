@@ -1,6 +1,6 @@
 import React from "react"
 import { BarStackHorizontal } from "@visx/shape"
-import { GridRows } from "@visx/grid"
+import { GridColumns } from "@visx/grid"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale"
 import { Group } from "@visx/group"
@@ -89,8 +89,29 @@ export default function PyramideBarStack(props: BarStackProps) {
   }
 
   return (
-    <div className="pyramidebarstackchart chart">
+    <div className="pyramidechart chart">
       <svg height={height}>
+        {/* Axes hommes */}
+        <Group top={marginTop / 2} left={marginLeft / 1.4}>
+          <AxisBottom
+            axisClassName="chart__axislabel axislabel__bottom"
+            tickClassName="chart__axistick"
+            scale={xScaleReverse.range([0, xMax])}
+            top={yMax}
+            left={-marginLeft / 2}
+            hideAxisLine={true}
+            hideTicks={true}
+          />
+          <GridColumns
+            className="chart__rows"
+            scale={xScaleReverse.range([0, xMax])}
+            width={xMax}
+            height={yMax}
+            left={-marginLeft / 2}
+            strokeWidth={2}
+          />
+        </Group>
+        {/* Barres hommes */}
         <Group top={marginTop / 2} left={xMax}>
           <BarStackHorizontal<Chart.AgeData, string>
             data={dataAgeHomme}
@@ -120,37 +141,25 @@ export default function PyramideBarStack(props: BarStackProps) {
             }
           </BarStackHorizontal>
         </Group>
-        <Group top={marginTop / 2} left={marginLeft / 1.4}>
+      </svg>
+      <svg height={height}>
+        {/* Barres femmes */}
+        <Group top={marginTop / 2} left={marginLeft / 2}>
+          <AxisLeft
+            axisClassName="chart__axislabel axislabel__verticalpyramide"
+            scale={yScaleFemme.range([yMax, 0])}
+            hideAxisLine={true}
+            hideTicks={true}
+          />
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
-            scale={xScaleReverse.range([0, xMax])}
+            scale={xScaleFemme.range([xMax, 0])}
             top={yMax}
-            left={-marginLeft / 2}
             hideAxisLine={true}
-            tickLength={6}
+            hideTicks={true}
           />
-          {/* <GridRows
-            className="chart__rows"
-            scale={yScaleHomme.range([yMax, 0])}
-            width={xMax}
-            height={yMax}
-            left={-marginLeft / 2}
-            numTicks={ageMoyen / 2}
-            strokeWidth={2}
-          /> */}
-        </Group>
-      </svg>
-      <svg height={height}>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
-          {/* <GridRows
-            className="chart__rows"
-            scale={yScaleFemme.range([yMax, 0])}
-            width={xMax}
-            height={yMax}
-            numTicks={ageMoyen / 2}
-            strokeWidth={2}
-          /> */}
+          <GridColumns className="chart__rows" scale={xScaleFemme.range([xMax, 0])} width={xMax} height={yMax} strokeWidth={2} />
           <BarStackHorizontal<Chart.AgeData, string>
             data={dataAgeFemme}
             keys={groups.map((group) => group.Sigle)}
@@ -177,25 +186,6 @@ export default function PyramideBarStack(props: BarStackProps) {
               )
             }
           </BarStackHorizontal>
-        </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
-          <AxisLeft
-            axisClassName="chart__axislabel"
-            scale={yScaleFemme.range([yMax, 0])}
-            hideAxisLine={true}
-            hideTicks={true}
-            // numTicks={ageMoyen / 2}
-          />
-        </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
-          <AxisBottom
-            axisClassName="chart__axislabel axislabel__bottom"
-            tickClassName="chart__axistick"
-            scale={xScaleFemme.range([xMax, 0])}
-            top={yMax}
-            hideAxisLine={true}
-            tickLength={6}
-          />
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (

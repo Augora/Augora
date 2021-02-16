@@ -38,11 +38,11 @@ const Statistiques = (props) => {
 
   const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
   const dataAgeFemme =
-    dataAge.length < 25
+    dataAge.length < 30
       ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F")
       : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F"), 6)
   const dataAgeHomme =
-    dataAge.length < 25
+    dataAge.length < 30
       ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H")
       : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H"), 6)
 
