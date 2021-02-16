@@ -30,7 +30,7 @@ declare namespace Chart {
     /**
      * Age, optionnel
      */
-    age?: number
+    age?: number | string
   }
 
   interface TooltipRange extends Tooltip {
@@ -59,23 +59,28 @@ declare namespace Chart {
     color: string
   }
 
-  interface StackAgeData {
-    age: number
-    groups: { [x: string]: Deputy.DeputiesList }
-  }
+  /** Object contenant tous les sigles de groups en clé et une array de député */
+  type AgeGroupData = { [x: string]: Deputy.DeputiesList }
 
+  /** Object contenant les infos des députés sur un âge */
   interface AgeData {
-    age: number
-    deputyCount: number
+    age: number | string
+    groups: AgeGroupData
+    total: number
   }
 
-  interface RangeAgeData {
-    age: string
-    deputyCount: number
-  }
+  // interface AgeData {
+  //   age: number
+  //   deputyCount: number
+  // }
 
-  interface RangeStackAgeData {
-    age: string
-    groups: { [x: string]: Deputy.DeputiesList }
-  }
+  // interface RangeAgeData {
+  //   age: string
+  //   deputyCount: number
+  // }
+
+  // interface RangeStackAgeData {
+  //   age: string
+  //   groups: { [x: string]: Deputy.DeputiesList }
+  // }
 }

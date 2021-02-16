@@ -1,6 +1,6 @@
 import React from "react"
 import { Group } from "@visx/group"
-import PyramideBarChart from "./PyramideBarChart"
+import XYContent from "src/components/charts/PyramideBar/XYContent"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAgeFemme: Chart.AgeData[]
@@ -8,9 +8,10 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   totalDeputes: number
 }
 
-export default function PyramideBar({ width, height, dataAgeFemme, dataAgeHomme, totalDeputes }: BarStackProps) {
-  const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.deputyCount))
-  const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.deputyCount))
+export default function PyramideBar(props: BarStackProps) {
+  const { width, height, dataAgeHomme, dataAgeFemme, totalDeputes } = props
+  const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.total))
+  const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
   const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
 
   const animationTrajectoire = "center"
@@ -25,7 +26,7 @@ export default function PyramideBar({ width, height, dataAgeFemme, dataAgeHomme,
     <div className="pyramidebarchart chart">
       <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <PyramideBarChart
+          <XYContent
             width={width}
             height={height}
             data={dataAgeHomme}
@@ -42,7 +43,7 @@ export default function PyramideBar({ width, height, dataAgeFemme, dataAgeHomme,
       </svg>
       <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <PyramideBarChart
+          <XYContent
             width={width}
             height={height}
             data={dataAgeFemme}

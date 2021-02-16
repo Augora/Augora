@@ -9,7 +9,7 @@ import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  dataAge: Chart.StackAgeData[]
+  dataAge: Chart.AgeData[]
   groups: Group.GroupsList
   totalDeputes: number
 }
@@ -17,10 +17,7 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
 export default function BarStackChart({ width, height, groups, dataAge, totalDeputes }: BarStackProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
-  const maxAge = dataAge.reduce((acc, cur) => {
-    const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
-    return curSum > acc ? curSum : acc
-  }, 0)
+  const maxAge = Math.max(...dataAge.map((d) => d.total))
 
   // bounds
   const marginTop = 50
@@ -32,7 +29,7 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
   const xScale = scaleBand<number>({
     range: [0, xMax],
     round: true,
-    domain: dataAge.map((d) => d.age).reverse(),
+    domain: dataAge.map((d) => d.age as number).reverse(),
     padding: 0.15,
   })
 
@@ -53,7 +50,7 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
   const handleMouseMove = (
     event: React.MouseEvent<SVGRectElement, MouseEvent>,
     data: {
-      bar: SeriesPoint<Chart.StackAgeData>
+      bar: SeriesPoint<Chart.AgeData>
       key: string
       color: string
     }
@@ -94,7 +91,7 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
           </text>
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <BarStack<Chart.StackAgeData, string>
+          <BarStack<Chart.AgeData, string>
             data={dataAge}
             keys={groups.map((group) => group.Sigle)}
             value={(d, key) => d.groups[key].length}

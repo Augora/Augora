@@ -4,7 +4,7 @@ export interface ITooltip {
   children?: React.ReactNode
   title?: string
   color?: string
-  age?: number
+  age?: number | string
   nbDeputes?: number
   totalDeputes?: number
   style?: React.CSSProperties
@@ -22,10 +22,7 @@ export interface ITooltip {
  */
 export default function Tooltip(props: ITooltip) {
   return (
-    <div
-      className={`tooltip ${props.className ? props.className : ""}`}
-      style={props.style}
-    >
+    <div className={`tooltip ${props.className ? props.className : ""}`} style={props.style}>
       {props.age ? (
         <div className="tooltip__age">
           <span>{props.age}</span>
@@ -50,12 +47,7 @@ export default function Tooltip(props: ITooltip) {
             <small>{props.nbDeputes > 1 ? "Députés" : "Député"}</small>
           </div>
           <div className="tooltip__percentage">
-            {props.totalDeputes > 0
-              ? Math.round(
-                  ((props.nbDeputes * 100) / props.totalDeputes) * 10
-                ) / 10
-              : 0}
-            %
+            {props.totalDeputes > 0 ? Math.round(((props.nbDeputes * 100) / props.totalDeputes) * 10) / 10 : 0}%
           </div>
         </div>
       ) : null}

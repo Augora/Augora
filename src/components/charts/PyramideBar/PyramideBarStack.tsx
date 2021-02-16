@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { BarStackHorizontal } from "@visx/shape"
 import { GridRows } from "@visx/grid"
 import { AxisLeft, AxisBottom } from "@visx/axis"
@@ -9,31 +9,18 @@ import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  dataAgeFemme: Chart.RangeStackAgeData[]
-  dataAgeHomme: Chart.RangeStackAgeData[]
+  dataAgeFemme: Chart.AgeData[]
+  dataAgeHomme: Chart.AgeData[]
   groups: Group.GroupsList
   totalDeputes: number
 }
 
-export default function PyramideRangeBarStackChart({
-  width,
-  height,
-  groups,
-  dataAgeFemme,
-  dataAgeHomme,
-  totalDeputes,
-}: BarStackProps) {
-  const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.TooltipRange>()
+export default function PyramideBarStack(props: BarStackProps) {
+  const { width, height, dataAgeFemme, dataAgeHomme, groups, totalDeputes } = props
+  const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
-  const maxAgeFemme = dataAgeFemme.reduce((acc, cur) => {
-    const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
-    return curSum > acc ? curSum : acc
-  }, 0)
-  const maxAgeHomme = dataAgeHomme.reduce((acc, cur) => {
-    const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
-    return curSum > acc ? curSum : acc
-  }, 0)
-
+  const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.total))
+  const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
   const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
 
   // bounds
@@ -49,7 +36,7 @@ export default function PyramideRangeBarStackChart({
     domain: [maxAge, 0],
   })
 
-  const yScaleFemme = scaleBand<string>({
+  const yScaleFemme = scaleBand<number | string>({
     range: [0, yMax],
     round: true,
     domain: dataAgeFemme.map((d) => d.age),
@@ -66,10 +53,10 @@ export default function PyramideRangeBarStackChart({
     domain: [-maxAge, 0],
   })
 
-  const yScaleHomme = scaleBand<string>({
+  const yScaleHomme = scaleBand<number>({
     range: [yMax, 0],
     round: true,
-    domain: dataAgeHomme.map((d) => d.age),
+    domain: dataAgeHomme.map((d) => d.age as number),
     padding: 0.1,
   })
 
@@ -84,7 +71,7 @@ export default function PyramideRangeBarStackChart({
   const handleMouseMove = (
     event: React.MouseEvent<SVGRectElement, MouseEvent>,
     data: {
-      bar: SeriesPoint<Chart.RangeStackAgeData>
+      bar: SeriesPoint<Chart.AgeData>
       key: string
       color: string
     }
@@ -105,7 +92,7 @@ export default function PyramideRangeBarStackChart({
     <div className="pyramidebarstackchart chart">
       <svg height={height}>
         <Group top={marginTop / 2} left={xMax}>
-          <BarStackHorizontal<Chart.RangeStackAgeData, string>
+          <BarStackHorizontal<Chart.AgeData, string>
             data={dataAgeHomme}
             keys={groups.map((group) => group.Sigle)}
             value={(d, key) => d.groups[key].length}
@@ -119,7 +106,7 @@ export default function PyramideRangeBarStackChart({
                 barStack.bars.map((bar) => (
                   <rect
                     key={`bar-stack-${barStack.index}-${bar.index}`}
-                    x={bar.x - xMax + marginLeft / 3}
+                    x={bar.x - xMax - marginLeft / 4}
                     y={bar.y}
                     height={bar.height}
                     width={bar.width}
@@ -133,21 +120,38 @@ export default function PyramideRangeBarStackChart({
             }
           </BarStackHorizontal>
         </Group>
-        <Group top={marginTop / 2} left={marginLeft}>
+        <Group top={marginTop / 2} left={marginLeft / 1.4}>
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
             scale={xScaleReverse.range([0, xMax])}
             top={yMax}
-            left={-marginLeft * 1.33}
+            left={-marginLeft / 2}
             hideAxisLine={true}
             tickLength={6}
           />
+          {/* <GridRows
+            className="chart__rows"
+            scale={yScaleHomme.range([yMax, 0])}
+            width={xMax}
+            height={yMax}
+            left={-marginLeft / 2}
+            numTicks={ageMoyen / 2}
+            strokeWidth={2}
+          /> */}
         </Group>
       </svg>
       <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <BarStackHorizontal<Chart.RangeStackAgeData, string>
+          {/* <GridRows
+            className="chart__rows"
+            scale={yScaleFemme.range([yMax, 0])}
+            width={xMax}
+            height={yMax}
+            numTicks={ageMoyen / 2}
+            strokeWidth={2}
+          /> */}
+          <BarStackHorizontal<Chart.AgeData, string>
             data={dataAgeFemme}
             keys={groups.map((group) => group.Sigle)}
             value={(d, key) => d.groups[key].length}
@@ -180,7 +184,7 @@ export default function PyramideRangeBarStackChart({
             scale={yScaleFemme.range([yMax, 0])}
             hideAxisLine={true}
             hideTicks={true}
-            //numTicks={ageMoyen / 2}
+            // numTicks={ageMoyen / 2}
           />
         </Group>
         <Group top={marginTop / 2} left={marginLeft / 2}>
@@ -202,6 +206,7 @@ export default function PyramideRangeBarStackChart({
           nbDeputes={tooltipData.bar}
           totalDeputes={totalDeputes}
           color={tooltipData.color}
+          age={tooltipData.age}
         />
       )}
     </div>
