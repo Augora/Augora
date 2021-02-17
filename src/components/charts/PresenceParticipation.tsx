@@ -34,21 +34,24 @@ export default function PresenceParticipation({ width, height, data, color }) {
 
   const vacancesColor = "#696969"
   const medianeDepute = "#B7B7B7"
+  const opacityParticipation = 0.5
 
   const getDate = (d) => getDates(d.DateDeFin.split("T")[0])
 
+  const glyphSize = 120
+  const glyphPosition = marginTop / 6
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
     domain: ["Présences", "Participations", "Questions orales", "Médiane des députés", "Vacances"],
     range: [
-      <CustomGlyph left={50 / 6} top={50 / 6}>
+      <CustomGlyph left={5} top={glyphPosition}>
         <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} />
       </CustomGlyph>,
-      <CustomGlyph left={50 / 6} top={50 / 6}>
-        <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} opacity={0.5} />
+      <CustomGlyph left={5} top={glyphPosition}>
+        <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} opacity={opacityParticipation} />
       </CustomGlyph>,
-      <GlyphSquare key="Questions orales" size={120} top={50 / 6} left={50 / 6} fill={color} />,
-      <GlyphSquare key="Médiane des députés" size={120} top={50 / 6} left={50 / 6} fill={medianeDepute} />,
-      <GlyphSquare key="Vacances" size={120} top={50 / 6} left={50 / 6} fill={vacancesColor} />,
+      <GlyphSquare key="Questions orales" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={color} />,
+      <GlyphSquare key="Médiane des députés" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={medianeDepute} />,
+      <GlyphSquare key="Vacances" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={vacancesColor} />,
     ],
   })
 
@@ -63,41 +66,37 @@ export default function PresenceParticipation({ width, height, data, color }) {
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
             <AnimatedGrid left={5} numTicks={maxActivite / 2} columns={false} />
-            <>
-              <AnimatedBarSeries
-                dataKey={"Vacances"}
-                data={orderedWeeks}
-                xAccessor={(d) => getDate(d).dateFin}
-                yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
-                colorAccessor={() => vacancesColor}
-              />
-              <AnimatedBarSeries
-                dataKey={"Question"}
-                data={orderedWeeks}
-                xAccessor={(d) => getDate(d).dateFin}
-                yAccessor={(d) => d.Question}
-                colorAccessor={() => color}
-              />
-            </>
-            <>
-              <AnimatedLineSeries
-                dataKey={"Participation"}
-                data={orderedWeeks}
-                xAccessor={(d) => getDate(d).dateFin}
-                yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
-                curve={curveType}
-                stroke={color}
-                strokeOpacity={0.5}
-              />
-              <AnimatedLineSeries
-                dataKey={"Presence"}
-                data={orderedWeeks}
-                xAccessor={(d) => getDate(d).dateFin}
-                yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
-                stroke={color}
-                curve={curveType}
-              />
-            </>
+            <AnimatedBarSeries
+              dataKey={"Vacances"}
+              data={orderedWeeks}
+              xAccessor={(d) => getDate(d).dateFin}
+              yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
+              colorAccessor={() => vacancesColor}
+            />
+            <AnimatedBarSeries
+              dataKey={"Question"}
+              data={orderedWeeks}
+              xAccessor={(d) => getDate(d).dateFin}
+              yAccessor={(d) => d.Question}
+              colorAccessor={() => color}
+            />
+            <AnimatedLineSeries
+              dataKey={"Participation"}
+              data={orderedWeeks}
+              xAccessor={(d) => getDate(d).dateFin}
+              yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
+              curve={curveType}
+              stroke={color}
+              strokeOpacity={opacityParticipation}
+            />
+            <AnimatedLineSeries
+              dataKey={"Presence"}
+              data={orderedWeeks}
+              xAccessor={(d) => getDate(d).dateFin}
+              yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
+              stroke={color}
+              curve={curveType}
+            />
             <AnimatedAxis
               orientation="left"
               hideAxisLine={true}
