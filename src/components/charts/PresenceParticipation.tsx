@@ -30,6 +30,12 @@ export default function PresenceParticipation({ width, height, data, color }) {
 
   const orderedWeeks = orderBy(data, "DateDeDebut")
   const animationTrajectoire = "center"
+  const curveType = curveMonotoneX
+
+  const vacancesColor = "#696969"
+  const medianeDepute = "#B7B7B7"
+
+  const getDate = (d) => getDates(d.DateDeFin.split("T")[0])
 
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
     domain: ["Présences", "Participations", "Questions orales", "Médiane des députés", "Vacances"],
@@ -41,8 +47,8 @@ export default function PresenceParticipation({ width, height, data, color }) {
         <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} opacity={0.5} />
       </CustomGlyph>,
       <GlyphSquare key="Questions orales" size={120} top={50 / 6} left={50 / 6} fill={color} />,
-      <GlyphSquare key="Médiane des députés" size={120} top={50 / 6} left={50 / 6} fill="#B7B7B7" />,
-      <GlyphSquare key="Vacances" size={120} top={50 / 6} left={50 / 6} fill="#696969" />,
+      <GlyphSquare key="Médiane des députés" size={120} top={50 / 6} left={50 / 6} fill={medianeDepute} />,
+      <GlyphSquare key="Vacances" size={120} top={50 / 6} left={50 / 6} fill={vacancesColor} />,
     ],
   })
 
@@ -61,28 +67,28 @@ export default function PresenceParticipation({ width, height, data, color }) {
               <AnimatedBarSeries
                 dataKey={"Vacances"}
                 data={orderedWeeks}
-                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin ?? 0}
+                xAccessor={(d) => getDate(d).dateFin}
                 yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
-                colorAccessor={() => "#696969"}
+                colorAccessor={() => vacancesColor}
               />
             </>
             <>
               <AnimatedLineSeries
                 dataKey={"Participation"}
                 data={orderedWeeks}
-                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin}
+                xAccessor={(d) => getDate(d).dateFin}
                 yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
-                curve={curveMonotoneX}
+                curve={curveType}
                 stroke={color}
                 strokeOpacity={0.5}
               />
               <AnimatedLineSeries
                 dataKey={"Presence"}
                 data={orderedWeeks}
-                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin}
+                xAccessor={(d) => getDate(d).dateFin}
                 yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
                 stroke={color}
-                curve={curveMonotoneX}
+                curve={curveType}
               />
             </>
             <AnimatedAxis
@@ -104,7 +110,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
             <AnimatedBarSeries
               dataKey={"Question"}
               data={orderedWeeks}
-              xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin ?? 0}
+              xAccessor={(d) => getDate(d).dateFin}
               yAccessor={(d) => d.Question}
               colorAccessor={() => color}
             />
@@ -115,7 +121,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
             xScale={{
               type: "band",
               range: [0, xMax],
-              domain: orderedWeeks.map((d) => getDates(d.DateDeFin.split("T")[0]).MonthData),
+              domain: orderedWeeks.map((d) => getDate(d).MonthData),
             }}
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
