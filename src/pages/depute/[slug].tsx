@@ -29,16 +29,17 @@ enum Button {
 
 interface IDeputy {
   depute: Deputy.Deputy
+  activites: Deputy.Activite[]
 }
 
 // const allColors = colors.map((color) => {
 //   return "--" + color.name + "-color :" + color.hex + ";\n"
 // })
 
-export default function Deputy({ depute }: IDeputy) {
+export default function Deputy({ depute, activites }: IDeputy) {
   const [isSiteTooltipVisible, setIsSiteTooltipVisible] = useState(false)
   const [isMailTooltipVisible, setIsMailTooltipVisible] = useState(false)
-
+  console.log(activites)
   const node = useRef<HTMLDivElement>()
 
   useEffect(() => {
@@ -161,11 +162,11 @@ export default function Deputy({ depute }: IDeputy) {
 }
 
 export async function getStaticProps({ params: { slug } }) {
-  const depute = await getDepute(slug)
-
+  const deputeAndActivites = await getDepute(slug)
   return {
     props: {
-      depute,
+      depute: deputeAndActivites.Depute,
+      activites: deputeAndActivites.DeputesEnMandat.data,
     },
   }
 }
