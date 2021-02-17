@@ -71,6 +71,13 @@ export default function PresenceParticipation({ width, height, data, color }) {
                 yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
                 colorAccessor={() => vacancesColor}
               />
+              <AnimatedBarSeries
+                dataKey={"Question"}
+                data={orderedWeeks}
+                xAccessor={(d) => getDate(d).dateFin}
+                yAccessor={(d) => d.Question}
+                colorAccessor={() => color}
+              />
             </>
             <>
               <AnimatedLineSeries
@@ -99,20 +106,6 @@ export default function PresenceParticipation({ width, height, data, color }) {
               tickLength={6}
               numTicks={maxActivite / 2}
               animationTrajectory={animationTrajectoire}
-            />
-          </XYChart>
-          <XYChart
-            width={width}
-            height={height}
-            xScale={{ type: "band", range: [0, xMax], padding: 1 }}
-            yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
-          >
-            <AnimatedBarSeries
-              dataKey={"Question"}
-              data={orderedWeeks}
-              xAccessor={(d) => getDate(d).dateFin}
-              yAccessor={(d) => d.Question}
-              colorAccessor={() => color}
             />
           </XYChart>
           <XYChart
