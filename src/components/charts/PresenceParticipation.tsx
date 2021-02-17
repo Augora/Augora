@@ -1,7 +1,7 @@
 import React from "react"
 import orderBy from "lodash/orderBy"
 import { Group } from "@visx/group"
-import { curveLinear } from "@visx/curve"
+import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
@@ -54,7 +54,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
                 fill={color}
                 color={color}
                 fillOpacity={0.4}
-                curve={curveLinear}
+                curve={curveMonotoneX}
                 renderLine={false}
               />
               <AnimatedAreaSeries
@@ -65,7 +65,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
                 fill={color}
                 color={color}
                 fillOpacity={0.4}
-                curve={curveLinear}
+                curve={curveMonotoneX}
                 renderLine={false}
               />
             </>
