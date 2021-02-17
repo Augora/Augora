@@ -32,11 +32,12 @@ export default function PresenceParticipation({ width, height, data, color }) {
       <svg width={width} height={height}>
         <Group top={marginTop / 2} left={marginLeft}>
           <XYChart
-            width={width}
+            width={width + marginLeft * 5}
             height={height}
             xScale={{ type: "band", range: [0, xMax] }}
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
+            <AnimatedGrid left={5} numTicks={maxActivite / 2} columns={false} />
             <>
               <AnimatedBarSeries
                 dataKey={"Vacances"}
@@ -71,6 +72,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
               left={5}
               tickStroke={"none"}
               tickLength={6}
+              numTicks={maxActivite / 2}
               animationTrajectory={animationTrajectoire}
             />
           </XYChart>
