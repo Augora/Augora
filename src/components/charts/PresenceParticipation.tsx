@@ -10,7 +10,8 @@ dayjs.locale("fr")
 
 const getDates = (date: string) => {
   return {
-    dateDay: dayjs(date).format("MMM YYYY"),
+    dateFin: dayjs(date).format("DD MM YY"),
+    MonthData: dayjs(date).format("MMM YYYY"),
   }
 }
 
@@ -29,7 +30,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
   return width < 10 ? null : (
     <div className="presence">
       <svg width={width} height={height}>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
+        <Group top={marginTop / 2} left={marginLeft}>
           <XYChart
             width={width}
             height={height}
@@ -40,7 +41,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
               <AnimatedBarSeries
                 dataKey={"Vacances"}
                 data={orderedWeeks}
-                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateDay ?? 0}
+                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin ?? 0}
                 yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
                 colorAccessor={() => "#B7B7B7"}
               />
@@ -49,7 +50,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
               <AnimatedAreaSeries
                 dataKey={"Participation"}
                 data={orderedWeeks}
-                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateDay}
+                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin}
                 yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
                 fill={color}
                 color={color}
@@ -60,7 +61,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
               <AnimatedAreaSeries
                 dataKey={"Presence"}
                 data={orderedWeeks}
-                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateDay}
+                xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin}
                 yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
                 fill={color}
                 color={color}
@@ -72,15 +73,9 @@ export default function PresenceParticipation({ width, height, data, color }) {
             <AnimatedAxis
               orientation="left"
               hideAxisLine={true}
+              left={5}
               tickStroke={"none"}
               tickLength={6}
-              animationTrajectory={animationTrajectoire}
-            />
-            <AnimatedAxis
-              orientation="bottom"
-              hideAxisLine={true}
-              tickLength={6}
-              numTicks={11}
               animationTrajectory={animationTrajectoire}
             />
           </XYChart>
@@ -93,10 +88,22 @@ export default function PresenceParticipation({ width, height, data, color }) {
             <AnimatedBarSeries
               dataKey={"Question"}
               data={orderedWeeks}
-              xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateDay ?? 0}
+              xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin ?? 0}
               yAccessor={(d) => d.Question}
               colorAccessor={() => color}
             />
+          </XYChart>
+          <XYChart
+            width={width}
+            height={height}
+            xScale={{
+              type: "band",
+              range: [0, xMax],
+              domain: orderedWeeks.map((d) => getDates(d.DateDeFin.split("T")[0]).MonthData),
+            }}
+            yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
+          >
+            <AnimatedAxis orientation="bottom" hideAxisLine={true} tickLength={6} animationTrajectory={animationTrajectoire} />
           </XYChart>
         </Group>
       </svg>
