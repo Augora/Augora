@@ -5,7 +5,7 @@ import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
-import { XYChart, AnimatedAreaSeries, AnimatedAxis, AnimatedBarSeries } from "@visx/xychart"
+import { XYChart, AnimatedAxis, AnimatedBarSeries, AnimatedGrid, AnimatedLineSeries } from "@visx/xychart"
 dayjs.locale("fr")
 
 const getDates = (date: string) => {
@@ -47,27 +47,22 @@ export default function PresenceParticipation({ width, height, data, color }) {
               />
             </>
             <>
-              <AnimatedAreaSeries
+              <AnimatedLineSeries
                 dataKey={"Participation"}
                 data={orderedWeeks}
                 xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin}
                 yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
-                fill={color}
-                color={color}
-                fillOpacity={0.4}
                 curve={curveMonotoneX}
-                renderLine={false}
+                stroke={color}
+                strokeOpacity={0.5}
               />
-              <AnimatedAreaSeries
+              <AnimatedLineSeries
                 dataKey={"Presence"}
                 data={orderedWeeks}
                 xAccessor={(d) => getDates(d.DateDeFin.split("T")[0]).dateFin}
                 yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
-                fill={color}
-                color={color}
-                fillOpacity={0.4}
+                stroke={color}
                 curve={curveMonotoneX}
-                renderLine={false}
               />
             </>
             <AnimatedAxis
