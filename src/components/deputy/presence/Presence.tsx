@@ -9,14 +9,8 @@ import PresenceParticipation from "src/components/charts/PresenceParticipation"
 
 const Presence = (props: Bloc.Presence) => {
   return (
-    <Block
-      title="Présence et participation"
-      type="presence"
-      color={props.color}
-      size={props.size}
-      //wip={props.wip ? props.wip : true}
-    >
-      <PresenceParticipation width={1000} height={300} data={props.activite} color={props.color} />
+    <Block title="Présence et participation" type="presence" color={props.color} size={props.size}>
+      <PresenceParticipation width={1000} height={300} data={props.activite} mediane={props.mediane} color={props.color} />
     </Block>
   )
 }

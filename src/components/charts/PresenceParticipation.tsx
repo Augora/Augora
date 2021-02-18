@@ -5,7 +5,7 @@ import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
-import { XYChart, AnimatedAxis, AnimatedBarSeries, AnimatedGrid, AnimatedLineSeries } from "@visx/xychart"
+import { XYChart, AnimatedAxis, AnimatedBarSeries, AnimatedGrid, AnimatedLineSeries, AnimatedAreaSeries } from "@visx/xychart"
 import { Glyph as CustomGlyph, GlyphSquare } from "@visx/glyph"
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import { scaleOrdinal } from "@visx/scale"
@@ -14,20 +14,20 @@ dayjs.locale("fr")
 
 const getDates = (date: string) => {
   return {
-    dateFin: dayjs(date).format("DD MM YY"),
+    dateDebut: dayjs(date).format("DD MM YY"),
     MonthData: dayjs(date).format("MMM YYYY"),
   }
 }
 
-export default function PresenceParticipation({ width, height, data, color }) {
+export default function PresenceParticipation({ width, height, data, mediane, color }) {
   // bounds
   const marginTop = 50
   const marginLeft = 20
   const xMax = width
   const yMax = height - marginTop
-
   var maxActivite = getNbActivitesMax(data) < 14 ? 14 : getNbActivitesMax(data)
 
+  const medianeArray = orderBy(mediane, "DateDeDebut")
   const orderedWeeks = orderBy(data, "DateDeDebut")
   const animationTrajectoire = "center"
   const curveType = curveMonotoneX
@@ -36,7 +36,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
   const medianeDepute = "#B7B7B7"
   const opacityParticipation = 0.5
 
-  const getDate = (d) => getDates(d.DateDeFin.split("T")[0])
+  const getDate = (d) => getDates(d.DateDeDebut.split("T")[0])
 
   const glyphSize = 120
   const glyphPosition = marginTop / 6
@@ -66,24 +66,29 @@ export default function PresenceParticipation({ width, height, data, color }) {
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
             <AnimatedGrid left={5} numTicks={maxActivite / 2} columns={false} />
+
             <AnimatedBarSeries
               dataKey={"Vacances"}
               data={orderedWeeks}
-              xAccessor={(d) => getDate(d).dateFin}
+              xAccessor={(d) => getDate(d).dateDebut}
               yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
               colorAccessor={() => vacancesColor}
             />
-            <AnimatedBarSeries
-              dataKey={"Question"}
-              data={orderedWeeks}
-              xAccessor={(d) => getDate(d).dateFin}
-              yAccessor={(d) => d.Question}
-              colorAccessor={() => color}
+            <AnimatedAreaSeries
+              dataKey={"Mediane"}
+              data={medianeArray}
+              xAccessor={(d) => getDate(d).dateDebut}
+              yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
+              stroke={medianeDepute}
+              fill={medianeDepute}
+              renderLine={false}
+              curve={curveType}
+              opacity={opacityParticipation}
             />
             <AnimatedLineSeries
               dataKey={"Participation"}
               data={orderedWeeks}
-              xAccessor={(d) => getDate(d).dateFin}
+              xAccessor={(d) => getDate(d).dateDebut}
               yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
               curve={curveType}
               stroke={color}
@@ -92,10 +97,17 @@ export default function PresenceParticipation({ width, height, data, color }) {
             <AnimatedLineSeries
               dataKey={"Presence"}
               data={orderedWeeks}
-              xAccessor={(d) => getDate(d).dateFin}
+              xAccessor={(d) => getDate(d).dateDebut}
               yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
               stroke={color}
               curve={curveType}
+            />
+            <AnimatedBarSeries
+              dataKey={"Question"}
+              data={orderedWeeks}
+              xAccessor={(d) => getDate(d).dateDebut}
+              yAccessor={(d) => d.Question}
+              colorAccessor={() => color}
             />
             <AnimatedAxis
               orientation="left"
