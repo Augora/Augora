@@ -71,6 +71,12 @@ const Footer = () => {
               target: true,
               internal: false,
             },
+            {
+              label: "Visx",
+              link: "https://airbnb.io/visx/",
+              target: true,
+              internal: false,
+            },
           ])}
           {Menu("Liens utiles", [
             {
