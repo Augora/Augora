@@ -52,31 +52,31 @@ export function getDeputes() {
   })
 }
 
-export function getDeputesActivites() {
-  return client.query({
-    query: gql`
-      query DeputesEnMandat {
-        DeputesEnMandat(EstEnMandat: true, _size: 700) {
-          data {
-            Activites(_size: 100) {
-              data {
-                DateDeDebut
-                DateDeFin
-                NumeroDeSemaine
-                PresenceEnHemicycle
-                ParticipationEnHemicycle
-                PresencesEnCommission
-                ParticipationsEnCommission
-                Question
-                Vacances
-              }
-            }
-          }
-        }
-      }
-    `,
-  })
-}
+// export function getDeputesActivites() {
+//   return client.query({
+//     query: gql`
+//       query DeputesEnMandat {
+//         DeputesEnMandat(EstEnMandat: true, _size: 700) {
+//           data {
+//             Activites(_size: 100) {
+//               data {
+//                 DateDeDebut
+//                 DateDeFin
+//                 NumeroDeSemaine
+//                 PresenceEnHemicycle
+//                 ParticipationEnHemicycle
+//                 PresencesEnCommission
+//                 ParticipationsEnCommission
+//                 Question
+//                 Vacances
+//               }
+//             }
+//           }
+//         }
+//       }
+//     `,
+//   })
+// }
 
 export function getDeputesSlugs() {
   return client.query({
