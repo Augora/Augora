@@ -82,6 +82,6 @@ declare namespace Bloc {
 
   interface Presence extends Base {
     activite: Deputy.Activite[]
-    mediane: Deputy.Activite[]
+    //mediane: Deputy.Activite[]
   }
 }
