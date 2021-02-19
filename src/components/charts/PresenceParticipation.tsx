@@ -19,7 +19,7 @@ const getDates = (date: string) => {
   }
 }
 
-export default function PresenceParticipation({ width, height, data, mediane, color }) {
+export default function PresenceParticipation({ width, height, data, color }) {
   // bounds
   const marginTop = 50
   const marginLeft = 20
@@ -27,7 +27,7 @@ export default function PresenceParticipation({ width, height, data, mediane, co
   const yMax = height - marginTop
   var maxActivite = getNbActivitesMax(data) < 14 ? 14 : getNbActivitesMax(data)
 
-  const medianeArray = orderBy(mediane, "DateDeDebut")
+  //const medianeArray = orderBy(mediane, "DateDeDebut")
   const orderedWeeks = orderBy(data, "DateDeDebut")
   const animationTrajectoire = "center"
   const curveType = curveMonotoneX
@@ -74,7 +74,7 @@ export default function PresenceParticipation({ width, height, data, mediane, co
               yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
               colorAccessor={() => vacancesColor}
             />
-            <AnimatedAreaSeries
+            {/* <AnimatedAreaSeries
               dataKey={"Mediane"}
               data={medianeArray}
               xAccessor={(d) => getDate(d).dateDebut}
@@ -84,7 +84,7 @@ export default function PresenceParticipation({ width, height, data, mediane, co
               renderLine={false}
               curve={curveType}
               opacity={opacityParticipation}
-            />
+            /> */}
             <AnimatedLineSeries
               dataKey={"Participation"}
               data={orderedWeeks}

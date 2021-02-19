@@ -11,7 +11,7 @@ import IconStat from "images/ui-kit/icon-stat.svg"
 const Presence = (props: Bloc.Presence) => {
   return (
     <Block title="Présence et participation" type="presence" color={props.color} size={props.size}>
-      <PresenceParticipation width={1000} height={300} data={props.activite} mediane={props.mediane} color={props.color} />
+      <PresenceParticipation width={1000} height={300} data={props.activite} color={props.color} />
       <div className="icon-wrapper">
         <IconStat />
       </div>

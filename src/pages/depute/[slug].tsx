@@ -48,24 +48,24 @@ export default function Deputy({ depute, activites }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.Couleur
 
-  const medianeActivity = activites[0].Activites.data.map((data) => {
-    const activitySorted = sortBy(
-      activites.map((activite) => {
-        const result = activite.Activites.data.find((d) => {
-          return d.NumeroDeSemaine === data.NumeroDeSemaine
-        })
-        return result
-      }),
-      (o) => (!o ? undefined : o.PresenceEnHemicycle + o.PresencesEnCommission)
-    )
+  // const medianeActivity = activites[0].Activites.data.map((data) => {
+  //   const activitySorted = sortBy(
+  //     activites.map((activite) => {
+  //       const result = activite.Activites.data.find((d) => {
+  //         return d.NumeroDeSemaine === data.NumeroDeSemaine
+  //       })
+  //       return result
+  //     }),
+  //     (o) => (!o ? undefined : o.PresenceEnHemicycle + o.PresencesEnCommission)
+  //   )
 
-    const positionMediane = (activitySorted.length + 1) / 2
-    if (positionMediane % 2 == 0) return activitySorted[positionMediane]
-    else {
-      const valeurMediane = activitySorted[(Math.floor(positionMediane) + Math.ceil(positionMediane)) / 2]
-      return valeurMediane
-    }
-  })
+  //   const positionMediane = (activitySorted.length + 1) / 2
+  //   if (positionMediane % 2 == 0) return activitySorted[positionMediane]
+  //   else {
+  //     const valeurMediane = activitySorted[(Math.floor(positionMediane) + Math.ceil(positionMediane)) / 2]
+  //     return valeurMediane
+  //   }
+  // })
 
   const handleClick = (e) => {
     if (node?.current) {
@@ -168,7 +168,7 @@ export default function Deputy({ depute, activites }: IDeputy) {
           <Mandate {...getMandate(deputy)} color={color} size="small" />
           <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
           <MapDistrict deputy={deputy} color={color} size="medium" />
-          <Presence color={color} size="large" activite={deputy.Activites.data} mediane={medianeActivity} wip={true} />
+          <Presence color={color} size="large" activite={deputy.Activites.data} wip={true} />
           <Contact color={color} size="medium" adresses={deputy.AdressesDetails.data} />
         </div>
       </div>
