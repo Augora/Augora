@@ -181,7 +181,7 @@ export async function getStaticProps({ params: { slug } }) {
   return {
     props: {
       depute: deputeAndActivites.Depute,
-      activites: deputeAndActivites.DeputesEnMandat.data,
+      //activites: deputeAndActivites.DeputesEnMandat.data,
     },
   }
 }
