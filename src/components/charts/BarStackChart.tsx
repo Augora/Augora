@@ -1,5 +1,6 @@
 import React from "react"
-import { XYChart, AnimatedBarStack, AnimatedBarSeries, AnimatedGrid, AnimatedAxis } from "@visx/xychart"
+import AugoraTooltip from "components/tooltip/Tooltip"
+import { XYChart, AnimatedBarStack, AnimatedBarSeries, AnimatedGrid, AnimatedAxis, Tooltip } from "@visx/xychart"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAge: Chart.AgeData[]
@@ -62,6 +63,22 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
               )
             })}
           </AnimatedBarStack>
+          <Tooltip<Chart.AgeData>
+            className="charttooltip__container"
+            unstyled={true}
+            renderTooltip={({ tooltipData }) => {
+              const key = tooltipData.nearestDatum.key
+              return (
+                <AugoraTooltip
+                  title={key}
+                  nbDeputes={tooltipData.datumByKey[key].datum.total}
+                  totalDeputes={totalDeputes}
+                  color={getGroupColor(key)}
+                  age={tooltipData.datumByKey[key].datum.age}
+                />
+              )
+            }}
+          />
         </XYChart>
       </svg>
     </div>
