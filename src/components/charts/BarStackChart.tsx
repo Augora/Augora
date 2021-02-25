@@ -95,10 +95,10 @@ export default function BarStackChart({ width, height, groups, dataAge, totalDep
                 return (
                   <AugoraTooltip
                     title={key}
-                    nbDeputes={tooltipData.datumByKey[key].datum.total}
+                    nbDeputes={tooltipData.nearestDatum.datum.total}
                     totalDeputes={totalDeputes}
                     color={getGroupColor(key)}
-                    age={tooltipData.datumByKey[key].datum.age}
+                    age={tooltipData.nearestDatum.datum.age}
                   />
                 )
               }}
