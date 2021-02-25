@@ -68,7 +68,7 @@ export const rangifyAgeData = (data: Chart.AgeData[], range: number): Chart.AgeD
       const maxAge = i + range > data.length ? data[data.length - 1].age : data[i + range - 1].age
 
       const output = {
-        age: acc.age ? acc.age : data[i].age === maxAge ? maxAge : `${data[i].age}-${maxAge}`,
+        age: acc.age ? acc.age : `${data[i].age}-${maxAge}`,
         groups: mergeGroups(acc.groups, data[i].groups),
         total: data[i].total + (acc.total ? acc.total : 0),
       }

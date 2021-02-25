@@ -37,14 +37,13 @@ const Statistiques = (props) => {
   }).filter((groupe) => groupe.value !== 0)
 
   const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
-  const dataAgeFemme =
-    dataAge.length < 30
-      ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F")
-      : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F"), 6)
-  const dataAgeHomme =
-    dataAge.length < 30
-      ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H")
-      : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H"), 6)
+  const isRange = dataAge.length < 30
+  const dataAgeFemme = isRange
+    ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F")
+    : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F"), 6)
+  const dataAgeHomme = isRange
+    ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H")
+    : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H"), 6)
 
   const sumAge = dataAge.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)

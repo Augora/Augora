@@ -18,10 +18,12 @@ interface IXYContent {
 export default function XYContent(props: IXYContent) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
   const numTicks = maxAge > 50 ? maxAge / 10 : maxAge > 15 ? maxAge / 2 : maxAge
+  const marginRight = 30
+  const isRange = /^\d\d$/.test(data[0].age as string)
 
   return (
     <XYChart
-      margin={{ top: 0, right: 30, bottom: 50, left: 0 }}
+      margin={{ top: 0, right: marginRight, bottom: 50, left: 0 }}
       width={width}
       height={height}
       yScale={{ type: "band", range: [yMax, 0], padding: 0.1 }}
@@ -38,6 +40,7 @@ export default function XYContent(props: IXYContent) {
           orientation="left"
           hideAxisLine={true}
           hideTicks={true}
+          left={isRange ? -marginRight / 2 : -marginRight / 4}
         />
       )}
       <AnimatedAxis
