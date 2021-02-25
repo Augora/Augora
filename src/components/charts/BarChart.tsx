@@ -13,7 +13,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
 
   // bounds
-  const marginTop = 50
+  const marginTop = 30
   const marginLeft = 20
   const xMax = width
   const yMax = height - marginTop
