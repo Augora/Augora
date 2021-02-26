@@ -106,8 +106,10 @@
     }
   }
 
-  @media (max-width: 1500px) {
-    display: none;
+  &.frame-deputieslist {
+    @media (max-width: 1500px) {
+      display: none;
+    }
   }
 }
 
