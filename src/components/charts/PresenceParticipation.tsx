@@ -31,7 +31,7 @@ const getDates = (date: string) => {
 interface IPresence {
   width: number
   height: number
-  data: Chart.Activites[]
+  data: Deputy.Activite[]
   color: string
 }
 
@@ -139,7 +139,7 @@ export default function PresenceParticipation(props: IPresence) {
               animationTrajectory={animationTrajectoire}
               tickFormat={(date: string) => getDates(date.split("T")[0]).MonthData}
             />
-            <Tooltip<Chart.Activites>
+            <Tooltip<Deputy.Activite>
               className="charttooltip__container"
               unstyled={true}
               renderTooltip={({ tooltipData }) => {
