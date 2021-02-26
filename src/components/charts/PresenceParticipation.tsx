@@ -46,7 +46,7 @@ export default function PresenceParticipation(props: IPresence) {
   const glyphSize = 120
   const glyphPosition = marginTop / 6
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
-    domain: ["Présences", "Participations", "Questions orales", "Médiane des députés", "Vacances"],
+    domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
     range: [
       <CustomGlyph left={5} top={glyphPosition}>
         <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} />
@@ -55,7 +55,7 @@ export default function PresenceParticipation(props: IPresence) {
         <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} opacity={opacityParticipation} />
       </CustomGlyph>,
       <GlyphSquare key="Questions orales" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={color} />,
-      <GlyphSquare key="Médiane des députés" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={medianeDepute} />,
+      <GlyphSquare key="Mediane des députés" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={medianeDepute} />,
       <GlyphSquare key="Vacances" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={vacancesColor} />,
     ],
   })
