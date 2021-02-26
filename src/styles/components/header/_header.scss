@@ -27,9 +27,9 @@ header#header.header {
 
     z-index: -1;
 
-    transform: scaleX(0);
+    transform: translateY(-110%);
     transform-origin: left;
-    transition: transform 0.4s $ease-in-out-quad;
+    transition: transform 0.2s $ease-in-out-quad;
     transition-delay: 0.2s;
 
     background-color: $white;
@@ -47,12 +47,15 @@ header#header.header {
 
       transition: 0.225s linear;
     }
+
+    // Logo / Home
     &__home-btn {
       display: block;
       text-decoration: none;
       color: inherit;
     }
     &__logo-wrapper {
+      position: relative;
       display: flex;
       align-items: center;
       transition: width 0.2s linear;
@@ -61,38 +64,74 @@ header#header.header {
         path,
         rect {
           fill: $white;
-          // fill: transparent;
-          // stroke: $white;
-          // stroke-width: 4;
           transition: fill 0.1s $ease-out-quad;
-          transition-delay: 0.5s;
         }
       }
       .logo {
         width: 46px;
-        transition: opacity 0.4s $ease-out-quad;
+
+        &:last-child {
+          width: 30px;
+          top: calc(50% - 15px);
+          left: calc(50% - 15px);
+        }
       }
       .text {
         width: 120px;
         margin-left: 20px;
-        transform: translate(0, 0);
-        transition: transform 0.4s $ease-out-quad;
+
+        &:last-child {
+          top: 0;
+          left: -10px;
+        }
       }
+
+      .logo,
+      .text {
+        transition: transform 0.4s $ease-out-quad, opacity 0.4s $ease-out-quad;
+        &:first-child {
+          transform: translateY(0);
+          transition-delay: 0;
+        }
+        &:last-child {
+          position: absolute;
+
+          transform: translateY(-100%);
+          opacity: 0;
+
+          path,
+          rect {
+            fill: $main-color;
+          }
+        }
+      }
+    }
+    &__logo,
+    &__text {
+      position: relative;
+      overflow: hidden;
     }
 
     // Menu
     &__menu {
-      .menu__item {
+      display: flex;
+      align-items: center;
+      .menu__link,
+      .menu__separator-container {
         position: relative;
-        color: $white;
+      }
+      .menu__item {
+        display: inline-block;
+        position: relative;
         text-decoration: none;
         text-transform: uppercase;
         font-family: $font;
         font-size: 16px;
         font-weight: 500;
         margin-right: 30px;
-        opacity: 0.6;
-        transition: color 0.3s $ease-out-expo, opacity 0.3s $ease-in-out-expo;
+        opacity: 0.75;
+        transition: opacity 0.3s $ease-in-out-expo, transform 0.2s $ease-in-out-cubic;
+        transition-delay: 0.2s;
 
         &--current {
           opacity: 1;
@@ -103,11 +142,11 @@ header#header.header {
           content: "";
 
           position: absolute;
-          top: calc(100% + 0px);
+          top: 100%;
           left: 0;
 
           width: 100%;
-          height: 3px;
+          height: 2px;
           margin-top: 3px;
 
           // background-image: linear-gradient(to right, $main-color, $secondary-color);
@@ -119,9 +158,24 @@ header#header.header {
           transition: transform 0.4s $ease-out-expo;
         }
 
+        &:first-child {
+          transform: translateY(0);
+          opacity: 1;
+          color: $white;
+          pointer-events: all;
+        }
+        &:last-child {
+          transform: translateY(-100%);
+          position: absolute;
+          top: 0;
+          left: 0;
+          opacity: 0;
+          color: $main-color;
+          pointer-events: none;
+        }
+
         // hover
         &:hover {
-          color: rgba($white, 1);
           opacity: 1;
           &::after {
             transform: scaleX(1);
@@ -131,23 +185,44 @@ header#header.header {
           }
         }
       }
-      .menu__separator {
-        background-color: $text-color;
-        padding: 0 1px;
+      .menu__separator-container {
+        display: flex;
+        align-items: center;
         margin-right: 30px;
+      }
+      .menu__separator {
+        display: inline-block;
+        width: 1px;
+        height: 20px;
         opacity: 0.5;
+
+        transition: opacity 0.3s $ease-in-out-expo, transform 0.2s $ease-in-out-cubic;
+        transition-delay: 0.2s;
+
+        &:first-child {
+          transform: translateY(0);
+          opacity: 1;
+          background-color: $white;
+        }
+        &:last-child {
+          transform: translateY(-100%);
+          position: absolute;
+          top: 0;
+          left: 0;
+          opacity: 0;
+          background-color: $main-color;
+        }
       }
     }
   }
 
-  // scrolled (scrolled)
+  // scrolled state
   .scrolled & {
     height: 40px;
     margin-bottom: 0;
-    transition-delay: 0.2s;
 
     &::before {
-      transform: scaleX(1);
+      transform: translateY(0);
     }
 
     .header {
@@ -156,17 +231,52 @@ header#header.header {
       }
       &__logo-wrapper {
         color: $main-color;
-        .logo {
-          opacity: 0;
-        }
+        .logo,
         .text {
-          width: 100px;
-          margin-left: 20px;
-          transform: translate(-50px, 0);
+          &:first-child {
+            transform: translateY(100%);
+            opacity: 0;
+            transition-delay: 0;
+          }
+          &:last-child {
+            transform: translateY(0);
+            opacity: 1;
+          }
         }
+      }
+      &__menu {
+        .menu__link {
+          //
+        }
+        .menu__item,
+        .menu__separator {
+          transition-delay: 0;
 
-        svg path {
-          fill: $main-color;
+          &:first-child {
+            transform: translateY(100%);
+            opacity: 0;
+            pointer-events: none;
+          }
+          &:last-child {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+          }
+        }
+        .menu__item {
+          &:hover {
+            opacity: 1;
+          }
+          &::after {
+            top: calc(100% - 3px);
+            background-image: linear-gradient(to right, $main-color, $secondary-color);
+          }
+        }
+        .menu__separator-container {
+          //
+        }
+        .menu__separator {
+          background: linear-gradient(to bottom, $main-color, $secondary-color);
         }
       }
     }
