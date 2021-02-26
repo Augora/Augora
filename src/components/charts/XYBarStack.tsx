@@ -14,14 +14,19 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   marginLeft: number
 }
 
+const getGroupNomComplet = (sigle: string, groups: Group.GroupsList) => {
+  return groups.find((group) => group.Sigle === sigle).NomComplet
+}
+
+const getGroupColor = (sigle: string, groups: Group.GroupsList): string => {
+  return groups.find((group) => group.Sigle === sigle).Couleur
+}
+
 export default function XYBarStack(props: BarStackProps) {
   const { width, height, groups, dataAge, maxAge, totalDeputes, axisLeft, renderVertically, marginTop, marginLeft } = props
   const isRange = /^\d\d$/.test(dataAge[0].age as string)
   const marginRight = 30
   const listSigles = groups.map((g) => g.Sigle)
-  const getGroupColor = (sigle: string): string => {
-    return groups.find((group) => group.Sigle === sigle).Couleur
-  }
 
   // bounds
   const xMax = width - marginLeft
@@ -84,13 +89,13 @@ export default function XYBarStack(props: BarStackProps) {
             {listSigles.map((sigle) => {
               return (
                 <BarSeries
-                  dataKey={renderVertically ? sigle : axisLeft ? `${sigle} - Femmes` : `${sigle} - Hommes`}
+                  dataKey={sigle}
                   data={dataAge}
                   xAccessor={(data) =>
                     renderVertically ? data.age : axisLeft ? data.groups[sigle].length : -data.groups[sigle].length
                   }
                   yAccessor={(data) => (renderVertically ? data.groups[sigle].length : data.age)}
-                  colorAccessor={() => getGroupColor(sigle)}
+                  colorAccessor={() => getGroupColor(sigle, groups)}
                 />
               )
             })}
@@ -100,22 +105,17 @@ export default function XYBarStack(props: BarStackProps) {
             unstyled={true}
             renderTooltip={({ tooltipData }) => {
               const key = tooltipData.nearestDatum.key
-              const keySplit = key.split(" -")[0]
-              const tooltipDeputeValue = tooltipData.nearestDatum.datum.groups[keySplit].length
+              const datum = tooltipData.nearestDatum.datum
               return (
-                <>
-                  {tooltipDeputeValue == 0 ? (
-                    ""
-                  ) : (
-                    <AugoraTooltip
-                      title={tooltipData.datumByKey[key].key}
-                      nbDeputes={tooltipData.datumByKey[key].datum.total}
-                      totalDeputes={totalDeputes}
-                      color={getGroupColor(keySplit)}
-                      age={tooltipData.datumByKey[key].datum.age}
-                    />
-                  )}
-                </>
+                datum.groups[key].length > 0 && (
+                  <AugoraTooltip
+                    title={getGroupNomComplet(key, groups)}
+                    nbDeputes={datum.groups[key].length}
+                    totalDeputes={totalDeputes}
+                    color={getGroupColor(key, groups)}
+                    age={datum.age}
+                  />
+                )
               )
             }}
           />
