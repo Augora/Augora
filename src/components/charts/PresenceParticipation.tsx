@@ -14,7 +14,6 @@ dayjs.locale("fr")
 
 const getDates = (date: string) => {
   return {
-    dateDebut: dayjs(date).format("DD MM YY"),
     MonthData: dayjs(date).format("MMM YYYY"),
   }
 }
@@ -35,8 +34,6 @@ export default function PresenceParticipation({ width, height, data, color }) {
   const vacancesColor = "#696969"
   const medianeDepute = "#B7B7B7"
   const opacityParticipation = 0.5
-
-  const getDate = (d) => getDates(d.DateDeDebut.split("T")[0])
 
   const glyphSize = 120
   const glyphPosition = marginTop / 6
@@ -66,11 +63,10 @@ export default function PresenceParticipation({ width, height, data, color }) {
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
             <AnimatedGrid left={5} numTicks={maxActivite / 2} columns={false} />
-
             <AnimatedBarSeries
               dataKey={"Vacances"}
               data={orderedWeeks}
-              xAccessor={(d) => getDate(d).dateDebut}
+              xAccessor={(d) => d.DateDeDebut}
               yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
               colorAccessor={() => vacancesColor}
             />
@@ -88,7 +84,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
             <AnimatedLineSeries
               dataKey={"Participation"}
               data={orderedWeeks}
-              xAccessor={(d) => getDate(d).dateDebut}
+              xAccessor={(d) => d.DateDeDebut}
               yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
               curve={curveType}
               stroke={color}
@@ -97,7 +93,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
             <AnimatedLineSeries
               dataKey={"Presence"}
               data={orderedWeeks}
-              xAccessor={(d) => getDate(d).dateDebut}
+              xAccessor={(d) => d.DateDeDebut}
               yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
               stroke={color}
               curve={curveType}
@@ -105,7 +101,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
             <AnimatedBarSeries
               dataKey={"Question"}
               data={orderedWeeks}
-              xAccessor={(d) => getDate(d).dateDebut}
+              xAccessor={(d) => d.DateDeDebut}
               yAccessor={(d) => d.Question}
               colorAccessor={() => color}
             />
@@ -118,18 +114,13 @@ export default function PresenceParticipation({ width, height, data, color }) {
               numTicks={maxActivite / 2}
               animationTrajectory={animationTrajectoire}
             />
-          </XYChart>
-          <XYChart
-            width={width}
-            height={height}
-            xScale={{
-              type: "band",
-              range: [0, xMax],
-              domain: orderedWeeks.map((d) => getDate(d).MonthData),
-            }}
-            yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
-          >
-            <AnimatedAxis orientation="bottom" hideAxisLine={true} tickLength={6} animationTrajectory={animationTrajectoire} />
+            <AnimatedAxis
+              orientation="bottom"
+              hideAxisLine={true}
+              tickLength={6}
+              animationTrajectory={animationTrajectoire}
+              tickFormat={(date: string) => getDates(date.split("T")[0]).MonthData}
+            />
           </XYChart>
         </Group>
       </svg>
