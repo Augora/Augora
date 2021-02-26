@@ -101,8 +101,6 @@ export default function XYBarStack(props: BarStackProps) {
             renderTooltip={({ tooltipData }) => {
               const key = tooltipData.nearestDatum.key
               const keySplit = key.split(" -")[0]
-              console.log(tooltipData)
-              console.log(key.split(" -")[0])
               const tooltipDeputeValue = tooltipData.nearestDatum.datum.groups[keySplit].length
               return (
                 <>
