@@ -5,10 +5,19 @@ import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
-import { XYChart, AnimatedAxis, AnimatedBarSeries, AnimatedGrid, AnimatedLineSeries, AnimatedAreaSeries } from "@visx/xychart"
+import {
+  XYChart,
+  AnimatedAxis,
+  AnimatedBarSeries,
+  AnimatedGrid,
+  AnimatedLineSeries,
+  AnimatedAreaSeries,
+  Tooltip,
+} from "@visx/xychart"
 import { Glyph as CustomGlyph, GlyphSquare } from "@visx/glyph"
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import { scaleOrdinal } from "@visx/scale"
+import AugoraTooltip from "components/tooltip/Tooltip"
 
 dayjs.locale("fr")
 
