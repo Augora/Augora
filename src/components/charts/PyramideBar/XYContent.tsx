@@ -61,15 +61,26 @@ export default function XYContent(props: IXYContent) {
       <Tooltip<Chart.AgeData>
         className="charttooltip__container"
         unstyled={true}
-        renderTooltip={({ tooltipData }) => (
-          <AugoraTooltip
-            title={dataKey}
-            nbDeputes={tooltipData.datumByKey[dataKey].datum.total}
-            totalDeputes={totalDeputes}
-            color={color}
-            age={tooltipData.datumByKey[dataKey].datum.age}
-          />
-        )}
+        renderTooltip={({ tooltipData }) => {
+          const key = tooltipData.nearestDatum.key
+          console.log(tooltipData.nearestDatum)
+          const tooltipDeputeValue = tooltipData.nearestDatum.datum.total
+          return (
+            <>
+              {tooltipDeputeValue == 0 ? (
+                ""
+              ) : (
+                <AugoraTooltip
+                  title={tooltipData.datumByKey[key].key}
+                  nbDeputes={tooltipDeputeValue}
+                  totalDeputes={totalDeputes}
+                  color={color}
+                  age={tooltipData.datumByKey[key].datum.age}
+                />
+              )}
+            </>
+          )
+        }}
       />
     </XYChart>
   )
