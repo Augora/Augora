@@ -114,4 +114,42 @@
 .charttooltip__container {
   position: absolute;
   pointer-events: none;
+  z-index: 2;
+  .tooltip {
+    max-width: 400px;
+    &__content div {
+      .legend {
+        &__col {
+          display: flex;
+          align-items: center;
+          &:first-child {
+            flex: 5;
+          }
+          &:last-child {
+            flex: 1;
+            text-align: right;
+          }
+          svg {
+            margin-top: 10px;
+            .last-child {
+              margin-left: 5px;
+            }
+          }
+        }
+      }
+      .visx-legend-item {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        &:last-child {
+          margin-bottom: 0px;
+        }
+        .labelValue {
+          font-size: 20px;
+          color: rgba($black, 0.5);
+          text-align: right;
+        }
+      }
+    }
+  }
 }
