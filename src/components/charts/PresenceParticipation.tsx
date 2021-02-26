@@ -5,20 +5,38 @@ import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
-import { XYChart, AnimatedAxis, AnimatedBarSeries, AnimatedGrid, AnimatedLineSeries, AnimatedAreaSeries } from "@visx/xychart"
+import {
+  XYChart,
+  AnimatedAxis,
+  AnimatedBarSeries,
+  AnimatedGrid,
+  AnimatedLineSeries,
+  AnimatedAreaSeries,
+  Tooltip,
+} from "@visx/xychart"
 import { Glyph as CustomGlyph, GlyphSquare } from "@visx/glyph"
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import { scaleOrdinal } from "@visx/scale"
+import AugoraTooltip from "components/tooltip/Tooltip"
 
 dayjs.locale("fr")
 
 const getDates = (date: string) => {
   return {
     MonthData: dayjs(date).format("MMM YYYY"),
+    DayData: dayjs(date).format("DD MMMM YYYY"),
   }
 }
 
-export default function PresenceParticipation({ width, height, data, color }) {
+interface IPresence {
+  width: number
+  height: number
+  data: Deputy.Activite[]
+  color: string
+}
+
+export default function PresenceParticipation(props: IPresence) {
+  const { width, height, data, color } = props
   // bounds
   const marginTop = 50
   const marginLeft = 20
@@ -38,7 +56,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
   const glyphSize = 120
   const glyphPosition = marginTop / 6
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
-    domain: ["Présences", "Participations", "Questions orales", "Médiane des députés", "Vacances"],
+    domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
     range: [
       <CustomGlyph left={5} top={glyphPosition}>
         <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} />
@@ -47,7 +65,7 @@ export default function PresenceParticipation({ width, height, data, color }) {
         <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} opacity={opacityParticipation} />
       </CustomGlyph>,
       <GlyphSquare key="Questions orales" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={color} />,
-      <GlyphSquare key="Médiane des députés" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={medianeDepute} />,
+      <GlyphSquare key="Mediane des députés" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={medianeDepute} />,
       <GlyphSquare key="Vacances" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={vacancesColor} />,
     ],
   })
@@ -120,6 +138,70 @@ export default function PresenceParticipation({ width, height, data, color }) {
               tickLength={6}
               animationTrajectory={animationTrajectoire}
               tickFormat={(date: string) => getDates(date.split("T")[0]).MonthData}
+            />
+            <Tooltip<Deputy.Activite>
+              className="charttooltip__container"
+              unstyled={true}
+              renderTooltip={({ tooltipData }) => {
+                const key = tooltipData.nearestDatum.index
+                const nearest = tooltipData.nearestDatum.datum
+                console.log("Présences", nearest.PresenceEnHemicycle + nearest.PresencesEnCommission)
+                console.log("Participations", nearest.ParticipationEnHemicycle + nearest.ParticipationsEnCommission)
+                console.log("Questions orales", nearest.Question)
+                return (
+                  <AugoraTooltip title={`Semaine du ${getDates(nearest.DateDeDebut).DayData}`}>
+                    <Legend scale={shapeScale}>
+                      {(labels) => (
+                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                          {labels.map((label, i) => {
+                            const shape = shapeScale(label.datum)
+                            const isValidElement = React.isValidElement(shape)
+                            // Passer à 3 pour intégrer la mediane
+                            return i > 2 ? (
+                              ""
+                            ) : (
+                              <LegendItem key={`legend-quantile-${i}`} flexDirection="row">
+                                <div className="legend__col">
+                                  <svg width={25} height={25}>
+                                    {isValidElement
+                                      ? React.cloneElement(shape as React.ReactElement)
+                                      : React.createElement(shape as React.ComponentType<{ fill: string }>, {
+                                          fill: color,
+                                        })}
+                                  </svg>
+                                  <LegendLabel className="label">
+                                    {label.datum === "Questions orales"
+                                      ? "Questions"
+                                      : label.datum === "Mediane des députés"
+                                      ? "Mediane"
+                                      : label.text}
+                                  </LegendLabel>
+                                </div>
+                                <div className="legend__col">
+                                  <LegendLabel className="labelValue" align={"flex-end"}>
+                                    {label.datum === "Présences"
+                                      ? nearest.PresenceEnHemicycle + nearest.PresencesEnCommission != 0
+                                        ? nearest.PresenceEnHemicycle + nearest.PresencesEnCommission
+                                        : "0"
+                                      : null}
+                                    {label.datum === "Questions orales" ? (nearest.Question != 0 ? nearest.Question : "0") : null}
+                                    {label.datum === "Participations"
+                                      ? nearest.ParticipationEnHemicycle + nearest.ParticipationsEnCommission != 0
+                                        ? nearest.ParticipationEnHemicycle + nearest.ParticipationsEnCommission
+                                        : "0"
+                                      : null}
+                                    {label.datum === "Mediane" ? "0" : null}
+                                  </LegendLabel>
+                                </div>
+                              </LegendItem>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </Legend>
+                  </AugoraTooltip>
+                )
+              }}
             />
           </XYChart>
         </Group>

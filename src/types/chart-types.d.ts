@@ -68,19 +68,4 @@ declare namespace Chart {
     groups: AgeGroupData
     total: number
   }
-
-  // interface AgeData {
-  //   age: number
-  //   deputyCount: number
-  // }
-
-  // interface RangeAgeData {
-  //   age: string
-  //   deputyCount: number
-  // }
-
-  // interface RangeStackAgeData {
-  //   age: string
-  //   groups: { [x: string]: Deputy.DeputiesList }
-  // }
 }

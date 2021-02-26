@@ -63,7 +63,6 @@ export default function XYBar(props: IXYBar) {
         unstyled={true}
         renderTooltip={({ tooltipData }) => {
           const key = tooltipData.nearestDatum.key
-          console.log(tooltipData.nearestDatum)
           const tooltipDeputeValue = tooltipData.nearestDatum.datum.total
           return (
             <>

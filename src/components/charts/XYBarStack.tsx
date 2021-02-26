@@ -106,7 +106,6 @@ export default function XYBarStack(props: BarStackProps) {
             renderTooltip={({ tooltipData }) => {
               const key = tooltipData.nearestDatum.key
               const datum = tooltipData.nearestDatum.datum
-              console.log(tooltipData)
               return (
                 datum.groups[key].length > 0 && (
                   <AugoraTooltip
