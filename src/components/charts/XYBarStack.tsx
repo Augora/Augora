@@ -84,7 +84,7 @@ export default function XYBarStack(props: BarStackProps) {
             {listSigles.map((sigle) => {
               return (
                 <BarSeries
-                  dataKey={sigle}
+                  dataKey={renderVertically ? sigle : axisLeft ? `${sigle} - Femmes` : `${sigle} - Hommes`}
                   data={dataAge}
                   xAccessor={(data) =>
                     renderVertically ? data.age : axisLeft ? data.groups[sigle].length : -data.groups[sigle].length
@@ -100,7 +100,10 @@ export default function XYBarStack(props: BarStackProps) {
             unstyled={true}
             renderTooltip={({ tooltipData }) => {
               const key = tooltipData.nearestDatum.key
-              const tooltipDeputeValue = tooltipData.nearestDatum.datum.groups[key].length
+              const keySplit = key.split(" -")[0]
+              console.log(tooltipData)
+              console.log(key.split(" -")[0])
+              const tooltipDeputeValue = tooltipData.nearestDatum.datum.groups[keySplit].length
               return (
                 <>
                   {tooltipDeputeValue == 0 ? (
@@ -108,9 +111,9 @@ export default function XYBarStack(props: BarStackProps) {
                   ) : (
                     <AugoraTooltip
                       title={tooltipData.datumByKey[key].key}
-                      nbDeputes={tooltipData.nearestDatum.datum.groups[key].length}
+                      nbDeputes={tooltipData.datumByKey[key].datum.total}
                       totalDeputes={totalDeputes}
-                      color={getGroupColor(key)}
+                      color={getGroupColor(keySplit)}
                       age={tooltipData.datumByKey[key].datum.age}
                     />
                   )}
