@@ -77,7 +77,7 @@ export default function XYBarStack(props: BarStackProps) {
             orientation="bottom"
             tickLength={6}
             hideAxisLine={true}
-            hideTicks={true}
+            hideTicks={renderVertically ? false : true}
             tickFormat={(d: string) => d.toString().replace("-", "")}
           />
           <BarStack>
