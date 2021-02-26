@@ -4,14 +4,14 @@ import PageTitle from "../components/titles/PageTitle"
 import Filters from "components/deputies-list/filters/Filters"
 import PieChart from "components/charts/PieChart"
 import BarChart from "components/charts/BarChart"
-import BarStackChart from "components/charts/BarStackChart"
+import XYBarStack from "src/components/charts/XYBarStack"
 import Frame from "components/frames/Frame"
 import { ParentSize } from "@visx/responsive"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes } from "src/lib/deputes/Wrapper"
 import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
-import PyramideBarStackChart from "src/components/charts/PyramideBar/PyramideBarStack"
+import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
 import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
 
@@ -78,13 +78,19 @@ const Statistiques = (props) => {
         <Frame className="frame-chart frame-barstack" title="Cumul des âges" right={`Âge moyen : ${averageAge} ans`}>
           <ParentSize className="barstack__container" debounceTime={10}>
             {(parent) => (
-              <BarStackChart
-                width={parent.width}
-                height={parent.height}
-                groups={state.GroupesList}
-                dataAge={dataAge}
-                totalDeputes={state.FilteredList.length}
-              />
+              <div className="barstackchart chart">
+                <XYBarStack
+                  width={parent.width}
+                  height={parent.height}
+                  groups={state.GroupesList}
+                  dataAge={dataAge}
+                  totalDeputes={state.FilteredList.length}
+                  axisLeft={true}
+                  renderVertically={true}
+                  marginTop={30}
+                  marginLeft={20}
+                />
+              </div>
             )}
           </ParentSize>
         </Frame>
@@ -110,7 +116,7 @@ const Statistiques = (props) => {
                   maxAge={maxAge}
                 />
               ) : (
-                <PyramideBarStackChart
+                <PyramideBarStack
                   width={parent.width}
                   height={parent.height}
                   groups={state.GroupesList}

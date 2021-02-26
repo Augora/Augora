@@ -1,7 +1,7 @@
 import { XYChart, AnimatedAxis, AnimatedGrid, Tooltip, AnimatedBarSeries } from "@visx/xychart"
 import AugoraTooltip from "components/tooltip/Tooltip"
 
-interface IXYContent {
+interface IXYBar {
   width: number
   height: number
   data: Chart.AgeData[]
@@ -15,7 +15,7 @@ interface IXYContent {
   pyramideRight: boolean
 }
 
-export default function XYContent(props: IXYContent) {
+export default function XYBar(props: IXYBar) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
   const numTicks = maxAge > 50 ? maxAge / 10 : maxAge > 15 ? maxAge / 2 : maxAge
   const marginRight = 30

@@ -1,6 +1,6 @@
 import React from "react"
 import { Group } from "@visx/group"
-import XYContent from "src/components/charts/PyramideBar/XYContent"
+import XYBar from "src/components/charts/PyramideBar/XYBar"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAgeFemme: Chart.AgeData[]
@@ -22,7 +22,7 @@ export default function PyramideBar(props: BarStackProps) {
     <div className="pyramidechart chart">
       <svg height={height}>
         <Group top={marginTop / 2}>
-          <XYContent
+          <XYBar
             width={width / 2}
             height={height}
             data={dataAgeHomme}
@@ -38,7 +38,7 @@ export default function PyramideBar(props: BarStackProps) {
       </svg>
       <svg height={height}>
         <Group top={marginTop / 2} left={marginLeft}>
-          <XYContent
+          <XYBar
             width={width / 2}
             height={height}
             data={dataAgeFemme}
