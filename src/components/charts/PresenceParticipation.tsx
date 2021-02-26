@@ -15,6 +15,7 @@ dayjs.locale("fr")
 const getDates = (date: string) => {
   return {
     MonthData: dayjs(date).format("MMM YYYY"),
+    DayData: dayjs(date).format("DD MMMM YYYY"),
   }
 }
 
