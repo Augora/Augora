@@ -6,8 +6,6 @@ import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "../components/titles/PageTitle"
 
-import Popin from "./popin/popin"
-
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
