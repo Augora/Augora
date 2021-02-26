@@ -9,10 +9,7 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
 }
 
 export default function PyramideBar(props: BarStackProps) {
-  const { width, height, dataAgeHomme, dataAgeFemme, totalDeputes } = props
-  const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.total))
-  const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
-  const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
+  const { width, height, dataAgeHomme, dataAgeFemme, totalDeputes, maxAge } = props
 
   // bounds
   const marginTop = 50

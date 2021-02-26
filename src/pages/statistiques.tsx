@@ -45,6 +45,10 @@ const Statistiques = (props) => {
     ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H")
     : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H"), 6)
 
+  const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.total))
+  const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
+  const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
+
   const sumAge = dataAge.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
     return acc + curSum * (cur.age as number)
@@ -103,6 +107,7 @@ const Statistiques = (props) => {
                   dataAgeHomme={dataAgeHomme}
                   dataAgeFemme={dataAgeFemme}
                   totalDeputes={state.FilteredList.length}
+                  maxAge={maxAge}
                 />
               ) : (
                 <PyramideBarStackChart
@@ -112,6 +117,7 @@ const Statistiques = (props) => {
                   dataAgeFemme={dataAgeFemme}
                   dataAgeHomme={dataAgeHomme}
                   totalDeputes={state.FilteredList.length}
+                  maxAge={maxAge}
                 />
               )
             }
