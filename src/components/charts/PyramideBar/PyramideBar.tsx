@@ -6,6 +6,7 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAgeFemme: Chart.AgeData[]
   dataAgeHomme: Chart.AgeData[]
   totalDeputes: number
+  maxAge: number
 }
 
 export default function PyramideBar(props: BarStackProps) {
