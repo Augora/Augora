@@ -18,7 +18,15 @@ const getDates = (date: string) => {
   }
 }
 
-export default function PresenceParticipation({ width, height, data, color }) {
+interface IPresence {
+  width: number
+  height: number
+  data: Chart.Activites[]
+  color: string
+}
+
+export default function PresenceParticipation(props: IPresence) {
+  const { width, height, data, color } = props
   // bounds
   const marginTop = 50
   const marginLeft = 20
