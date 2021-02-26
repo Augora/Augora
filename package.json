@@ -6,8 +6,6 @@
   "author": "",
   "dependencies": {
     "@apollo/client": "3.3.7",
-    "@nivo/bar": "0.63.1",
-    "@nivo/pie": "0.63.1",
     "@svgr/webpack": "^5.5.0",
     "@visx/annotation": "^1.6.0",
     "@visx/axis": "^1.5.0",
