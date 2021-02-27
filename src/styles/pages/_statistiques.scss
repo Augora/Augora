@@ -30,5 +30,12 @@
       grid-column-end: span 5;
       grid-row-end: span 2;
     }
+
+    @media (max-width: 1000px) {
+      .frame {
+        grid-column-end: span 10;
+        grid-row-end: span 1;
+      }
+    }
   }
 }
