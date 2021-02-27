@@ -74,8 +74,8 @@
     transition: transform 0.2s $ease-in-out-cubic;
   }
   .scrolled.no-title & {
-    transition: transform 0.5s $ease-in-out-circ;
-    transition-delay: 0.2s;
+    transform: translate3d(-50%, -15px, 0);
+    transition: transform 0.3s $ease-in-circ;
   }
 
   // Media queries

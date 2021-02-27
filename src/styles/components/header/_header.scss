@@ -64,7 +64,9 @@ header#header.header {
         path,
         rect {
           fill: $white;
-          transition: fill 0.1s $ease-out-quad;
+          transition: fill 0.4s $ease-out-quad;
+          // stroke: rgba($white, 0);
+          // stroke-width: 5;
         }
       }
       .logo {
@@ -285,19 +287,8 @@ header#header.header {
   // hover
   .header__home-btn:hover {
     .header__logo-wrapper {
-      opacity: 1;
-      pointer-events: none;
-      svg {
-        path,
-        rect {
-          // fill: $main-color;
-          transition: fill 0.2s $ease-out-quad;
-          transition-delay: 0s;
-        }
-
-        rect {
-          fill: red;
-        }
+      svg path {
+        fill: rgba($white, 0.75);
       }
     }
   }

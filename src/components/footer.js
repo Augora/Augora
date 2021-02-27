@@ -94,7 +94,7 @@ const Footer = () => {
             {
               label: "Mentions légales",
               link: "/mention-legales",
-              target: true,
+              target: false,
               internal: false,
             },
           ])}
