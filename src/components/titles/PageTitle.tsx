@@ -14,10 +14,12 @@ export default function PageTitle(props: { title: string }) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <div className="page-title__container">
-          <h1 className="page-title__title">{props.title}</h1>
-          <p className="page-title__title">{props.title}</p>
-        </div>
+        {props.title ? (
+          <div className="page-title__container">
+            <h1 className="page-title__title">{props.title}</h1>
+            <p className="page-title__title">{props.title}</p>
+          </div>
+        ) : null}
         <GradientBanner />
       </div>
     </>

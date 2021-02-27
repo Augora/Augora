@@ -44,7 +44,7 @@ const Layout = ({ children, location, title }) => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <Header siteTitle={"Augora"} location={location} />
-      {title ? <PageTitle title={title} /> : null}
+      {title ? <PageTitle title={title} /> : <PageTitle />}
       {/* <Popin>Je suis une popin</Popin> */}
       <main className="layout">{children}</main>
       <Footer />
