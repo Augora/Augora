@@ -1,4 +1,25 @@
 .page__deputies {
+  .filters {
+    .frame-filters {
+      width: 60%;
+    }
+
+    .frame-chart {
+      width: 40%;
+      margin-left: 50px;
+    }
+  }
+
+  @media (max-width: 1500px) {
+    .filters {
+      .frame-filters {
+        width: 100%;
+      }
+      .frame-chart {
+        display: none;
+      }
+    }
+  }
   @media (max-width: 875px) {
     .page-title {
       display: none;
