@@ -149,7 +149,7 @@ export default function PresenceParticipation(props: IPresence) {
                 console.log("Participations", nearest.ParticipationEnHemicycle + nearest.ParticipationsEnCommission)
                 console.log("Questions orales", nearest.Question)
                 return (
-                  <AugoraTooltip title={`Semaine du ${getDates(nearest.DateDeDebut).DayData}`}>
+                  <AugoraTooltip className="presence__tooltip" title={`Semaine du ${getDates(nearest.DateDeDebut).DayData}`}>
                     <Legend scale={shapeScale}>
                       {(labels) => (
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
