@@ -14,3 +14,13 @@ export function getTextColorContrast(type: string) {
       return "rgba(0,0,0,0.8)"
   }
 }
+
+export function getHSLAsArray(string: string) {
+  const hslRegex = /hsl\(([\d.]+),\s*([\d.]+)%,\s*([\d.]+)%\)/
+  const colorArray = string.match(hslRegex).map((color, index) => {
+    if (index > 0) {
+      return parseFloat(color);
+    }
+  })
+  return colorArray;
+}

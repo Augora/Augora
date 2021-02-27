@@ -14,6 +14,7 @@ const allColors = colors.map((color) => {
 
 const Layout = ({ children, location, title }) => {
   const [scrolled, setScrolled] = useState(false)
+  const pageColor = children.props.depute ? children.props.depute.GroupeParlementaire.Couleur : null
   const handleScroll = (event) => {
     if (window.scrollY > 50) {
       setScrolled(true)
@@ -43,8 +44,9 @@ const Layout = ({ children, location, title }) => {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <Header siteTitle={"Augora"} location={location} />
-      {title ? <PageTitle title={title} /> : <PageTitle />}
+      <Header siteTitle={"Augora"} location={location} color={pageColor} />
+      {title ? <PageTitle title={title} /> : <PageTitle color={pageColor} />}
+      {/* {title ? <PageTitle title={title} /> : <PageTitle />} */}
       {/* <Popin>Je suis une popin</Popin> */}
       <main className="layout">{children}</main>
       <Footer />

@@ -61,12 +61,9 @@ header#header.header {
       transition: width 0.2s linear;
       svg {
         display: block;
-        path,
-        rect {
-          fill: $white;
-          transition: fill 0.4s $ease-out-quad;
-          // stroke: rgba($white, 0);
-          // stroke-width: 5;
+        fill: $white;
+        * {
+          fill: inherit;
         }
       }
       .logo {
@@ -101,9 +98,10 @@ header#header.header {
           transform: translateY(-100%);
           opacity: 0;
 
-          path,
-          rect {
-            fill: $main-color;
+          fill: $main-color;
+
+          path {
+            fill: inherit;
           }
         }
       }
@@ -140,7 +138,7 @@ header#header.header {
           font-weight: 700;
         }
 
-        &::after {
+        .link__underline {
           content: "";
 
           position: absolute;
@@ -151,7 +149,6 @@ header#header.header {
           height: 2px;
           margin-top: 3px;
 
-          // background-image: linear-gradient(to right, $main-color, $secondary-color);
           background-color: $white;
 
           transform: scaleX(0);
@@ -179,7 +176,7 @@ header#header.header {
         // hover
         &:hover {
           opacity: 1;
-          &::after {
+          .link__underline {
             transform: scaleX(1);
             transform-origin: center left;
             transition: transform 0.225s $ease-in-out-quart;
@@ -269,7 +266,7 @@ header#header.header {
           &:hover {
             opacity: 1;
           }
-          &::after {
+          .link__underline {
             top: calc(100% - 3px);
             background-image: linear-gradient(to right, $main-color, $secondary-color);
           }
@@ -277,7 +274,7 @@ header#header.header {
         .menu__separator-container {
           //
         }
-        .menu__separator {
+        .menu__separator:last-child {
           background: linear-gradient(to bottom, $main-color, $secondary-color);
         }
       }
@@ -287,9 +284,7 @@ header#header.header {
   // hover
   .header__home-btn:hover {
     .header__logo-wrapper {
-      svg path {
-        fill: rgba($white, 0.75);
-      }
+      //
     }
   }
 
