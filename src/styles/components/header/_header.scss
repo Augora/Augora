@@ -290,9 +290,13 @@ header#header.header {
       svg {
         path,
         rect {
-          fill: $main-color;
+          // fill: $main-color;
           transition: fill 0.2s $ease-out-quad;
           transition-delay: 0s;
+        }
+
+        rect {
+          fill: red;
         }
       }
     }

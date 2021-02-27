@@ -10,7 +10,6 @@ export default function IndexPage() {
     <>
       <SEO pageType={PageType.Accueil} />
       <div className="page page__deputies">
-        <PageTitle title="Liste des Députés" />
         <DeputiesList />
       </div>
     </>
