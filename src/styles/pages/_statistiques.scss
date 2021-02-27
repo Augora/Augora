@@ -1,62 +1,34 @@
 .page__statistiques {
-  //second section
-  .bars {
-    display: flex;
-    margin-bottom: 70px;
+  .statistiques__grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-auto-rows: 400px;
+    grid-gap: 50px;
+    min-height: 100vh;
+
+    .frame {
+      max-width: none;
+    }
+
+    .frame-filters {
+      grid-column-end: span 6;
+    }
+
+    .frame-pie {
+      grid-column-end: span 4;
+    }
 
     .frame-bar {
-      margin: 0;
-      min-width: unset;
-      width: 30%;
-
-      .frame {
-        &__content {
-          height: 350px;
-          .bar {
-            &__container {
-              width: 100%;
-            }
-          }
-        }
-      }
+      grid-column-end: span 3;
     }
 
     .frame-barstack {
-      max-width: none;
-      width: 70%;
-
-      .frame {
-        &__content {
-          height: 350px;
-          .barstack {
-            &__container {
-              width: 100%;
-            }
-          }
-        }
-      }
+      grid-column-end: span 7;
     }
-  }
-
-  // troisième section
-
-  .pyramide {
-    display: flex;
 
     .frame-pyramide {
-      margin: 0;
-      max-width: none;
-      width: 50%;
-
-      .frame__content {
-        height: 500px;
-        .pyramide__container {
-          width: 100%;
-          svg {
-            width: 50%;
-          }
-        }
-      }
+      grid-column-end: span 5;
+      grid-row-end: span 2;
     }
   }
 }

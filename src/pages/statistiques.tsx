@@ -57,80 +57,73 @@ const Statistiques = (props) => {
   const averageAge = sumAge > 0 ? Math.round(sumAge / state.FilteredList.length) : 0
 
   return (
-    <>
-      <section className="filters">
-        <Filters />
-        <Frame className="frame-chart" title="Hémicycle">
-          {state.FilteredList.length > 0 ? (
-            <ParentSize debounceTime={10}>
-              {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
-            </ParentSize>
-          ) : null}
-        </Frame>
-      </section>
-
-      <section className="bars">
-        <Frame className="frame-chart frame-bar" title="Diagramme en Barres">
-          <ParentSize className="bar__container" debounceTime={10}>
-            {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
+    <div className="statistiques__grid">
+      <Filters />
+      <Frame className="frame-chart frame-pie" title="Hémicycle">
+        {state.FilteredList.length > 0 ? (
+          <ParentSize debounceTime={10}>
+            {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
           </ParentSize>
-        </Frame>
-        <Frame className="frame-chart frame-barstack" title="Cumul des âges" right={`Âge moyen : ${averageAge} ans`}>
-          <ParentSize className="barstack__container" debounceTime={10}>
-            {(parent) => (
-              <div className="barstackchart chart">
-                <XYBarStack
-                  width={parent.width}
-                  height={parent.height}
-                  groups={state.GroupesList}
-                  dataAge={dataAge}
-                  totalDeputes={state.FilteredList.length}
-                  axisLeft={true}
-                  renderVertically={true}
-                  marginTop={30}
-                  marginLeft={20}
-                />
-              </div>
-            )}
-          </ParentSize>
-        </Frame>
-      </section>
-      <section className="pyramide">
-        <Frame className="frame-chart frame-pyramide" title="Pyramide des âges">
-          <button
-            className="charts__switch"
-            onClick={() => setHasPyramideBarStack(!HasPyramideBarStack)}
-            title="Changer le graphique"
-          >
-            <IconSwitch className="icon-switch" />
-          </button>
-          <ParentSize className="pyramide__container" debounceTime={10}>
-            {(parent) =>
-              HasPyramideBarStack ? (
-                <PyramideBar
-                  width={parent.width}
-                  height={parent.height}
-                  dataAgeHomme={dataAgeHomme}
-                  dataAgeFemme={dataAgeFemme}
-                  totalDeputes={state.FilteredList.length}
-                  maxAge={maxAge}
-                />
-              ) : (
-                <PyramideBarStack
-                  width={parent.width}
-                  height={parent.height}
-                  groups={state.GroupesList}
-                  dataAgeFemme={dataAgeFemme}
-                  dataAgeHomme={dataAgeHomme}
-                  totalDeputes={state.FilteredList.length}
-                  maxAge={maxAge}
-                />
-              )
-            }
-          </ParentSize>
-        </Frame>
-      </section>
-    </>
+        ) : null}
+      </Frame>
+      <Frame className="frame-chart frame-bar" title="Diagramme en Barres">
+        <ParentSize className="bar__container" debounceTime={10}>
+          {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
+        </ParentSize>
+      </Frame>
+      <Frame className="frame-chart frame-barstack" title="Cumul des âges" right={`Âge moyen : ${averageAge} ans`}>
+        <ParentSize className="barstack__container" debounceTime={10}>
+          {(parent) => (
+            <div className="barstackchart chart">
+              <XYBarStack
+                width={parent.width}
+                height={parent.height}
+                groups={state.GroupesList}
+                dataAge={dataAge}
+                totalDeputes={state.FilteredList.length}
+                axisLeft={true}
+                renderVertically={true}
+                marginTop={30}
+                marginLeft={20}
+              />
+            </div>
+          )}
+        </ParentSize>
+      </Frame>
+      <Frame className="frame-chart frame-pyramide" title="Pyramide des âges">
+        <button
+          className="charts__switch"
+          onClick={() => setHasPyramideBarStack(!HasPyramideBarStack)}
+          title="Changer le graphique"
+        >
+          <IconSwitch className="icon-switch" />
+        </button>
+        <ParentSize className="pyramide__container" debounceTime={10}>
+          {(parent) =>
+            HasPyramideBarStack ? (
+              <PyramideBar
+                width={parent.width}
+                height={parent.height}
+                dataAgeHomme={dataAgeHomme}
+                dataAgeFemme={dataAgeFemme}
+                totalDeputes={state.FilteredList.length}
+                maxAge={maxAge}
+              />
+            ) : (
+              <PyramideBarStack
+                width={parent.width}
+                height={parent.height}
+                groups={state.GroupesList}
+                dataAgeFemme={dataAgeFemme}
+                dataAgeHomme={dataAgeHomme}
+                totalDeputes={state.FilteredList.length}
+                maxAge={maxAge}
+              />
+            )
+          }
+        </ParentSize>
+      </Frame>
+    </div>
   )
 }
 

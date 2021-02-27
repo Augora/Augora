@@ -19,8 +19,8 @@ export default function PyramideBarStack(props: BarStackProps) {
 
   return (
     <div className="pyramidechart chart">
-      <svg height={height}>
-        <Group top={marginTop / 2}>
+      <svg width={width / 2} height={height}>
+        <Group top={marginTop}>
           <XYBarStack
             width={width / 2}
             height={height}
@@ -35,8 +35,8 @@ export default function PyramideBarStack(props: BarStackProps) {
           />
         </Group>
       </svg>
-      <svg height={height}>
-        <Group top={marginTop / 2} left={marginLeft}>
+      <svg width={width / 2} height={height}>
+        <Group top={marginTop} left={marginLeft}>
           <XYBarStack
             width={width / 2}
             height={height}
