@@ -52,7 +52,7 @@ export default function Mandate(props: Bloc.Mandate) {
       <div className="icon-wrapper">
         <IconMandat />
       </div>
-      <div className="mandate__number" style={{ color: props.color }}>
+      <div className="mandate__number" style={{ color: props.color.HSL.Full }}>
         <div className="number__holder">
           {props.numberMandates}
           <sup>{numberComplement}</sup>
@@ -63,17 +63,17 @@ export default function Mandate(props: Bloc.Mandate) {
         <div className="mandate__since">
           {Date.yearsPassed > 0 ? (
             <p>
-              <span style={{ color: props.color }}>{Date.yearsPassed}</span> <strong>Ans</strong>
+              <span style={{ color: props.color.HSL.Full }}>{Date.yearsPassed}</span> <strong>Ans</strong>
             </p>
           ) : null}
           {Date.monthsPassed > 0 ? (
             <p>
-              <span style={{ color: props.color }}>{Date.monthsPassed}</span> <strong>Mois</strong>
+              <span style={{ color: props.color.HSL.Full }}>{Date.monthsPassed}</span> <strong>Mois</strong>
             </p>
           ) : null}
           {Date.monthsPassed === 0 && Date.yearsPassed === 0 ? (
             <p>
-              <span style={{ color: props.color }}>{Date.daysPassed}</span>{" "}
+              <span style={{ color: props.color.HSL.Full }}>{Date.daysPassed}</span>{" "}
               <strong>{Date.daysPassed < 2 ? "Jour" : "Jours"}</strong>
             </p>
           ) : null}
@@ -85,9 +85,9 @@ export default function Mandate(props: Bloc.Mandate) {
         <div className="mandate__begin">
           <p>Depuis le</p>
           <p className="begin__day-month">
-            <span style={{ color: props.color }}>{Date.day}</span> {Date.month}
+            <span style={{ color: props.color.HSL.Full }}>{Date.day}</span> {Date.month}
           </p>
-          <p className="begin__year" style={{ color: props.color }}>
+          <p className="begin__year" style={{ color: props.color.HSL.Full }}>
             {Date.year}
           </p>
         </div>

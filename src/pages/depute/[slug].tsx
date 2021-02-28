@@ -23,13 +23,13 @@ interface IDeputy {
 
 export default function Deputy({ depute }: IDeputy) {
   const deputy = depute
-  const color = deputy.GroupeParlementaire.Couleur
+  const color = deputy.GroupeParlementaire.CouleurDetail
 
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
       <Head>
-        <style>{`:root { --groupe-color: ${color}; }`}</style>
+        <style>{`:root { --groupe-color: ${color.HSL.Full}; }`}</style>
       </Head>
       <Socials deputy={deputy}/>
       <div className="page page__deputy">

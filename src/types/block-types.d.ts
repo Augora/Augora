@@ -10,7 +10,7 @@ declare namespace Bloc {
     /**
      * Couleur du groupe parlementaire
      */
-    color: string
+    color: string|HSLDetail|RGBDetail|HEXDetail
     /**
      * "large", "medium" ou "small"
      */

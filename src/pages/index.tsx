@@ -22,6 +22,7 @@ export async function getStaticProps() {
   return {
     props: {
       deputes,
+      title: "Liste des députés"
     },
   }
 }

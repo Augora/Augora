@@ -32,14 +32,16 @@ const Header = ({ siteTitle, location, color }) => {
     gradient: {},
   }
   if (color) {
-    const gradientL = getHSLLightVariation(color)
-    styles.link = { color: color.Full }
-    styles.svg = { fill: color.Full }
+    const gradientStart = getHSLLightVariation(color, -20)
+    const gradientEnd = getHSLLightVariation(color, -30)
+    const decorationOpacity = 1
+    styles.link = { color: `hsla(${color.H}, ${color.S}%, ${color.L}%)` }
+    styles.svg = { fill: `hsla(${color.H}, ${color.S}%, ${color.L}%)` }
     styles.underline = {
-      background: `linear-gradient(to right, hsla(${color.H}, ${color.S}%, ${color.L}%, 0.75), hsla(${color.H}, ${color.S}%, ${gradientL}%, 0.75))`,
+      background: `linear-gradient(to right, hsla(${color.H}, ${color.S}%, ${gradientStart}%, ${decorationOpacity}), hsla(${color.H}, ${color.S}%, ${gradientEnd}%, ${decorationOpacity}))`,
     }
     styles.separator = {
-      background: `linear-gradient(to bottom, hsla(${color.H}, ${color.S}%, ${color.L}%, 0.75), hsla(${color.H}, ${color.S}%, ${gradientL}%, 0.75))`,
+      background: `linear-gradient(to bottom, hsla(${color.H}, ${color.S}%, ${gradientStart}%, ${decorationOpacity}), hsla(${color.H}, ${color.S}%, ${gradientEnd}%, ${decorationOpacity}))`,
     }
   }
   function isActivePage(path) {
