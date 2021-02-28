@@ -50,7 +50,7 @@ const Layout = ({ children, location, title }) => {
       </Head>
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} />
-        {title ? <PageTitle title={title} /> : <PageTitle color={pageColor} />}
+        {title ? <PageTitle title={title} color={pageColor} /> : <PageTitle color={pageColor} />}
         {/* <Popin>Je suis une popin</Popin> */}
       </div>
       <main className="layout">{children}</main>
