@@ -24,3 +24,14 @@ export function getHSLAsArray(string: string) {
   })
   return colorArray;
 }
+
+export function getHSLLightVariation(color: Group.HSLDetail, force: number = 5) {
+  let gradientL = 0
+  if (force >= 0) {
+    gradientL = Math.max(color.L - force, 0)
+  } else {
+    gradientL = Math.min(color.L - force, 100)
+  }
+
+  return gradientL
+}

@@ -1,11 +1,9 @@
 .page-title {
-  position: fixed;
-  left: 50%;
+  // position: absolute;
 
   width: 100vw;
 
   padding: 60px 0 0;
-  margin-bottom: 50px;
 
   background-image: linear-gradient(to right, $main-color, $secondary-color);
 
@@ -13,9 +11,7 @@
 
   box-shadow: 0px 0px 20px rgba($black, 0.15);
 
-  z-index: 10;
-
-  transform: translate3d(-50%, 0, 0);
+  transform: translate3d(0, 0, 0);
   transition: transform 0.3s $ease-in-out-cubic;
 
   &__container {
@@ -58,7 +54,7 @@
 
   // States
   .scrolled & {
-    transform: translate3d(-50%, -75px, 0);
+    transform: translate3d(0, -75px, 0);
     &__title {
       &:first-child {
         transform: translateY(-100%);
@@ -80,7 +76,7 @@
     transition: transform 0.2s $ease-in-out-cubic;
   }
   .scrolled.no-title & {
-    transform: translate3d(-50%, -15px, 0);
+    transform: translate3d(0, -15px, 0);
     transition: transform 0.3s $ease-in-circ;
   }
 

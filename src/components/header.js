@@ -2,7 +2,7 @@ import React from "react"
 import Link from "next/link"
 import Logo from "images/logos/projet/augora-logo.svg"
 import LogoText from "images/logos/projet/augora-text.svg"
-import { getHSLAsArray } from "../utils/style/color"
+import { getHSLLightVariation } from "../utils/style/color"
 
 const mainPages = {
   home: {
@@ -32,19 +32,14 @@ const Header = ({ siteTitle, location, color }) => {
     gradient: {},
   }
   if (color) {
-    const colorArray = getHSLAsArray(color)
-
-    styles.link = { color: color }
-    styles.svg = { fill: color }
+    const gradientL = getHSLLightVariation(color)
+    styles.link = { color: color.Full }
+    styles.svg = { fill: color.Full }
     styles.underline = {
-      background: `linear-gradient(to right, hsl(${colorArray[1]}, ${colorArray[2]}%, ${colorArray[3]}%), hsl(${colorArray[1]}, ${
-        colorArray[2]
-      }%, ${Math.max(colorArray[3] - 5, 0)}%)`,
+      background: `linear-gradient(to right, hsla(${color.H}, ${color.S}%, ${color.L}%, 0.75), hsla(${color.H}, ${color.S}%, ${gradientL}%, 0.75))`,
     }
     styles.separator = {
-      background: `linear-gradient(to bottom, hsl(${colorArray[1]}, ${colorArray[2]}%, ${colorArray[3]}%), hsl(${
-        colorArray[1]
-      }, ${colorArray[2]}%, ${Math.max(colorArray[3] - 5, 0)}%)`,
+      background: `linear-gradient(to bottom, hsla(${color.H}, ${color.S}%, ${color.L}%, 0.75), hsla(${color.H}, ${color.S}%, ${gradientL}%, 0.75))`,
     }
   }
   function isActivePage(path) {
@@ -53,17 +48,17 @@ const Header = ({ siteTitle, location, color }) => {
 
   function setLinks(pageGroup) {
     return Object.keys(pageGroup).map((page, index) => (
-      <div class="menu__link">
-        <Link key={pageGroup[page].path} href={pageGroup[page].path}>
+      <div className="menu__link" key={pageGroup[page].path}>
+        <Link href={pageGroup[page].path}>
           <a className={isActivePage(pageGroup[page].path)}>
             <span>{pageGroup[page].title}</span>
-            <div class="link__underline"></div>
+            <div className="link__underline"></div>
           </a>
         </Link>
-        <Link key={pageGroup[page].path} href={pageGroup[page].path}>
+        <Link href={pageGroup[page].path}>
           <a className={isActivePage(pageGroup[page].path)} style={styles.link}>
             <span>{pageGroup[page].title}</span>
-            <div class="link__underline" style={styles.underline}></div>
+            <div className="link__underline" style={styles.underline}></div>
           </a>
         </Link>
       </div>

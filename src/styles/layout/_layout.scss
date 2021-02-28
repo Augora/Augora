@@ -15,6 +15,12 @@
 
 // Globals
 /*----------------------------------------------------*/
+.header__container {
+  position: fixed;
+  width: 100%;
+
+  z-index: 100;
+}
 .icon-wrapper {
   display: flex;
   align-items: center;

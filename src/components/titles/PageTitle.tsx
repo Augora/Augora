@@ -1,18 +1,16 @@
 import React, { useState } from "react"
 import dynamic from "next/dynamic"
-import { getHSLAsArray } from "../../utils/style/color"
 const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
   ssr: false,
 })
 
-export default function PageTitle(props: { title: string, color: string }) {
+export default function PageTitle(props: { title: string, color: Group.HSLDetail }) {
   const [hovered, setHovered] = useState(false)
 
   let style = {}
   if (props.color) {
-    const colorArray = getHSLAsArray(props.color)
     style = {
-      backgroundImage: `linear-gradient(to right, hsl(${colorArray[1]}, ${colorArray[2]}%, ${colorArray[3]}%), hsl(${colorArray[1]}, ${colorArray[2]}%, ${Math.max(colorArray[3] - 5, 0)}%)`
+      backgroundImage: `linear-gradient(to right, hsl(${props.color.H}, ${props.color.S}%, ${props.color.L}%), hsl(${props.color.H}, ${props.color.S}%, ${Math.max(props.color.L - 5, 0)}%)`
     }
   }
 
