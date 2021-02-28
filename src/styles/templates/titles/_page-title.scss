@@ -1,6 +1,4 @@
 .page-title {
-  // position: absolute;
-
   width: 100vw;
 
   padding: 60px 0 0;
@@ -13,6 +11,8 @@
 
   transform: translate3d(0, 0, 0);
   transition: transform 0.3s $ease-in-out-cubic;
+
+  pointer-events: all;
 
   &__container {
     position: relative;
