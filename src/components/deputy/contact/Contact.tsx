@@ -13,7 +13,7 @@ const formatAddress = (address: string, codepostal: string): string[] => {
  */
 const Contact = (props: Bloc.Contact) => {
   return (
-    <Block title="Contact" type="contact" color={props.color} size={props.size} wip={props.wip ? props.wip : false}>
+    <Block title="Contact" type="contact" color={props.color} size={props.size} wip={props.wip}>
       {props.adresses.map((adresseDetails, index, array) => {
         const formatedAddress = formatAddress(adresseDetails.Adresse, adresseDetails.CodePostal)
 
@@ -23,7 +23,7 @@ const Contact = (props: Bloc.Contact) => {
             adresseDetails={adresseDetails}
             formatedAddress={formatedAddress}
             index={index}
-            separator={index % 2 !== 1 && index + 1 < array.length ? true : false}
+            separator={array.length - 1 > index}
           />
         )
       })}
