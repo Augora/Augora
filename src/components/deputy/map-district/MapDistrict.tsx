@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react"
-import ReactMapGL, { Source, Layer, ViewState } from "react-map-gl"
+import ReactMapGL, { Source, Layer, ViewportProps } from "react-map-gl"
 import Link from "next/link"
 import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
@@ -7,7 +7,7 @@ import "mapbox-gl/dist/mapbox-gl.css"
 
 export default function MapDistrict(props: Bloc.Map) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
-  const [viewport, setViewport] = useState<ViewState>({
+  const [viewport, setViewport] = useState<ViewportProps>({
     latitude: France.center.lat,
     longitude: France.center.lng,
     zoom: 3,
@@ -46,7 +46,7 @@ export default function MapDistrict(props: Bloc.Map) {
           touchZoom={false}
           scrollZoom={false}
           onLoad={() => {
-            flyToBounds(districtPolygon, viewport, setViewport)
+            flyToBounds(districtPolygon, viewport, setViewport, { width: 500, height: 500 })
           }}
           onViewportChange={setViewport}
         >

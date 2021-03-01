@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import router from "next/router"
-import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
+import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewportProps } from "react-map-gl"
 import {
   Code,
   France,
@@ -99,7 +99,9 @@ export default function MapAugora(props: IMapAugora) {
     }
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
-  const [viewState, setViewState] = useState<ViewState>({
+  const [viewport, setViewport] = useState<ViewportProps>({
+    // width: 100,
+    // height: 100,
     zoom: 5,
     longitude: France.center.lng,
     latitude: France.center.lat,
@@ -157,7 +159,7 @@ export default function MapAugora(props: IMapAugora) {
           console.error("Feature à afficher non valide")
           return
       }
-    } else flyToBounds(feature, viewState, setViewState)
+    } else flyToBounds(feature, viewport, setViewport)
   }
 
   /**
@@ -184,7 +186,7 @@ export default function MapAugora(props: IMapAugora) {
 
         changePageTitle(newFeature.properties.nom)
 
-        if (isMapLoaded) flyToBounds(newFeature, viewState, setViewState)
+        if (isMapLoaded) flyToBounds(newFeature, viewport, setViewport)
         break
       default:
         console.error("Zone à afficher non trouvée")
@@ -253,8 +255,8 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleLoad = () => {
-    flyToBounds(currentView.feature, viewState, setViewState)
     setIsMapLoaded(true)
+    flyToBounds(currentView.feature, viewport, setViewport, { width: 500, height: 500 })
   }
 
   return (
@@ -262,7 +264,7 @@ export default function MapAugora(props: IMapAugora) {
       mapboxApiAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
       mapStyle="mapbox://styles/augora/ckh3h62oh2nma19qt1fgb0kq7?optimize=true"
       ref={(ref) => (mapRef.current = ref && ref.getMap())}
-      {...viewState}
+      {...viewport}
       width="100%"
       height="100%"
       minZoom={1}
@@ -271,7 +273,7 @@ export default function MapAugora(props: IMapAugora) {
       touchRotate={false}
       interactiveLayerIds={!inExploreMode ? ["zone-fill", "zone-ghost-fill"] : []}
       onLoad={handleLoad}
-      onViewStateChange={(change) => setViewState(change.viewState)}
+      onViewportChange={setViewport}
       onClick={handleClick}
       onHover={handleHover}
       onMouseOut={() => renderHover()}
@@ -297,8 +299,8 @@ export default function MapAugora(props: IMapAugora) {
       )}
       <div className="map__navigation">
         <div className="navigation__right">
-          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
-          <FullscreenControl />
+          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" style={{ position: "relative" }} />
+          <FullscreenControl label="Plein écran" style={{ position: "relative" }} />
           <MapInput
             className="navigation__explorer"
             type="checkbox"
