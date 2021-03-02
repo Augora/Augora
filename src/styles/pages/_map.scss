@@ -9,6 +9,13 @@
     &__container {
       width: 100%;
       height: calc(100vh - 67px);
+
+      .mapboxgl-control-container {
+        .mapboxgl-ctrl-bottom-left,
+        .mapboxgl-ctrl-bottom-right {
+          z-index: 0;
+        }
+      }
     }
 
     &__pins {
@@ -655,14 +662,13 @@
       &__filters {
         .filters {
           min-width: unset;
+          width: 100vw;
+          height: calc(100vh - 80px);
           &__mini {
             .tooltip__content {
               .mini {
-                &__btn {
-                  display: none;
-                }
                 &__bar {
-                  display: none;
+                  width: 200px;
                 }
               }
             }
