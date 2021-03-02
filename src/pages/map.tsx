@@ -26,12 +26,12 @@ export default function MapPage({
     search: string
   }
 }) {
-  const [pageTitle, setPageTitle] = useState<string>("Carte")
+  const [pageTitle, setPageTitle] = useState<string>("Carte du monde")
   const router = useRouter()
 
   return (
     <>
-      <SEO pageType={PageType.Carte} />
+      <SEO pageType={PageType.Carte} title={pageTitle} />
       <div className="page page__map">
         <div className="map__container">
           <MapAugora

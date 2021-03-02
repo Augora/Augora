@@ -103,7 +103,7 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
   return []
 }
 
-export function buildTitleFromPageType(pageType: PageType, depute: any) {
+export function buildTitleFromPageType(pageType: PageType, depute: Deputy.Deputy) {
   if (pageType === PageType.Accueil) {
     return "Liste des députés"
   }
