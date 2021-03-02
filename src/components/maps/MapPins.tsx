@@ -41,16 +41,10 @@ interface INumberContent extends IMissingContent {
 function MissingContent({ feature, isOpen }: IMissingContent) {
   return (
     <div className={`deputy__visuals deputy__visuals--missing ${isOpen ? "deputy__visuals--opened" : ""}`}>
-      {/* {isOpen ? (
-        <div className="icon-wrapper">
-          <IconMissing />
-        </div>
-      ) : ( */}
       <div className="deputy__info">
         <div>{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
         <div>Pas de député trouvé</div>
       </div>
-      {/* )} */}
     </div>
   )
 }

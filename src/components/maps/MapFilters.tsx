@@ -27,15 +27,25 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
   return (
     <CustomControl className="map__filters">
       {!isBigFilter ? (
-        <Tooltip className="filters__mini">
+        <Tooltip className="filters__mini" onClick={() => setIsBigFilter(true)}>
           <button className="mini__btn" title="Agrandir les filtres" onClick={() => setIsBigFilter(true)} />
-          <div className="mini__number">{`${zoneDeputies.length} / ${DeputiesList.length}`}</div>
+          <div className="mini__number">
+            <span>
+              {zoneDeputies.length}
+              <small>Députés</small>
+            </span>
+            <span>
+              <small>Total</small>
+              {DeputiesList.length}
+            </span>
+            {/* {`${zoneDeputies.length} Députés / Total ${DeputiesList.length}`} */}
+          </div>
           <GroupBar className="mini__bar" deputiesList={zoneDeputies} />
-          <Button className="mini__reset" title="Réinitialiser les filtres" onClick={() => handleReset()}>
+          {/* <Button className="mini__reset" title="Réinitialiser les filtres" onClick={() => handleReset()}>
             <div className="icon-wrapper">
               <IconReset />
             </div>
-          </Button>
+          </Button> */}
         </Tooltip>
       ) : (
         <div className="filters">

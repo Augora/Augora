@@ -426,7 +426,7 @@
           position: absolute;
           left: 50%;
           transform: translate(-50%, 0);
-          bottom: 0;
+          bottom: 10px;
         }
 
         &__btn,
@@ -582,12 +582,9 @@
           pointer-events: auto;
 
           box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-          border-radius: 5px 5px 0 0;
           padding: 0;
-          padding-left: 10px;
           .tooltip__content {
-            display: flex;
-            align-items: center;
+            padding: 3px 10px 10px 10px;
             .mini {
               &__btn {
                 position: absolute;
@@ -596,6 +593,7 @@
                 background: none;
                 border: none;
                 left: 0;
+                top: 0;
                 cursor: pointer;
 
                 &:hover {
@@ -603,11 +601,23 @@
                 }
               }
               &__number {
-                font-weight: bold;
+                display: flex;
+                justify-content: space-between;
+                padding-bottom: 5px;
+
+                span {
+                  display: flex;
+                  align-items: center;
+                  padding: 0 5px;
+                  font-size: 21px;
+                  font-weight: bold;
+                  small {
+                    margin: 0 5px;
+                  }
+                }
               }
               &__bar {
                 width: 250px;
-                margin: 0 10px;
               }
               &__reset {
                 padding: 0;
