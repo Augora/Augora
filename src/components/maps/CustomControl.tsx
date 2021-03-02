@@ -16,7 +16,7 @@ export default function CustomControl({ className, children, capture, ...props }
     captureDrag: bool,
     captureClick: bool,
     captureDoubleClick: bool,
-    capturePointerMove: bool,
+    capturePointerMove: false,
   })
 
   return (
