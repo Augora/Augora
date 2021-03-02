@@ -26,7 +26,7 @@ export default function MapPage({
     search: string
   }
 }) {
-  const [pageTitle, setPageTitle] = useState<string>("Carte du monde")
+  const [pageTitle, setPageTitle] = useState<string>("Carte")
   const router = useRouter()
 
   return (

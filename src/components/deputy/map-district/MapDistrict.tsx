@@ -45,8 +45,8 @@ export default function MapDistrict(props: Bloc.Map) {
           dragPan={false}
           touchZoom={false}
           scrollZoom={false}
-          onLoad={() => {
-            flyToBounds(districtPolygon, viewport, setViewport, { width: 500, height: 500 })
+          onResize={() => {
+            flyToBounds(districtPolygon, viewport, setViewport)
           }}
           onViewportChange={setViewport}
         >

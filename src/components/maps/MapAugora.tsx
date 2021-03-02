@@ -100,8 +100,6 @@ export default function MapAugora(props: IMapAugora) {
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
   const [viewport, setViewport] = useState<ViewportProps>({
-    // width: 100,
-    // height: 100,
     zoom: 5,
     longitude: France.center.lng,
     latitude: France.center.lat,
@@ -116,14 +114,6 @@ export default function MapAugora(props: IMapAugora) {
   const [isMapLoaded, setIsMapLoaded] = useState(false)
 
   const mapRef = useRef<mapboxgl.Map>()
-
-  /**
-   * Change le titre de la page, si un callback à cet effet a été fourni
-   * @param {string} zoneName Le titre sera [zoneName] | Augora
-   */
-  const changePageTitle = (zoneName: string) => {
-    if (props.setPageTitle) props.setPageTitle(zoneName)
-  }
 
   /**
    * Change de zone sur la feature fournie, reset le viewport si on est deja sur la zone
@@ -184,7 +174,7 @@ export default function MapAugora(props: IMapAugora) {
           ghostGeoJSON: getGhostZones(newFeature),
         })
 
-        changePageTitle(newFeature.properties.nom)
+        if (props.setPageTitle) props.setPageTitle(newFeature.properties.nom)
 
         if (isMapLoaded) flyToBounds(newFeature, viewport, setViewport)
         break
@@ -256,7 +246,7 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleLoad = () => {
     setIsMapLoaded(true)
-    flyToBounds(currentView.feature, viewport, setViewport, { width: 500, height: 500 })
+    flyToBounds(currentView.feature, viewport, setViewport)
   }
 
   return (
@@ -272,7 +262,7 @@ export default function MapAugora(props: IMapAugora) {
       doubleClickZoom={false}
       touchRotate={false}
       interactiveLayerIds={!inExploreMode ? ["zone-fill", "zone-ghost-fill"] : []}
-      onLoad={handleLoad}
+      onResize={handleLoad}
       onViewportChange={setViewport}
       onClick={handleClick}
       onHover={handleHover}
