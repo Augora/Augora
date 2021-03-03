@@ -49,7 +49,7 @@ export default function PresenceParticipation(props: IPresence) {
   const animationTrajectoire = "center"
   const curveType = curveMonotoneX
 
-  const vacancesColor = "#696969"
+  const vacancesColor = "rgba(77, 77, 77, 0.5)"
   const medianeDepute = "#B7B7B7"
   const opacityParticipation = 0.5
 
