@@ -86,9 +86,10 @@ export default function XYBarStack(props: BarStackProps) {
             tickFormat={(d: string) => d.toString().replace("-", "")}
           />
           <BarStack>
-            {listSigles.map((sigle) => {
+            {listSigles.map((sigle, i) => {
               return (
                 <BarSeries
+                  key={`${sigle}-${i}`}
                   dataKey={sigle}
                   data={dataAge}
                   xAccessor={(data) =>
