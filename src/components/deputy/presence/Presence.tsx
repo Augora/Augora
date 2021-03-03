@@ -2,6 +2,7 @@ import React from "react"
 import Block from "../_block/_Block"
 import PresenceParticipation from "src/components/charts/PresenceParticipation"
 import IconStat from "images/ui-kit/icon-stat.svg"
+import { ParentSize } from "@visx/responsive"
 
 /**
  * Return deputy's presence and participation graph in a Block component
@@ -11,7 +12,11 @@ import IconStat from "images/ui-kit/icon-stat.svg"
 const Presence = (props: Bloc.Presence) => {
   return (
     <Block title="Présence et participation" type="presence" color={props.color} size={props.size}>
-      <PresenceParticipation width={1000} height={300} data={props.activite} color={props.color} />
+      <ParentSize debounceTime={10}>
+        {(parent) => (
+          <PresenceParticipation width={parent.width} height={parent.height} data={props.activite} color={props.color} />
+        )}
+      </ParentSize>
       <div className="icon-wrapper">
         <IconStat />
       </div>

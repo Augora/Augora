@@ -40,9 +40,9 @@ export default function PresenceParticipation(props: IPresence) {
   // bounds
   const marginTop = 50
   const marginLeft = 20
-  const xMax = width
+  const xMax = width - marginLeft
   const yMax = height - marginTop
-  var maxActivite = getNbActivitesMax(data) < 14 ? 14 : getNbActivitesMax(data)
+  var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
 
   //const medianeArray = orderBy(mediane, "DateDeDebut")
   const orderedWeeks = orderBy(data, "DateDeDebut")
@@ -50,18 +50,18 @@ export default function PresenceParticipation(props: IPresence) {
   const curveType = curveMonotoneX
 
   const vacancesColor = "rgba(77, 77, 77, 0.5)"
-  const medianeDepute = "#B7B7B7"
+  const medianeDepute = "rgba(77, 77, 77, 0.3)"
   const opacityParticipation = 0.5
 
   const glyphSize = 120
-  const glyphPosition = marginTop / 6
+  const glyphPosition = 8
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
     domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
     range: [
-      <CustomGlyph left={5} top={glyphPosition}>
+      <CustomGlyph top={glyphPosition}>
         <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} />
       </CustomGlyph>,
-      <CustomGlyph left={5} top={glyphPosition}>
+      <CustomGlyph top={glyphPosition}>
         <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} opacity={opacityParticipation} />
       </CustomGlyph>,
       <GlyphSquare key="Questions orales" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={color} />,
@@ -73,14 +73,14 @@ export default function PresenceParticipation(props: IPresence) {
   return width < 10 ? null : (
     <div className="presence">
       <svg width={width} height={height}>
-        <Group top={marginTop / 2} left={marginLeft}>
+        <Group left={marginLeft}>
           <XYChart
-            width={width + marginLeft * 5}
+            width={width + 100 - marginLeft * 2}
             height={height}
             xScale={{ type: "band", range: [0, xMax] }}
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
-            <AnimatedGrid left={5} numTicks={maxActivite / 2} columns={false} />
+            <AnimatedGrid left={marginLeft / 2} numTicks={maxActivite / 2} columns={false} />
             <AnimatedBarSeries
               dataKey={"Vacances"}
               data={orderedWeeks}
@@ -126,7 +126,7 @@ export default function PresenceParticipation(props: IPresence) {
             <AnimatedAxis
               orientation="left"
               hideAxisLine={true}
-              left={5}
+              left={marginLeft / 2}
               tickStroke={"none"}
               tickLength={6}
               numTicks={maxActivite / 2}
@@ -136,17 +136,25 @@ export default function PresenceParticipation(props: IPresence) {
               orientation="bottom"
               hideAxisLine={true}
               tickLength={6}
+              numTicks={orderedWeeks.length / 4}
               animationTrajectory={animationTrajectoire}
               tickFormat={(date: string) => getDates(date.split("T")[0]).MonthData}
             />
             <Tooltip<Deputy.Activite>
               className="charttooltip__container"
+              applyPositionStyle={true}
               unstyled={true}
+              snapTooltipToDatumX={true}
+              showVerticalCrosshair={true}
+              offsetTop={-200}
               renderTooltip={({ tooltipData }) => {
                 const key = tooltipData.nearestDatum.index
                 const nearest = tooltipData.nearestDatum.datum
                 return (
-                  <AugoraTooltip className="presence__tooltip" title={`Semaine du ${getDates(nearest.DateDeDebut).DayData}`}>
+                  <AugoraTooltip
+                    className="presence__tooltip"
+                    title={`Semaine du ${getDates(nearest.DateDeDebut).DayData} au\n${getDates(nearest.DateDeFin).DayData}`}
+                  >
                     <Legend scale={shapeScale}>
                       {(labels) => (
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
@@ -205,7 +213,7 @@ export default function PresenceParticipation(props: IPresence) {
       </svg>
       <Legend scale={shapeScale}>
         {(labels) => (
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+          <div className="presence__legend">
             {labels.map((label, i) => {
               const shape = shapeScale(label.datum)
               const isValidElement = React.isValidElement(shape)

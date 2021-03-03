@@ -2,7 +2,17 @@
 // Bloc Présence parlementaire
 /*----------------------------------------------------*/
 .block__presence {
-  @media (max-width: 1400px) {
-    display: none;
+  .presence {
+    &__legend {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+    }
   }
+}
+
+.visx-crosshair {
+  z-index: 2;
 }
