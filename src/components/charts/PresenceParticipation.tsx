@@ -145,9 +145,6 @@ export default function PresenceParticipation(props: IPresence) {
               renderTooltip={({ tooltipData }) => {
                 const key = tooltipData.nearestDatum.index
                 const nearest = tooltipData.nearestDatum.datum
-                console.log("Présences", nearest.PresenceEnHemicycle + nearest.PresencesEnCommission)
-                console.log("Participations", nearest.ParticipationEnHemicycle + nearest.ParticipationsEnCommission)
-                console.log("Questions orales", nearest.Question)
                 return (
                   <AugoraTooltip className="presence__tooltip" title={`Semaine du ${getDates(nearest.DateDeDebut).DayData}`}>
                     <Legend scale={shapeScale}>
