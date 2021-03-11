@@ -38,7 +38,7 @@ export default function MapDistrict(props: Bloc.Map) {
           {...viewport}
           width="100%"
           height="100%"
-          minZoom={2}
+          minZoom={props.deputy.NumeroCirconscription === 11 && props.deputy.NomDepartement === "Établis Hors de France" ? 1 : 2}
           dragRotate={false}
           doubleClickZoom={false}
           touchRotate={false}
