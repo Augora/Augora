@@ -9,7 +9,7 @@ const mainPages = {
     title: "Députés",
   },
   carte: {
-    path: "/map",
+    path: "/carte",
     title: "Carte",
   },
 }
