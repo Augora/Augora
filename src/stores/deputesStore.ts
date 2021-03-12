@@ -25,7 +25,7 @@ const fuseOptions = {
 
 function applyFilters(
   initialList: Deputy.DeputiesList,
-  GroupeValue: any,
+  GroupeValue: Filter.GroupValue,
   SexValue: Filter.SelectedGenders,
   AgeDomain: Filter.AgeDomain,
   keyword: string

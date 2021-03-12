@@ -26,7 +26,7 @@ export default withRouter(function MyApp({ Component, pageProps, router }) {
           media="all"
         />
       </Head>
-      <Layout location={router}>
+      <Layout location={router} title={pageProps.title}>
         <Component {...pageProps} />
       </Layout>
     </ApolloProvider>

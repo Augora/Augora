@@ -80,6 +80,14 @@ export function getDepute(slug: string) {
               NomComplet
               Couleur
               Sigle
+              CouleurDetail {
+                HSL {
+                  Full
+                  H
+                  L
+                  S
+                }
+              }
             }
             URLPhotoAugora
             Nom
