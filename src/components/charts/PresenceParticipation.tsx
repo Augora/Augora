@@ -162,10 +162,7 @@ export default function PresenceParticipation(props: IPresence) {
                             {labels.map((label, i) => {
                               const shape = shapeScale(label.datum)
                               const isValidElement = React.isValidElement(shape)
-                              // Passer à 3 pour intégrer la mediane
-                              return i > 2 ? (
-                                ""
-                              ) : (
+                              return (
                                 <LegendItem key={`legend-quantile-${i}`} flexDirection="row">
                                   <div className="legend__col">
                                     <svg width={25} height={25}>
