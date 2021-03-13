@@ -114,7 +114,7 @@ export default function PresenceParticipation(props: IPresence) {
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
             <AnimatedGrid left={marginLeft / 2} numTicks={maxActivite / 2} columns={false} />
-            {Presences && Participations && Questions && Mediane && (
+            {DisplayedGraph.Vacances && (
               <AnimatedBarSeries
                 dataKey={"Vacances"}
                 data={orderedWeeks}
@@ -123,8 +123,9 @@ export default function PresenceParticipation(props: IPresence) {
                 colorAccessor={() => vacancesColor}
               />
             )}
+
             {/*
-            {Presences && Participations && Questions && Vacances && (
+            {DisplayedGraph["Mediane des députés"] && (
             <AnimatedAreaSeries
               dataKey={"Mediane"}
               data={medianeArray}
@@ -137,7 +138,7 @@ export default function PresenceParticipation(props: IPresence) {
               opacity={opacityParticipation}
             />
             )} */}
-            {Presences && Questions && Mediane && Vacances && (
+            {DisplayedGraph.Participations && (
               <AnimatedLineSeries
                 dataKey={"Participation"}
                 data={orderedWeeks}
@@ -148,7 +149,7 @@ export default function PresenceParticipation(props: IPresence) {
                 strokeOpacity={opacityParticipation}
               />
             )}
-            {Participations && Questions && Mediane && Vacances && (
+            {DisplayedGraph.Présences && (
               <AnimatedLineSeries
                 dataKey={"Presence"}
                 data={orderedWeeks}
@@ -158,7 +159,7 @@ export default function PresenceParticipation(props: IPresence) {
                 curve={curveType}
               />
             )}
-            {Presences && Participations && Mediane && Vacances && (
+            {DisplayedGraph["Questions orales"] && (
               <AnimatedBarSeries
                 dataKey={"Question"}
                 data={orderedWeeks}
@@ -167,6 +168,7 @@ export default function PresenceParticipation(props: IPresence) {
                 colorAccessor={() => color}
               />
             )}
+
             <AnimatedAxis
               orientation="left"
               hideAxisLine={true}
@@ -274,19 +276,11 @@ export default function PresenceParticipation(props: IPresence) {
                   key={`legend-quantile-${i}`}
                   flexDirection="row"
                   margin="0 10px"
-                  onClick={() =>
-                    label.text.split(" ")[0] === "Présences"
-                      ? setPresences(!Presences)
-                      : label.text.split(" ")[0] === "Participations"
-                      ? setParticipations(!Participations)
-                      : label.text.split(" ")[0] === "Questions"
-                      ? setQuestions(!Questions)
-                      : label.text.split(" ")[0] === "Mediane"
-                      ? setMediane(!Mediane)
-                      : label.text.split(" ")[0] === "Vacances"
-                      ? setVacances(!Vacances)
+                  onClick={() => {
+                    label.text !== "Mediane des députés" && label.text !== "Vacances"
+                      ? setDisplayedGraph(handleLegend(DisplayedGraph, label.text))
                       : null
-                  }
+                  }}
                 >
                   <svg width={25} height={25}>
                     {isValidElement
