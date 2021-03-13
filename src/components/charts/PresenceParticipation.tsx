@@ -35,6 +35,31 @@ interface IPresence {
   color: string
 }
 
+const handleLegend = (state, legend: string) => {
+  let newState = { ...state }
+  const statesAsArray = Object.entries(newState)
+  const allActive = statesAsArray.every(([key, value]) => value)
+  const isClickedAloneActive =
+    newState[legend] &&
+    statesAsArray
+      .filter(([key]) => {
+        return key === legend
+      })
+      .every(([value]) => {
+        return value
+      })
+  Object.keys(state).forEach((key) => {
+    if (allActive) {
+      newState[key] = key !== legend ? false : true
+    } else if (isClickedAloneActive) {
+      newState[key] = true
+    } else {
+      newState[key] = key !== legend ? false : true
+    }
+  })
+  return newState
+}
+
 export default function PresenceParticipation(props: IPresence) {
   const [Presences, setPresences] = useState(true)
   const [Participations, setParticipations] = useState(true)
