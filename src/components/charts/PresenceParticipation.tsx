@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import orderBy from "lodash/orderBy"
 import { Group } from "@visx/group"
 import { curveMonotoneX } from "@visx/curve"
@@ -36,6 +36,12 @@ interface IPresence {
 }
 
 export default function PresenceParticipation(props: IPresence) {
+  const [Presences, setPresences] = useState(true)
+  const [Participations, setParticipations] = useState(true)
+  const [Questions, setQuestions] = useState(true)
+  const [Mediane, setMediane] = useState(true)
+  const [Vacances, setVacances] = useState(true)
+
   const { width, height, data, color } = props
   // bounds
   const marginTop = 50
@@ -81,14 +87,18 @@ export default function PresenceParticipation(props: IPresence) {
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
             <AnimatedGrid left={marginLeft / 2} numTicks={maxActivite / 2} columns={false} />
-            <AnimatedBarSeries
-              dataKey={"Vacances"}
-              data={orderedWeeks}
-              xAccessor={(d) => d.DateDeDebut}
-              yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
-              colorAccessor={() => vacancesColor}
-            />
-            {/* <AnimatedAreaSeries
+            {Presences && Participations && Questions && Mediane && (
+              <AnimatedBarSeries
+                dataKey={"Vacances"}
+                data={orderedWeeks}
+                xAccessor={(d) => d.DateDeDebut}
+                yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
+                colorAccessor={() => vacancesColor}
+              />
+            )}
+            {/*
+            {Presences && Participations && Questions && Vacances && (
+            <AnimatedAreaSeries
               dataKey={"Mediane"}
               data={medianeArray}
               xAccessor={(d) => getDate(d).dateDebut}
@@ -98,31 +108,38 @@ export default function PresenceParticipation(props: IPresence) {
               renderLine={false}
               curve={curveType}
               opacity={opacityParticipation}
-            /> */}
-            <AnimatedLineSeries
-              dataKey={"Participation"}
-              data={orderedWeeks}
-              xAccessor={(d) => d.DateDeDebut}
-              yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
-              curve={curveType}
-              stroke={color}
-              strokeOpacity={opacityParticipation}
             />
-            <AnimatedLineSeries
-              dataKey={"Presence"}
-              data={orderedWeeks}
-              xAccessor={(d) => d.DateDeDebut}
-              yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
-              stroke={color}
-              curve={curveType}
-            />
-            <AnimatedBarSeries
-              dataKey={"Question"}
-              data={orderedWeeks}
-              xAccessor={(d) => d.DateDeDebut}
-              yAccessor={(d) => d.Question}
-              colorAccessor={() => color}
-            />
+            )} */}
+            {Presences && Questions && Mediane && Vacances && (
+              <AnimatedLineSeries
+                dataKey={"Participation"}
+                data={orderedWeeks}
+                xAccessor={(d) => d.DateDeDebut}
+                yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
+                curve={curveType}
+                stroke={color}
+                strokeOpacity={opacityParticipation}
+              />
+            )}
+            {Participations && Questions && Mediane && Vacances && (
+              <AnimatedLineSeries
+                dataKey={"Presence"}
+                data={orderedWeeks}
+                xAccessor={(d) => d.DateDeDebut}
+                yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
+                stroke={color}
+                curve={curveType}
+              />
+            )}
+            {Presences && Participations && Mediane && Vacances && (
+              <AnimatedBarSeries
+                dataKey={"Question"}
+                data={orderedWeeks}
+                xAccessor={(d) => d.DateDeDebut}
+                yAccessor={(d) => d.Question}
+                colorAccessor={() => color}
+              />
+            )}
             <AnimatedAxis
               orientation="left"
               hideAxisLine={true}
@@ -223,7 +240,24 @@ export default function PresenceParticipation(props: IPresence) {
               const shape = shapeScale(label.datum)
               const isValidElement = React.isValidElement(shape)
               return (
-                <LegendItem key={`legend-quantile-${i}`} flexDirection="row" margin="0 10px">
+                <LegendItem
+                  key={`legend-quantile-${i}`}
+                  flexDirection="row"
+                  margin="0 10px"
+                  onClick={() =>
+                    label.text.split(" ")[0] === "Présences"
+                      ? setPresences(!Presences)
+                      : label.text.split(" ")[0] === "Participations"
+                      ? setParticipations(!Participations)
+                      : label.text.split(" ")[0] === "Questions"
+                      ? setQuestions(!Questions)
+                      : label.text.split(" ")[0] === "Mediane"
+                      ? setMediane(!Mediane)
+                      : label.text.split(" ")[0] === "Vacances"
+                      ? setVacances(!Vacances)
+                      : null
+                  }
+                >
                   <svg width={25} height={25}>
                     {isValidElement
                       ? React.cloneElement(shape as React.ReactElement)
