@@ -61,11 +61,13 @@ const handleLegend = (state, legend: string) => {
 }
 
 export default function PresenceParticipation(props: IPresence) {
-  const [Presences, setPresences] = useState(true)
-  const [Participations, setParticipations] = useState(true)
-  const [Questions, setQuestions] = useState(true)
-  const [Mediane, setMediane] = useState(true)
-  const [Vacances, setVacances] = useState(true)
+  const [DisplayedGraph, setDisplayedGraph] = useState({
+    Présences: true,
+    Participations: true,
+    "Questions orales": true,
+    "Mediane des députés": true,
+    Vacances: true,
+  })
 
   const { width, height, data, color } = props
   // bounds
