@@ -179,7 +179,10 @@ export default function PresenceParticipation(props: IPresence) {
                             {labels.map((label, i) => {
                               const shape = shapeScale(label.datum)
                               const isValidElement = React.isValidElement(shape)
-                              return (
+                              // Passer à 3 pour intégrer la mediane dans la tooltip
+                              return i > 2 ? (
+                                ""
+                              ) : (
                                 <LegendItem key={`legend-quantile-${i}`} flexDirection="row">
                                   <div className="legend__col">
                                     <svg width={25} height={25}>
