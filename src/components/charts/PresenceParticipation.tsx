@@ -92,14 +92,43 @@ export default function PresenceParticipation(props: IPresence) {
     domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
     range: [
       <CustomGlyph top={glyphPosition}>
-        <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} />
+        <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} opacity={DisplayedGraph.Présences ? 1 : 0.5} />
       </CustomGlyph>,
       <CustomGlyph top={glyphPosition}>
-        <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} opacity={opacityParticipation} />
+        <line
+          x1="0"
+          y1="0"
+          x2="12"
+          y2="0"
+          stroke={color}
+          strokeWidth={4}
+          opacity={DisplayedGraph.Participations ? opacityParticipation : opacityParticipation / 2}
+        />
       </CustomGlyph>,
-      <GlyphSquare key="Questions orales" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={color} />,
-      <GlyphSquare key="Mediane des députés" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={medianeDepute} />,
-      <GlyphSquare key="Vacances" size={glyphSize} top={glyphPosition} left={glyphPosition} fill={vacancesColor} />,
+      <GlyphSquare
+        key="Questions orales"
+        size={glyphSize}
+        top={glyphPosition}
+        left={glyphPosition}
+        fill={color}
+        opacity={DisplayedGraph["Questions orales"] ? 1 : 0.5}
+      />,
+      <GlyphSquare
+        key="Mediane des députés"
+        size={glyphSize}
+        top={glyphPosition}
+        left={glyphPosition}
+        fill={medianeDepute}
+        opacity={DisplayedGraph["Mediane des députés"] ? 1 : 0.5}
+      />,
+      <GlyphSquare
+        key="Vacances"
+        size={glyphSize}
+        top={glyphPosition}
+        left={glyphPosition}
+        fill={vacancesColor}
+        opacity={DisplayedGraph.Vacances ? 1 : 0.5}
+      />,
     ],
   })
 
@@ -289,7 +318,7 @@ export default function PresenceParticipation(props: IPresence) {
                           fill: color,
                         })}
                   </svg>
-                  <LegendLabel align="left" margin="0 0 12px 0">
+                  <LegendLabel style={{ margin: "0 0 12px", opacity: DisplayedGraph[label.text] ? 1 : 0.5 }}>
                     {label.text}
                   </LegendLabel>
                 </LegendItem>
