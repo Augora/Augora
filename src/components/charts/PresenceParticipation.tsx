@@ -137,7 +137,8 @@ export default function PresenceParticipation(props: IPresence) {
       <svg width={width} height={height}>
         <Group left={marginLeft}>
           <XYChart
-            width={width + 100 - marginLeft * 2}
+            margin={{ top: 0, right: 30, bottom: 50, left: 0 }}
+            width={width}
             height={height}
             xScale={{ type: "band", range: [0, xMax] }}
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
