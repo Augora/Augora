@@ -6,7 +6,8 @@ import { colors } from "utils/variables"
 import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "../components/titles/PageTitle"
-// import Popin from "../components/popin/Popin"
+import Popin from "../components/popin/Popin"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
@@ -15,8 +16,7 @@ const allColors = colors.map((color) => {
 // const headerHeight =
 
 const Layout = ({ children, location, title }) => {
-  // const { state } = useDeputiesFilters()
-  // console.log("state.modified", state.Modified)
+  const { handleReset } = useDeputiesFilters()
   const [scrolled, setScrolled] = useState(false)
   const pageColor = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
   const handleScroll = (event) => {
@@ -51,7 +51,12 @@ const Layout = ({ children, location, title }) => {
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} />
         {title ? <PageTitle title={title} color={pageColor} /> : <PageTitle color={pageColor} />}
-        {/* <Popin>Je suis une popin</Popin> */}
+        <Popin>
+          Certain filtres sont actifs
+          <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
+            Réinitialiser les filters
+          </button>
+        </Popin>
       </div>
       <main className="layout">{children}</main>
       <Footer />

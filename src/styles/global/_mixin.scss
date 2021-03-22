@@ -1,0 +1,12 @@
+/*----------------------------------------------------*/
+// Mixin
+/*----------------------------------------------------*/
+
+@mixin btn-reset {
+  color: unset;
+  background: none;
+  text-decoration: underline;
+  border: none;
+
+  cursor: pointer;
+}

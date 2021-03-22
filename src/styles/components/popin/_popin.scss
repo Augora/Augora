@@ -6,4 +6,82 @@
   position: relative;
 
   // top: $headerHeight;
+
+  margin: 10px 7vw;
+  padding: 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 5px;
+  border: solid 1px darken($main-color, 0);
+
+  color: $white;
+  font-size: 15px;
+  // font-weight: bold;
+
+  background: linear-gradient(to right, lighten($main-color, 5), lighten($secondary-color, 5));
+
+  pointer-events: all;
+
+  &__content {
+    button {
+      @include btn-reset;
+      display: inline-block;
+      margin-left: 25px;
+      font-weight: bold;
+    }
+  }
+  &__close {
+    @include btn-reset;
+    position: relative;
+
+    width: 30px;
+    height: 30px;
+
+    padding: 5px;
+
+    cursor: pointer;
+
+    opacity: 1;
+    transition: opacity 0.2s $ease-in-out-cubic;
+
+    span {
+      &:first-child,
+      &:last-child {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        height: 5px;
+        width: 22px;
+
+        border-radius: 5px;
+
+        background-color: white;
+
+        pointer-events: none;
+      }
+      &:first-child {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+      &:last-child {
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+    }
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  // Media queries
+  /*----------------------------------------------------*/
+  @media (max-width: 1700px) {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
 }
