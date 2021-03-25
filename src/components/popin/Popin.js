@@ -1,7 +1,11 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
-export default function Popin({ children }) {
-  const [visible, setVisible] = useState(true)
+export default function Popin({ isInitialState, children }) {
+  const [visible, setVisible] = useState(!isInitialState)
+
+  useEffect(() => {
+    setVisible(!isInitialState)
+  }, [isInitialState])
 
   if (visible) {
     return (

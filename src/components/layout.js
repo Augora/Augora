@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-// import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import Head from "next/head"
 import { colors } from "utils/variables"
 
@@ -9,6 +8,17 @@ import PageTitle from "../components/titles/PageTitle"
 import Popin from "../components/popin/Popin"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
+const isInitialState = (state) => {
+  const isInitialGroupeValue = Object.values(state.GroupeValue).every((groupe) => groupe)
+  const isInitialSexeValue = Object.values(state.SexValue).every((sexe) => sexe)
+
+  if (isInitialGroupeValue && isInitialSexeValue && state.Keyword === "") {
+    return true
+  } else {
+    return false
+  }
+}
+
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
@@ -16,7 +26,8 @@ const allColors = colors.map((color) => {
 // const headerHeight =
 
 const Layout = ({ children, location, title }) => {
-  const { handleReset } = useDeputiesFilters()
+  const { state, handleReset } = useDeputiesFilters()
+  const [initialState, setInitialState] = useState(isInitialState(state))
   const [scrolled, setScrolled] = useState(false)
   const pageColor = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
   const handleScroll = (event) => {
@@ -35,6 +46,10 @@ const Layout = ({ children, location, title }) => {
       window.removeEventListener("scroll", handleScroll, true)
     }
   }, [])
+  useEffect(() => {
+    console.log(isInitialState(state))
+    setInitialState(isInitialState(state))
+  }, [state])
   // Check if page has SEO informations
 
   return (
@@ -51,7 +66,7 @@ const Layout = ({ children, location, title }) => {
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} />
         {title ? <PageTitle title={title} color={pageColor} /> : <PageTitle color={pageColor} />}
-        <Popin>
+        <Popin isInitialState={initialState}>
           Certain filtres sont actifs
           <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
             Réinitialiser les filters
