@@ -7,6 +7,7 @@ export default function useDeputiesFilters() {
   // Store
   /*----------------------------------------------------*/
   const {
+    isInitialState,
     initialDeputesList,
     initialGroupesList,
     FilteredList,
@@ -19,6 +20,7 @@ export default function useDeputiesFilters() {
     keyword,
     search,
   } = deputeStore((state) => ({
+    isInitialState: state.isInitialState,
     initialDeputesList: state.deputesInitialList,
     initialGroupesList: state.groupesInitialList,
     FilteredList: state.deputesFilteredList,
@@ -117,6 +119,7 @@ export default function useDeputiesFilters() {
   }
 
   const state = {
+    IsInitialState: isInitialState,
     GroupeValue,
     SexValue,
     AgeDomain,
