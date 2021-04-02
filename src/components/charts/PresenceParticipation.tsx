@@ -70,11 +70,14 @@ export default function PresenceParticipation(props: IPresence) {
   })
 
   const { width, height, data, color } = props
+  const changeDisplay = width < 900
+
   // bounds
   const marginTop = 50
+  const marginPhone = 120
   const marginLeft = 20
   const xMax = width - marginLeft
-  const yMax = height - marginTop
+  const yMax = changeDisplay ? height - marginPhone : height - marginTop
   var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
 
   //const medianeArray = orderBy(mediane, "DateDeDebut")
@@ -139,7 +142,7 @@ export default function PresenceParticipation(props: IPresence) {
           <XYChart
             margin={{ top: 0, right: 30, bottom: 50, left: 0 }}
             width={width}
-            height={height}
+            height={changeDisplay ? height - marginPhone + marginTop : height}
             xScale={{ type: "band", range: [0, xMax] }}
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
