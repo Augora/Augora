@@ -9,6 +9,10 @@
       bottom: 0;
       display: flex;
       justify-content: center;
+      @media (max-width: 875px) {
+        columns: 2;
+        display: table-column;
+      }
     }
   }
 }
