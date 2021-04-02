@@ -24,6 +24,7 @@ dayjs.locale("fr")
 const getDates = (date: string) => {
   return {
     MonthData: dayjs(date).format("MMM YYYY"),
+    MobileData: dayjs(date).format("MM/YY"),
     DayData: dayjs(date).format("DD MMMM YYYY"),
   }
 }
@@ -215,9 +216,11 @@ export default function PresenceParticipation(props: IPresence) {
               orientation="bottom"
               hideAxisLine={true}
               tickLength={6}
-              numTicks={orderedWeeks.length / 4}
+              numTicks={changeDisplay ? 8 : orderedWeeks.length / 4}
               animationTrajectory={animationTrajectoire}
-              tickFormat={(date: string) => getDates(date.split("T")[0]).MonthData}
+              tickFormat={(date: string) =>
+                changeDisplay ? getDates(date.split("T")[0]).MobileData : getDates(date.split("T")[0]).MonthData
+              }
             />
             <Tooltip<Deputy.Activite>
               className="charttooltip__container"
