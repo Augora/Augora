@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react"
 import router from "next/router"
-import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewportProps } from "react-map-gl"
+import InteractiveMap, {
+  NavigationControl,
+  FullscreenControl,
+  GeolocateControl,
+  Source,
+  Layer,
+  LayerProps,
+  ViewportProps,
+} from "react-map-gl"
 import {
   Code,
   France,
@@ -16,7 +24,6 @@ import {
   getParentFeature,
   compareFeatures,
 } from "components/maps/maps-utils"
-import MapTooltip from "components/maps/MapTooltip"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
@@ -291,6 +298,7 @@ export default function MapAugora(props: IMapAugora) {
         <div className="navigation__right">
           <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" style={{ position: "relative" }} />
           <FullscreenControl label="Plein écran" style={{ position: "relative" }} />
+          <GeolocateControl label="Me Géolocaliser" style={{ position: "relative" }} />
           <MapInput
             className="navigation__explorer"
             type="checkbox"
