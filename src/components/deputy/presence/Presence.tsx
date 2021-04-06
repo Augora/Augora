@@ -17,9 +17,6 @@ const Presence = (props: Bloc.Presence) => {
           <PresenceParticipation width={parent.width} height={parent.height} data={props.activite} color={props.color} />
         )}
       </ParentSize>
-      <div className="icon-wrapper">
-        <IconStat />
-      </div>
     </Block>
   )
 }
