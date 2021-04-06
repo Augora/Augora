@@ -49,7 +49,7 @@ const Layout = ({ children, location, title }) => {
         <Header siteTitle={"Augora"} location={location} color={pageColor} />
         {title ? <PageTitle title={title} color={pageColor} /> : <PageTitle color={pageColor} />}
         <Popin isInitialState={state.IsInitialState}>
-          Certain filtres sont actifs
+          <p>Certain filtres sont actifs</p>
           <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
             Réinitialiser les filters
           </button>

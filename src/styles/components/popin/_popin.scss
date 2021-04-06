@@ -25,6 +25,8 @@
 
   pointer-events: all;
 
+  transition: transform 0.3s $ease-in-out-cubic;
+
   &__content {
     button {
       @include btn-reset;
@@ -78,10 +80,44 @@
     }
   }
 
+  p {
+    margin: 0;
+  }
+
+  .scrolled.with-title & {
+    transform: translateY(-80px);
+  }
+  .scrolled.no-title & {
+    transform: translateY(-20px);
+  }
+  .no-title & {
+    margin-left: 75vw;
+    margin-right: 50px;
+    font-size: 80%;
+    justify-content: flex-start;
+    button {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   // Media queries
   /*----------------------------------------------------*/
   @media (max-width: 1700px) {
     margin-left: 30px;
     margin-right: 30px;
+  }
+  @media (max-width: 1100px) {
+    .no-title & {
+      margin-left: 50%;
+    }
+  }
+  @media (max-width: 600px) {
+    .no-title & {
+      position: absolute;
+      margin: 0;
+      top: calc(100vh - 130px);
+      right: 10px;
+    }
   }
 }
