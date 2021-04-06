@@ -662,12 +662,20 @@
     }
 
     @media (max-width: 875px) {
+      &__navigation {
+        .navigation {
+          &__bottom {
+            bottom: 0;
+          }
+        }
+      }
       &__filters {
         .filters {
           min-width: unset;
           width: 100vw;
-          height: calc(100vh - 80px);
+          height: 750px;
           &__mini {
+            margin-bottom: 10px;
             .tooltip__content {
               .mini {
                 &__bar {
