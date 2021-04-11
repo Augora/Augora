@@ -555,32 +555,48 @@
 
         cursor: default;
 
-        .big__close {
-          position: absolute;
-          right: 5px;
-          top: 13px;
-          width: 30px;
-          border: none;
-          background: none;
-
-          cursor: pointer;
-
-          .icon-wrapper {
-            pointer-events: none;
-            svg {
-              fill: $text-color;
-            }
-          }
-
+        &__container {
           &:hover {
-            .icon-wrapper > svg {
-              fill: black;
+            .filters__close {
+              opacity: 1;
+              transform: translate(0, -100%);
             }
           }
+        }
 
-          &:active {
-            .icon-wrapper > svg {
-              fill: $btn-active;
+        &__close {
+          position: absolute;
+          opacity: 0;
+          transform: translate(0, 0);
+          transition: transform 0.4s $ease-in-out-cubic, opacity 0.2s $ease-in-out-cubic;
+
+          background-color: rgba($lightergrey, 0.9);
+          border-radius: 10px 10px 0 0;
+
+          width: 100%;
+          .close__btn {
+            width: 100%;
+            border: none;
+            background: none;
+            min-height: unset;
+            padding: 0;
+
+            cursor: pointer;
+
+            .icon-wrapper {
+              height: 40px;
+            }
+
+            &:hover {
+              .icon-wrapper > svg {
+                fill: black;
+              }
+            }
+
+            &:active {
+              .icon-wrapper > svg {
+                fill: $btn-active;
+              }
             }
           }
         }
@@ -605,10 +621,6 @@
                 left: 0;
                 top: 0;
                 cursor: pointer;
-
-                &:hover {
-                  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-                }
               }
               &__number {
                 display: flex;

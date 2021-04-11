@@ -4,8 +4,7 @@ import GroupBar from "components/deputies-list/GroupBar"
 import Tooltip from "components/tooltip/Tooltip"
 import Filters from "components//deputies-list/filters/Filters"
 import Button from "components/buttons/Button"
-import IconReset from "images/ui-kit/icon-refresh.svg"
-import IconClose from "images/ui-kit/icon-close.svg"
+import IconArrow from "images/ui-kit/icon-arrow.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IMapFilters {
@@ -21,40 +20,46 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
 
   const {
     state: { DeputiesList },
-    handleReset,
   } = useDeputiesFilters()
 
   return (
     <CustomControl className="map__filters">
       {!isBigFilter ? (
-        <Tooltip className="filters__mini" onClick={() => setIsBigFilter(true)}>
-          <button className="mini__btn" title="Agrandir les filtres" onClick={() => setIsBigFilter(true)} />
-          <div className="mini__number">
-            <span>
-              {zoneDeputies.length}
-              <small>Députés</small>
-            </span>
-            <span>
-              <small>Total</small>
-              {DeputiesList.length}
-            </span>
-            {/* {`${zoneDeputies.length} Députés / Total ${DeputiesList.length}`} */}
+        <div className="filters__container">
+          <div className="filters__close">
+            <Button className="close__btn" onClick={() => setIsBigFilter(true)} title="Agrandir les filtres">
+              <div className="icon-wrapper">
+                <IconArrow style={{ transform: "rotate(180deg)" }} />
+              </div>
+            </Button>
           </div>
-          <GroupBar className="mini__bar" deputiesList={zoneDeputies} />
-          {/* <Button className="mini__reset" title="Réinitialiser les filtres" onClick={() => handleReset()}>
-            <div className="icon-wrapper">
-              <IconReset />
+          <Tooltip className="filters__mini" onClick={() => setIsBigFilter(true)}>
+            <button className="mini__btn" title="Agrandir les filtres" onClick={() => setIsBigFilter(true)} />
+            <div className="mini__number">
+              <span>
+                {zoneDeputies.length}
+                <small>Députés</small>
+              </span>
+              <span>
+                <small>Total</small>
+                {DeputiesList.length}
+              </span>
             </div>
-          </Button> */}
-        </Tooltip>
+            <GroupBar className="mini__bar" deputiesList={zoneDeputies} />
+          </Tooltip>
+        </div>
       ) : (
-        <div className="filters">
-          <Filters filteredDeputes={zoneDeputies} />
-          <button className="big__close" onClick={() => setIsBigFilter(false)} title="Cacher les filtres">
-            <div className="icon-wrapper">
-              <IconClose />
-            </div>
-          </button>
+        <div className="filters__container">
+          <div className="filters__close">
+            <Button className="close__btn" onClick={() => setIsBigFilter(false)} title="Cacher les filtres">
+              <div className="icon-wrapper">
+                <IconArrow />
+              </div>
+            </Button>
+          </div>
+          <div className="filters">
+            <Filters filteredDeputes={zoneDeputies} />
+          </div>
         </div>
       )}
     </CustomControl>
