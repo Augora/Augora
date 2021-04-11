@@ -94,7 +94,7 @@
     margin-left: 75vw;
     margin-right: 50px;
     font-size: 80%;
-    justify-content: flex-start;
+    // justify-content: flex-start;
     button {
       margin: 0;
       padding: 0;
@@ -107,7 +107,7 @@
     margin-left: 30px;
     margin-right: 30px;
   }
-  @media (max-width: 1100px) {
+  @media (max-width: 1200px) {
     .no-title & {
       margin-left: 50%;
     }
@@ -118,6 +118,10 @@
       margin: 0;
       top: calc(100vh - 130px);
       right: 10px;
+
+      .popin__close {
+        margin-left: 10px;
+      }
     }
   }
 }
