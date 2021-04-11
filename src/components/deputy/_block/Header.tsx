@@ -5,6 +5,7 @@ import React from "react"
  * @param {*} props
  */
 export default function Header(props: Bloc.Header) {
+  const color = props.color.HSL.Full
   return (
     <div className={`${props.type}__header block__header`}>
       {/* Verify if the block is general infos */}
@@ -15,14 +16,14 @@ export default function Header(props: Bloc.Header) {
         <h2
           className="header__title"
           style={{
-            color: props.color,
+            color: color,
           }}
         >
           {props.title}
         </h2>
       ) : (
         // If there is circonscription data, change the header text
-        <div className="header__title" style={{ color: props.color }}>
+        <div className="header__title" style={{ color: color }}>
           <span className="header__title--region">{props.circ.region}</span>
           <span className="header__title--numero">
             {props.circ.circNb}

@@ -1,14 +1,12 @@
 import React from "react"
 
 import SEO, { PageType } from "../components/seo/seo"
-import PageTitle from "../components/titles/PageTitle"
 
 const Mentions = () => {
   return (
     <>
       <SEO pageType={PageType.MentionsLegales} />
       <div className="page page__mentions-legales">
-        <PageTitle title="Mentions légales" />
         <h2>Données personnelles</h2>
         <p>
           Nous ne souhaitons pas collecter les données de nos utilisateurs. Nous n’utilisons pas non plus de cookies.
@@ -66,3 +64,12 @@ const Mentions = () => {
 }
 
 export default Mentions
+
+export async function getStaticProps(context) {
+  return {
+    props: {
+      title: "Mentions Légales",
+      PageType: PageType.MentionsLegales,
+    },
+  }
+}

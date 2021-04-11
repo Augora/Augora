@@ -52,7 +52,7 @@ export default function GeneralInformation(props: Bloc.General) {
           <div
             className="main__picture-container"
             style={{
-              borderColor: props.color,
+              borderColor: props.color.HSL.Full,
             }}
           >
             <DeputyImage src={props.picture} alt={props.id} sex={props.sexe} />

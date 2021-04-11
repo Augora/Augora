@@ -61,7 +61,7 @@ export default function MapDistrict(props: Bloc.Map) {
             <Layer
               type="line"
               paint={{
-                "line-color": props.color,
+                "line-color": props.color.HSL.Full,
                 "line-width": 2,
                 // "line-dasharray": [4, 2],
               }}
