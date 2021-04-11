@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react"
-// import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import Head from "next/head"
 import { colors } from "utils/variables"
 
 import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "../components/titles/PageTitle"
+import Popin from "../components/popin/Popin"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
 
-// const headerHeight =
-
 const Layout = ({ children, location, title }) => {
+  const { state, handleReset } = useDeputiesFilters()
   const [scrolled, setScrolled] = useState(false)
   const pageColor = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
   const handleScroll = (event) => {
@@ -32,8 +32,8 @@ const Layout = ({ children, location, title }) => {
       window.removeEventListener("scroll", handleScroll, true)
     }
   }, [])
-  // Check if page has SEO informations
 
+  // Check if page has SEO informations
   return (
     <div className={`page-body ${title ? "with-title" : "no-title"} ${scrolled ? "scrolled" : ""}`}>
       <Head>
@@ -48,6 +48,12 @@ const Layout = ({ children, location, title }) => {
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} />
         {title ? <PageTitle title={title} color={pageColor} /> : <PageTitle color={pageColor} />}
+        <Popin isInitialState={state.IsInitialState}>
+          <p>Certain filtres sont actifs</p>
+          <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
+            Réinitialiser les filters
+          </button>
+        </Popin>
       </div>
       <main className="layout">{children}</main>
       <Footer />

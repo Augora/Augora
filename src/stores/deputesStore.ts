@@ -5,6 +5,7 @@ import deburr from "lodash/deburr"
 import { getAgeDomain, filterList, getGroupValue } from "components/deputies-list/deputies-list-utils"
 
 type FilterState = {
+  isInitialState: Boolean
   deputesInitialList: Deputy.DeputiesList
   deputesFilteredList: Deputy.DeputiesList
   groupesInitialList: Group.GroupsList
@@ -44,6 +45,7 @@ function applyFilters(
 }
 
 const deputeStore = create<FilterState>((set) => ({
+  isInitialState: true,
   deputesInitialList: [],
   deputesFilteredList: [],
   groupesInitialList: [],
@@ -56,55 +58,71 @@ const deputeStore = create<FilterState>((set) => ({
   keyword: "",
 
   setSelectedGroupes(selectedGroupes: Filter.GroupValue) {
-    set((state) => ({
-      deputesFilteredList: applyFilters(
+    set((state) => {
+      const newFilteredList = applyFilters(
         state.deputesInitialList,
         selectedGroupes,
         state.selectedGenders,
         state.ageDomain,
         state.keyword
-      ),
-      selectedGroupes,
-    }))
+      )
+      return {
+        isInitialState: newFilteredList.length === state.deputesInitialList.length && state.keyword.length === 0,
+        deputesFilteredList: newFilteredList,
+        selectedGroupes,
+      }
+    })
   },
 
   setAgeDomain(ageDomain: Filter.AgeDomain) {
-    set((state) => ({
-      deputesFilteredList: applyFilters(
+    set((state) => {
+      const newFilteredList = applyFilters(
         state.deputesInitialList,
         state.selectedGroupes,
         state.selectedGenders,
         ageDomain,
         state.keyword
-      ),
-      ageDomain,
-    }))
+      )
+      return {
+        isInitialState: newFilteredList.length === state.deputesInitialList.length && state.keyword.length === 0,
+        deputesFilteredList: newFilteredList,
+        ageDomain,
+      }
+    })
   },
 
   setSelectedGenders(selectedGenders: Filter.SelectedGenders) {
-    set((state) => ({
-      deputesFilteredList: applyFilters(
+    set((state) => {
+      const newFilteredList = applyFilters(
         state.deputesInitialList,
         state.selectedGroupes,
         selectedGenders,
         state.ageDomain,
         state.keyword
-      ),
-      selectedGenders,
-    }))
+      )
+      return {
+        isInitialState: newFilteredList.length === state.deputesInitialList.length && state.keyword.length === 0,
+        deputesFilteredList: newFilteredList,
+        selectedGenders,
+      }
+    })
   },
 
   setKeyword(keyword: string) {
-    set((state) => ({
-      deputesFilteredList: applyFilters(
+    set((state) => {
+      const newFilteredList = applyFilters(
         state.deputesInitialList,
         state.selectedGroupes,
         state.selectedGenders,
         state.ageDomain,
         keyword
-      ),
-      keyword,
-    }))
+      )
+      return {
+        isInitialState: newFilteredList.length === state.deputesInitialList.length && keyword.length === 0,
+        deputesFilteredList: newFilteredList,
+        keyword,
+      }
+    })
   },
 }))
 
