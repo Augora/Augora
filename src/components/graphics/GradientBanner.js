@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useMemo } from "react"
 
 const numberOfRect = 20
 const svgWidth = 1200
@@ -38,6 +38,8 @@ const Rectangles = () => {
 }
 
 export default function GradientBanner() {
+  // \/ In case we want to "fix" the bars moving
+  // const rectangles = useMemo(() => Rectangles(), []);
   return (
     <div
       className="gradient-banner__container"
