@@ -2,6 +2,7 @@ import React from "react"
 import Link from "next/link"
 import Logo from "images/logos/projet/augora-logo.svg"
 import LogoText from "images/logos/projet/augora-text.svg"
+import LogoTextThin from "images/logos/projet/augora-text-thin.svg"
 import { getHSLLightVariation } from "../utils/style/color"
 
 const mainPages = {
@@ -79,7 +80,7 @@ const Header = ({ siteTitle, location, color }) => {
               </div>
               <div className="header__text">
                 <LogoText className="text" />
-                <LogoText className="text" style={styles.svg} />
+                <LogoTextThin className="text" style={styles.svg} />
               </div>
             </div>
           </a>
