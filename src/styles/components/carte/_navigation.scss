@@ -1,0 +1,145 @@
+.map__navigation {
+  .navigation {
+    &__right {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      display: flex;
+      flex-direction: column;
+      height: 180px;
+      justify-content: space-between;
+      z-index: 2;
+    }
+
+    &__left {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 2;
+    }
+
+    &__bottom {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      bottom: 10px;
+      z-index: 2;
+    }
+
+    &__btn,
+    &__input {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+      transition: opacity 0.2s $ease-in-out-cubic;
+      pointer-events: none;
+      cursor: pointer;
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0);
+      }
+
+      &:hover {
+        &::before {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+
+      &.visible {
+        pointer-events: auto;
+        opacity: 1;
+        transition: opacity 0.4s $ease-out-cubic;
+      }
+
+      .icon-wrapper {
+        position: relative;
+        z-index: 1;
+        right: 0;
+        pointer-events: none;
+        svg {
+          fill: "%23334";
+        }
+      }
+    }
+
+    &__btn {
+      padding: 5px;
+      border: none;
+      opacity: 0;
+    }
+
+    &__input {
+      pointer-events: auto;
+      appearance: none;
+      cursor: pointer;
+
+      background: white;
+      border-radius: 5px;
+
+      &:checked {
+        background: $text-color;
+        box-shadow: 0 0 3px 3px $main-color;
+      }
+    }
+
+    &__explorer {
+      &::after {
+        display: none;
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        height: 5px;
+        z-index: 1;
+        background-color: $text-color;
+        transform: translate(0, -50%) rotate(-45deg);
+      }
+      &:checked {
+        &::after {
+          display: block;
+        }
+      }
+    }
+  }
+
+  .input {
+    &__container {
+      position: relative;
+
+      .icon-wrapper {
+        pointer-events: none;
+        position: absolute;
+        display: inline-block;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        padding: 4px;
+        svg {
+          fill: "%23334";
+        }
+      }
+    }
+  }
+
+  @media (max-width: 875px) {
+    .navigation {
+      &__bottom {
+        bottom: 0;
+      }
+    }
+  }
+}
