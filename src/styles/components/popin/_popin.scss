@@ -9,6 +9,7 @@
 
   margin: 10px 7vw;
   padding: 15px;
+  min-width: 240px;
 
   display: flex;
   justify-content: space-between;
@@ -92,8 +93,10 @@
   }
   .no-title & {
     margin-left: 75vw;
-    margin-right: 50px;
+    margin-right: 55px;
+    align-self: flex-end;
     font-size: 80%;
+
     // justify-content: flex-start;
     button {
       margin: 0;
