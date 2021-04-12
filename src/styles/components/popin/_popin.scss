@@ -110,11 +110,6 @@
     margin-left: 30px;
     margin-right: 30px;
   }
-  @media (max-width: 1200px) {
-    .no-title & {
-      margin-left: 50%;
-    }
-  }
   @media (max-width: 600px) {
     .no-title & {
       position: absolute;
