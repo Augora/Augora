@@ -109,7 +109,21 @@
     .filters {
       min-width: unset;
       width: 100vw;
-      height: 750px;
+      height: calc(100vh - 100px);
+
+      .frame {
+        overflow: scroll;
+        .tooltip {
+          display: none;
+        }
+      }
+
+      &__close {
+        opacity: 1;
+        transform: translate(0, -100%);
+        background-color: rgba($lightergrey, 1);
+      }
+
       &__mini {
         margin-bottom: 10px;
         .tooltip__content {
