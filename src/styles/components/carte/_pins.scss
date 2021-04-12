@@ -87,7 +87,7 @@
             &__separator {
               background-color: $text-color;
               width: 50%;
-              height: 2px;
+              height: 1px;
               margin: 4px 0;
             }
           }
@@ -110,6 +110,21 @@
 
         &__info {
           text-transform: uppercase;
+          .info {
+            &__circ {
+              font-size: 20px;
+            }
+
+            &__name {
+              font-weight: normal;
+              text-transform: none;
+            }
+
+            &__group {
+              font-weight: 600;
+              font-size: 16px;
+            }
+          }
         }
       }
 
