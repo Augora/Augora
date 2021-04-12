@@ -51,6 +51,12 @@
           }
         }
       }
+
+      &--mini {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
     }
 
     &__mini {
@@ -122,6 +128,10 @@
         opacity: 1;
         transform: translate(0, -100%);
         background-color: rgba($lightergrey, 1);
+
+        &--mini {
+          display: none;
+        }
       }
 
       &__mini {

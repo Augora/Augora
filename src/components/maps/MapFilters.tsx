@@ -26,10 +26,10 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
     <CustomControl className="map__filters">
       {!isBigFilter ? (
         <div className="filters__container">
-          <div className="filters__close">
+          <div className="filters__close filters__close--mini">
             <Button className="close__btn" onClick={() => setIsBigFilter(true)} title="Agrandir les filtres">
               <div className="icon-wrapper">
-                <IconArrow style={{ transform: "rotate(180deg)" }} />
+                <IconArrow />
               </div>
             </Button>
           </div>
