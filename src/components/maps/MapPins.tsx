@@ -65,7 +65,7 @@ function DeputyContent({ deputy, feature, isOpen }: IDeputyContent) {
             <div>{deputy.NomDeFamille}</div>
           </div>
           <div className="info__separator" />
-          <div className="info__group">{deputy.GroupeParlementaire.Sigle}</div>
+          <div className="info__group">{deputy.GroupeParlementaire.NomComplet}</div>
         </div>
       )}
     </div>
