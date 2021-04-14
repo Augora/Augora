@@ -56,9 +56,9 @@
               align-self: center;
               pointer-events: none;
               width: 80%;
-              svg {
-                fill: $lightgrey;
-              }
+              // svg {
+              //   fill: $lightgrey;
+              // }
             }
           }
         }
@@ -79,6 +79,7 @@
           flex-direction: column;
           justify-content: center;
 
+          font-size: 16px;
           color: $text-color;
 
           height: 100%;
@@ -89,13 +90,12 @@
 
           .info {
             &__separator {
-              background-color: $text-color;
+              background-color: white;
               width: 50%;
               height: 1px;
             }
 
             &__circ {
-              font-size: 16px;
             }
 
             &__name {
@@ -106,8 +106,6 @@
 
             &__group {
               text-transform: uppercase;
-              //   font-weight: bold;
-              font-size: 14px;
             }
           }
         }
@@ -116,15 +114,23 @@
       .deputy {
         &__visuals {
           &--opened {
+            color: $text-color;
             height: 140px;
+            transform: translate(-60px, 0);
           }
           &--missing {
             height: 70px;
+            transform: translate(0, 0);
 
             .deputy__info {
+              color: $text-color;
               text-align: center;
             }
           }
+        }
+
+        &__info {
+          color: white;
         }
       }
 

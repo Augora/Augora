@@ -57,17 +57,15 @@ function DeputyContent({ deputy, feature, isOpen }: IDeputyContent) {
     <div className={`deputy__visuals ${isOpen ? "deputy__visuals--opened" : ""}`}>
       <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
       {isOpen && (
-        <div className="deputy__info">
+        <div className="deputy__info" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }}>
           <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
           <div className="info__separator" />
           <div className="info__name">
             <div>{deputy.Prenom}</div>
             <div>{deputy.NomDeFamille}</div>
           </div>
-          <div className="info__separator" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }} />
-          <div className="info__group" style={{ color: deputy.GroupeParlementaire.Couleur }}>
-            {deputy.GroupeParlementaire.Sigle}
-          </div>
+          <div className="info__separator" />
+          <div className="info__group">{deputy.GroupeParlementaire.Sigle}</div>
         </div>
       )}
     </div>
