@@ -37,7 +37,7 @@ export default function XYBarStack(props: BarStackProps) {
     <svg width={width} height={height}>
       <Group top={renderVertically ? marginTop / 2 : 0} left={renderVertically ? marginLeft / 2 : 0}>
         <XYChart
-          margin={{ top: 0, right: 30, bottom: marginTop + 5, left: 0 }}
+          margin={{ top: 0, right: 30, bottom: marginTop, left: 0 }}
           width={width}
           height={height}
           yScale={
@@ -63,7 +63,7 @@ export default function XYBarStack(props: BarStackProps) {
         >
           <AnimatedGrid
             className="chart__rows"
-            numTicks={4}
+            numTicks={renderVertically ? numTicks : 4}
             columns={renderVertically ? false : true}
             rows={renderVertically ? true : false}
           />
@@ -82,8 +82,8 @@ export default function XYBarStack(props: BarStackProps) {
             orientation="bottom"
             tickLength={6}
             hideAxisLine={true}
+            numTicks={renderVertically ? 10 : 4}
             hideTicks={renderVertically ? false : true}
-            numTicks={4}
             tickFormat={(d: string) => d.toString().replace("-", "")}
           />
           <BarStack>
