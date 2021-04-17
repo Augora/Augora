@@ -48,8 +48,8 @@ export default function Deputy({ depute }: IDeputy) {
   )
 }
 
-export async function getStaticProps({ params: { slug } }) {
-  const depute = await getDepute(slug)
+export async function getStaticProps({ params: { slug } }: { params: { slug: string } }) {
+  const depute: { Depute: Deputy.Deputy } = await getDepute(slug)
 
   return {
     props: {
