@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import SEO, { PageType } from "../components/seo/seo"
-import PageTitle from "../components/titles/PageTitle"
 import Filters from "components/deputies-list/filters/Filters"
 import PieChart from "components/charts/PieChart"
 import BarChart from "components/charts/BarChart"
@@ -132,8 +131,6 @@ export default function StatsPage() {
     <>
       <SEO pageType={PageType.Statistiques} />
       <div className="page page__statistiques">
-        <PageTitle title="Statistiques" />
-
         <Statistiques />
       </div>
     </>
@@ -146,6 +143,8 @@ export async function getStaticProps() {
   return {
     props: {
       deputes,
+      title: "Statistiques",
+      PageType: PageType.Statistiques,
     },
   }
 }
