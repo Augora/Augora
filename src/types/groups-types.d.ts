@@ -1,21 +1,13 @@
 declare namespace Group {
   type GroupsList = Group[]
 
-  /**
-   * Objet groupe de la database
-   */
+  /** Objet groupe de la database */
   interface Group {
-    /**
-     * Exemple: "LFI"
-     */
+    /** Exemple: "LFI" */
     Sigle: string
-    /**
-     * Exemple: "La France Insoumise"
-     */
+    /** Exemple: "La France Insoumise" */
     NomComplet?: string
-    /**
-     * Format "hsl(255, 100%, 100%)"
-     */
+    /** Format "hsl(255, 100%, 100%)" */
     Couleur?: string
     CouleurDetail?: CouleurDetail
     URLImage?: string
@@ -30,6 +22,7 @@ declare namespace Group {
   }
 
   interface HSLDetail {
+    /** Format "hsl(255, 100%, 100%)" */
     Full: string
     H: number
     S: number
