@@ -1,31 +1,13 @@
 .page__deputies {
-  .filters {
-    .frame-filters {
-      width: 60%;
-    }
+  padding-top: 40px;
 
-    .frame-chart {
-      width: 40%;
-      margin-left: 50px;
-    }
-  }
-
-  @media (max-width: 1500px) {
-    .filters {
-      .frame-filters {
-        width: 100%;
-      }
-      .frame-chart {
-        display: none;
-      }
-    }
-  }
+  // Media queries
   @media (max-width: 875px) {
     .page-title {
       display: none;
     }
-    padding-top: 40px;
   }
 
+  // Import styles
   @import "../components/deputies-list/deputies-list";
 }

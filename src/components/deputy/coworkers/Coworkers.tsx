@@ -19,7 +19,7 @@ function Coworkers(props: Bloc.Coworkers) {
           return (
             <Coworker
               key={slugify(coworker.coworker)}
-              color={props.color}
+              color={props.color.HSL.Full}
               {...coworker}
               isCompact={props.coworkers.length < 7 ? false : true}
             />

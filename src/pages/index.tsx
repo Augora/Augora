@@ -10,7 +10,6 @@ export default function IndexPage() {
     <>
       <SEO pageType={PageType.Accueil} />
       <div className="page page__deputies">
-        <PageTitle title="Liste des Députés" />
         <DeputiesList />
       </div>
     </>
@@ -23,6 +22,7 @@ export async function getStaticProps() {
   return {
     props: {
       deputes,
+      title: "Liste des députés"
     },
   }
 }
