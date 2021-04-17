@@ -17,6 +17,10 @@
         justify-content: center;
         align-items: center;
 
+        svg {
+          overflow: visible;
+        }
+
         &__number {
           pointer-events: none;
           fill: white;
