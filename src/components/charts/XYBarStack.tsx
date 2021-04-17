@@ -63,7 +63,7 @@ export default function XYBarStack(props: BarStackProps) {
         >
           <AnimatedGrid
             className="chart__rows"
-            numTicks={numTicks}
+            numTicks={4}
             columns={renderVertically ? false : true}
             rows={renderVertically ? true : false}
           />
@@ -83,6 +83,7 @@ export default function XYBarStack(props: BarStackProps) {
             tickLength={6}
             hideAxisLine={true}
             hideTicks={renderVertically ? false : true}
+            numTicks={4}
             tickFormat={(d: string) => d.toString().replace("-", "")}
           />
           <BarStack>

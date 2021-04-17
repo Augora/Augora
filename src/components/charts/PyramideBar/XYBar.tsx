@@ -17,7 +17,7 @@ interface IXYBar {
 
 export default function XYBar(props: IXYBar) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
-  const numTicks = maxAge > 50 ? maxAge / 10 : maxAge > 15 ? maxAge / 2 : maxAge
+  const numTicks = 5
   const marginRight = 30
   const isRange = /^\d\d$/.test(data[0].age as string)
 
