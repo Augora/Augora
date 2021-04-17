@@ -14,7 +14,7 @@ export default function PyramideBarStack(props: BarStackProps) {
   const { width, height, dataAgeFemme, dataAgeHomme, groups, totalDeputes, maxAge } = props
 
   // bounds
-  const marginTop = 50
+  const marginTop = 20
   const marginLeft = 30
 
   return (

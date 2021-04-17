@@ -37,7 +37,7 @@ export default function XYBarStack(props: BarStackProps) {
     <svg width={width} height={height}>
       <Group top={renderVertically ? marginTop / 2 : 0} left={renderVertically ? marginLeft / 2 : 0}>
         <XYChart
-          margin={{ top: 0, right: 30, bottom: marginTop, left: 0 }}
+          margin={{ top: 0, right: 30, bottom: marginTop + 5, left: 0 }}
           width={width}
           height={height}
           yScale={

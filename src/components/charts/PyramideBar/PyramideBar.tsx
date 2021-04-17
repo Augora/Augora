@@ -13,7 +13,7 @@ export default function PyramideBar(props: BarStackProps) {
   const { width, height, dataAgeHomme, dataAgeFemme, totalDeputes, maxAge } = props
 
   // bounds
-  const marginTop = 50
+  const marginTop = 20
   const marginLeft = 30
   const xMax = width / 2 - marginLeft
   const yMax = height - marginTop

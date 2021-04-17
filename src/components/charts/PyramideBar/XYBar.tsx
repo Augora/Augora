@@ -23,7 +23,7 @@ export default function XYBar(props: IXYBar) {
 
   return (
     <XYChart
-      margin={{ top: 0, right: marginRight, bottom: 50, left: 0 }}
+      margin={{ top: 0, right: marginRight, bottom: 25, left: 0 }}
       width={width}
       height={height}
       yScale={{ type: "band", range: [yMax, 0], padding: 0.1 }}
