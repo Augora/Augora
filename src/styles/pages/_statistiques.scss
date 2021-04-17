@@ -102,5 +102,15 @@
         grid-row-end: span 6;
       }
     }
+    @media (max-width: 319px) {
+      grid-gap: 20px;
+      .frame {
+        grid-column-end: span 12;
+        grid-row-end: span 3;
+      }
+      .frame-filters {
+        grid-row-end: span 9;
+      }
+    }
   }
 }
