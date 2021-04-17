@@ -53,8 +53,8 @@ export async function getStaticProps({ params: { slug } }) {
 
   return {
     props: {
-      depute,
-      title: depute.Nom,
+      depute: depute.Depute,
+      title: depute.Depute.Nom,
     },
   }
 }
