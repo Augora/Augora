@@ -1498,11 +1498,6 @@
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.2.tgz#808c9fa7e4517274ed555fa158f2de4b4f468e71"
   integrity sha512-HrCIVMLjE1MOozVoD86622S7aunluLb2PJdPfb3nYiEtohm8mIB/vyv0Fd37AdeMFrTUQXEunw78YloMA3Qilg==
 
-"@ungap/global-this@^0.4.2":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@ungap/global-this/-/global-this-0.4.3.tgz#44cb668b03e7c4bc88cb6e6f9329d381131878ee"
-  integrity sha512-MuHEpDBurNVeD6mV9xBcAN2wfTwuaFQhHuhWkJuXmyVJ5P5sBCw+nnFpdfb0tAvgWkfefWCsAoAsh7MTUr3LPg==
-
 "@visx/annotation@1.6.0", "@visx/annotation@^1.6.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@visx/annotation/-/annotation-1.6.0.tgz#8a2636adb3aebe3eba8aff8020135164097093e9"
