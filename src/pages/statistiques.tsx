@@ -66,11 +66,6 @@ const Statistiques = (props) => {
           </ParentSize>
         ) : null}
       </Frame>
-      <Frame className="frame-chart frame-bar" title="Diagramme en Barres">
-        <ParentSize className="bar__container" debounceTime={10}>
-          {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
-        </ParentSize>
-      </Frame>
       <Frame className="frame-chart frame-barstack" title="Cumul des âges" right={`Âge moyen : ${averageAge} ans`}>
         <ParentSize className="barstack__container" debounceTime={10}>
           {(parent) => (
@@ -88,6 +83,11 @@ const Statistiques = (props) => {
               />
             </div>
           )}
+        </ParentSize>
+      </Frame>
+      <Frame className="frame-chart frame-bar" title="Diagramme en Barres">
+        <ParentSize className="bar__container" debounceTime={10}>
+          {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
         </ParentSize>
       </Frame>
       <Frame className="frame-chart frame-pyramide" title="Pyramide des âges">
