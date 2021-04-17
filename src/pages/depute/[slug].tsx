@@ -33,7 +33,7 @@ export default function Deputy({ depute }: IDeputy) {
       <Head>
         <style>{`:root { --groupe-color: ${color.HSL.Full}; }`}</style>
       </Head>
-      <Socials deputy={deputy}/>
+      <Socials deputy={deputy} />
       <div className="page page__deputy">
         <div className="deputy__content">
           <GeneralInformation {...getGeneralInformation(deputy)} color={color} size="medium" dateBegin={deputy.DateDeNaissance} />
@@ -49,7 +49,8 @@ export default function Deputy({ depute }: IDeputy) {
 }
 
 export async function getStaticProps({ params: { slug } }) {
-  const deputeAndActivites = await getDepute(slug)
+  const depute = await getDepute(slug)
+
   return {
     props: {
       depute,
