@@ -14,7 +14,7 @@ const Presence = (props: Bloc.Presence) => {
     <Block title="Présence et participation" type="presence" color={props.color} size={props.size}>
       <ParentSize debounceTime={10}>
         {(parent) => (
-          <PresenceParticipation width={parent.width} height={parent.height} data={props.activite} color={props.color} />
+          <PresenceParticipation width={parent.width} height={parent.height} data={props.activite} color={props.color.HSL.Full} />
         )}
       </ParentSize>
     </Block>
