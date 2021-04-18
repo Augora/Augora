@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "author": "",
   "dependencies": {
-    "@apollo/client": "3.3.14",
+    "@apollo/client": "3.3.15",
     "@nivo/bar": "0.63.1",
     "@nivo/pie": "0.63.1",
     "@svgr/webpack": "^5.5.0",
@@ -23,7 +23,7 @@
     "react-dom": "17.0.2",
     "react-lazy-load-image-component": "^1.5.0",
     "react-map-gl": "6.0.2",
-    "sass": "^1.32.8",
+    "sass": "^1.32.10",
     "typescript": "4.2.4",
     "zustand": "^3.4.1"
   },
@@ -46,7 +46,7 @@
     "@next/bundle-analyzer": "^10.1.3",
     "@types/geojson": "^7946.0.7",
     "@types/next": "^9.0.0",
-    "@types/node": "^14.14.37",
+    "@types/node": "^14.14.41",
     "@types/polylabel": "^1.0.5",
     "@types/react": "^17.0.2",
     "@types/react-map-gl": "^5.2.9",
