@@ -41,16 +41,10 @@ interface INumberContent extends IMissingContent {
 function MissingContent({ feature, isOpen }: IMissingContent) {
   return (
     <div className={`deputy__visuals deputy__visuals--missing ${isOpen ? "deputy__visuals--opened" : ""}`}>
-      {!isOpen ? (
-        <div className="icon-wrapper">
-          <IconMissing />
-        </div>
-      ) : (
-        <div className="deputy__info">
-          <div>{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
-          <div>Pas de député trouvé</div>
-        </div>
-      )}
+      <div className="deputy__info">
+        <div>{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
+        <div>Pas de député trouvé</div>
+      </div>
     </div>
   )
 }
@@ -63,17 +57,15 @@ function DeputyContent({ deputy, feature, isOpen }: IDeputyContent) {
     <div className={`deputy__visuals ${isOpen ? "deputy__visuals--opened" : ""}`}>
       <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
       {isOpen && (
-        <div className="deputy__info">
+        <div className="deputy__info" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }}>
           <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
           <div className="info__separator" />
           <div className="info__name">
             <div>{deputy.Prenom}</div>
             <div>{deputy.NomDeFamille}</div>
           </div>
-          <div className="info__separator" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }} />
-          <div className="info__group" style={{ color: deputy.GroupeParlementaire.Couleur }}>
-            {deputy.GroupeParlementaire.Sigle}
-          </div>
+          <div className="info__separator" />
+          <div className="info__group">{deputy.GroupeParlementaire.NomComplet}</div>
         </div>
       )}
     </div>
@@ -119,46 +111,50 @@ export function MapPin(props: IMapPin) {
 
   const zoneCode = getZoneCode(props.feature)
   const coords = props.feature.properties.center ? props.feature.properties.center : getPolygonCenter(props.feature)
+  const isHidden = !isExpanded && zoneCode === Code.Circ && props.deputies.length === 0
 
   return (
-    <Popup
-      className={`pins__popup ${isExpanded && "pins__popup--expanded"}`}
-      longitude={coords[0]}
-      latitude={coords[1]}
-      closeButton={false}
-      tipSize={0}
-      anchor={"bottom"}
-      dynamicPosition={false}
-    >
-      <div className="pins__container">
-        {props.handleClick || props.handleHover ? (
-          <button
-            className="pins__btn"
-            onClick={() => {
-              if (props.handleClick) props.handleClick()
-            }}
-            onMouseOver={() => {
-              if (props.handleHover) props.handleHover()
+    !isHidden && (
+      <Popup
+        className={`pins__popup ${isExpanded && "pins__popup--expanded"}`}
+        longitude={coords[0]}
+        latitude={coords[1]}
+        closeButton={false}
+        tipSize={0}
+        anchor={"bottom"}
+        dynamicPosition={false}
+      >
+        <div className="pins__container">
+          {props.handleClick || props.handleHover ? (
+            <button
+              className="pins__btn"
+              onClick={() => {
+                if (props.handleClick) props.handleClick()
+              }}
+              onMouseOver={() => {
+                if (props.handleHover) props.handleHover()
+              }}
+            />
+          ) : null}
+          {zoneCode === Code.Circ ? (
+            props.deputies.length > 0 ? (
+              <DeputyContent deputy={props.deputies[0]} feature={props.feature} isOpen={isExpanded} />
+            ) : (
+              <MissingContent feature={props.feature} isOpen={isExpanded} />
+            )
+          ) : (
+            <NumberContent deputies={props.deputies} feature={props.feature} isOpen={isExpanded} />
+          )}
+          <div
+            className="pins__arrowdown"
+            style={{
+              borderTopColor:
+                props.deputies.length && zoneCode === Code.Circ ? props.deputies[0].GroupeParlementaire.Couleur : "",
             }}
           />
-        ) : null}
-        {zoneCode === Code.Circ ? (
-          props.deputies.length > 0 ? (
-            <DeputyContent deputy={props.deputies[0]} feature={props.feature} isOpen={isExpanded} />
-          ) : (
-            <MissingContent feature={props.feature} isOpen={isExpanded} />
-          )
-        ) : (
-          <NumberContent deputies={props.deputies} feature={props.feature} isOpen={isExpanded} />
-        )}
-        <div
-          className="pins__arrowdown"
-          style={{
-            borderTopColor: props.deputies.length && zoneCode === Code.Circ ? props.deputies[0].GroupeParlementaire.Couleur : "",
-          }}
-        />
-      </div>
-    </Popup>
+        </div>
+      </Popup>
+    )
   )
 }
 

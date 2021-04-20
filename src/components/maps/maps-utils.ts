@@ -1,4 +1,4 @@
-import { WebMercatorViewport, FlyToInterpolator } from "react-map-gl"
+import { WebMercatorViewport, FlyToInterpolator, ViewportProps } from "react-map-gl"
 import polylabel from "polylabel"
 import MetroFranceContFile from "static/cont-france.geojson"
 import MetroRegFile from "static/reg-metro.geojson"
@@ -220,21 +220,26 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
 /**
  * Transitionne de façon fluide vers une zone
  * @param {AugoraMap.Feature} feature La feature vers laquelle aller
- * @param {*} viewState Le state du viewport
- * @param {React.Dispatch<React.SetStateAction<{}>>} setViewState Le setState du viewport
+ * @param {ViewportProps} viewState Le state du viewport
+ * @param {React.Dispatch<React.SetStateAction<ViewportProps>>} setViewState Le setState du viewport
  */
 export const flyToBounds = <T extends GeoJSON.Feature>(
   feature: T,
-  viewState: any,
-  setViewState: React.Dispatch<React.SetStateAction<{}>>
+  viewState: ViewportProps,
+  setViewState: React.Dispatch<React.SetStateAction<ViewportProps>>
 ): void => {
-  const bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
-  const mercaViewport = new WebMercatorViewport(viewState).fitBounds(bounds, { padding: 100 })
+  const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
+  const { longitude, latitude, zoom } = new WebMercatorViewport({ width: 500, height: 500, ...viewState }).fitBounds(bounds, {
+    padding: 100,
+  })
   setViewState({
-    ...mercaViewport,
+    ...viewState,
+    longitude,
+    latitude,
+    zoom,
     transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
     transitionEasing: (x) => -(Math.cos(Math.PI * x) - 1) / 2, //ease in-out sine
-    transitionDuration: "auto",
+    transitionDuration: "auto" as any, //typedef oversight from map-gl, see if they fixed it in the future
     transitionInterruption: 0,
   })
 }
