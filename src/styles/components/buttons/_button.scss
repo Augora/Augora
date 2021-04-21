@@ -31,9 +31,7 @@
     pointer-events: none;
     width: 30px;
     svg {
-      * {
-        fill: $text-color;
-      }
+      fill: $text-color;
     }
   }
 
@@ -42,12 +40,12 @@
     &.btn--main {
       background-color: rgba($main-color, 0);
       border-color: $main-color;
-      .icon-wrapper svg * {
+      .icon-wrapper svg {
         fill: $main-color;
       }
       &.checked {
         background-color: rgba($main-color, 1);
-        .icon-wrapper svg * {
+        .icon-wrapper svg {
           fill: $white;
         }
       }
@@ -61,12 +59,12 @@
     &.btn--secondary {
       background-color: rgba($secondary-color, 0);
       border-color: $secondary-color;
-      .icon-wrapper svg * {
+      .icon-wrapper svg {
         fill: $secondary-color;
       }
       &.checked {
         background-color: rgba($secondary-color, 1);
-        .icon-wrapper svg * {
+        .icon-wrapper svg {
           fill: $white;
         }
       }
@@ -84,8 +82,7 @@
   @import "reset";
   @import "icon";
 
-  transition: background-color 0.5s $ease-in-out-cubic,
-    border-color 0.2s $ease-in-out-cubic;
+  transition: background-color 0.5s $ease-in-out-cubic, border-color 0.2s $ease-in-out-cubic;
 
   cursor: pointer;
 
@@ -110,7 +107,7 @@
       transition-delay: 0.5s;
     }
     .icon-wrapper {
-      transform: scale(1);
+      transform: scale(0.9);
     }
   }
   &--deactivated {

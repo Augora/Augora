@@ -2,7 +2,6 @@ import React from "react"
 
 import SEO, { PageType } from "../components/seo/seo"
 import Question from "components/faq/Question"
-import PageTitle from "../components/titles/PageTitle"
 
 // Content
 const contentAbout = [
@@ -129,6 +128,28 @@ const contentAbout = [
       </>
     ),
   },
+  {
+    title: "Qu'est-ce que les DROM-COM ?",
+    description: (
+      <p>
+        Ce nouveau sigle désigne les territoires "Départements, Régions d'Outre-Mer et Collectivités d'Outre-Mer". Avant,
+        l'acronyme utilisé était "DOM-TOM".
+      </p>
+    ),
+  },
+  {
+    title: "A quoi correspondent les Français établis hors de France ?",
+    description: (
+      <p>
+        Les députés des "français établis hors de France", sont les représentants des français qui habitent plus de 6 mois dans un
+        pays à l'étranger. Il faut qu'ils aient réalisés une{" "}
+        <a href="https://www.service-public.fr/particuliers/vosdroits/F33307" target="_blank" rel="noreferrer">
+          inscription consulaire
+        </a>
+        .
+      </p>
+    ),
+  },
   // {
   //   title: "Comment nous soutenir ?",
   //   description: (
@@ -153,12 +174,12 @@ const contentAbout = [
   },
 ]
 
-export default function FAQ() {
+export default function FAQ({ title }) {
   return (
     <>
       <SEO pageType={PageType.FAQ} />
       <div className="page page__faq">
-        <PageTitle title="Foire aux Questions" />
+        {/* <PageTitle title={title} /> */}
 
         {contentAbout.map((question, index) => (
           <Question key={`faq-question-${index}`} title={question.title}>
@@ -168,4 +189,13 @@ export default function FAQ() {
       </div>
     </>
   )
+}
+
+export async function getStaticProps(context) {
+  return {
+    props: {
+      title: "Foire aux Questions",
+      PageType: PageType.FAQ,
+    },
+  }
 }

@@ -3,8 +3,9 @@ export enum PageType {
   Depute,
   FAQ,
   NotFound,
+  Carte,
+  MentionsLegales,
   // About,
-  // CarteDeFrance,
 }
 
 export function buildMetaTags(title: string, description: string, url: string, imageUrl: string, env: string) {
@@ -19,25 +20,25 @@ export function buildMetaTags(title: string, description: string, url: string, i
       {/* local */}
       <meta name="og:local" content="fr_FR" />
       {/* title */}
-      <meta name="og:title" content={title} />
-      <meta name="twitter:title" content={title} />
+      {title && <meta name="og:title" content={title} />}
+      {title && <meta name="twitter:title" content={title} />}
       {/* charset */}
       <meta charSet="utf-8" />
       {/* description */}
-      <meta name="description" content={description} />
-      <meta name="og:description" content={description} />
-      <meta name="twitter:description" content={description} />
+      {description && <meta name="description" content={description} />}
+      {description && <meta name="og:description" content={description} />}
+      {description && <meta name="twitter:description" content={description} />}
       {/* url */}
-      <meta name="og:url" content={url} />
-      <meta name="twitter:url" content={url} />
+      {url && <meta name="og:url" content={url} />}
+      {url && <meta name="twitter:url" content={url} />}
       {/* image */}
-      <meta name="og:image" content={imageUrl} />
-      <meta name="og:image:url" content={imageUrl} />
-      <meta name="og:image:secure_url" content={imageUrl} />
-      <meta name="og:image:secure" content={imageUrl} />
-      <meta name="twitter:image" content={imageUrl} />
-      <meta name="twitter:card" content={imageUrl} />
-      <meta name="og:image:alt" content="Icône de l'association Augora" />
+      {imageUrl && <meta name="og:image" content={imageUrl} />}
+      {imageUrl && <meta name="og:image:url" content={imageUrl} />}
+      {imageUrl && <meta name="og:image:secure_url" content={imageUrl} />}
+      {imageUrl && <meta name="og:image:secure" content={imageUrl} />}
+      {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+      {imageUrl && <meta name="twitter:card" content={imageUrl} />}
+      {imageUrl && <meta name="og:image:alt" content="Icône de l'association Augora" />}
     </>
   )
 }
@@ -76,24 +77,50 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
       process.env.NEXT_PUBLIC_ENV
     )
   }
+  if (pageType === PageType.Carte) {
+    return buildMetaTags(
+      buildTitleFromPageType(pageType, depute),
+      "Nos députés, représentés sous forme de carte.",
+      process.env.NEXT_PUBLIC_ENV !== "production" ? "https://preprod.augora.fr/carte" : "https://augora.fr/carte",
+      "icons/icon-512x512.png",
+      process.env.NEXT_PUBLIC_ENV
+    )
+  }
+  if (pageType === PageType.MentionsLegales) {
+    return buildMetaTags(
+      buildTitleFromPageType(pageType, depute),
+      null, // force having no default description so it takes the beginning of the page as content
+      process.env.NEXT_PUBLIC_ENV !== "production"
+        ? "https://preprod.augora.fr/mention-legales"
+        : "https://augora.fr/mention-legales",
+      "icons/icon-512x512.png",
+      process.env.NEXT_PUBLIC_ENV
+    )
+  }
   if (pageType === PageType.NotFound) {
     return []
   }
   return []
 }
 
-export function buildTitleFromPageType(pageType: PageType, depute: any) {
+export function buildTitleFromPageType(pageType: PageType, depute: Deputy.Deputy) {
   if (pageType === PageType.Accueil) {
     return "Liste des députés"
   }
   if (pageType === PageType.Depute) {
-    return `${depute.Nom} - Député ${depute.GroupeParlementaire.Sigle}`
+    return `${depute.Nom} - ${depute.Sexe === "H" ? "Député" : "Députée"} ${depute.GroupeParlementaire.Sigle}`
   }
   if (pageType === PageType.FAQ) {
     return "Foire aux Questions"
   }
+  if (pageType === PageType.Carte) {
+    return "Carte du monde"
+  }
   if (pageType === PageType.NotFound) {
     return "Page introuvable"
+  }
+  if (pageType === PageType.MentionsLegales) {
+    return "Mentions légales"
   }
   return ""
 }

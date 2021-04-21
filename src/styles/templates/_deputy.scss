@@ -11,15 +11,78 @@
     }
   }
 
-  &__contact {
+  &__socials {
+    position: fixed;
+    right: 7vw;
+    top: 100px;
+
     display: flex;
     align-items: center;
+
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.2s $ease-in-out-cubic, opacity 0.3s $ease-in-cubic;
+
+    z-index: 101;
     .btn {
       margin-left: 20px;
       transition: 0.2s $ease-in-out-cubic;
-      &:hover {
-        transform: scale(1.2);
+      background: none;
+
+      .tooltip {
+        opacity: 1;
+        max-width: none;
+        pointer-events: auto;
+        padding: 0;
+
+        .tooltip {
+          &__content {
+            a {
+              display: block;
+              position: relative;
+              cursor: pointer;
+
+              text-decoration: none;
+              width: 100%;
+              padding: 5px 10px;
+
+              transition: color 0.5s $ease-out-cubic;
+
+              text-transform: uppercase;
+              font-weight: bold;
+              font-size: 15px;
+              color: $text-color;
+
+              &:not(:last-child)::after {
+                content: "";
+                display: block;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 1px;
+                background-color: rgba(0, 0, 0, 0.2);
+              }
+
+              &:hover {
+                background: $btn-hover;
+              }
+              &:active {
+                background: $btn-active;
+              }
+            }
+          }
+        }
       }
+
+      &:hover {
+        .tooltip {
+          top: 80%;
+        }
+      }
+    }
+
+    .scrolled & {
+      transform: translate3d(0, -100%, 0);
     }
   }
 
@@ -39,6 +102,38 @@
     grid-gap: 20px;
     padding: 0px;
     min-height: 100vh;
+  }
+
+  // Media queries
+  @media (min-width: 901px) {
+    &__socials {
+      .btn svg {
+        fill: $white !important;
+      }
+    }
+  }
+  @media (max-width: 900px) {
+    &__socials {
+      position: relative;
+      right: 0;
+      top: 0;
+      justify-content: center;
+      transform: translate3d(0, -50%, 0);
+      transition: transform 0.5s $ease-in-out-cubic, opacity 0.4s $ease-in-cubic;
+      transition-delay: 0.2s;
+      opacity: 1;
+
+      z-index: 1;
+      .btn svg {
+        fill: unset;
+      }
+
+      .scrolled & {
+        transform: translate3d(0, -150%, 0);
+        opacity: 0;
+        transition-delay: 0s;
+      }
+    }
   }
 }
 

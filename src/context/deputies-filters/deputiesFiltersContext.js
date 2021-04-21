@@ -13,11 +13,10 @@ const initialState = {
     GroupesList: [],
     Keyword: "",
   },
-  handleSearchValue: (f) => f,
-  handleClickOnAllGroupes: (f) => f,
-  handleClickOnGroupe: (f) => f,
-  handleClickOnSex: (f) => f,
-  handleAgeSelection: (f) => f,
+  handleSearch: (f) => f,
+  handleGroupClick: (f) => f,
+  handleSexClick: (f) => f,
+  handleAgeSlider: (f) => f,
   handleReset: (f) => f,
 }
 

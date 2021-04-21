@@ -41,7 +41,7 @@ yarn
 yarn dev
 ```
 
-Une fois fait, le site est accessible sur l'adresse : http://localhost:8000
+Une fois fait, le site est accessible sur l'adresse : http://localhost:8000 🎉
 
 ### Variables d'environnement
 

@@ -1,0 +1,25 @@
+/*----------------------------------------------------*/
+// Page Map - Carte de France
+/*----------------------------------------------------*/
+
+.page__map {
+  padding: 0;
+  .map {
+    &__container {
+      width: 100%;
+      height: calc(100vh - 60px);
+
+      .mapboxgl-control-container {
+        .mapboxgl-ctrl-bottom-left,
+        .mapboxgl-ctrl-bottom-right {
+          z-index: 0;
+        }
+      }
+    }
+  }
+
+  @import "components/carte/pins";
+  @import "components/carte/breadcrumb";
+  @import "components/carte/navigation";
+  @import "components/carte/mapfilters";
+}

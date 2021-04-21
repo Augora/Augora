@@ -9,3 +9,7 @@ declare module "*.svg" {
   export default ReactComponent
 }
 declare module "*.jpg"
+declare module "*.geojson" {
+  const GeoJSONType: AugoraMap.FeatureCollection
+  export default GeoJSONType
+}
