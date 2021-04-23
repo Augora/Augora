@@ -15,7 +15,7 @@ const mainPages = {
     title: "STATISTIQUES",
   },
   carte: {
-    path: "/map",
+    path: "/carte",
     title: "Carte",
   },
 }

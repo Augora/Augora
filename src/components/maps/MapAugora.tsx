@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react"
 import router from "next/router"
-import InteractiveMap, { NavigationControl, FullscreenControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
+import InteractiveMap, {
+  NavigationControl,
+  FullscreenControl,
+  GeolocateControl,
+  Source,
+  Layer,
+  LayerProps,
+  ViewportProps,
+} from "react-map-gl"
 import {
   Code,
   France,
@@ -16,7 +24,6 @@ import {
   getParentFeature,
   compareFeatures,
 } from "components/maps/maps-utils"
-import MapTooltip from "components/maps/MapTooltip"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
@@ -99,7 +106,7 @@ export default function MapAugora(props: IMapAugora) {
     }
   }, [props.codeCont, props.codeReg, props.codeDpt])
 
-  const [viewState, setViewState] = useState<ViewState>({
+  const [viewport, setViewport] = useState<ViewportProps>({
     zoom: 5,
     longitude: France.center.lng,
     latitude: France.center.lat,
@@ -116,14 +123,6 @@ export default function MapAugora(props: IMapAugora) {
   const mapRef = useRef<mapboxgl.Map>()
 
   /**
-   * Change le titre de la page, si un callback à cet effet a été fourni
-   * @param {string} zoneName Le titre sera [zoneName] | Augora
-   */
-  const changePageTitle = (zoneName: string) => {
-    if (props.setPageTitle) props.setPageTitle(zoneName)
-  }
-
-  /**
    * Change de zone sur la feature fournie, reset le viewport si on est deja sur la zone
    * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
    */
@@ -132,17 +131,17 @@ export default function MapAugora(props: IMapAugora) {
       const zoneCode = getZoneCode(feature)
       switch (zoneCode) {
         case Code.Cont:
-          router.push(`/map?codeCont=${feature.properties[Code.Cont]}`, `/map?codeCont=${feature.properties[Code.Cont]}`, {
+          router.push(`/carte?codeCont=${feature.properties[Code.Cont]}`, `/carte?codeCont=${feature.properties[Code.Cont]}`, {
             shallow: true,
           })
           return
         case Code.Reg:
-          router.push(`/map?codeReg=${feature.properties[Code.Reg]}`, `/map?codeReg=${feature.properties[Code.Reg]}`, {
+          router.push(`/carte?codeReg=${feature.properties[Code.Reg]}`, `/carte?codeReg=${feature.properties[Code.Reg]}`, {
             shallow: true,
           })
           return
         case Code.Dpt:
-          router.push(`/map?codeDpt=${feature.properties[Code.Dpt]}`, `/map?codeDpt=${feature.properties[Code.Dpt]}`, {
+          router.push(`/carte?codeDpt=${feature.properties[Code.Dpt]}`, `/carte?codeDpt=${feature.properties[Code.Dpt]}`, {
             shallow: true,
           })
           return
@@ -157,7 +156,7 @@ export default function MapAugora(props: IMapAugora) {
           console.error("Feature à afficher non valide")
           return
       }
-    } else flyToBounds(feature, viewState, setViewState)
+    } else flyToBounds(feature, viewport, setViewport)
   }
 
   /**
@@ -182,9 +181,9 @@ export default function MapAugora(props: IMapAugora) {
           ghostGeoJSON: getGhostZones(newFeature),
         })
 
-        changePageTitle(newFeature.properties.nom)
+        if (props.setPageTitle) props.setPageTitle(newFeature.properties.nom)
 
-        if (isMapLoaded) flyToBounds(newFeature, viewState, setViewState)
+        if (isMapLoaded) flyToBounds(newFeature, viewport, setViewport)
         break
       default:
         console.error("Zone à afficher non trouvée")
@@ -253,8 +252,8 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleLoad = () => {
-    flyToBounds(currentView.feature, viewState, setViewState)
     setIsMapLoaded(true)
+    flyToBounds(currentView.feature, viewport, setViewport)
   }
 
   return (
@@ -262,7 +261,7 @@ export default function MapAugora(props: IMapAugora) {
       mapboxApiAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
       mapStyle="mapbox://styles/augora/ckh3h62oh2nma19qt1fgb0kq7?optimize=true"
       ref={(ref) => (mapRef.current = ref && ref.getMap())}
-      {...viewState}
+      {...viewport}
       width="100%"
       height="100%"
       minZoom={1}
@@ -270,8 +269,8 @@ export default function MapAugora(props: IMapAugora) {
       doubleClickZoom={false}
       touchRotate={false}
       interactiveLayerIds={!inExploreMode ? ["zone-fill", "zone-ghost-fill"] : []}
-      onLoad={handleLoad}
-      onViewStateChange={(change) => setViewState(change.viewState)}
+      onResize={handleLoad}
+      onViewportChange={setViewport}
       onClick={handleClick}
       onHover={handleHover}
       onMouseOut={() => renderHover()}
@@ -297,8 +296,9 @@ export default function MapAugora(props: IMapAugora) {
       )}
       <div className="map__navigation">
         <div className="navigation__right">
-          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" />
-          <FullscreenControl />
+          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" style={{ position: "relative" }} />
+          <FullscreenControl label="Plein écran" style={{ position: "relative" }} />
+          <GeolocateControl label="Me Géolocaliser" style={{ position: "relative" }} />
           <MapInput
             className="navigation__explorer"
             type="checkbox"

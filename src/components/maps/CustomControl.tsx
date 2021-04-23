@@ -1,29 +1,27 @@
 import React from "react"
-import { BaseControl, BaseControlProps } from "react-map-gl"
+import { _useMapControl as useMapControl } from "react-map-gl"
 
-interface ICustomControlProps extends BaseControlProps {
-  className?: string
-  style?: React.CSSProperties
+interface ICustomControlProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  capture?: boolean
 }
 
 /**
- * Renvoie un CustomControl contenant un div contenant les children, avec toutes les props captures = true
- *
- * Utilisé pour afficher un overlay sur la map qui ne trigger pas la navigation de la map en dessous
+ * Renvoie un CustomControl contenant un div contenant les children, avec toutes les props captures = true par défaut
  */
-export default class CustomControl extends BaseControl<ICustomControlProps, HTMLDivElement> {
-  static defaultProps = {
-    captureScroll: true,
-    captureDrag: true,
-    captureClick: true,
-    captureDoubleClick: true,
-  }
+export default function CustomControl({ className, children, capture, ...props }: ICustomControlProps) {
+  const bool = capture ? capture : true
 
-  _render() {
-    return (
-      <div ref={this._containerRef} className={`mapboxgl-ctrl-custom ${this.props.className ? this.props.className : ""}`}>
-        {this.props.children}
-      </div>
-    )
-  }
+  const { context, containerRef } = useMapControl({
+    captureScroll: bool,
+    captureDrag: bool,
+    captureClick: bool,
+    captureDoubleClick: bool,
+    capturePointerMove: false,
+  })
+
+  return (
+    <div {...props} className={`mapboxgl-ctrl-custom ${className ? className : ""}`} ref={containerRef}>
+      {children}
+    </div>
+  )
 }
