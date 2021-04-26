@@ -5,12 +5,13 @@ import { buildMetaTagsFromPageType, buildTitleFromPageType, PageType } from "./s
 
 interface ISEOProps {
   pageType: PageType
-  depute?: any
+  depute?: Deputy.Deputy
+  title?: string
 }
 
 function SEO(props: ISEOProps) {
   const meta = buildMetaTagsFromPageType(props.pageType, props.depute)
-  const title = buildTitleFromPageType(props.pageType, props.depute)
+  const title = props.title ? props.title : buildTitleFromPageType(props.pageType, props.depute)
 
   return (
     <Head>

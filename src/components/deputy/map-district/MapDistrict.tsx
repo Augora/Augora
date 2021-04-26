@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react"
-import ReactMapGL, { Source, Layer, ViewState } from "react-map-gl"
+import ReactMapGL, { Source, Layer, ViewportProps } from "react-map-gl"
 import Link from "next/link"
 import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
@@ -7,7 +7,11 @@ import "mapbox-gl/dist/mapbox-gl.css"
 
 export default function MapDistrict(props: Bloc.Map) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
-  const [viewport, setViewport] = useState<ViewState>({ latitude: France.center.lat, longitude: France.center.lng, zoom: 2 })
+  const [viewport, setViewport] = useState<ViewportProps>({
+    latitude: France.center.lat,
+    longitude: France.center.lng,
+    zoom: 3,
+  })
 
   //récupère le polygone de la circonscription
   const districtPolygon = useMemo(() => {
@@ -34,17 +38,17 @@ export default function MapDistrict(props: Bloc.Map) {
           {...viewport}
           width="100%"
           height="100%"
-          minZoom={2}
+          minZoom={props.deputy.NumeroCirconscription === 11 && props.deputy.NomDepartement === "Établis Hors de France" ? 1 : 2}
           dragRotate={false}
           doubleClickZoom={false}
           touchRotate={false}
           dragPan={false}
           touchZoom={false}
           scrollZoom={false}
-          onLoad={() => {
+          onResize={() => {
             flyToBounds(districtPolygon, viewport, setViewport)
           }}
-          onViewportChange={(change) => setViewport(change)}
+          onViewportChange={setViewport}
         >
           <Source type="geojson" data={districtPolygon}>
             <Layer
@@ -63,7 +67,7 @@ export default function MapDistrict(props: Bloc.Map) {
               }}
             />
           </Source>
-          <Link href={`/map?codeDpt=${districtPolygon?.properties?.code_dpt}`}>
+          <Link href={`/carte?codeDpt=${districtPolygon?.properties?.code_dpt}`}>
             <a className="map__redirect">Cliquer pour voir la carte entière</a>
           </Link>
         </ReactMapGL>

@@ -21,7 +21,7 @@ type FilterState = {
 
 const fuseOptions = {
   threshold: 0.4,
-  keys: ["NomToSearch"],
+  keys: ["NomToSearch", "Nom"],
 }
 
 function applyFilters(

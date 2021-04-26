@@ -1,0 +1,202 @@
+.map__pins {
+  .pins {
+    &__popup {
+      z-index: 0;
+
+      .mapboxgl {
+        &-popup-tip {
+          display: none;
+        }
+        &-popup-content {
+          pointer-events: none;
+          display: flex;
+          flex-direction: column;
+          background: none;
+          box-shadow: none;
+          padding: 0;
+        }
+      }
+
+      &--expanded {
+        z-index: 1;
+      }
+    }
+
+    &__container {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .deputy,
+      .number {
+        &__visuals {
+          width: 70px;
+          height: 70px;
+          border-radius: 20px;
+          background: $lithestgrey;
+          box-shadow: 0px 10px 20px rgba($black, 0.3);
+          overflow: hidden;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+
+          z-index: 0;
+
+          transition: height 0.2s $ease-in-out-cubic;
+
+          &--opened {
+            width: unset;
+            border-radius: 5px;
+          }
+
+          &--missing {
+            .icon-wrapper {
+              align-self: center;
+              pointer-events: none;
+              width: 80%;
+              // svg {
+              //   fill: $lightgrey;
+              // }
+            }
+          }
+        }
+
+        &__photo {
+          display: block;
+          margin-bottom: 0;
+          align-self: center;
+          pointer-events: none;
+        }
+        &__number {
+          display: block;
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        &__info {
+          flex-direction: column;
+          justify-content: center;
+
+          font-size: 16px;
+          color: $text-color;
+
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 7px 10px;
+
+          .info {
+            &__separator {
+              background-color: white;
+              width: 50%;
+              height: 1px;
+            }
+
+            &__circ {
+              text-transform: uppercase;
+            }
+
+            &__name {
+              font-weight: bold;
+              font-family: $font-title;
+              font-size: 24px;
+            }
+
+            &__group {
+              // text-transform: uppercase;
+            }
+          }
+        }
+      }
+
+      .deputy {
+        &__visuals {
+          &--opened {
+            color: $text-color;
+            height: 140px;
+            transform: translate(-60px, 0);
+          }
+          &--missing {
+            height: 70px;
+            transform: translate(0, 0);
+
+            .deputy__info {
+              color: $text-color;
+              text-align: center;
+            }
+          }
+        }
+
+        &__info {
+          color: white;
+        }
+      }
+
+      .number {
+        &__visuals--opened {
+          height: unset;
+        }
+
+        &__info {
+          max-width: unset;
+          width: 210px;
+          background: none;
+          box-shadow: none;
+          margin: 0;
+          .tooltip {
+            &__nom {
+              margin: 10px 0;
+            }
+            &__groupe {
+              font-size: 20px;
+              font-weight: bold;
+              text-transform: uppercase;
+              line-height: 1.3em;
+              letter-spacing: -0.03em;
+              text-align: center;
+            }
+            &__savoirplus {
+              margin-top: 6px;
+              font-size: 14px;
+              font-style: italic;
+            }
+            &__bar {
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    &__btn {
+      width: 70px;
+      height: 70px;
+      bottom: 12px;
+
+      pointer-events: auto;
+      padding: 0;
+      border: none;
+      outline: none;
+      background: none;
+
+      position: absolute;
+
+      cursor: pointer;
+    }
+
+    &__arrowdown {
+      align-self: center;
+      width: 0;
+      height: 0;
+      border-top-color: $lithestgrey;
+      border-top-width: 12px;
+      border-top-style: solid;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      z-index: 1;
+    }
+  }
+}

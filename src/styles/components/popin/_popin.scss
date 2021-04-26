@@ -9,6 +9,7 @@
 
   margin: 10px 7vw;
   padding: 15px;
+  min-width: 240px;
 
   display: flex;
   justify-content: space-between;
@@ -92,8 +93,10 @@
   }
   .no-title & {
     margin-left: 75vw;
-    margin-right: 50px;
+    margin-right: 55px;
+    align-self: flex-end;
     font-size: 80%;
+
     // justify-content: flex-start;
     button {
       margin: 0;
@@ -107,16 +110,11 @@
     margin-left: 30px;
     margin-right: 30px;
   }
-  @media (max-width: 1200px) {
-    .no-title & {
-      margin-left: 50%;
-    }
-  }
   @media (max-width: 600px) {
     .no-title & {
       position: absolute;
       margin: 0;
-      top: calc(100vh - 130px);
+      top: calc(100vh - 150px);
       right: 10px;
 
       .popin__close {

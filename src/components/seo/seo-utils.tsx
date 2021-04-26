@@ -81,7 +81,7 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
     return buildMetaTags(
       buildTitleFromPageType(pageType, depute),
       "Nos députés, représentés sous forme de carte.",
-      process.env.NEXT_PUBLIC_ENV !== "production" ? "https://preprod.augora.fr/map" : "https://augora.fr/map",
+      process.env.NEXT_PUBLIC_ENV !== "production" ? "https://preprod.augora.fr/carte" : "https://augora.fr/carte",
       "icons/icon-512x512.png",
       process.env.NEXT_PUBLIC_ENV
     )
@@ -103,7 +103,7 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
   return []
 }
 
-export function buildTitleFromPageType(pageType: PageType, depute: any) {
+export function buildTitleFromPageType(pageType: PageType, depute: Deputy.Deputy) {
   if (pageType === PageType.Accueil) {
     return "Liste des députés"
   }
