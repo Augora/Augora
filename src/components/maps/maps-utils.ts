@@ -226,11 +226,12 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
 export const flyToBounds = <T extends GeoJSON.Feature>(
   feature: T,
   viewState: ViewportProps,
-  setViewState: React.Dispatch<React.SetStateAction<ViewportProps>>
+  setViewState: React.Dispatch<React.SetStateAction<ViewportProps>>,
+  padding?: number
 ): void => {
   const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
   const { longitude, latitude, zoom } = new WebMercatorViewport({ width: 500, height: 500, ...viewState }).fitBounds(bounds, {
-    padding: 100,
+    padding: padding ? padding : 80,
   })
   setViewState({
     ...viewState,

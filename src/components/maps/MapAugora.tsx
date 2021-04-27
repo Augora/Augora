@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
+import { isMobile } from "react-device-detect"
 import router from "next/router"
 import InteractiveMap, {
   NavigationControl,
@@ -122,6 +123,11 @@ export default function MapAugora(props: IMapAugora) {
 
   const mapRef = useRef<mapboxgl.Map>()
 
+  /** Transitionne le viewport sur une feature */
+  const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
+    flyToBounds(feature, viewport, setViewport, isMobile ? 20 : 80)
+  }
+
   /**
    * Change de zone sur la feature fournie, reset le viewport si on est deja sur la zone
    * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
@@ -156,7 +162,7 @@ export default function MapAugora(props: IMapAugora) {
           console.error("Feature à afficher non valide")
           return
       }
-    } else flyToBounds(feature, viewport, setViewport)
+    } else flyToFeature(feature)
   }
 
   /**
@@ -183,7 +189,7 @@ export default function MapAugora(props: IMapAugora) {
 
         if (props.setPageTitle) props.setPageTitle(newFeature.properties.nom)
 
-        if (isMapLoaded) flyToBounds(newFeature, viewport, setViewport)
+        if (isMapLoaded) flyToFeature(newFeature)
         break
       default:
         console.error("Zone à afficher non trouvée")
@@ -253,7 +259,7 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleLoad = () => {
     setIsMapLoaded(true)
-    flyToBounds(currentView.feature, viewport, setViewport)
+    flyToFeature(currentView.feature)
   }
 
   return (
