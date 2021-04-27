@@ -167,9 +167,10 @@ export function MapPin(props: IMapPin) {
  * @param {Function} [handleHover] Fonction appelée quand le pin est hover
  */
 export default function MapPins(props: IMapPins) {
-  const activeGhostFeature = props.hoveredFeature
-    ? props.ghostFeatures.find((feature) => compareFeatures(feature, props.hoveredFeature))
-    : null
+  const activeGhostFeature =
+    props.hoveredFeature && props.ghostFeatures
+      ? props.ghostFeatures.find((feature) => compareFeatures(feature, props.hoveredFeature))
+      : null
 
   return (
     <div className="map__pins">
@@ -179,7 +180,7 @@ export default function MapPins(props: IMapPins) {
 
         return (
           <MapPin
-            key={`${index}-${zoneCode}-${feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt}`}
+            key={`pin-${index}-${zoneCode}-${feature.properties[zoneCode]}${props.features.length <= 1 ? "-solo" : ""}`}
             deputies={featureDeputies}
             feature={feature}
             handleClick={() => {

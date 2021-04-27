@@ -357,7 +357,7 @@ export const getParentFeature = <T extends GeoJSON.Feature>(feature: T): AugoraM
     case Code.Dpt:
       return getContinent(feature) === Cont.OM ? WorldFeature : getFeature(feature.properties[Code.Reg], Code.Reg)
     case Code.Circ:
-      return getFeature(feature.properties[Code.Circ], Code.Circ, feature.properties[Code.Dpt])
+      return getFeature(feature.properties[Code.Dpt], Code.Dpt)
     default:
       return WorldFeature
   }

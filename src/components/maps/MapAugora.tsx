@@ -24,6 +24,7 @@ import {
   getDeputies,
   getParentFeature,
   compareFeatures,
+  createFeatureCollection,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
@@ -45,6 +46,7 @@ interface IMapAugora {
   codeCont?: number
   codeReg?: number | string
   codeDpt?: number | string
+  codeCirc?: number | string
 }
 
 const fillLayerProps: LayerProps = {
@@ -91,6 +93,7 @@ const lineGhostLayerProps: LayerProps = {
  * @param {number} codeCont Code de continent à afficher
  * @param {number | string} codeReg Code de région à afficher
  * @param {number | string} codeDpt Code de département à afficher
+ * @param {number | string} codeCirc Code de circonscription à afficher
  */
 export default function MapAugora(props: IMapAugora) {
   const {
@@ -102,10 +105,12 @@ export default function MapAugora(props: IMapAugora) {
       displayZone(getFeature(props.codeCont, Code.Cont))
     } else if (props.codeReg) {
       displayZone(getFeature(props.codeReg, Code.Reg))
+    } else if (props.codeCirc) {
+      displayZone(getFeature(props.codeCirc, Code.Circ, props.codeDpt))
     } else if (props.codeDpt) {
       displayZone(getFeature(props.codeDpt, Code.Dpt))
     }
-  }, [props.codeCont, props.codeReg, props.codeDpt])
+  }, [props.codeCont, props.codeReg, props.codeDpt, props.codeCirc])
 
   const [viewport, setViewport] = useState<ViewportProps>({
     zoom: 5,
@@ -133,8 +138,8 @@ export default function MapAugora(props: IMapAugora) {
    * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
    */
   const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
+    const zoneCode = getZoneCode(feature)
     if (!compareFeatures(feature, currentView.feature)) {
-      const zoneCode = getZoneCode(feature)
       switch (zoneCode) {
         case Code.Cont:
           router.push(`/carte?codeCont=${feature.properties[Code.Cont]}`, `/carte?codeCont=${feature.properties[Code.Cont]}`, {
@@ -152,15 +157,24 @@ export default function MapAugora(props: IMapAugora) {
           })
           return
         case Code.Circ:
-          const deputy = getDeputies(feature, FilteredList)[0]
-          if (deputy)
-            router.push(`/depute/${deputy.Slug}`, `/depute/${deputy.Slug}`, {
+          router.push(
+            `/carte?codeDpt=${feature.properties[Code.Dpt]}&codeCirc=${feature.properties[Code.Circ]}`,
+            `/carte?codeDpt=${feature.properties[Code.Dpt]}&codeCirc=${feature.properties[Code.Circ]}`,
+            {
               shallow: true,
-            })
+            }
+          )
           return
         default:
           console.error("Feature à afficher non valide")
           return
+      }
+    } else if (zoneCode === Code.Circ && !currentView.ghostGeoJSON) {
+      const deputy = getDeputies(feature, FilteredList)[0]
+      if (deputy) {
+        router.push(`/depute/${deputy.Slug}`, `/depute/${deputy.Slug}`, {
+          shallow: true,
+        })
       }
     } else flyToFeature(feature)
   }
@@ -171,25 +185,31 @@ export default function MapAugora(props: IMapAugora) {
    */
   const displayZone = (feature: AugoraMap.Feature) => {
     const zoneCode = getZoneCode(feature)
-    let newFeature = feature
-
     switch (zoneCode) {
       case Code.Circ:
-        newFeature = getParentFeature(feature)
+        setCurrentView({
+          geoJSON: createFeatureCollection([feature]),
+          feature: feature,
+        })
+
+        if (props.setPageTitle) props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties.code_circ}`)
+
+        if (isMapLoaded) flyToFeature(feature)
+        break
       case Code.Dpt:
       case Code.Reg:
       case Code.Cont:
-        const newGEOJson = getChildFeatures(newFeature)
+        const newGEOJson = getChildFeatures(feature)
 
         setCurrentView({
           geoJSON: newGEOJson,
-          feature: newFeature,
-          ghostGeoJSON: getGhostZones(newFeature),
+          feature: feature,
+          ghostGeoJSON: getGhostZones(feature),
         })
 
-        if (props.setPageTitle) props.setPageTitle(newFeature.properties.nom)
+        if (props.setPageTitle) props.setPageTitle(feature.properties.nom)
 
-        if (isMapLoaded) flyToFeature(newFeature)
+        if (isMapLoaded) flyToFeature(feature)
         break
       default:
         console.error("Zone à afficher non trouvée")
@@ -274,7 +294,7 @@ export default function MapAugora(props: IMapAugora) {
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
-      interactiveLayerIds={!inExploreMode ? ["zone-fill", "zone-ghost-fill"] : []}
+      interactiveLayerIds={!inExploreMode ? (currentView.ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
       onResize={handleLoad}
       onViewportChange={setViewport}
       onClick={handleClick}
@@ -286,14 +306,16 @@ export default function MapAugora(props: IMapAugora) {
         <Layer {...lineLayerProps} />
         <Layer {...fillLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
-      <Source type="geojson" data={currentView.ghostGeoJSON} generateId={true}>
-        <Layer {...lineGhostLayerProps} />
-        <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
-      </Source>
+      {currentView.ghostGeoJSON && (
+        <Source type="geojson" data={currentView.ghostGeoJSON} generateId={true}>
+          <Layer {...lineGhostLayerProps} />
+          <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
+        </Source>
+      )}
       {!inExploreMode && isMapLoaded && (
         <MapPins
           features={currentView.geoJSON.features}
-          ghostFeatures={currentView.ghostGeoJSON.features}
+          ghostFeatures={currentView.ghostGeoJSON ? currentView.ghostGeoJSON.features : null}
           hoveredFeature={hover}
           deputies={FilteredList}
           handleClick={changeZone}

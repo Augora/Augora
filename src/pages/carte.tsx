@@ -19,13 +19,7 @@ function stringToInt(n: string) {
   return parsedString
 }
 
-export default function MapPage({
-  location,
-}: {
-  location: {
-    search: string
-  }
-}) {
+export default function MapPage() {
   const [pageTitle, setPageTitle] = useState<string>("Carte")
   const router = useRouter()
 
@@ -38,6 +32,7 @@ export default function MapPage({
             codeCont={stringToInt(convertArrayOfStringToString(router.query.codeCont))}
             codeDpt={convertArrayOfStringToString(router.query.codeDpt)}
             codeReg={convertArrayOfStringToString(router.query.codeReg)}
+            codeCirc={convertArrayOfStringToString(router.query.codeCirc)}
             setPageTitle={setPageTitle}
           />
         </div>
