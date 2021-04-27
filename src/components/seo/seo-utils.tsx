@@ -3,7 +3,7 @@ export enum PageType {
   Depute,
   FAQ,
   NotFound,
-  Carte,
+  Map,
   MentionsLegales,
   // About,
 }
@@ -77,7 +77,7 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
       process.env.NEXT_PUBLIC_ENV
     )
   }
-  if (pageType === PageType.Carte) {
+  if (pageType === PageType.Map) {
     return buildMetaTags(
       buildTitleFromPageType(pageType, depute),
       "Nos députés, représentés sous forme de carte.",
@@ -113,7 +113,7 @@ export function buildTitleFromPageType(pageType: PageType, depute: Deputy.Deputy
   if (pageType === PageType.FAQ) {
     return "Foire aux Questions"
   }
-  if (pageType === PageType.Carte) {
+  if (pageType === PageType.Map) {
     return "Carte du monde"
   }
   if (pageType === PageType.NotFound) {

@@ -33,5 +33,13 @@ module.exports = withSourceMaps(
       maxInactiveAge: 30 * 60 * 1000,
       pagesBufferLength: 100,
     },
+    async rewrites() {
+      return [
+        {
+          source: "/carte",
+          destination: "/map",
+        },
+      ]
+    },
   })
 )

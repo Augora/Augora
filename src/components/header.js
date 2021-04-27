@@ -10,7 +10,7 @@ const mainPages = {
     path: "/",
     title: "Députés",
   },
-  carte: {
+  map: {
     path: "/carte",
     title: "Carte",
   },
