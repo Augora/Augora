@@ -142,24 +142,24 @@ export default function MapAugora(props: IMapAugora) {
     if (!compareFeatures(feature, currentView.feature)) {
       switch (zoneCode) {
         case Code.Cont:
-          router.push(`/carte?codeCont=${feature.properties[Code.Cont]}`, `/carte?codeCont=${feature.properties[Code.Cont]}`, {
+          router.push(`/carte?cont=${feature.properties[Code.Cont]}`, `/carte?cont=${feature.properties[Code.Cont]}`, {
             shallow: true,
           })
           return
         case Code.Reg:
-          router.push(`/carte?codeReg=${feature.properties[Code.Reg]}`, `/carte?codeReg=${feature.properties[Code.Reg]}`, {
+          router.push(`/carte?reg=${feature.properties[Code.Reg]}`, `/carte?reg=${feature.properties[Code.Reg]}`, {
             shallow: true,
           })
           return
         case Code.Dpt:
-          router.push(`/carte?codeDpt=${feature.properties[Code.Dpt]}`, `/carte?codeDpt=${feature.properties[Code.Dpt]}`, {
+          router.push(`/carte?dpt=${feature.properties[Code.Dpt]}`, `/carte?dpt=${feature.properties[Code.Dpt]}`, {
             shallow: true,
           })
           return
         case Code.Circ:
           router.push(
-            `/carte?codeDpt=${feature.properties[Code.Dpt]}&codeCirc=${feature.properties[Code.Circ]}`,
-            `/carte?codeDpt=${feature.properties[Code.Dpt]}&codeCirc=${feature.properties[Code.Circ]}`,
+            `/carte?dpt=${feature.properties[Code.Dpt]}&circ=${feature.properties[Code.Circ]}`,
+            `/carte?dpt=${feature.properties[Code.Dpt]}&circ=${feature.properties[Code.Circ]}`,
             {
               shallow: true,
             }

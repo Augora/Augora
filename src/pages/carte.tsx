@@ -29,10 +29,10 @@ export default function MapPage() {
       <div className="page page__map">
         <div className="map__container">
           <MapAugora
-            codeCont={stringToInt(convertArrayOfStringToString(router.query.codeCont))}
-            codeDpt={convertArrayOfStringToString(router.query.codeDpt)}
-            codeReg={convertArrayOfStringToString(router.query.codeReg)}
-            codeCirc={convertArrayOfStringToString(router.query.codeCirc)}
+            codeCont={stringToInt(convertArrayOfStringToString(router.query.cont))}
+            codeDpt={convertArrayOfStringToString(router.query.dpt)}
+            codeReg={convertArrayOfStringToString(router.query.reg)}
+            codeCirc={convertArrayOfStringToString(router.query.circ)}
             setPageTitle={setPageTitle}
           />
         </div>

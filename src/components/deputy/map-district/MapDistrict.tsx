@@ -67,7 +67,7 @@ export default function MapDistrict(props: Bloc.Map) {
               }}
             />
           </Source>
-          <Link href={`/carte?codeDpt=${districtPolygon?.properties?.code_dpt}`}>
+          <Link href={`/carte?dpt=${NumeroDepartement}&circ=${NumeroCirconscription}`}>
             <a className="map__redirect">Cliquer pour voir la carte entière</a>
           </Link>
         </ReactMapGL>
