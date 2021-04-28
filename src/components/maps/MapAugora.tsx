@@ -36,8 +36,18 @@ import { getDeputes } from "src/lib/deputes/Wrapper"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface ICurrentView {
+  /** Feature collection des zones principales */
   geoJSON: AugoraMap.FeatureCollection
+  /** Feature contenant toutes les zones. Exemple: si on est en vue Pyrénées-Orientales, ce sera l'Occitanie */
   feature: AugoraMap.Feature
+  /** Liste des députés de l'ensemble des zones */
+  deputies: Deputy.DeputiesList
+  /** Objet paint pour les layers. Utilisé pour avoir une couleur dynamique */
+  paint: {
+    fill: mapboxgl.FillPaint
+    line: mapboxgl.LinePaint
+  }
+  /** Feature collection des zones estompées voisines */
   ghostGeoJSON?: AugoraMap.FeatureCollection
 }
 
@@ -49,46 +59,50 @@ interface IMapAugora {
   codeCirc?: number | string
 }
 
+const setFillPaint = (color?: string, ghost?: boolean): mapboxgl.FillPaint => {
+  return {
+    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], color ? color : "#14ccae", color ? color : "#00bbcc"],
+    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.3, ghost ? 0.04 : 0.1],
+  }
+}
+
+const setLinePaint = (color?: string): mapboxgl.LinePaint => {
+  return {
+    "line-color": color ? color : "#00bbcc",
+    "line-width": 2,
+  }
+}
+
 const fillLayerProps: LayerProps = {
   id: "zone-fill",
   type: "fill",
-  paint: {
-    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], "#14ccae", "#00bbcc"],
-    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.4, 0.1],
-  },
+  paint: setFillPaint(),
 }
 
 const lineLayerProps: LayerProps = {
   id: "zone-line",
   type: "line",
-  paint: {
-    "line-color": "#00bbcc",
-    "line-width": 2,
-  },
+  paint: setLinePaint(),
 }
 
 const fillGhostLayerProps: LayerProps = {
   id: "zone-ghost-fill",
   type: "fill",
-  paint: {
-    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], "#14ccae", "#00bbcc"],
-    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.4, 0.04],
-  },
+  paint: setFillPaint(null, true),
 }
 
 const lineGhostLayerProps: LayerProps = {
   id: "zone-ghost-line",
   type: "line",
   paint: {
-    "line-color": "#00bbcc",
-    "line-width": 2,
+    ...setLinePaint(),
     // "line-dasharray": [2, 2],
     "line-opacity": 0.2,
   },
 }
 
 /**
- * Renvoie la map augora, ne peut recevoir qu'un seul code d'affichage. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre continent > region > département
+ * Renvoie la map augora, reçoit un code d'affichage, 2 (Dpt, Circ) s'il s'agit d'une circonscription. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre continent > region > circonscription > département
  * @param {React.Dispatch<React.SetStateAction<string>>} [setPageTitle] setState callback pour changer le titre de la page
  * @param {number} codeCont Code de continent à afficher
  * @param {number | string} codeReg Code de région à afficher
@@ -99,6 +113,25 @@ export default function MapAugora(props: IMapAugora) {
   const {
     state: { FilteredList },
   } = useDeputiesFilters()
+
+  const [viewport, setViewport] = useState<ViewportProps>({
+    zoom: 5,
+    longitude: France.center.lng,
+    latitude: France.center.lat,
+  })
+  const [currentView, setCurrentView] = useState<ICurrentView>({
+    geoJSON: AllReg,
+    feature: MetroFeature,
+    deputies: getDeputies(MetroFeature, FilteredList),
+    paint: {
+      fill: setFillPaint(),
+      line: setLinePaint(),
+    },
+    ghostGeoJSON: getGhostZones(MetroFeature),
+  })
+  const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
+  const [inExploreMode, setInExploreMode] = useState(false)
+  const [isMapLoaded, setIsMapLoaded] = useState(false)
 
   useEffect(() => {
     if (props.codeCont !== undefined) {
@@ -112,19 +145,9 @@ export default function MapAugora(props: IMapAugora) {
     }
   }, [props.codeCont, props.codeReg, props.codeDpt, props.codeCirc])
 
-  const [viewport, setViewport] = useState<ViewportProps>({
-    zoom: 5,
-    longitude: France.center.lng,
-    latitude: France.center.lat,
-  })
-  const [currentView, setCurrentView] = useState<ICurrentView>({
-    geoJSON: AllReg,
-    feature: MetroFeature,
-    ghostGeoJSON: getGhostZones(MetroFeature),
-  })
-  const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
-  const [inExploreMode, setInExploreMode] = useState(false)
-  const [isMapLoaded, setIsMapLoaded] = useState(false)
+  useEffect(() => {
+    renderZone(currentView.feature)
+  }, [FilteredList])
 
   const mapRef = useRef<mapboxgl.Map>()
 
@@ -170,7 +193,7 @@ export default function MapAugora(props: IMapAugora) {
           return
       }
     } else if (zoneCode === Code.Circ && !currentView.ghostGeoJSON) {
-      const deputy = getDeputies(feature, FilteredList)[0]
+      const deputy = currentView.deputies[0]
       if (deputy) {
         router.push(`/depute/${deputy.Slug}`, `/depute/${deputy.Slug}`, {
           shallow: true,
@@ -180,42 +203,63 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /**
-   * Affiche une nouvelle vue, sans changer l'url, ne pas utiliser directement
+   * Affiche une nouvelle vue et transitionne, sans changer l'url, ne pas utiliser directement
    * @param {AugoraMap.Feature} feature La feature de la zone à afficher
    */
   const displayZone = (feature: AugoraMap.Feature) => {
+    renderZone(feature)
+    if (props.setPageTitle) {
+      if (feature.properties.nom) props.setPageTitle(feature.properties.nom)
+      else props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties.code_circ}`)
+    }
+    if (isMapLoaded) flyToFeature(feature)
+    renderHover()
+  }
+
+  /**
+   * Change / update le state de la vue actuelle sans aucune transition
+   * @param {AugoraMap.Feature} feature La feature de la zone à afficher
+   */
+  const renderZone = (feature: AugoraMap.Feature) => {
     const zoneCode = getZoneCode(feature)
     switch (zoneCode) {
       case Code.Circ:
+        const deputy = getDeputies(feature, FilteredList)
+        const groupColor = deputy[0]?.GroupeParlementaire?.Couleur
+
         setCurrentView({
           geoJSON: createFeatureCollection([feature]),
           feature: feature,
+          deputies: deputy,
+          paint: groupColor
+            ? {
+                fill: setFillPaint(groupColor),
+                line: setLinePaint(groupColor),
+              }
+            : {
+                fill: setFillPaint("#808080"),
+                line: setLinePaint("#808080"),
+              },
         })
-
-        if (props.setPageTitle) props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties.code_circ}`)
-
-        if (isMapLoaded) flyToFeature(feature)
         break
       case Code.Dpt:
       case Code.Reg:
       case Code.Cont:
-        const newGEOJson = getChildFeatures(feature)
-
         setCurrentView({
-          geoJSON: newGEOJson,
+          geoJSON: getChildFeatures(feature),
           feature: feature,
+          deputies: getDeputies(feature, FilteredList),
+          paint: {
+            fill: setFillPaint(),
+            line: setLinePaint(),
+          },
           ghostGeoJSON: getGhostZones(feature),
         })
-
-        if (props.setPageTitle) props.setPageTitle(feature.properties.nom)
-
-        if (isMapLoaded) flyToFeature(feature)
         break
       default:
         console.error("Zone à afficher non trouvée")
         break
     }
-    renderHover()
   }
 
   /**
@@ -303,8 +347,8 @@ export default function MapAugora(props: IMapAugora) {
       reuseMaps={true}
     >
       <Source type="geojson" data={currentView.geoJSON} generateId={true}>
-        <Layer {...lineLayerProps} />
-        <Layer {...fillLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
+        <Layer {...lineLayerProps} paint={currentView.paint.line} />
+        <Layer {...fillLayerProps} paint={currentView.paint.fill} layout={inExploreMode ? { visibility: "none" } : {}} />
       </Source>
       {currentView.ghostGeoJSON && (
         <Source type="geojson" data={currentView.ghostGeoJSON} generateId={true}>
@@ -341,7 +385,7 @@ export default function MapAugora(props: IMapAugora) {
           <MapBreadcrumb feature={currentView.feature} handleClick={changeZone} />
         </div>
         <div className="navigation__bottom">
-          <MapFilters zoneDeputies={getDeputies(currentView.feature, FilteredList)} />
+          <MapFilters zoneDeputies={currentView.deputies} />
         </div>
       </div>
     </InteractiveMap>

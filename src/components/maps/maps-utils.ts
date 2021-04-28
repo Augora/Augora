@@ -60,7 +60,7 @@ export const createFeature = (
 }
 
 /**
- * Formate une feature array sous forme feature collection GEOJson
+ * Formate une feature array sous forme feature collection GeoJSON
  * @param {AugoraMap.Feature[]} featureArray La feature collection renvoyée sera vide sans cet argument
  */
 export const createFeatureCollection = (featureArray?: AugoraMap.Feature[]): AugoraMap.FeatureCollection => {
@@ -219,7 +219,7 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
 
 /**
  * Transitionne de façon fluide vers une zone
- * @param {AugoraMap.Feature} feature La feature vers laquelle aller
+ * @param {AugoraMap.Feature} feature La feature vers laquelle aller, dézoom sur le monde si la feature n'a pas de propriété bbox
  * @param {ViewportProps} viewState Le state du viewport
  * @param {React.Dispatch<React.SetStateAction<ViewportProps>>} setViewState Le setState du viewport
  */
