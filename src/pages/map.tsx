@@ -25,7 +25,7 @@ export default function MapPage() {
 
   return (
     <>
-      <SEO pageType={PageType.Carte} title={pageTitle} />
+      <SEO pageType={PageType.Map} title={pageTitle} />
       <div className="page page__map">
         <div className="map__container">
           <MapAugora
