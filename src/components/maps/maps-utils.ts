@@ -485,7 +485,7 @@ export const getZoneName = <T extends GeoJSON.Feature>(feature: T): string => {
     case Code.Dpt:
       return `${feature.properties.nom} (${feature.properties[Code.Dpt]})`
     case Code.Circ:
-      return `${feature.properties[Code.Circ]}${feature.properties[Code.Circ] < 2 ? "ère" : "ème"} Circonscription`
+      return `${feature.properties[Code.Circ]}${feature.properties[Code.Circ] === 1 ? "ère" : "ème"} Circonscription`
     default:
       return ""
   }

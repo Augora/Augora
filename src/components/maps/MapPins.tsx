@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Popup } from "react-map-gl"
-import { Code, compareFeatures, getDeputies, getZoneCode, getPolygonCenter } from "components/maps/maps-utils"
+import { Code, compareFeatures, getDeputies, getZoneCode, getPolygonCenter, getZoneName } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import orderBy from "lodash/orderBy"
 import Tooltip from "components/tooltip/Tooltip"
 import GroupBar from "components/deputies-list/GroupBar"
 import IconMissing from "images/ui-kit/icon-missingmale.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
+import { slugify } from "utils/utils"
 
 interface IMapPins {
   features: AugoraMap.Feature[]
@@ -176,11 +177,12 @@ export default function MapPins(props: IMapPins) {
     <div className="map__pins">
       {orderBy(props.features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
         const featureDeputies = getDeputies(feature, props.deputies)
-        const zoneCode = getZoneCode(feature)
 
         return (
           <MapPin
-            key={`pin-${index}-${zoneCode}-${feature.properties[zoneCode]}${props.features.length <= 1 ? "-solo" : ""}`}
+            key={`pin${feature.properties.nom_dpt ? `-${slugify(feature.properties.nom_dpt)}` : ""}-${slugify(
+              getZoneName(feature)
+            )}${props.features.length <= 1 ? "-solo" : ""}`}
             deputies={featureDeputies}
             feature={feature}
             handleClick={() => {
