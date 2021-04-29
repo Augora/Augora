@@ -31,8 +31,6 @@ import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
 import MapFilters from "components/maps/MapFilters"
 import IconInfo from "images/ui-kit/icon-info.svg"
-import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
-import { getDeputes } from "src/lib/deputes/Wrapper"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface ICurrentView {
@@ -52,11 +50,20 @@ interface ICurrentView {
 }
 
 interface IMapAugora {
+  /** Liste de députés que la map va fouiller. Hint: on peut passer une array avec un seul député pour par exemple une circonscription */
+  deputies?: Deputy.DeputiesList
+  /** Callback auquel un string "nom de zone" sera passé */
   setPageTitle?: React.Dispatch<React.SetStateAction<string>>
+  /** ID continent (0 France, 1 World) */
   codeCont?: number
+  /** ID Région */
   codeReg?: number | string
+  /** ID Département */
   codeDpt?: number | string
+  /** ID Circonscription */
   codeCirc?: number | string
+  /** Si les overlays doivent être affichés */
+  overlay?: boolean
 }
 
 const setFillPaint = (color?: string, ghost?: boolean): mapboxgl.FillPaint => {
@@ -102,18 +109,20 @@ const lineGhostLayerProps: LayerProps = {
 }
 
 /**
- * Renvoie la map augora, reçoit un code d'affichage, 2 (Dpt, Circ) s'il s'agit d'une circonscription. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre continent > region > circonscription > département
- * @param {React.Dispatch<React.SetStateAction<string>>} [setPageTitle] setState callback pour changer le titre de la page
- * @param {number} codeCont Code de continent à afficher
- * @param {number | string} codeReg Code de région à afficher
- * @param {number | string} codeDpt Code de département à afficher
- * @param {number | string} codeCirc Code de circonscription à afficher
+ * Renvoie la map augora, reçoit un code d'affichage, 2 (Dpt, Circ) s'il s'agit d'une circonscription. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre circonscription > département > région > continent
+ * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map
+ * @param {Function} [setPageTitle] setState callback pour changer le titre de la page
+ * @param {number} [codeCont] Code de continent à afficher
+ * @param {number | string} [codeReg] Code de région à afficher
+ * @param {number | string} [codeDpt] Code de département à afficher
+ * @param {number | string} [codeCirc] Code de circonscription à afficher
+ * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default = true
  */
 export default function MapAugora(props: IMapAugora) {
-  const {
-    state: { FilteredList },
-  } = useDeputiesFilters()
+  /** Default props */
+  const { overlay = true, deputies = [] } = props
 
+  /** useStates */
   const [viewport, setViewport] = useState<ViewportProps>({
     zoom: 5,
     longitude: France.center.lng,
@@ -122,33 +131,36 @@ export default function MapAugora(props: IMapAugora) {
   const [currentView, setCurrentView] = useState<ICurrentView>({
     geoJSON: AllReg,
     feature: MetroFeature,
-    deputies: getDeputies(MetroFeature, FilteredList),
+    deputies: getDeputies(MetroFeature, deputies),
     paint: {
       fill: setFillPaint(),
       line: setLinePaint(),
     },
-    ghostGeoJSON: getGhostZones(MetroFeature),
   })
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [inExploreMode, setInExploreMode] = useState(false)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
 
+  /** useEffects */
   useEffect(() => {
-    if (props.codeCont !== undefined) {
-      displayZone(getFeature(props.codeCont, Code.Cont))
-    } else if (props.codeReg) {
-      displayZone(getFeature(props.codeReg, Code.Reg))
-    } else if (props.codeCirc) {
-      displayZone(getFeature(props.codeCirc, Code.Circ, props.codeDpt))
-    } else if (props.codeDpt) {
-      displayZone(getFeature(props.codeDpt, Code.Dpt))
+    if (isMapLoaded) {
+      if (props.codeCirc) {
+        displayZone(getFeature(props.codeCirc, Code.Circ, props.codeDpt))
+      } else if (props.codeDpt) {
+        displayZone(getFeature(props.codeDpt, Code.Dpt))
+      } else if (props.codeReg) {
+        displayZone(getFeature(props.codeReg, Code.Reg))
+      } else if (props.codeCont !== undefined) {
+        displayZone(getFeature(props.codeCont, Code.Cont))
+      }
     }
-  }, [props.codeCont, props.codeReg, props.codeDpt, props.codeCirc])
+  }, [props.codeCont, props.codeReg, props.codeDpt, props.codeCirc, isMapLoaded])
 
   useEffect(() => {
     renderZone(currentView.feature)
-  }, [FilteredList])
+  }, [deputies])
 
+  /** useRefs */
   const mapRef = useRef<mapboxgl.Map>()
 
   /** Transitionne le viewport sur une feature */
@@ -192,7 +204,7 @@ export default function MapAugora(props: IMapAugora) {
           console.error("Feature à afficher non valide")
           return
       }
-    } else if (zoneCode === Code.Circ && !currentView.ghostGeoJSON) {
+    } else if (zoneCode === Code.Circ) {
       const deputy = currentView.deputies[0]
       if (deputy) {
         router.push(`/depute/${deputy.Slug}`, `/depute/${deputy.Slug}`, {
@@ -207,13 +219,15 @@ export default function MapAugora(props: IMapAugora) {
    * @param {AugoraMap.Feature} feature La feature de la zone à afficher
    */
   const displayZone = (feature: AugoraMap.Feature) => {
-    renderZone(feature)
-    if (props.setPageTitle) {
-      if (feature.properties.nom) props.setPageTitle(feature.properties.nom)
-      else props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties.code_circ}`)
-    }
-    if (isMapLoaded) flyToFeature(feature)
-    renderHover()
+    if (feature) {
+      renderZone(feature)
+      if (props.setPageTitle) {
+        if (feature.properties.nom) props.setPageTitle(feature.properties.nom)
+        else props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties.code_circ}`)
+      }
+      flyToFeature(feature)
+      renderHover()
+    } else console.error("Zone à afficher non trouvée")
   }
 
   /**
@@ -224,7 +238,7 @@ export default function MapAugora(props: IMapAugora) {
     const zoneCode = getZoneCode(feature)
     switch (zoneCode) {
       case Code.Circ:
-        const deputy = getDeputies(feature, FilteredList)
+        const deputy = getDeputies(feature, deputies)
         const groupColor = deputy[0]?.GroupeParlementaire?.Couleur
 
         setCurrentView({
@@ -248,7 +262,7 @@ export default function MapAugora(props: IMapAugora) {
         setCurrentView({
           geoJSON: getChildFeatures(feature),
           feature: feature,
-          deputies: getDeputies(feature, FilteredList),
+          deputies: getDeputies(feature, deputies),
           paint: {
             fill: setFillPaint(),
             line: setLinePaint(),
@@ -257,7 +271,6 @@ export default function MapAugora(props: IMapAugora) {
         })
         break
       default:
-        console.error("Zone à afficher non trouvée")
         break
     }
   }
@@ -356,48 +369,47 @@ export default function MapAugora(props: IMapAugora) {
           <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
         </Source>
       )}
-      {!inExploreMode && isMapLoaded && (
-        <MapPins
-          features={currentView.geoJSON.features}
-          ghostFeatures={currentView.ghostGeoJSON ? currentView.ghostGeoJSON.features : null}
-          hoveredFeature={hover}
-          deputies={FilteredList}
-          handleClick={changeZone}
-          handleHover={simulateHover}
-        />
+      {overlay && (
+        <>
+          {!inExploreMode && isMapLoaded && (
+            <MapPins
+              features={currentView.geoJSON.features}
+              ghostFeatures={currentView.ghostGeoJSON ? currentView.ghostGeoJSON.features : null}
+              hoveredFeature={hover}
+              deputies={deputies}
+              handleClick={changeZone}
+              handleHover={simulateHover}
+            />
+          )}
+          <div className="map__navigation">
+            <div className="navigation__right">
+              <NavigationControl
+                showCompass={false}
+                zoomInLabel="Zoomer"
+                zoomOutLabel="Dézoomer"
+                style={{ position: "relative" }}
+              />
+              <FullscreenControl label="Plein écran" style={{ position: "relative" }} />
+              <GeolocateControl label="Me Géolocaliser" style={{ position: "relative" }} />
+              <MapInput
+                className="navigation__explorer"
+                type="checkbox"
+                title={`${inExploreMode ? "Activer" : "Désactiver"} l'affichage des informations`}
+                checked={inExploreMode}
+                onChange={() => setInExploreMode(!inExploreMode)}
+              >
+                <IconInfo style={inExploreMode ? { fill: "white" } : {}} />
+              </MapInput>
+            </div>
+            <div className="navigation__left">
+              <MapBreadcrumb feature={currentView.feature} handleClick={changeZone} />
+            </div>
+            <div className="navigation__bottom">
+              <MapFilters zoneDeputies={currentView.deputies} />
+            </div>
+          </div>
+        </>
       )}
-      <div className="map__navigation">
-        <div className="navigation__right">
-          <NavigationControl showCompass={false} zoomInLabel="Zoomer" zoomOutLabel="Dézoomer" style={{ position: "relative" }} />
-          <FullscreenControl label="Plein écran" style={{ position: "relative" }} />
-          <GeolocateControl label="Me Géolocaliser" style={{ position: "relative" }} />
-          <MapInput
-            className="navigation__explorer"
-            type="checkbox"
-            title={`${inExploreMode ? "Activer" : "Désactiver"} l'affichage des informations`}
-            checked={inExploreMode}
-            onChange={() => setInExploreMode(!inExploreMode)}
-          >
-            <IconInfo style={inExploreMode ? { fill: "white" } : {}} />
-          </MapInput>
-        </div>
-        <div className="navigation__left">
-          <MapBreadcrumb feature={currentView.feature} handleClick={changeZone} />
-        </div>
-        <div className="navigation__bottom">
-          <MapFilters zoneDeputies={currentView.deputies} />
-        </div>
-      </div>
     </InteractiveMap>
   )
-}
-
-export async function getStaticProps() {
-  const deputes = await getDeputes()
-
-  return {
-    props: {
-      deputes,
-    },
-  }
 }

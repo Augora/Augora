@@ -3,6 +3,7 @@ import MapAugora from "components/maps/MapAugora"
 import { getDeputes } from "../lib/deputes/Wrapper"
 import { useRouter } from "next/router"
 import SEO, { PageType } from "src/components/seo/seo"
+import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 function convertArrayOfStringToString(arr: string | string[]) {
   if (arr instanceof Array) {
@@ -23,12 +24,17 @@ export default function MapPage() {
   const [pageTitle, setPageTitle] = useState<string>("Carte")
   const router = useRouter()
 
+  const {
+    state: { FilteredList },
+  } = useDeputiesFilters()
+
   return (
     <>
       <SEO pageType={PageType.Map} title={pageTitle} />
       <div className="page page__map">
         <div className="map__container">
           <MapAugora
+            deputies={FilteredList}
             codeCont={stringToInt(convertArrayOfStringToString(router.query.cont))}
             codeDpt={convertArrayOfStringToString(router.query.dpt)}
             codeReg={convertArrayOfStringToString(router.query.reg)}
