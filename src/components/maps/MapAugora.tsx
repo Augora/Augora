@@ -14,7 +14,6 @@ import {
   Code,
   France,
   MetroFeature,
-  AllReg,
   flyToBounds,
   getChildFeatures,
   getZoneCode,
@@ -25,6 +24,8 @@ import {
   getParentFeature,
   compareFeatures,
   createFeatureCollection,
+  setFillPaint,
+  setLinePaint,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
@@ -64,20 +65,6 @@ interface IMapAugora {
   codeCirc?: number | string
   /** Si les overlays doivent être affichés */
   overlay?: boolean
-}
-
-const setFillPaint = (color?: string, ghost?: boolean): mapboxgl.FillPaint => {
-  return {
-    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], color ? color : "#14ccae", color ? color : "#00bbcc"],
-    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.3, ghost ? 0.04 : 0.1],
-  }
-}
-
-const setLinePaint = (color?: string): mapboxgl.LinePaint => {
-  return {
-    "line-color": color ? color : "#00bbcc",
-    "line-width": 2,
-  }
 }
 
 const fillLayerProps: LayerProps = {
@@ -129,7 +116,7 @@ export default function MapAugora(props: IMapAugora) {
     latitude: France.center.lat,
   })
   const [currentView, setCurrentView] = useState<ICurrentView>({
-    geoJSON: AllReg,
+    geoJSON: getChildFeatures(MetroFeature),
     feature: MetroFeature,
     deputies: getDeputies(MetroFeature, deputies),
     paint: {

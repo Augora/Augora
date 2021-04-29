@@ -11,7 +11,7 @@ import HorsCircFile from "static/circ-hors.geojson"
 /**
  * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
  *
- * Valeurs possibles: Cont (code_cont), Reg (code_reg), Dpt (code_dpt), ou Circ (num_circ)
+ * Valeurs possibles: Cont (code_cont), Reg (code_reg), Dpt (code_dpt), ou Circ (code_circ)
  */
 export enum Code {
   Cont = "code_cont",
@@ -488,5 +488,28 @@ export const getZoneName = <T extends GeoJSON.Feature>(feature: T): string => {
       return `${feature.properties[Code.Circ]}${feature.properties[Code.Circ] === 1 ? "ère" : "ème"} Circonscription`
     default:
       return ""
+  }
+}
+
+/**
+ * Renvoie un objet paint pour les layer "fill"
+ * @param color Pour renseigner une couleur dynamiquement
+ * @param ghost Si c'est la layer ghost
+ */
+export const setFillPaint = (color?: string, ghost?: boolean): mapboxgl.FillPaint => {
+  return {
+    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], color ? color : "#14ccae", color ? color : "#00bbcc"],
+    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.3, ghost ? 0.04 : 0.1],
+  }
+}
+
+/**
+ * Renvoie un objet paint pour les layer "line"
+ * @param color Pour renseigner une couleur dynamiquement
+ */
+export const setLinePaint = (color?: string): mapboxgl.LinePaint => {
+  return {
+    "line-color": color ? color : "#00bbcc",
+    "line-width": 2,
   }
 }
