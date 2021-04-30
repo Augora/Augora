@@ -42,15 +42,8 @@ interface IMapAugora {
   deputies?: Deputy.DeputiesList
   /** Callback auquel un string "nom de zone" sera passé */
   setPageTitle?: React.Dispatch<React.SetStateAction<string>>
+  /** Object contenant les codes de zone */
   codes?: AugoraMap.MapCodes
-  // /** ID continent (0 France, 1 World) */
-  // codeCont?: number
-  // /** ID Région */
-  // codeReg?: number | string
-  // /** ID Département */
-  // codeDpt?: number | string
-  // /** ID Circonscription */
-  // codeCirc?: number
   /** Si les overlays doivent être affichés */
   overlay?: boolean
   /** S'il faut forcer un recentrage de la map au chargement */
@@ -85,8 +78,19 @@ const lineGhostLayerProps: LayerProps = {
   },
 }
 
+/** Renvoie la bonne URL selon un objet code
+ * @param codes
+ */
 const buildURLFromCodes = (codes: AugoraMap.MapCodes) => {
-  if (isEmpty(codes)) return ""
+  if (codes.circ) {
+    return `/carte?dpt=${codes.dpt}&circ=${codes.circ}`
+  } else if (codes.dpt) {
+    return `/carte?dpt=${codes.dpt}`
+  } else if (codes.reg) {
+    return `/carte?reg=${codes.reg}`
+  } else if (codes.cont) {
+    return `/carte?cont=${codes.cont}`
+  } else return ""
 }
 
 /**
@@ -140,6 +144,9 @@ export default function MapAugora(props: IMapAugora) {
         setCodes({ cont: props.codes.cont })
       } else if (isEmpty(codes)) {
         changeZone(MetroFeature)
+      } else {
+        const URL = buildURLFromCodes(codes)
+        router.replace(URL, URL, { shallow: true })
       }
     }
   }, [props.codes.cont, props.codes.reg, props.codes.dpt, props.codes.circ, isMapLoaded])

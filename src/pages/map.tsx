@@ -39,7 +39,7 @@ export default function MapPage() {
               cont: stringToInt(convertArrayOfStringToString(router.query.cont)),
               dpt: convertArrayOfStringToString(router.query.dpt),
               reg: convertArrayOfStringToString(router.query.reg),
-              circ: parseInt(convertArrayOfStringToString(router.query.circ)),
+              circ: stringToInt(convertArrayOfStringToString(router.query.circ)),
             }}
             setPageTitle={setPageTitle}
           />
