@@ -20,8 +20,10 @@ export default function MapDistrict(props: Bloc.Map) {
       <div className="map__container">
         <MapAugora
           deputies={[props.deputy]}
-          codeCirc={NumeroCirconscription}
-          codeDpt={NumeroDepartement}
+          codes={{
+            circ: NumeroCirconscription,
+            dpt: NumeroDepartement,
+          }}
           overlay={false}
           forceCenter={true}
         />

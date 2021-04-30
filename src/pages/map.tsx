@@ -35,10 +35,12 @@ export default function MapPage() {
         <div className="map__container">
           <MapAugora
             deputies={FilteredList}
-            codeCont={stringToInt(convertArrayOfStringToString(router.query.cont))}
-            codeDpt={convertArrayOfStringToString(router.query.dpt)}
-            codeReg={convertArrayOfStringToString(router.query.reg)}
-            codeCirc={parseInt(convertArrayOfStringToString(router.query.circ))}
+            codes={{
+              cont: stringToInt(convertArrayOfStringToString(router.query.cont)),
+              dpt: convertArrayOfStringToString(router.query.dpt),
+              reg: convertArrayOfStringToString(router.query.reg),
+              circ: parseInt(convertArrayOfStringToString(router.query.circ)),
+            }}
             setPageTitle={setPageTitle}
           />
         </div>

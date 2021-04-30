@@ -2,17 +2,6 @@ import create, { State } from "zustand"
 import { ViewportProps } from "react-map-gl"
 import { createFeature, createFeatureCollection, France, setFillPaint, setLinePaint } from "src/components/maps/maps-utils"
 
-interface MapCodes {
-  /** ID continent (0 France, 1 World, 2 DROM-COM) */
-  cont?: number
-  /** ID Région */
-  reg?: number | string
-  /** ID Département */
-  dpt?: number | string
-  /** ID Circonscription */
-  circ?: number
-}
-
 interface MapView {
   /** Feature collection des zones principales */
   geoJSON: AugoraMap.FeatureCollection
@@ -31,10 +20,10 @@ interface MapView {
 
 interface MapState extends State, MapView {
   viewport: ViewportProps
-  codes: MapCodes
+  codes: AugoraMap.MapCodes
   setViewport(newViewport: ViewportProps): void
   setMapView(newMapView: MapView): void
-  setCodes(newCodes: MapCodes): void
+  setCodes(newCodes: AugoraMap.MapCodes): void
 }
 
 const mapStore = create<MapState>((set) => ({
@@ -65,7 +54,7 @@ const mapStore = create<MapState>((set) => ({
     })
   },
 
-  setCodes(newCodes: MapCodes) {
+  setCodes(newCodes: AugoraMap.MapCodes) {
     set(() => {
       return { codes: newCodes }
     })

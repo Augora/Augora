@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { isMobile } from "react-device-detect"
 import router from "next/router"
 import isEmpty from "lodash/isEmpty"
+import mapStore from "src/stores/mapStore"
 import InteractiveMap, {
   NavigationControl,
   FullscreenControl,
@@ -35,37 +36,21 @@ import MapPins from "components/maps/MapPins"
 import MapFilters from "components/maps/MapFilters"
 import IconInfo from "images/ui-kit/icon-info.svg"
 import "mapbox-gl/dist/mapbox-gl.css"
-import mapStore from "src/stores/mapStore"
-
-// interface ICurrentView {
-//   /** Feature collection des zones principales */
-//   geoJSON: AugoraMap.FeatureCollection
-//   /** Feature contenant toutes les zones. Exemple: si on est en vue Pyrénées-Orientales, ce sera l'Occitanie */
-//   feature: AugoraMap.Feature
-//   /** Liste des députés de l'ensemble des zones */
-//   deputies: Deputy.DeputiesList
-//   /** Objet paint pour les layers. Utilisé pour avoir une couleur dynamique */
-//   paint: {
-//     fill: mapboxgl.FillPaint
-//     line: mapboxgl.LinePaint
-//   }
-//   /** Feature collection des zones estompées voisines */
-//   ghostGeoJSON?: AugoraMap.FeatureCollection
-// }
 
 interface IMapAugora {
   /** Liste de députés que la map va fouiller. Hint: on peut passer une array avec un seul député pour par exemple une circonscription */
   deputies?: Deputy.DeputiesList
   /** Callback auquel un string "nom de zone" sera passé */
   setPageTitle?: React.Dispatch<React.SetStateAction<string>>
-  /** ID continent (0 France, 1 World) */
-  codeCont?: number
-  /** ID Région */
-  codeReg?: number | string
-  /** ID Département */
-  codeDpt?: number | string
-  /** ID Circonscription */
-  codeCirc?: number
+  codes?: AugoraMap.MapCodes
+  // /** ID continent (0 France, 1 World) */
+  // codeCont?: number
+  // /** ID Région */
+  // codeReg?: number | string
+  // /** ID Département */
+  // codeDpt?: number | string
+  // /** ID Circonscription */
+  // codeCirc?: number
   /** Si les overlays doivent être affichés */
   overlay?: boolean
   /** S'il faut forcer un recentrage de la map au chargement */
@@ -100,6 +85,10 @@ const lineGhostLayerProps: LayerProps = {
   },
 }
 
+const buildURLFromCodes = (codes: AugoraMap.MapCodes) => {
+  if (isEmpty(codes)) return ""
+}
+
 /**
  * Renvoie la map augora, reçoit un code d'affichage, 2 (Dpt, Circ) s'il s'agit d'une circonscription. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre circonscription > département > région > continent
  * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map
@@ -108,12 +97,14 @@ const lineGhostLayerProps: LayerProps = {
  * @param {number | string} [codeReg] Code de région à afficher
  * @param {number | string} [codeDpt] Code de département à afficher
  * @param {number | string} [codeCirc] Code de circonscription à afficher
- * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default = true
+ * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default true
+ * @param {boolean} [forceCenter] S'il faut recentrer la map au chargement, default false
  */
 export default function MapAugora(props: IMapAugora) {
   /** Default props */
   const { overlay = true, deputies = [], forceCenter = false } = props
 
+  /** Zustand state */
   const {
     viewport,
     geoJSON,
@@ -128,21 +119,6 @@ export default function MapAugora(props: IMapAugora) {
   } = mapStore()
 
   /** useStates */
-  // const [viewport, setViewport] = useState<ViewportProps>({
-  //   zoom: 5,
-  //   longitude: France.center.lng,
-  //   latitude: France.center.lat,
-  // })
-  // const [currentView, setCurrentView] = useState<ICurrentView>({
-  //   geoJSON: createFeatureCollection(),
-  //   ghostGeoJSON: null,
-  //   feature: createFeature(),
-  //   deputies: [],
-  //   paint: {
-  //     fill: setFillPaint(),
-  //     line: setLinePaint(),
-  //   },
-  // })
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [inExploreMode, setInExploreMode] = useState(false)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
@@ -150,23 +126,23 @@ export default function MapAugora(props: IMapAugora) {
   /** useEffects */
   useEffect(() => {
     if (isMapLoaded) {
-      if (props.codeCirc && (props.codeCirc !== codes.circ || props.codeDpt !== codes.dpt)) {
-        displayZone(getFeature(props.codeCirc, Code.Circ, props.codeDpt))
-        setCodes({ circ: props.codeCirc, dpt: props.codeDpt })
-      } else if (props.codeDpt && (props.codeCirc !== codes.circ || props.codeDpt !== codes.dpt)) {
-        displayZone(getFeature(props.codeDpt, Code.Dpt))
-        setCodes({ dpt: props.codeDpt })
-      } else if (props.codeReg && props.codeReg !== codes.reg) {
-        displayZone(getFeature(props.codeReg, Code.Reg))
-        setCodes({ reg: props.codeReg })
-      } else if (props.codeCont !== undefined && props.codeCont !== codes.cont) {
-        displayZone(getFeature(props.codeCont, Code.Cont))
-        setCodes({ cont: props.codeCont })
+      if (props.codes.circ && (props.codes.circ !== codes.circ || props.codes.dpt !== codes.dpt)) {
+        displayZone(getFeature(props.codes.circ, Code.Circ, props.codes.dpt))
+        setCodes({ circ: props.codes.circ, dpt: props.codes.dpt })
+      } else if (props.codes.dpt && (props.codes.circ !== codes.circ || props.codes.dpt !== codes.dpt)) {
+        displayZone(getFeature(props.codes.dpt, Code.Dpt))
+        setCodes({ dpt: props.codes.dpt })
+      } else if (props.codes.reg && props.codes.reg !== codes.reg) {
+        displayZone(getFeature(props.codes.reg, Code.Reg))
+        setCodes({ reg: props.codes.reg })
+      } else if (props.codes.cont !== undefined && props.codes.cont !== codes.cont) {
+        displayZone(getFeature(props.codes.cont, Code.Cont))
+        setCodes({ cont: props.codes.cont })
       } else if (isEmpty(codes)) {
         changeZone(MetroFeature)
       }
     }
-  }, [props.codeCont, props.codeReg, props.codeDpt, props.codeCirc, isMapLoaded])
+  }, [props.codes.cont, props.codes.reg, props.codes.dpt, props.codes.circ, isMapLoaded])
 
   useEffect(() => {
     renderZone(zoneFeature) //refresh les overlays si la liste des deputés change
@@ -230,14 +206,14 @@ export default function MapAugora(props: IMapAugora) {
    * Affiche une nouvelle vue et transitionne, sans changer l'url, ne pas utiliser directement
    * @param {AugoraMap.Feature} feature La feature de la zone à afficher
    */
-  const displayZone = (feature: AugoraMap.Feature) => {
+  const displayZone = (feature: AugoraMap.Feature, noFly?: boolean) => {
     if (feature) {
       renderZone(feature)
       if (props.setPageTitle) {
         if (feature.properties.nom) props.setPageTitle(feature.properties.nom)
-        else props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties.code_circ}`)
+        else props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`)
       }
-      flyToFeature(feature)
+      if (!noFly) flyToFeature(feature)
       renderHover()
     } else console.error("Zone à afficher non trouvée")
   }
