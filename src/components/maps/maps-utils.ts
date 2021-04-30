@@ -518,13 +518,13 @@ export const getZoneName = <T extends GeoJSON.Feature>(feature: T): string => {
  * @param codes Contient cont, reg, dpt, circ
  */
 export const buildURLFromCodes = (codes: AugoraMap.MapCodes) => {
-  if (codes.circ) {
+  if (codes?.circ) {
     return `/carte?dpt=${codes.dpt}&circ=${codes.circ}`
-  } else if (codes.dpt) {
+  } else if (codes?.dpt) {
     return `/carte?dpt=${codes.dpt}`
-  } else if (codes.reg) {
+  } else if (codes?.reg) {
     return `/carte?reg=${codes.reg}`
-  } else if (codes.cont !== undefined) {
+  } else if (codes?.cont !== undefined) {
     return `/carte?cont=${codes.cont}`
   } else return ""
 }

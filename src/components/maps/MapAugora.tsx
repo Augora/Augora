@@ -73,10 +73,7 @@ const lineGhostLayerProps: LayerProps = {
  * Renvoie la map augora, reçoit un code d'affichage, 2 (Dpt, Circ) s'il s'agit d'une circonscription. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre circonscription > département > région > continent
  * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map
  * @param {Function} [setPageTitle] setState callback pour changer le titre de la page
- * @param {number} [codeCont] Code de continent à afficher
- * @param {number | string} [codeReg] Code de région à afficher
- * @param {number | string} [codeDpt] Code de département à afficher
- * @param {number | string} [codeCirc] Code de circonscription à afficher
+ * @param {AugoraMap.MapCodes} [codes] Code(s) de la zone à afficher
  * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default true
  * @param {boolean} [forceCenter] S'il faut recentrer la map au chargement, default false
  */
@@ -121,8 +118,8 @@ export default function MapAugora(props: IMapAugora) {
       } else if (isEmpty(codes)) {
         changeZone(MetroFeature)
       } else {
-        const URL = buildURLFromCodes(codes)
-        router.replace(URL, URL, { shallow: true })
+        // const URL = buildURLFromCodes(codes)
+        // router.replace(URL, URL, { shallow: true })
       }
     }
   }, [props.codes.cont, props.codes.reg, props.codes.dpt, props.codes.circ, isMapLoaded])
@@ -224,13 +221,13 @@ export default function MapAugora(props: IMapAugora) {
       case Code.Cont:
         setMapView({
           geoJSON: getChildFeatures(feature),
+          ghostGeoJSON: getGhostZones(feature),
           feature: feature,
           deputies: getDeputies(feature, deputies),
           paint: {
             fill: setFillPaint(),
             line: setLinePaint(),
           },
-          ghostGeoJSON: getGhostZones(feature),
         })
         break
       default:
@@ -318,7 +315,7 @@ export default function MapAugora(props: IMapAugora) {
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
-      interactiveLayerIds={!inExploreMode ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
+      interactiveLayerIds={isMapLoaded && !inExploreMode ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
       onResize={handleResize}
       onViewportChange={setViewport}
       onClick={handleClick}

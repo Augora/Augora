@@ -1,5 +1,6 @@
 import React from "react"
 import MapAugora from "components/maps/MapAugora"
+import { buildURLFromCodes } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
 import Link from "next/link"
 
@@ -27,7 +28,7 @@ export default function MapDistrict(props: Bloc.Map) {
           overlay={false}
           forceCenter={true}
         />
-        <Link href={`/carte?dpt=${NumeroDepartement}&circ=${NumeroCirconscription}`}>
+        <Link href={buildURLFromCodes({ dpt: NumeroDepartement, circ: NumeroCirconscription })}>
           <div className="map__redirect"></div>
         </Link>
       </div>
