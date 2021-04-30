@@ -28,6 +28,10 @@ export default function MapPage() {
     state: { FilteredList },
   } = useDeputiesFilters()
 
+  const changeURL = (URL: string) => {
+    router.push(URL, URL, { shallow: true })
+  }
+
   return (
     <>
       <SEO pageType={PageType.Map} title={pageTitle} />
@@ -42,6 +46,7 @@ export default function MapPage() {
               circ: stringToInt(convertArrayOfStringToString(router.query.circ)),
             }}
             setPageTitle={setPageTitle}
+            changeURL={changeURL}
           />
         </div>
       </div>

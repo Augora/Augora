@@ -33,6 +33,8 @@ interface IMapAugora {
   deputies?: Deputy.DeputiesList
   /** Callback auquel un string "nom de zone" sera passé */
   setPageTitle?: React.Dispatch<React.SetStateAction<string>>
+  /** Callback pour si la map doit utiliser l'URL */
+  changeURL?(URL: string): void
   /** Object contenant les codes de zone */
   codes?: AugoraMap.MapCodes
   /** Si les overlays doivent être affichés */
@@ -117,9 +119,15 @@ export default function MapAugora(props: IMapAugora) {
         setCodes({ cont: props.codes.cont })
       } else if (isEmpty(codes)) {
         changeZone(MetroFeature)
-      } else {
-        // const URL = buildURLFromCodes(codes)
-        // router.replace(URL, URL, { shallow: true })
+      } else if (props.changeURL || props.setPageTitle) {
+        if (props.changeURL) {
+          const URL = buildURLFromCodes(codes)
+          props.changeURL(URL)
+        }
+        if (props.setPageTitle) {
+          if (zoneFeature.properties.nom) props.setPageTitle(zoneFeature.properties.nom)
+          else props.setPageTitle(`${zoneFeature.properties.nom_dpt} ${zoneFeature.properties[Code.Circ]}`)
+        }
       }
     }
   }, [props.codes.cont, props.codes.reg, props.codes.dpt, props.codes.circ, isMapLoaded])
@@ -146,19 +154,19 @@ export default function MapAugora(props: IMapAugora) {
       switch (zoneCode) {
         case Code.Cont:
           const contURL = buildURLFromCodes({ cont: feature.properties[Code.Cont] })
-          router.push(contURL, contURL, { shallow: true })
+          props.changeURL(contURL)
           return
         case Code.Reg:
           const regURL = buildURLFromCodes({ reg: feature.properties[Code.Reg] })
-          router.push(regURL, regURL, { shallow: true })
+          props.changeURL(regURL)
           return
         case Code.Dpt:
           const dptURL = buildURLFromCodes({ dpt: feature.properties[Code.Dpt] })
-          router.push(dptURL, dptURL, { shallow: true })
+          props.changeURL(dptURL)
           return
         case Code.Circ:
           const circURL = buildURLFromCodes({ dpt: feature.properties[Code.Dpt], circ: feature.properties[Code.Circ] })
-          router.push(circURL, circURL, { shallow: true })
+          props.changeURL(circURL)
           return
         default:
           console.error("Feature à afficher non valide")
@@ -167,9 +175,7 @@ export default function MapAugora(props: IMapAugora) {
     } else if (zoneCode === Code.Circ) {
       const deputy = zoneDeputies[0]
       if (deputy) {
-        router.push(`/depute/${deputy.Slug}`, `/depute/${deputy.Slug}`, {
-          shallow: true,
-        })
+        router.push(`/depute/${deputy.Slug}`)
       }
     } else flyToFeature(feature)
   }
