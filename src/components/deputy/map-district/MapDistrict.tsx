@@ -18,7 +18,13 @@ export default function MapDistrict(props: Bloc.Map) {
       }}
     >
       <div className="map__container">
-        <MapAugora deputies={[props.deputy]} codeCirc={NumeroCirconscription} codeDpt={NumeroDepartement} overlay={false} />
+        <MapAugora
+          deputies={[props.deputy]}
+          codeCirc={NumeroCirconscription}
+          codeDpt={NumeroDepartement}
+          overlay={false}
+          forceCenter={true}
+        />
         <Link href={`/carte?dpt=${NumeroDepartement}&circ=${NumeroCirconscription}`}>
           <div className="map__redirect"></div>
         </Link>

@@ -38,7 +38,7 @@ export default function MapPage() {
             codeCont={stringToInt(convertArrayOfStringToString(router.query.cont))}
             codeDpt={convertArrayOfStringToString(router.query.dpt)}
             codeReg={convertArrayOfStringToString(router.query.reg)}
-            codeCirc={convertArrayOfStringToString(router.query.circ)}
+            codeCirc={parseInt(convertArrayOfStringToString(router.query.circ))}
             setPageTitle={setPageTitle}
           />
         </div>
