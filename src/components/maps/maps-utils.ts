@@ -136,6 +136,29 @@ export const franceBox: AugoraMap.Bounds = [
 ]
 
 /**
+ * Renvoie un objet paint pour les layer "fill"
+ * @param color Pour renseigner une couleur dynamiquement
+ * @param ghost Si c'est la layer ghost
+ */
+export const setFillPaint = (color?: string, ghost?: boolean): mapboxgl.FillPaint => {
+  return {
+    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], color ? color : "#14ccae", color ? color : "#00bbcc"],
+    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.3, ghost ? 0.04 : 0.1],
+  }
+}
+
+/**
+ * Renvoie un objet paint pour les layer "line"
+ * @param color Pour renseigner une couleur dynamiquement
+ */
+export const setLinePaint = (color?: string): mapboxgl.LinePaint => {
+  return {
+    "line-color": color ? color : "#00bbcc",
+    "line-width": 2,
+  }
+}
+
+/**
  * Renvoie une bounding box utilisable par mapbox depuis un array GEOJson coordinates de type polygon ou multipolygon
  * @param {AugoraMap.Position} coordinates L'array de coordonnées GEOJson
  * @param {boolean} [multiPolygon] Mettre true si les coordonnées envoyées sont de type multipolygon
@@ -491,25 +514,17 @@ export const getZoneName = <T extends GeoJSON.Feature>(feature: T): string => {
   }
 }
 
-/**
- * Renvoie un objet paint pour les layer "fill"
- * @param color Pour renseigner une couleur dynamiquement
- * @param ghost Si c'est la layer ghost
+/** Renvoie la bonne URL selon un objet code
+ * @param codes Contient cont, reg, dpt, circ
  */
-export const setFillPaint = (color?: string, ghost?: boolean): mapboxgl.FillPaint => {
-  return {
-    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], color ? color : "#14ccae", color ? color : "#00bbcc"],
-    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.3, ghost ? 0.04 : 0.1],
-  }
-}
-
-/**
- * Renvoie un objet paint pour les layer "line"
- * @param color Pour renseigner une couleur dynamiquement
- */
-export const setLinePaint = (color?: string): mapboxgl.LinePaint => {
-  return {
-    "line-color": color ? color : "#00bbcc",
-    "line-width": 2,
-  }
+export const buildURLFromCodes = (codes: AugoraMap.MapCodes) => {
+  if (codes.circ) {
+    return `/carte?dpt=${codes.dpt}&circ=${codes.circ}`
+  } else if (codes.dpt) {
+    return `/carte?dpt=${codes.dpt}`
+  } else if (codes.reg) {
+    return `/carte?reg=${codes.reg}`
+  } else if (codes.cont !== undefined) {
+    return `/carte?cont=${codes.cont}`
+  } else return ""
 }

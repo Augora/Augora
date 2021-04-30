@@ -3,18 +3,9 @@ import { isMobile } from "react-device-detect"
 import router from "next/router"
 import isEmpty from "lodash/isEmpty"
 import mapStore from "src/stores/mapStore"
-import InteractiveMap, {
-  NavigationControl,
-  FullscreenControl,
-  GeolocateControl,
-  Source,
-  Layer,
-  LayerProps,
-  ViewportProps,
-} from "react-map-gl"
+import InteractiveMap, { NavigationControl, FullscreenControl, GeolocateControl, Source, Layer, LayerProps } from "react-map-gl"
 import {
   Code,
-  France,
   MetroFeature,
   flyToBounds,
   getChildFeatures,
@@ -28,7 +19,7 @@ import {
   createFeatureCollection,
   setFillPaint,
   setLinePaint,
-  createFeature,
+  buildURLFromCodes,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
@@ -76,21 +67,6 @@ const lineGhostLayerProps: LayerProps = {
     // "line-dasharray": [2, 2],
     "line-opacity": 0.2,
   },
-}
-
-/** Renvoie la bonne URL selon un objet code
- * @param codes
- */
-const buildURLFromCodes = (codes: AugoraMap.MapCodes) => {
-  if (codes.circ) {
-    return `/carte?dpt=${codes.dpt}&circ=${codes.circ}`
-  } else if (codes.dpt) {
-    return `/carte?dpt=${codes.dpt}`
-  } else if (codes.reg) {
-    return `/carte?reg=${codes.reg}`
-  } else if (codes.cont) {
-    return `/carte?cont=${codes.cont}`
-  } else return ""
 }
 
 /**
@@ -172,28 +148,20 @@ export default function MapAugora(props: IMapAugora) {
     if (!compareFeatures(feature, zoneFeature)) {
       switch (zoneCode) {
         case Code.Cont:
-          router.push(`/carte?cont=${feature.properties[Code.Cont]}`, `/carte?cont=${feature.properties[Code.Cont]}`, {
-            shallow: true,
-          })
+          const contURL = buildURLFromCodes({ cont: feature.properties[Code.Cont] })
+          router.push(contURL, contURL, { shallow: true })
           return
         case Code.Reg:
-          router.push(`/carte?reg=${feature.properties[Code.Reg]}`, `/carte?reg=${feature.properties[Code.Reg]}`, {
-            shallow: true,
-          })
+          const regURL = buildURLFromCodes({ reg: feature.properties[Code.Reg] })
+          router.push(regURL, regURL, { shallow: true })
           return
         case Code.Dpt:
-          router.push(`/carte?dpt=${feature.properties[Code.Dpt]}`, `/carte?dpt=${feature.properties[Code.Dpt]}`, {
-            shallow: true,
-          })
+          const dptURL = buildURLFromCodes({ dpt: feature.properties[Code.Dpt] })
+          router.push(dptURL, dptURL, { shallow: true })
           return
         case Code.Circ:
-          router.push(
-            `/carte?dpt=${feature.properties[Code.Dpt]}&circ=${feature.properties[Code.Circ]}`,
-            `/carte?dpt=${feature.properties[Code.Dpt]}&circ=${feature.properties[Code.Circ]}`,
-            {
-              shallow: true,
-            }
-          )
+          const circURL = buildURLFromCodes({ dpt: feature.properties[Code.Dpt], circ: feature.properties[Code.Circ] })
+          router.push(circURL, circURL, { shallow: true })
           return
         default:
           console.error("Feature à afficher non valide")
