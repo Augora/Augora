@@ -117,7 +117,7 @@ export default function MapAugora(props: IMapAugora) {
         if (props.setPageTitle) props.setPageTitle(getZoneTitle(zoneFeature))
       }
     }
-  }, [...Object.values(props.codes), isMapLoaded])
+  }, [props.codes[Code.Cont], props.codes[Code.Reg], props.codes[Code.Dpt], props.codes[Code.Circ], isMapLoaded]) //s'execute lorsque les codes changent et quand la map est chargée
 
   useEffect(() => {
     displayZone(zoneFeature, true) //refresh les overlays si la liste des deputés change
