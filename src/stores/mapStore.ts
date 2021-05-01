@@ -7,8 +7,6 @@ interface MapView {
   geoJSON: AugoraMap.FeatureCollection
   /** Feature contenant toutes les zones. */
   feature: AugoraMap.Feature
-  /** Liste des députés de l'ensemble des zones */
-  deputies: Deputy.DeputiesList
   /** Objet paint pour les layers. Utilisé pour avoir une couleur dynamique */
   paint: {
     fill: mapboxgl.FillPaint
@@ -21,8 +19,11 @@ interface MapView {
 interface MapState extends State, MapView {
   viewport: ViewportProps
   codes: AugoraMap.Codes
+  /** Liste des députés de l'ensemble des zones */
+  deputies: Deputy.DeputiesList
   setViewport(newViewport: ViewportProps): void
   setMapView(newMapView: MapView): void
+  setDeputies(newDeputies: Deputy.DeputiesList): void
   setCodes(newCodes: AugoraMap.Codes): void
 }
 
@@ -48,6 +49,12 @@ const mapStore = create<MapState>((set) => ({
   setMapView(newMapView: MapView) {
     set(() => {
       return newMapView.ghostGeoJSON ? { ...newMapView } : { ...newMapView, ghostGeoJSON: null }
+    })
+  },
+
+  setDeputies(newDeputies: Deputy.DeputiesList) {
+    set(() => {
+      return { deputies: newDeputies }
     })
   },
 

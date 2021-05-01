@@ -96,6 +96,7 @@ export default function MapAugora(props: IMapAugora) {
     codes,
     setViewport,
     setMapView,
+    setDeputies,
     setCodes,
   } = mapStore()
 
@@ -153,6 +154,7 @@ export default function MapAugora(props: IMapAugora) {
   const displayZone = (feature: AugoraMap.Feature, noFly?: boolean) => {
     if (feature) {
       const zoneDeputies = getDeputies(feature, deputies)
+      setDeputies(zoneDeputies)
 
       if (getZoneCode(feature) === Code.Circ) {
         const groupColor = zoneDeputies[0]?.GroupeParlementaire?.Couleur
@@ -160,7 +162,6 @@ export default function MapAugora(props: IMapAugora) {
         setMapView({
           geoJSON: createFeatureCollection([feature]),
           feature: feature,
-          deputies: zoneDeputies,
           paint: groupColor ? getLayerPaint(groupColor) : getLayerPaint("#808080"),
         })
       } else {
@@ -168,14 +169,10 @@ export default function MapAugora(props: IMapAugora) {
           geoJSON: getChildFeatures(feature),
           ghostGeoJSON: getGhostZones(feature),
           feature: feature,
-          deputies: zoneDeputies,
           paint: getLayerPaint(),
         })
       }
-      if (props.setPageTitle) {
-        if (feature.properties.nom) props.setPageTitle(feature.properties.nom)
-        else props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`)
-      }
+      if (props.setPageTitle) props.setPageTitle(getZoneTitle(feature))
       if (!noFly) flyToFeature(feature)
       renderHover()
     } else console.error("Zone à afficher non trouvée")
