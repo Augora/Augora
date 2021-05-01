@@ -491,10 +491,7 @@ export const getDeputies = <T extends GeoJSON.Feature>(feature: T, deputies: Dep
   }
 }
 
-/**
- * Renvoie le nom d'une feature
- * @param {GeoJSON.Feature} feature
- */
+/** Renvoie le nom d'une feature pour le breadcrumb */
 export const getZoneName = <T extends GeoJSON.Feature>(feature: T): string => {
   const code = getZoneCode(feature)
 
@@ -506,6 +503,21 @@ export const getZoneName = <T extends GeoJSON.Feature>(feature: T): string => {
       return `${feature.properties.nom} (${feature.properties[Code.Dpt]})`
     case Code.Circ:
       return `${feature.properties[Code.Circ]}${feature.properties[Code.Circ] === 1 ? "ère" : "ème"} Circonscription`
+    default:
+      return ""
+  }
+}
+
+/** Renvoie le nom d'une feature pour le titre de la page */
+export const getZoneTitle = <T extends GeoJSON.Feature>(feature: T) => {
+  const code = getZoneCode(feature)
+  switch (code) {
+    case Code.Cont:
+    case Code.Reg:
+    case Code.Dpt:
+      return feature.properties.nom
+    case Code.Circ:
+      return `${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`
     default:
       return ""
   }

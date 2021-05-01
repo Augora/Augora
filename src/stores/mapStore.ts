@@ -3,9 +3,9 @@ import { ViewportProps } from "react-map-gl"
 import { createFeature, createFeatureCollection, France, getLayerPaint } from "src/components/maps/maps-utils"
 
 interface MapView {
-  /** Feature collection des zones principales */
+  /** Feature collection des zones affichées. Exemple: en vue Occitanie, tous ses départements */
   geoJSON: AugoraMap.FeatureCollection
-  /** Feature contenant toutes les zones. Exemple: si on est en vue Pyrénées-Orientales, ce sera l'Occitanie */
+  /** Feature contenant toutes les zones. */
   feature: AugoraMap.Feature
   /** Liste des députés de l'ensemble des zones */
   deputies: Deputy.DeputiesList

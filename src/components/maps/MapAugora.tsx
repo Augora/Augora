@@ -21,6 +21,7 @@ import {
   buildURLFromCodes,
   compareCodes,
   getCodesFromFeature,
+  getZoneTitle,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
@@ -33,7 +34,7 @@ interface IMapAugora {
   /** Liste de députés que la map va fouiller. Hint: on peut passer une array avec un seul député pour par exemple une circonscription */
   deputies?: Deputy.DeputiesList
   /** Callback auquel un string "nom de zone" sera passé */
-  setPageTitle?: React.Dispatch<React.SetStateAction<string>>
+  setPageTitle?(title: string): void
   /** Callback pour si la map doit utiliser l'URL */
   changeURL?(URL: string): void
   /** Object contenant les codes de zone */
@@ -112,17 +113,11 @@ export default function MapAugora(props: IMapAugora) {
       } else if (isEmpty(codes)) {
         changeZone(MetroFeature)
       } else if (props.changeURL || props.setPageTitle) {
-        if (props.changeURL) {
-          const URL = buildURLFromCodes(codes)
-          props.changeURL(URL)
-        }
-        if (props.setPageTitle) {
-          if (zoneFeature.properties.nom) props.setPageTitle(zoneFeature.properties.nom)
-          else props.setPageTitle(`${zoneFeature.properties.nom_dpt} ${zoneFeature.properties[Code.Circ]}`)
-        }
+        if (props.changeURL) props.changeURL(buildURLFromCodes(codes))
+        if (props.setPageTitle) props.setPageTitle(getZoneTitle(zoneFeature))
       }
     }
-  }, [props.codes[Code.Cont], props.codes[Code.Reg], props.codes[Code.Dpt], props.codes[Code.Circ], isMapLoaded])
+  }, [...Object.values(props.codes), isMapLoaded])
 
   useEffect(() => {
     displayZone(zoneFeature, true) //refresh les overlays si la liste des deputés change
@@ -147,9 +142,7 @@ export default function MapAugora(props: IMapAugora) {
       else console.error("Feature à afficher non valide")
     } else if (zoneCode === Code.Circ) {
       const deputy = zoneDeputies[0]
-      if (deputy) {
-        router.push(`/depute/${deputy.Slug}`)
-      }
+      if (deputy) props.changeURL(`/depute/${deputy.Slug}`)
     } else flyToFeature(feature)
   }
 
@@ -159,14 +152,15 @@ export default function MapAugora(props: IMapAugora) {
    */
   const displayZone = (feature: AugoraMap.Feature, noFly?: boolean) => {
     if (feature) {
+      const zoneDeputies = getDeputies(feature, deputies)
+
       if (getZoneCode(feature) === Code.Circ) {
-        const deputy = getDeputies(feature, deputies)
-        const groupColor = deputy[0]?.GroupeParlementaire?.Couleur
+        const groupColor = zoneDeputies[0]?.GroupeParlementaire?.Couleur
 
         setMapView({
           geoJSON: createFeatureCollection([feature]),
           feature: feature,
-          deputies: deputy,
+          deputies: zoneDeputies,
           paint: groupColor ? getLayerPaint(groupColor) : getLayerPaint("#808080"),
         })
       } else {
@@ -174,7 +168,7 @@ export default function MapAugora(props: IMapAugora) {
           geoJSON: getChildFeatures(feature),
           ghostGeoJSON: getGhostZones(feature),
           feature: feature,
-          deputies: getDeputies(feature, deputies),
+          deputies: zoneDeputies,
           paint: getLayerPaint(),
         })
       }
