@@ -17,8 +17,7 @@ import {
   getParentFeature,
   compareFeatures,
   createFeatureCollection,
-  setFillPaint,
-  setLinePaint,
+  getLayerPaint,
   buildURLFromCodes,
   compareCodes,
   getCodesFromFeature,
@@ -48,26 +47,26 @@ interface IMapAugora {
 const fillLayerProps: LayerProps = {
   id: "zone-fill",
   type: "fill",
-  paint: setFillPaint(),
+  paint: getLayerPaint().fill,
 }
 
 const lineLayerProps: LayerProps = {
   id: "zone-line",
   type: "line",
-  paint: setLinePaint(),
+  paint: getLayerPaint().line,
 }
 
 const fillGhostLayerProps: LayerProps = {
   id: "zone-ghost-fill",
   type: "fill",
-  paint: setFillPaint(null, true),
+  paint: getLayerPaint(null, true).fill,
 }
 
 const lineGhostLayerProps: LayerProps = {
   id: "zone-ghost-line",
   type: "line",
   paint: {
-    ...setLinePaint(),
+    ...getLayerPaint().line,
     // "line-dasharray": [2, 2],
     "line-opacity": 0.2,
   },
@@ -168,15 +167,7 @@ export default function MapAugora(props: IMapAugora) {
           geoJSON: createFeatureCollection([feature]),
           feature: feature,
           deputies: deputy,
-          paint: groupColor
-            ? {
-                fill: setFillPaint(groupColor),
-                line: setLinePaint(groupColor),
-              }
-            : {
-                fill: setFillPaint("#808080"),
-                line: setLinePaint("#808080"),
-              },
+          paint: groupColor ? getLayerPaint(groupColor) : getLayerPaint("#808080"),
         })
       } else {
         setMapView({
@@ -184,10 +175,7 @@ export default function MapAugora(props: IMapAugora) {
           ghostGeoJSON: getGhostZones(feature),
           feature: feature,
           deputies: getDeputies(feature, deputies),
-          paint: {
-            fill: setFillPaint(),
-            line: setLinePaint(),
-          },
+          paint: getLayerPaint(),
         })
       }
       if (props.setPageTitle) {

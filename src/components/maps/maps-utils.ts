@@ -118,25 +118,31 @@ export const franceBox: AugoraMap.Bounds = [
 ]
 
 /**
- * Renvoie un objet paint pour les layer "fill"
+ * Renvoie un objet paint pour les layers
  * @param color Pour renseigner une couleur dynamiquement
  * @param ghost Si c'est la layer ghost
  */
-export const setFillPaint = (color?: string, ghost?: boolean): mapboxgl.FillPaint => {
+export const getLayerPaint = (
+  color?: string,
+  ghost?: boolean
+): {
+  fill: mapboxgl.FillPaint
+  line: mapboxgl.LinePaint
+} => {
   return {
-    "fill-color": ["case", ["boolean", ["feature-state", "hover"], false], color ? color : "#14ccae", color ? color : "#00bbcc"],
-    "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.3, ghost ? 0.04 : 0.1],
-  }
-}
-
-/**
- * Renvoie un objet paint pour les layer "line"
- * @param color Pour renseigner une couleur dynamiquement
- */
-export const setLinePaint = (color?: string): mapboxgl.LinePaint => {
-  return {
-    "line-color": color ? color : "#00bbcc",
-    "line-width": 2,
+    fill: {
+      "fill-color": [
+        "case",
+        ["boolean", ["feature-state", "hover"], false],
+        color ? color : "#14ccae",
+        color ? color : "#00bbcc",
+      ],
+      "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.3, ghost ? 0.04 : 0.1],
+    },
+    line: {
+      "line-color": color ? color : "#00bbcc",
+      "line-width": 2,
+    },
   }
 }
 

@@ -1,6 +1,6 @@
 import create, { State } from "zustand"
 import { ViewportProps } from "react-map-gl"
-import { createFeature, createFeatureCollection, France, setFillPaint, setLinePaint } from "src/components/maps/maps-utils"
+import { createFeature, createFeatureCollection, France, getLayerPaint } from "src/components/maps/maps-utils"
 
 interface MapView {
   /** Feature collection des zones principales */
@@ -36,10 +36,7 @@ const mapStore = create<MapState>((set) => ({
   ghostGeoJSON: null,
   feature: createFeature(),
   deputies: [],
-  paint: {
-    fill: setFillPaint(),
-    line: setLinePaint(),
-  },
+  paint: getLayerPaint(),
   codes: {},
 
   setViewport(newViewport: ViewportProps) {
