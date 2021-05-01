@@ -30,14 +30,14 @@ declare namespace AugoraMap {
   }
 
   /** Objet contenant les codes de zone pour la map */
-  interface MapCodes {
+  interface Codes {
     /** ID continent (0 France, 1 World, 2 DROM-COM) */
-    cont?: number
+    code_cont?: number
     /** ID Région */
-    reg?: number | string
+    code_reg?: number | string
     /** ID Département */
-    dpt?: number | string
+    code_dpt?: number | string
     /** ID Circonscription */
-    circ?: number
+    code_circ?: number
   }
 }

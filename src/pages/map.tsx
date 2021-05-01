@@ -32,22 +32,21 @@ export default function MapPage() {
     router.push(URL, URL, { shallow: true })
   }
 
+  const buildCodes = (query) => {
+    let codes: AugoraMap.Codes = {}
+    if (query.circ) codes.code_circ = stringToInt(query.circ)
+    if (query.dpt) codes.code_dpt = query.dpt
+    if (query.reg) codes.code_reg = query.reg
+    if (query.cont) codes.code_cont = stringToInt(query.cont)
+    return codes
+  }
+
   return (
     <>
       <SEO pageType={PageType.Map} title={pageTitle} />
       <div className="page page__map">
         <div className="map__container">
-          <MapAugora
-            deputies={FilteredList}
-            codes={{
-              cont: stringToInt(convertArrayOfStringToString(router.query.cont)),
-              dpt: convertArrayOfStringToString(router.query.dpt),
-              reg: convertArrayOfStringToString(router.query.reg),
-              circ: stringToInt(convertArrayOfStringToString(router.query.circ)),
-            }}
-            setPageTitle={setPageTitle}
-            changeURL={changeURL}
-          />
+          <MapAugora deputies={FilteredList} codes={buildCodes(router.query)} setPageTitle={setPageTitle} changeURL={changeURL} />
         </div>
       </div>
     </>

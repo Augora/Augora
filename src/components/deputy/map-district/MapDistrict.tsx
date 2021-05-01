@@ -6,6 +6,10 @@ import Link from "next/link"
 
 export default function MapDistrict(props: Bloc.Map) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
+  const mapCodes = {
+    code_circ: NumeroCirconscription,
+    code_dpt: NumeroDepartement,
+  }
 
   return (
     <Block
@@ -19,16 +23,8 @@ export default function MapDistrict(props: Bloc.Map) {
       }}
     >
       <div className="map__container">
-        <MapAugora
-          deputies={[props.deputy]}
-          codes={{
-            circ: NumeroCirconscription,
-            dpt: NumeroDepartement,
-          }}
-          overlay={false}
-          forceCenter={true}
-        />
-        <Link href={buildURLFromCodes({ dpt: NumeroDepartement, circ: NumeroCirconscription })}>
+        <MapAugora deputies={[props.deputy]} codes={mapCodes} overlay={false} forceCenter={true} />
+        <Link href={buildURLFromCodes(mapCodes)}>
           <div className="map__redirect"></div>
         </Link>
       </div>

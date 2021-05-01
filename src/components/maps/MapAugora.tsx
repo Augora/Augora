@@ -20,6 +20,8 @@ import {
   setFillPaint,
   setLinePaint,
   buildURLFromCodes,
+  compareCodes,
+  getCodesFromFeature,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
@@ -36,7 +38,7 @@ interface IMapAugora {
   /** Callback pour si la map doit utiliser l'URL */
   changeURL?(URL: string): void
   /** Object contenant les codes de zone */
-  codes?: AugoraMap.MapCodes
+  codes?: AugoraMap.Codes
   /** Si les overlays doivent être affichés */
   overlay?: boolean
   /** S'il faut forcer un recentrage de la map au chargement */
@@ -105,18 +107,9 @@ export default function MapAugora(props: IMapAugora) {
   /** useEffects */
   useEffect(() => {
     if (isMapLoaded) {
-      if (props.codes.circ && (props.codes.circ !== codes.circ || props.codes.dpt !== codes.dpt)) {
-        displayZone(getFeature(props.codes.circ, Code.Circ, props.codes.dpt))
-        setCodes({ circ: props.codes.circ, dpt: props.codes.dpt })
-      } else if (props.codes.dpt && (props.codes.circ !== codes.circ || props.codes.dpt !== codes.dpt)) {
-        displayZone(getFeature(props.codes.dpt, Code.Dpt))
-        setCodes({ dpt: props.codes.dpt })
-      } else if (props.codes.reg && props.codes.reg !== codes.reg) {
-        displayZone(getFeature(props.codes.reg, Code.Reg))
-        setCodes({ reg: props.codes.reg })
-      } else if (props.codes.cont !== undefined && props.codes.cont !== codes.cont) {
-        displayZone(getFeature(props.codes.cont, Code.Cont))
-        setCodes({ cont: props.codes.cont })
+      if (!compareCodes(props.codes, codes)) {
+        displayZone(getFeature(props.codes))
+        setCodes(props.codes)
       } else if (isEmpty(codes)) {
         changeZone(MetroFeature)
       } else if (props.changeURL || props.setPageTitle) {
@@ -130,10 +123,10 @@ export default function MapAugora(props: IMapAugora) {
         }
       }
     }
-  }, [props.codes.cont, props.codes.reg, props.codes.dpt, props.codes.circ, isMapLoaded])
+  }, [props.codes[Code.Cont], props.codes[Code.Reg], props.codes[Code.Dpt], props.codes[Code.Circ], isMapLoaded])
 
   useEffect(() => {
-    renderZone(zoneFeature) //refresh les overlays si la liste des deputés change
+    displayZone(zoneFeature, true) //refresh les overlays si la liste des deputés change
   }, [deputies])
 
   /** useRefs */
@@ -145,33 +138,14 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /**
-   * Change de zone sur la feature fournie, reset le viewport si on est deja sur la zone
+   * Fonction principale de changement de zone. Determine la prochaine route à prendre selon l'état de la map et la feature fournie
    * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
    */
   const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
     const zoneCode = getZoneCode(feature)
     if (!compareFeatures(feature, zoneFeature)) {
-      switch (zoneCode) {
-        case Code.Cont:
-          const contURL = buildURLFromCodes({ cont: feature.properties[Code.Cont] })
-          props.changeURL(contURL)
-          return
-        case Code.Reg:
-          const regURL = buildURLFromCodes({ reg: feature.properties[Code.Reg] })
-          props.changeURL(regURL)
-          return
-        case Code.Dpt:
-          const dptURL = buildURLFromCodes({ dpt: feature.properties[Code.Dpt] })
-          props.changeURL(dptURL)
-          return
-        case Code.Circ:
-          const circURL = buildURLFromCodes({ dpt: feature.properties[Code.Dpt], circ: feature.properties[Code.Circ] })
-          props.changeURL(circURL)
-          return
-        default:
-          console.error("Feature à afficher non valide")
-          return
-      }
+      if (feature) props.changeURL(buildURLFromCodes(getCodesFromFeature(feature)))
+      else console.error("Feature à afficher non valide")
     } else if (zoneCode === Code.Circ) {
       const deputy = zoneDeputies[0]
       if (deputy) {
@@ -186,24 +160,7 @@ export default function MapAugora(props: IMapAugora) {
    */
   const displayZone = (feature: AugoraMap.Feature, noFly?: boolean) => {
     if (feature) {
-      renderZone(feature)
-      if (props.setPageTitle) {
-        if (feature.properties.nom) props.setPageTitle(feature.properties.nom)
-        else props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`)
-      }
-      if (!noFly) flyToFeature(feature)
-      renderHover()
-    } else console.error("Zone à afficher non trouvée")
-  }
-
-  /**
-   * Change / update le state de la vue actuelle sans aucune transition
-   * @param {AugoraMap.Feature} feature La feature de la zone à afficher
-   */
-  const renderZone = (feature: AugoraMap.Feature) => {
-    const zoneCode = getZoneCode(feature)
-    switch (zoneCode) {
-      case Code.Circ:
+      if (getZoneCode(feature) === Code.Circ) {
         const deputy = getDeputies(feature, deputies)
         const groupColor = deputy[0]?.GroupeParlementaire?.Couleur
 
@@ -221,10 +178,7 @@ export default function MapAugora(props: IMapAugora) {
                 line: setLinePaint("#808080"),
               },
         })
-        break
-      case Code.Dpt:
-      case Code.Reg:
-      case Code.Cont:
+      } else {
         setMapView({
           geoJSON: getChildFeatures(feature),
           ghostGeoJSON: getGhostZones(feature),
@@ -235,10 +189,14 @@ export default function MapAugora(props: IMapAugora) {
             line: setLinePaint(),
           },
         })
-        break
-      default:
-        break
-    }
+      }
+      if (props.setPageTitle) {
+        if (feature.properties.nom) props.setPageTitle(feature.properties.nom)
+        else props.setPageTitle(`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`)
+      }
+      if (!noFly) flyToFeature(feature)
+      renderHover()
+    } else console.error("Zone à afficher non trouvée")
   }
 
   /**

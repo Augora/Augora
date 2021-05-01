@@ -20,10 +20,10 @@ interface MapView {
 
 interface MapState extends State, MapView {
   viewport: ViewportProps
-  codes: AugoraMap.MapCodes
+  codes: AugoraMap.Codes
   setViewport(newViewport: ViewportProps): void
   setMapView(newMapView: MapView): void
-  setCodes(newCodes: AugoraMap.MapCodes): void
+  setCodes(newCodes: AugoraMap.Codes): void
 }
 
 const mapStore = create<MapState>((set) => ({
@@ -54,7 +54,7 @@ const mapStore = create<MapState>((set) => ({
     })
   },
 
-  setCodes(newCodes: AugoraMap.MapCodes) {
+  setCodes(newCodes: AugoraMap.Codes) {
     set(() => {
       return { codes: newCodes }
     })
