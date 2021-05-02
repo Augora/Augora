@@ -56,7 +56,6 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
           return [WorldFeature, feature]
       }
     default:
-      console.error("Le breadcrumb n'a pas réussi à déduire le chemin de la zone")
       return []
   }
 }
