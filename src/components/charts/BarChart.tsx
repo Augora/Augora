@@ -16,6 +16,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
   // bounds
   const marginTop = 30
   const marginLeft = 20
+  const marginGraph = 30
   const xMax = width
   const yMax = height - marginTop
 
@@ -25,7 +26,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
     round: true,
     domain: data.map((d) => d.id).reverse(),
     paddingInner: 0.2,
-    paddingOuter: -0.1,
+    paddingOuter: isMobile ? -0.5 : -0.1,
   })
 
   const yScale = scaleLinear<number>({
@@ -70,7 +71,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
             strokeWidth={2}
           />
         </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
+        <Group top={marginTop / 2} left={marginGraph / 2}>
           {data.map((d, index) => {
             const barWidth = xScale.bandwidth()
             const barHeight = yMax - (yScale(d.value) ?? 0)
@@ -104,7 +105,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
             )
           })}
         </Group>
-        <Group top={marginTop / 2} left={marginLeft / 2}>
+        <Group top={marginTop / 2} left={marginGraph / 2}>
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
