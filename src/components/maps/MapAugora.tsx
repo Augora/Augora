@@ -112,7 +112,7 @@ export default function MapAugora(props: IMapAugora) {
         setCodes(props.codes)
       } else if (isEmpty(codes)) {
         changeZone(MetroFeature)
-      } else if (props.changeURL || props.setPageTitle) {
+      } else {
         if (props.changeURL) props.changeURL(buildURLFromCodes(codes))
         if (props.setPageTitle) props.setPageTitle(getZoneTitle(zoneFeature))
       }
@@ -174,7 +174,10 @@ export default function MapAugora(props: IMapAugora) {
       if (props.setPageTitle) props.setPageTitle(getZoneTitle(feature))
       if (!noFly) flyToFeature(feature)
       renderHover()
-    } else console.error("Zone à afficher non trouvée")
+    } else {
+      console.warn("Zone à afficher non trouvée. Redirection vers France Métropolitaine")
+      changeZone(MetroFeature)
+    }
   }
 
   /**
