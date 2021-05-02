@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
 import { isMobile } from "react-device-detect"
-import router from "next/router"
 import isEmpty from "lodash/isEmpty"
 import mapStore from "src/stores/mapStore"
 import InteractiveMap, { NavigationControl, FullscreenControl, GeolocateControl, Source, Layer, LayerProps } from "react-map-gl"
@@ -108,7 +107,7 @@ export default function MapAugora(props: IMapAugora) {
   /** useEffects */
   useEffect(() => {
     if (isMapLoaded) {
-      if (!compareCodes(props.codes, codes)) {
+      if (!isEmpty(props.codes) && !compareCodes(props.codes, codes)) {
         displayZone(getFeature(props.codes))
         setCodes(props.codes)
       } else if (isEmpty(codes)) {
@@ -118,7 +117,7 @@ export default function MapAugora(props: IMapAugora) {
         if (props.setPageTitle) props.setPageTitle(getZoneTitle(zoneFeature))
       }
     }
-  }, [props.codes[Code.Cont], props.codes[Code.Reg], props.codes[Code.Dpt], props.codes[Code.Circ], isMapLoaded]) //s'execute lorsque les codes changent et quand la map est chargée
+  }, [props.codes[Code.Cont], props.codes[Code.Reg], props.codes[Code.Dpt], props.codes[Code.Circ], isMapLoaded]) //s'execute lorsque les codes changent ou quand la map est chargée
 
   useEffect(() => {
     displayZone(zoneFeature, true) //refresh les overlays si la liste des deputés change
@@ -238,9 +237,11 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleResize = () => {
-    if (isMapLoaded) {
-      flyToFeature(zoneFeature)
-    } else {
+    if (isMapLoaded) flyToFeature(zoneFeature)
+  }
+
+  const handleLoad = () => {
+    if (!isMapLoaded) {
       setIsMapLoaded(true)
       if (forceCenter) flyToFeature(zoneFeature)
     }
@@ -260,6 +261,7 @@ export default function MapAugora(props: IMapAugora) {
       touchRotate={false}
       interactiveLayerIds={isMapLoaded && !inExploreMode ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
       onResize={handleResize}
+      onLoad={handleLoad}
       onViewportChange={setViewport}
       onClick={handleClick}
       onHover={handleHover}
