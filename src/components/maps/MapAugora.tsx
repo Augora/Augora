@@ -139,7 +139,7 @@ export default function MapAugora(props: IMapAugora) {
     const zoneCode = getZoneCode(feature)
     if (!compareFeatures(feature, zoneFeature)) {
       if (feature) props.changeURL(buildURLFromCodes(getCodesFromFeature(feature)))
-      else console.error("Feature à afficher non valide")
+      else console.error("Feature à afficher non valide :", feature)
     } else if (zoneCode === Code.Circ) {
       const deputy = zoneDeputies[0]
       if (deputy) props.changeURL(`/depute/${deputy.Slug}`)
