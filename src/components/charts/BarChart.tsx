@@ -5,6 +5,7 @@ import { AxisLeft, AxisBottom } from "@visx/axis"
 import { GridRows } from "@visx/grid"
 import { scaleBand, scaleLinear } from "@visx/scale"
 import { useTooltip } from "@visx/tooltip"
+import { isMobile } from "react-device-detect"
 import ChartTooltip from "components/charts/ChartTooltip"
 
 export default function BarChart({ width, height, data }: Chart.BaseProps) {
@@ -88,7 +89,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
                   onMouseLeave={handleMouseLeave}
                   onMouseMove={(event) => handleMouseMove(event, d)}
                 />
-                {barHeight >= 25 && (
+                {!isMobile && barHeight >= 25 && (
                   <text
                     className="chart__number barchart__number"
                     x={barX + barWidth / 2}
