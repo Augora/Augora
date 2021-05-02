@@ -12,9 +12,9 @@ const mainPages = {
   },
   statistiques: {
     path: "/statistiques",
-    title: "STATISTIQUES",
+    title: "Statistiques",
   },
-  carte: {
+  map: {
     path: "/carte",
     title: "Carte",
   },
