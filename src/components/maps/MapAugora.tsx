@@ -272,12 +272,12 @@ export default function MapAugora(props: IMapAugora) {
         <>
           <Source type="geojson" data={geoJSON} generateId={true}>
             <Layer {...lineLayerProps} paint={paint.line} />
-            <Layer {...fillLayerProps} paint={paint.fill} layout={inExploreMode ? { visibility: "none" } : {}} />
+            {!inExploreMode && <Layer {...fillLayerProps} paint={paint.fill} />}
           </Source>
           {ghostGeoJSON && (
             <Source type="geojson" data={ghostGeoJSON} generateId={true}>
               <Layer {...lineGhostLayerProps} />
-              <Layer {...fillGhostLayerProps} layout={inExploreMode ? { visibility: "none" } : {}} />
+              {!inExploreMode && <Layer {...fillGhostLayerProps} />}
             </Source>
           )}
           {overlay && (
