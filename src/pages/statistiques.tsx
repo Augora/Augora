@@ -61,7 +61,7 @@ const Statistiques = (props) => {
       <Frame className="frame-chart frame-pie" title="Hémicycle">
         {state.FilteredList.length > 0 ? (
           <ParentSize debounceTime={10}>
-            {(parent) => <PieChart width={parent.width * 0.9} height={parent.height * 0.85} data={groupesData} />}
+            {(parent) => <PieChart width={parent.width} height={parent.height * 0.85} data={groupesData} />}
           </ParentSize>
         ) : null}
       </Frame>
