@@ -139,7 +139,7 @@ export default function PresenceParticipation(props: IPresence) {
   return width < 10 ? null : (
     <div className="presence">
       <svg width={width} height={height}>
-        <Group left={marginLeft}>
+        <Group top={20} left={marginLeft}>
           <XYChart
             margin={{ top: 0, right: 30, bottom: 50, left: 0 }}
             width={width}
