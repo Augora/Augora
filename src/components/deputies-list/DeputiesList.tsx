@@ -37,7 +37,7 @@ export default function DeputiesList() {
               </button>
               {HasPieChart ? (
                 <ParentSize debounceTime={10}>
-                  {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
+                  {(parent) => <PieChart width={parent.width} height={parent.height * 0.85} data={groupesData} />}
                 </ParentSize>
               ) : (
                 <ParentSize className="bar__container" debounceTime={10}>
