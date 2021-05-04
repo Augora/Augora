@@ -10,7 +10,7 @@ const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
 })
 
 function Question(props) {
-  const [Open, setOpen] = useState(false)
+  const [Open, setOpen] = useState(true)
   return (
     <div className={`faq__question ${Open ? "faq__question--opened" : ""}`}>
       <div
