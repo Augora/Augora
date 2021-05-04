@@ -7,8 +7,8 @@ import { getHSLLightVariation } from "../utils/style/color"
 import { RouteProps } from "react-router"
 
 interface IHeader {
-  siteTitle: string
-  color: Group.HSLDetail
+  siteTitle?: string
+  color?: Group.HSLDetail
   location: RouteProps["location"]
 }
 
@@ -17,6 +17,15 @@ type Pages = {
     path: string
     title: string
   }
+}
+
+type Styles = {
+  flat: {}
+  gradient: {}
+  link?: { color: string }
+  svg?: { fill: string }
+  underline?: { background: string }
+  separator?: { background: string }
 }
 
 const mainPages: Pages = {
@@ -41,8 +50,13 @@ const secondaryPages: Pages = {
   },
 }
 
+/**
+ * Renvoie le header
+ * @param {RouteProps} location Objet du react router contenant les infos de route
+ * @param {Group.HSLDetail} [color] Couleur du header optionnelle
+ */
 const Header = ({ siteTitle, location, color }: IHeader) => {
-  let styles: { [key: string]: any } = {
+  let styles: Styles = {
     flat: {},
     gradient: {},
   }
@@ -60,11 +74,12 @@ const Header = ({ siteTitle, location, color }: IHeader) => {
       background: `linear-gradient(to bottom, hsla(${color.H}, ${color.S}%, ${gradientStart}%, ${decorationOpacity}), hsla(${color.H}, ${color.S}%, ${gradientEnd}%, ${decorationOpacity}))`,
     }
   }
-  function isActivePage(path) {
+
+  function isActivePage(path: string) {
     return `menu__item ${location.pathname === path || location.pathname === path + "/" ? "menu__item--current" : ""}`
   }
 
-  function setLinks(pageGroup) {
+  function setLinks(pageGroup: Pages) {
     return Object.keys(pageGroup).map((page, index) => (
       <div className="menu__link" key={pageGroup[page].path}>
         <Link href={pageGroup[page].path}>

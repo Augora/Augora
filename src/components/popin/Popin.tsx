@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react"
 
-export default function Popin({ isInitialState, children }) {
+interface IPopin {
+  isInitialState: boolean
+  children: React.ReactNode
+}
+
+/**
+ * Renvoie la popin des filtres actifs
+ * @param {boolean} isInitialState Si les filtres sont à leur valeur par défaut ou non
+ */
+export default function Popin({ isInitialState, children }: IPopin) {
   const [visible, setVisible] = useState(!isInitialState)
 
   useEffect(() => {

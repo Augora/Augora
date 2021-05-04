@@ -5,10 +5,15 @@ const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
   ssr: false,
 })
 
-export default function PageTitle(props: { title?: string; color: Group.HSLDetail }) {
+/**
+ * Renvoie le component titre de page
+ * @param {string} [title] Titre de la page, optionnel
+ * @param {Group.HSLDetail} [color] Couleur de la bannière, optionnel
+ */
+export default function PageTitle(props: { title?: string; color?: Group.HSLDetail }) {
   const [hovered, setHovered] = useState(false)
 
-  let style = {}
+  let style: React.CSSProperties = {}
   if (props.color) {
     const gradientEnd = getHSLLightVariation(props.color, -10)
     style = {
