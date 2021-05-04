@@ -3,41 +3,47 @@ import React from "react"
 import IconMail from "images/ui-kit/icon-mail.svg"
 import IconTwitter from "images/ui-kit/icon-twitter.svg"
 
-type FooterLink = {
+type IFooterLink = {
   label: string
   link: string
   target?: boolean
   /** Si le lien est une page d'augora, il est interne */
   internal: boolean
-  icon?: React.ReactElement
+  children?: React.ReactNode
 }
 
 /**
- * Renvoie une colomne de liens, avec un titre
- * @param title Le titre du paragraphe
- * @param items Une array des liens
+ * Renvoie un lien du footer, peut recevoir un child
+ * @param label Texte affiché pour cliquer
+ * @param link L'URL
+ * @param target blank ou rien
+ * @param internal Si le lien est une page d'augora, il est interne
  */
-const Menu = (title: string, items: FooterLink[]) => {
+const FooterLink = (props: IFooterLink) => {
+  return !props.internal ? (
+    <a key={props.link} href={props.link} target={props.target ? "_blank" : ""}>
+      {props.children && props.children}
+      {props.label}
+    </a>
+  ) : (
+    <Link key={props.link} href={props.link}>
+      <a>
+        {props.children && props.children}
+        {props.label}
+      </a>
+    </Link>
+  )
+}
+
+/**
+ * Renvoie un paragraphe / container de liens du footer
+ * @param title Le titre du paragraphe
+ */
+const FooterMenu = ({ title, children }: { title: string; children?: React.ReactNode }) => {
   return (
-    <div className={`menu footer__menu ${items.length > 0 ? "" : "menu--empty"}`}>
-      {items.length > 0 ? (
-        <>
-          <h2>{title}</h2>
-          {items.map((item) =>
-            !item.internal ? (
-              <a key={item.link} href={item.link} target={item.target ? "_blank" : ""}>
-                {item.icon ? <div className="icon-wrapper">{item.icon}</div> : null}
-                {item.label}
-              </a>
-            ) : (
-              <Link key={item.link} href={item.link}>
-                {item.icon ? <div className="icon-wrapper">{item.icon}</div> : null}
-                {item.label}
-              </Link>
-            )
-          )}
-        </>
-      ) : null}
+    <div className={`menu footer__menu ${children ? "" : "menu--empty"}`}>
+      <h2>{title}</h2>
+      {children}
     </div>
   )
 }
@@ -57,80 +63,31 @@ const Footer = () => {
     >
       <div className="wrapper footer__wrapper">
         <div className="footer__menus">
-          {Menu("Ressources", [
-            {
-              label: "NextJS",
-              link: "https://nextjs.org/",
-              target: true,
-              internal: false,
-            },
-            {
-              label: "React",
-              link: "https://reactjs.org/",
-              target: true,
-              internal: false,
-            },
-            {
-              label: "GraphQL",
-              link: "https://graphql.org/",
-              target: true,
-              internal: false,
-            },
-            {
-              label: "Fauna",
-              link: "https://fauna.com/",
-              target: true,
-              internal: false,
-            },
-            {
-              label: "Mapbox",
-              link: "https://www.mapbox.com/",
-              target: true,
-              internal: false,
-            },
-          ])}
-          {Menu("Liens utiles", [
-            {
-              label: "Nosdéputés.fr",
-              link: "https://www.nosdeputes.fr/",
-              target: true,
-              internal: false,
-            },
-            {
-              label: "Regards Citoyens",
-              link: "https://www.regardscitoyens.org/",
-              target: true,
-              internal: false,
-            },
-            {
-              label: "Accropolis",
-              link: "http://accropolis.fr/",
-              target: true,
-              internal: false,
-            },
-            {
-              label: "Mentions légales",
-              link: "/mention-legales",
-              target: false,
-              internal: false,
-            },
-          ])}
-          {Menu("Nous contacter", [
-            {
-              label: "contact@augora.fr",
-              link: "mailto:contact@augora.fr",
-              target: true,
-              internal: false,
-              icon: <IconMail />,
-            },
-            {
-              label: "@AugoraFR",
-              link: "https://twitter.com/AugoraFR",
-              target: true,
-              internal: false,
-              icon: <IconTwitter />,
-            },
-          ])}
+          <FooterMenu title="Ressources">
+            <FooterLink label="NextJS" link="https://nextjs.org/" target={true} internal={false} />
+            <FooterLink label="React" link="https://reactjs.org/" target={true} internal={false} />
+            <FooterLink label="GraphQL" link="https://graphql.org/" target={true} internal={false} />
+            <FooterLink label="Fauna" link="https://fauna.com/" target={true} internal={false} />
+            <FooterLink label="Mapbox" link="https://www.mapbox.com/" target={true} internal={false} />
+          </FooterMenu>
+          <FooterMenu title="Liens Utiles">
+            <FooterLink label="Nosdéputés.fr" link="https://www.nosdeputes.fr/" target={true} internal={false} />
+            <FooterLink label="Regards Citoyens" link="https://www.regardscitoyens.org/" target={true} internal={false} />
+            <FooterLink label="Accropolis.fr" link="http://accropolis.fr/" target={true} internal={false} />
+            <FooterLink label="Mentions légales" link="/mention-legales" target={false} internal={true} />
+          </FooterMenu>
+          <FooterMenu title="Nous Contacter">
+            <FooterLink label="contact@augora.fr" link="mailto:contact@augora.fr" target={true} internal={false}>
+              <div className="icon-wrapper">
+                <IconMail />
+              </div>
+            </FooterLink>
+            <FooterLink label="@AugoraFR" link="https://twitter.com/AugoraFR" target={true} internal={false}>
+              <div className="icon-wrapper">
+                <IconTwitter />
+              </div>
+            </FooterLink>
+          </FooterMenu>
         </div>
         <div className="footer__credentials">
           <div>
