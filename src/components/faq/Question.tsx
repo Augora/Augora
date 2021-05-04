@@ -11,7 +11,7 @@ interface IQuestion {
 }
 
 function Question(props: IQuestion) {
-  const [Open, setOpen] = useState(false)
+  const [Open, setOpen] = useState(true)
   return (
     <div className={`faq__question ${Open ? "faq__question--opened" : ""}`}>
       <div
