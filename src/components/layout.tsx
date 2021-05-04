@@ -7,12 +7,12 @@ import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { RouteProps } from "react-router"
+import { NextRouter } from "next/router"
 
 interface ILayout {
   children: React.ReactElement
   title?: string
-  location: RouteProps["location"]
+  location: NextRouter
 }
 
 const allColors = colors.map((color) => {

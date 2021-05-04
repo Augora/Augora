@@ -4,12 +4,12 @@ import Logo from "images/logos/projet/augora-logo.svg"
 import LogoText from "images/logos/projet/augora-text.svg"
 import LogoTextThin from "images/logos/projet/augora-text-thin.svg"
 import { getHSLLightVariation } from "../utils/style/color"
-import { RouteProps } from "react-router"
+import { NextRouter } from "next/router"
 
 interface IHeader {
   siteTitle?: string
   color?: Group.HSLDetail
-  location: RouteProps["location"]
+  location: NextRouter
 }
 
 type Pages = {
