@@ -4,8 +4,22 @@ import Logo from "images/logos/projet/augora-logo.svg"
 import LogoText from "images/logos/projet/augora-text.svg"
 import LogoTextThin from "images/logos/projet/augora-text-thin.svg"
 import { getHSLLightVariation } from "../utils/style/color"
+import { RouteProps } from "react-router"
 
-const mainPages = {
+interface IHeader {
+  siteTitle: string
+  color: Group.HSLDetail
+  location: RouteProps["location"]
+}
+
+type Pages = {
+  [key: string]: {
+    path: string
+    title: string
+  }
+}
+
+const mainPages: Pages = {
   home: {
     path: "/",
     title: "Députés",
@@ -16,7 +30,7 @@ const mainPages = {
   },
 }
 
-const secondaryPages = {
+const secondaryPages: Pages = {
   // about: {
   //   path: "/about",
   //   title: "A propos de nous",
@@ -27,11 +41,12 @@ const secondaryPages = {
   },
 }
 
-const Header = ({ siteTitle, location, color }) => {
-  let styles = {
+const Header = ({ siteTitle, location, color }: IHeader) => {
+  let styles: { [key: string]: any } = {
     flat: {},
     gradient: {},
   }
+
   if (color) {
     const gradientStart = getHSLLightVariation(color, -20)
     const gradientEnd = getHSLLightVariation(color, -30)

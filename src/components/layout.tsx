@@ -4,8 +4,8 @@ import { colors } from "utils/variables"
 
 import Header from "./header"
 import Footer from "./footer"
-import PageTitle from "../components/titles/PageTitle"
-import Popin from "../components/popin/Popin"
+import PageTitle from "./titles/PageTitle"
+import Popin from "./popin/Popin"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
 const allColors = colors.map((color) => {
@@ -16,7 +16,7 @@ const Layout = ({ children, location, title }) => {
   const { state, handleReset } = useDeputiesFilters()
   const [scrolled, setScrolled] = useState(false)
   const pageColor = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
-  const handleScroll = (event) => {
+  const handleScroll = () => {
     if (window.scrollY > 50) {
       setScrolled(true)
     } else {

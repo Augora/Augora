@@ -5,14 +5,14 @@ const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
   ssr: false,
 })
 
-export default function PageTitle(props: { title: string, color: Group.HSLDetail }) {
+export default function PageTitle(props: { title?: string; color: Group.HSLDetail }) {
   const [hovered, setHovered] = useState(false)
 
   let style = {}
   if (props.color) {
     const gradientEnd = getHSLLightVariation(props.color, -10)
     style = {
-      backgroundImage: `linear-gradient(to right, hsl(${props.color.H}, ${props.color.S}%, ${props.color.L}%), hsl(${props.color.H}, ${props.color.S}%, ${gradientEnd}%)`
+      backgroundImage: `linear-gradient(to right, hsl(${props.color.H}, ${props.color.S}%, ${props.color.L}%), hsl(${props.color.H}, ${props.color.S}%, ${gradientEnd}%)`,
     }
   }
 
