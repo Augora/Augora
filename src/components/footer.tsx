@@ -3,7 +3,21 @@ import React from "react"
 import IconMail from "images/ui-kit/icon-mail.svg"
 import IconTwitter from "images/ui-kit/icon-twitter.svg"
 
-const Menu = (title, items) => {
+type FooterLink = {
+  label: string
+  link: string
+  target?: boolean
+  /** Si le lien est une page d'augora, il est interne */
+  internal: boolean
+  icon?: React.ReactElement
+}
+
+/**
+ * Renvoie une colomne de liens, avec un titre
+ * @param title Le titre du paragraphe
+ * @param items Une array des liens
+ */
+const Menu = (title: string, items: FooterLink[]) => {
   return (
     <div className={`menu footer__menu ${items.length > 0 ? "" : "menu--empty"}`}>
       {items.length > 0 ? (
@@ -28,6 +42,9 @@ const Menu = (title, items) => {
   )
 }
 
+/**
+ * Renvoie le footer, pas d'arguments
+ */
 const Footer = () => {
   return (
     <footer
