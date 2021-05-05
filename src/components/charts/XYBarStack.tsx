@@ -37,6 +37,7 @@ export default function XYBarStack(props: BarStackProps) {
     marginTop,
     marginLeft,
   } = props
+  const isAxisRange = /^\d\d$/.test(dataAge[0].age as string)
   const marginRight = 30
   const listSigles = groups.map((g) => g.Sigle)
 
@@ -86,7 +87,7 @@ export default function XYBarStack(props: BarStackProps) {
               hideAxisLine={true}
               hideTicks={true}
               numTicks={numTicks}
-              left={isRange ? -marginRight / 2 : -marginRight / 4}
+              left={isAxisRange ? -marginRight / 2 : -marginRight / 4}
             />
           )}
           <AnimatedAxis
