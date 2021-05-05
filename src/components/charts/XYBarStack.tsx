@@ -5,6 +5,7 @@ import { XYChart, AnimatedGrid, AnimatedAxis, Tooltip, BarSeries, BarStack } fro
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAge: Chart.AgeData[]
+  dataAgeRange: Chart.AgeData[]
   groups: Group.GroupsList
   totalDeputes: number
   axisLeft: boolean
@@ -23,8 +24,19 @@ const getGroupColor = (sigle: string, groups: Group.GroupsList): string => {
 }
 
 export default function XYBarStack(props: BarStackProps) {
-  const { width, height, groups, dataAge, maxAge, totalDeputes, axisLeft, renderVertically, marginTop, marginLeft } = props
-  const isRange = /^\d\d$/.test(dataAge[0].age as string)
+  const {
+    width,
+    height,
+    groups,
+    dataAge,
+    dataAgeRange,
+    maxAge,
+    totalDeputes,
+    axisLeft,
+    renderVertically,
+    marginTop,
+    marginLeft,
+  } = props
   const marginRight = 30
   const listSigles = groups.map((g) => g.Sigle)
 
