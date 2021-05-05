@@ -26,7 +26,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
     round: true,
     domain: data.map((d) => d.id).reverse(),
     paddingInner: 0.2,
-    paddingOuter: isMobile ? -0.5 : -0.1,
+    paddingOuter: -0.1,
   })
 
   const yScale = scaleLinear<number>({
