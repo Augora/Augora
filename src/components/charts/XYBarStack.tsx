@@ -98,7 +98,7 @@ export default function XYBarStack(props: BarStackProps) {
             hideAxisLine={true}
             numTicks={renderVertically ? 10 : 4}
             hideTicks={renderVertically ? false : true}
-            tickFormat={(d: string) => d.toString().replace("-", "")}
+            tickFormat={(d: string) => (renderVertically ? d : d.toString().replace("-", ""))}
           />
           <BarStack>
             {listSigles.map((sigle, i) => {
