@@ -174,13 +174,11 @@ const contentAbout = [
   },
 ]
 
-export default function FAQ({ title }) {
+export default function FAQ() {
   return (
     <>
       <SEO pageType={PageType.FAQ} />
       <div className="page page__faq">
-        {/* <PageTitle title={title} /> */}
-
         {contentAbout.map((question, index) => (
           <Question key={`faq-question-${index}`} title={question.title}>
             {question.description}
@@ -191,7 +189,7 @@ export default function FAQ({ title }) {
   )
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   return {
     props: {
       title: "Foire aux Questions",
