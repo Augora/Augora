@@ -4,19 +4,34 @@ import { colors } from "utils/variables"
 
 import Header from "./header"
 import Footer from "./footer"
-import PageTitle from "../components/titles/PageTitle"
-import Popin from "../components/popin/Popin"
+import PageTitle from "./titles/PageTitle"
+import Popin from "./popin/Popin"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { NextRouter } from "next/router"
+
+interface ILayout {
+  children: React.ReactElement
+  title?: string
+  location: NextRouter
+}
 
 const allColors = colors.map((color) => {
   return "--" + color.name + "-color :" + color.hex + ";\n"
 })
 
-const Layout = ({ children, location, title }) => {
+/**
+ * Renvoie le container des pages, comprenant le header, popin, etc
+ * @param {RouteProps} location Objet du react router contenant les infos de route
+ * @param {string} [title] Titre de la page
+ */
+const Layout = ({ children, location, title }: ILayout) => {
   const { state, handleReset } = useDeputiesFilters()
+
   const [scrolled, setScrolled] = useState(false)
-  const pageColor = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
-  const handleScroll = (event) => {
+
+  const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
+
+  const handleScroll = () => {
     if (window.scrollY > 50) {
       setScrolled(true)
     } else {
@@ -47,7 +62,7 @@ const Layout = ({ children, location, title }) => {
       </Head>
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} />
-        {title ? <PageTitle title={title} color={pageColor} /> : <PageTitle color={pageColor} />}
+        <PageTitle color={pageColor} title={title ? title : null} />
         <Popin isInitialState={state.IsInitialState}>
           <p>Certains filtres sont actifs</p>
           <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">

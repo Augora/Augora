@@ -9,7 +9,6 @@
     "@nivo/bar": "0.63.1",
     "@nivo/pie": "0.63.1",
     "@svgr/webpack": "^5.5.0",
-    "@types/lodash": "^4.14.168",
     "dayjs": "^1.10.4",
     "fuse.js": "6.4.6",
     "graphql": "^15.5.0",
@@ -22,7 +21,7 @@
     "react-compound-slider": "3.3.1",
     "react-dom": "17.0.2",
     "react-lazy-load-image-component": "^1.5.0",
-    "react-map-gl": "6.1.10",
+    "react-map-gl": "6.1.12",
     "sass": "^1.32.8",
     "typescript": "4.2.4",
     "zustand": "^3.4.1"
@@ -45,6 +44,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^10.1.3",
     "@types/geojson": "^7946.0.7",
+    "@types/lodash": "^4.14.168",
     "@types/next": "^9.0.0",
     "@types/node": "^14.14.37",
     "@types/polylabel": "^1.0.5",
