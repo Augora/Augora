@@ -106,6 +106,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
           })}
         </Group>
         <Group top={marginTop / 2} left={marginGraph / 2}>
+          {window.innerWidth < 420 || (window.innerWidth > 1200 && window.innerWidth < 1450) ? (
             <AxisBottom
               axisClassName="chart__axislabel axislabel__bottom"
               tickClassName="chart__axistick"
@@ -144,6 +145,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
                 )
               }}
             </AxisBottom>
+          ) : (
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
@@ -152,6 +154,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
             hideAxisLine={true}
             tickLength={6}
           />
+          )}
         </Group>
       </svg>
       {tooltipOpen && tooltipData && (
