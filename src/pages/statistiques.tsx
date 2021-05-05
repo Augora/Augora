@@ -36,6 +36,7 @@ const Statistiques = (props) => {
   }).filter((groupe) => groupe.value !== 0)
 
   const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
+  const dataAgeRange = rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain), 6)
   const isRange = dataAge.length < 30
   const dataAgeFemme = isRange
     ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F")
@@ -74,6 +75,7 @@ const Statistiques = (props) => {
                 height={parent.height}
                 groups={state.GroupesList}
                 dataAge={dataAge}
+                dataAgeRange={dataAgeRange}
                 totalDeputes={state.FilteredList.length}
                 axisLeft={true}
                 renderVertically={true}
