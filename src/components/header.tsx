@@ -4,8 +4,31 @@ import Logo from "images/logos/projet/augora-logo.svg"
 import LogoText from "images/logos/projet/augora-text.svg"
 import LogoTextThin from "images/logos/projet/augora-text-thin.svg"
 import { getHSLLightVariation } from "../utils/style/color"
+import { NextRouter } from "next/router"
 
-const mainPages = {
+interface IHeader {
+  siteTitle?: string
+  color?: Group.HSLDetail
+  location: NextRouter
+}
+
+type Pages = {
+  [key: string]: {
+    path: string
+    title: string
+  }
+}
+
+type Styles = {
+  flat: {}
+  gradient: {}
+  link?: { color: string }
+  svg?: { fill: string }
+  underline?: { background: string }
+  separator?: { background: string }
+}
+
+const mainPages: Pages = {
   home: {
     path: "/",
     title: "Députés",
@@ -16,7 +39,7 @@ const mainPages = {
   },
 }
 
-const secondaryPages = {
+const secondaryPages: Pages = {
   // about: {
   //   path: "/about",
   //   title: "A propos de nous",
@@ -27,11 +50,17 @@ const secondaryPages = {
   },
 }
 
-const Header = ({ siteTitle, location, color }) => {
-  let styles = {
+/**
+ * Renvoie le header
+ * @param {RouteProps} location Objet du react router contenant les infos de route
+ * @param {Group.HSLDetail} [color] Couleur du header optionnelle
+ */
+const Header = ({ siteTitle, location, color }: IHeader) => {
+  let styles: Styles = {
     flat: {},
     gradient: {},
   }
+
   if (color) {
     const gradientStart = getHSLLightVariation(color, -20)
     const gradientEnd = getHSLLightVariation(color, -30)
@@ -45,11 +74,12 @@ const Header = ({ siteTitle, location, color }) => {
       background: `linear-gradient(to bottom, hsla(${color.H}, ${color.S}%, ${gradientStart}%, ${decorationOpacity}), hsla(${color.H}, ${color.S}%, ${gradientEnd}%, ${decorationOpacity}))`,
     }
   }
-  function isActivePage(path) {
+
+  function isActivePage(path: string) {
     return `menu__item ${location.pathname === path || location.pathname === path + "/" ? "menu__item--current" : ""}`
   }
 
-  function setLinks(pageGroup) {
+  function setLinks(pageGroup: Pages) {
     return Object.keys(pageGroup).map((page, index) => (
       <div className="menu__link" key={pageGroup[page].path}>
         <Link href={pageGroup[page].path}>

@@ -31,4 +31,5 @@ const baseColors = [
     hex: `#fff`,
   },
 ]
+
 export const colors = baseColors

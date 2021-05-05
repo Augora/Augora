@@ -3,7 +3,6 @@ import React from "react"
 import SEO, { PageType } from "../components/seo/seo"
 import { getDeputes } from "../lib/deputes/Wrapper"
 import DeputiesList from "../components/deputies-list/DeputiesList"
-import PageTitle from "../components/titles/PageTitle"
 
 export default function IndexPage() {
   return (
@@ -22,7 +21,7 @@ export async function getStaticProps() {
   return {
     props: {
       deputes,
-      title: "Liste des députés"
+      title: "Liste des députés",
     },
   }
 }

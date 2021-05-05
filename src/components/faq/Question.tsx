@@ -1,15 +1,16 @@
 import React, { useState } from "react"
-
-// Icons
 import IconArrow from "images/ui-kit/icon-arrow.svg"
-
-// Graphics
 import dynamic from "next/dynamic"
 const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
   ssr: false,
 })
 
-function Question(props) {
+interface IQuestion {
+  title: string
+  children?: React.ReactNode
+}
+
+function Question(props: IQuestion) {
   const [Open, setOpen] = useState(true)
   return (
     <div className={`faq__question ${Open ? "faq__question--opened" : ""}`}>
