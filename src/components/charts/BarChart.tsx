@@ -4,8 +4,8 @@ import { Group } from "@visx/group"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { GridRows } from "@visx/grid"
 import { scaleBand, scaleLinear } from "@visx/scale"
+import { Text } from "@visx/text"
 import { useTooltip } from "@visx/tooltip"
-import { isMobile } from "react-device-detect"
 import ChartTooltip from "components/charts/ChartTooltip"
 
 export default function BarChart({ width, height, data }: Chart.BaseProps) {
@@ -90,16 +90,17 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
                   onMouseLeave={handleMouseLeave}
                   onMouseMove={(event) => handleMouseMove(event, d)}
                 />
-                {!isMobile && barHeight >= 25 && (
-                  <text
+                {barHeight >= 25 && (
+                  <Text
                     className="chart__number barchart__number"
                     x={barX + barWidth / 2}
                     y={yMax - barHeight / 2}
-                    dx={d.value >= 100 ? "-.9em" : d.value >= 10 ? "-.6em" : "-.3em"}
-                    dy={"+.33em"}
+                    textAnchor={"middle"}
+                    verticalAnchor={"middle"}
+                    angle={barWidth < 29 ? -90 : 0}
                   >
                     {d.value}
-                  </text>
+                  </Text>
                 )}
               </Group>
             )
