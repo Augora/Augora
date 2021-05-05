@@ -106,6 +106,44 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
           })}
         </Group>
         <Group top={marginTop / 2} left={marginGraph / 2}>
+            <AxisBottom
+              axisClassName="chart__axislabel axislabel__bottom"
+              tickClassName="chart__axistick"
+              scale={xScale.range([xMax, 0])}
+              top={yMax}
+              hideAxisLine={true}
+              tickLength={6}
+            >
+              {(props) => {
+                const tickLabelSize = 12
+                const tickRotate = -45
+                const tickColor = "#adb5bd"
+                const axisCenter = (props.axisToPoint.x - props.axisFromPoint.x) / 2
+                return (
+                  <g className="my-custom-bottom-axis">
+                    {props.ticks.map((tick, i) => {
+                      const tickX = tick.to.x
+                      const tickY = tick.to.y + tickLabelSize + props.tickLength
+                      return (
+                        <Group key={`vx-tick-${tick.value}-${i}`} className={"vx-axis-tick"}>
+                          <Line from={tick.from} to={tick.to} stroke={tickColor} />
+                          <text
+                            transform={`translate(${tickX}, ${tickY}) rotate(${tickRotate})`}
+                            fontSize={tickLabelSize}
+                            textAnchor="middle"
+                          >
+                            {tick.formattedValue}
+                          </text>
+                        </Group>
+                      )
+                    })}
+                    <text textAnchor="middle" transform={`translate(${axisCenter}, 50)`} fontSize="8" fontFamily={"Arial"}>
+                      {props.label}
+                    </text>
+                  </g>
+                )
+              }}
+            </AxisBottom>
           <AxisBottom
             axisClassName="chart__axislabel axislabel__bottom"
             tickClassName="chart__axistick"
