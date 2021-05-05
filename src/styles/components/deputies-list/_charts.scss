@@ -29,6 +29,11 @@
         }
 
         &__axislabel {
+          &.vertical {
+            g > svg > text {
+              transform: translate(-5px, 6px) rotate(-45deg);
+            }
+          }
           g > svg > text {
             font-size: 14px !important;
             fill: $text-color !important;

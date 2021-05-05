@@ -92,7 +92,7 @@ export default function XYBarStack(props: BarStackProps) {
             />
           )}
           <AnimatedAxis
-            axisClassName="chart__axislabel axislabel__bottom"
+            axisClassName={`chart__axislabel axislabel__bottom${renderVertically && isRange ? " vertical" : ""}`}
             orientation="bottom"
             tickLength={6}
             hideAxisLine={true}
