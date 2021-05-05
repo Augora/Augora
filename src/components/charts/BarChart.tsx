@@ -147,14 +147,14 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
               }}
             </AxisBottom>
           ) : (
-          <AxisBottom
-            axisClassName="chart__axislabel axislabel__bottom"
-            tickClassName="chart__axistick"
-            scale={xScale.range([xMax, 0])}
-            top={yMax}
-            hideAxisLine={true}
-            tickLength={6}
-          />
+            <AxisBottom
+              axisClassName="chart__axislabel axislabel__bottom"
+              tickClassName="chart__axistick"
+              scale={xScale.range([xMax, 0])}
+              top={yMax}
+              hideAxisLine={true}
+              tickLength={6}
+            />
           )}
         </Group>
       </svg>
