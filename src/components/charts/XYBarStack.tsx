@@ -5,7 +5,7 @@ import { XYChart, AnimatedGrid, AnimatedAxis, Tooltip, BarSeries, BarStack } fro
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAge: Chart.AgeData[]
-  dataAgeRange: Chart.AgeData[]
+  dataAgeRange?: Chart.AgeData[]
   groups: Group.GroupsList
   totalDeputes: number
   axisLeft: boolean
