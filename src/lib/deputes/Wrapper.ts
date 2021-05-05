@@ -89,6 +89,7 @@ export function getDepute(slug: string) {
                 }
               }
             }
+            RattachementFinancier
             URLPhotoAugora
             Nom
             NomCirconscription
