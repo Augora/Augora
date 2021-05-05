@@ -38,6 +38,7 @@ export default function XYBarStack(props: BarStackProps) {
     marginLeft,
   } = props
   const isAxisRange = /^\d\d$/.test(dataAge[0].age as string)
+  const isRange = width < 460
   const marginRight = 30
   const listSigles = groups.map((g) => g.Sigle)
 
@@ -105,7 +106,7 @@ export default function XYBarStack(props: BarStackProps) {
                 <BarSeries
                   key={`${sigle}-${i}`}
                   dataKey={sigle}
-                  data={dataAge}
+                  data={isRange && renderVertically ? dataAgeRange : dataAge}
                   xAccessor={(data) =>
                     renderVertically ? data.age : axisLeft ? data.groups[sigle].length : -data.groups[sigle].length
                   }
