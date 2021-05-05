@@ -1,5 +1,5 @@
 import React from "react"
-import { Bar } from "@visx/shape"
+import { Bar, Line } from "@visx/shape"
 import { Group } from "@visx/group"
 import { AxisLeft, AxisBottom } from "@visx/axis"
 import { GridRows } from "@visx/grid"
