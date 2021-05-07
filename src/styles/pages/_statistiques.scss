@@ -91,6 +91,9 @@
       .frame-filters {
         grid-row-end: span 5;
       }
+      .frame-pie {
+        grid-row-end: span 2;
+      }
     }
     @media (max-width: 569px) {
       grid-gap: 20px;
@@ -101,7 +104,11 @@
       .frame-filters {
         grid-row-end: span 6;
       }
+      .frame-pie {
+        grid-row-end: span 2;
+      }
     }
+
     @media (max-width: 319px) {
       grid-gap: 20px;
       .frame {
@@ -110,6 +117,9 @@
       }
       .frame-filters {
         grid-row-end: span 9;
+      }
+      .frame-pie {
+        grid-row-end: span 2;
       }
     }
   }
