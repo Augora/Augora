@@ -31,7 +31,10 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
   return (
     <div className="piechart chart">
       <svg>
-        <Group top={height} left={width / 2}>
+        <Group
+          top={ratio < 1.5 ? height * 0.72 : ratio < 1.8 ? height * 0.85 : ratio < 2.2 ? height * 0.9 : height * 0.95}
+          left={width / 2}
+        >
           <Pie
             data={data}
             pieValue={(d) => d.value}
