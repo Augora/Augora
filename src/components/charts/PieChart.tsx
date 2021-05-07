@@ -9,9 +9,10 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
 
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
-  const rayon = width / 2.5
-  const inner = width / 5
-
+  const ratio = width / height
+  const conditionRatio = ratio > 3 ? 0.55 : ratio > 1.5 ? 0.65 : 0.45
+  const rayon = ((width + height) * conditionRatio) / 2.5
+  const inner = ((width + height) * conditionRatio) / 5
   const handleMouseLeave = () => {
     hideTooltip()
   }
