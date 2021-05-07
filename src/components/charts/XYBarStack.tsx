@@ -45,15 +45,16 @@ export default function XYBarStack(props: BarStackProps) {
   // bounds
   const xMax = width - marginLeft
   const numTicks = renderVertically ? 4 : maxAge > 50 ? maxAge / 10 : maxAge > 15 ? maxAge / 2 : maxAge
-  const yMax = height - marginTop
+  const ratio = renderVertically && isRange ? (width > 300 ? 1 : width > 176 ? 0.9 : 0.8) : 1
+  const yMax = height * ratio - marginTop
 
   return (
     <svg width={width} height={height}>
-      <Group top={renderVertically ? marginTop / 2 : 0} left={renderVertically ? marginLeft / 2 : 0}>
+      <Group top={renderVertically ? marginTop / 2 : 0} left={renderVertically ? marginLeft : 0}>
         <XYChart
-          margin={{ top: 0, right: 30, bottom: marginTop, left: 0 }}
+          margin={{ top: 0, right: 20, bottom: marginTop, left: 0 }}
           width={width}
-          height={height}
+          height={height * ratio}
           yScale={
             renderVertically
               ? { type: "linear", range: [yMax, 0], domain: [0, maxAge] }
