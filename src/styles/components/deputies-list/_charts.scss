@@ -72,6 +72,10 @@
       }
 
       .piechart {
+        svg {
+          width: 100%;
+          height: auto;
+        }
         &__label {
           svg text {
             font-weight: normal !important;

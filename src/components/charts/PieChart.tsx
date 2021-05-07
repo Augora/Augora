@@ -28,11 +28,10 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
       tooltipLeft: event.clientX,
     })
   }
-
   return (
     <div className="piechart chart">
-      <svg width={width} height={height}>
-        <Group top={height * 1.15} left={width / 2}>
+      <svg>
+        <Group top={height} left={width / 2}>
           <Pie
             data={data}
             pieValue={(d) => d.value}
@@ -68,7 +67,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                           title={arc.data.id}
                           // Permet de gérer les props du bloc de texte
                           titleProps={
-                            centroidX < 0 ? { verticalAnchor: "start", textAnchor: "end", x: 25, y: 13 } : { x: 10, y: 13 }
+                            centroidX < 0 ? { verticalAnchor: "start", textAnchor: "end", x: 25, y: 13 } : { x: 10, y: 3 }
                           }
                           width={65}
                         />
