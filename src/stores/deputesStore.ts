@@ -5,7 +5,7 @@ import deburr from "lodash/deburr"
 import { getAgeDomain, filterList, getGroupValue } from "components/deputies-list/deputies-list-utils"
 
 type FilterState = {
-  isInitialState: Boolean
+  isInitialState: boolean
   deputesInitialList: Deputy.DeputiesList
   deputesFilteredList: Deputy.DeputiesList
   groupesInitialList: Group.GroupsList
