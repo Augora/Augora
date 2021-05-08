@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import CustomControl from "components/maps/CustomControl"
 import GroupBar from "components/deputies-list/GroupBar"
 import Tooltip from "components/tooltip/Tooltip"
@@ -6,6 +6,7 @@ import Filters from "components//deputies-list/filters/Filters"
 import Button from "components/buttons/Button"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
+import { gsap } from "gsap";
 
 interface IMapFilters {
   zoneDeputies: Deputy.DeputiesList
@@ -17,6 +18,34 @@ interface IMapFilters {
  */
 export default function MapFilters({ zoneDeputies }: IMapFilters) {
   const [isBigFilter, setIsBigFilter] = useState(false)
+  // const filterRef = useRef(null);
+
+  const animateFilters = (filterState) => {
+    const timer = 0.2;
+    const tl = gsap.timeline({repeatDelay: 0.1})
+    tl.fromTo('.map__filters', {
+      y: '0%',
+      autoAlpha: 1,
+    }, {
+      y: '100%',
+      autoAlpha: 0,
+      ease: "power1.out",
+      duration: timer,
+    });
+    tl.call(() => setIsBigFilter(filterState));
+    tl.fromTo('.map__filters', {
+      y: '100%',
+      autoAlpha: 0,
+    }, {
+      y: '0%',
+      autoAlpha: 1,
+      ease: "power1.out",
+      delay: timer + 0.1,
+      duration: timer,
+    });
+    
+    tl.play();
+  }
 
   const {
     state: { DeputiesList },
@@ -27,14 +56,14 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
       {!isBigFilter ? (
         <div className="filters__container">
           <div className="filters__close filters__close--mini">
-            <Button className="close__btn" onClick={() => setIsBigFilter(true)} title="Agrandir les filtres">
+            <Button className="close__btn" onClick={() => animateFilters(true)} title="Agrandir les filtres">
               <div className="icon-wrapper">
                 <IconArrow />
               </div>
             </Button>
           </div>
-          <Tooltip className="filters__mini" onClick={() => setIsBigFilter(true)}>
-            <button className="mini__btn" title="Agrandir les filtres" onClick={() => setIsBigFilter(true)} />
+          <Tooltip className="filters__mini" onClick={() => animateFilters(true)}>
+            <button className="mini__btn" title="Agrandir les filtres" onClick={() => animateFilters(true)} />
             <div className="mini__number">
               <span>
                 {zoneDeputies.length}
@@ -51,7 +80,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
       ) : (
         <div className="filters__container">
           <div className="filters__close">
-            <Button className="close__btn" onClick={() => setIsBigFilter(false)} title="Cacher les filtres">
+            <Button className="close__btn" onClick={() => animateFilters(false)} title="Cacher les filtres">
               <div className="icon-wrapper">
                 <IconArrow />
               </div>

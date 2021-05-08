@@ -26,7 +26,6 @@
       transform: translate(0, 0);
       transition: transform 0.4s $ease-in-out-cubic, opacity 0.2s $ease-in-out-cubic;
 
-      // background-color: rgba($lightergrey, 0.9);
       background-image: linear-gradient(to right, $main-color, $secondary-color);
       border-radius: 10px 10px 0 0;
 
