@@ -2,7 +2,21 @@
 // Bloc Présence parlementaire
 /*----------------------------------------------------*/
 .block__presence {
+  &:hover .presence__filtre {
+    opacity: 1;
+    transition: opacity 0.4s $ease-out-expo;
+  }
   .presence {
+    &__filtre {
+      position: absolute;
+      bottom: 12px;
+      opacity: 0;
+      transition: opacity 0.4s $ease-out-quad;
+      transition-delay: 0.15s;
+      @media (max-width: 1000px) {
+        bottom: 105px;
+      }
+    }
     &__legend {
       position: absolute;
       width: 100%;
