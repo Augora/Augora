@@ -17,6 +17,11 @@
     svg {
       overflow: visible;
     }
+    .visx-legend-item {
+      .visx-legend-label {
+        cursor: pointer;
+      }
+    }
   }
 }
 
