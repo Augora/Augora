@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import CustomControl from "components/maps/CustomControl"
 import GroupBar from "components/deputies-list/GroupBar"
 import Tooltip from "components/tooltip/Tooltip"
@@ -12,6 +12,8 @@ interface IMapFilters {
   zoneDeputies: Deputy.DeputiesList
 }
 
+const timer = 0.2;
+
 /**
  * Renvoie le mini filtre et filtre qui s'intervertissent au clic
  * @param {Deputy.DeputiesList} zoneDeputies La liste de députés dans la zone visible actuellement
@@ -21,8 +23,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
   // const filterRef = useRef(null);
 
   const animateFilters = (filterState) => {
-    const timer = 0.2;
-    const tl = gsap.timeline({repeatDelay: 0.1})
+    const tl = gsap.timeline()
     tl.fromTo('.map__filters', {
       y: '0%',
       autoAlpha: 1,
@@ -33,6 +34,11 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
       duration: timer,
     });
     tl.call(() => setIsBigFilter(filterState));
+    tl.play();
+  }
+
+  useEffect(() => {
+    const tl = gsap.timeline()
     tl.fromTo('.map__filters', {
       y: '100%',
       autoAlpha: 0,
@@ -44,8 +50,10 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
       duration: timer,
     });
     
-    tl.play();
-  }
+    return () => {
+      tl.kill()
+    }
+  }, [isBigFilter])
 
   const {
     state: { DeputiesList },
