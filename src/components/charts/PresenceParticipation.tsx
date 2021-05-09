@@ -301,6 +301,9 @@ export default function PresenceParticipation(props: IPresence) {
           </XYChart>
         </Group>
       </svg>
+      <div className="presence__filtre">
+        <text>Filtrer</text>
+      </div>
       <Legend scale={shapeScale}>
         {(labels) => (
           <div className="presence__legend">
