@@ -124,3 +124,19 @@ export function buildTitleFromPageType(pageType: PageType, depute: Deputy.Deputy
   }
   return ""
 }
+
+export const getPageTypeFromRoute = (route: string) => {
+  if (route.startsWith("/depute")) {
+    return PageType.Depute
+  } else if (route.startsWith("/carte") || route.startsWith("/map")) {
+    return PageType.Map
+  } else if (route.startsWith("/faq")) {
+    return PageType.FAQ
+  } else if (route.startsWith("/mention")) {
+    return PageType.MentionsLegales
+  } else if (route.startsWith("/404")) {
+    return PageType.NotFound
+  } else {
+    return PageType.Accueil
+  }
+}

@@ -8,6 +8,7 @@ import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
+import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
 
 interface ILayout {
   children: React.ReactElement
@@ -26,10 +27,10 @@ const allColors = colors.map((color) => {
  */
 const Layout = ({ children, location, title }: ILayout) => {
   const { state, handleReset } = useDeputiesFilters()
-
   const [scrolled, setScrolled] = useState(false)
 
   const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
+  const pageType = getPageTypeFromRoute(location.route)
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -63,12 +64,14 @@ const Layout = ({ children, location, title }: ILayout) => {
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} />
         <PageTitle color={pageColor} title={title ? title : null} />
-        <Popin isInitialState={state.IsInitialState}>
-          <p>Certains filtres sont actifs</p>
-          <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
-            Réinitialiser les filtres
-          </button>
-        </Popin>
+        {pageType !== PageType.Depute && (
+          <Popin isInitialState={state.IsInitialState}>
+            <p>Certains filtres sont actifs</p>
+            <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
+              Réinitialiser les filtres
+            </button>
+          </Popin>
+        )}
       </div>
       <main className="layout">{children}</main>
       <Footer />
