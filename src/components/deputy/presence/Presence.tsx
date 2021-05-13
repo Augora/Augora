@@ -16,7 +16,7 @@ const Presence = (props: Bloc.Presence) => {
       <button className="info__button" onClick={() => setHasInformations(!HasInformations)} title="Informations">
         <IconInfo className="icon-info" />
       </button>
-      <ParentSize debounceTime={10}>
+      <ParentSize debounceTime={400}>
         {(parent) =>
           HasInformations ? (
             <div className="info__content">

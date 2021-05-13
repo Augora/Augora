@@ -63,13 +63,13 @@ const Statistiques = () => {
       </div>
       <Frame className="frame-chart frame-pie" title="Hémicycle">
         {state.FilteredList.length > 0 ? (
-          <ParentSize debounceTime={10}>
+          <ParentSize debounceTime={400}>
             {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
           </ParentSize>
         ) : null}
       </Frame>
       <Frame className="frame-chart frame-barstack" title="Cumul des âges" right={`Âge moyen : ${averageAge} ans`}>
-        <ParentSize className="barstack__container" debounceTime={10}>
+        <ParentSize className="barstack__container" debounceTime={400}>
           {(parent) => (
             <div className="barstackchart chart">
               <XYBarStack
@@ -89,7 +89,7 @@ const Statistiques = () => {
         </ParentSize>
       </Frame>
       <Frame className="frame-chart frame-bar" title="Diagramme en Barres">
-        <ParentSize className="bar__container" debounceTime={10}>
+        <ParentSize className="bar__container" debounceTime={400}>
           {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
         </ParentSize>
       </Frame>
@@ -101,7 +101,7 @@ const Statistiques = () => {
         >
           <IconSwitch className="icon-switch" />
         </button>
-        <ParentSize className="pyramide__container" debounceTime={10}>
+        <ParentSize className="pyramide__container" debounceTime={400}>
           {(parent) =>
             HasPyramideBarStack ? (
               <PyramideBar

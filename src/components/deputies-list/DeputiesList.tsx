@@ -36,11 +36,11 @@ export default function DeputiesList() {
                 <IconSwitch className="icon-switch" />
               </button>
               {HasPieChart ? (
-                <ParentSize debounceTime={10}>
+                <ParentSize debounceTime={400}>
                   {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
                 </ParentSize>
               ) : (
-                <ParentSize className="bar__container" debounceTime={10}>
+                <ParentSize className="bar__container" debounceTime={400}>
                   {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
                 </ParentSize>
               )}
