@@ -74,14 +74,12 @@ const Layout = ({ children, location, title }: ILayout) => {
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} />
         <PageTitle color={pageColor} title={title ? title : null} />
-        {isPopinVisible && !IsInitialState && (
-          <Popin setVisible={setisPopinVisible}>
-            <p>Certains filtres sont actifs</p>
-            <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
-              Réinitialiser les filtres
-            </button>
-          </Popin>
-        )}
+        <Popin displayed={isPopinVisible && !IsInitialState}>
+          <p>Certains filtres sont actifs</p>
+          <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
+            Réinitialiser les filtres
+          </button>
+        </Popin>
       </div>
       <main className="layout">{children}</main>
       <Footer />
