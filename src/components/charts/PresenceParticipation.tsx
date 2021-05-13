@@ -72,6 +72,7 @@ export default function PresenceParticipation(props: IPresence) {
 
   const { width, height, data, color } = props
   const changeDisplay = width < 900
+  const isMobile = width < 300
 
   // bounds
   const marginTop = 50
@@ -213,6 +214,7 @@ export default function PresenceParticipation(props: IPresence) {
               animationTrajectory={animationTrajectoire}
             />
             <AnimatedAxis
+              axisClassName={`chart__axislabel ${isMobile ? " rotate" : ""}`}
               orientation="bottom"
               hideAxisLine={true}
               tickLength={6}

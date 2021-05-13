@@ -23,6 +23,7 @@
       bottom: 0;
       display: flex;
       justify-content: center;
+      padding-right: 30px;
       @media (max-width: 875px) {
         columns: 2;
         display: table-column;
@@ -30,6 +31,11 @@
     }
     svg {
       overflow: visible;
+      .rotate {
+        g > svg > text {
+          transform: translate(-5px, 6px) rotate(-45deg);
+        }
+      }
     }
     .visx-legend-item {
       .visx-legend-label {
