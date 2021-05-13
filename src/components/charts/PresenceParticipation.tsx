@@ -354,7 +354,7 @@ export default function PresenceParticipation(props: IPresence) {
                           fill: color,
                         })}
                   </svg>
-                  <LegendLabel style={{ margin: "0 0 12px", opacity: DisplayedGraph[label.text] ? 1 : 0.5 }}>
+                  <LegendLabel style={{ margin: "0 0 12px", textDecoration: !DisplayedGraph[label.text] ? "line-through" : "" }}>
                     {label.text}
                   </LegendLabel>
                 </LegendItem>
