@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import Block from "../_block/_Block"
 import PresenceParticipation from "src/components/charts/PresenceParticipation"
 import IconInfo from "images/ui-kit/icon-info.svg"
+import IconStat from "images/ui-kit/icon-stat.svg"
 import { ParentSize } from "@visx/responsive"
 
 /**
@@ -14,7 +15,7 @@ const Presence = (props: Bloc.Presence) => {
   return (
     <Block title="Présence et participation" type="presence" color={props.color} size={props.size}>
       <button className="info__button" onClick={() => setHasInformations(!HasInformations)} title="Informations">
-        <IconInfo className="icon-info" />
+        {HasInformations ? <IconStat className={"icon-info"} /> : <IconInfo className={"icon-info"} />}
       </button>
       <ParentSize debounceTime={10}>
         {(parent) =>
