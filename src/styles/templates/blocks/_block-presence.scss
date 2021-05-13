@@ -6,6 +6,37 @@
     opacity: 1;
     transition: opacity 0.4s $ease-out-expo;
   }
+  .info {
+    &__button {
+      background-color: transparent;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      padding: 10px;
+      border: none;
+      height: 50px;
+      cursor: pointer;
+
+      .icon-info {
+        width: 30px;
+        height: 30px;
+        fill: $text-color;
+      }
+
+      &:hover {
+        background: $btn-hover;
+      }
+    }
+    &__content {
+      background-color: transparent;
+      position: absolute;
+      border: none;
+      padding-right: 20px;
+      top: 60%;
+      -ms-transform: translateY(-60%);
+      transform: translateY(-60%);
+    }
+  }
   .presence {
     &__filtre {
       position: absolute;
