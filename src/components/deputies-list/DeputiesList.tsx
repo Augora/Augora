@@ -27,20 +27,20 @@ export default function DeputiesList() {
 
   return (
     <>
-      <section className="filters">
+      <section className="filters__section">
         <Filters />
-        <Frame className="frame-chart frame-deputieslist" title="Répartition">
+        <Frame className="frame-chart frame-pie" title="Répartition">
           {state.FilteredList.length > 0 ? (
             <>
               <button className="charts__switch" onClick={() => setHasPieChart(!HasPieChart)} title="Changer le graphique">
                 <IconSwitch className="icon-switch" />
               </button>
               {HasPieChart ? (
-                <ParentSize debounceTime={10}>
-                  {(parent) => <PieChart width={parent.width} height={parent.height * 0.85} data={groupesData} />}
+                <ParentSize debounceTime={400}>
+                  {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
                 </ParentSize>
               ) : (
-                <ParentSize className="bar__container" debounceTime={10}>
+                <ParentSize className="bar__container" debounceTime={400}>
                   {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
                 </ParentSize>
               )}
