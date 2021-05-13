@@ -58,24 +58,12 @@
       }
     }
 
-    @media (max-width: 950px) {
-      .filters {
-        grid-row-end: span 4;
-      }
+    @media (max-width: 875px) {
+      grid-template-rows: minmax(min-content, 300px);
     }
 
     @media (max-width: 650px) {
       grid-column-gap: 0px;
-
-      .filters {
-        grid-row-end: span 5;
-      }
-    }
-
-    @media (max-width: 390px) {
-      .filters {
-        grid-row-end: span 6;
-      }
     }
   }
 }

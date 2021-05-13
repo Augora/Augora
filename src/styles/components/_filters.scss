@@ -3,6 +3,12 @@
   display: flex;
   justify-content: space-between;
 
+  .frame-filters {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
   @import "filters/search";
   @import "filters/sexes";
   @import "filters/groupes";
