@@ -27,7 +27,7 @@ export default function DeputiesList() {
 
   return (
     <>
-      <section className="filters">
+      <section className="filters__section">
         <Filters />
         <Frame className="frame-chart frame-deputieslist" title="Répartition">
           {state.FilteredList.length > 0 ? (

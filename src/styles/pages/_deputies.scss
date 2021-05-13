@@ -1,6 +1,12 @@
 .page__deputies {
   padding-top: 40px;
 
+  .filters__section {
+    margin-bottom: 70px;
+    display: flex;
+    justify-content: space-between;
+  }
+
   // Media queries
   @media (max-width: 875px) {
     .page-title {
