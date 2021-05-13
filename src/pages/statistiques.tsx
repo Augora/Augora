@@ -21,7 +21,7 @@ type Groups = {
   color: string
 }
 
-const Statistiques = (props) => {
+const Statistiques = () => {
   const { state } = useDeputiesFilters()
   const [HasPyramideBarStack, setHasPyramideBarStack] = useState(true)
 
@@ -58,7 +58,9 @@ const Statistiques = (props) => {
 
   return (
     <div className="statistiques__grid">
-      <Filters />
+      <div className="filters">
+        <Filters />
+      </div>
       <Frame className="frame-chart frame-pie" title="Hémicycle">
         {state.FilteredList.length > 0 ? (
           <ParentSize debounceTime={10}>

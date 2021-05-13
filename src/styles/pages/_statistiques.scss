@@ -6,13 +6,19 @@
     grid-gap: 50px;
     min-height: 100vh;
 
-    .frame {
-      max-width: none;
-    }
-
-    .frame-filters {
+    .filters {
+      margin: 0;
+      display: block;
       grid-column-end: span 6;
       grid-row-end: span 3;
+
+      .frame-filters {
+        height: 100%;
+      }
+    }
+
+    .frame {
+      max-width: none;
     }
 
     .frame-pie {
@@ -35,91 +41,40 @@
       grid-row-end: span 4;
     }
 
-    @media (max-width: 1543px) {
-      .frame-filters {
-        grid-row-end: span 4;
+    @media (max-width: 1600px) {
+      .filters {
+        grid-column-end: span 10;
       }
+
       .frame-pie {
-        grid-row-end: span 4;
+        grid-column-end: span 3;
       }
     }
 
     @media (max-width: 1200px) {
       .frame {
-        grid-column-end: span 12;
+        grid-column-end: span 10;
         grid-row-end: span 3;
       }
     }
-    @media (max-width: 929px) {
-      grid-gap: 20px;
-      .frame {
-        grid-column-end: span 12;
-        grid-row-end: span 3;
-      }
-      .frame-filters {
+
+    @media (max-width: 950px) {
+      .filters {
         grid-row-end: span 4;
       }
     }
 
-    @media (max-width: 875px) {
-      grid-gap: 20px;
-      .frame {
-        grid-column-end: span 12;
-        grid-row-end: span 3;
-      }
-      .frame-filters {
+    @media (max-width: 650px) {
+      grid-column-gap: 0px;
+
+      .filters {
         grid-row-end: span 5;
       }
     }
 
-    @media (max-width: 750px) {
-      grid-gap: 20px;
-      .frame {
-        grid-column-end: span 10;
-        grid-row-end: span 3;
-      }
-      .frame-filters {
-        grid-row-end: span 5;
-      }
-    }
-    @media (max-width: 679px) {
-      grid-gap: 20px;
-      .frame {
-        grid-column-end: span 12;
-        grid-row-end: span 3;
-      }
-      .frame-filters {
-        grid-row-end: span 5;
-      }
-      .frame-pie {
-        grid-row-end: span 2;
-      }
-    }
-    @media (max-width: 569px) {
-      grid-gap: 20px;
-      .frame {
-        grid-column-end: span 12;
-        grid-row-end: span 3;
-      }
-      .frame-filters {
+    @media (max-width: 390px) {
+      .filters {
         grid-row-end: span 6;
-      }
-      .frame-pie {
-        grid-row-end: span 2;
-      }
-    }
-
-    @media (max-width: 319px) {
-      grid-gap: 20px;
-      .frame {
-        grid-column-end: span 12;
-        grid-row-end: span 3;
-      }
-      .frame-filters {
-        grid-row-end: span 9;
-      }
-      .frame-pie {
-        grid-row-end: span 2;
       }
     }
   }
