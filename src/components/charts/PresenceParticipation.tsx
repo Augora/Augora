@@ -70,6 +70,19 @@ export default function PresenceParticipation(props: IPresence) {
     Vacances: true,
   })
 
+  const [Date, setDate] = useState(3)
+  const ButtonGroup = ({ buttons }) => {
+    return (
+      <>
+        {buttons.map((buttonLabel, i) => (
+          <button key={i} name={buttonLabel} onClick={() => setDate(i)} className={i === Date ? "button__active" : "button"}>
+            {buttonLabel}
+          </button>
+        ))}
+      </>
+    )
+  }
+
   const { width, height, data, color } = props
   const changeDisplay = width < 900
   const isMobile = width < 300
@@ -84,6 +97,14 @@ export default function PresenceParticipation(props: IPresence) {
 
   //const medianeArray = orderBy(mediane, "DateDeDebut")
   const orderedWeeks = orderBy(data, "DateDeDebut")
+  const rangeOrderedWeeks =
+    Date === 3
+      ? orderedWeeks
+      : Date === 2
+      ? orderedWeeks.slice(27, 53)
+      : Date === 1
+      ? orderedWeeks.slice(40, 53)
+      : orderedWeeks.slice(49, 53)
   const animationTrajectoire = "center"
   const curveType = curveMonotoneX
 
@@ -139,6 +160,9 @@ export default function PresenceParticipation(props: IPresence) {
 
   return width < 10 ? null : (
     <div className="presence">
+      <div className="presence__date">
+        <ButtonGroup buttons={["1M", "3M", "6M", "1Y"]} />
+      </div>
       <svg width={width} height={height}>
         <Group top={20} left={marginLeft}>
           <XYChart
@@ -152,7 +176,7 @@ export default function PresenceParticipation(props: IPresence) {
             {DisplayedGraph.Vacances && (
               <AnimatedBarSeries
                 dataKey={"Vacances"}
-                data={orderedWeeks}
+                data={rangeOrderedWeeks}
                 xAccessor={(d) => d.DateDeDebut}
                 yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
                 colorAccessor={() => vacancesColor}
@@ -176,7 +200,7 @@ export default function PresenceParticipation(props: IPresence) {
             {DisplayedGraph.Participations && (
               <AnimatedLineSeries
                 dataKey={"Participation"}
-                data={orderedWeeks}
+                data={rangeOrderedWeeks}
                 xAccessor={(d) => d.DateDeDebut}
                 yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
                 curve={curveType}
@@ -187,7 +211,7 @@ export default function PresenceParticipation(props: IPresence) {
             {DisplayedGraph.Présences && (
               <AnimatedLineSeries
                 dataKey={"Presence"}
-                data={orderedWeeks}
+                data={rangeOrderedWeeks}
                 xAccessor={(d) => d.DateDeDebut}
                 yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
                 stroke={color}
@@ -197,7 +221,7 @@ export default function PresenceParticipation(props: IPresence) {
             {DisplayedGraph["Questions orales"] && (
               <AnimatedBarSeries
                 dataKey={"Question"}
-                data={orderedWeeks}
+                data={rangeOrderedWeeks}
                 xAccessor={(d) => d.DateDeDebut}
                 yAccessor={(d) => d.Question}
                 colorAccessor={() => color}
@@ -218,7 +242,7 @@ export default function PresenceParticipation(props: IPresence) {
               orientation="bottom"
               hideAxisLine={true}
               tickLength={6}
-              numTicks={changeDisplay ? 8 : orderedWeeks.length / 4}
+              numTicks={changeDisplay ? 8 : rangeOrderedWeeks.length / 4}
               animationTrajectory={animationTrajectoire}
               tickFormat={(date: string) =>
                 changeDisplay ? getDates(date.split("T")[0]).MobileData : getDates(date.split("T")[0]).MonthData
