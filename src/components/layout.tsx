@@ -8,6 +8,7 @@ import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
+import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
 
 interface ILayout {
   children: React.ReactElement
@@ -25,9 +26,12 @@ const allColors = colors.map((color) => {
  * @param {string} [title] Titre de la page
  */
 const Layout = ({ children, location, title }: ILayout) => {
-  const { state, handleReset } = useDeputiesFilters()
-
+  const {
+    state: { IsInitialState },
+    handleReset,
+  } = useDeputiesFilters()
   const [scrolled, setScrolled] = useState(false)
+  const [isPopinVisible, setisPopinVisible] = useState(false)
 
   const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
 
@@ -48,6 +52,13 @@ const Layout = ({ children, location, title }: ILayout) => {
     }
   }, [])
 
+  useEffect(() => {
+    const pageType = getPageTypeFromRoute(location.route)
+    if (pageType === PageType.Accueil || pageType === PageType.Map) {
+      setisPopinVisible(true)
+    } else setisPopinVisible(false)
+  }, [location.route])
+
   // Check if page has SEO informations
   return (
     <div className={`page-body ${title ? "with-title" : "no-title"} ${scrolled ? "scrolled" : ""}`}>
@@ -63,7 +74,7 @@ const Layout = ({ children, location, title }: ILayout) => {
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} />
         <PageTitle color={pageColor} title={title ? title : null} />
-        <Popin isInitialState={state.IsInitialState}>
+        <Popin displayed={isPopinVisible && !IsInitialState}>
           <p>Certains filtres sont actifs</p>
           <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
             Réinitialiser les filtres
