@@ -15,10 +15,12 @@ const SidebarLinkSeparator = () => {
   return <div className="content__separator" />
 }
 
-const SidebarLink = (props) => {
+const SidebarLink = ({ href, title }: { href: string; title: string }) => {
   return (
-    <Link href={props.href}>
-      <a className="content__link">{props.title}</a>
+    <Link href={href}>
+      <a className="content__link" title={`Aller sur la page ${title}`}>
+        {title}
+      </a>
     </Link>
   )
 }
