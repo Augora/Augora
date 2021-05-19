@@ -366,6 +366,13 @@ header#header.header {
         padding-left: 15px;
         padding-right: 15px;
       }
+
+      &__menu {
+        .menu__link,
+        .menu__separator {
+          display: none;
+        }
+      }
     }
     .scrolled & {
       .header {
