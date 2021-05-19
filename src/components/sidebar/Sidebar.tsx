@@ -8,6 +8,7 @@ const GradientBanner = dynamic(() => import("components/graphics/GradientBanner"
 
 interface ISideBar {
   className?: string
+  /** Ferme la sidebar */
   close?: () => void
 }
 
@@ -15,23 +16,28 @@ const SidebarLinkSeparator = () => {
   return <div className="content__separator" />
 }
 
-const SidebarLink = ({ href, title }: { href: string; title: string }) => {
+const SidebarLink = ({ href, title }: { href: string; title?: string }) => {
   return (
     <Link href={href}>
-      <a className="content__link" title={`Aller sur la page ${title}`}>
+      <a className="content__link" title={`Aller sur la page ${title ? title : ""}`}>
         {title}
       </a>
     </Link>
   )
 }
 
-export default function Sidebar(props: ISideBar) {
+/**
+ * Renvoie la sidebar
+ * @param {string} className
+ * @param {Function} [close] Callback pour fermer la sidebar
+ */
+export default function Sidebar({ className, close }: ISideBar) {
   return (
-    <div className={`sidebar ${props.className ? props.className : ""}`}>
+    <div className={`sidebar ${className ? className : ""}`}>
       <div className="sidebar__header">
         <GradientBanner />
         {/* <h2 className="header__title">Sidebar</h2> */}
-        <button className="header__close" title="Fermer le menu" onClick={() => props.close()}>
+        <button className="header__close" title="Fermer le menu" onClick={() => close()}>
           <div className="icon-wrapper">
             <IconClose />
           </div>

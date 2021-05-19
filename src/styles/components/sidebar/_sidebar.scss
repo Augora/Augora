@@ -4,7 +4,7 @@
   height: 100vh;
   right: 0;
   background: white;
-  z-index: 100;
+  z-index: 102;
   pointer-events: auto;
   overflow-y: auto;
 
@@ -23,7 +23,6 @@
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 
     padding: 20px;
 

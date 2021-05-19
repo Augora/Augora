@@ -59,6 +59,8 @@ const Layout = ({ children, location, title }: ILayout) => {
     if (pageType === PageType.Accueil || pageType === PageType.Map) {
       setisPopinVisible(true)
     } else setisPopinVisible(false)
+
+    setHasSidebar(false)
   }, [location.route])
 
   // Check if page has SEO informations
