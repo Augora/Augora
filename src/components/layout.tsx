@@ -6,6 +6,7 @@ import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
+import Sidebar from "components/sidebar/Sidebar"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
@@ -31,6 +32,7 @@ const Layout = ({ children, location, title }: ILayout) => {
     handleReset,
   } = useDeputiesFilters()
   const [scrolled, setScrolled] = useState(false)
+  const [hasSidebar, setHasSidebar] = useState(true)
   const [isPopinVisible, setisPopinVisible] = useState(false)
 
   const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
@@ -61,7 +63,7 @@ const Layout = ({ children, location, title }: ILayout) => {
 
   // Check if page has SEO informations
   return (
-    <div className={`page-body ${title ? "with-title" : "no-title"} ${scrolled ? "scrolled" : ""}`}>
+    <div className={`page-body ${title ? "with-title" : "no-title"}${scrolled ? " scrolled" : ""}`}>
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -72,7 +74,7 @@ const Layout = ({ children, location, title }: ILayout) => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <div className="header__container">
-        <Header siteTitle={"Augora"} location={location} color={pageColor} />
+        <Header siteTitle={"Augora"} location={location} color={pageColor} onBurgerClick={() => setHasSidebar(!hasSidebar)} />
         <PageTitle color={pageColor} title={title ? title : null} />
         <Popin displayed={isPopinVisible && !IsInitialState}>
           <p>Certains filtres sont actifs</p>
@@ -81,6 +83,7 @@ const Layout = ({ children, location, title }: ILayout) => {
           </button>
         </Popin>
       </div>
+      <Sidebar className={hasSidebar && "visible"} close={() => setHasSidebar(false)} />
       <main className="layout">{children}</main>
       <Footer />
     </div>

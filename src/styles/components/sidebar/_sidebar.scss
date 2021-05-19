@@ -1,0 +1,31 @@
+.sidebar {
+  position: fixed;
+  width: 400px;
+  height: 100vh;
+  right: 0;
+
+  background: white;
+  z-index: 100;
+
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+  transform: translate(450px, 0);
+
+  transition: transform 0.3s $ease-out-quad;
+
+  &.visible {
+    transform: translate(0, 0);
+  }
+
+  &__close {
+    border: none;
+    background: none;
+
+    cursor: pointer;
+    .icon-wrapper {
+      width: 40px;
+      svg {
+        fill: $text-color;
+      }
+    }
+  }
+}
