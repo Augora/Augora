@@ -32,7 +32,7 @@ const Layout = ({ children, location, title }: ILayout) => {
     handleReset,
   } = useDeputiesFilters()
   const [scrolled, setScrolled] = useState(false)
-  const [hasSidebar, setHasSidebar] = useState(true)
+  const [hasSidebar, setHasSidebar] = useState(false)
   const [isPopinVisible, setisPopinVisible] = useState(false)
 
   const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
