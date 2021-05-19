@@ -357,6 +357,12 @@ header#header.header {
           display: none;
         }
       }
+      &__menu {
+        .menu__link,
+        .menu__separator {
+          display: none;
+        }
+      }
     }
   }
 
@@ -365,13 +371,6 @@ header#header.header {
       &__wrapper {
         padding-left: 15px;
         padding-right: 15px;
-      }
-
-      &__menu {
-        .menu__link,
-        .menu__separator {
-          display: none;
-        }
       }
     }
     .scrolled & {
