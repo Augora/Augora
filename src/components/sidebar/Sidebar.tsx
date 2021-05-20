@@ -12,10 +12,6 @@ interface ISideBar {
   close?: () => void
 }
 
-const SidebarLinkSeparator = () => {
-  return <div className="content__separator" />
-}
-
 const SidebarLink = ({ href, title }: { href: string; title?: string }) => {
   return (
     <Link href={href}>
@@ -46,7 +42,7 @@ export default function Sidebar({ className, close }: ISideBar) {
       <div className="sidebar__content">
         <SidebarLink title="Liste des députés" href="/" />
         <SidebarLink title="Carte" href="/carte" />
-        <SidebarLinkSeparator />
+        <div className="content__separator" />
         <SidebarLink title="FAQ" href="/faq" />
       </div>
     </div>
