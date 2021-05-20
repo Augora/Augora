@@ -215,7 +215,6 @@ header#header.header {
         }
 
         &__burger-btn {
-          width: 35px;
           border: none;
           background: none;
           cursor: pointer;
@@ -230,8 +229,11 @@ header#header.header {
         &__burger-icon {
           display: flex;
           align-items: center;
+          position: relative;
 
           .icon {
+            width: 25px;
+
             transition: opacity 0.3s $ease-in-out-expo, transform 0.2s $ease-in-out-cubic;
             transition-delay: 0.2s;
 
