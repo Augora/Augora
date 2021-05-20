@@ -215,19 +215,42 @@ header#header.header {
         }
 
         &__burger-btn {
-          width: 40px;
+          width: 35px;
           border: none;
           background: none;
           cursor: pointer;
 
-          transition: transform 0.5s $ease-out-circ;
-
-          .icon-wrapper > svg {
-            fill: white;
-          }
+          transition: transform 0.2s $ease-in-out-cubic;
 
           &:hover {
-            transform: scale(1.3);
+            transform: scale(1.2);
+          }
+        }
+
+        &__burger-icon {
+          display: flex;
+          align-items: center;
+
+          .icon {
+            transition: opacity 0.3s $ease-in-out-expo, transform 0.2s $ease-in-out-cubic;
+            transition-delay: 0.2s;
+
+            &:first-child {
+              transform: translateY(0);
+              opacity: 1;
+              pointer-events: all;
+              fill: $white;
+            }
+
+            &:last-child {
+              transform: translateY(-100%);
+              position: absolute;
+              top: 0;
+              left: 0;
+              opacity: 0;
+              pointer-events: none;
+              fill: $main-color;
+            }
           }
         }
       }
@@ -297,9 +320,20 @@ header#header.header {
           &__separator:last-child {
             background: linear-gradient(to bottom, $main-color, $secondary-color);
           }
-          &__burger-btn {
-            .icon-wrapper > svg {
-              fill: $main-color;
+          &__burger-icon {
+            .icon {
+              transition-delay: 0;
+
+              &:first-child {
+                transform: translateY(100%);
+                opacity: 0;
+                pointer-events: none;
+              }
+              &:last-child {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+              }
             }
           }
         }

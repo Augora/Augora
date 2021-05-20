@@ -125,8 +125,9 @@ const Header = ({ siteTitle, location, color, onBurgerClick }: IHeader) => {
           </div>
           {setLinks(secondaryPages)}
           <button className="menu__burger-btn" onClick={() => onBurgerClick()}>
-            <div className="icon-wrapper">
-              <IconBurger />
+            <div className="menu__burger-icon">
+              <IconBurger className="icon" />
+              <IconBurger className="icon" style={styles.svg} />
             </div>
           </button>
         </div>
