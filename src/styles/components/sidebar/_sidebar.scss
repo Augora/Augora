@@ -46,6 +46,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     padding: 20px;
 
@@ -73,6 +74,33 @@
           width: 20px;
           svg {
             fill: white;
+          }
+        }
+      }
+
+      &__filters {
+        background: rgba($white, 1);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+        padding: 7px;
+        .icon-wrapper {
+          width: 25px;
+          svg {
+            fill: $text-color;
+          }
+        }
+
+        .filters {
+          &__title {
+            font-size: 15px;
+            color: $text-color;
+            margin-right: 15px;
           }
         }
       }
@@ -120,6 +148,7 @@
 
     span {
       color: $text-color;
+      font-size: 16px;
       opacity: 0.5;
     }
   }

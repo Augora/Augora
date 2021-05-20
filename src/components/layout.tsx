@@ -84,7 +84,13 @@ const Layout = ({ children, location, title }: ILayout) => {
           </button>
         </Popin>
       </div>
-      <Sidebar visible={hasSidebar} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)} />
+      <Sidebar
+        visible={hasSidebar}
+        close={() => setHasSidebar(false)}
+        open={() => setHasSidebar(true)}
+        activeFilters={!IsInitialState}
+        resetFilters={() => handleReset()}
+      />
       <main className="layout">{children}</main>
       <Footer />
     </div>
