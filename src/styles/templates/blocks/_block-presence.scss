@@ -2,6 +2,7 @@
 // Bloc Présence parlementaire
 /*----------------------------------------------------*/
 .block__presence {
+  padding: 0px 20px 0px 10px;
   &:hover .presence__filtre {
     opacity: 1;
     transition: opacity 0.4s $ease-out-expo;

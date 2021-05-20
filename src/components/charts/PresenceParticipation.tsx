@@ -23,7 +23,7 @@ dayjs.locale("fr")
 
 const getDates = (date: string) => {
   return {
-    MonthData: dayjs(date).format("MMM YYYY"),
+    MonthData: dayjs(date).format("DD MMM YYYY"),
     MobileData: dayjs(date).format("MM/YY"),
     DayData: dayjs(date).format("DD MMMM YYYY"),
   }
@@ -70,6 +70,11 @@ export default function PresenceParticipation(props: IPresence) {
     Vacances: true,
   })
 
+  const { width, height, data, color } = props
+  const changeDisplay = width < 900
+  const changeAxis = width < 1100
+  const isMobile = width < 300
+
   const [Date, setDate] = useState(3)
   const ButtonGroup = ({ buttons }) => {
     return (
@@ -83,10 +88,6 @@ export default function PresenceParticipation(props: IPresence) {
     )
   }
 
-  const { width, height, data, color } = props
-  const changeDisplay = width < 900
-  const isMobile = width < 300
-
   // bounds
   const marginTop = 50
   const marginPhone = 120
@@ -96,7 +97,7 @@ export default function PresenceParticipation(props: IPresence) {
   var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
 
   //const medianeArray = orderBy(mediane, "DateDeDebut")
-  const orderedWeeks = orderBy(data, "DateDeDebut")
+  const orderedWeeks = orderBy(data, "DateDeFin")
   const rangeOrderedWeeks =
     Date === 3
       ? orderedWeeks
@@ -166,18 +167,18 @@ export default function PresenceParticipation(props: IPresence) {
       <svg width={width} height={height}>
         <Group top={20} left={marginLeft}>
           <XYChart
-            margin={{ top: 0, right: 30, bottom: 50, left: 0 }}
+            margin={{ top: 0, right: 10, bottom: 0, left: 0 }}
             width={width}
             height={changeDisplay ? height - marginPhone + marginTop : height}
             xScale={{ type: "band", range: [0, xMax] }}
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >
-            <AnimatedGrid left={marginLeft / 2} numTicks={maxActivite / 2} columns={false} />
+            <AnimatedGrid left={0} numTicks={maxActivite / 2} columns={false} />
             {DisplayedGraph.Vacances && (
               <AnimatedBarSeries
                 dataKey={"Vacances"}
                 data={rangeOrderedWeeks}
-                xAccessor={(d) => d.DateDeDebut}
+                xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
                 colorAccessor={() => vacancesColor}
               />
@@ -201,7 +202,7 @@ export default function PresenceParticipation(props: IPresence) {
               <AnimatedLineSeries
                 dataKey={"Participation"}
                 data={rangeOrderedWeeks}
-                xAccessor={(d) => d.DateDeDebut}
+                xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
                 curve={curveType}
                 stroke={color}
@@ -212,7 +213,7 @@ export default function PresenceParticipation(props: IPresence) {
               <AnimatedLineSeries
                 dataKey={"Presence"}
                 data={rangeOrderedWeeks}
-                xAccessor={(d) => d.DateDeDebut}
+                xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
                 stroke={color}
                 curve={curveType}
@@ -222,7 +223,7 @@ export default function PresenceParticipation(props: IPresence) {
               <AnimatedBarSeries
                 dataKey={"Question"}
                 data={rangeOrderedWeeks}
-                xAccessor={(d) => d.DateDeDebut}
+                xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.Question}
                 colorAccessor={() => color}
               />
@@ -231,7 +232,6 @@ export default function PresenceParticipation(props: IPresence) {
             <AnimatedAxis
               orientation="left"
               hideAxisLine={true}
-              left={marginLeft / 2}
               tickStroke={"none"}
               tickLength={6}
               numTicks={maxActivite / 2}
@@ -241,11 +241,12 @@ export default function PresenceParticipation(props: IPresence) {
               axisClassName={`chart__axislabel ${isMobile ? " rotate" : ""}`}
               orientation="bottom"
               hideAxisLine={true}
+              top={yMax}
               tickLength={6}
               numTicks={changeDisplay ? 8 : rangeOrderedWeeks.length / 4}
               animationTrajectory={animationTrajectoire}
               tickFormat={(date: string) =>
-                changeDisplay ? getDates(date.split("T")[0]).MobileData : getDates(date.split("T")[0]).MonthData
+                changeAxis ? getDates(date.split("T")[0]).MobileData : getDates(date.split("T")[0]).MonthData
               }
             />
             <Tooltip<Deputy.Activite>
@@ -253,7 +254,6 @@ export default function PresenceParticipation(props: IPresence) {
               applyPositionStyle={true}
               unstyled={true}
               snapTooltipToDatumX={true}
-              showVerticalCrosshair={true}
               offsetTop={-200}
               renderTooltip={({ tooltipData }) => {
                 const key = tooltipData.nearestDatum.index
