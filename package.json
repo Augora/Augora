@@ -21,6 +21,7 @@
     "react-dom": "17.0.2",
     "react-lazy-load-image-component": "^1.5.0",
     "react-map-gl": "6.1.13",
+    "react-swipeable": "^6.1.2",
     "sass": "^1.32.12",
     "typescript": "4.2.4",
     "zustand": "^3.5.0"

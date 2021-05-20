@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Head from "next/head"
 import { colors } from "utils/variables"
-
 import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
@@ -85,7 +84,7 @@ const Layout = ({ children, location, title }: ILayout) => {
           </button>
         </Popin>
       </div>
-      <Sidebar className={hasSidebar && "visible"} close={() => setHasSidebar(false)} />
+      <Sidebar className={hasSidebar && "visible"} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)} />
       <main className="layout">{children}</main>
       <Footer />
     </div>

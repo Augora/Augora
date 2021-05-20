@@ -1,22 +1,43 @@
 .sidebar {
   position: fixed;
-  min-width: 300px;
-  height: 100vh;
-  right: 0;
-  background: white;
-  z-index: 102;
-  pointer-events: auto;
-  overflow-y: auto;
   display: flex;
-  flex-direction: column;
+  pointer-events: auto;
+  right: 0;
 
-  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
-  transform: translate(450px, 0);
+  z-index: 102;
 
+  transform: translate(105%, 0);
   transition: transform 0.3s $ease-out-quad;
 
   &.visible {
     transform: translate(0, 0);
+
+    .sidebar {
+      &__swipe {
+        right: 0;
+        width: calc(50px + 100%);
+      }
+    }
+  }
+
+  &__swipe {
+    position: absolute;
+    width: 100px;
+    height: 100%;
+    right: 100%;
+
+    // border: 2px dashed $text-color;
+  }
+
+  &__visuals {
+    min-width: 300px;
+    height: 100vh;
+    background: white;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
   }
 
   &__header {
@@ -103,7 +124,15 @@
     }
   }
 
+  @media (max-width: 1700px) {
+    &__swipe {
+      width: 50px;
+    }
+  }
+
   @media (max-width: 400px) {
-    width: 100vw;
+    &__visuals {
+      width: 100vw;
+    }
   }
 }
