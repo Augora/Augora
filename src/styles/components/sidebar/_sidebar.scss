@@ -7,6 +7,8 @@
   z-index: 102;
   pointer-events: auto;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
   box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
   transform: translate(450px, 0);
@@ -60,6 +62,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 
     padding: 40px;
     .content {
@@ -87,6 +90,16 @@
         margin: 20px 0;
         background-color: rgba($text-color, 0.5);
       }
+    }
+  }
+
+  &__footer {
+    padding: 20px;
+    text-align: center;
+
+    span {
+      color: $text-color;
+      opacity: 0.5;
     }
   }
 

@@ -40,10 +40,13 @@ export default function Sidebar({ className, close }: ISideBar) {
         </button>
       </div>
       <div className="sidebar__content">
-        <SidebarLink title="Liste des députés" href="/" />
+        <SidebarLink title="Députés" href="/" />
         <SidebarLink title="Carte" href="/carte" />
         <div className="content__separator" />
         <SidebarLink title="FAQ" href="/faq" />
+      </div>
+      <div className="sidebar__footer">
+        <span>Augora.fr</span>
       </div>
     </div>
   )
