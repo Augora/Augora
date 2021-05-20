@@ -8,11 +8,11 @@ const GradientBanner = dynamic(() => import("components/graphics/GradientBanner"
 })
 
 interface ISideBar {
-  className?: string
   /** Ferme la sidebar */
   close?(): void
   /** Ouvre la sidebar */
   open?(): void
+  visible?: boolean
 }
 
 const SidebarLink = ({ href, title }: { href: string; title?: string }) => {
@@ -27,11 +27,11 @@ const SidebarLink = ({ href, title }: { href: string; title?: string }) => {
 
 /**
  * Renvoie la sidebar
- * @param {string} className
+ * @param {boolean} visible State de visibilité
  * @param {Function} [close] Callback pour fermer la sidebar
  * @param {Function} [open] Callback pour ouvrir la sidebar
  */
-export default function Sidebar({ className, close, open }: ISideBar) {
+export default function Sidebar({ visible, close, open }: ISideBar) {
   const handlers = useSwipeable({
     onSwipedLeft: () => open(),
     onSwipedRight: () => close(),
@@ -39,7 +39,7 @@ export default function Sidebar({ className, close, open }: ISideBar) {
   })
 
   return (
-    <div className={`sidebar ${className ? className : ""}`}>
+    <div className={`sidebar ${visible ? "visible" : ""}`}>
       <div className="sidebar__swipe" {...handlers} />
       <div className="sidebar__visuals">
         <div className="sidebar__header">

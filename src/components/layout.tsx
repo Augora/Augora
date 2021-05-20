@@ -84,7 +84,7 @@ const Layout = ({ children, location, title }: ILayout) => {
           </button>
         </Popin>
       </div>
-      <Sidebar className={hasSidebar && "visible"} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)} />
+      <Sidebar visible={hasSidebar} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)} />
       <main className="layout">{children}</main>
       <Footer />
     </div>
