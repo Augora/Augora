@@ -82,31 +82,29 @@ export const SidebarContent = () => {
   )
 }
 
-export const SidebarHeader = () => {
+export const SidebarHeader = ({ search, keyword }: { search(arg: string): void; keyword: string }) => {
   return (
     <div className="sidebar__header">
       <GradientBanner />
-      {/* <form
+      <form
         className="header__search"
         onSubmit={(e) => {
           e.preventDefault()
         }}
       >
-        <div className="icon-wrapper search__icon">
-          <IconSearch />
-        </div>
         <input
           className="search__input"
           type="text"
-          placeholder="Chercher..."
-          value={"Placeholder"}
+          placeholder="Chercher un député..."
+          value={keyword}
           onChange={(e) => {
-            // handleSearch(e.target.value)
+            search(e.target.value)
           }}
-          // onFocus={() => setIsSearchInteracted(true)}
-          // onBlur={() => setIsSearchInteracted(false)}
         />
-        <div className={`search__clear ${state.Keyword.length > 0 ? "search__clear--visible" : ""}`}>
+        <div className="icon-wrapper search__icon">
+          <IconSearch />
+        </div>
+        {/* <div className={`search__clear ${state.Keyword.length > 0 ? "search__clear--visible" : ""}`}>
           <input
             className="search__clear-btn"
             type="reset"
@@ -119,16 +117,8 @@ export const SidebarHeader = () => {
           <div className="icon-wrapper">
             <IconClose />
           </div>
-        </div>
-      </form> */}
-      {/* {activeFilters && (
-        <button className="header__filters" onClick={resetFilters} title="Réinitialiser les filtres">
-          <span className="filters__title">Filtres actifs</span>
-          <div className="icon-wrapper">
-            <IconRefresh />
-          </div>
-        </button>
-      )} */}
+        </div> */}
+      </form>
     </div>
   )
 }

@@ -27,8 +27,9 @@ const allColors = colors.map((color) => {
  */
 const Layout = ({ children, location, title }: ILayout) => {
   const {
-    state: { IsInitialState },
+    state: { IsInitialState, Keyword },
     handleReset,
+    handleSearch,
   } = useDeputiesFilters()
   const [scrolled, setScrolled] = useState(false)
   const [hasSidebar, setHasSidebar] = useState(false)
@@ -85,7 +86,7 @@ const Layout = ({ children, location, title }: ILayout) => {
         </Popin>
       </div>
       <Sidebar visible={hasSidebar} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)}>
-        <SidebarHeader />
+        <SidebarHeader search={handleSearch} keyword={Keyword} />
         <SidebarContent />
         <SidebarFooter />
       </Sidebar>
