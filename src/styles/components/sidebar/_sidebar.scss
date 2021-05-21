@@ -27,7 +27,8 @@
   &__swipe {
     position: absolute;
     width: 100px;
-    height: 100%;
+    height: calc(100% - 100px);
+    top: 100px;
     right: 100%;
 
     // border: 2px dashed $text-color;
