@@ -101,23 +101,25 @@ export const SidebarHeader = ({ search, keyword }: { search(arg: string): void; 
             search(e.target.value)
           }}
         />
-        <div className="icon-wrapper search__icon">
-          <IconSearch />
-        </div>
-        {/* <div className={`search__clear ${state.Keyword.length > 0 ? "search__clear--visible" : ""}`}>
-          <input
-            className="search__clear-btn"
-            type="reset"
-            value=""
-            title="Effacer"
-            onClick={() => {
-              handleSearch("")
-            }}
-          />
-          <div className="icon-wrapper">
-            <IconClose />
+        {keyword.length > 0 ? (
+          <div className="search__clear">
+            <input
+              type="reset"
+              value=""
+              title="Effacer"
+              onClick={() => {
+                search("")
+              }}
+            />
+            <div className="icon-wrapper">
+              <IconClose />
+            </div>
           </div>
-        </div> */}
+        ) : (
+          <div className="icon-wrapper search__icon">
+            <IconSearch />
+          </div>
+        )}
       </form>
     </div>
   )
@@ -143,7 +145,7 @@ export default function Sidebar({ visible, children, close, open }: ISideBar) {
       <div className="sidebar__close">
         <button className="close__btn" onClick={close}>
           <div className="icon-wrapper">
-            <IconClose />
+            <IconArrow style={{ transform: "rotate(-90deg)" }} />
           </div>
         </button>
       </div>
