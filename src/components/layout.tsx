@@ -5,7 +5,7 @@ import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
-import Sidebar from "components/sidebar/Sidebar"
+import Sidebar, { SidebarContent, SidebarFooter, SidebarHeader } from "components/sidebar/Sidebar"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
@@ -84,13 +84,11 @@ const Layout = ({ children, location, title }: ILayout) => {
           </button>
         </Popin>
       </div>
-      <Sidebar
-        visible={hasSidebar}
-        close={() => setHasSidebar(false)}
-        open={() => setHasSidebar(true)}
-        activeFilters={!IsInitialState}
-        resetFilters={() => handleReset()}
-      />
+      <Sidebar visible={hasSidebar} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)}>
+        <SidebarHeader />
+        <SidebarContent />
+        <SidebarFooter />
+      </Sidebar>
       <main className="layout">{children}</main>
       <Footer />
     </div>
