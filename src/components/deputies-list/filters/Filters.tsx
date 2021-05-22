@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect, useCallback } from "react"
 
 import IconClose from "images/ui-kit/icon-close.svg"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
@@ -24,7 +24,12 @@ export default function Filters(props: IFilters) {
   const { filteredDeputes = state.FilteredList } = props
 
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
+  const [value, setValue] = useState("")
   const searchField = useRef<HTMLInputElement>()
+
+  useEffect(() => {
+    setValue(state.Keyword)
+  }, [state.Keyword])
 
   const groupButtons = state.GroupesList.map((groupe) => {
     const GroupeLogo = getGroupLogo(groupe.Sigle)
@@ -57,6 +62,12 @@ export default function Filters(props: IFilters) {
     )
   })
 
+  /** Pour update les différents states de la recherche */
+  const handleTextInput = useCallback((value: string) => {
+    handleSearch(value)
+    setValue(value)
+  }, [])
+
   return (
     <Frame
       className="frame-filters"
@@ -81,23 +92,13 @@ export default function Filters(props: IFilters) {
           ref={searchField}
           type="text"
           placeholder="Chercher..."
-          value={state.Keyword}
-          onChange={(e) => {
-            handleSearch(e.target.value)
-          }}
+          value={value}
+          onChange={(e) => handleTextInput(e.target.value)}
           onFocus={() => setIsSearchInteracted(true)}
           onBlur={() => setIsSearchInteracted(false)}
         />
         <div className={`search__clear ${state.Keyword.length > 0 ? "search__clear--visible" : ""}`}>
-          <input
-            className="search__clear-btn"
-            type="reset"
-            value=""
-            title="Effacer"
-            onClick={() => {
-              handleSearch("")
-            }}
-          />
+          <input className="search__clear-btn" type="reset" value="" title="Effacer" onClick={() => handleTextInput("")} />
           <div className="icon-wrapper">
             <IconClose />
           </div>
