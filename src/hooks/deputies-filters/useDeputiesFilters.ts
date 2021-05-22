@@ -41,7 +41,7 @@ export default function useDeputiesFilters() {
    * Recherche un nom de député
    * @param value le string de recherche
    */
-  const handleSearch = debounce((value) => search(value), 500)
+  const handleSearch = debounce((value: string) => search(value), 500)
 
   /**
    * Change l'état des filtres au clic d'un bouton groupe

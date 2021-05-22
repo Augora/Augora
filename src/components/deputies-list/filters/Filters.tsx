@@ -62,10 +62,19 @@ export default function Filters(props: IFilters) {
     )
   })
 
-  /** Pour update les différents states de la recherche */
-  const handleTextInput = useCallback((value: string) => {
-    handleSearch(value)
-    setValue(value)
+  /**
+   * Pour update les différents states de la recherche
+   * @param {string} [value] Reset le state si la valeur manque
+   */
+  const handleTextInput = useCallback((value?: string) => {
+    if (value && value.length > 0) {
+      handleSearch(value)
+      setValue(value)
+    } else {
+      handleSearch("")
+      handleSearch.flush()
+      setValue("")
+    }
   }, [])
 
   return (
@@ -98,7 +107,7 @@ export default function Filters(props: IFilters) {
           onBlur={() => setIsSearchInteracted(false)}
         />
         <div className={`search__clear ${state.Keyword.length > 0 ? "search__clear--visible" : ""}`}>
-          <input className="search__clear-btn" type="reset" value="" title="Effacer" onClick={() => handleTextInput("")} />
+          <input className="search__clear-btn" type="reset" value="" title="Effacer" onClick={() => handleTextInput()} />
           <div className="icon-wrapper">
             <IconClose />
           </div>
