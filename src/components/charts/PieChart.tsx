@@ -56,7 +56,11 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                         x={rayon * Math.cos(justifiedMidAngle)}
                         y={rayon * Math.sin(justifiedMidAngle)}
                         dx={originArray.length == 1 ? 0 : centroidX < 0 ? (index < originArray.length / 2 ? -15 : -30) : 15}
-                        dy={originArray.length == 1 ? -20 : -4 * (centroidX < 0 ? index : originArray.length - 1 - index)}
+                        dy={
+                          originArray.length == 1 || originArray.length < 5
+                            ? -10
+                            : -4 * (centroidX < 0 ? index : originArray.length - 1 - index)
+                        }
                       >
                         <Label
                           className="piechart__label"
