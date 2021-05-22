@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React from "react"
 
 const numberOfRect = 20
 const svgWidth = 1200
@@ -7,7 +7,7 @@ const rectWidth = 100
 const rectSkew = 25
 // const rectMaxX = svgWidth - rectWidth / 2
 
-const gbStyles = {
+const gbStyles: React.CSSProperties = {
   position: "absolute",
   top: 0,
   left: 0,
@@ -16,7 +16,7 @@ const gbStyles = {
 }
 
 const Rectangles = () => {
-  const rects = []
+  const rects: JSX.Element[] = []
   for (let i = 0; i < numberOfRect; i++) {
     const xPos = (svgWidth / numberOfRect) * i
     rects.push(

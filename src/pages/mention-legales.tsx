@@ -65,7 +65,7 @@ const Mentions = () => {
 
 export default Mentions
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   return {
     props: {
       title: "Mentions Légales",

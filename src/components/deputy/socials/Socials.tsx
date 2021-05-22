@@ -7,14 +7,14 @@ import IconTwitter from "images/ui-kit/icon-twitter.svg"
 import IconFacebook from "images/ui-kit/icon-facebook.svg"
 import IconInstagram from "images/ui-kit/icon-instagram.svg"
 import IconLinkedIn from "images/ui-kit/icon-linkedin.svg"
+import IconAssemblee from "images/ui-kit/icon-palace.svg"
 
 enum Button {
   Mail,
   Site,
 }
 
-
-export default function Socials({ deputy }) {
+export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
   const [isSiteTooltipVisible, setIsSiteTooltipVisible] = useState(false)
   const [isMailTooltipVisible, setIsMailTooltipVisible] = useState(false)
 
@@ -48,6 +48,7 @@ export default function Socials({ deputy }) {
       }
     } else return ""
   }
+
   return (
     <div className="deputy__socials" ref={node}>
       <ButtonIcon
@@ -73,6 +74,17 @@ export default function Socials({ deputy }) {
           <IconWebsite style={{ fill: deputy.GroupeParlementaire.Couleur }} />
         </div>
         {isSiteTooltipVisible && <ContactTooltip links={deputy.SitesWeb} title="Visiter le site" target="_blank" />}
+      </ButtonIcon>
+      <ButtonIcon
+        onClick={deputy.URLAssembleeNationale && deputy.URLAssembleeNationale}
+        className="btn--assemblee"
+        title={"Assemblée Nationale"}
+        deactivated={!deputy.URLAssembleeNationale}
+        target="_blank"
+      >
+        <div className="icon-wrapper" style={{ width: "30px" }}>
+          <IconAssemblee style={{ fill: deputy.GroupeParlementaire.Couleur }} />
+        </div>
       </ButtonIcon>
       <ButtonIcon
         onClick={deputy.URLTwitter && deputy.URLTwitter}
