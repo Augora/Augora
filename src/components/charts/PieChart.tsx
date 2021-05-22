@@ -39,12 +39,12 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
             outerRadius={rayon}
             innerRadius={inner}
             padAngle={0.01}
-            startAngle={-(Math.PI / 2)}
+            startAngle={-Math.PI / 2}
             endAngle={Math.PI / 2}
             cornerRadius={5}
           >
             {(pie) => {
-              return pie.arcs.map((arc, index) => {
+              return pie.arcs.map((arc, index, originArray) => {
                 const groupeArc = arc.data
                 const [centroidX, centroidY] = pie.path.centroid(arc)
                 const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.2
@@ -55,8 +55,8 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                       <Annotation
                         x={rayon * Math.cos(justifiedMidAngle)}
                         y={rayon * Math.sin(justifiedMidAngle)}
-                        dx={centroidX < 0 ? -20 : 20}
-                        dy={centroidY < 0 ? -5 : 5}
+                        dx={centroidX < 0 ? (index < originArray.length / 2 ? -15 : -30) : 15}
+                        dy={-4 * (centroidX < 0 ? index : originArray.length - 1 - index)}
                       >
                         <Label
                           className="piechart__label"
@@ -67,7 +67,17 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                           title={arc.data.id}
                           // Permet de gérer les props du bloc de texte
                           titleProps={
-                            centroidX < 0 ? { verticalAnchor: "start", textAnchor: "end", x: 25, y: 13 } : { x: 10, y: 3 }
+                            centroidX < 0
+                              ? {
+                                  verticalAnchor: "start",
+                                  textAnchor: "end",
+                                  x: 25,
+                                  y: 10,
+                                }
+                              : {
+                                  x: 10,
+                                  y: 10,
+                                }
                           }
                           width={65}
                         />
