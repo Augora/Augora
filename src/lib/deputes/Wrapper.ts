@@ -110,6 +110,7 @@ export function getDepute(slug: string) {
             URLFacebook
             URLInstagram
             URLLinkedIn
+            URLAssembleeNationale
             AnciensMandats {
               data {
                 DateDeDebut
