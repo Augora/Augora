@@ -109,7 +109,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
   }
 
   return (
-    <div className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`} ref={node}>
+    <div className={`breadcrumb__menu ${props.className ? props.className : ""}`} ref={node}>
       <button
         className={`menu__btn ${isOpen ? "menu__btn--active" : ""}`}
         title="Voir les zones enfants"
