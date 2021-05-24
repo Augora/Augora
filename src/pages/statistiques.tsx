@@ -88,7 +88,7 @@ const Statistiques = () => {
           )}
         </ParentSize>
       </Frame>
-      <Frame className="frame-chart frame-bar" title="Diagramme en Barres">
+      <Frame className="frame-chart frame-bar" title="Députés par groupe">
         <ParentSize className="bar__container" debounceTime={400}>
           {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
         </ParentSize>

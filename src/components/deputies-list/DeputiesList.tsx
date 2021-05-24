@@ -29,7 +29,7 @@ export default function DeputiesList() {
     <>
       <section className="filters__section">
         <Filters />
-        <Frame className="frame-chart frame-pie" title="Répartition">
+        <Frame className="frame-chart frame-pie" title="Députés par groupes">
           {state.FilteredList.length > 0 ? (
             <>
               <button className="charts__switch" onClick={() => setHasPieChart(!HasPieChart)} title="Changer le graphique">
