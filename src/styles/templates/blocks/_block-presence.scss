@@ -81,6 +81,11 @@
       }
     }
     .visx-legend-item {
+      &:last-child {
+        .visx-legend-label {
+          cursor: default;
+        }
+      }
       .visx-legend-label {
         cursor: pointer;
       }
