@@ -52,10 +52,8 @@ export const getNbActivitesMax = (list: Deputy.Activite[]): number => {
   if (list.length > 0) {
     return list.reduce((a, b) => {
       const max = Math.max(
-        b.ParticipationEnHemicycle,
-        b.ParticipationsEnCommission,
-        b.PresenceEnHemicycle,
-        b.PresencesEnCommission,
+        b.ParticipationEnHemicycle + b.ParticipationsEnCommission,
+        b.PresenceEnHemicycle + b.PresencesEnCommission,
         b.Question
       )
       return max > a ? max : a
