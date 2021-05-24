@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import orderBy from "lodash/orderBy"
 import { Group } from "@visx/group"
 import { curveMonotoneX } from "@visx/curve"
@@ -74,8 +74,15 @@ export default function PresenceParticipation(props: IPresence) {
   const changeDisplay = width < 900
   const changeAxis = width < 1100
   const isMobile = width < 300
+  const [Date, setDate] = useState(isMobile ? 2 : 3)
 
-  const [Date, setDate] = useState(3)
+  useEffect(() => {
+    if (width < 300) {
+      setDate(2)
+    } else {
+      setDate(3)
+    }
+  }, [width])
   const ButtonGroup = ({ buttons }) => {
     return (
       <>
