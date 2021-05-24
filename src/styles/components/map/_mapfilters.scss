@@ -8,15 +8,6 @@
 
     cursor: default;
 
-    &__container {
-      &:hover {
-        .filters__close {
-          opacity: 1;
-          transform: translate(0, calc(-100% + 10px));
-        }
-      }
-    }
-
     &__close {
       position: absolute;
       top: 0;
@@ -113,6 +104,18 @@
     }
   }
 
+  @media (min-width: 876px) {
+    .filters {
+      &__container {
+        &:hover {
+          .filters__close {
+            opacity: 1;
+            transform: translate(0, calc(-100% + 10px));
+          }
+        }
+      }
+    }
+  }
   @media (max-width: 875px) {
     .filters {
       min-width: unset;
@@ -128,11 +131,21 @@
 
       &__close {
         opacity: 1;
-        transform: translate(0, -100%);
         background-color: rgba($lightergrey, 1);
+        transform: translate(0, -100%);
+        border-radius: 0;
 
         &--mini {
           display: none;
+        }
+
+        .close__btn {
+          bottom: -2px;
+
+          .icon-wrapper {
+            width: 30px;
+            height: 15px;
+          }
         }
       }
 
