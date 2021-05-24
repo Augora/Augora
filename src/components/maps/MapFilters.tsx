@@ -5,14 +5,14 @@ import Tooltip from "components/tooltip/Tooltip"
 import Filters from "components//deputies-list/filters/Filters"
 import Button from "components/buttons/Button"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
-import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
-import { gsap } from "gsap";
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { gsap } from "gsap"
 
 interface IMapFilters {
   zoneDeputies: Deputy.DeputiesList
 }
 
-const timer = 0.2;
+const timer = 0.2
 
 /**
  * Renvoie le mini filtre et filtre qui s'intervertissent au clic
@@ -24,32 +24,40 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
 
   const animateFilters = (filterState) => {
     const tl = gsap.timeline()
-    tl.fromTo('.map__filters', {
-      y: '0%',
-      autoAlpha: 1,
-    }, {
-      y: '100%',
-      autoAlpha: 0,
-      ease: "power1.out",
-      duration: timer,
-    });
-    tl.call(() => setIsBigFilter(filterState));
-    tl.play();
+    tl.fromTo(
+      ".map__filters",
+      {
+        y: "0%",
+        autoAlpha: 1,
+      },
+      {
+        y: "100%",
+        autoAlpha: 0,
+        ease: "power1.out",
+        duration: timer,
+      }
+    )
+    tl.call(() => setIsBigFilter(filterState))
+    tl.play()
   }
 
   useEffect(() => {
     const tl = gsap.timeline()
-    tl.fromTo('.map__filters', {
-      y: '100%',
-      autoAlpha: 0,
-    }, {
-      y: '0%',
-      autoAlpha: 1,
-      ease: "power1.out",
-      delay: timer + 0.1,
-      duration: timer,
-    });
-    
+    tl.fromTo(
+      ".map__filters",
+      {
+        y: "100%",
+        autoAlpha: 0,
+      },
+      {
+        y: "0%",
+        autoAlpha: 1,
+        ease: "power1.out",
+        delay: timer + 0.1,
+        duration: timer,
+      }
+    )
+
     return () => {
       tl.kill()
     }

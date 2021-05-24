@@ -27,7 +27,7 @@ export default function MapDistrict(props: Bloc.Map) {
     >
       <div className="map__container">
         <MapAugora
-          allDeputies={[props.deputy]}
+          deputies={[props.deputy]}
           overlay={false}
           forceCenter={true}
           viewport={viewport}

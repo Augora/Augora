@@ -6,16 +6,12 @@ import SEO, { PageType } from "components/seo/seo"
 import mapStore from "stores/mapStore"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import {
-  buildURLFromCodes,
   buildURLFromFeature,
   Code,
-  compareCodes,
   compareFeatures,
   createFeatureCollection,
   getChildFeatures,
-  getCodesFromFeature,
   getDeputies,
-  getFeature,
   getFeatureFromQuery,
   getGhostZones,
   getLayerPaint,
@@ -23,7 +19,6 @@ import {
   getZoneTitle,
   MetroFeature,
 } from "components/maps/maps-utils"
-import isEmpty from "lodash/isEmpty"
 
 export default function MapPage() {
   const router = useRouter()
@@ -56,17 +51,6 @@ export default function MapPage() {
       setPageTitle(getZoneTitle(zoneFeature))
       changeURL(buildURLFromFeature(zoneFeature))
     }
-    // const newCodes = buildCodes(router.query)
-    // if (!isEmpty(newCodes) && !compareCodes(newCodes, codes)) {
-    //   displayZone(getFeature(newCodes))
-    //   setCodes(newCodes)
-    // } else if (isEmpty(codes)) {
-    //   changeZone(MetroFeature)
-    //   setCodes(getCodesFromFeature(MetroFeature))
-    // } else {
-    //   // changeURL(buildURLFromCodes(codes))
-    //   // setPageTitle(getZoneTitle(zoneFeature))
-    // }
   }, [router.query])
 
   useEffect(() => {
@@ -132,8 +116,7 @@ export default function MapPage() {
           <MapAugora
             viewport={viewport}
             setViewport={setViewport}
-            allDeputies={FilteredList}
-            zoneDeputies={deputies}
+            deputies={FilteredList}
             mapView={{ geoJSON: geoJSON, ghostGeoJSON: ghostGeoJSON, feature: zoneFeature, paint: paint }}
             changeZone={changeZone}
           />
