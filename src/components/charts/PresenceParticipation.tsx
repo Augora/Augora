@@ -283,7 +283,7 @@ export default function PresenceParticipation(props: IPresence) {
                               return i > 2 ? (
                                 ""
                               ) : (
-                                <LegendItem key={`legend-quantile-${i}`} flexDirection="row">
+                                <LegendItem className="item__tooltip" key={`legend-quantile-${i}`} flexDirection="row">
                                   <div className="legend__col">
                                     <svg width={25} height={25}>
                                       {isValidElement
@@ -347,6 +347,7 @@ export default function PresenceParticipation(props: IPresence) {
               const isValidElement = React.isValidElement(shape)
               return (
                 <LegendItem
+                  className="presence__legend-item item"
                   key={`legend-quantile-${i}`}
                   flexDirection="row"
                   margin="0 10px"
@@ -363,7 +364,10 @@ export default function PresenceParticipation(props: IPresence) {
                           fill: color,
                         })}
                   </svg>
-                  <LegendLabel style={{ margin: "0 0 12px", textDecoration: !DisplayedGraph[label.text] ? "line-through" : "" }}>
+                  <LegendLabel
+                    className="item__label"
+                    style={{ margin: "0 0 12px", textDecoration: !DisplayedGraph[label.text] ? "line-through" : "" }}
+                  >
                     {label.text}
                   </LegendLabel>
                 </LegendItem>

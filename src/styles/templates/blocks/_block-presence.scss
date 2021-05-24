@@ -80,13 +80,13 @@
         }
       }
     }
-    .visx-legend-item {
+    .presence__legend-item {
       &:last-child {
-        .visx-legend-label {
+        .item__label {
           cursor: default;
         }
       }
-      .visx-legend-label {
+      .item__label {
         cursor: pointer;
       }
     }
