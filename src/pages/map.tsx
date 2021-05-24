@@ -1,44 +1,127 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import MapAugora from "components/maps/MapAugora"
 import { getDeputes } from "../lib/deputes/Wrapper"
 import { useRouter } from "next/router"
-import SEO, { PageType } from "src/components/seo/seo"
-import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
-
-function convertArrayOfStringToString(arr: string | string[]) {
-  if (arr instanceof Array) {
-    return arr[0]
-  }
-  return arr
-}
-
-function stringToInt(n: string) {
-  const parsedString = parseInt(n)
-  if (isNaN(parsedString)) {
-    return undefined
-  }
-  return parsedString
-}
+import SEO, { PageType } from "components/seo/seo"
+import mapStore from "stores/mapStore"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import {
+  buildURLFromCodes,
+  buildURLFromFeature,
+  Code,
+  compareCodes,
+  compareFeatures,
+  createFeatureCollection,
+  getChildFeatures,
+  getCodesFromFeature,
+  getDeputies,
+  getFeature,
+  getFeatureFromQuery,
+  getGhostZones,
+  getLayerPaint,
+  getZoneCode,
+  getZoneTitle,
+  MetroFeature,
+} from "components/maps/maps-utils"
+import isEmpty from "lodash/isEmpty"
 
 export default function MapPage() {
-  const [pageTitle, setPageTitle] = useState<string>("Carte")
   const router = useRouter()
 
   const {
     state: { FilteredList },
   } = useDeputiesFilters()
 
+  const [pageTitle, setPageTitle] = useState<string>("Carte")
+
+  /** Zustand state */
+  const {
+    viewport,
+    geoJSON,
+    ghostGeoJSON,
+    feature: zoneFeature,
+    deputies,
+    paint,
+    setViewport,
+    setMapView,
+    setDeputies,
+  } = mapStore()
+
+  useEffect(() => {
+    const newFeature = getFeatureFromQuery(router.query)
+
+    if (newFeature) displayZone(newFeature)
+    else if (zoneFeature.geometry.coordinates.length < 1) displayZone(MetroFeature)
+    else {
+      setPageTitle(getZoneTitle(zoneFeature))
+      changeURL(buildURLFromFeature(zoneFeature))
+    }
+    // const newCodes = buildCodes(router.query)
+    // if (!isEmpty(newCodes) && !compareCodes(newCodes, codes)) {
+    //   displayZone(getFeature(newCodes))
+    //   setCodes(newCodes)
+    // } else if (isEmpty(codes)) {
+    //   changeZone(MetroFeature)
+    //   setCodes(getCodesFromFeature(MetroFeature))
+    // } else {
+    //   // changeURL(buildURLFromCodes(codes))
+    //   // setPageTitle(getZoneTitle(zoneFeature))
+    // }
+  }, [router.query])
+
+  useEffect(() => {
+    displayZone(zoneFeature) //refresh les overlays si la liste des deputés change
+  }, [FilteredList])
+
   const changeURL = (URL: string) => {
     router.push(URL, URL, { shallow: true })
   }
 
-  const buildCodes = (query) => {
-    let codes: AugoraMap.Codes = {}
-    if (query.circ) codes.code_circ = stringToInt(query.circ)
-    if (query.dpt) codes.code_dpt = query.dpt
-    if (query.reg) codes.code_reg = query.reg
-    if (query.cont) codes.code_cont = stringToInt(query.cont)
-    return codes
+  /**
+   * Fonction principale de changement de zone. Determine la prochaine route à prendre selon l'état de la map et la feature fournie
+   * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
+   */
+  const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
+    const zoneCode = getZoneCode(feature)
+    if (!compareFeatures(feature, zoneFeature)) {
+      if (feature) changeURL(buildURLFromFeature(feature))
+      else console.error("Feature à afficher non valide :", feature)
+    } else if (zoneCode === Code.Circ) {
+      const deputy = deputies[0]
+      if (deputy) changeURL(`/depute/${deputy.Slug}`)
+    }
+  }
+
+  /**
+   * Affiche une nouvelle vue et transitionne, sans changer l'url, ne pas utiliser directement
+   * @param {AugoraMap.Feature} feature La feature de la zone à afficher
+   */
+  const displayZone = (feature: AugoraMap.Feature) => {
+    if (feature) {
+      const zoneDeputies = getDeputies(feature, FilteredList)
+      setDeputies(zoneDeputies)
+
+      if (getZoneCode(feature) === Code.Circ) {
+        const groupColor = zoneDeputies[0]?.GroupeParlementaire?.Couleur
+
+        setMapView({
+          geoJSON: createFeatureCollection([feature]),
+          feature: feature,
+          paint: groupColor ? getLayerPaint(groupColor) : getLayerPaint("#808080"),
+        })
+      } else {
+        setMapView({
+          geoJSON: getChildFeatures(feature),
+          ghostGeoJSON: getGhostZones(feature),
+          feature: feature,
+          paint: getLayerPaint(),
+        })
+      }
+      setPageTitle(getZoneTitle(feature))
+    } else {
+      console.warn("Zone à afficher non trouvée. Redirection vers France Métropolitaine")
+      changeZone(MetroFeature)
+    }
   }
 
   return (
@@ -46,7 +129,14 @@ export default function MapPage() {
       <SEO pageType={PageType.Map} title={pageTitle} />
       <div className="page page__map">
         <div className="map__container">
-          <MapAugora deputies={FilteredList} codes={buildCodes(router.query)} setPageTitle={setPageTitle} changeURL={changeURL} />
+          <MapAugora
+            viewport={viewport}
+            setViewport={setViewport}
+            allDeputies={FilteredList}
+            zoneDeputies={deputies}
+            mapView={{ geoJSON: geoJSON, ghostGeoJSON: ghostGeoJSON, feature: zoneFeature, paint: paint }}
+            changeZone={changeZone}
+          />
         </div>
       </div>
     </>

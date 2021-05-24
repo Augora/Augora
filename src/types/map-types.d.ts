@@ -40,4 +40,19 @@ declare namespace AugoraMap {
     /** ID Circonscription */
     code_circ?: number
   }
+
+  /** Object contenant les données geojson de la map */
+  interface MapView {
+    /** Feature collection des zones affichées. Exemple: en vue Occitanie, tous ses départements */
+    geoJSON: FeatureCollection
+    /** Feature collection des zones estompées voisines */
+    ghostGeoJSON?: FeatureCollection
+    /** Feature contenant toutes les zones. */
+    feature: Feature
+    /** Objet paint pour les layers. Utilisé pour avoir une couleur dynamique */
+    paint: {
+      fill: mapboxgl.FillPaint
+      line: mapboxgl.LinePaint
+    }
+  }
 }

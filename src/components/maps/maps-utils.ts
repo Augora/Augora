@@ -42,8 +42,7 @@ export const createFeature = (
   nom?: string,
   otherProps?: AugoraMap.Properties,
   type?: "Polygon" | "MultiPolygon",
-  coords?: any[],
-  id?: string
+  coords?: any[]
 ): AugoraMap.Feature => {
   return {
     type: "Feature",
@@ -55,7 +54,6 @@ export const createFeature = (
       nom: nom ? nom : "",
       ...otherProps,
     },
-    id: id ? id : "",
   }
 }
 
@@ -567,4 +565,26 @@ export const compareCodes = (codes1: AugoraMap.Codes, codes2: AugoraMap.Codes): 
       ? codes1[zoneCode1] === codes2[zoneCode1]
       : codes1[zoneCode1] === codes2[zoneCode1] && codes1[Code.Dpt] === codes2[Code.Dpt]
   } else return false
+}
+
+export const buildURLFromFeature = <T extends GeoJSON.Feature>(feature: T): string => {
+  const props = feature?.properties
+  if (props) {
+    const featureKeys = Object.keys(props)
+
+    if (featureKeys.includes(Code.Circ)) return `/carte?dpt=${props[Code.Dpt]}&circ=${props[Code.Circ]}`
+    else if (featureKeys.includes(Code.Dpt)) return `/carte?dpt=${props[Code.Dpt]}`
+    else if (featureKeys.includes(Code.Reg)) return `/carte?reg=${props[Code.Reg]}`
+    else if (featureKeys.includes(Code.Cont)) return `/carte?cont=${props[Code.Cont]}`
+    else return ""
+  } else return ""
+}
+
+export const getFeatureFromQuery = (query): AugoraMap.Feature => {
+  let codes: AugoraMap.Codes = {}
+  if (query.circ) codes.code_circ = +query.circ
+  if (query.dpt) codes.code_dpt = query.dpt
+  if (query.reg) codes.code_reg = query.reg
+  if (query.cont) codes.code_cont = +query.cont
+  return getFeature(codes)
 }

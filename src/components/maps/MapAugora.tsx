@@ -2,7 +2,15 @@ import React, { useState, useEffect, useRef } from "react"
 import { isMobile } from "react-device-detect"
 import isEmpty from "lodash/isEmpty"
 import mapStore from "src/stores/mapStore"
-import InteractiveMap, { NavigationControl, FullscreenControl, GeolocateControl, Source, Layer, LayerProps } from "react-map-gl"
+import InteractiveMap, {
+  NavigationControl,
+  FullscreenControl,
+  GeolocateControl,
+  Source,
+  Layer,
+  LayerProps,
+  ViewportProps,
+} from "react-map-gl"
 import {
   Code,
   MetroFeature,
@@ -31,17 +39,22 @@ import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
   /** Liste de députés que la map va fouiller. Hint: on peut passer une array avec un seul député pour par exemple une circonscription */
-  deputies?: Deputy.DeputiesList
-  /** Callback auquel un string "nom de zone" sera passé */
-  setPageTitle?(title: string): void
-  /** Callback pour si la map doit utiliser l'URL */
-  changeURL?(URL: string): void
-  /** Object contenant les codes de zone */
-  codes?: AugoraMap.Codes
+  allDeputies?: Deputy.DeputiesList
+  zoneDeputies?: Deputy.DeputiesList
+  // /** Callback auquel un string "nom de zone" sera passé */
+  // setPageTitle?(title: string): void
+  // /** Callback pour si la map doit utiliser l'URL */
+  // changeURL?(URL: string): void
+  // /** Object contenant les codes de zone */
+  // codes?: AugoraMap.Codes
   /** Si les overlays doivent être affichés */
   overlay?: boolean
   /** S'il faut forcer un recentrage de la map au chargement */
   forceCenter?: boolean
+  mapView: AugoraMap.MapView
+  changeZone?<T extends GeoJSON.Feature>(feature: T): void
+  viewport: ViewportProps
+  setViewport(newViewport: ViewportProps): void
 }
 
 const fillLayerProps: LayerProps = {
@@ -82,22 +95,22 @@ const lineGhostLayerProps: LayerProps = {
  */
 export default function MapAugora(props: IMapAugora) {
   /** Default props */
-  const { overlay = true, deputies = [], forceCenter = false } = props
+  const { overlay = true, allDeputies = [], zoneDeputies = [], forceCenter = false, mapView, changeZone } = props
 
-  /** Zustand state */
-  const {
-    viewport,
-    geoJSON,
-    ghostGeoJSON,
-    feature: zoneFeature,
-    deputies: zoneDeputies,
-    paint,
-    codes,
-    setViewport,
-    setMapView,
-    setDeputies,
-    setCodes,
-  } = mapStore()
+  // /** Zustand state */
+  // const {
+  //   viewport,
+  //   geoJSON,
+  //   ghostGeoJSON,
+  //   feature: zoneFeature,
+  //   deputies: zoneDeputies,
+  //   paint,
+  //   codes,
+  //   setViewport,
+  //   setMapView,
+  //   setDeputies,
+  //   setCodes,
+  // } = mapStore()
 
   /** useStates */
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
@@ -105,80 +118,85 @@ export default function MapAugora(props: IMapAugora) {
   const [isMapLoaded, setIsMapLoaded] = useState(false)
 
   /** useEffects */
-  useEffect(() => {
-    if (isMapLoaded) {
-      if (!isEmpty(props.codes) && !compareCodes(props.codes, codes)) {
-        displayZone(getFeature(props.codes))
-        setCodes(props.codes)
-      } else if (isEmpty(codes)) {
-        changeZone(MetroFeature)
-      } else {
-        if (props.changeURL) props.changeURL(buildURLFromCodes(codes))
-        if (props.setPageTitle) props.setPageTitle(getZoneTitle(zoneFeature))
-      }
-    }
-  }, [props.codes[Code.Cont], props.codes[Code.Reg], props.codes[Code.Dpt], props.codes[Code.Circ], isMapLoaded]) //s'execute lorsque les codes changent ou quand la map est chargée
+  // useEffect(() => {
+  //   if (isMapLoaded) {
+  //     flyToFeature(mapView.feature)
+  //   }
+  // }, [isMapLoaded]) //s'execute lorsque la map est chargée
 
-  useEffect(() => {
-    displayZone(zoneFeature, true) //refresh les overlays si la liste des deputés change
-  }, [deputies])
+  // useEffect(() => {
+  //   displayZone(mapView.feature, true) //refresh les overlays si la liste des deputés change
+  // }, [deputies])
 
   /** useRefs */
   const mapRef = useRef<mapboxgl.Map>()
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
-    flyToBounds(feature, viewport, setViewport, isMobile ? 20 : 80)
+    flyToBounds(feature, props.viewport, props.setViewport, isMobile ? 20 : 80)
   }
 
-  /**
-   * Fonction principale de changement de zone. Determine la prochaine route à prendre selon l'état de la map et la feature fournie
-   * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
-   */
-  const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
+  const goToZone = <T extends GeoJSON.Feature>(feature: T) => {
     const zoneCode = getZoneCode(feature)
-    if (!compareFeatures(feature, zoneFeature)) {
-      if (feature) props.changeURL(buildURLFromCodes(getCodesFromFeature(feature)))
-      else console.error("Feature à afficher non valide :", feature)
-    } else if (zoneCode === Code.Circ) {
-      const deputy = zoneDeputies[0]
-      if (deputy) props.changeURL(`/depute/${deputy.Slug}`)
-    } else flyToFeature(feature)
-  }
-
-  /**
-   * Affiche une nouvelle vue et transitionne, sans changer l'url, ne pas utiliser directement
-   * @param {AugoraMap.Feature} feature La feature de la zone à afficher
-   */
-  const displayZone = (feature: AugoraMap.Feature, noFly?: boolean) => {
     if (feature) {
-      const zoneDeputies = getDeputies(feature, deputies)
-      setDeputies(zoneDeputies)
-
-      if (getZoneCode(feature) === Code.Circ) {
-        const groupColor = zoneDeputies[0]?.GroupeParlementaire?.Couleur
-
-        setMapView({
-          geoJSON: createFeatureCollection([feature]),
-          feature: feature,
-          paint: groupColor ? getLayerPaint(groupColor) : getLayerPaint("#808080"),
-        })
-      } else {
-        setMapView({
-          geoJSON: getChildFeatures(feature),
-          ghostGeoJSON: getGhostZones(feature),
-          feature: feature,
-          paint: getLayerPaint(),
-        })
-      }
-      if (props.setPageTitle) props.setPageTitle(getZoneTitle(feature))
-      if (!noFly) flyToFeature(feature)
-      renderHover()
-    } else {
-      console.warn("Zone à afficher non trouvée. Redirection vers France Métropolitaine")
-      changeZone(MetroFeature)
+      if (!compareFeatures(feature, mapView.feature)) {
+        if (changeZone) changeZone(feature)
+        renderHover()
+        flyToFeature(feature)
+      } else if (zoneCode === Code.Circ) {
+        if (changeZone) changeZone(feature)
+      } else flyToFeature(feature)
     }
   }
+
+  // /**
+  //  * Fonction principale de changement de zone. Determine la prochaine route à prendre selon l'état de la map et la feature fournie
+  //  * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
+  //  */
+  // const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
+  //   const zoneCode = getZoneCode(feature)
+  //   if (!compareFeatures(feature, zoneFeature)) {
+  //     if (feature) props.changeURL(buildURLFromCodes(getCodesFromFeature(feature)))
+  //     else console.error("Feature à afficher non valide :", feature)
+  //   } else if (zoneCode === Code.Circ) {
+  //     const deputy = zoneDeputies[0]
+  //     if (deputy) props.changeURL(`/depute/${deputy.Slug}`)
+  //   } else flyToFeature(feature)
+  // }
+
+  // /**
+  //  * Affiche une nouvelle vue et transitionne, sans changer l'url, ne pas utiliser directement
+  //  * @param {AugoraMap.Feature} feature La feature de la zone à afficher
+  //  */
+  // const displayZone = (feature: AugoraMap.Feature, noFly?: boolean) => {
+  //   if (feature) {
+  //     const zoneDeputies = getDeputies(feature, deputies)
+  //     setDeputies(zoneDeputies)
+
+  //     if (getZoneCode(feature) === Code.Circ) {
+  //       const groupColor = zoneDeputies[0]?.GroupeParlementaire?.Couleur
+
+  //       setMapView({
+  //         geoJSON: createFeatureCollection([feature]),
+  //         feature: feature,
+  //         paint: groupColor ? getLayerPaint(groupColor) : getLayerPaint("#808080"),
+  //       })
+  //     } else {
+  //       setMapView({
+  //         geoJSON: getChildFeatures(feature),
+  //         ghostGeoJSON: getGhostZones(feature),
+  //         feature: feature,
+  //         paint: getLayerPaint(),
+  //       })
+  //     }
+  //     if (props.setPageTitle) props.setPageTitle(getZoneTitle(feature))
+  //     if (!noFly) flyToFeature(feature)
+  //     renderHover()
+  //   } else {
+  //     console.warn("Zone à afficher non trouvée. Redirection vers France Métropolitaine")
+  //     changeZone(MetroFeature)
+  //   }
+  // }
 
   /**
    * Renvoie la feature mapbox actuellement affichée correspondant à la feature fournie, undefined si elle n'est pas rendered
@@ -231,22 +249,22 @@ export default function MapAugora(props: IMapAugora) {
   const handleClick = (e) => {
     if (e.leftButton) {
       const feature = getMouseEventFeature(e)
-      if (feature) changeZone(feature)
+      if (feature) goToZone(feature)
     } else if (e.rightButton) handleBack()
   }
 
   const handleBack = () => {
-    changeZone(getParentFeature(zoneFeature))
+    goToZone(getParentFeature(mapView.feature))
   }
 
   const handleResize = () => {
-    if (isMapLoaded) flyToFeature(zoneFeature)
+    if (isMapLoaded) flyToFeature(mapView.feature)
   }
 
   const handleLoad = () => {
     if (!isMapLoaded) {
       setIsMapLoaded(true)
-      if (forceCenter) flyToFeature(zoneFeature)
+      if (forceCenter) flyToFeature(mapView.feature)
     }
   }
 
@@ -255,17 +273,19 @@ export default function MapAugora(props: IMapAugora) {
       mapboxApiAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
       mapStyle="mapbox://styles/augora/ckh3h62oh2nma19qt1fgb0kq7?optimize=true"
       ref={(ref) => (mapRef.current = ref && ref.getMap())}
-      {...viewport}
+      {...props.viewport}
       width="100%"
       height="100%"
       minZoom={1}
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
-      interactiveLayerIds={isMapLoaded && !inExploreMode ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
+      interactiveLayerIds={
+        isMapLoaded && !inExploreMode ? (mapView.ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []
+      }
       onResize={handleResize}
       onLoad={handleLoad}
-      onViewportChange={setViewport}
+      onViewportChange={props.setViewport}
       onClick={handleClick}
       onHover={handleHover}
       onMouseOut={() => renderHover()}
@@ -273,12 +293,12 @@ export default function MapAugora(props: IMapAugora) {
     >
       {isMapLoaded && (
         <>
-          <Source type="geojson" data={geoJSON} generateId={true}>
-            <Layer {...lineLayerProps} paint={paint.line} />
-            {!inExploreMode && <Layer {...fillLayerProps} paint={paint.fill} />}
+          <Source type="geojson" data={mapView.geoJSON} generateId={true}>
+            <Layer {...lineLayerProps} paint={mapView.paint.line} />
+            {!inExploreMode && <Layer {...fillLayerProps} paint={mapView.paint.fill} />}
           </Source>
-          {ghostGeoJSON && (
-            <Source type="geojson" data={ghostGeoJSON} generateId={true}>
+          {mapView.ghostGeoJSON && (
+            <Source type="geojson" data={mapView.ghostGeoJSON} generateId={true}>
               <Layer {...lineGhostLayerProps} />
               {!inExploreMode && <Layer {...fillGhostLayerProps} />}
             </Source>
@@ -287,11 +307,11 @@ export default function MapAugora(props: IMapAugora) {
             <>
               {!inExploreMode && (
                 <MapPins
-                  features={geoJSON.features}
-                  ghostFeatures={ghostGeoJSON?.features}
+                  features={mapView.geoJSON.features}
+                  ghostFeatures={mapView.ghostGeoJSON?.features}
                   hoveredFeature={hover}
-                  deputies={deputies}
-                  handleClick={changeZone}
+                  deputies={allDeputies}
+                  handleClick={goToZone}
                   handleHover={simulateHover}
                 />
               )}
@@ -316,7 +336,7 @@ export default function MapAugora(props: IMapAugora) {
                   </MapInput>
                 </div>
                 <div className="navigation__left">
-                  <MapBreadcrumb feature={zoneFeature} handleClick={changeZone} />
+                  <MapBreadcrumb feature={mapView.feature} handleClick={goToZone} />
                 </div>
                 <div className="navigation__bottom">
                   <MapFilters zoneDeputies={zoneDeputies} />

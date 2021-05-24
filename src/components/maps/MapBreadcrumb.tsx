@@ -61,7 +61,7 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
 }
 
 /**
- * Renvoie les enfants de la feature pour le breadcrumb (sans les circonscriptions, et rangé par ordre alphabétique)
+ * Renvoie les enfants de la feature pour le breadcrumb (rangé par ordre alphabétique)
  * @param {AugoraMap.Feature} feature
  */
 const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
