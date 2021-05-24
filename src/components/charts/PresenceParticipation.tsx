@@ -239,7 +239,10 @@ export default function PresenceParticipation(props: IPresence) {
             )}
 
             <AnimatedAxis
+              axisClassName="presence__axisleft"
               orientation="left"
+              top={2}
+              left={-8}
               hideAxisLine={true}
               tickStroke={"none"}
               tickLength={6}
@@ -247,7 +250,7 @@ export default function PresenceParticipation(props: IPresence) {
               animationTrajectory={animationTrajectoire}
             />
             <AnimatedAxis
-              axisClassName={`chart__axislabel ${isRotate ? " rotate" : ""}`}
+              axisClassName={isRotate ? " rotate" : ""}
               orientation="bottom"
               hideAxisLine={true}
               top={yMax}
