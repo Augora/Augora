@@ -84,7 +84,7 @@ export default function XYBarStack(props: BarStackProps) {
           />
           {axisLeft && (
             <AnimatedAxis
-              axisClassName="chart__axislabel axislabel__verticalpyramide"
+              axisClassName={`chart__axislabel${renderVertically ? " axislabel__barstack" : " axislabel__verticalpyramide"}`}
               orientation="left"
               hideAxisLine={true}
               hideTicks={true}

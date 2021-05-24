@@ -49,6 +49,12 @@
                 font-size: 12px !important;
               }
             }
+            &__barstack {
+              g > svg > text {
+                font-size: 14px !important;
+                fill: $text-color !important;
+              }
+            }
           }
         }
 
