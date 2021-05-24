@@ -24,7 +24,7 @@ dayjs.locale("fr")
 const getDates = (date: string) => {
   return {
     MonthData: dayjs(date).format("DD MMM YYYY"),
-    MobileData: dayjs(date).format("MM/YY"),
+    MobileData: dayjs(date).format("DD/MM/YY"),
     DayData: dayjs(date).format("DD MMMM YYYY"),
   }
 }
@@ -72,7 +72,9 @@ export default function PresenceParticipation(props: IPresence) {
 
   const { width, height, data, color } = props
   const changeDisplay = width < 900
-  const changeAxis = width < 1100
+  const changeAxis = width < 1000
+  const isRotate = width < 500
+  console.log(width)
   const isMobile = width < 300
   const [Date, setDate] = useState(isMobile ? 2 : 3)
 
@@ -245,7 +247,7 @@ export default function PresenceParticipation(props: IPresence) {
               animationTrajectory={animationTrajectoire}
             />
             <AnimatedAxis
-              axisClassName={`chart__axislabel ${isMobile ? " rotate" : ""}`}
+              axisClassName={`chart__axislabel ${isRotate ? " rotate" : ""}`}
               orientation="bottom"
               hideAxisLine={true}
               top={yMax}
