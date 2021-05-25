@@ -102,7 +102,7 @@ export const WorldCont: AugoraMap.FeatureCollection = createFeatureCollection([
 
 /** Différentes coordonnées de la france métropolitaine */
 export const France = {
-  center: { lng: 1.88, lat: 46.6 },
+  center: { lng: 2.23, lat: 46.44 },
   northWest: { lng: -6.864165, lat: 50.839888 },
   southEast: { lng: 13.089067, lat: 41.284012 },
   southWest: { lng: -10, lat: 40.2 },

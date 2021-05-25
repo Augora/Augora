@@ -13,7 +13,7 @@ interface MapState extends State, AugoraMap.MapView {
 
 const mapStore = create<MapState>((set) => ({
   viewport: {
-    zoom: 5.5,
+    zoom: 5.76,
     longitude: France.center.lng,
     latitude: France.center.lat,
   },
