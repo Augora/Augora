@@ -7,11 +7,10 @@ import mapStore from "stores/mapStore"
 
 export default function MapDistrict(props: Bloc.Map) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
-  const mapCodes = {
+  const feature = getFeature({
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
-  }
-  const feature = getFeature(mapCodes)
+  })
   const { paint, viewport, setViewport } = mapStore()
 
   return (
