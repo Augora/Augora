@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import SEO, { PageType } from "components/seo/seo"
 import mapStore from "stores/mapStore"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import useNonInitialEffect from "hooks/useNonInitialEffect"
 import {
   buildURLFromFeature,
   Code,
@@ -46,14 +47,14 @@ export default function MapPage() {
     const newFeature = getFeatureFromQuery(router.query)
 
     if (newFeature) displayZone(newFeature)
-    else if (zoneFeature.geometry.coordinates.length < 1) displayZone(MetroFeature)
+    else if (zoneFeature.geometry.coordinates.length < 1) changeZone(MetroFeature)
     else {
       setPageTitle(getZoneTitle(zoneFeature))
       changeURL(buildURLFromFeature(zoneFeature))
     }
   }, [router.query])
 
-  useEffect(() => {
+  useNonInitialEffect(() => {
     displayZone(zoneFeature) //refresh les overlays si la liste des deputés change
   }, [FilteredList])
 

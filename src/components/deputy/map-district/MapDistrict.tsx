@@ -1,6 +1,6 @@
 import React from "react"
 import MapAugora from "components/maps/MapAugora"
-import { buildURLFromFeature, createFeatureCollection, getFeature } from "components/maps/maps-utils"
+import { buildURLFromFeature, createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
 import Link from "next/link"
 import mapStore from "stores/mapStore"
@@ -11,7 +11,7 @@ export default function MapDistrict(props: Bloc.Map) {
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
-  const { paint, viewport, setViewport } = mapStore()
+  const { viewport, setViewport } = mapStore()
 
   return (
     <Block
@@ -31,7 +31,11 @@ export default function MapDistrict(props: Bloc.Map) {
           forceCenter={true}
           viewport={viewport}
           setViewport={setViewport}
-          mapView={{ geoJSON: createFeatureCollection([feature]), feature: feature, paint: paint }}
+          mapView={{
+            geoJSON: createFeatureCollection([feature]),
+            feature: feature,
+            paint: getLayerPaint(props.deputy.GroupeParlementaire.Couleur),
+          }}
         />
         <Link href={buildURLFromFeature(feature)}>
           <div className="map__redirect"></div>
