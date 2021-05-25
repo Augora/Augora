@@ -1,4 +1,5 @@
 import { WebMercatorViewport, FlyToInterpolator, ViewportProps } from "react-map-gl"
+import { ParsedUrlQuery } from "querystring"
 import polylabel from "polylabel"
 import MetroFranceContFile from "static/cont-france.geojson"
 import MetroRegFile from "static/reg-metro.geojson"
@@ -293,6 +294,23 @@ export const getContinent = <T extends GeoJSON.Feature>(feature: T): Cont => {
   }
 }
 
+/** Renvoie le code d'une zone qui devrait être affiché selon une liste de de codes
+ * @param codes Contient cont, reg, dpt, circ
+ */
+export const getCodeFromCodes = (codes: AugoraMap.Codes): Code => {
+  if (codes) {
+    if (codes[Code.Circ]) {
+      return Code.Circ
+    } else if (codes[Code.Dpt]) {
+      return Code.Dpt
+    } else if (codes[Code.Reg]) {
+      return Code.Reg
+    } else if (codes[Code.Cont] !== undefined) {
+      return Code.Cont
+    } else return null
+  } else return null
+}
+
 /**
  * Renvoie la feature associée à un set de codes
  * @param codes
@@ -521,52 +539,7 @@ export const getZoneTitle = <T extends GeoJSON.Feature>(feature: T) => {
   }
 }
 
-/** Renvoie le code d'une zone qui devrait être affiché selon une liste de de codes
- * @param codes Contient cont, reg, dpt, circ
- */
-export const getCodeFromCodes = (codes: AugoraMap.Codes): Code => {
-  if (codes) {
-    if (codes[Code.Circ]) {
-      return Code.Circ
-    } else if (codes[Code.Dpt]) {
-      return Code.Dpt
-    } else if (codes[Code.Reg]) {
-      return Code.Reg
-    } else if (codes[Code.Cont] !== undefined) {
-      return Code.Cont
-    } else return null
-  } else return null
-}
-
-/** Renvoie la bonne URL selon un objet code
- * @param codes Contient cont, reg, dpt, circ
- */
-export const buildURLFromCodes = (codes: AugoraMap.Codes): string => {
-  if (codes) {
-    if (codes[Code.Circ]) {
-      return `/carte?dpt=${codes[Code.Dpt]}&circ=${codes[Code.Circ]}`
-    } else if (codes[Code.Dpt]) {
-      return `/carte?dpt=${codes[Code.Dpt]}`
-    } else if (codes[Code.Reg]) {
-      return `/carte?reg=${codes[Code.Reg]}`
-    } else if (codes[Code.Cont] !== undefined) {
-      return `/carte?cont=${codes[Code.Cont]}`
-    } else return ""
-  } else return ""
-}
-
-/** Renvoie true si les 2 groups de codes sont identiques */
-export const compareCodes = (codes1: AugoraMap.Codes, codes2: AugoraMap.Codes): boolean => {
-  const zoneCode1 = getCodeFromCodes(codes1)
-  const zoneCode2 = getCodeFromCodes(codes2)
-
-  if (zoneCode1 === zoneCode2) {
-    return zoneCode1 !== Code.Circ
-      ? codes1[zoneCode1] === codes2[zoneCode1]
-      : codes1[zoneCode1] === codes2[zoneCode1] && codes1[Code.Dpt] === codes2[Code.Dpt]
-  } else return false
-}
-
+/** Renvoie l'URL map correspondant à une feature */
 export const buildURLFromFeature = <T extends GeoJSON.Feature>(feature: T): string => {
   const props = feature?.properties
   if (props) {
@@ -580,11 +553,15 @@ export const buildURLFromFeature = <T extends GeoJSON.Feature>(feature: T): stri
   } else return ""
 }
 
-export const getFeatureFromQuery = (query): AugoraMap.Feature => {
+/**
+ * Renvoie une feature correspondant à une query nextjs
+ * @param {ParsedUrlQuery} query
+ */
+export const getFeatureFromQuery = (query: ParsedUrlQuery): AugoraMap.Feature => {
   let codes: AugoraMap.Codes = {}
   if (query.circ) codes.code_circ = +query.circ
-  if (query.dpt) codes.code_dpt = query.dpt
-  if (query.reg) codes.code_reg = query.reg
+  if (query.dpt) codes.code_dpt = query.dpt as string
+  if (query.reg) codes.code_reg = query.reg as string
   if (query.cont) codes.code_cont = +query.cont
   return getFeature(codes)
 }

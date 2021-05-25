@@ -27,16 +27,20 @@ import IconInfo from "images/ui-kit/icon-info.svg"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
+  /** Objet view contenant les données d'affichage */
+  mapView: AugoraMap.MapView
+  /** Viewport state object */
+  viewport: ViewportProps
+  /** Viewport setstate function */
+  setViewport(newViewport: ViewportProps): void
+  /** Callback quand la map requete un changement de zone */
+  changeZone?<T extends GeoJSON.Feature>(feature: T): void
   /** Liste de députés que la map va fouiller. Hint: on peut passer une array avec un seul député pour par exemple une circonscription */
   deputies?: Deputy.DeputiesList
   /** Si les overlays doivent être affichés */
   overlay?: boolean
   /** S'il faut forcer un recentrage de la map au chargement */
   forceCenter?: boolean
-  mapView: AugoraMap.MapView
-  changeZone?<T extends GeoJSON.Feature>(feature: T): void
-  viewport: ViewportProps
-  setViewport(newViewport: ViewportProps): void
   children?: React.ReactNode
 }
 
@@ -70,9 +74,9 @@ const lineGhostLayerProps: LayerProps = {
 
 /**
  * Renvoie la map augora, reçoit un code d'affichage, 2 (Dpt, Circ) s'il s'agit d'une circonscription. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre circonscription > département > région > continent
+ * @param {AugoraMap.MapView} mapView Object contenant les données d'affichage : geoJSON (zones affichées), feature (zone parente), ghostGeoJSON (zones voisines), paint (comment les zones sont dessinées)
+ * @param {Function} [changeZone] Callback de changement de zone
  * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map
- * @param {Function} [setPageTitle] setState callback pour changer le titre de la page
- * @param {AugoraMap.MapCodes} [codes] Code(s) de la zone à afficher
  * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default true
  * @param {boolean} [forceCenter] S'il faut recentrer la map au chargement, default false
  */
