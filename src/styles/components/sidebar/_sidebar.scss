@@ -179,6 +179,10 @@
 
           transition: opacity 0.5s $ease-in-out-circ, background-color 0.5s $ease-in-out-circ;
 
+          &.current {
+            font-weight: bold;
+          }
+
           &:hover,
           &:active {
             opacity: 1;

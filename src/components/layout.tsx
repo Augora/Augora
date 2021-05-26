@@ -5,7 +5,7 @@ import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
-import Sidebar, { SidebarContent, SidebarFooter, SidebarHeader } from "components/sidebar/Sidebar"
+import Sidebar, { SidebarFooter, SidebarHeader, SidebarLinks } from "components/sidebar/Sidebar"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
@@ -22,7 +22,7 @@ const allColors = colors.map((color) => {
 
 /**
  * Renvoie le container des pages, comprenant le header, popin, etc
- * @param {RouteProps} location Objet du react router contenant les infos de route
+ * @param {NextRouter} location Objet du react router contenant les infos de route
  * @param {string} [title] Titre de la page
  */
 const Layout = ({ children, location, title }: ILayout) => {
@@ -87,7 +87,10 @@ const Layout = ({ children, location, title }: ILayout) => {
       </div>
       <Sidebar visible={hasSidebar} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)}>
         <SidebarHeader search={handleSearch} keyword={Keyword} />
-        <SidebarContent />
+        <div className="sidebar__content">
+          <SidebarLinks location={location} />
+          <div className="separator" />
+        </div>
         <SidebarFooter />
       </Sidebar>
       <main className="layout">{children}</main>

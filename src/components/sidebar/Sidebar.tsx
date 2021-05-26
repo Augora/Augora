@@ -6,6 +6,7 @@ import IconClose from "images/ui-kit/icon-close.svg"
 import IconRefresh from "images/ui-kit/icon-refresh.svg"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
+import { NextRouter } from "next/router"
 const GradientBanner = dynamic(() => import("components/graphics/GradientBanner"), {
   ssr: false,
 })
@@ -40,16 +41,6 @@ interface DebounceSearch {
   flush(): void
 }
 
-const SidebarLink = ({ href, title }: { href: string; title?: string }) => {
-  return (
-    <Link href={href}>
-      <a className="link" title={`Aller sur la page ${title ? title : ""}`}>
-        {title}
-      </a>
-    </Link>
-  )
-}
-
 const SidebarCat = ({ title, className, children, opened }: ISidebarCat) => {
   const [visible, setVisible] = useState(opened ? opened : false)
 
@@ -74,16 +65,23 @@ export const SidebarFooter = () => {
   )
 }
 
-/** Contenu de la sidebar */
-export const SidebarContent = () => {
+const SidebarLink = ({ href, title, path }: { href: string; title?: string; path?: string }) => {
   return (
-    <div className="sidebar__content">
-      <div className="content__links">
-        <SidebarLink title="Députés" href="/" />
-        <SidebarLink title="Carte" href="/carte" />
-        <SidebarLink title="FAQ" href="/faq" />
-      </div>
-      <div className="separator" />
+    <Link href={href}>
+      <a className={`link ${href === path ? "current" : ""}`} title={`Aller sur la page ${title ? title : ""}`}>
+        {title}
+      </a>
+    </Link>
+  )
+}
+
+/** Liens du site de la sidebar */
+export const SidebarLinks = ({ location }: { location: NextRouter }) => {
+  return (
+    <div className="content__links">
+      <SidebarLink title="Députés" href="/" path={location.pathname} />
+      <SidebarLink title="Carte" href="/carte" path={location.pathname} />
+      <SidebarLink title="FAQ" href="/faq" path={location.pathname} />
     </div>
   )
 }
