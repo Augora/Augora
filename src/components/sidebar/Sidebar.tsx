@@ -35,24 +35,27 @@ interface ISidebarCat {
   children?: React.ReactNode
 }
 
-interface DebounceSearch {
+type DebounceSearch = {
   (arg: string): void
   cancel(): void
   flush(): void
 }
 
-const SidebarCat = ({ title, className, children, opened }: ISidebarCat) => {
+export const SidebarCategory = ({ title, className, children, opened }: ISidebarCat) => {
   const [visible, setVisible] = useState(opened ? opened : false)
 
   return (
     <div className="content__category">
+      <div className="separator" />
+
       <button className="category__btn" onClick={() => setVisible(!visible)}>
-        <div className="icon-wrapper">
+        {title}
+        <div className="icon-wrapper" style={{ transform: visible ? "" : "rotate(-90deg)" }}>
           <IconArrow />
         </div>
-        {title}
       </button>
-      <div className={`category__content ${className ? className : ""}${visible ? " visible" : ""}`}>{children}</div>
+      <div className={`category__content${className ? className : ""}${visible ? " visible" : ""}`}>{children}</div>
+      <div className="separator" />
     </div>
   )
 }
@@ -165,7 +168,7 @@ export default function Sidebar({ visible, children, close, open }: ISideBar) {
 
   return (
     <div className={`sidebar ${visible ? "visible" : ""}`}>
-      <div className="sidebar__swipe" {...handlers} />
+      {/* <div className="sidebar__swipe" {...handlers} /> */}
       <div className="sidebar__visuals">{children}</div>
       <div className="sidebar__close">
         <button className="close__btn" onClick={close}>

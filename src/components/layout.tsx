@@ -5,7 +5,7 @@ import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
-import Sidebar, { SidebarFooter, SidebarHeader, SidebarLinks } from "components/sidebar/Sidebar"
+import Sidebar, { SidebarCategory, SidebarFooter, SidebarHeader, SidebarLinks } from "components/sidebar/Sidebar"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
@@ -89,7 +89,7 @@ const Layout = ({ children, location, title }: ILayout) => {
         <SidebarHeader search={handleSearch} keyword={Keyword} />
         <div className="sidebar__content">
           <SidebarLinks location={location} />
-          <div className="separator" />
+          <SidebarCategory title="Filtres"></SidebarCategory>
         </div>
         <SidebarFooter />
       </Sidebar>
