@@ -1,6 +1,6 @@
 import deputeStore from "stores/deputesStore"
-
-import { getAgeDomain, getGroupValue } from "../../components/deputies-list/deputies-list-utils"
+import debounce from "lodash/debounce"
+import { getAgeDomain, getGroupValue } from "components/deputies-list/deputies-list-utils"
 
 export default function useDeputiesFilters() {
   /*----------------------------------------------------*/
@@ -41,9 +41,7 @@ export default function useDeputiesFilters() {
    * Recherche un nom de député
    * @param value le string de recherche
    */
-  const handleSearch = (value: string) => {
-    search(value)
-  }
+  const handleSearch = debounce((value: string) => search(value), 500)
 
   /**
    * Change l'état des filtres au clic d'un bouton groupe
