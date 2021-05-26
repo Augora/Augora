@@ -64,17 +64,19 @@
       &__btn {
         border: none;
         background: none;
+        width: 100%;
+        height: 100%;
 
         cursor: pointer;
 
         transition: transform 0.5s $ease-out-circ;
 
         &:hover {
-          transform: scale(1.3);
+          transform: scale(1.5);
         }
 
         .icon-wrapper {
-          width: 18px;
+          width: 15px;
           svg {
             fill: $white;
           }
