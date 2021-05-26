@@ -210,7 +210,7 @@
 
             .icon-wrapper {
               width: 15px;
-              transition: transform 0.5s $ease-in-out-circ;
+              transition: transform 0.5s $ease-out-cubic;
               svg {
                 fill: $text-color;
               }

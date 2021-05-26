@@ -50,7 +50,7 @@ export const SidebarCategory = ({ title, className, children, opened }: ISidebar
 
       <button className="category__btn" onClick={() => setVisible(!visible)}>
         {title}
-        <div className="icon-wrapper" style={{ transform: visible ? "" : "rotate(-90deg)" }}>
+        <div className="icon-wrapper" style={{ transform: visible ? "rotate(-180deg)" : "" }}>
           <IconArrow />
         </div>
       </button>
