@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useSwipeable } from "react-swipeable"
@@ -32,6 +32,12 @@ interface ISidebarCat {
   title?: string
   className?: string
   children?: React.ReactNode
+}
+
+interface DebounceSearch {
+  (arg: string): void
+  cancel(): void
+  flush(): void
 }
 
 const SidebarLink = ({ href, title }: { href: string; title?: string }) => {
@@ -82,7 +88,28 @@ export const SidebarContent = () => {
   )
 }
 
-export const SidebarHeader = ({ search, keyword }: { search(arg: string): void; keyword: string }) => {
+export const SidebarHeader = ({ search, keyword }: { search: DebounceSearch; keyword: string }) => {
+  const [value, setValue] = useState("")
+
+  useEffect(() => {
+    setValue(keyword)
+  }, [keyword])
+
+  /**
+   * Pour update les différents states de la recherche
+   * @param {string} [value] Reset le state si la valeur manque
+   */
+  const handleTextInput = useCallback((value?: string) => {
+    if (value && value.length > 0) {
+      search(value)
+      setValue(value)
+    } else {
+      search("")
+      search.flush()
+      setValue("")
+    }
+  }, [])
+
   return (
     <div className="sidebar__header">
       <GradientBanner />
@@ -96,9 +123,9 @@ export const SidebarHeader = ({ search, keyword }: { search(arg: string): void; 
           className="search__input"
           type="text"
           placeholder="Chercher un député..."
-          value={keyword}
+          value={value}
           onChange={(e) => {
-            search(e.target.value)
+            handleTextInput(e.target.value)
           }}
         />
         {keyword.length > 0 ? (
@@ -108,7 +135,7 @@ export const SidebarHeader = ({ search, keyword }: { search(arg: string): void; 
               value=""
               title="Effacer"
               onClick={() => {
-                search("")
+                handleTextInput()
               }}
             />
             <div className="icon-wrapper">
