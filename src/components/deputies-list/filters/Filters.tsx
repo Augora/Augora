@@ -47,8 +47,9 @@ export const GroupButton = (props: IGroupButton) => {
 
   return (
     <ButtonInput
-      className={`groupe groupe--${group.Sigle.toLowerCase()}`}
       key={`groupe--${group.Sigle}`}
+      className={`groupe--${group.Sigle.toLowerCase()}`}
+      category="groupe"
       style={{
         order: group.Ordre,
         borderColor: group.Couleur,
