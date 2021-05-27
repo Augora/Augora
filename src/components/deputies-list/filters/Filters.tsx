@@ -25,8 +25,24 @@ interface IGroupButton {
   children?: React.ReactNode
 }
 
+interface IResetButton extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+  onClick(): void
+}
+
+export const ResetButton = (props: IResetButton) => {
+  const { onClick, className = "reset__btn", title = "Réinitialiser les filtres", ...restProps } = props
+
+  return (
+    <Button className={className} title={title} onClick={() => onClick()} {...restProps}>
+      <div className="icon-wrapper">
+        <IconReset />
+      </div>
+    </Button>
+  )
+}
+
 export const GroupButton = (props: IGroupButton) => {
-  const { checked = true, group, onClick, children } = props
+  const { checked = true, group, onClick, children, ...restProps } = props
   const GroupeLogo = getGroupLogo(group.Sigle)
 
   return (
@@ -123,7 +139,7 @@ export default function Filters(props: IFilters) {
             className={`sexes__btn female ${state.SexValue["F"] ? "checked" : ""}`}
             onClick={() => handleSexClick("F")}
             color="main"
-            checked={state.SexValue.F}
+            // checked={state.SexValue.F}
           >
             <div className="sexe__icon--female-symbol icon-wrapper">
               <IconFemaleSymbol />
@@ -139,7 +155,7 @@ export default function Filters(props: IFilters) {
             className={`sexes__btn male ${state.SexValue["H"] ? "checked" : ""}`}
             onClick={(e) => handleSexClick("H")}
             color="secondary"
-            checked={state.SexValue.H}
+            // checked={state.SexValue.H}
           >
             <div className="sexe__icon--male-symbol icon-wrapper">
               <IconMaleSymbol />
@@ -171,11 +187,7 @@ export default function Filters(props: IFilters) {
             )
           })}
         </div>
-        <Button className="reset__btn" onClick={() => handleReset()} title="Réinitialiser les filtres">
-          <div className="icon-wrapper">
-            <IconReset />
-          </div>
-        </Button>
+        <ResetButton onClick={handleReset} />
       </div>
       <AgeSlider selectedDomain={state.AgeDomain} domain={getAgeDomain(state.DeputiesList)} callback={handleAgeSlider}>
         <span className="filters__slider-label">ÂGE</span>
