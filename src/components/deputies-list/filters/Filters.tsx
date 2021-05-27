@@ -18,6 +18,41 @@ interface IFilters {
   filteredDeputes?: Deputy.DeputiesList
 }
 
+interface IGroupButton {
+  group: Group.Group
+  onClick(arg: string): void
+  checked?: boolean
+  children?: React.ReactNode
+}
+
+export const GroupButton = (props: IGroupButton) => {
+  const { checked = true, group, onClick, children } = props
+  const GroupeLogo = getGroupLogo(group.Sigle)
+
+  return (
+    <ButtonInput
+      className={`groupe groupe--${group.Sigle.toLowerCase()}`}
+      key={`groupe--${group.Sigle}`}
+      style={{
+        order: group.Ordre,
+        borderColor: group.Couleur,
+        backgroundColor: group.Couleur,
+      }}
+      color={group.Couleur}
+      onClick={() => onClick(group.Sigle)}
+      type="checkbox"
+      checked={checked}
+    >
+      <div className="groupe__img-container">
+        <div className="icon-wrapper">
+          <GroupeLogo style={{ fill: group.Couleur }} />
+        </div>
+      </div>
+      {children}
+    </ButtonInput>
+  )
+}
+
 export default function Filters(props: IFilters) {
   const { state, handleSearch, handleGroupClick, handleSexClick, handleAgeSlider, handleReset } = useDeputiesFilters()
 
@@ -30,37 +65,6 @@ export default function Filters(props: IFilters) {
   useEffect(() => {
     setValue(state.Keyword)
   }, [state.Keyword])
-
-  const groupButtons = state.GroupesList.map((groupe) => {
-    const GroupeLogo = getGroupLogo(groupe.Sigle)
-    return (
-      <ButtonInput
-        className={`groupe groupe--${groupe.Sigle.toLowerCase()}`}
-        key={`groupe--${groupe.Sigle}`}
-        style={{
-          order: groupe.Ordre,
-          borderColor: groupe.Couleur,
-          backgroundColor: groupe.Couleur,
-        }}
-        color={groupe.Couleur}
-        onClick={() => handleGroupClick(groupe.Sigle)}
-        type="checkbox"
-        checked={state.GroupeValue[groupe.Sigle]}
-      >
-        <div className="groupe__img-container">
-          <div className="icon-wrapper">
-            <GroupeLogo style={{ fill: groupe.Couleur }} />
-          </div>
-        </div>
-        <Tooltip
-          title={groupe.NomComplet}
-          nbDeputes={getNbDeputiesGroup(filteredDeputes, groupe.Sigle)}
-          totalDeputes={filteredDeputes.length}
-          color={groupe.Couleur}
-        />
-      </ButtonInput>
-    )
-  })
 
   /**
    * Pour update les différents states de la recherche
@@ -148,7 +152,25 @@ export default function Filters(props: IFilters) {
             />
           </Button>
         </div>
-        <div className="filters__groupe">{groupButtons}</div>
+        <div className="filters__groupe">
+          {state.GroupesList.map((groupe) => {
+            return (
+              <GroupButton
+                key={`groupe--${groupe.Sigle}`}
+                group={groupe}
+                onClick={handleGroupClick}
+                checked={state.GroupeValue[groupe.Sigle]}
+              >
+                <Tooltip
+                  title={groupe.NomComplet}
+                  nbDeputes={getNbDeputiesGroup(filteredDeputes, groupe.Sigle)}
+                  totalDeputes={filteredDeputes.length}
+                  color={groupe.Couleur}
+                />
+              </GroupButton>
+            )
+          })}
+        </div>
         <Button className="reset__btn" onClick={() => handleReset()} title="Réinitialiser les filtres">
           <div className="icon-wrapper">
             <IconReset />
