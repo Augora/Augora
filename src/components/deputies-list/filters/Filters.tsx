@@ -25,6 +25,13 @@ interface IGroupButton {
   children?: React.ReactNode
 }
 
+interface ISexButton {
+  sex: "H" | "F"
+  onClick(): void
+  checked?: boolean
+  children?: React.ReactNode
+}
+
 interface IResetButton extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   onClick(): void
 }
@@ -78,8 +85,7 @@ export const GroupButton = (props: IGroupButton) => {
   )
 }
 
-export const SearchForm = (props: ISearchForm) => {
-  const { keyword, search } = props
+export const SearchForm = ({ keyword, search }: ISearchForm) => {
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
   const [value, setValue] = useState("")
 
@@ -137,6 +143,22 @@ export const SearchForm = (props: ISearchForm) => {
   )
 }
 
+export const SexButton = (props: ISexButton) => {
+  const { sex, onClick, checked, children } = props
+  const gender = sex === "F" ? "female" : "male"
+
+  return (
+    <Button
+      className={`sexes__btn ${gender} ${checked ? "checked" : ""}`}
+      onClick={onClick}
+      color={`${sex === "F" ? "main" : "secondary"}`}
+    >
+      <div className={`sexe__icon--${gender}-symbol icon-wrapper`}>{sex === "F" ? <IconFemaleSymbol /> : <IconMaleSymbol />}</div>
+      {children}
+    </Button>
+  )
+}
+
 export default function Filters(props: IFilters) {
   const { state, handleSearch, handleGroupClick, handleSexClick, handleAgeSlider, handleReset } = useDeputiesFilters()
   const { filteredDeputes = state.FilteredList } = props
@@ -153,38 +175,22 @@ export default function Filters(props: IFilters) {
       <SearchForm keyword={state.Keyword} search={handleSearch} />
       <div className="filters__middle-line">
         <div className="filters__sexes">
-          <Button
-            className={`sexes__btn female ${state.SexValue["F"] ? "checked" : ""}`}
-            onClick={() => handleSexClick("F")}
-            color="main"
-            // checked={state.SexValue.F}
-          >
-            <div className="sexe__icon--female-symbol icon-wrapper">
-              <IconFemaleSymbol />
-            </div>
+          <SexButton sex={"F"} onClick={() => handleSexClick("F")} checked={state.SexValue["F"]}>
             <Tooltip
               title="Femmes"
               nbDeputes={getNbDeputiesGender(filteredDeputes, "F")}
               totalDeputes={filteredDeputes.length}
               color="secondary"
             />
-          </Button>
-          <Button
-            className={`sexes__btn male ${state.SexValue["H"] ? "checked" : ""}`}
-            onClick={(e) => handleSexClick("H")}
-            color="secondary"
-            // checked={state.SexValue.H}
-          >
-            <div className="sexe__icon--male-symbol icon-wrapper">
-              <IconMaleSymbol />
-            </div>
+          </SexButton>
+          <SexButton sex={"H"} onClick={() => handleSexClick("H")} checked={state.SexValue["H"]}>
             <Tooltip
               title="Hommes"
               nbDeputes={getNbDeputiesGender(filteredDeputes, "H")}
               totalDeputes={filteredDeputes.length}
               color="secondary"
             />
-          </Button>
+          </SexButton>
         </div>
         <div className="filters__groupe">
           {state.GroupesList.map((groupe) => {
