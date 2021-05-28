@@ -29,6 +29,14 @@ interface IResetButton extends React.DetailedHTMLProps<React.ButtonHTMLAttribute
   onClick(): void
 }
 
+interface ISearchForm {
+  keyword?: string
+  search?: {
+    (arg: string): void
+    flush(): void
+  }
+}
+
 export const ResetButton = (props: IResetButton) => {
   const { onClick, className = "reset__btn", title = "Réinitialiser les filtres", ...restProps } = props
 
@@ -70,33 +78,68 @@ export const GroupButton = (props: IGroupButton) => {
   )
 }
 
-export default function Filters(props: IFilters) {
-  const { state, handleSearch, handleGroupClick, handleSexClick, handleAgeSlider, handleReset } = useDeputiesFilters()
-
-  const { filteredDeputes = state.FilteredList } = props
-
+export const SearchForm = (props: ISearchForm) => {
+  const { keyword, search } = props
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
   const [value, setValue] = useState("")
+
   const searchField = useRef<HTMLInputElement>()
 
   useEffect(() => {
-    setValue(state.Keyword)
-  }, [state.Keyword])
+    setValue(keyword)
+  }, [keyword])
 
   /**
    * Pour update les différents states de la recherche
    * @param {string} [value] Reset le state si la valeur manque
    */
-  const handleTextInput = useCallback((value?: string) => {
-    if (value && value.length > 0) {
-      handleSearch(value)
-      setValue(value)
-    } else {
-      handleSearch("")
-      handleSearch.flush()
-      setValue("")
-    }
-  }, [])
+  const handleTextInput = search
+    ? useCallback((value?: string) => {
+        if (value && value.length > 0) {
+          search(value)
+          setValue(value)
+        } else {
+          search("")
+          search.flush()
+          setValue("")
+        }
+      }, [])
+    : setValue
+
+  return (
+    <form
+      className={`filters__search ${isSearchInteracted ? "filters__search--focus" : ""}`}
+      onSubmit={(e) => {
+        e.preventDefault()
+        searchField.current.blur()
+      }}
+    >
+      <div className="search__icon icon-wrapper">
+        <IconSearch />
+      </div>
+      <input
+        className="search__input"
+        ref={searchField}
+        type="text"
+        placeholder="Chercher..."
+        value={value}
+        onChange={(e) => handleTextInput(e.target.value)}
+        onFocus={() => setIsSearchInteracted(true)}
+        onBlur={() => setIsSearchInteracted(false)}
+      />
+      <div className={`search__clear ${value.length > 0 ? "search__clear--visible" : ""}`}>
+        <input className="search__clear-btn" type="reset" value="" title="Effacer" onClick={() => handleTextInput("")} />
+        <div className="icon-wrapper">
+          <IconClose />
+        </div>
+      </div>
+    </form>
+  )
+}
+
+export default function Filters(props: IFilters) {
+  const { state, handleSearch, handleGroupClick, handleSexClick, handleAgeSlider, handleReset } = useDeputiesFilters()
+  const { filteredDeputes = state.FilteredList } = props
 
   return (
     <Frame
@@ -107,33 +150,7 @@ export default function Filters(props: IFilters) {
         ${Math.round(((filteredDeputes.length * 100) / state.DeputiesList.length) * 10) / 10}%
       `}
     >
-      <form
-        className={`filters__search ${isSearchInteracted ? "filters__search--focus" : ""}`}
-        onSubmit={(e) => {
-          e.preventDefault()
-          searchField.current.blur()
-        }}
-      >
-        <div className="search__icon icon-wrapper">
-          <IconSearch />
-        </div>
-        <input
-          className="search__input"
-          ref={searchField}
-          type="text"
-          placeholder="Chercher..."
-          value={value}
-          onChange={(e) => handleTextInput(e.target.value)}
-          onFocus={() => setIsSearchInteracted(true)}
-          onBlur={() => setIsSearchInteracted(false)}
-        />
-        <div className={`search__clear ${state.Keyword.length > 0 ? "search__clear--visible" : ""}`}>
-          <input className="search__clear-btn" type="reset" value="" title="Effacer" onClick={() => handleTextInput()} />
-          <div className="icon-wrapper">
-            <IconClose />
-          </div>
-        </div>
-      </form>
+      <SearchForm keyword={state.Keyword} search={handleSearch} />
       <div className="filters__middle-line">
         <div className="filters__sexes">
           <Button

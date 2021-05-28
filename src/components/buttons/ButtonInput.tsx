@@ -28,7 +28,7 @@ export default function ButtonInput(props: IButtonInput) {
       onClick={onClick}
       {...restProps}
     >
-      <input className={`${category}__${props.type}`} type={type} checked={checked} onChange={() => {}} name={name} />
+      <input className={`${category}__${props.type}`} type={type} checked={checked} name={name} />
       {children}
     </Button>
   )
