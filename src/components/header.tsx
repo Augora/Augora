@@ -34,7 +34,7 @@ const mainPages: Pages = {
     title: "Députés",
   },
   map: {
-    path: "/carte",
+    path: "/map",
     title: "Carte",
   },
 }
@@ -48,6 +48,33 @@ const secondaryPages: Pages = {
     path: "/faq",
     title: "FAQ",
   },
+}
+
+function HeaderLinks({ pageGroup, location, styles }: { pageGroup: Pages; location: NextRouter; styles: Styles }) {
+  return (
+    <>
+      {Object.keys(pageGroup).map((page, index) => {
+        const className = `menu__item ${location.pathname === pageGroup[page].path ? "menu__item--current" : ""}`
+
+        return (
+          <div className="menu__link" key={pageGroup[page].path}>
+            <Link href={pageGroup[page].path}>
+              <a className={className}>
+                <span>{pageGroup[page].title}</span>
+                <div className="link__underline"></div>
+              </a>
+            </Link>
+            <Link href={pageGroup[page].path}>
+              <a className={className} style={styles.link}>
+                <span>{pageGroup[page].title}</span>
+                <div className="link__underline" style={styles.underline}></div>
+              </a>
+            </Link>
+          </div>
+        )
+      })}
+    </>
+  )
 }
 
 /**
@@ -75,29 +102,6 @@ const Header = ({ siteTitle, location, color }: IHeader) => {
     }
   }
 
-  function isActivePage(path: string) {
-    return `menu__item ${location.pathname === path || location.pathname === path + "/" ? "menu__item--current" : ""}`
-  }
-
-  function setLinks(pageGroup: Pages) {
-    return Object.keys(pageGroup).map((page, index) => (
-      <div className="menu__link" key={pageGroup[page].path}>
-        <Link href={pageGroup[page].path}>
-          <a className={isActivePage(pageGroup[page].path)}>
-            <span>{pageGroup[page].title}</span>
-            <div className="link__underline"></div>
-          </a>
-        </Link>
-        <Link href={pageGroup[page].path}>
-          <a className={isActivePage(pageGroup[page].path)} style={styles.link}>
-            <span>{pageGroup[page].title}</span>
-            <div className="link__underline" style={styles.underline}></div>
-          </a>
-        </Link>
-      </div>
-    ))
-  }
-
   return (
     <header id="header" className="header">
       <div className="header__wrapper wrapper">
@@ -116,12 +120,12 @@ const Header = ({ siteTitle, location, color }: IHeader) => {
           </a>
         </Link>
         <div className="header__menu menu">
-          {setLinks(mainPages)}
+          <HeaderLinks pageGroup={mainPages} location={location} styles={styles} />
           <div className="menu__separator-container">
             <span className="menu__separator" />
             <span className="menu__separator" style={styles.separator} />
           </div>
-          {setLinks(secondaryPages)}
+          <HeaderLinks pageGroup={secondaryPages} location={location} styles={styles} />
         </div>
       </div>
     </header>
