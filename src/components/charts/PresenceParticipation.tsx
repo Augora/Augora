@@ -74,7 +74,6 @@ export default function PresenceParticipation(props: IPresence) {
   const changeDisplay = width < 900
   const changeAxis = width < 1000
   const isRotate = width < 500
-  console.log(width)
   const isMobile = width < 300
   const [Date, setDate] = useState(isMobile ? 2 : 3)
 
