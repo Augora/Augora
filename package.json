@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "author": "",
   "dependencies": {
-    "@apollo/client": "3.3.16",
+    "@apollo/client": "3.3.19",
     "@nivo/bar": "0.63.1",
     "@nivo/pie": "0.63.1",
     "@svgr/webpack": "^5.5.0",
@@ -19,22 +19,22 @@
     "@visx/shape": "^1.11.1",
     "@visx/tooltip": "^1.7.2",
     "@visx/xychart": "^1.11.2",
-    "dayjs": "^1.10.4",
+    "dayjs": "^1.10.5",
     "fuse.js": "6.4.6",
     "graphql": "^15.5.0",
     "lodash": "^4.17.21",
-    "next": "^10.2.0",
+    "next": "^10.2.3",
     "polylabel": "^1.1.0",
-    "prettier": "2.2.1",
+    "prettier": "2.3.1",
     "react": "17.0.2",
     "react-compound-slider": "3.3.1",
     "react-device-detect": "^1.17.0",
     "react-dom": "17.0.2",
     "react-lazy-load-image-component": "^1.5.0",
-    "react-map-gl": "6.1.13",
-    "sass": "^1.32.12",
-    "typescript": "4.2.4",
-    "zustand": "^3.5.0"
+    "react-map-gl": "6.1.16",
+    "sass": "^1.34.1",
+    "typescript": "4.3.2",
+    "zustand": "^3.5.2"
   },
   "license": "MIT",
   "scripts": {
@@ -52,16 +52,16 @@
     "url": "https://github.com/Augora/Augora/issues"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^10.2.0",
+    "@next/bundle-analyzer": "^10.2.3",
     "@types/geojson": "^7946.0.7",
-    "@types/lodash": "^4.14.168",
+    "@types/lodash": "^4.14.170",
     "@types/next": "^9.0.0",
-    "@types/node": "^15.0.2",
+    "@types/node": "^15.12.1",
     "@types/polylabel": "^1.0.5",
-    "@types/react": "^17.0.5",
+    "@types/react": "^17.0.9",
     "@types/react-map-gl": "^5.2.9",
     "@zeit/next-source-maps": "^0.0.3",
     "json-loader": "^0.5.7",
-    "next-sitemap": "^1.6.55"
+    "next-sitemap": "^1.6.102"
   }
 }
