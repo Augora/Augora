@@ -210,7 +210,7 @@ export default function PresenceParticipation(props: IPresence) {
       ? orderedWeeks.slice(40, 53)
       : orderedWeeks.slice(49, 53)
 
-  return width < 10 ? null : (
+  return width < 10 ? null : orderedWeeks.length != 0 ? (
     <div className="presence">
       <div className="presence__date">
         <ButtonGroup buttons={["1M", "3M", "6M", "1Y", "calendrier"]} />
@@ -449,5 +449,7 @@ export default function PresenceParticipation(props: IPresence) {
         )}
       </Legend>
     </div>
+  ) : (
+    <div className="presence__indisponible">Les données ne sont pour le moment pas disponibles.</div>
   )
 }
