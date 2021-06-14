@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
 import orderBy from "lodash/orderBy"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 import { Group } from "@visx/group"
 import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
@@ -75,20 +77,28 @@ export default function PresenceParticipation(props: IPresence) {
   const changeAxis = width < 1000
   const isRotate = width < 500
   const isMobile = width < 300
-  const [Date, setDate] = useState(isMobile ? 2 : 3)
+  const [DateButton, setDateButton] = useState(isMobile ? 2 : 3)
+  const [Active, setActive] = useState(false)
 
   useEffect(() => {
     if (width < 300) {
-      setDate(2)
+      setDateButton(2)
     } else {
-      setDate(3)
+      setDateButton(3)
     }
   }, [width])
   const ButtonGroup = ({ buttons }) => {
     return (
       <>
         {buttons.map((buttonLabel, i) => (
-          <button key={i} name={buttonLabel} onClick={() => setDate(i)} className={i === Date ? "button__active" : "button"}>
+          <button
+            key={i}
+            name={buttonLabel}
+            onClick={() => {
+              i <= 3 ? (setDateButton(i), setActive(false)) : (setDateButton(i), setActive(!Active))
+            }}
+            className={i === DateButton ? "button__active" : "button"}
+          >
             {buttonLabel}
           </button>
         ))}
@@ -107,11 +117,11 @@ export default function PresenceParticipation(props: IPresence) {
   //const medianeArray = orderBy(mediane, "DateDeDebut")
   const orderedWeeks = orderBy(data, "DateDeFin")
   const rangeOrderedWeeks =
-    Date === 3
+    DateButton >= 3
       ? orderedWeeks
-      : Date === 2
+      : DateButton === 2
       ? orderedWeeks.slice(27, 53)
-      : Date === 1
+      : DateButton === 1
       ? orderedWeeks.slice(40, 53)
       : orderedWeeks.slice(49, 53)
   const animationTrajectoire = "center"
@@ -167,11 +177,54 @@ export default function PresenceParticipation(props: IPresence) {
     ],
   })
 
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(null)
+
+  const date1 = dayjs(startDate)
+  const date2 = dayjs(endDate)
+  const rangeCalendar = date2.diff(date1, "day") + 1
+
+  const onChange = (dates) => {
+    const [start, end] = dates
+    setStartDate(start)
+    setEndDate(end)
+  }
+
+  const dateMax = new Date()
+  const dateMin = dayjs(dateMax).locale("en").subtract(1, "year").toDate()
+
   return width < 10 ? null : (
     <div className="presence">
       <div className="presence__date">
-        <ButtonGroup buttons={["1M", "3M", "6M", "1Y"]} />
+        <ButtonGroup buttons={["1M", "3M", "6M", "1Y", "📆"]} />
       </div>
+      {Active ? (
+        <>
+          <div className="calendrier">
+            <DatePicker
+              selected={startDate}
+              onChange={onChange}
+              startDate={startDate}
+              endDate={endDate}
+              minDate={dateMin}
+              maxDate={dateMax}
+              startOpen={setActive}
+              selectsRange
+              inline
+              showWeekNumbers
+            />
+            <div className="calendrier__footer">
+              {rangeCalendar === 1
+                ? "Sélectionnez au moins 2 jours."
+                : !isNaN(rangeCalendar)
+                ? "Sélectionnés : " + rangeCalendar + " jours"
+                : ""}
+            </div>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
       <svg width={width} height={height}>
         <Group top={20} left={marginLeft}>
           <XYChart
