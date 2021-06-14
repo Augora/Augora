@@ -31,6 +31,12 @@ const getDates = (date: string) => {
   }
 }
 
+const getCalendarDates = (date: string) => {
+  return {
+    getDate: dayjs(date).toDate(),
+  }
+}
+
 interface IPresence {
   width: number
   height: number
@@ -115,15 +121,6 @@ export default function PresenceParticipation(props: IPresence) {
   var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
 
   //const medianeArray = orderBy(mediane, "DateDeDebut")
-  const orderedWeeks = orderBy(data, "DateDeFin")
-  const rangeOrderedWeeks =
-    DateButton >= 3
-      ? orderedWeeks
-      : DateButton === 2
-      ? orderedWeeks.slice(27, 53)
-      : DateButton === 1
-      ? orderedWeeks.slice(40, 53)
-      : orderedWeeks.slice(49, 53)
   const animationTrajectoire = "center"
   const curveType = curveMonotoneX
 
@@ -180,18 +177,37 @@ export default function PresenceParticipation(props: IPresence) {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(null)
 
-  const date1 = dayjs(startDate)
-  const date2 = dayjs(endDate)
-  const rangeCalendar = date2.diff(date1, "day") + 1
+  const dayDebutRange = dayjs(startDate)
+  const dayFinRange = dayjs(endDate)
+
+  const rangeCalendar = dayFinRange.diff(dayDebutRange, "day") + 1
 
   const onChange = (dates) => {
     const [start, end] = dates
     setStartDate(start)
     setEndDate(end)
   }
+  // Activités triées par date de fin
+  const orderedWeeks = orderBy(data, "DateDeFin")
 
-  const dateMax = new Date()
-  const dateMin = dayjs(dateMax).locale("en").subtract(1, "year").toDate()
+  const dateMax = getCalendarDates(orderedWeeks[orderedWeeks.length - 1].DateDeFin).getDate
+  const dateMin = getCalendarDates(orderedWeeks[0].DateDeDebut).getDate
+
+  const weekMin = Math.ceil((dayjs(dateMax).diff(startDate, "day") + 1) / 7)
+  const weekMax = Math.ceil((dayjs(dateMax).diff(endDate, "day") + 1) / 7)
+
+  const rangeOrderedWeeks =
+    DateButton === 4
+      ? weekMax
+        ? orderedWeeks.slice(53 - weekMin, 53 - weekMax)
+        : orderedWeeks
+      : DateButton === 3
+      ? orderedWeeks
+      : DateButton === 2
+      ? orderedWeeks.slice(27, 53)
+      : DateButton === 1
+      ? orderedWeeks.slice(40, 53)
+      : orderedWeeks.slice(49, 53)
 
   return width < 10 ? null : (
     <div className="presence">
