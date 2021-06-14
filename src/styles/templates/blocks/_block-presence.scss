@@ -39,6 +39,13 @@
     }
   }
   .presence {
+    .calendrier {
+      background: white;
+      position: absolute;
+      top: 110px;
+      right: 20px;
+      padding: 20px;
+    }
     &__date {
       position: absolute;
       top: 70px;
