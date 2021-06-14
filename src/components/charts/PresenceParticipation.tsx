@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import orderBy from "lodash/orderBy"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+import IconAgenda from "images/ui-kit/icon-agenda.svg"
 import { Group } from "@visx/group"
 import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
@@ -103,9 +104,9 @@ export default function PresenceParticipation(props: IPresence) {
             onClick={() => {
               i <= 3 ? (setDateButton(i), setActive(false)) : (setDateButton(i), setActive(!Active))
             }}
-            className={i === DateButton ? "button__active" : "button"}
+            className={i === DateButton ? "button__active button" : "button"}
           >
-            {buttonLabel}
+            {i === 4 ? <IconAgenda className={"icon-agenda"} /> : buttonLabel}
           </button>
         ))}
       </>
@@ -212,7 +213,7 @@ export default function PresenceParticipation(props: IPresence) {
   return width < 10 ? null : (
     <div className="presence">
       <div className="presence__date">
-        <ButtonGroup buttons={["1M", "3M", "6M", "1Y", "📆"]} />
+        <ButtonGroup buttons={["1M", "3M", "6M", "1Y", "calendrier"]} />
       </div>
       {Active ? (
         <>

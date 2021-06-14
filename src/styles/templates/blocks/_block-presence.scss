@@ -56,6 +56,13 @@
           background-color: rgba(77, 77, 77, 0.5);
           border: 1.5px solid rgb(25, 26, 24);
         }
+        .icon-agenda {
+          position: relative;
+          width: 20px;
+          height: 20px;
+          top: 3px;
+          fill: $text-color;
+        }
       }
     }
     &__axisleft {
