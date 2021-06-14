@@ -175,14 +175,6 @@ export default function PresenceParticipation(props: IPresence) {
     ],
   })
 
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(null)
-
-  const dayDebutRange = dayjs(startDate)
-  const dayFinRange = dayjs(endDate)
-
-  const rangeCalendar = dayFinRange.diff(dayDebutRange, "day") + 1
-
   const onChange = (dates) => {
     const [start, end] = dates
     setStartDate(start)
@@ -191,11 +183,19 @@ export default function PresenceParticipation(props: IPresence) {
   // Activités triées par date de fin
   const orderedWeeks = orderBy(data, "DateDeFin")
 
-  const dateMax = getCalendarDates(orderedWeeks[orderedWeeks.length - 1].DateDeFin).getDate
-  const dateMin = getCalendarDates(orderedWeeks[0].DateDeDebut).getDate
+  const dateMax = orderedWeeks.length != 0 ? getCalendarDates(orderedWeeks[orderedWeeks.length - 1].DateDeFin).getDate : ""
+  const dateMin = orderedWeeks.length != 0 ? getCalendarDates(orderedWeeks[0].DateDeDebut).getDate : ""
+
+  const [startDate, setStartDate] = useState(dateMax)
+  const [endDate, setEndDate] = useState(null)
 
   const weekMin = Math.ceil((dayjs(dateMax).diff(startDate, "day") + 1) / 7)
   const weekMax = Math.ceil((dayjs(dateMax).diff(endDate, "day") + 1) / 7)
+
+  const dayDebutRange = dayjs(startDate)
+  const dayFinRange = dayjs(endDate)
+
+  const rangeCalendar = dayFinRange.diff(dayDebutRange, "day") + 1
 
   const rangeOrderedWeeks =
     DateButton === 4
