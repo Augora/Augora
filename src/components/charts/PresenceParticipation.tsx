@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import orderBy from "lodash/orderBy"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -210,6 +210,22 @@ export default function PresenceParticipation(props: IPresence) {
       ? orderedWeeks.slice(40, 53)
       : orderedWeeks.slice(49, 53)
 
+  const node = useRef<HTMLDivElement>()
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClick)
+    return () => {
+      document.removeEventListener("mousedown", handleClick)
+    }
+  }, [])
+  const handleClick = (e) => {
+    if (node?.current) {
+      if (!node.current.contains(e.target)) {
+        setActive(false)
+      }
+    }
+  }
+
   return width < 10 ? null : orderedWeeks.length != 0 ? (
     <div className="presence">
       <div className="presence__date">
@@ -217,7 +233,7 @@ export default function PresenceParticipation(props: IPresence) {
       </div>
       {Active ? (
         <>
-          <div className="calendrier">
+          <div className="calendrier" ref={node}>
             <DatePicker
               selected={startDate}
               onChange={onChange}
