@@ -10,15 +10,7 @@ import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
-import {
-  XYChart,
-  AnimatedAxis,
-  AnimatedBarSeries,
-  AnimatedGrid,
-  AnimatedLineSeries,
-  AnimatedAreaSeries,
-  Tooltip,
-} from "@visx/xychart"
+import { XYChart, AnimatedAxis, AnimatedBarSeries, AnimatedGrid, AnimatedLineSeries, Tooltip } from "@visx/xychart"
 import { Glyph as CustomGlyph, GlyphSquare } from "@visx/glyph"
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import { scaleOrdinal } from "@visx/scale"
@@ -73,6 +65,20 @@ const handleLegend = (state, legend: string) => {
 }
 
 export default function PresenceParticipation(props: IPresence) {
+  const { width, height, data, color } = props
+
+  // bounds
+  const marginTop = 50
+  const marginPhone = 120
+  const marginLeft = 20
+  const xMax = width - marginLeft
+  const changeDisplay = width < 900
+  const isMobile = width < 300
+  const yMax = changeDisplay ? height - marginPhone : height - marginTop
+
+  const [DateButton, setDateButton] = useState(isMobile ? 2 : 3)
+  const [Calendrier, setCalendrier] = useState(false)
+  const [Informations, setInformations] = useState(false)
   const [DisplayedGraph, setDisplayedGraph] = useState({
     Présences: true,
     Participations: true,
@@ -81,22 +87,14 @@ export default function PresenceParticipation(props: IPresence) {
     Vacances: true,
   })
 
-  const { width, height, data, color } = props
-  const changeDisplay = width < 900
-  const changeAxis = width < 1000
-  const isRotate = width < 500
-  const isMobile = width < 300
-  const [DateButton, setDateButton] = useState(isMobile ? 2 : 3)
-  const [Calendrier, setCalendrier] = useState(false)
-  const [Informations, setInformations] = useState(false)
-
   useEffect(() => {
-    if (width < 300) {
+    if (isMobile) {
       setDateButton(2)
     } else {
       setDateButton(3)
     }
   }, [width])
+
   const ButtonGroup = ({ buttons }) => {
     return (
       <>
@@ -116,17 +114,9 @@ export default function PresenceParticipation(props: IPresence) {
     )
   }
 
-  // bounds
-  const marginTop = 50
-  const marginPhone = 120
-  const marginLeft = 20
-  const xMax = width - marginLeft
-  const yMax = changeDisplay ? height - marginPhone : height - marginTop
   var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
 
   //const medianeArray = orderBy(mediane, "DateDeDebut")
-  const animationTrajectoire = "center"
-  const curveType = curveMonotoneX
 
   const vacancesColor = "rgba(77, 77, 77, 0.5)"
   const medianeDepute = "rgba(77, 77, 77, 0.3)"
@@ -195,10 +185,7 @@ export default function PresenceParticipation(props: IPresence) {
   const weekMin = Math.ceil((dayjs(dateMax).diff(startDate, "day") + 1) / 7)
   const weekMax = Math.ceil((dayjs(dateMax).diff(endDate, "day") + 1) / 7)
 
-  const dayDebutRange = dayjs(startDate)
-  const dayFinRange = dayjs(endDate)
-
-  const rangeCalendar = dayFinRange.diff(dayDebutRange, "day") + 1
+  const rangeCalendar = dayjs(endDate).diff(dayjs(startDate), "day") + 1
 
   const rangeOrderedWeeks =
     DateButton === 4
@@ -323,7 +310,7 @@ export default function PresenceParticipation(props: IPresence) {
                 data={rangeOrderedWeeks}
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
-                curve={curveType}
+                curve={curveMonotoneX}
                 stroke={color}
                 strokeOpacity={opacityParticipation}
               />
@@ -335,7 +322,7 @@ export default function PresenceParticipation(props: IPresence) {
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
                 stroke={color}
-                curve={curveType}
+                curve={curveMonotoneX}
               />
             )}
             {DisplayedGraph["Questions orales"] && (
@@ -357,18 +344,18 @@ export default function PresenceParticipation(props: IPresence) {
               tickStroke={"none"}
               tickLength={6}
               numTicks={maxActivite / 2}
-              animationTrajectory={animationTrajectoire}
+              animationTrajectory={"center"}
             />
             <AnimatedAxis
-              axisClassName={isRotate ? " rotate" : ""}
+              axisClassName={width < 500 ? " rotate" : ""}
               orientation="bottom"
               hideAxisLine={true}
               top={yMax}
               tickLength={6}
               numTicks={changeDisplay ? 8 : rangeOrderedWeeks.length / 4}
-              animationTrajectory={animationTrajectoire}
+              animationTrajectory={"center"}
               tickFormat={(date: string) =>
-                changeAxis ? getDates(date.split("T")[0]).MobileData : getDates(date.split("T")[0]).MonthData
+                width < 1000 ? getDates(date.split("T")[0]).MobileData : getDates(date.split("T")[0]).MonthData
               }
             />
             <Tooltip<Deputy.Activite>
