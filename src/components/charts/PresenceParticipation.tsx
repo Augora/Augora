@@ -3,6 +3,8 @@ import orderBy from "lodash/orderBy"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import IconAgenda from "images/ui-kit/icon-agenda.svg"
+import IconInfo from "images/ui-kit/icon-info.svg"
+import IconClose from "images/ui-kit/icon-close.svg"
 import { Group } from "@visx/group"
 import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
@@ -86,6 +88,7 @@ export default function PresenceParticipation(props: IPresence) {
   const isMobile = width < 300
   const [DateButton, setDateButton] = useState(isMobile ? 2 : 3)
   const [Calendrier, setCalendrier] = useState(false)
+  const [Informations, setInformations] = useState(false)
 
   useEffect(() => {
     if (width < 300) {
@@ -228,6 +231,11 @@ export default function PresenceParticipation(props: IPresence) {
 
   return width < 10 ? null : orderedWeeks.length != 0 ? (
     <div className="presence">
+      <div className="presence__informations">
+        <button className="info__button" onClick={() => setInformations(!Informations)} title="Informations">
+          {Informations ? <IconClose className={"icon-close"} /> : <IconInfo className={"icon-info"} />}
+        </button>
+      </div>
       <div className="presence__date">
         <ButtonGroup buttons={["1M", "3M", "6M", "1Y", "calendrier"]} />
       </div>
@@ -258,6 +266,23 @@ export default function PresenceParticipation(props: IPresence) {
       ) : (
         ""
       )}
+      {Informations ? (
+        <>
+          <div className="info__bloc">
+            <div className="info__content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
+              Lorem Ipsum.
+            </div>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+
       <svg width={width} height={height}>
         <Group top={20} left={marginLeft}>
           <XYChart

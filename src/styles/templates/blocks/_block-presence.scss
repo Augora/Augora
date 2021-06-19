@@ -23,19 +23,31 @@
         height: 30px;
         fill: $text-color;
       }
+      .icon-close {
+        width: 30px;
+        height: 30px;
+        fill: $text-color;
+      }
 
       &:hover {
         background: $btn-hover;
       }
     }
-    &__content {
-      background-color: transparent;
+    &__bloc {
       position: absolute;
-      border: none;
+      background-color: $frame-color;
+      //background: red;
+      height: 87%;
+      top: 60px;
+      right: 0px;
       padding-right: 20px;
-      top: 60%;
-      -ms-transform: translateY(-60%);
-      transform: translateY(-60%);
+      padding-left: 20px;
+      z-index: 101;
+    }
+    &__content {
+      top: 110%;
+      -ms-transform: translateY(110%);
+      transform: translateY(110%);
     }
   }
   .presence {
@@ -58,9 +70,9 @@
         }
         .icon-agenda {
           position: relative;
-          width: 20px;
-          height: 20px;
-          top: 3px;
+          width: 15px;
+          height: 15px;
+          top: 1px;
           fill: $text-color;
         }
       }
