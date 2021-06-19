@@ -85,7 +85,7 @@ export default function PresenceParticipation(props: IPresence) {
   const isRotate = width < 500
   const isMobile = width < 300
   const [DateButton, setDateButton] = useState(isMobile ? 2 : 3)
-  const [Active, setActive] = useState(false)
+  const [Calendrier, setCalendrier] = useState(false)
 
   useEffect(() => {
     if (width < 300) {
@@ -102,7 +102,7 @@ export default function PresenceParticipation(props: IPresence) {
             key={i}
             name={buttonLabel}
             onClick={() => {
-              i <= 3 ? (setDateButton(i), setActive(false)) : (setDateButton(i), setActive(!Active))
+              i <= 3 ? (setDateButton(i), setCalendrier(false)) : (setDateButton(i), setCalendrier(!Calendrier))
             }}
             className={i === DateButton ? "button__active button" : "button"}
           >
@@ -221,7 +221,7 @@ export default function PresenceParticipation(props: IPresence) {
   const handleClick = (e) => {
     if (node?.current) {
       if (!node.current.contains(e.target)) {
-        setActive(false)
+        setCalendrier(false)
       }
     }
   }
@@ -231,7 +231,7 @@ export default function PresenceParticipation(props: IPresence) {
       <div className="presence__date">
         <ButtonGroup buttons={["1M", "3M", "6M", "1Y", "calendrier"]} />
       </div>
-      {Active ? (
+      {Calendrier ? (
         <>
           <div className="calendrier" ref={node}>
             <DatePicker
@@ -241,7 +241,7 @@ export default function PresenceParticipation(props: IPresence) {
               endDate={endDate}
               minDate={dateMin}
               maxDate={dateMax}
-              startOpen={setActive}
+              startOpen={setCalendrier}
               selectsRange
               inline
               showWeekNumbers
