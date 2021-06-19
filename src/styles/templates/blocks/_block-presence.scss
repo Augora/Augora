@@ -3,10 +3,6 @@
 /*----------------------------------------------------*/
 .block__presence {
   padding: 0px 20px 0px 10px;
-  &:hover .presence__filtre {
-    opacity: 1;
-    transition: opacity 0.4s $ease-out-expo;
-  }
   .info {
     &__button {
       background-color: transparent;
@@ -85,12 +81,14 @@
     }
     &__filtre {
       position: absolute;
-      bottom: 12px;
-      opacity: 0;
-      transition: opacity 0.4s $ease-out-quad;
-      transition-delay: 0.15s;
+      bottom: 0;
+      margin-bottom: 12px;
       @media (max-width: 1000px) {
         bottom: 105px;
+      }
+      text {
+        font-size: 16px;
+        font-weight: bold;
       }
     }
     &__legend {
