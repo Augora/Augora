@@ -78,6 +78,12 @@
         fill: $text-color !important;
       }
     }
+    &__line {
+      background-color: rgb(173, 181, 189);
+      width: 100%;
+      height: 1px;
+    }
+
     &__filtre {
       position: absolute;
       bottom: 0;
@@ -98,7 +104,7 @@
       bottom: 0;
       display: flex;
       justify-content: center;
-      padding-right: 30px;
+      padding-right: 60px;
       @media (max-width: 875px) {
         columns: 2;
         display: table-column;

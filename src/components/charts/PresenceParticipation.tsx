@@ -449,6 +449,7 @@ export default function PresenceParticipation(props: IPresence) {
           </XYChart>
         </Group>
       </svg>
+      <div className="presence__line" />
       <div className="presence__filtre">
         <text>Filtrer</text>
       </div>
