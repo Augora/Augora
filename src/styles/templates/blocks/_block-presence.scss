@@ -32,7 +32,6 @@
     &__bloc {
       position: absolute;
       background-color: $frame-color;
-      //background: red;
       height: 87%;
       top: 60px;
       right: 0px;
@@ -84,7 +83,9 @@
       bottom: 0;
       margin-bottom: 12px;
       @media (max-width: 1000px) {
-        bottom: 105px;
+        bottom: 35px;
+        left: -5px;
+        transform: rotate(-90deg);
       }
       text {
         font-size: 16px;
