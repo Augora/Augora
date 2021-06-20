@@ -1,10 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
-import orderBy from "lodash/orderBy"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import IconAgenda from "images/ui-kit/icon-agenda.svg"
-import IconInfo from "images/ui-kit/icon-info.svg"
-import IconClose from "images/ui-kit/icon-close.svg"
+import React, { useState } from "react"
 import { Group } from "@visx/group"
 import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
@@ -26,16 +20,11 @@ const getDates = (date: string) => {
   }
 }
 
-const getCalendarDates = (date: string) => {
-  return {
-    getDate: dayjs(date).toDate(),
-  }
-}
-
 interface IPresence {
   width: number
   height: number
   data: Deputy.Activite[]
+  slicedData: Deputy.Activite[]
   color: string
 }
 
@@ -65,7 +54,7 @@ const handleLegend = (state, legend: string) => {
 }
 
 export default function PresenceParticipation(props: IPresence) {
-  const { width, height, data, color } = props
+  const { width, height, data, slicedData, color } = props
 
   // bounds
   const marginTop = 50
@@ -73,12 +62,9 @@ export default function PresenceParticipation(props: IPresence) {
   const marginLeft = 20
   const xMax = width - marginLeft
   const changeDisplay = width < 900
-  const isMobile = width < 300
+
   const yMax = changeDisplay ? height - marginPhone : height - marginTop
 
-  const [DateButton, setDateButton] = useState(isMobile ? 2 : 3)
-  const [Calendrier, setCalendrier] = useState(false)
-  const [Informations, setInformations] = useState(false)
   const [DisplayedGraph, setDisplayedGraph] = useState({
     Présences: true,
     Participations: true,
@@ -86,33 +72,6 @@ export default function PresenceParticipation(props: IPresence) {
     "Mediane des députés": true,
     Vacances: true,
   })
-
-  useEffect(() => {
-    if (isMobile) {
-      setDateButton(2)
-    } else {
-      setDateButton(3)
-    }
-  }, [width])
-
-  const ButtonGroup = ({ buttons }) => {
-    return (
-      <>
-        {buttons.map((buttonLabel, i) => (
-          <button
-            key={i}
-            name={buttonLabel}
-            onClick={() => {
-              i <= 3 ? (setDateButton(i), setCalendrier(false)) : (setDateButton(i), setCalendrier(!Calendrier))
-            }}
-            className={i === DateButton ? "button__active button" : "button"}
-          >
-            {i === 4 ? <IconAgenda className={"icon-agenda"} /> : buttonLabel}
-          </button>
-        ))}
-      </>
-    )
-  }
 
   var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
 
@@ -168,108 +127,8 @@ export default function PresenceParticipation(props: IPresence) {
     ],
   })
 
-  const onChange = (dates) => {
-    const [start, end] = dates
-    setStartDate(start)
-    setEndDate(end)
-  }
-  // Activités triées par date de fin
-  const orderedWeeks = orderBy(data, "DateDeFin")
-
-  const dateMax = orderedWeeks.length != 0 ? getCalendarDates(orderedWeeks[orderedWeeks.length - 1].DateDeFin).getDate : ""
-  const dateMin = orderedWeeks.length != 0 ? getCalendarDates(orderedWeeks[0].DateDeDebut).getDate : ""
-
-  const [startDate, setStartDate] = useState(dateMax)
-  const [endDate, setEndDate] = useState(null)
-
-  const weekMin = Math.ceil((dayjs(dateMax).diff(startDate, "day") + 1) / 7)
-  const weekMax = Math.ceil((dayjs(dateMax).diff(endDate, "day") + 1) / 7)
-
-  const rangeCalendar = dayjs(endDate).diff(dayjs(startDate), "day") + 1
-
-  const rangeOrderedWeeks =
-    DateButton === 4
-      ? weekMax
-        ? orderedWeeks.slice(53 - weekMin, 53 - weekMax)
-        : orderedWeeks
-      : DateButton === 3
-      ? orderedWeeks
-      : DateButton === 2
-      ? orderedWeeks.slice(27, 53)
-      : DateButton === 1
-      ? orderedWeeks.slice(40, 53)
-      : orderedWeeks.slice(49, 53)
-
-  const node = useRef<HTMLDivElement>()
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClick)
-    return () => {
-      document.removeEventListener("mousedown", handleClick)
-    }
-  }, [])
-  const handleClick = (e) => {
-    if (node?.current) {
-      if (!node.current.contains(e.target)) {
-        setCalendrier(false)
-      }
-    }
-  }
-
-  return width < 10 ? null : orderedWeeks.length != 0 ? (
-    <div className="presence">
-      <div className="presence__informations">
-        <button className="info__button" onClick={() => setInformations(!Informations)} title="Informations">
-          {Informations ? <IconClose className={"icon-close"} /> : <IconInfo className={"icon-info"} />}
-        </button>
-      </div>
-      <div className="presence__date">
-        <ButtonGroup buttons={["1M", "3M", "6M", "1Y", "calendrier"]} />
-      </div>
-      {Calendrier ? (
-        <>
-          <div className="calendrier" ref={node}>
-            <DatePicker
-              selected={startDate}
-              onChange={onChange}
-              startDate={startDate}
-              endDate={endDate}
-              minDate={dateMin}
-              maxDate={dateMax}
-              startOpen={setCalendrier}
-              selectsRange
-              inline
-              showWeekNumbers
-            />
-            <div className="calendrier__footer">
-              {rangeCalendar === 1
-                ? "Sélectionnez au moins 2 jours."
-                : !isNaN(rangeCalendar)
-                ? "Sélectionnés : " + rangeCalendar + " jours"
-                : ""}
-            </div>
-          </div>
-        </>
-      ) : (
-        ""
-      )}
-      {Informations ? (
-        <>
-          <div className="info__bloc">
-            <div className="info__content">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </div>
-          </div>
-        </>
-      ) : (
-        ""
-      )}
-
+  return width < 10 ? null : data.length != 0 ? (
+    <div>
       <svg width={width} height={height}>
         <Group top={20} left={marginLeft}>
           <XYChart
@@ -283,7 +142,7 @@ export default function PresenceParticipation(props: IPresence) {
             {DisplayedGraph.Vacances && (
               <AnimatedBarSeries
                 dataKey={"Vacances"}
-                data={rangeOrderedWeeks}
+                data={slicedData}
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => (d.Vacances ? maxActivite : 0)}
                 colorAccessor={() => vacancesColor}
@@ -307,7 +166,7 @@ export default function PresenceParticipation(props: IPresence) {
             {DisplayedGraph.Participations && (
               <AnimatedLineSeries
                 dataKey={"Participation"}
-                data={rangeOrderedWeeks}
+                data={slicedData}
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
                 curve={curveMonotoneX}
@@ -318,7 +177,7 @@ export default function PresenceParticipation(props: IPresence) {
             {DisplayedGraph.Présences && (
               <AnimatedLineSeries
                 dataKey={"Presence"}
-                data={rangeOrderedWeeks}
+                data={slicedData}
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
                 stroke={color}
@@ -328,7 +187,7 @@ export default function PresenceParticipation(props: IPresence) {
             {DisplayedGraph["Questions orales"] && (
               <AnimatedBarSeries
                 dataKey={"Question"}
-                data={rangeOrderedWeeks}
+                data={slicedData}
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.Question}
                 colorAccessor={() => color}
@@ -352,7 +211,7 @@ export default function PresenceParticipation(props: IPresence) {
               hideAxisLine={true}
               top={yMax}
               tickLength={6}
-              numTicks={changeDisplay ? 8 : rangeOrderedWeeks.length / 4}
+              numTicks={changeDisplay ? 8 : slicedData.length / 4}
               animationTrajectory={"center"}
               tickFormat={(date: string) =>
                 width < 1000 ? getDates(date.split("T")[0]).MobileData : getDates(date.split("T")[0]).MonthData
