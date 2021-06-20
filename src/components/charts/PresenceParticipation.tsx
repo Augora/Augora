@@ -1,13 +1,12 @@
-import React, { useState } from "react"
+import React from "react"
 import { Group } from "@visx/group"
 import { curveMonotoneX } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
 import { XYChart, AnimatedAxis, AnimatedBarSeries, AnimatedGrid, AnimatedLineSeries, Tooltip } from "@visx/xychart"
-import { Glyph as CustomGlyph, GlyphSquare } from "@visx/glyph"
+
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
-import { scaleOrdinal } from "@visx/scale"
 import AugoraTooltip from "components/tooltip/Tooltip"
 
 dayjs.locale("fr")
@@ -26,35 +25,42 @@ interface IPresence {
   data: Deputy.Activite[]
   slicedData: Deputy.Activite[]
   color: string
-}
-
-const handleLegend = (state, legend: string) => {
-  let newState = { ...state }
-  const statesAsArray = Object.entries(newState)
-  const allActive = statesAsArray.every(([key, value]) => value)
-  const isClickedAloneActive =
-    newState[legend] &&
-    statesAsArray
-      .filter(([key]) => {
-        return key === legend
-      })
-      .every(([value]) => {
-        return value
-      })
-  Object.keys(state).forEach((key) => {
-    if (allActive) {
-      newState[key] = key !== legend ? false : true
-    } else if (isClickedAloneActive) {
-      newState[key] = true
-    } else {
-      newState[key] = key !== legend ? false : true
-    }
-  })
-  return newState
+  opacityParticipation: number
+  DisplayedGraph: {
+    Présences: boolean
+    Participations: boolean
+    "Questions orales": boolean
+    "Mediane des députés": boolean
+    Vacances: boolean
+  }
+  setDisplayedGraph: React.Dispatch<
+    React.SetStateAction<{
+      Présences: boolean
+      Participations: boolean
+      "Questions orales": boolean
+      "Mediane des députés": boolean
+      Vacances: boolean
+    }>
+  >
+  medianeDeputeColor: string
+  vacancesColor: string
+  shapeScale: any
 }
 
 export default function PresenceParticipation(props: IPresence) {
-  const { width, height, data, slicedData, color } = props
+  const {
+    width,
+    height,
+    data,
+    slicedData,
+    color,
+    opacityParticipation,
+    DisplayedGraph,
+    setDisplayedGraph,
+    medianeDeputeColor,
+    vacancesColor,
+    shapeScale,
+  } = props
 
   // bounds
   const marginTop = 50
@@ -65,67 +71,9 @@ export default function PresenceParticipation(props: IPresence) {
 
   const yMax = changeDisplay ? height - marginPhone : height - marginTop
 
-  const [DisplayedGraph, setDisplayedGraph] = useState({
-    Présences: true,
-    Participations: true,
-    "Questions orales": true,
-    "Mediane des députés": true,
-    Vacances: true,
-  })
-
   var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
 
   //const medianeArray = orderBy(mediane, "DateDeDebut")
-
-  const vacancesColor = "rgba(77, 77, 77, 0.5)"
-  const medianeDepute = "rgba(77, 77, 77, 0.3)"
-  const opacityParticipation = 0.5
-
-  const glyphSize = 120
-  const glyphPosition = 8
-  const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
-    domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
-    range: [
-      <CustomGlyph top={glyphPosition}>
-        <line x1="0" y1="0" x2="12" y2="0" stroke={color} strokeWidth={4} opacity={DisplayedGraph.Présences ? 1 : 0.5} />
-      </CustomGlyph>,
-      <CustomGlyph top={glyphPosition}>
-        <line
-          x1="0"
-          y1="0"
-          x2="12"
-          y2="0"
-          stroke={color}
-          strokeWidth={4}
-          opacity={DisplayedGraph.Participations ? opacityParticipation : opacityParticipation / 2}
-        />
-      </CustomGlyph>,
-      <GlyphSquare
-        key="Questions orales"
-        size={glyphSize}
-        top={glyphPosition}
-        left={glyphPosition}
-        fill={color}
-        opacity={DisplayedGraph["Questions orales"] ? 1 : 0.5}
-      />,
-      <GlyphSquare
-        key="Mediane des députés"
-        size={glyphSize}
-        top={glyphPosition}
-        left={glyphPosition}
-        fill={medianeDepute}
-        opacity={DisplayedGraph["Mediane des députés"] ? 1 : 0.5}
-      />,
-      <GlyphSquare
-        key="Vacances"
-        size={glyphSize}
-        top={glyphPosition}
-        left={glyphPosition}
-        fill={vacancesColor}
-        opacity={DisplayedGraph.Vacances ? 1 : 0.5}
-      />,
-    ],
-  })
 
   return width < 10 ? null : data.length != 0 ? (
     <div>
@@ -156,8 +104,8 @@ export default function PresenceParticipation(props: IPresence) {
               data={medianeArray}
               xAccessor={(d) => getDate(d).dateDebut}
               yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
-              stroke={medianeDepute}
-              fill={medianeDepute}
+              stroke={medianeDeputeColor}
+              fill={medianeDeputeColor}
               renderLine={false}
               curve={curveType}
               opacity={opacityParticipation}
@@ -295,47 +243,6 @@ export default function PresenceParticipation(props: IPresence) {
           </XYChart>
         </Group>
       </svg>
-      <div className="presence__line" />
-      <div className="presence__filtre">
-        <text>Filtrer</text>
-      </div>
-      <Legend scale={shapeScale}>
-        {(labels) => (
-          <div className="presence__legend">
-            {labels.map((label, i) => {
-              const shape = shapeScale(label.datum)
-              const isValidElement = React.isValidElement(shape)
-              return (
-                <LegendItem
-                  className="presence__legend-item item"
-                  key={`legend-quantile-${i}`}
-                  flexDirection="row"
-                  margin="0 10px"
-                  onClick={() => {
-                    label.text !== "Mediane des députés" && label.text !== "Vacances"
-                      ? setDisplayedGraph(handleLegend(DisplayedGraph, label.text))
-                      : null
-                  }}
-                >
-                  <svg width={25} height={25}>
-                    {isValidElement
-                      ? React.cloneElement(shape as React.ReactElement)
-                      : React.createElement(shape as React.ComponentType<{ fill: string }>, {
-                          fill: color,
-                        })}
-                  </svg>
-                  <LegendLabel
-                    className="item__label"
-                    style={{ margin: "0 0 12px", textDecoration: !DisplayedGraph[label.text] ? "line-through" : "" }}
-                  >
-                    {label.text}
-                  </LegendLabel>
-                </LegendItem>
-              )
-            })}
-          </div>
-        )}
-      </Legend>
     </div>
   ) : (
     <div className="presence__indisponible">Les données ne sont pour le moment pas disponibles.</div>
