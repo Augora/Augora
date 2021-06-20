@@ -98,7 +98,6 @@ const Presence = (props: Bloc.Presence) => {
                 color={props.color.HSL.Full}
                 opacityParticipation={opacityParticipation}
                 DisplayedGraph={DisplayedGraph}
-                setDisplayedGraph={setDisplayedGraph}
                 medianeDeputeColor={medianeDeputeColor}
                 vacancesColor={vacancesColor}
                 shapeScale={shapeScale}

@@ -33,15 +33,6 @@ interface IPresence {
     "Mediane des députés": boolean
     Vacances: boolean
   }
-  setDisplayedGraph: React.Dispatch<
-    React.SetStateAction<{
-      Présences: boolean
-      Participations: boolean
-      "Questions orales": boolean
-      "Mediane des députés": boolean
-      Vacances: boolean
-    }>
-  >
   medianeDeputeColor: string
   vacancesColor: string
   shapeScale: any
@@ -56,7 +47,6 @@ export default function PresenceParticipation(props: IPresence) {
     color,
     opacityParticipation,
     DisplayedGraph,
-    setDisplayedGraph,
     medianeDeputeColor,
     vacancesColor,
     shapeScale,
