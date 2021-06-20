@@ -58,6 +58,7 @@ export default function PresenceParticipation(props: IPresence) {
   const margin = width < 400 ? 140 : width < 500 ? 130 : width < 750 ? 110 : 50
   const marginLeft = 20
   const xMax = width - marginLeft
+  console.log(slicedData.length)
 
   const yMax = height - margin
 
@@ -149,7 +150,7 @@ export default function PresenceParticipation(props: IPresence) {
               hideAxisLine={true}
               top={yMax}
               tickLength={6}
-              numTicks={changeDisplay ? 8 : slicedData.length / 4}
+              numTicks={changeDisplay ? 8 : 12}
               animationTrajectory={"center"}
               tickFormat={(date: string) =>
                 width < 1000 ? getDates(date.split("T")[0]).MobileData : getDates(date.split("T")[0]).MonthData
