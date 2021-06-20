@@ -65,7 +65,7 @@ export default function PresenceParticipation(props: IPresence) {
 
   //const medianeArray = orderBy(mediane, "DateDeDebut")
 
-  return width < 10 ? null : data.length != 0 ? (
+  return width < 10 ? null : (
     <div>
       <svg width={width} height={height}>
         <Group top={20} left={marginLeft}>
@@ -234,7 +234,5 @@ export default function PresenceParticipation(props: IPresence) {
         </Group>
       </svg>
     </div>
-  ) : (
-    <div className="presence__indisponible">Les données ne sont pour le moment pas disponibles.</div>
   )
 }

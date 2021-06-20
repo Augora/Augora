@@ -88,27 +88,31 @@ const Presence = (props: Bloc.Presence) => {
       <ParentSize debounceTime={400}>
         {(parent) => (
           <>
-            <div className="presence">
-              <PresenceHeader width={parent.width} data={orderedWeeks} setRange={setRangeOrderedWeeks} />
-              <PresenceParticipation
-                width={parent.width}
-                height={parent.height * 0.9}
-                data={orderedWeeks}
-                slicedData={RangeOrderedWeeks}
-                color={props.color.HSL.Full}
-                opacityParticipation={opacityParticipation}
-                DisplayedGraph={DisplayedGraph}
-                medianeDeputeColor={medianeDeputeColor}
-                vacancesColor={vacancesColor}
-                shapeScale={shapeScale}
-              />
-              <PresenceFooter
-                color={props.color.HSL.Full}
-                DisplayedGraph={DisplayedGraph}
-                setDisplayedGraph={setDisplayedGraph}
-                shapeScale={shapeScale}
-              />
-            </div>
+            {orderedWeeks.length != 0 ? (
+              <div className="presence">
+                <PresenceHeader width={parent.width} data={orderedWeeks} setRange={setRangeOrderedWeeks} />
+                <PresenceParticipation
+                  width={parent.width}
+                  height={parent.height * 0.9}
+                  data={orderedWeeks}
+                  slicedData={RangeOrderedWeeks}
+                  color={props.color.HSL.Full}
+                  opacityParticipation={opacityParticipation}
+                  DisplayedGraph={DisplayedGraph}
+                  medianeDeputeColor={medianeDeputeColor}
+                  vacancesColor={vacancesColor}
+                  shapeScale={shapeScale}
+                />
+                <PresenceFooter
+                  color={props.color.HSL.Full}
+                  DisplayedGraph={DisplayedGraph}
+                  setDisplayedGraph={setDisplayedGraph}
+                  shapeScale={shapeScale}
+                />
+              </div>
+            ) : (
+              <div className="presence__indisponible">Les données ne sont pour le moment pas disponibles.</div>
+            )}
           </>
         )}
       </ParentSize>
