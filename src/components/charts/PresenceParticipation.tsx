@@ -52,14 +52,14 @@ export default function PresenceParticipation(props: IPresence) {
     shapeScale,
   } = props
 
+  const changeDisplay = width < 750
   // bounds
-  const marginTop = 50
-  const marginPhone = 120
+
+  const margin = width < 400 ? 140 : width < 500 ? 130 : width < 750 ? 110 : 50
   const marginLeft = 20
   const xMax = width - marginLeft
-  const changeDisplay = width < 900
 
-  const yMax = changeDisplay ? height - marginPhone : height - marginTop
+  const yMax = height - margin
 
   var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
 
@@ -72,7 +72,7 @@ export default function PresenceParticipation(props: IPresence) {
           <XYChart
             margin={{ top: 0, right: 10, bottom: 0, left: 0 }}
             width={width}
-            height={changeDisplay ? height - marginPhone + marginTop : height}
+            height={height - margin}
             xScale={{ type: "band", range: [0, xMax] }}
             yScale={{ type: "linear", range: [0, yMax], padding: 0.1, domain: [maxActivite, 0] }}
           >

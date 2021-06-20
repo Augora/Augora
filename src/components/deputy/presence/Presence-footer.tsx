@@ -27,6 +27,7 @@ const handleLegend = (state, legend: string) => {
 }
 
 interface IPresenceFooter {
+  width: number
   color: string
   DisplayedGraph: {
     Présences: boolean
@@ -48,8 +49,9 @@ interface IPresenceFooter {
 }
 
 export default function PresenceFooter(props: IPresenceFooter) {
-  const { color, DisplayedGraph, setDisplayedGraph, shapeScale } = props
-
+  const { width, color, DisplayedGraph, setDisplayedGraph, shapeScale } = props
+  const isMobile = width < 300
+  console.log(width)
   return (
     <>
       <div className="presence__line" />
