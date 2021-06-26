@@ -2,7 +2,7 @@
  * Tous les types concernants les blocs de la page détail
  */
 declare namespace Bloc {
-  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map"
+  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "feed"
 
   type Size = "large" | "medium" | "small"
 
@@ -10,22 +10,23 @@ declare namespace Bloc {
     /**
      * Couleur du groupe parlementaire
      */
-    color: string|HSLDetail|RGBDetail|HEXDetail
+    color: string | HSLDetail | RGBDetail | HEXDetail
     /**
      * "large", "medium" ou "small"
      */
     size?: Size
     wip?: boolean
+    twitter?: string
   }
 
   interface Header {
     /**
      * Couleur du groupe parlementaire
      */
-    color: string|HSLDetail|RGBDetail|HEXDetail
+    color: string | HSLDetail | RGBDetail | HEXDetail
     title: string
     /**
-     * Identifier du bloc: "general", "mandate", "coworkers", "presence", "contact" ou "map"
+     * Identifier du bloc: "general", "mandate", "coworkers", "presence", "contact", "map" ou "feed"
      */
     type: Type
     /**
