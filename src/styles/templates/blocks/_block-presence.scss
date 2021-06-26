@@ -40,9 +40,10 @@
       z-index: 101;
     }
     &__content {
-      top: 110%;
-      -ms-transform: translateY(110%);
-      transform: translateY(110%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90%;
     }
   }
   .presence {

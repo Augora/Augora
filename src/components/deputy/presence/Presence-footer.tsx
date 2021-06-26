@@ -51,7 +51,6 @@ interface IPresenceFooter {
 export default function PresenceFooter(props: IPresenceFooter) {
   const { width, color, DisplayedGraph, setDisplayedGraph, shapeScale } = props
   const isMobile = width < 300
-  console.log(width)
   return (
     <>
       <div className="presence__line" />

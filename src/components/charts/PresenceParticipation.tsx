@@ -58,7 +58,6 @@ export default function PresenceParticipation(props: IPresence) {
   const margin = width < 400 ? 140 : width < 500 ? 130 : width < 750 ? 110 : 50
   const marginLeft = 20
   const xMax = width - marginLeft
-  console.log(slicedData.length)
 
   const yMax = height - margin
 
