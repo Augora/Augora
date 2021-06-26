@@ -67,8 +67,7 @@ export default function PresenceFooter(props: IPresenceFooter) {
                 <LegendItem
                   className="presence__legend-item item"
                   key={`legend-quantile-${i}`}
-                  flexDirection="row"
-                  margin="0 10px"
+                  style={undefined}
                   onClick={() => {
                     label.text !== "Mediane des députés" && label.text !== "Vacances"
                       ? setDisplayedGraph(handleLegend(DisplayedGraph, label.text))
