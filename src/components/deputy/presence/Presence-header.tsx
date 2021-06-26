@@ -28,6 +28,15 @@ export default function PresenceHeader(props: IPresenceHeader) {
   const [Calendrier, setCalendrier] = useState(false)
   const [DateButton, setDateButton] = useState(isMobile ? 2 : 3)
   const [Informations, setInformations] = useState(false)
+  const [InformationsCached, setInformationsCached] = useState(undefined)
+
+  useEffect(() => {
+    if (localStorage.getItem("informations.Autorisation") === null) {
+      localStorage.setItem("informations.Autorisation", "false")
+      setInformations(true)
+    }
+    setInformationsCached(localStorage.getItem("informations.Autorisation"))
+  }, [])
 
   const dateMax = data.length != 0 ? getCalendarDates(data[data.length - 1].DateDeFin).getDate : ""
 
@@ -117,8 +126,21 @@ export default function PresenceHeader(props: IPresenceHeader) {
   return (
     <div>
       <div className="presence__informations">
-        <button className="info__button" onClick={() => setInformations(!Informations)} title="Informations">
-          {Informations ? <IconClose className={"icon-close"} /> : <IconInfo className={"icon-info"} />}
+        <button
+          className="info__button"
+          onClick={() => (
+            setInformations(!Informations),
+            InformationsCached === "false"
+              ? (setInformationsCached(true), localStorage.setItem("informations.Autorisation", "true"))
+              : ""
+          )}
+          title="Informations"
+        >
+          {InformationsCached === "false" || Informations ? (
+            <IconClose className={"icon-close"} />
+          ) : (
+            <IconInfo className={"icon-info"} />
+          )}
         </button>
       </div>
       <div className="presence__date">
@@ -151,7 +173,7 @@ export default function PresenceHeader(props: IPresenceHeader) {
       ) : (
         ""
       )}
-      {Informations ? (
+      {InformationsCached === "false" || Informations ? (
         <>
           <div className="info__bloc">
             <div className="info__content">
