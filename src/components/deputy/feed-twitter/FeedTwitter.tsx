@@ -1,6 +1,5 @@
 import React from "react"
 import Block from "../_block/_Block"
-import { TwitterTimelineEmbed } from "react-twitter-embed"
 
 /**
  * Return deputy's presence and participation graph in a Block component
@@ -10,14 +9,14 @@ import { TwitterTimelineEmbed } from "react-twitter-embed"
 const Feed = (props: Bloc.Base) => {
   return (
     <Block title="Feed Twitter" type="feed" color={props.color} size={props.size} wip={props.wip ? props.wip : false}>
-      <TwitterTimelineEmbed
-        sourceType="profile"
-        screenName={props.twitter}
-        noFooter
-        noHeader
-        transparent
-        options={{ height: 400 }}
+      <a
+        className="twitter-timeline"
+        data-height="400"
+        data-chrome="noheader nofooter transparent"
+        href={`https://twitter.com/${props.twitter}?ref_src=twsrc%5Etfw`}
+        lang="fr"
       />
+      <script async src="//platform.twitter.com/widgets.js" charSet="utf-8" />
     </Block>
   )
 }
