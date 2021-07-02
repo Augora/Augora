@@ -26,7 +26,6 @@ interface IDeputy {
 export default function Deputy({ depute }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.CouleurDetail
-  console.log(deputy.Twitter.length)
 
   return (
     <>
