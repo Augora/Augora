@@ -12,7 +12,7 @@ const Feed = (props: Bloc.Base) => {
       <a
         className="twitter-timeline"
         data-height="400"
-        data-chrome="noheader nofooter transparent"
+        data-chrome="noheader nofooter transparent noscrollbar"
         href={`https://twitter.com/${props.twitter}?ref_src=twsrc%5Etfw`}
         lang="fr"
       />
