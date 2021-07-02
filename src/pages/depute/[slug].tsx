@@ -26,6 +26,7 @@ interface IDeputy {
 export default function Deputy({ depute }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.CouleurDetail
+  console.log(deputy.Twitter.length)
 
   return (
     <>
@@ -42,7 +43,7 @@ export default function Deputy({ depute }: IDeputy) {
           <MapDistrict deputy={deputy} color={color} size="medium" />
           <Presence color={color} size="large" wip={true} />
           <Contact color={color} size="medium" adresses={deputy.AdressesDetails.data} />
-          <Feed color={color} size="medium" twitter={deputy.Twitter} />
+          {deputy.Twitter.length != 0 ? <Feed color={color} size="medium" twitter={deputy.Twitter} /> : ""}
         </div>
       </div>
     </>
