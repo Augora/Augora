@@ -104,7 +104,7 @@
     }
   }
 
-  @media (min-width: 876px) {
+  @media (min-width: 1081px) {
     .filters {
       &__container {
         &:hover {
@@ -113,6 +113,17 @@
             transform: translate(0, calc(-100% + 10px));
           }
         }
+      }
+      &__mini {
+        bottom: 10px;
+      }
+    }
+  }
+
+  @media (max-width: 1080px) {
+    .filters {
+      &__mini {
+        bottom: 80px;
       }
     }
   }
@@ -150,7 +161,11 @@
       }
 
       &__mini {
-        margin-bottom: 10px;
+        margin-bottom: 65px;
+        @supports (-webkit-touch-callout: none) {
+          margin-bottom: 125px;
+        }
+
         .tooltip__content {
           .mini {
             &__bar {
