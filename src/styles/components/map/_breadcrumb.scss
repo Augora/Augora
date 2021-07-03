@@ -86,6 +86,10 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          @supports (-webkit-touch-callout: none) {
+            display: inline-flex;
+            width: 100%;
+          }
 
           .icon-wrapper {
             transition: transform 0.1s linear;
