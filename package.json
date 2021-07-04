@@ -45,7 +45,7 @@
     "@types/geojson": "^7946.0.7",
     "@types/lodash": "^4.14.170",
     "@types/next": "^9.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^15.12.1",
     "@types/polylabel": "^1.0.5",
     "@types/react": "^17.0.13",
     "@types/react-map-gl": "^5.2.9",
