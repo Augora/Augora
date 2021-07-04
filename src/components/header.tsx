@@ -128,6 +128,12 @@ const Header = ({ siteTitle, location, color, onBurgerClick }: IHeader) => {
             <span className="menu__separator" style={styles.separator} />
           </div>
           <HeaderLinks pageGroup={secondaryPages} location={location} styles={styles} />
+          <button className="menu__burger-btn" onClick={() => onBurgerClick()}>
+            <div className="menu__burger-icon">
+              <IconBurger className="icon" />
+              <IconBurger className="icon" style={styles.svg} />
+            </div>
+          </button>
         </div>
       </div>
     </header>
