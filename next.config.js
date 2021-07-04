@@ -14,7 +14,6 @@ module.exports = withSourceMaps(
     sassOptions: {
       includePaths: [path.join(__dirname, "src", "styles"), path.join(__dirname, "public")],
     },
-    webpack5: false,
     webpack(config) {
       config.module.rules.push({
         test: /\.svg$/,
