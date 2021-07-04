@@ -49,6 +49,42 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
     } else return ""
   }
 
+  const splitSlug = deputy.Slug.split("-")
+  var slugDeclaration = ""
+  const prenomLength = deputy.Prenom.split("-").length
+
+  const prenomSlug = splitSlug
+    .map((s, i) => {
+      if (i < prenomLength) {
+        return s
+      }
+    })
+    .join("-")
+    .slice(0, -1)
+
+  const nomSlug = splitSlug
+    .map((s, i) => {
+      if (i > prenomLength - 1 && i < splitSlug.length) {
+        return s
+      }
+    })
+    .join("-")
+    .slice(1)
+
+  if (deputy.Prenom.includes("-")) {
+    if (deputy.NomDeFamille.includes("-")) {
+      slugDeclaration = (nomSlug + "-" + prenomSlug).slice(1, slugDeclaration.length - 1)
+    } else {
+      slugDeclaration = splitSlug[splitSlug.length - 1] + "-" + prenomSlug
+    }
+  } else {
+    if (deputy.NomDeFamille.includes("-")) {
+      slugDeclaration = nomSlug + "-" + splitSlug[0]
+    } else {
+      slugDeclaration = splitSlug[1] + "-" + splitSlug[0]
+    }
+  }
+
   return (
     <div className="deputy__socials" ref={node}>
       <ButtonIcon
@@ -122,6 +158,16 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
           </div>
         </ButtonIcon>
       )}
+      <ButtonIcon
+        onClick={`https://www.hatvp.fr/fiche-nominative/?declarant=${slugDeclaration}`}
+        className="btn--declaration"
+        title={"Declarations"}
+        target="_blank"
+      >
+        <div className="icon-wrapper" style={{ width: "30px" }}>
+          💰
+        </div>
+      </ButtonIcon>
     </div>
   )
 }
