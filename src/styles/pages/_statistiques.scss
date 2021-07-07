@@ -19,6 +19,15 @@
 
     .frame {
       max-width: none;
+      .frame__content {
+        .no-deputy {
+          display: flex;
+          text-align: center;
+          align-items: center;
+          justify-content: center;
+          min-height: calc(100% - 50px);
+        }
+      }
     }
 
     .frame-pie {
