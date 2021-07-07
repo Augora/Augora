@@ -9,6 +9,15 @@
     .frame-chart {
       min-width: 30vw;
       margin: 0 0 0 40px;
+      .frame__content {
+        .no-deputy {
+          display: flex;
+          text-align: center;
+          align-items: center;
+          justify-content: center;
+          min-height: calc(100% - 50px);
+        }
+      }
     }
   }
 

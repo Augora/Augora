@@ -45,7 +45,9 @@ export default function DeputiesList() {
                 </ParentSize>
               )}
             </>
-          ) : null}
+          ) : (
+            <div className="no-deputy">Il n'y a pas de députés correspondant à votre recherche.</div>
+          )}
         </Frame>
       </section>
 
