@@ -84,7 +84,7 @@ const Presence = (props: Bloc.Presence) => {
   })
 
   return (
-    <Block title="Présence et participation" type="presence" color={props.color} size={props.size}>
+    <Block title="Présence et participation" type="presence" color={props.color} size={props.size} wip={props.wip}>
       <ParentSize debounceTime={400}>
         {(parent) => (
           <>
