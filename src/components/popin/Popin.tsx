@@ -14,6 +14,7 @@ export default function Popin({ children, displayed }: IPopin) {
   const [visible, setVisible] = useState(displayed !== undefined ? displayed : true)
 
   useEffect(() => {
+    console.log('useEffect triggered')
     setVisible(displayed)
   }, [displayed])
 
