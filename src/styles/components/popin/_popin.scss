@@ -107,13 +107,12 @@
 
   // Visibility
   /*----------------------------------------------------*/
-  &.hidden {
-    opacity: 0;
-    transform: translateY(-20px);
-    pointer-events: none;
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
 
-    transition: opacity 0.2s $ease-in-out-cubic, transform 0.2s $ease-in-out-cubic;
-  }
+  transition: opacity 0.2s $ease-in-out-cubic, transform 0.2s $ease-in-out-cubic;
+
   &.visible {
     opacity: 1;
     transform: translateY(0);
