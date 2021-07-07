@@ -8,6 +8,7 @@ import IconFacebook from "images/ui-kit/icon-facebook.svg"
 import IconInstagram from "images/ui-kit/icon-instagram.svg"
 import IconLinkedIn from "images/ui-kit/icon-linkedin.svg"
 import IconAssemblee from "images/ui-kit/icon-palace.svg"
+import { slugify } from "src/utils/utils"
 
 enum Button {
   Mail,
@@ -48,43 +49,11 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
       }
     } else return ""
   }
-
-  const splitSlug = deputy.Slug.split("-")
-  var slugDeclaration = ""
-  const prenomLength = deputy.Prenom.split("-").length
-
-  const prenomSlug = splitSlug
-    .map((s, i) => {
-      if (i < prenomLength) {
-        return s
-      }
-    })
-    .join("-")
-    .slice(0, -1)
-
-  const nomSlug = splitSlug
-    .map((s, i) => {
-      if (i > prenomLength - 1 && i < splitSlug.length) {
-        return s
-      }
-    })
-    .join("-")
-    .slice(1)
-
-  if (deputy.Prenom.includes("-")) {
-    if (deputy.NomDeFamille.includes("-")) {
-      slugDeclaration = (nomSlug + "-" + prenomSlug).slice(1, slugDeclaration.length - 1)
-    } else {
-      slugDeclaration = splitSlug[splitSlug.length - 1] + "-" + prenomSlug
-    }
-  } else {
-    if (deputy.NomDeFamille.includes("-")) {
-      slugDeclaration = nomSlug + "-" + splitSlug[0]
-    } else {
-      slugDeclaration = splitSlug[1] + "-" + splitSlug[0]
-    }
-  }
-
+  const particule = deputy.NomDeFamille.includes("(")
+  const slugifyNom = particule ? slugify(deputy.NomDeFamille).split("-") : ""
+  const slugDeclaration =
+    (particule ? slugifyNom[1] + "-" + slugifyNom[0] : slugify(deputy.NomDeFamille)) + "-" + slugify(deputy.Prenom)
+  
   return (
     <div className="deputy__socials" ref={node}>
       <ButtonIcon
