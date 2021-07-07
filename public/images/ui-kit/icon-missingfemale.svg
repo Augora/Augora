@@ -1,4 +1,9 @@
-<svg class="icon-missingfemale" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 500">
+<svg
+	class="icon-missingfemale"
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 390 500"
+>
+  <title>Missing Female</title>
 	<ellipse transform="matrix(0.7071 -0.7071 0.7071 0.7071 -32.4978 174.1705)" cx="194" cy="126.3" rx="94.3" ry="94.3"/>
 	<path d="M336.2,500c0.1-2,0.2-4,0.2-6.1c0-0.2,0-0.5,0-0.7V308.1c0.4-14.7-7.2-28.4-19.8-35.9c-13.7-8.6-28.3-15.7-43.5-21.3
 		c-3.7-1.8-7.7-3.1-11.7-4h-0.5c-1.6-0.5-3.2-0.9-4.8-1c0,0-26.3-5-31.7,11.4c0,0-20.6,64.2-22.8,71.2c-2.2,7-10.6,8.2-12.9-0.4
