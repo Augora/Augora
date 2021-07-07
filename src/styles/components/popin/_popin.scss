@@ -105,12 +105,23 @@
     }
   }
 
+  // Visibility
+  /*----------------------------------------------------*/
+  &.hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+
+    transition: opacity 0.2s $ease-in-out-cubic, transform 0.2s $ease-in-out-cubic;
+  }
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
   // Media queries
   /*----------------------------------------------------*/
-  @media (max-width: 1700px) {
-    // margin-left: 30px;
-    // margin-right: 30px;
-  }
   @media (max-width: 600px) {
     .no-title & {
       position: absolute;

@@ -14,19 +14,16 @@ export default function Popin({ children, displayed }: IPopin) {
   const [visible, setVisible] = useState(displayed !== undefined ? displayed : true)
 
   useEffect(() => {
-    console.log('useEffect triggered')
     setVisible(displayed)
   }, [displayed])
 
   return (
-    visible && (
-      <div className="popin">
-        <div className="popin__content">{children}</div>
-        <button className="popin__close" onClick={() => setVisible(!visible)}>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    )
+    <div className={`popin ${visible ? 'visible' : 'hidden'}`}>
+      <div className="popin__content">{children}</div>
+      <button className="popin__close" onClick={() => setVisible(!visible)}>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   )
 }
