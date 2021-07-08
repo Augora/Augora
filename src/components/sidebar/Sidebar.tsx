@@ -114,7 +114,7 @@ export const SidebarHeader = ({ search, keyword }: { search: DebounceSearch; key
   return (
     <div className="sidebar__header">
       <GradientBanner />
-      <form
+      {/* <form
         className="header__search"
         onSubmit={(e) => {
           e.preventDefault()
@@ -123,7 +123,7 @@ export const SidebarHeader = ({ search, keyword }: { search: DebounceSearch; key
         <input
           className="search__input"
           type="text"
-          placeholder="Chercher un député..."
+          placeholder="Filtrer les députés..."
           value={value}
           onChange={(e) => {
             handleTextInput(e.target.value)
@@ -148,7 +148,7 @@ export const SidebarHeader = ({ search, keyword }: { search: DebounceSearch; key
             <IconSearch />
           </div>
         )}
-      </form>
+      </form> */}
     </div>
   )
 }

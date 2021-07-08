@@ -1,6 +1,6 @@
 .sidebar {
   position: fixed;
-  display: flex;
+  display: none;
   pointer-events: auto;
   right: 0;
 
@@ -250,10 +250,14 @@
     }
   }
 
-  @media (max-width: 1700px) {
-    &__swipe {
-      width: 50px;
-    }
+  // @media (max-width: 1700px) {
+  //   &__swipe {
+  //     width: 50px;
+  //   }
+  // }
+
+  @media (max-width: 750px) {
+    display: flex;
   }
 
   @media (max-width: 400px) {

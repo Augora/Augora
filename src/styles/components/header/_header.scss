@@ -218,6 +218,7 @@ header#header.header {
           border: none;
           background: none;
           cursor: pointer;
+          display: none;
 
           transition: transform 0.2s $ease-in-out-cubic;
 
@@ -394,9 +395,15 @@ header#header.header {
         }
       }
       &__menu {
-        .menu__link,
-        .menu__separator {
-          display: none;
+        .menu {
+          &__link,
+          &__separator {
+            display: none;
+          }
+
+          &__burger-btn {
+            display: block;
+          }
         }
       }
     }
