@@ -168,7 +168,7 @@ export default function Sidebar({ visible, children, close, open }: ISideBar) {
 
   return (
     <div className={`sidebar ${visible ? "visible" : ""}`}>
-      {/* <div className="sidebar__swipe" {...handlers} /> */}
+      <div className="sidebar__swipe" {...handlers} />
       <div className="sidebar__visuals">{children}</div>
       <div className="sidebar__close">
         <button className="close__btn" onClick={close}>

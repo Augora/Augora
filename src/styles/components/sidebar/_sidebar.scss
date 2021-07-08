@@ -14,8 +14,8 @@
 
     .sidebar {
       &__swipe {
-        right: 0;
-        width: calc(50px + 100%);
+        transform: translate(50%, 0);
+        width: 100px;
       }
 
       &__close {

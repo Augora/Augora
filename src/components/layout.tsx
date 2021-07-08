@@ -89,7 +89,7 @@ const Layout = ({ children, location, title }: ILayout) => {
         <SidebarHeader search={handleSearch} keyword={Keyword} />
         <div className="sidebar__content">
           <SidebarLinks location={location} />
-          <SidebarCategory title="Filtres"></SidebarCategory>
+          {/* <SidebarCategory title="Filtres"></SidebarCategory> */}
         </div>
         <SidebarFooter />
       </Sidebar>
