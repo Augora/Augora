@@ -29,16 +29,17 @@ export default function MapPage() {
   } = useDeputiesFilters()
 
   const [pageTitle, setPageTitle] = useState<string>("Carte")
-  const [viewheight, setViewheight] = useState(100)
 
   /** Zustand state */
   const {
+    viewheight,
     viewport,
     geoJSON,
     ghostGeoJSON,
     feature: zoneFeature,
     deputies,
     paint,
+    setViewheight,
     setViewport,
     setMapView,
     setDeputies,

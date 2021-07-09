@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import mapStore from "stores/mapStore"
 import CustomControl from "components/maps/CustomControl"
 import GroupBar from "components/deputies-list/GroupBar"
 import Tooltip from "components/tooltip/Tooltip"
@@ -20,8 +21,9 @@ const timer = 0.2
  */
 export default function MapFilters({ zoneDeputies }: IMapFilters) {
   const [isBigFilter, setIsBigFilter] = useState(false)
-  const [viewheight, setViewheight] = useState(100)
   // const filterRef = useRef(null);
+
+  const { viewheight } = mapStore()
 
   const {
     state: { DeputiesList },
@@ -67,18 +69,6 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
       tl.kill()
     }
   }, [isBigFilter])
-
-  useEffect(() => {
-    setViewheight(window.innerHeight)
-    window.addEventListener("resize", handleResize)
-    return () => {
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [])
-
-  const handleResize = (e) => {
-    setViewheight(e.target.innerHeight)
-  }
 
   return (
     <CustomControl className="map__filters">
