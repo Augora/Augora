@@ -9,6 +9,7 @@
     "@nivo/bar": "0.63.1",
     "@nivo/pie": "0.63.1",
     "@svgr/webpack": "^5.5.0",
+    "bowser": "^2.11.0",
     "dayjs": "^1.10.4",
     "fuse.js": "6.4.6",
     "graphql": "^15.5.0",
