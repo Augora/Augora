@@ -3,19 +3,22 @@ import { ViewportProps } from "react-map-gl"
 import { createFeature, createFeatureCollection, France, getLayerPaint } from "src/components/maps/maps-utils"
 
 interface MapState extends State, AugoraMap.MapView {
-  /** La hauteur en pixel du viewport */
-  viewheight: number
+  /** La hauteur & largeur en pixel du viewport */
+  viewsize: { height: number; width: number }
   viewport: ViewportProps
   /** Liste des députés de l'ensemble des zones */
   deputies: Deputy.DeputiesList
-  setViewheight(newViewheight: number): void
+  setViewsize(newViewsize: { height: number; width: number }): void
   setViewport(newViewport: ViewportProps): void
   setMapView(newMapView: AugoraMap.MapView): void
   setDeputies(newDeputies: Deputy.DeputiesList): void
 }
 
 const mapStore = create<MapState>((set) => ({
-  viewheight: 100,
+  viewsize: {
+    height: 100,
+    width: 100,
+  },
   viewport: {
     zoom: 5.76,
     longitude: France.center.lng,
@@ -27,9 +30,9 @@ const mapStore = create<MapState>((set) => ({
   deputies: [],
   paint: getLayerPaint(),
 
-  setViewheight(newViewheight: number) {
+  setViewsize(newViewsize: { height: number; width: number }) {
     set(() => {
-      return { viewheight: newViewheight }
+      return { viewsize: { ...newViewsize } }
     })
   },
 

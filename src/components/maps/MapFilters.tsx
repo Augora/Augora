@@ -23,7 +23,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
   const [isBigFilter, setIsBigFilter] = useState(false)
   // const filterRef = useRef(null);
 
-  const { viewheight } = mapStore()
+  const { viewsize } = mapStore()
 
   const {
     state: { DeputiesList },
@@ -105,7 +105,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
               </div>
             </Button>
           </div>
-          <div className="filters" style={{ height: viewheight - 100 }}>
+          <div className="filters" style={viewsize.width < 875 ? { height: viewsize.height - 100 } : {}}>
             <Filters filteredDeputes={zoneDeputies} />
           </div>
         </div>

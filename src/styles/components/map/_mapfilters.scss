@@ -126,20 +126,6 @@
       width: 100vw;
       height: calc(100vh - 100px);
 
-      // .safari & {
-      //   height: calc(100vh - 210px);
-      // }
-
-      // .firefox & {
-      //   height: calc(100vh - 155px);
-      // }
-
-      // @supports (-webkit-touch-callout: none) {
-      //   .chrome & {
-      //     height: calc(100vh - 208px);
-      //   }
-      // }
-
       .frame {
         overflow: scroll;
         .tooltip {

@@ -32,14 +32,14 @@ export default function MapPage() {
 
   /** Zustand state */
   const {
-    viewheight,
+    viewsize,
     viewport,
     geoJSON,
     ghostGeoJSON,
     feature: zoneFeature,
     deputies,
     paint,
-    setViewheight,
+    setViewsize,
     setViewport,
     setMapView,
     setDeputies,
@@ -57,7 +57,7 @@ export default function MapPage() {
   }, [router.query])
 
   useEffect(() => {
-    setViewheight(window.innerHeight)
+    setViewsize({ height: window.innerHeight, width: window.innerWidth })
     window.addEventListener("resize", handleResize)
     return () => {
       window.removeEventListener("resize", handleResize)
@@ -69,7 +69,7 @@ export default function MapPage() {
   }, [FilteredList])
 
   const handleResize = (e) => {
-    setViewheight(e.target.innerHeight)
+    setViewsize({ height: e.target.innerHeight, width: e.target.innerWidth })
   }
 
   const changeURL = (URL: string) => {
@@ -127,7 +127,7 @@ export default function MapPage() {
     <>
       <SEO pageType={PageType.Map} title={pageTitle} />
       <div className="page page__map">
-        <div className="map__container" style={{ height: viewheight - 60 }}>
+        <div className="map__container" style={{ height: viewsize.height - 60 }}>
           <MapAugora
             viewport={viewport}
             setViewport={setViewport}
