@@ -64,8 +64,6 @@ const Layout = ({ children, location, title }: ILayout) => {
     } else setisPopinVisible(false)
   }, [location.route])
 
-  console.log(browser)
-  // Check if page has SEO informations
   return (
     <div
       className={`page-body ${browser ? slugify(browser.name) : ""} ${title ? "with-title" : "no-title"} ${
