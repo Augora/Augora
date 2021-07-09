@@ -22,7 +22,7 @@ const checkTweets = (url) => {
 
 const Feed = (props: Bloc.Base) => {
   return (
-    <Block title="Feed Twitter" type="feed" color={props.color} size={props.size} wip={props.wip ? props.wip : false}>
+    <Block title="Twitter" type="feed" color={props.color} size={props.size} wip={props.wip ? props.wip : false}>
       {checkTweets("https://platform.twitter.com/widgets.js")}
       <a
         className="twitter-timeline"
