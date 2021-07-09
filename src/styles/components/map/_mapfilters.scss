@@ -123,7 +123,13 @@
   @media (max-width: 1080px) {
     .filters {
       &__mini {
-        bottom: 80px;
+        .safari & {
+          bottom: 45px;
+        }
+        .chrome & {
+          bottom: 90px;
+        }
+        bottom: 20px;
       }
     }
   }
@@ -161,11 +167,18 @@
       }
 
       &__mini {
-        margin-bottom: 65px;
-        @supports (-webkit-touch-callout: none) {
-          margin-bottom: 125px;
+        .chrome & {
+          @supports (-webkit-touch-callout: none) {
+            bottom: 120px;
+          }
+          bottom: 65px;
         }
-
+        .firefox & {
+          bottom: 65px;
+        }
+        .safari & {
+          bottom: 125px;
+        }
         .tooltip__content {
           .mini {
             &__bar {
