@@ -120,24 +120,25 @@
     }
   }
 
-  @media (max-width: 1080px) {
-    .filters {
-      &__mini {
-        .safari & {
-          bottom: 45px;
-        }
-        .chrome & {
-          bottom: 90px;
-        }
-        bottom: 20px;
-      }
-    }
-  }
   @media (max-width: 875px) {
     .filters {
       min-width: unset;
       width: 100vw;
       height: calc(100vh - 100px);
+
+      .safari & {
+        height: calc(100vh - 210px);
+      }
+
+      .firefox & {
+        height: calc(100vh - 155px);
+      }
+
+      @supports (-webkit-touch-callout: none) {
+        .chrome & {
+          height: calc(100vh - 208px);
+        }
+      }
 
       .frame {
         overflow: scroll;
@@ -167,18 +168,6 @@
       }
 
       &__mini {
-        .chrome & {
-          @supports (-webkit-touch-callout: none) {
-            bottom: 120px;
-          }
-          bottom: 65px;
-        }
-        .firefox & {
-          bottom: 65px;
-        }
-        .safari & {
-          bottom: 125px;
-        }
         .tooltip__content {
           .mini {
             &__bar {

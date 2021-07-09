@@ -9,6 +9,20 @@
       width: 100%;
       height: calc(100vh - 60px);
 
+      .safari & {
+        height: calc(100vh - 170px);
+      }
+
+      .firefox & {
+        height: calc(100vh - 115px);
+      }
+
+      @supports (-webkit-touch-callout: none) {
+        .chrome & {
+          height: calc(100vh - 168px);
+        }
+      }
+
       .mapboxgl-control-container {
         .mapboxgl-ctrl-bottom-left,
         .mapboxgl-ctrl-bottom-right {
