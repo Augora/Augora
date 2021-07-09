@@ -20,7 +20,12 @@ const timer = 0.2
  */
 export default function MapFilters({ zoneDeputies }: IMapFilters) {
   const [isBigFilter, setIsBigFilter] = useState(false)
+  const [viewheight, setViewheight] = useState(100)
   // const filterRef = useRef(null);
+
+  const {
+    state: { DeputiesList },
+  } = useDeputiesFilters()
 
   const animateFilters = (filterState) => {
     const tl = gsap.timeline()
@@ -63,9 +68,17 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
     }
   }, [isBigFilter])
 
-  const {
-    state: { DeputiesList },
-  } = useDeputiesFilters()
+  useEffect(() => {
+    setViewheight(window.innerHeight)
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
+  const handleResize = (e) => {
+    setViewheight(e.target.innerHeight)
+  }
 
   return (
     <CustomControl className="map__filters">
@@ -102,7 +115,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
               </div>
             </Button>
           </div>
-          <div className="filters">
+          <div className="filters" style={{ height: viewheight - 100 }}>
             <Filters filteredDeputes={zoneDeputies} />
           </div>
         </div>

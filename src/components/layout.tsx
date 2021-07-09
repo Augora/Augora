@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import Head from "next/head"
-import Bowser from "bowser"
 import { colors } from "utils/variables"
 
 import Header from "./header"
@@ -10,7 +9,6 @@ import Popin from "./popin/Popin"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
-import { slugify } from "src/utils/utils"
 
 interface ILayout {
   children: React.ReactElement
@@ -34,7 +32,6 @@ const Layout = ({ children, location, title }: ILayout) => {
   } = useDeputiesFilters()
   const [scrolled, setScrolled] = useState(false)
   const [isPopinVisible, setisPopinVisible] = useState(false)
-  const [browser, setBrowser] = useState(null)
 
   const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
 
@@ -50,8 +47,6 @@ const Layout = ({ children, location, title }: ILayout) => {
     window.addEventListener("scroll", (e) => {
       handleScroll()
     })
-    const bowserObject = Bowser.getParser(window.navigator.userAgent)
-    setBrowser(bowserObject.getBrowser())
     return () => {
       window.removeEventListener("scroll", handleScroll, true)
     }
@@ -65,11 +60,7 @@ const Layout = ({ children, location, title }: ILayout) => {
   }, [location.route])
 
   return (
-    <div
-      className={`page-body ${browser ? slugify(browser.name) : ""} ${title ? "with-title" : "no-title"} ${
-        scrolled ? "scrolled" : ""
-      }`}
-    >
+    <div className={`page-body ${title ? "with-title" : "no-title"} ${scrolled ? "scrolled" : ""}`}>
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

@@ -29,6 +29,7 @@ export default function MapPage() {
   } = useDeputiesFilters()
 
   const [pageTitle, setPageTitle] = useState<string>("Carte")
+  const [viewheight, setViewheight] = useState(100)
 
   /** Zustand state */
   const {
@@ -54,9 +55,21 @@ export default function MapPage() {
     }
   }, [router.query])
 
+  useEffect(() => {
+    setViewheight(window.innerHeight)
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, []) //calcule le vh en js pour contrecarrer le bug des 100vh sur mobile
+
   useNonInitialEffect(() => {
     displayZone(zoneFeature) //refresh les overlays si la liste des deputés change
   }, [FilteredList])
+
+  const handleResize = (e) => {
+    setViewheight(e.target.innerHeight)
+  }
 
   const changeURL = (URL: string) => {
     router.push(URL, URL, { shallow: true })
@@ -113,7 +126,7 @@ export default function MapPage() {
     <>
       <SEO pageType={PageType.Map} title={pageTitle} />
       <div className="page page__map">
-        <div className="map__container">
+        <div className="map__container" style={{ height: viewheight - 60 }}>
           <MapAugora
             viewport={viewport}
             setViewport={setViewport}
