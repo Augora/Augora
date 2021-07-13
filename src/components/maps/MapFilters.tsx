@@ -23,7 +23,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
   const [isBigFilter, setIsBigFilter] = useState(false)
   // const filterRef = useRef(null);
 
-  const { viewsize } = mapStore()
+  const viewsize = mapStore((state) => state.viewsize)
 
   const {
     state: { DeputiesList },
