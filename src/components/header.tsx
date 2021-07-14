@@ -1,14 +1,16 @@
 import React from "react"
 import Link from "next/link"
+import { NextRouter } from "next/router"
 import Logo from "images/logos/projet/augora-logo.svg"
 import LogoText from "images/logos/projet/augora-text.svg"
 import LogoTextThin from "images/logos/projet/augora-text-thin.svg"
+import IconBurger from "images/ui-kit/icon-burger.svg"
 import { getHSLLightVariation } from "../utils/style/color"
-import { NextRouter } from "next/router"
 
 interface IHeader {
   siteTitle?: string
   color?: Group.HSLDetail
+  onBurgerClick?(): void
   location: NextRouter
 }
 
@@ -86,7 +88,7 @@ function HeaderLinks({ pageGroup, location, styles }: { pageGroup: Pages; locati
  * @param {RouteProps} location Objet du react router contenant les infos de route
  * @param {Group.HSLDetail} [color] Couleur du header optionnelle
  */
-const Header = ({ siteTitle, location, color }: IHeader) => {
+const Header = ({ siteTitle, location, color, onBurgerClick }: IHeader) => {
   let styles: Styles = {
     flat: {},
     gradient: {},
@@ -130,6 +132,12 @@ const Header = ({ siteTitle, location, color }: IHeader) => {
             <span className="menu__separator" style={styles.separator} />
           </div>
           <HeaderLinks pageGroup={secondaryPages} location={location} styles={styles} />
+          <button className="menu__burger-btn" onClick={() => onBurgerClick()}>
+            <div className="menu__burger-icon">
+              <IconBurger className="icon" />
+              <IconBurger className="icon" style={styles.svg} />
+            </div>
+          </button>
         </div>
       </div>
     </header>
