@@ -63,7 +63,6 @@ const Layout = ({ children, location, title }: ILayout) => {
     setHasSidebar(false)
   }, [location.route])
 
-  // Check if page has SEO informations
   return (
     <div className={`page-body ${title ? "with-title" : "no-title"}${scrolled ? " scrolled" : ""}`}>
       <Head>
