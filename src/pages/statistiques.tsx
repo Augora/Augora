@@ -70,7 +70,11 @@ const Statistiques = () => {
           <div className="no-deputy">Il n'y a pas de députés correspondant à votre recherche.</div>
         )}
       </Frame>
-      <Frame className="frame-chart frame-barstack" title="Cumul des âges" right={`Âge moyen : ${averageAge} ans`}>
+      <Frame
+        className="frame-chart frame-barstack"
+        title="Cumul des âges"
+        right={averageAge != 0 ? `Âge moyen : ${averageAge} ans` : ""}
+      >
         {state.FilteredList.length > 0 ? (
           <ParentSize className="barstack__container" debounceTime={400}>
             {(parent) => (
