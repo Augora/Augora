@@ -63,7 +63,8 @@ export default function Mandate(props: Bloc.Mandate) {
         <div className="mandate__since">
           {Date.yearsPassed > 0 ? (
             <p>
-              <span style={{ color: props.color.HSL.Full }}>{Date.yearsPassed}</span> <strong>Ans</strong>
+              <span style={{ color: props.color.HSL.Full }}>{Date.yearsPassed}</span>{" "}
+              <strong>{Date.yearsPassed === 1 ? "An" : "Ans"}</strong>
             </p>
           ) : null}
           {Date.monthsPassed > 0 ? (
