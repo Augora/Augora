@@ -10,6 +10,8 @@ import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
 
+import IconChevron from "images/ui-kit/icon-arrow.svg"
+
 interface ILayout {
   children: React.ReactElement
   title?: string
@@ -41,6 +43,10 @@ const Layout = ({ children, location, title }: ILayout) => {
     } else {
       setScrolled(false)
     }
+  }
+
+  const handleScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   useEffect(() => {
@@ -82,6 +88,9 @@ const Layout = ({ children, location, title }: ILayout) => {
         </Popin>
       </div>
       <main className="layout">{children}</main>
+      <div className={`scroll-to-top ${scrolled ? 'visible' : 'hidden'}`} onClick={() => handleScrollTop()}>
+        <IconChevron/>
+      </div>
       <Footer />
     </div>
   )
