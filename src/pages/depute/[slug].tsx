@@ -12,6 +12,7 @@ import GeneralInformation from "components/deputy/general-information/GeneralInf
 import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
+import Feed from "src/components/deputy/feed-twitter/FeedTwitter"
 import SEO, { PageType } from "components/seo/seo"
 interface IDeputy {
   depute: Deputy.Deputy
@@ -31,7 +32,7 @@ export default function Deputy({ depute }: IDeputy) {
       <Head>
         <style>{`:root { --groupe-color: ${color.HSL.Full}; }`}</style>
       </Head>
-      <Socials deputy={deputy}/>
+      <Socials deputy={deputy} />
       <div className="page page__deputy">
         <div className="deputy__content">
           <GeneralInformation {...getGeneralInformation(deputy)} color={color} size="medium" dateBegin={deputy.DateDeNaissance} />
@@ -40,6 +41,7 @@ export default function Deputy({ depute }: IDeputy) {
           <MapDistrict deputy={deputy} color={color} size="medium" />
           <Presence color={color} size="large" wip={true} />
           <Contact color={color} size="medium" adresses={deputy.AdressesDetails.data} />
+          {deputy.Twitter.length != 0 ? <Feed color={color} size="medium" twitter={deputy.Twitter} /> : ""}
         </div>
       </div>
     </>
