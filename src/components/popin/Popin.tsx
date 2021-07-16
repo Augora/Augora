@@ -1,32 +1,29 @@
 import React, { useState, useEffect } from "react"
 
 interface IPopin {
-  isInitialState: boolean
   children: React.ReactNode
+  displayed?: boolean
 }
 
 /**
  * Renvoie la popin des filtres actifs
  * @param {boolean} isInitialState Si les filtres sont à leur valeur par défaut ou non
+ * @param {Function} setVisible Callback pour faire disparaitre la popin
  */
-export default function Popin({ isInitialState, children }: IPopin) {
-  const [visible, setVisible] = useState(!isInitialState)
+export default function Popin({ children, displayed }: IPopin) {
+  const [visible, setVisible] = useState(displayed !== undefined ? displayed : true)
 
   useEffect(() => {
-    setVisible(!isInitialState)
-  }, [isInitialState])
+    setVisible(displayed)
+  }, [displayed])
 
-  if (visible) {
-    return (
-      <div className="popin">
-        <div className="popin__content">{children}</div>
-        <button className="popin__close" onClick={() => setVisible(false)}>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    )
-  } else {
-    return null
-  }
+  return (
+    <div className={`popin ${visible ? 'visible' : 'hidden'}`}>
+      <div className="popin__content">{children}</div>
+      <button className="popin__close" onClick={() => setVisible(!visible)}>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  )
 }

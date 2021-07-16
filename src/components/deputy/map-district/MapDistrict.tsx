@@ -1,24 +1,17 @@
-import React, { useState, useMemo } from "react"
-import ReactMapGL, { Source, Layer, ViewportProps } from "react-map-gl"
-import Link from "next/link"
-import { France, flyToBounds, AllCirc } from "components/maps/maps-utils"
+import React from "react"
+import MapAugora from "components/maps/MapAugora"
+import { buildURLFromFeature, createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
-import "mapbox-gl/dist/mapbox-gl.css"
+import Link from "next/link"
+import mapStore from "stores/mapStore"
 
 export default function MapDistrict(props: Bloc.Map) {
   const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
-  const [viewport, setViewport] = useState<ViewportProps>({
-    latitude: France.center.lat,
-    longitude: France.center.lng,
-    zoom: 3,
+  const feature = getFeature({
+    code_circ: NumeroCirconscription,
+    code_dpt: NumeroDepartement,
   })
-
-  //récupère le polygone de la circonscription
-  const districtPolygon = useMemo(() => {
-    return AllCirc.features.find((district) => {
-      return district.properties.code_dpt === NumeroDepartement && district.properties.code_circ === NumeroCirconscription
-    })
-  }, [NumeroCirconscription, NumeroDepartement])
+  const { viewport, setViewport } = mapStore()
 
   return (
     <Block
@@ -32,45 +25,21 @@ export default function MapDistrict(props: Bloc.Map) {
       }}
     >
       <div className="map__container">
-        <ReactMapGL
-          mapboxApiAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
-          mapStyle="mapbox://styles/augora/ckh3h62oh2nma19qt1fgb0kq7?optimize=true"
-          {...viewport}
-          width="100%"
-          height="100%"
-          minZoom={props.deputy.NumeroCirconscription === 11 && props.deputy.NomDepartement === "Établis Hors de France" ? 1 : 2}
-          dragRotate={false}
-          doubleClickZoom={false}
-          touchRotate={false}
-          dragPan={false}
-          touchZoom={false}
-          scrollZoom={false}
-          onResize={() => {
-            flyToBounds(districtPolygon, viewport, setViewport)
+        <MapAugora
+          deputies={[props.deputy]}
+          overlay={false}
+          forceCenter={true}
+          viewport={viewport}
+          setViewport={setViewport}
+          mapView={{
+            geoJSON: createFeatureCollection([feature]),
+            feature: feature,
+            paint: getLayerPaint(props.deputy.GroupeParlementaire.Couleur),
           }}
-          onViewportChange={setViewport}
-        >
-          <Source type="geojson" data={districtPolygon}>
-            <Layer
-              type="fill"
-              paint={{
-                "fill-color": "#fff",
-                "fill-opacity": 0.5,
-              }}
-            />
-            <Layer
-              type="line"
-              paint={{
-                "line-color": props.color.HSL.Full,
-                "line-width": 2,
-                // "line-dasharray": [4, 2],
-              }}
-            />
-          </Source>
-          <Link href={`/carte?codeDpt=${districtPolygon?.properties?.code_dpt}`}>
-            <a className="map__redirect">Cliquer pour voir la carte entière</a>
-          </Link>
-        </ReactMapGL>
+        />
+        <Link href={buildURLFromFeature(feature)}>
+          <div className="map__redirect"></div>
+        </Link>
       </div>
     </Block>
   )
