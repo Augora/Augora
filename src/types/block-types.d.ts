@@ -32,6 +32,7 @@ declare namespace Bloc {
     /**
      * Infos de la circonscription du député pour le bloc map
      */
+    twitterUrl?: string
     circ?: {
       circNb: number
       region: string
