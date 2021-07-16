@@ -4,7 +4,7 @@ import GroupBar from "components/deputies-list/GroupBar"
 import Tooltip from "components/tooltip/Tooltip"
 import Filters from "components//deputies-list/filters/Filters"
 import Button from "components/buttons/Button"
-import IconArrow from "images/ui-kit/icon-arrow.svg"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
 
 interface IMapFilters {
@@ -29,7 +29,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
           <div className="filters__close filters__close--mini">
             <Button className="close__btn" onClick={() => setIsBigFilter(true)} title="Agrandir les filtres">
               <div className="icon-wrapper">
-                <IconArrow />
+                <IconChevron />
               </div>
             </Button>
           </div>
@@ -53,7 +53,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
           <div className="filters__close">
             <Button className="close__btn" onClick={() => setIsBigFilter(false)} title="Cacher les filtres">
               <div className="icon-wrapper">
-                <IconArrow />
+                <IconChevron />
               </div>
             </Button>
           </div>

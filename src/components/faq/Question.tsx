@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import IconArrow from "images/ui-kit/icon-arrow.svg"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 import dynamic from "next/dynamic"
 const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
   ssr: false,
@@ -24,7 +24,7 @@ function Question(props: IQuestion) {
         <GradientBanner />
         <h2>{props.title}</h2>
         <div className="arrow__icon icon-wrapper">
-          <IconArrow />
+          <IconChevron />
         </div>
       </div>
       <div className="faq__description">{props.children}</div>
