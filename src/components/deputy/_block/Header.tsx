@@ -1,4 +1,6 @@
 import React from "react"
+import IconExport from "images/ui-kit/icon-export.svg"
+import ButtonIcon from "src/components/buttons/ButtonIcon"
 
 /**
  * Return header block in a div
@@ -11,6 +13,27 @@ export default function Header(props: Bloc.Header) {
       {/* Verify if the block is general infos */}
       {props.type === "general" ? (
         <h2 className="header__title">{props.title}</h2>
+      ) : props.type === "feed" ? (
+        <>
+          <h2
+            className="header__title"
+            style={{
+              color: color,
+            }}
+          >
+            {props.title}
+          </h2>
+          <ButtonIcon
+            onClick={`https://twitter.com/${props.twitterUrl}`}
+            className="feed__right"
+            title={"Twitter"}
+            target="_blank"
+          >
+            <div className="icon-wrapper" style={{ width: "30px" }}>
+              <IconExport style={{ fill: color }} />
+            </div>
+          </ButtonIcon>
+        </>
       ) : !props.circ ? (
         // Verify if the block has no circonscription data
         <h2
