@@ -8,6 +8,7 @@ import IconFacebook from "images/ui-kit/icon-facebook.svg"
 import IconInstagram from "images/ui-kit/icon-instagram.svg"
 import IconLinkedIn from "images/ui-kit/icon-linkedin.svg"
 import IconAssemblee from "images/ui-kit/icon-palace.svg"
+import IconEuro from "images/ui-kit/icon-euro.svg"
 import { slugify } from "src/utils/utils"
 
 enum Button {
@@ -53,7 +54,7 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
   const slugifyNom = particule ? slugify(deputy.NomDeFamille).split("-") : ""
   const slugDeclaration =
     (particule ? slugifyNom[1] + "-" + slugifyNom[0] : slugify(deputy.NomDeFamille)) + "-" + slugify(deputy.Prenom)
-  
+
   return (
     <div className="deputy__socials" ref={node}>
       <ButtonIcon
@@ -134,7 +135,9 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
         target="_blank"
       >
         <div className="icon-wrapper" style={{ width: "30px" }}>
-          💰
+          <div className="icon-wrapper" style={{ width: "30px" }}>
+            <IconEuro style={{ fill: deputy.GroupeParlementaire.Couleur }} />
+          </div>
         </div>
       </ButtonIcon>
     </div>
