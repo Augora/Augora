@@ -5,7 +5,7 @@ import { useSwipeable } from "react-swipeable"
 import IconClose from "images/ui-kit/icon-close.svg"
 import IconRefresh from "images/ui-kit/icon-refresh.svg"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
-import IconArrow from "images/ui-kit/icon-arrow.svg"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 import { NextRouter } from "next/router"
 const GradientBanner = dynamic(() => import("components/graphics/GradientBanner"), {
   ssr: false,
@@ -51,7 +51,7 @@ export const SidebarCategory = ({ title, className, children, opened }: ISidebar
       <button className="category__btn" onClick={() => setVisible(!visible)}>
         {title}
         <div className="icon-wrapper" style={{ transform: visible ? "rotate(-180deg)" : "" }}>
-          <IconArrow />
+          <IconChevron />
         </div>
       </button>
       <div className={`category__content${className ? className : ""}${visible ? " visible" : ""}`}>{children}</div>
@@ -173,7 +173,7 @@ export default function Sidebar({ visible, children, close, open }: ISideBar) {
       <div className="sidebar__close">
         <button className="close__btn" onClick={close}>
           <div className="icon-wrapper">
-            <IconArrow style={{ transform: "rotate(-90deg)" }} />
+            <IconChevron style={{ transform: "rotate(-90deg)" }} />
           </div>
         </button>
       </div>
