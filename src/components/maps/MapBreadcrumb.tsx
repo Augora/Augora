@@ -5,14 +5,14 @@ import {
   MetroFeature,
   getContinent,
   getZoneCode,
-  getFeature,
   WorldFeature,
   getChildFeatures,
   getZoneName,
+  getParentFeature,
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 import CustomControl from "components/maps/CustomControl"
-import IconArrow from "images/ui-kit/icon-arrow.svg"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 import sortBy from "lodash/sortBy"
 import { slugify } from "utils/utils"
 
@@ -44,26 +44,36 @@ const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
     case Code.Reg:
       return [WorldFeature, MetroFeature, feature]
     case Code.Dpt:
-      return contId === Cont.France
-        ? [WorldFeature, MetroFeature, getFeature(feature.properties[Code.Reg], Code.Reg), feature]
-        : [WorldFeature, feature]
+      return contId === Cont.France ? [WorldFeature, MetroFeature, getParentFeature(feature), feature] : [WorldFeature, feature]
+    case Code.Circ:
+      const dpt = getParentFeature(feature)
+      switch (contId) {
+        case Cont.France:
+          return [WorldFeature, MetroFeature, getParentFeature(dpt), dpt, feature]
+        case Cont.OM:
+          return [WorldFeature, dpt, feature]
+        case Cont.World:
+          return [WorldFeature, feature]
+      }
     default:
-      console.error("Le breadcrumb n'a pas réussi à déduire le chemin de la zone")
       return []
   }
 }
 
 /**
- * Renvoie les enfants de la feature pour le breadcrumb (sans les circonscriptions, et rangé par ordre alphabétique)
+ * Renvoie les enfants de la feature pour le breadcrumb (rangé par ordre alphabétique)
  * @param {AugoraMap.Feature} feature
  */
 const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
-  return sortBy(
-    getChildFeatures(feature).features.filter((feat) => getZoneCode(feat) !== Code.Circ),
-    (o) => {
-      return o.properties.nom ? o.properties.nom : o.properties.code_circ
-    }
-  )
+  const cont = getContinent(feature)
+  const childFeatures =
+    cont !== Cont.World
+      ? getChildFeatures(feature).features
+      : getChildFeatures(feature).features.filter((feat) => getZoneCode(feat) !== Code.Circ)
+
+  return sortBy(childFeatures, (o) => {
+    return o.properties.nom ? o.properties.nom : o.properties.code_circ
+  })
 }
 
 /**
@@ -99,14 +109,14 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
   }
 
   return (
-    <div className={`breadcrumb__menu ${props.className ? "breadcrumb__menu--" + props.className : ""}`} ref={node}>
+    <div className={`breadcrumb__menu ${props.className ? props.className : ""}`} ref={node}>
       <button
         className={`menu__btn ${isOpen ? "menu__btn--active" : ""}`}
         title="Voir les zones enfants"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="icon-wrapper">
-          <IconArrow />
+          <IconChevron />
         </div>
       </button>
       {isOpen && (
@@ -174,7 +184,7 @@ export default function MapBreadcrumb({ feature, handleClick }: IMapBreadcrumb) 
   return (
     <CustomControl className="map__breadcrumb">
       {history.map((item, index) => (
-        <BreadcrumbItem key={`breadcrumb-${index}-${slugify(item.properties.nom)}`} feature={item} handleClick={handleClick} />
+        <BreadcrumbItem key={`breadcrumb-${index}-${slugify(getZoneName(item))}`} feature={item} handleClick={handleClick} />
       ))}
     </CustomControl>
   )

@@ -6,9 +6,11 @@
       top: 10px;
       display: flex;
       flex-direction: column;
-      height: 180px;
-      justify-content: space-between;
       z-index: 2;
+
+      & > div {
+        margin-bottom: 10px;
+      }
     }
 
     &__left {
