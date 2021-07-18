@@ -69,6 +69,8 @@
   transform: translateY(10px);
   transition: opacity 0.5s $ease-in-out-cubic, transform 0.5s $ease-in-out-circ;
 
+  z-index: 99;
+
   svg {
     transform: rotate(180deg);
     path {
