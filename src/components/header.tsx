@@ -35,6 +35,10 @@ const mainPages: Pages = {
     path: "/",
     title: "Députés",
   },
+  statistiques: {
+    path: "/statistiques",
+    title: "Statistiques",
+  },
   map: {
     path: "/map",
     title: "Carte",

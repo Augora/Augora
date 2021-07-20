@@ -2,7 +2,177 @@
 // Bloc Présence parlementaire
 /*----------------------------------------------------*/
 .block__presence {
-  @media (max-width: 1400px) {
-    display: none;
+  padding: 0px 20px 0px 10px;
+  .info {
+    &__button {
+      background-color: transparent;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      padding: 10px;
+      border: none;
+      height: 50px;
+      cursor: pointer;
+
+      .icon-info {
+        width: 30px;
+        height: 30px;
+        fill: $text-color;
+      }
+      .icon-close {
+        width: 30px;
+        height: 30px;
+        fill: $text-color;
+      }
+
+      &:hover {
+        background: $btn-hover;
+      }
+    }
+    &__bloc {
+      position: absolute;
+      background-color: $frame-color;
+      height: 87%;
+      top: 60px;
+      right: 0px;
+      padding-right: 20px;
+      padding-left: 20px;
+      z-index: 101;
+    }
+    &__content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90%;
+    }
+  }
+  .presence {
+    .calendrier {
+      background: white;
+      position: absolute;
+      top: 110px;
+      right: 20px;
+      padding: 20px;
+      z-index: 101;
+    }
+    &__date {
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      .button {
+        &__active {
+          background-color: rgba(77, 77, 77, 0.5);
+          border: 1.5px solid rgb(25, 26, 24);
+        }
+        .icon-agenda {
+          position: relative;
+          width: 15px;
+          height: 15px;
+          top: 1px;
+          fill: $text-color;
+        }
+      }
+    }
+    &__axisleft {
+      g > svg > text {
+        font-size: 14px !important;
+        fill: $text-color !important;
+      }
+    }
+    &__line {
+      background-color: rgb(173, 181, 189);
+      position: absolute;
+      width: 92%;
+      height: 1px;
+      bottom: 50px;
+      left: 4%;
+      right: 4%;
+      @media (max-width: 875px) {
+        bottom: 112px;
+      }
+      @media (max-width: 400px) {
+        bottom: 125px;
+      }
+    }
+
+    &__filtre {
+      position: absolute;
+      bottom: 0;
+      margin-bottom: 12px;
+      @media (max-width: 875px) {
+        bottom: 30px;
+        left: -5px;
+        transform: rotate(-90deg);
+      }
+      @media (max-width: 450px) {
+        bottom: 35px;
+      }
+      @media (max-width: 400px) {
+        bottom: 40px;
+      }
+      text {
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+    &__legend {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      @media (max-width: 1550px) {
+        font-size: 16px;
+        margin-left: 10px;
+      }
+      @media (max-width: 1400px) {
+        font-size: 18px;
+      }
+      @media (max-width: 1020px) {
+        font-size: 14px;
+      }
+      @media (max-width: 875px) {
+        columns: 2;
+        display: table-column;
+        margin-bottom: 5px;
+        margin-left: 10%;
+      }
+      @media (max-width: 565px) {
+        padding-left: 0px;
+        padding-right: 30px;
+        font-size: 12px;
+      }
+    }
+    svg {
+      overflow: visible;
+      .rotate {
+        g > svg > text {
+          transform: translate(-10px, 12px) rotate(-45deg);
+        }
+      }
+    }
+    .presence__legend-item {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+      margin-right: 10px;
+      flex-direction: row;
+      &:last-child {
+        .item__label {
+          cursor: default;
+        }
+      }
+      .item__label {
+        cursor: pointer;
+      }
+    }
+    &__indisponible {
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100% - 50px);
+    }
   }
 }

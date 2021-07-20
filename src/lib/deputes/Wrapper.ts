@@ -132,6 +132,19 @@ export function getDepute(slug: string) {
                 Telephone
               }
             }
+            Activites(_size: 100) {
+              data {
+                DateDeDebut
+                DateDeFin
+                NumeroDeSemaine
+                PresenceEnHemicycle
+                ParticipationEnHemicycle
+                PresencesEnCommission
+                ParticipationsEnCommission
+                Question
+                Vacances
+              }
+            }
           }
         }
       `,
@@ -139,5 +152,5 @@ export function getDepute(slug: string) {
         slug,
       },
     })
-    .then((d) => d.data.Depute)
+    .then((d) => d.data)
 }

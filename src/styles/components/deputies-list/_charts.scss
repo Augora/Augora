@@ -1,0 +1,169 @@
+//chart frame
+.frame-chart {
+  .frame {
+    &__header {
+      margin: 0;
+    }
+    &__content {
+      height: 90%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .chart {
+        width: 100%;
+        outline: none;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+          overflow: visible;
+        }
+
+        &__number {
+          pointer-events: none;
+          fill: white;
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        &__axislabel {
+          &.vertical {
+            g > svg > text {
+              transform: translate(-5px, 6px) rotate(-45deg);
+            }
+          }
+          g > svg > text {
+            font-size: 14px !important;
+            fill: $text-color !important;
+          }
+          &.axislabel {
+            &__bottom {
+              g > svg > text {
+                font-size: 12px !important;
+              }
+            }
+            &__verticalpyramide {
+              g > svg > text {
+                font-size: 12px !important;
+              }
+            }
+            &__barstack {
+              g > svg > text {
+                font-size: 14px !important;
+                fill: $text-color !important;
+              }
+            }
+          }
+        }
+
+        &__description {
+          font-size: 14px !important;
+          fill: $text-color !important;
+        }
+
+        &__axistick {
+          line {
+            stroke: rgba($text-color, 0.5);
+          }
+        }
+
+        &__rows {
+          line {
+            stroke: rgba($text-color, 0.1) !important;
+            stroke-width: 2 !important;
+          }
+        }
+      }
+
+      .piechart {
+        svg {
+          width: 100%;
+          height: auto;
+        }
+        &__label {
+          svg text {
+            font-weight: normal !important;
+            font-size: 14px !important;
+            fill: $text-color !important;
+          }
+        }
+      }
+
+      .barchart {
+        &__number {
+          font-size: 16px;
+        }
+      }
+
+      .charts {
+        &__switch {
+          background-color: transparent;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          padding: 10px;
+          border: none;
+          height: 50px;
+          cursor: pointer;
+
+          .icon-switch {
+            width: 30px;
+            height: 30px;
+            fill: $text-color;
+          }
+
+          &:hover {
+            background: $btn-hover;
+          }
+        }
+      }
+    }
+  }
+}
+
+.charttooltip__container {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+  .presence__tooltip {
+    max-width: 400px;
+    .tooltip {
+      &__content div {
+        .legend {
+          &__col {
+            display: flex;
+            align-items: center;
+            &:first-child {
+              flex: 5;
+            }
+            &:last-child {
+              flex: 1;
+              text-align: right;
+            }
+            svg {
+              margin-top: 10px;
+              .last-child {
+                margin-left: 5px;
+              }
+            }
+          }
+        }
+        .item__tooltip {
+          width: 100%;
+          justify-content: space-between;
+          margin-bottom: 12px;
+          &:last-child {
+            margin-bottom: 0px;
+          }
+          .labelValue {
+            font-size: 20px;
+            color: rgba($black, 0.5);
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}

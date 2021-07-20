@@ -78,7 +78,7 @@ const contentAbout = [
     title: "Quels sont nos outils et nos méthodes ?",
     description: (
       <p>
-        Nous utilisons plusieurs technologies dont : NextJS, React, FaunaDB, Github, Mapbox. <br />
+        Nous utilisons plusieurs technologies dont : NextJS, React, FaunaDB, Github, Mapbox, Visx. <br />
         Nous communiquons exclusivement via Twitter.
       </p>
     ),

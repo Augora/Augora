@@ -17,10 +17,17 @@
 // Page
 // -----------------------------------------------------
 @import "pages/deputies";
+@import "pages/statistiques";
 @import "pages/404";
 @import "pages/faq";
 @import "pages/map";
 @import "pages/mentions-legales";
+
+// Templates
+// -----------------------------------------------------
+@import "templates/deputy";
+@import "templates/frames/frame";
+@import "templates/titles/page-title";
 
 // Components
 // -----------------------------------------------------
@@ -30,6 +37,7 @@
 @import "components/buttons/button";
 @import "components/popin/popin";
 @import "components/filters";
+@import "components/deputies-list/charts";
 @import "components/deputies-list/group-bar";
 @import "components/sidebar/sidebar";
 // Templates

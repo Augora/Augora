@@ -45,6 +45,23 @@ export const getAgeDomain = (list: Deputy.DeputiesList): Filter.AgeDomain => {
 }
 
 /**
+ * Renvoie le plus grand nombre d'activité d'un député
+ * @param {Deputy.Activite} list
+ */
+export const getNbActivitesMax = (list: Deputy.Activite[]): number => {
+  if (list.length > 0) {
+    return list.reduce((a, b) => {
+      const max = Math.max(
+        b.ParticipationEnHemicycle + b.ParticipationsEnCommission,
+        b.PresenceEnHemicycle + b.PresencesEnCommission,
+        b.Question
+      )
+      return max > a ? max : a
+    }, 0)
+  } else return 0
+}
+
+/**
  * Renvoie un object avec tous les groupes en clé et un boolean de s'ils sont actifs sur les filtres
  * @param sigles Array des sigles
  * @param value Valeur à set, true par défaut

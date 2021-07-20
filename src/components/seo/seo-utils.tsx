@@ -3,6 +3,7 @@ export enum PageType {
   Depute,
   FAQ,
   NotFound,
+  Statistiques,
   Map,
   MentionsLegales,
   // About,
@@ -77,6 +78,15 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
       process.env.NEXT_PUBLIC_ENV
     )
   }
+  if (pageType === PageType.Statistiques) {
+    return buildMetaTags(
+      buildTitleFromPageType(pageType, depute),
+      "Vous voulez des données plus précises sur les députés ? C'est par ici !",
+      process.env.NEXT_PUBLIC_ENV !== "production" ? "https://preprod.augora.fr/statistiques" : "https://augora.fr/statistiques",
+      "icons/icon-512x512.png",
+      process.env.NEXT_PUBLIC_ENV
+    )
+  }
   if (pageType === PageType.Map) {
     return buildMetaTags(
       buildTitleFromPageType(pageType, depute),
@@ -112,6 +122,9 @@ export function buildTitleFromPageType(pageType: PageType, depute: Deputy.Deputy
   }
   if (pageType === PageType.FAQ) {
     return "Foire aux Questions"
+  }
+  if (pageType === PageType.Statistiques) {
+    return "Statistiques"
   }
   if (pageType === PageType.Map) {
     return "Carte du monde"
