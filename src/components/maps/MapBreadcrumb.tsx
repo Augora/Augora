@@ -12,7 +12,7 @@ import {
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 import CustomControl from "components/maps/CustomControl"
-import IconArrow from "images/ui-kit/icon-arrow.svg"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 import sortBy from "lodash/sortBy"
 import { slugify } from "utils/utils"
 
@@ -116,7 +116,7 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="icon-wrapper">
-          <IconArrow />
+          <IconChevron />
         </div>
       </button>
       {isOpen && (
