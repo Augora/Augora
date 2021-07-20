@@ -10,7 +10,7 @@ declare namespace Bloc {
     /**
      * Couleur du groupe parlementaire
      */
-    color: string|HSLDetail|RGBDetail|HEXDetail
+    color: string | HSLDetail | RGBDetail | HEXDetail
     /**
      * "large", "medium" ou "small"
      */
@@ -22,7 +22,7 @@ declare namespace Bloc {
     /**
      * Couleur du groupe parlementaire
      */
-    color: string|HSLDetail|RGBDetail|HEXDetail
+    color: string | HSLDetail | RGBDetail | HEXDetail
     title: string
     /**
      * Identifier du bloc: "general", "mandate", "coworkers", "presence", "contact" ou "map"
@@ -70,6 +70,8 @@ declare namespace Bloc {
     firstName: string
     picture: string
     pictureGroup: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    pictureParty: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    party: string
     groupe: string
     groupeComplet: string
     age: number

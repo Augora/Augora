@@ -55,3 +55,12 @@ export function getPoliticGroupPhotoImport(politicGroupAcronym: string) {
       return NI
   }
 }
+
+export function getPoliticPartyPhotoImport(party: string) {
+  switch (party) {
+    case "Les Républicains":
+      return LR
+    default:
+      return null
+  }
+}
