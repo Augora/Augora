@@ -18,9 +18,9 @@ export default function Popin({ children, displayed }: IPopin) {
   }, [displayed])
 
   return (
-    <div className={`popin ${visible ? 'visible' : 'hidden'}`}>
+    <div className={`popin ${visible ? "visible" : "hidden"}`}>
       <div className="popin__content">{children}</div>
-      <button className="popin__close" onClick={() => setVisible(!visible)}>
+      <button className="popin__close" onClick={() => setVisible(!visible)} title="Fermer la popin">
         <span></span>
         <span></span>
       </button>
