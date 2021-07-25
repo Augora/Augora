@@ -18,7 +18,7 @@ footer {
     h2 {
       font-size: 20px;
       text-transform: uppercase;
-      color: $darkgrey;
+      color: $grey;
       position: relative;
       &::after {
         content: "";
@@ -28,7 +28,7 @@ footer {
         height: 1px;
         top: calc(100% + 10px);
         left: 0;
-        background-color: $darkgrey;
+        background-color: $grey;
       }
     }
     a {
@@ -36,7 +36,7 @@ footer {
       font-family: $font;
       font-size: 16px;
       text-decoration: none;
-      color: $darkgrey;
+      color: $grey;
       transition: color 0.2s linear;
 
       .icon-wrapper {
@@ -44,7 +44,7 @@ footer {
         svg {
           height: 30px;
           width: 25px;
-          fill: $darkgrey;
+          fill: $grey;
           pointer-events: none;
           transition: fill 0.2s linear;
         }
@@ -61,7 +61,7 @@ footer {
     }
   }
   &__credentials {
-    color: $darkgrey;
+    color: $grey;
     margin-top: 50px;
     font-size: 14px;
     text-align: center;
