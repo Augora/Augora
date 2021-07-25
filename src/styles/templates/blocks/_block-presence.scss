@@ -166,6 +166,9 @@
       .item__label {
         cursor: pointer;
       }
+      &:hover {
+        transform: scale(1.05);
+      }
     }
     &__indisponible {
       display: flex;
