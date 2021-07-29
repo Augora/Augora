@@ -177,12 +177,13 @@ export default function PresenceHeader(props: IPresenceHeader) {
         <>
           <div className="info__bloc">
             <div className="info__content">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
+              Le rôle d'un député n'est pas d'être présent à toutes les séances de l'Assemblée Nationale. En amont, ils préparent
+              dans des commissions parlementaires les amendements, les propositions de loi. Ils ont également des missions
+              d'informations et des groupes d'études. Si un vote a lieu dans l'hémicycle qui n'a pas de rapport avec les
+              spécialités d'un député, il peut se concentrer sur sa commission.
+              <br />
+              Pour l'ensemble des ces organes parlementaires, il y a des responsables. Un député qui sera simplement membre de ces
+              différents organes aura donc potentiellement plus de latitude pour participer.
             </div>
           </div>
         </>
