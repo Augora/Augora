@@ -21,7 +21,7 @@ type IFooterLink = {
  */
 const FooterLink = (props: IFooterLink) => {
   return !props.internal ? (
-    <a key={props.link} href={props.link} target={props.target ? "_blank" : ""}>
+    <a key={props.link} href={props.link} target={props.target ? "_blank" : ""} rel={props.target ? "noopener noreferrer" : ""}>
       {props.children && props.children}
       {props.label}
     </a>
