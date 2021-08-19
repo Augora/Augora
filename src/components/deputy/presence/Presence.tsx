@@ -32,7 +32,8 @@ const Presence = (props: Bloc.Presence) => {
   const glyphSize = 120
   const glyphPosition = 8
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
-    domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
+    //domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
+    domain: ["Présences", "Participations", "Questions orales", "Vacances"],
     range: [
       <CustomGlyph top={glyphPosition}>
         <line
@@ -64,14 +65,14 @@ const Presence = (props: Bloc.Presence) => {
         fill={props.color.HSL.Full}
         opacity={DisplayedGraph["Questions orales"] ? 1 : 0.5}
       />,
-      <GlyphSquare
-        key="Mediane des députés"
-        size={glyphSize}
-        top={glyphPosition}
-        left={glyphPosition}
-        fill={medianeDeputeColor}
-        opacity={DisplayedGraph["Mediane des députés"] ? 1 : 0.5}
-      />,
+      // <GlyphSquare
+      //   key="Mediane des députés"
+      //   size={glyphSize}
+      //   top={glyphPosition}
+      //   left={glyphPosition}
+      //   fill={medianeDeputeColor}
+      //   opacity={DisplayedGraph["Mediane des députés"] ? 1 : 0.5}
+      // />,
       <GlyphSquare
         key="Vacances"
         size={glyphSize}
