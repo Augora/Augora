@@ -97,6 +97,26 @@
         }
       }
 
+      .wordcloud {
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+        margin-top: 20px;
+        .svg {
+          margin: 1rem 0;
+          cursor: pointer;
+        }
+        .label {
+          display: inline-flex;
+          align-items: center;
+          font-size: 14px;
+          margin-right: 8px;
+        }
+        .textarea {
+          min-height: 100px;
+        }
+      }
+
       .charts {
         &__switch {
           background-color: transparent;
