@@ -13,19 +13,20 @@ const Mentions = () => {
           <br />
           Les services que nous utilisons peuvent utiliser des données. Ci-dessous les liens vers leurs mentions légales :
           <br />
-          <ul>
-            <li>
-              <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noreferrer">
-                https://vercel.com/legal/privacy-policy
-              </a>
-            </li>
-            <li>
-              <a href="https://www.cloudflare.com/privacypolicy" target="_blank" rel="noreferrer">
-                https://www.cloudflare.com/privacypolicy
-              </a>
-            </li>
-          </ul>
         </p>
+        <ul>
+          <li>
+            <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noreferrer">
+              https://vercel.com/legal/privacy-policy
+            </a>
+          </li>
+          <li>
+            <a href="https://www.cloudflare.com/privacypolicy" target="_blank" rel="noreferrer">
+              https://www.cloudflare.com/privacypolicy
+            </a>
+          </li>
+        </ul>
+
         <h2>Contenu du site</h2>
         <p>
           Le site d’Augora est un service de communication au public en ligne édité par l’association Augora. Elle est domiciliée
