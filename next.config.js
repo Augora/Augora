@@ -24,7 +24,7 @@ module.exports = withSourceMaps(
         ],
         type: "javascript/auto",
         issuer: {
-          and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
+          and: [/\.(ts|tsx|js)$/],
         },
       }),
         config.module.rules.push({
