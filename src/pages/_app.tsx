@@ -22,7 +22,7 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
     <ApolloProvider client={client}>
       <Head>
         <link
-          rel="stylesheet"
+          rel="defer"
           href="https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700,800,900%7CRoboto+Slab:100,200,300,400,500,600,700,800,900"
           media="all"
         />

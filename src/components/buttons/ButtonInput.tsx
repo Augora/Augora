@@ -26,23 +26,25 @@ export interface IInput {
 export default function Input(props: IInput) {
   return (
     <Button
-      className={`${props.className} btn--input btn--${props.type} btn--${
-        props.className.split(" ")[0]
-      } ${props.checked ? "checked" : ""}`}
+      className={`${props.className} btn--input btn--${props.type} btn--${props.className.split(" ")[0]} ${
+        props.checked ? "checked" : ""
+      }`}
       onClick={props.onClick}
       style={{
         ...props.style,
       }}
       color={props.color}
     >
-      <input
-        className={`${props.className.split(" ")[0]}__${props.type}`}
-        type={props.type}
-        checked={props.checked}
-        onChange={() => {}}
-        name={props.name}
-      />
-      {props.children}
+      <label>
+        <input
+          className={`${props.className.split(" ")[0]}__${props.type}`}
+          type={props.type}
+          checked={props.checked}
+          onChange={() => {}}
+          name={props.name}
+        />
+        {props.children}
+      </label>
     </Button>
   )
 }
