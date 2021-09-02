@@ -3,9 +3,6 @@ import React, { useState, useEffect, useRef } from "react"
 import IconAgenda from "images/ui-kit/icon-agenda.svg"
 import IconInfo from "images/ui-kit/icon-info.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import dayjs from "dayjs"
 
 interface IPresenceHeader {
   width: number
@@ -13,20 +10,12 @@ interface IPresenceHeader {
   setRange: React.Dispatch<React.SetStateAction<Deputy.Activite[]>>
 }
 
-dayjs.locale("fr")
-
-const getCalendarDates = (date: string) => {
-  return {
-    getDate: dayjs(date).toDate(),
-  }
-}
-
 export default function PresenceHeader(props: IPresenceHeader) {
   var { width, data, setRange } = props
 
   const isMobile = width < 300
   const [Calendrier, setCalendrier] = useState(false)
-  const [DateButton, setDateButton] = useState(isMobile ? 2 : 3)
+  const [DateButton, setDateButton] = useState(isMobile ? 1 : 2)
   const [Informations, setInformations] = useState(false)
   const [InformationsCached, setInformationsCached] = useState(undefined)
 
@@ -38,55 +27,23 @@ export default function PresenceHeader(props: IPresenceHeader) {
     setInformationsCached(localStorage.getItem("informations.Autorisation"))
   }, [])
 
-  const dateMax = data.length != 0 ? getCalendarDates(data[data.length - 1].DateDeFin).getDate : ""
-
-  const [startDate, setStartDate] = useState(dateMax)
-  const [endDate, setEndDate] = useState(null)
-
-  const dateMin = data.length != 0 ? getCalendarDates(data[0].DateDeDebut).getDate : ""
-  const rangeCalendar = dayjs(endDate).diff(dayjs(startDate), "day") + 1
-
-  const weekMin = Math.ceil((dayjs(dateMax).diff(startDate, "day") + 1) / 7)
-  const weekMax = Math.ceil((dayjs(dateMax).diff(endDate, "day") + 1) / 7)
-
-  const onChange = (dates) => {
-    const [start, end] = dates
-    setStartDate(start)
-    setEndDate(end)
-  }
-
   useEffect(() => {
     if (isMobile) {
-      setDateButton(2)
+      setDateButton(1)
     } else {
-      setDateButton(3)
+      setDateButton(2)
     }
   }, [width])
 
   useEffect(() => {
-    if (DateButton === 4) {
-      if (weekMax) {
-        setRange(data.slice(53 - weekMin, 53 - weekMax))
-      }
+    if (DateButton === 2) {
       setRange(data)
-    } else if (DateButton === 3) {
-      setRange(data)
-    } else if (DateButton === 2) {
-      setRange(data.slice(27, 53))
     } else if (DateButton === 1) {
-      setRange(data.slice(40, 53))
+      setRange(data.slice(27, 53))
     } else {
-      setRange(data.slice(49, 53))
+      setRange(data.slice(40, 53))
     }
   }, [DateButton])
-
-  useEffect(() => {
-    if (DateButton === 4) {
-      if (weekMax) {
-        setRange(data.slice(53 - weekMin, 53 - weekMax))
-      }
-    }
-  }, [weekMax])
 
   const ButtonGroup = ({ buttons }) => {
     return (
@@ -95,12 +52,10 @@ export default function PresenceHeader(props: IPresenceHeader) {
           <button
             key={i}
             name={buttonLabel}
-            onClick={() => {
-              i <= 3 ? (setDateButton(i), setCalendrier(false)) : (setDateButton(i), setCalendrier(!Calendrier))
-            }}
+            onClick={() => setDateButton(i)}
             className={i === DateButton ? "button__active button" : "button"}
           >
-            {i === 4 ? <IconAgenda className={"icon-agenda"} /> : buttonLabel}
+            {buttonLabel}
           </button>
         ))}
       </>
@@ -144,35 +99,8 @@ export default function PresenceHeader(props: IPresenceHeader) {
         </button>
       </div>
       <div className="presence__date">
-        <ButtonGroup buttons={["1M", "3M", "6M", "1Y", "calendrier"]} />
+        <ButtonGroup buttons={["3M", "6M", "1Y"]} />
       </div>
-      {Calendrier ? (
-        <>
-          <div className="calendrier" ref={node}>
-            <DatePicker
-              selected={startDate}
-              onChange={onChange}
-              startDate={startDate}
-              endDate={endDate}
-              minDate={dateMin}
-              maxDate={dateMax}
-              startOpen={setCalendrier}
-              selectsRange
-              inline
-              showWeekNumbers
-            />
-            <div className="calendrier__footer">
-              {rangeCalendar === 1
-                ? "Sélectionnez au moins 2 jours."
-                : !isNaN(rangeCalendar)
-                ? "Sélectionnés : " + rangeCalendar + " jours"
-                : ""}
-            </div>
-          </div>
-        </>
-      ) : (
-        ""
-      )}
       {InformationsCached === "false" || Informations ? (
         <>
           <div className="info__bloc">
