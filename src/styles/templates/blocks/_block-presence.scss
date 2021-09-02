@@ -80,10 +80,7 @@
       left: 4%;
       right: 4%;
       @media (max-width: 875px) {
-        bottom: 112px;
-      }
-      @media (max-width: 400px) {
-        bottom: 125px;
+        bottom: 90px;
       }
     }
 
@@ -92,15 +89,9 @@
       bottom: 0;
       margin-bottom: 12px;
       @media (max-width: 875px) {
-        bottom: 30px;
+        bottom: 22px;
         left: -5px;
         transform: rotate(-90deg);
-      }
-      @media (max-width: 450px) {
-        bottom: 35px;
-      }
-      @media (max-width: 400px) {
-        bottom: 40px;
       }
       text {
         font-size: 16px;
@@ -126,14 +117,15 @@
       }
       @media (max-width: 875px) {
         columns: 2;
-        display: table-column;
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+        grid-template-rows: repeat(2, 2fr);
         margin-bottom: 5px;
         margin-left: 10%;
       }
       @media (max-width: 565px) {
-        padding-left: 0px;
-        padding-right: 30px;
         font-size: 12px;
+        margin-bottom: 5px;
       }
     }
     svg {
