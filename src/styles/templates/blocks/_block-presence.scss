@@ -47,6 +47,13 @@
     }
   }
   .presence {
+    @media (max-width: 450px) {
+      &__header {
+        .header__title {
+          padding-right: 20px;
+        }
+      }
+    }
     &__date {
       position: absolute;
       top: 70px;
