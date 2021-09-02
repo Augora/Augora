@@ -55,7 +55,7 @@ export default function PresenceParticipation(props: IPresence) {
   const changeDisplay = width < 750
   // bounds
 
-  const margin = width < 400 ? 140 : width < 500 ? 130 : width < 750 ? 110 : 50
+  const margin = width < 500 ? 110 : width < 750 ? 90 : 50
   const marginLeft = 20
   const xMax = width - marginLeft
 
