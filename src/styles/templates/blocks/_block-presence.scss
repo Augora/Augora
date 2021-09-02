@@ -40,10 +40,15 @@
       z-index: 101;
     }
     &__content {
-      display: flex;
+      display: block;
       justify-content: center;
       align-items: center;
       height: 90%;
+      margin-top: 10%;
+      text-align: justify;
+      @media (max-width: 550px) {
+        font-size: 14px;
+      }
     }
   }
   .presence {
