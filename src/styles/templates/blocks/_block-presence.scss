@@ -47,14 +47,6 @@
     }
   }
   .presence {
-    .calendrier {
-      background: white;
-      position: absolute;
-      top: 110px;
-      right: 20px;
-      padding: 20px;
-      z-index: 101;
-    }
     &__date {
       position: absolute;
       top: 70px;
@@ -63,13 +55,6 @@
         &__active {
           background-color: rgba(77, 77, 77, 0.5);
           border: 1.5px solid rgb(25, 26, 24);
-        }
-        .icon-agenda {
-          position: relative;
-          width: 15px;
-          height: 15px;
-          top: 1px;
-          fill: $text-color;
         }
       }
     }
