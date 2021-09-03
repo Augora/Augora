@@ -92,7 +92,7 @@ export default function PresenceHeader(props: IPresenceHeader) {
         </button>
       </div>
       <div className="presence__date">
-        <ButtonGroup buttons={["3M", "6M", "1Y"]} />
+        <ButtonGroup buttons={["3 mois", "6 mois", "1 an"]} />
       </div>
       {InformationsCached === "false" || Informations ? (
         <>
