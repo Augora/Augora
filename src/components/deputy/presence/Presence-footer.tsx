@@ -63,6 +63,7 @@ export default function PresenceFooter(props: IPresenceFooter) {
             {labels.map((label, i) => {
               const shape = shapeScale(label.datum)
               const isValidElement = React.isValidElement(shape)
+              console.log(shape)
               return (
                 <LegendItem
                   className="presence__legend-item item"
@@ -74,7 +75,11 @@ export default function PresenceFooter(props: IPresenceFooter) {
                       : null
                   }}
                 >
-                  <svg width={25} height={25}>
+                  <svg
+                    width={25}
+                    height={25}
+                    style={shape.type.name === "Glyph" ? { marginBottom: "3px", paddingLeft: "2px" } : { marginBottom: "3px" }}
+                  >
                     {isValidElement
                       ? React.cloneElement(shape as React.ReactElement)
                       : React.createElement(shape as React.ComponentType<{ fill: string }>, {

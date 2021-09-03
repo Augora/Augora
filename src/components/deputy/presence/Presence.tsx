@@ -39,7 +39,7 @@ const Presence = (props: Bloc.Presence) => {
         <line
           x1="0"
           y1="0"
-          x2="12"
+          x2="11"
           y2="0"
           stroke={props.color.HSL.Full}
           strokeWidth={4}
@@ -50,7 +50,7 @@ const Presence = (props: Bloc.Presence) => {
         <line
           x1="0"
           y1="0"
-          x2="12"
+          x2="11"
           y2="0"
           stroke={props.color.HSL.Full}
           strokeWidth={4}
