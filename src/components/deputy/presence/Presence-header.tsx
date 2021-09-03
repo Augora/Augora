@@ -14,9 +14,9 @@ interface IPresenceHeader {
 export default function PresenceHeader(props: IPresenceHeader) {
   var { width, data, setRange, color } = props
 
-  const InformationLink = (label: string) => {
+  const InformationLink = (label: string, link: string) => {
     return (
-      <a href="/faq" style={{ color: color }}>
+      <a href={`/faq#${link}`} style={{ color: color }}>
         {label}
       </a>
     )
@@ -101,9 +101,11 @@ export default function PresenceHeader(props: IPresenceHeader) {
               <p>
                 Le rôle d'un député ne se réduit pas seulement à sa présence aux séances de l'Assemblée Nationale. Si un vote a
                 lieu dans l'hémicycle qui n'a pas de rapport avec ses spécialités, il peut se concentrer sur d'autres activités,
-                telles que la préparation des {InformationLink("amendements")} et des {InformationLink("propositions de loi")}.
-                Ces activités se déroulent dans le cadre de {InformationLink("commissions parlementaires")}. Ils ont également des{" "}
-                {InformationLink("missions d'information")} et des {InformationLink("groupes d'études")}.
+                telles que la préparation des {InformationLink("amendements", "quest-ce-quun-amendement")} et des{" "}
+                {InformationLink("propositions de loi", "comment-se-prepare-une-proposition-de-loi")}. Ces activités se déroulent
+                dans le cadre de {InformationLink("commissions parlementaires", "cest-quoi-une-commission-parlementaire")}. Ils
+                ont également des {InformationLink("missions d'information", "cest-quoi-une-mission-dinformation")} et des{" "}
+                {InformationLink("groupes d'études", "cest-quoi-un-groupe-detude")}.
               </p>
               <p>
                 Selon sa responsabilité au sein de ces organes parlementaires (membre, président, etc.), le député aura plus ou

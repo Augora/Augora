@@ -3,8 +3,13 @@ import React from "react"
 import SEO, { PageType } from "../components/seo/seo"
 import Question from "components/faq/Question"
 
+type IContent = {
+  title: string
+  description: React.ReactNode
+}[]
+
 // Content
-const contentAbout = [
+const contentAbout: IContent = [
   {
     title: "Qui sommes-nous ?",
     description: (
@@ -51,6 +56,70 @@ const contentAbout = [
           </a>
           .
         </p>
+      </>
+    ),
+  },
+  {
+    title: "Qu'est-ce qu'un amendement ?",
+    description: (
+      <>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+          dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+          book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
+          recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "Comment se prépare une proposition de loi ?",
+    description: (
+      <>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+          dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+          book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
+          recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "C'est quoi une commission parlementaire ?",
+    description: (
+      <>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+          dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+          book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
+          recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "C'est quoi une mission d'information ?",
+    description: (
+      <>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+          dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+          book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
+          recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "C'est quoi un groupe d'étude ?",
+    description: (
+      <>
+        <p>Un groupe d'étude est une instance où les députés peuvent</p>
       </>
     ),
   },
