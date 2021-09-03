@@ -166,7 +166,7 @@
       .item__label {
         cursor: pointer;
       }
-      &:hover {
+      &:hover:not(:last-child) {
         transform: scale(1.05);
       }
     }
