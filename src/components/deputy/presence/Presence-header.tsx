@@ -106,14 +106,15 @@ export default function PresenceHeader(props: IPresenceHeader) {
           <div className="info__bloc">
             <div className="info__content">
               <p>
-                Le rôle d'un député n'est pas d'être présent à toutes les séances de l'Assemblée Nationale. En amont, ils
-                préparent dans des commissions parlementaires les amendements, les propositions de loi. Ils ont également des
-                missions d'informations et des groupes d'études. Si un vote a lieu dans l'hémicycle qui n'a pas de rapport avec
-                les spécialités d'un député, il peut se concentrer sur sa commission.
+                Le rôle d'un député ne se réduit pas seulement à sa présence aux séances de l'Assemblée Nationale. Si un vote a
+                lieu dans l'hémicycle qui n'a pas de rapport avec ses spécialités, il peut se concentrer sur d'autres activités,
+                telles que la préparation des {InformationLink("amendements")} et des {InformationLink("propositions de loi")}.
+                Ces activités se déroulent dans le cadre de {InformationLink("commissions parlementaires")}. Ils ont également des{" "}
+                {InformationLink("missions d'information")} et des {InformationLink("groupes d'études")}.
               </p>
               <p>
-                Pour l'ensemble des ces organes parlementaires, il y a des responsables. Un député qui sera simplement membre de
-                ces différents organes aura donc potentiellement plus de latitude pour participer.
+                Selon sa responsabilité au sein de ces organes parlementaires (membre, président, etc.), le député aura plus ou
+                moins de temps à consacrer à sa participation dans l'hémicycle.
               </p>
             </div>
           </div>
