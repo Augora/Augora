@@ -76,6 +76,7 @@
         border-radius: 5px;
         border: 1.5px solid rgba(0, 0, 0, 0);
         background-color: transparent;
+        min-width: 80px;
         cursor: pointer;
         &__active {
           color: white;
