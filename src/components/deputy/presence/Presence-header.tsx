@@ -62,6 +62,7 @@ export default function PresenceHeader(props: IPresenceHeader) {
             name={buttonLabel}
             onClick={() => setDateButton(i)}
             className={i === DateButton ? "button__active button" : "button"}
+            style={i === DateButton ? { backgroundColor: color } : {}}
           >
             {buttonLabel}
           </button>

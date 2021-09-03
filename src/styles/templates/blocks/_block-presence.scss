@@ -73,9 +73,11 @@
       top: 70px;
       right: 20px;
       .button {
+        border-radius: 5px;
+        border: 1.5px solid rgba(0, 0, 0, 0);
+        background-color: transparent;
         &__active {
-          background-color: rgba(77, 77, 77, 0.5);
-          border: 1.5px solid rgb(25, 26, 24);
+          color: white;
         }
       }
     }
