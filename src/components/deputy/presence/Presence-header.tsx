@@ -8,13 +8,21 @@ interface IPresenceHeader {
   width: number
   data: Deputy.Activite[]
   setRange: React.Dispatch<React.SetStateAction<Deputy.Activite[]>>
+  color: string
 }
 
 export default function PresenceHeader(props: IPresenceHeader) {
-  var { width, data, setRange } = props
+  var { width, data, setRange, color } = props
+
+  const InformationLink = (label: string) => {
+    return (
+      <a href="/faq" style={{ color: color }}>
+        {label}
+      </a>
+    )
+  }
 
   const isMobile = width < 300
-  const [Calendrier, setCalendrier] = useState(false)
   const [DateButton, setDateButton] = useState(isMobile ? 1 : 2)
   const [Informations, setInformations] = useState(false)
   const [InformationsCached, setInformationsCached] = useState(undefined)
@@ -60,22 +68,6 @@ export default function PresenceHeader(props: IPresenceHeader) {
         ))}
       </>
     )
-  }
-
-  const node = useRef<HTMLDivElement>()
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClick)
-    return () => {
-      document.removeEventListener("mousedown", handleClick)
-    }
-  }, [])
-  const handleClick = (e) => {
-    if (node?.current) {
-      if (!node.current.contains(e.target)) {
-        setCalendrier(false)
-      }
-    }
   }
 
   return (

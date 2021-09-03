@@ -49,6 +49,15 @@
       @media (max-width: 550px) {
         font-size: 14px;
       }
+      a {
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.5s $ease-out-cubic;
+        &:hover {
+          color: $secondary-color;
+          text-decoration: underline;
+        }
+      }
     }
   }
   .presence {
