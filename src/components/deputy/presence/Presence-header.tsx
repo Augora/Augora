@@ -101,10 +101,11 @@ export default function PresenceHeader(props: IPresenceHeader) {
               <p>
                 Le rôle d'un député ne se réduit pas seulement à sa présence aux séances de l'Assemblée Nationale. Si un vote a
                 lieu dans l'hémicycle qui n'a pas de rapport avec ses spécialités, il peut se concentrer sur d'autres activités,
-                telles que la préparation des {InformationLink("amendements", "quest-ce-quun-amendement")} et des{" "}
-                {InformationLink("propositions de loi", "comment-se-prepare-une-proposition-de-loi")}. Ces activités se déroulent
-                dans le cadre de {InformationLink("commissions parlementaires", "cest-quoi-une-commission-parlementaire")}. Ils
-                ont également des {InformationLink("missions d'information", "cest-quoi-une-mission-dinformation")} et des{" "}
+                telles que la préparation des {InformationLink("amendements", "quest-ce-quun-amendement")} et des propositions de
+                loi. Ces activités se déroulent dans le cadre de{" "}
+                {InformationLink("commissions parlementaires", "cest-quoi-une-commission-parlementaire")}. Ils ont également des{" "}
+                {InformationLink("commissions d'enquête", "cest-quoi-une-commission-denquete")},{" "}
+                {InformationLink("missions d'information", "cest-quoi-une-mission-dinformation")} et des{" "}
                 {InformationLink("groupes d'études", "cest-quoi-un-groupe-detude")}.
               </p>
               <p>
