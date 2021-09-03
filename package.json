@@ -33,7 +33,6 @@
     "react-lazy-load-image-component": "^1.5.0",
     "react-map-gl": "6.1.16",
     "react-spring": "9.2.4",
-    "react-swipeable": "^6.2.0",
     "sass": "^1.38.1",
     "typescript": "4.3.5",
     "zustand": "^3.5.9"
