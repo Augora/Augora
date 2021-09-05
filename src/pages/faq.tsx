@@ -24,29 +24,20 @@ const contentAbout: IContent = [
     description: (
       <>
         <p>
-          Un groupe parlementaire est un ensemble composé de minimum 15 députés. Il permet de s'organiser au sein de l'Assemblée
-          Nationale. Les députés qui composent un groupe peuvent faire partie de différents mouvements politiques.
-        </p>
-        <p>Lorsqu'un député fait parti d'un groupe parlementaire de moins de 15 députés, il est assigné aux non-inscrits.</p>
-        <p>
-          Il faut bien différencier{" "}
+          L'Assemblée Nationale fonctionne avec des{" "}
+          <a href="https://fr.wikipedia.org/wiki/Groupe_parlementaire" target="_blank" rel="noreferrer">
+            groupes parlementaires
+          </a>
+          , composés de minimum 15 députés. Les députés d'un groupe parlementaire peuvent faire partie d'un même{" "}
           <a href="https://fr.wikipedia.org/wiki/Parti_politique" target="_blank" rel="noreferrer">
             parti politique
           </a>{" "}
-          et{" "}
-          <a href="https://fr.wikipedia.org/wiki/Groupe_parlementaire" target="_blank" rel="noreferrer">
-            groupe parlementaire
-          </a>
-          , car l'assemblée nationale fonctionne uniquement avec les groupes parlementaires.
+          ou de partis différents (alliance de plusieurs partis politiques). Lorsqu'un député fait parti d'un groupe de moins de
+          15 députés, il est assigné au groupe des non-inscrits.
         </p>
         <p>
-          Il est à noter que le temps de parole est distribué en fonction de l'effectif des groupes. De plus, les commissions
-          parlementaires sont composées en proportion de l'importance des groupes.
-        </p>
-        <p>
-          En général, un député d'un parti politique est dans le groupe parlementaire du même nom quand il existe. Mais il se peut
-          que certains partis politiques s'allient pour être dans un même groupe parlementaire. Pour plus d'informations, vous
-          pouvez vous référer à la{" "}
+          Le temps de parole est distribué en fonction de l'effectif des groupes. Plus un groupe a de membres, plus il aura de
+          temps de parole. Pour plus d'informations, vous pouvez vous référer à la{" "}
           <a
             href="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-organes-de-l-assemblee-nationale/les-groupes-politiques"
             target="_blank"
@@ -64,8 +55,8 @@ const contentAbout: IContent = [
     description: (
       <>
         <p>
-          Un amendement est est une modification pour corriger, compléter ou annuler une loi ou un projet de loi. L'amendement
-          peut porter sur une partie ou l'ensemble de la-dite loi.
+          L'amendement consiste en une modification d'une loi ou un projet de loi. Il peut s'agir d'une correction, d'une
+          annulation ou d'un complément. L'amendement peut porter sur une partie ou l'ensemble de la-dite loi.
         </p>
       </>
     ),
@@ -74,7 +65,7 @@ const contentAbout: IContent = [
     title: "C'est quoi une commission parlementaire ?",
     description: (
       <>
-        <p>Une commission est un groupe de député spécialisé dans un domaine. Il existe 8 commissions dites permanentes :</p>
+        <p>Une commission est un groupe de députés spécialisé dans un domaine. Il existe 8 commissions dites permanentes :</p>
         <ul>
           <li>Affaires culturelles et éducation</li>
           <li>Affaires économiques</li>
