@@ -6,6 +6,7 @@ import { ApolloProvider } from "@apollo/client"
 import sortBy from "lodash/sortBy"
 
 import Layout from "components/layout"
+import Accropolis from "components/accropolis/Accropolis"
 import client from "lib/faunadb/client"
 import { hydrateStoreWithInitialLists } from "stores/deputesStore"
 
@@ -27,9 +28,13 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
           media="all"
         />
       </Head>
-      <Layout location={router} title={pageProps.title}>
-        <Component {...pageProps} />
-      </Layout>
+      {pageProps.pageBlank ? (
+        <Accropolis/>
+      ) : (
+        <Layout location={router} title={pageProps.title}>
+          <Component {...pageProps} />
+        </Layout>
+      )}
     </ApolloProvider>
   )
 })
