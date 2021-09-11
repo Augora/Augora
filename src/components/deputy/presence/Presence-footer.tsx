@@ -63,7 +63,6 @@ export default function PresenceFooter(props: IPresenceFooter) {
             {labels.map((label, i) => {
               const shape = shapeScale(label.datum)
               const isValidElement = React.isValidElement(shape)
-              console.log(shape)
               return (
                 <LegendItem
                   className="presence__legend-item item"
