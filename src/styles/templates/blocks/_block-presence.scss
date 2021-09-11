@@ -5,6 +5,7 @@
   padding: 0px 20px 0px 10px;
   .info {
     &__button {
+      z-index: 101;
       background-color: transparent;
       position: absolute;
       right: 10px;
