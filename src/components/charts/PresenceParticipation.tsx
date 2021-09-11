@@ -182,7 +182,7 @@ export default function PresenceParticipation(props: IPresence) {
                               ) : (
                                 <LegendItem className="item__tooltip" key={`legend-quantile-${i}`} flexDirection="row">
                                   <div className="legend__col">
-                                    <svg width={25} height={25}>
+                                    <svg width={25} height={25} className={shape.type.name === "Glyph" ? "glyph" : ""}>
                                       {isValidElement
                                         ? React.cloneElement(shape as React.ReactElement)
                                         : React.createElement(shape as React.ComponentType<{ fill: string }>, {
