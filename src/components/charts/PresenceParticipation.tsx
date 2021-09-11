@@ -144,7 +144,7 @@ export default function PresenceParticipation(props: IPresence) {
               animationTrajectory={"center"}
             />
             <AnimatedAxis
-              axisClassName={width < 500 ? " rotate" : ""}
+              axisClassName={width < 500 ? "presence__axisbottom rotate" : "presence__axisbottom"}
               orientation="bottom"
               hideAxisLine={true}
               top={yMax}

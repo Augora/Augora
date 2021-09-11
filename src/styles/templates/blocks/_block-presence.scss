@@ -92,6 +92,12 @@
       g > svg > text {
         font-size: 14px !important;
         fill: $text-color !important;
+        font-weight: 400;
+      }
+    }
+    &__axisbottom {
+      g > svg > text {
+        font-weight: 400;
       }
     }
     &__line {
