@@ -142,6 +142,7 @@
             &:last-child {
               flex: 1;
               text-align: right;
+              font-weight: 400;
             }
             .glyph {
               padding-left: 2px;
@@ -163,8 +164,9 @@
           }
           .labelValue {
             font-size: 20px;
-            color: rgba($black, 0.5);
+            color: $text-color;
             text-align: right;
+            font-weight: 400;
           }
         }
       }
