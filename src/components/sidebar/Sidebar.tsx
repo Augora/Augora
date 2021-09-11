@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import { useSwipeable } from "react-swipeable"
 import IconClose from "images/ui-kit/icon-close.svg"
 import IconRefresh from "images/ui-kit/icon-refresh.svg"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
@@ -155,21 +154,14 @@ export const SidebarHeader = ({ search, keyword }: { search: DebounceSearch; key
 }
 
 /**
- * Renvoie une sidebar avec swipe controls
+ * Renvoie une sidebar
  * @param {boolean} visible State de visibilité
  * @param {Function} [close] Callback pour fermer la sidebar
  * @param {Function} [open] Callback pour ouvrir la sidebar
  */
 export default function Sidebar({ visible, children, close, open }: ISideBar) {
-  const handlers = useSwipeable({
-    onSwipedLeft: open,
-    onSwipedRight: close,
-    trackMouse: true,
-  })
-
   return (
     <div className={`sidebar ${visible ? "visible" : ""}`}>
-      <div className="sidebar__swipe" {...handlers} />
       <div className="sidebar__visuals">{children}</div>
       <div className="sidebar__close">
         <button className="close__btn" onClick={close}>
