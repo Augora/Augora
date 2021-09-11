@@ -160,7 +160,8 @@ export default function PresenceParticipation(props: IPresence) {
               applyPositionStyle={true}
               unstyled={true}
               snapTooltipToDatumX={true}
-              offsetTop={-200}
+              offsetTop={-100}
+              offsetLeft={50}
               renderTooltip={({ tooltipData }) => {
                 const key = tooltipData.nearestDatum.index
                 const nearest = tooltipData.nearestDatum.datum
