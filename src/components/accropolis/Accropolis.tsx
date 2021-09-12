@@ -22,7 +22,10 @@ export default function Accropolis(props) {
   useEffect(()=> {
     setDeputeCards(deputes.map(depute => {
       return (
-        <div className={styles.accropolis__depute} key={`accropolis-mini-${depute.Slug}`} style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}>
+        <div className={styles.accropolis__depute} key={`accropolis-mini-${depute.Slug}`}>
+          <div className={styles.accropolis__background} style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}>
+            {/* Silen is golden */}
+          </div>
           <div className={styles.accropolis__image}>
             <DeputyImage src={depute.URLPhotoAugora} alt={`Photographie de ${depute.Nom}`} sex={depute.Sexe} />
           </div>
@@ -50,7 +53,11 @@ export default function Accropolis(props) {
   useEffect(() => {
     const newerTL = gsap.timeline()
     newerTL.set(`.${styles.accropolis__depute}`, {
-      x: "-100%",
+      // x: "-100%",
+      autoAlpha: 0,
+    })
+    newerTL.set(`.${styles.accropolis__background}`, {
+      width: "0%",
       autoAlpha: 0,
     })
     newerTL.set(`.${styles.accropolis__group}`, {
@@ -70,14 +77,24 @@ export default function Accropolis(props) {
     })
 
     newerTL.fromTo(`.${styles.accropolis__depute}`, {
-        x: "-20%",
+        // x: "-20%",
         autoAlpha: 0,
       }, {
-        x: "0",
+        // x: "0",
         autoAlpha: 1,
         ease: "power1.out",
         duration: 0.8,
       }
+    )
+    newerTL.fromTo(`.${styles.accropolis__background}`, {
+        width: "calc(0% + 10px)",
+        autoAlpha: 0,
+      }, {
+        width: "100%",
+        autoAlpha: 1,
+        ease: "power1.out",
+        duration: 0.8,
+      }, '-=0.7'
     )
     newerTL.fromTo(`.${styles.accropolis__name}`, {
         x: "-20%",
@@ -112,43 +129,45 @@ export default function Accropolis(props) {
   const cycleDeputeCard = cardIndex => {
     // Timeline
     const olderTL = gsap.timeline()
-    olderTL.fromTo( `.${styles.accropolis__image}`, {
-        x: "0%",
+    olderTL.fromTo(`.${styles.accropolis__image}`, {
+        x: "0",
+        autoAlpha: 1,
       }, {
-        x: "-20%",
-        ease: "power1.inOut",
-        duration: 1,
+        x: "-150%",
+        autoAlpha: 0,
+        ease: "power1.in",
+        duration: 0.5,
       }
     )
     olderTL.fromTo(`.${styles.accropolis__name}`, {
         x: "0%",
         autoAlpha: 1,
       }, {
-        x: "-200%",
+        x: "-120px",
         autoAlpha: 0,
         ease: "power1.in",
-        duration: 1,
-      }, '-=1'
+        duration: 0.5,
+      }, '-=0.5'
     )
     olderTL.fromTo(`.${styles.accropolis__group}`, {
         x: "0%",
         autoAlpha: 1,
       }, {
-        x: "-200%",
-        autoAlpha: 0,
-        ease: "power1.in",
-        duration: 1,
-      }, '-=0.9'
-    )
-    olderTL.fromTo(`.${styles.accropolis__depute}`, {
-        x: "0",
-        autoAlpha: 1,
-      }, {
-        x: "-100%",
+        x: "-120px",
         autoAlpha: 0,
         ease: "power1.in",
         duration: 0.5,
-      }, 0.5
+      }, '-=0.4'
+    )
+    olderTL.fromTo(`.${styles.accropolis__background}`, {
+        width: "100%",
+        autoAlpha: 1,
+      }, {
+        width: "0%",
+        autoAlpha: 0,
+        ease: "power1.in",
+        duration: 1,
+      }, '-=0.5'
     )
     // After timeline
     olderTL.call(() => {
