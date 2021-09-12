@@ -29,7 +29,7 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
         />
       </Head>
       {pageProps.pageBlank ? (
-        <Accropolis/>
+        <Accropolis {...pageProps}/>
       ) : (
         <Layout location={router} title={pageProps.title}>
           <Component {...pageProps} />

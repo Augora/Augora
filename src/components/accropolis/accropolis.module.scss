@@ -1,0 +1,57 @@
+.accropolis {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  &__depute {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    transform-origin: left;
+
+    // padding: 20;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+
+    color: white;
+    &:first-child {
+      margin-top: 10px;
+    }
+  }
+
+  &__image {
+    position: relative;
+    border-radius: 10px 0px 0px 10px;
+    overflow: hidden;
+    height: 150px;
+    width: 120px;
+    z-index: 1;
+    img {
+      max-width: unset;
+      margin: 0;
+      position: absolute;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__text {
+    padding: 20px;
+    h2,
+    p {
+      margin: 0;
+    }
+  }
+  &__name,
+  &__group {
+    position: relative;
+  }
+  &__map {
+    margin-left: 20px;
+  }
+}
