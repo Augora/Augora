@@ -138,11 +138,8 @@ const contentAbout: IContent = [
         <p>
           En théorie, les groupes d’études ont un rôle de complément lors de la production législative, du contrôle de l’exécutif
           et de l’évaluation des politiques publiques. A la différence des missions et des commissions d’enquêtes, il n’y a pas de
-          rapport à restituer.
-        </p>
-        <p>
-          On ne sait pas ce qui se déroule au sein de ces groupes d’études. Il n’y a pas de réel suivi, ni d’agenda, ni de
-          personnel dédié pour ces groupes.
+          rapport à restituer. On ne sait pas ce qui se déroule au sein de ces groupes d’études. Il n’y a pas de réel suivi, ni
+          d’agenda, ni de personnel dédié pour ces groupes.
         </p>
         <p>
           Contrairement à d’autres structures, il n’y a pas de parité à respecter entre groupes parlementaires pour intégrer un
