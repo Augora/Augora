@@ -176,8 +176,6 @@ export default function PresenceParticipation(props: IPresence) {
                           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             {labels.map((label, i) => {
                               const shape = shapeScale(label.datum)
-                              console.log(shape)
-                              console.log(shape.type.name)
                               const isValidElement = React.isValidElement(shape)
                               // Passer à 3 pour intégrer la mediane dans la tooltip
                               return i > 2 ? (
@@ -185,15 +183,7 @@ export default function PresenceParticipation(props: IPresence) {
                               ) : (
                                 <LegendItem className="item__tooltip" key={`legend-quantile-${i}`} flexDirection="row">
                                   <div className="legend__col">
-                                    <svg
-                                      width={25}
-                                      height={25}
-                                      style={
-                                        shape.type.name === "Glyph"
-                                          ? { marginBottom: "3px", paddingLeft: "2px" }
-                                          : { marginBottom: "3px" }
-                                      }
-                                    >
+                                    <svg width={25} height={25}>
                                       {isValidElement
                                         ? React.cloneElement(shape as React.ReactElement)
                                         : React.createElement(shape as React.ComponentType<{ fill: string }>, {

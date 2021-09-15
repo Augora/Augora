@@ -166,6 +166,14 @@
             font-weight: 400;
           }
         }
+        .item__tooltip:not(:last-child) {
+          .legend__col {
+            svg {
+              padding-left: 2px;
+              margin-bottom: 3px;
+            }
+          }
+        }
       }
     }
   }
