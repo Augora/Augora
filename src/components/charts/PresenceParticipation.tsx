@@ -176,6 +176,8 @@ export default function PresenceParticipation(props: IPresence) {
                           <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             {labels.map((label, i) => {
                               const shape = shapeScale(label.datum)
+                              console.log(shape)
+                              console.log(shape.type.name)
                               const isValidElement = React.isValidElement(shape)
                               // Passer à 3 pour intégrer la mediane dans la tooltip
                               return i > 2 ? (
