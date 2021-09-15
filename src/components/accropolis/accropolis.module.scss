@@ -1,16 +1,37 @@
+@import "../../styles/global/easing";
+
 .accropolis {
   &__container {
-    display: flex;
+    //
+  }
+  &__inner {
+    display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
+    position: relative;
+
+    margin: 100px 0px;
   }
-  &__background {
+  &__background,
+  &__background2 {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     border-radius: 10px;
+  }
+  &__background {
+    z-index: 2;
+  }
+  &__background2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(white, 1);
+
+    z-index: 1;
   }
   &__depute {
     position: relative;
@@ -21,15 +42,11 @@
 
     transform-origin: left;
 
-    // padding: 20;
     border-radius: 10px;
-    margin-bottom: 10px;
-    margin-left: 10px;
+    margin: 0;
+    z-index: 1;
 
     color: white;
-    &:first-child {
-      margin-top: 10px;
-    }
   }
 
   &__image {
@@ -37,8 +54,8 @@
     border-radius: 10px 0px 0px 10px;
     overflow: hidden;
     height: 150px;
-    width: 120px;
-    z-index: 1;
+    width: 110px;
+    z-index: 4;
     img {
       max-width: unset;
       margin: 0;
@@ -49,7 +66,9 @@
     }
   }
   &__text {
-    padding: 20px;
+    position: relative;
+    padding: 20px 40px 20px 20px;
+    z-index: 3;
     h2,
     p {
       margin: 0;
@@ -59,7 +78,48 @@
   &__group {
     position: relative;
   }
+
+  &__question {
+    position: relative;
+    z-index: 0;
+    margin-left: 110px;
+    padding: 5px 10px;
+    background: white;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  $map-size: 200px;
   &__map {
-    margin-left: 20px;
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+    width: $map-size;
+  }
+  &__mapinner {
+    position: relative;
+    width: $map-size;
+    height: 150px;
+  }
+  &__geography {
+    position: absolute;
+    right: 0;
+    top: calc(100% - 15px);
+
+    width: $map-size;
+    padding: 20px 10px 5px;
+    border-radius: 0 0px 10px 10px;
+
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #ddd;
+    color: #000;
+
+    line-height: 1.25;
+
+    z-index: 0;
   }
 }

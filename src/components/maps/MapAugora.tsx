@@ -41,6 +41,9 @@ interface IMapAugora {
   overlay?: boolean
   /** S'il faut forcer un recentrage de la map au chargement */
   forceCenter?: boolean
+  small?: boolean
+  attributionControl?: boolean
+  delay?: number
   children?: React.ReactNode
 }
 
@@ -79,6 +82,9 @@ const lineGhostLayerProps: LayerProps = {
  * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map
  * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default true
  * @param {boolean} [forceCenter] S'il faut recentrer la map au chargement, default false
+ * @param {boolean} [small] S'il faut afficher une map plus petite, default false
+ * @param {boolean} [attributionControl] Si on veut cacher le logo MapBox, default false
+ * @param {number} [delay] Si on veut retarder l'effet de zoom, default 0
  */
 export default function MapAugora(props: IMapAugora) {
   /** Default props */
@@ -87,6 +93,9 @@ export default function MapAugora(props: IMapAugora) {
     deputies = [],
     forceCenter = false,
     mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
+    small = false,
+    attributionControl = false,
+    delay = 0,
   } = props
 
   /** useStates */
@@ -98,7 +107,16 @@ export default function MapAugora(props: IMapAugora) {
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
-    flyToBounds(feature, props.viewport, props.setViewport, isMobile ? 20 : 80)
+    let padding = 80;
+    if (isMobile) {
+      padding = 20
+    } else if (small) {
+      padding = 30;
+    }
+
+    setTimeout(() => {
+      flyToBounds(feature, props.viewport, props.setViewport, padding)
+    }, delay)
   }
 
   /** Change la zone affichée et transitionne */
@@ -199,6 +217,7 @@ export default function MapAugora(props: IMapAugora) {
       onHover={handleHover}
       onMouseOut={() => renderHover()}
       reuseMaps={true}
+      attributionControl={attributionControl}
     >
       {isMapLoaded && (
         <>
