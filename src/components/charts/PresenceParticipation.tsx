@@ -173,7 +173,7 @@ export default function PresenceParticipation(props: IPresence) {
                     {nearest.Vacances === 0 ? (
                       <Legend scale={shapeScale}>
                         {(labels) => (
-                          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                          <div className="item">
                             {labels.map((label, i) => {
                               const shape = shapeScale(label.datum)
                               const isValidElement = React.isValidElement(shape)
@@ -183,7 +183,7 @@ export default function PresenceParticipation(props: IPresence) {
                               ) : (
                                 <LegendItem className="item__tooltip" key={`legend-quantile-${i}`} flexDirection="row">
                                   <div className="legend__col">
-                                    <svg width={25} height={25}>
+                                    <svg>
                                       {isValidElement
                                         ? React.cloneElement(shape as React.ReactElement)
                                         : React.createElement(shape as React.ComponentType<{ fill: string }>, {

@@ -178,9 +178,21 @@
       }
       .item__label {
         cursor: pointer;
+        margin: 0 0 12px;
+      }
+      .line {
+        text-decoration: line-through;
       }
       &:hover:not(:last-child) {
         transform: scale(1.05);
+      }
+      &:nth-child(-n + 2) svg {
+        padding-left: 2px;
+      }
+      svg {
+        width: 25px;
+        height: 25px;
+        margin-bottom: 3px;
       }
     }
     &__indisponible {
