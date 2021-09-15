@@ -110,7 +110,6 @@ const Presence = (props: Bloc.Presence) => {
                   shapeScale={shapeScale}
                 />
                 <PresenceFooter
-                  width={parent.width}
                   color={props.color.HSL.Full}
                   DisplayedGraph={DisplayedGraph}
                   setDisplayedGraph={setDisplayedGraph}

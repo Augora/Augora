@@ -27,7 +27,6 @@ const handleLegend = (state, legend: string) => {
 }
 
 interface IPresenceFooter {
-  width: number
   color: string
   DisplayedGraph: {
     Présences: boolean
