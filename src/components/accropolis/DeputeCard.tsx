@@ -163,7 +163,6 @@ export default function DeputeCard({numberOfQuestions, depute, index}) {
               overlay={false}
               forceCenter={true}
               small={true}
-              delay={(duration - 0.75 - mapDelay) * 1000}
               viewport={viewport}
               setViewport={setViewport}
               mapView={{
@@ -176,7 +175,10 @@ export default function DeputeCard({numberOfQuestions, depute, index}) {
         </div>
       </div>
       <div className={styles.accropolis__geography}>
-        {depute.NomRegion}<br/>{depute.NomDepartement}
+        {depute.NomRegion}<br/>
+        {depute.NomRegion !== depute.NomDepartement ? (
+          depute.NomDepartement
+        ) : null}
       </div>
     </div>
   )

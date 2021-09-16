@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import DeputeCard from "./DeputeCard"
 
 import { gsap } from "gsap"
+import _ from 'lodash';
 
 import styles from './accropolis.module.scss'
 
@@ -11,9 +12,9 @@ export default function Accropolis({ deputes, listed_deputes }) {
   const [deputeCurrentCard, setDeputeCurrentCard] = useState(null);
 
   useEffect(() => {
-    setFilteredDeputes(filteredDeputes.filter(depute => {
-      return listed_deputes.some(d => {
-        return d.Depute_name === depute.Slug
+    setFilteredDeputes(listed_deputes.map(depute => {
+      return filteredDeputes.find(d => {
+        return d.Slug === depute.Depute_name
       })
     }))
   }, [listed_deputes])
@@ -50,10 +51,29 @@ export default function Accropolis({ deputes, listed_deputes }) {
     )
     olderTL.fromTo(`.${styles.accropolis__mapinner}`, {
         x: '0%',
+        autoAlpha: 1,
       },
       {
         x: '-100%',
+        autoAlpha: 0,
+        duration: 0.3,
       }
+    )
+    olderTL.fromTo(`.${styles.accropolis__background}`, {
+        width: "100%",
+      }, {
+        width: "0%",
+        ease: "power1.inOut",
+        duration: 1,
+      }, '-=0.5'
+    )
+    olderTL.fromTo(`.${styles.accropolis__background2}`, {
+        width: "100%",
+      }, {
+        width: "0%",
+        ease: "power1.inOut",
+        duration: 1,
+      }, '-=0.9'
     )
     olderTL.fromTo(`.${styles.accropolis__question}`, {
         y: '0%',
@@ -83,26 +103,7 @@ export default function Accropolis({ deputes, listed_deputes }) {
         autoAlpha: 0,
         ease: "power1.in",
         duration: 0.5,
-      }, '-=0.4'
-    )
-
-    // Background
-    olderTL.add('background')
-    olderTL.fromTo(`.${styles.accropolis__background}`, {
-        width: "100%",
-      }, {
-        width: "0%",
-        ease: "power1.inOut",
-        duration: 1,
-      }, 'background'
-    )
-    olderTL.fromTo(`.${styles.accropolis__background2}`, {
-        width: "100%",
-      }, {
-        width: "0%",
-        ease: "power1.inOut",
-        duration: 1,
-      }, 'background+=0.1'
+      }, '-=1'
     )
     olderTL.fromTo(`.${styles.accropolis__depute}`, {
         x: 0,
@@ -111,16 +112,15 @@ export default function Accropolis({ deputes, listed_deputes }) {
         duration: 1,
       }, '-=0.4'
     )
-
-    // Image
     olderTL.fromTo(`.${styles.accropolis__image}`, {
         width: "110px",
       }, {
         width: "0px",
         ease: "power4.in",
         duration: 1.1,     
-      }, 'background-=0.1'
+      }, '-=1.5'
     )
+
     // After timeline
     olderTL.call(() => {
       if (cardIndex > deputeCards.length - 1) {

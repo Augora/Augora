@@ -205,7 +205,7 @@ export default function MapAugora(props: IMapAugora) {
       {...props.viewport}
       width="100%"
       height="100%"
-      minZoom={1}
+      minZoom={small ? 0 : 1}
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}

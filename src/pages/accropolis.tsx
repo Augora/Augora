@@ -9,9 +9,7 @@ export default function Accropolis(props) {
 }
 
 async function getServerSideProps(context) {
-  // const res = await fetch(`http://localhost:1337/deputes`)
   const listed_deputes = await fetchQuery('deputes')
-  // const depute: { Depute: Deputy.Deputy } = await getDepute('roland-lescure')
   const deputes = await getDeputes()
 
   return {
@@ -25,6 +23,4 @@ async function getServerSideProps(context) {
   }
 }
 
-const baseUrl = 'http://localhost:1337';
-
-export { getServerSideProps, baseUrl, fetchQuery }
+export { getServerSideProps, fetchQuery }

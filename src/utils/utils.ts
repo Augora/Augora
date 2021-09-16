@@ -23,8 +23,8 @@ export function slugify(string: string) {
     .replace(/-+$/, "") // Trim - from end of text
 }
 
-const baseUrl = 'http://localhost:1337';
 export async function fetchQuery(path, params = null) {
+  const baseUrl = 'https://accrogora.herokuapp.com';
   let url
   if (params !== null) {
     url = `${baseUrl}/${path}/${params}`
