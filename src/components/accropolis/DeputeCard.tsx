@@ -8,18 +8,33 @@ import { createFeatureCollection, getFeature, getLayerPaint } from "components/m
 
 const mapDelay = 0.5
 
-export default function DeputeCard({numberOfQuestions, depute, index}) {
-  const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = depute
+export default function DeputeCard({numberOfQuestions, depute, index, currentAnimation, setCurrentAnimation}) {
+  const { NumeroCirconscription, NumeroDepartement } = depute
   const feature = getFeature({
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
   const { viewport, setViewport } = mapStore()
-  const [duration, setDuration] = useState(0)
+  // const [duration, setDuration] = useState(0)
 
   useEffect(() => {
-    const renderTL = gsap.timeline()
-    // Reset original situation
+    if (currentAnimation.animation) {
+      currentAnimation.animation.kill();
+    }
+    const renderTL = gsap.timeline({
+      onComplete: () => {
+        setCurrentAnimation({
+          animation: null,
+          type: null,
+        })
+      }
+    })
+    renderTL.call(() => {
+      setCurrentAnimation({
+        animation: renderTL,
+        type: 'render'
+      })
+    })
     renderTL.set(`.${styles.accropolis__depute}`, {
       autoAlpha: 0,
     })
@@ -135,7 +150,6 @@ export default function DeputeCard({numberOfQuestions, depute, index}) {
         autoAlpha: 1,
       }
     )
-    setDuration(renderTL.duration())
     renderTL.play();
   }, [index])
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import DeputeCard from "./DeputeCard"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 
 import { gsap } from "gsap"
 import _ from 'lodash';
@@ -10,6 +11,10 @@ export default function Accropolis({ deputes, listed_deputes }) {
   const [filteredDeputes, setFilteredDeputes] = useState(deputes.data.DeputesEnMandat.data);
   const [deputeCards, setDeputeCards] = useState([])
   const [deputeCurrentCard, setDeputeCurrentCard] = useState(null);
+  const [currentAnimation, setCurrentAnimation] = useState({
+    animation: null,
+    type: null,
+  })
 
   useEffect(() => {
     setFilteredDeputes(listed_deputes.map(depute => {
@@ -17,11 +22,17 @@ export default function Accropolis({ deputes, listed_deputes }) {
         return d.Slug === depute.Depute_name
       })
     }))
-  }, [listed_deputes])
+  }, [])
 
   useEffect(()=> {
     setDeputeCards(filteredDeputes.map((depute, index) =>
-      <DeputeCard numberOfQuestions={filteredDeputes.length} depute={depute} index={index}/>
+      <DeputeCard
+        numberOfQuestions={filteredDeputes.length}
+        depute={depute}
+        index={index}
+        currentAnimation={currentAnimation}
+        setCurrentAnimation={setCurrentAnimation}
+      />
     ))
   }, [filteredDeputes])
 
@@ -38,8 +49,34 @@ export default function Accropolis({ deputes, listed_deputes }) {
   }, [deputeCurrentCard])
 
   const cycleDeputeCard = cardIndex => {
+    if (currentAnimation.animation) {
+      currentAnimation.animation.kill();
+      if (currentAnimation.type === 'older') {
+        if (cardIndex > deputeCards.length - 1) {
+          setDeputeCurrentCard(0);
+        } else if (cardIndex < 0) {
+          setDeputeCurrentCard(deputeCards.length - 1)
+        } else {
+          setDeputeCurrentCard(cardIndex)
+        }
+        return
+      }
+    }
     // Timeline
-    const olderTL = gsap.timeline()
+    const olderTL = gsap.timeline({
+      onComplete: () => {
+        setCurrentAnimation({
+          animation: null,
+          type: null
+        })
+      }
+    })
+    olderTL.call(() => {
+      setCurrentAnimation({
+        animation: olderTL,
+        type: 'older'}
+      )
+    })
     olderTL.fromTo(`.${styles.accropolis__geography}`, {
         y: 0,
         autoAlpha: 1,
@@ -144,12 +181,44 @@ export default function Accropolis({ deputes, listed_deputes }) {
       <div className={styles.accropolis__container}>
         { deputeCards[deputeCurrentCard] }
       </div>
-      <button className="previous" onClick={() => cycleDeputeCard(deputeCurrentCard - 1) }>
-        Précédent
-      </button>
-      <button className="next" onClick={() => cycleDeputeCard(deputeCurrentCard + 1) }>
-        Suivant
-      </button>
+      <div className={styles.accropolis__controls}>
+        <button className={styles.controls__prev} onClick={() => cycleDeputeCard(deputeCurrentCard - 1) }>
+          <div className="icon-wrapper">
+            <IconChevron />
+          </div>
+        </button>
+        <button className={styles.controls__next} onClick={() => cycleDeputeCard(deputeCurrentCard + 1) }>
+          <div className="icon-wrapper">
+            <IconChevron />
+          </div>
+        </button>
+        <br/>
+        <div
+          className={styles.accropolis__navigation}
+        >
+          {deputeCards.map((depute, index) => {
+            if (index === deputeCurrentCard) {
+              console.log(deputeCurrentCard)
+            }
+            return (
+              <button
+                className={`${styles.navigation__btn} ${index === deputeCurrentCard ? styles.navigation__active : ''}`}
+                key={`btn-accropolis-nav-${index}`}
+                onClick={() => { cycleDeputeCard(index) }}
+                style={{
+                  backgroundColor: depute.props.depute.GroupeParlementaire.Couleur
+                }}
+              >
+                <p className={styles.navigation__number}>{ index + 1 }</p>
+                <p className={styles.navigation__name}>
+                  {depute.props.depute.Nom.replace('-', String.fromCharCode(8209))}
+                </p>
+              </button>
+            )
+          }
+        )}
+        </div>
+      </div>
     </div>
   )
 }
