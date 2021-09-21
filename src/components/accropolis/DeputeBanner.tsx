@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styles from './DeputeBanner.module.scss'
+import styles from './DeputeBannerStyles.module.scss'
 import { gsap } from "gsap"
 import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
 import mapStore from "stores/mapStore"

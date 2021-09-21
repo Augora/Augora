@@ -6,9 +6,9 @@ import IconChevron from "images/ui-kit/icon-chevron.svg"
 import { gsap } from "gsap"
 import _ from 'lodash';
 
-import styles from './Accropolis.module.scss'
-import deputeBannerStyles from './DeputeBanner.module.scss'
-import deputeCardStyles from './DeputeCard.module.scss'
+import styles from './AccropolisStyles.module.scss'
+import deputeBannerStyles from './DeputeBannerStyles.module.scss'
+import deputeCardStyles from './DeputeCardStyles.module.scss'
 
 export default function Accropolis({ accroDeputes }) {
   const [deputeCards, setDeputeCards] = useState([])

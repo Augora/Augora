@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import MapAugora from "components/maps/MapAugora"
-import styles from './DeputeCard.module.scss'
+import styles from './DeputeCardStyles.module.scss'
 import { gsap } from "gsap"
 import mapStore from "stores/mapStore"
 import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
