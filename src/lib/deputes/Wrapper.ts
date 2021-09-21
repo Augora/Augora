@@ -175,6 +175,12 @@ export function getDeputeAccropolis(slug: string) {
               Couleur
               Sigle
               CouleurDetail {
+                RGB {
+                  Full
+                  R
+                  G
+                  B
+                }
                 HSL {
                   Full
                   H

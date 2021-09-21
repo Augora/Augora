@@ -7,16 +7,17 @@ import MapAugora from "components/maps/MapAugora"
 import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
 import { getHSLLightVariation } from "utils/style/color"
 
-const mapDelay = 0.5
 const debug = true
 
-export default function DeputeBanner({numberOfQuestions, depute, index, currentAnimation, setCurrentAnimation}) {
+export default function DeputeBanner({numberOfQuestions, depute, index, currentAnimation, setCurrentAnimation, mapOpacity, setMapOpacity}) {
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature = getFeature({
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
   const { viewport, setViewport } = mapStore()
+  // const [mapOpacity, setMapOpacity] = useState({value: 0})
+  const refMapOpacity = {value: mapOpacity.value}
 
   useEffect(() => {
     if (currentAnimation.animation) {
@@ -24,18 +25,33 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
     }
     const renderTL = gsap.timeline({
       onComplete: () => {
-        setCurrentAnimation({
+        setCurrentAnimation(Object.assign(currentAnimation, {
           animation: null,
           type: null,
-        })
+        }))
       }
     })
     renderTL.call(() => {
-      setCurrentAnimation({
+      setCurrentAnimation(Object.assign(currentAnimation, {
         animation: renderTL,
-        type: 'render'
-      })
+        type: 'render',
+      }))
     })
+    renderTL.to(refMapOpacity, {
+      value: 1,
+      duration: 0.5,
+      onUpdate: () => {
+        setMapOpacity({value: refMapOpacity.value})
+      }
+    }, 2)
+    // renderTL.set(currentAnimation, {
+    //   mapOpacity: 0,
+    // })
+    // renderTL.fromTo(currentAnimation, {
+    //   mapOpacity: 0,
+    // }, {
+    //   mapOpacity: 1,
+    // })
     // renderTL.set(`.${styles.deputeBanner}`, {
     //   autoAlpha: 0,
     // })
@@ -61,6 +77,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
   }, [index])
 
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
+  const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
   const GroupeLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
 
   return (
@@ -125,7 +142,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
             mapView={{
               geoJSON: createFeatureCollection([feature]),
               feature: feature,
-              paint: getLayerPaint(depute.GroupeParlementaire.Couleur),
+              paint: getLayerPaint(`rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, ${mapOpacity.value})`),
             }}
           />
         </div>
