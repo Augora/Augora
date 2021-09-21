@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import styles from './DeputeBanner.module.scss'
+import React, { useEffect } from "react"
+import styles from "./DeputeBanner.module.scss"
 import { gsap } from "gsap"
 import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
 import mapStore from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
 import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
 import { getHSLLightVariation } from "utils/style/color"
+import { over } from "@visx/text/node_modules/@types/lodash"
 
 const mapDelay = 0.5
 const debug = true
 
-export default function DeputeBanner({numberOfQuestions, depute, index, currentAnimation, setCurrentAnimation}) {
+export default function DeputeBanner({ numberOfQuestions, depute, index, currentAnimation, setCurrentAnimation }) {
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature = getFeature({
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
-  console.log('DeputeBanner RENDER--------------------')
+  console.log("DeputeBanner RENDER--------------------")
   console.log(feature.properties)
-  const { viewport, setViewport } = mapStore()
+
+  const { viewport, setViewport, overview } = mapStore()
 
   useEffect(() => {
     if (currentAnimation.animation) {
-      currentAnimation.animation.kill();
+      currentAnimation.animation.kill()
     }
     const renderTL = gsap.timeline({
       onComplete: () => {
@@ -30,12 +32,12 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
           animation: null,
           type: null,
         })
-      }
+      },
     })
     renderTL.call(() => {
       setCurrentAnimation({
         animation: renderTL,
-        type: 'render'
+        type: "render",
       })
     })
     // renderTL.set(`.${styles.deputeBanner}`, {
@@ -59,7 +61,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
     //     x: '0%',
     //   },
     // )
-    renderTL.play();
+    renderTL.play()
   }, [index])
 
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
@@ -84,7 +86,10 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         </div>
         <div className={styles.deputeBanner__question}>Bla bla bla...</div>
         <div className={styles.deputeBanner__questionNumber}>
-          <span>Question {index + 1 < 10 ? '0' : null}{ index + 1 } / { numberOfQuestions }</span>
+          <span>
+            Question {index + 1 < 10 ? "0" : null}
+            {index + 1} / {numberOfQuestions}
+          </span>
         </div>
       </section>
 
@@ -119,10 +124,11 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         <div className={styles.deputeBanner__mapContainer}>
           <MapAugora
             overlay={false}
-            forceCenter={true}
+            // forceCenter={true}
             small={true}
             viewport={viewport}
             attribution={false}
+            overview={overview}
             setViewport={setViewport}
             mapView={{
               geoJSON: createFeatureCollection([feature]),

@@ -8,6 +8,7 @@ import InteractiveMap, {
   Layer,
   LayerProps,
   ViewportProps,
+  Popup,
 } from "react-map-gl"
 import {
   Code,
@@ -18,12 +19,13 @@ import {
   compareFeatures,
   getLayerPaint,
   getDeputies,
+  MetroFeature,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
 import MapFilters from "components/maps/MapFilters"
-import IconInfo from "images/ui-kit/icon-info.svg"
+import IconPin from "images/ui-kit/icon-pin.svg"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
@@ -35,6 +37,8 @@ interface IMapAugora {
   setViewport(newViewport: ViewportProps): void
   /** Callback quand la map requete un changement de zone */
   changeZone?<T extends GeoJSON.Feature>(feature: T): void
+  /** Si on affiche les circonscriptions comme un pin en mode dézoomé ou de façon normale */
+  overview?: boolean
   /** Liste de députés que la map va fouiller. Hint: on peut passer une array avec un seul député pour par exemple une circonscription */
   deputies?: Deputy.DeputiesList
   /** Si les overlays doivent être affichés */
@@ -86,7 +90,7 @@ const lineGhostLayerProps: LayerProps = {
  * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default true
  * @param {boolean} [forceCenter] S'il faut recentrer la map au chargement, default false
  * @param {boolean} [small] S'il faut afficher une map plus petite, default false
- * @param {boolean} [attributionControl] Si on veut cacher le logo MapBox, default false
+ * @param {boolean} [attribution] Si on veut afficher le logo MapBox, default true
  * @param {number} [delay] Si on veut retarder l'effet de zoom, default 0
  */
 export default function MapAugora(props: IMapAugora) {
@@ -96,6 +100,7 @@ export default function MapAugora(props: IMapAugora) {
     deputies = [],
     forceCenter = false,
     mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
+    overview = false,
     small = false,
     attribution = true,
     delay = 0,
@@ -105,9 +110,11 @@ export default function MapAugora(props: IMapAugora) {
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
 
+  /** useEffects */
   useEffect(() => {
-    flyToFeature(zoneFeature)
-  }, [zoneFeature])
+    if (!overview) flyToFeature(zoneFeature)
+    else flyToFeature(MetroFeature)
+  }, [zoneFeature, overview])
 
   /** useRefs */
   const mapRef = useRef<mapboxgl.Map>()
@@ -215,7 +222,7 @@ export default function MapAugora(props: IMapAugora) {
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
-      interactiveLayerIds={isMapLoaded ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
+      interactiveLayerIds={isMapLoaded && !overview ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
       onResize={handleResize}
       onLoad={handleLoad}
       onViewportChange={props.setViewport}
@@ -227,10 +234,26 @@ export default function MapAugora(props: IMapAugora) {
     >
       {isMapLoaded && (
         <>
-          <Source type="geojson" data={geoJSON} generateId={true}>
-            <Layer {...lineLayerProps} paint={paint.line} />
-            <Layer {...fillLayerProps} paint={paint.fill} />
-          </Source>
+          {overview && geoJSON.features.length === 1 ? (
+            <Popup
+              className="map__popup"
+              longitude={zoneFeature.properties.center[0]}
+              latitude={zoneFeature.properties.center[1]}
+              closeButton={false}
+              tipSize={0}
+              anchor={"bottom"}
+              dynamicPosition={false}
+            >
+              <div className="icon-wrapper">
+                <IconPin style={{ fill: paint.line["line-color"] }} />
+              </div>
+            </Popup>
+          ) : (
+            <Source type="geojson" data={geoJSON} generateId={true}>
+              <Layer {...lineLayerProps} paint={paint.line} />
+              <Layer {...fillLayerProps} paint={paint.fill} />
+            </Source>
+          )}
           {ghostGeoJSON && (
             <Source type="geojson" data={ghostGeoJSON} generateId={true}>
               <Layer {...lineGhostLayerProps} />
