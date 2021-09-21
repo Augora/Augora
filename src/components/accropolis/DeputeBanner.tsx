@@ -126,6 +126,7 @@ export default function DeputeBanner({ numberOfQuestions, depute, index, current
             viewport={viewport}
             attribution={false}
             overview={overview}
+            borders={true}
             setViewport={setViewport}
             mapView={{
               geoJSON: createFeatureCollection([feature]),

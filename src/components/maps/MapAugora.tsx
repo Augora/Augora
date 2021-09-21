@@ -51,6 +51,8 @@ interface IMapAugora {
   small?: boolean
   /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire) */
   attribution?: boolean
+  /** S'il faut afficher les frontières */
+  borders?: boolean
   children?: React.ReactNode
 }
 
@@ -104,6 +106,7 @@ export default function MapAugora(props: IMapAugora) {
     small = false,
     attribution = true,
     delay = 0,
+    borders = false,
   } = props
 
   /** useStates */
@@ -213,7 +216,7 @@ export default function MapAugora(props: IMapAugora) {
   return (
     <InteractiveMap
       mapboxApiAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
-      mapStyle="mapbox://styles/augora/ckh3h62oh2nma19qt1fgb0kq7?optimize=true"
+      mapStyle={`mapbox://styles/augora/${borders ? "cktufpwer194q18pmh09ut4e5" : "ckh3h62oh2nma19qt1fgb0kq7"}?optimize=true`}
       ref={(ref) => (mapRef.current = ref && ref.getMap())}
       {...props.viewport}
       width="100%"
