@@ -86,7 +86,7 @@
           position: relative;
         }
         &__active {
-          color: white;
+          transition: color 0.2s $ease-out-cubic;
           font-weight: bold;
         }
         &__border,
