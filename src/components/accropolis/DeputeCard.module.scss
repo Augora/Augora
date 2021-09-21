@@ -6,5 +6,129 @@
 // Depute Banner
 /*----------------------------------------------------*/
 .deputeCard {
-  //
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+
+    margin: 0px 0px 100px;
+  }
+  &__depute {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    transform-origin: left;
+
+    border-radius: 10px;
+    margin: 0;
+    z-index: 1;
+
+    color: white;
+  }
+
+  // Background
+  &__background,
+  &__background2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+  &__background {
+    z-index: 2;
+  }
+  &__background2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(white, 1);
+
+    z-index: 1;
+  }
+
+  // Image
+  &__image {
+    position: relative;
+    border-radius: 10px 0px 0px 10px;
+    overflow: hidden;
+    height: 150px;
+    width: 110px;
+    z-index: 4;
+    img {
+      max-width: unset;
+      margin: 0;
+      position: absolute;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // Text content
+  &__text {
+    position: relative;
+    padding: 20px 40px 20px 20px;
+    z-index: 3;
+    h2,
+    p {
+      margin: 0;
+    }
+  }
+  &__name,
+  &__group {
+    position: relative;
+  }
+
+  // Question
+  &__question {
+    position: relative;
+    z-index: 0;
+    margin-left: 110px;
+    padding: 5px 10px;
+    background: white;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  // Map
+  $map-size: 200px;
+  &__map {
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+    width: $map-size;
+  }
+  &__mapinner {
+    position: relative;
+    width: $map-size;
+    height: 150px;
+  }
+  &__geography {
+    position: absolute;
+    right: 0;
+    top: calc(100% - 15px);
+
+    width: $map-size;
+    padding: 20px 10px 5px;
+    border-radius: 0 0px 10px 10px;
+
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #ddd;
+    color: #000;
+
+    line-height: 1.25;
+
+    z-index: 0;
+  }
 }

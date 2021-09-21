@@ -6,8 +6,9 @@ import IconChevron from "images/ui-kit/icon-chevron.svg"
 import { gsap } from "gsap"
 import _ from 'lodash';
 
-import styles from './accropolis.module.scss'
-import deputeBannerStyles from './depute-banner.module.scss'
+import styles from './Accropolis.module.scss'
+import deputeBannerStyles from './DeputeBanner.module.scss'
+import deputeCardStyles from './DeputeCard.module.scss'
 
 export default function Accropolis({ accroDeputes }) {
   const [deputeCards, setDeputeCards] = useState([])
@@ -47,7 +48,7 @@ export default function Accropolis({ accroDeputes }) {
   useEffect(() => {
     if (layoutType === 'card') {
       const newerTL = gsap.timeline()
-      newerTL.set(`.${styles.accropolis__inner}`, {
+      newerTL.set(`.${deputeCardStyles.deputeCard__inner}`, {
         autoAlpha: 1
       })
       newerTL.play();
@@ -95,7 +96,7 @@ export default function Accropolis({ accroDeputes }) {
         type: 'older'
       })
     })
-    olderTL.fromTo(`.${styles.accropolis__geography}`, {
+    olderTL.fromTo(`.${deputeCardStyles.deputeCard__geography}`, {
         y: 0,
         autoAlpha: 1,
       },
@@ -104,7 +105,7 @@ export default function Accropolis({ accroDeputes }) {
         autoAlpha: 0,
       }
     )
-    olderTL.fromTo(`.${styles.accropolis__mapinner}`, {
+    olderTL.fromTo(`.${deputeCardStyles.deputeCard__mapinner}`, {
         x: '0%',
         autoAlpha: 1,
       },
@@ -114,7 +115,7 @@ export default function Accropolis({ accroDeputes }) {
         duration: 0.3,
       }
     )
-    olderTL.fromTo(`.${styles.accropolis__background}`, {
+    olderTL.fromTo(`.${deputeCardStyles.deputeCard__background}`, {
         width: "100%",
       }, {
         width: "0%",
@@ -122,7 +123,7 @@ export default function Accropolis({ accroDeputes }) {
         duration: 1,
       }, '-=0.5'
     )
-    olderTL.fromTo(`.${styles.accropolis__background2}`, {
+    olderTL.fromTo(`.${deputeCardStyles.deputeCard__background2}`, {
         width: "100%",
       }, {
         width: "0%",
@@ -130,7 +131,7 @@ export default function Accropolis({ accroDeputes }) {
         duration: 1,
       }, '-=0.9'
     )
-    olderTL.fromTo(`.${styles.accropolis__question}`, {
+    olderTL.fromTo(`.${deputeCardStyles.deputeCard__question}`, {
         y: '0%',
         autoAlpha: 1,
       }, {
@@ -140,7 +141,7 @@ export default function Accropolis({ accroDeputes }) {
         duration: 0.5,
       }, 0
     )
-    olderTL.fromTo(`.${styles.accropolis__name}`, {
+    olderTL.fromTo(`.${deputeCardStyles.deputeCard__name}`, {
         x: "0%",
         autoAlpha: 1,
       }, {
@@ -150,7 +151,7 @@ export default function Accropolis({ accroDeputes }) {
         duration: 0.5,
       }, 0
     )
-    olderTL.fromTo(`.${styles.accropolis__group}`, {
+    olderTL.fromTo(`.${deputeCardStyles.deputeCard__group}`, {
         x: "0%",
         autoAlpha: 1,
       }, {
@@ -160,14 +161,14 @@ export default function Accropolis({ accroDeputes }) {
         duration: 0.5,
       }, '-=1'
     )
-    olderTL.fromTo(`.${styles.accropolis__depute}`, {
+    olderTL.fromTo(`.${deputeCardStyles.deputeCard__depute}`, {
         x: 0,
       }, {
         x: -20,
         duration: 1,
       }, '-=0.4'
     )
-    olderTL.fromTo(`.${styles.accropolis__image}`, {
+    olderTL.fromTo(`.${deputeCardStyles.deputeCard__image}`, {
         width: "110px",
       }, {
         width: "0px",
@@ -206,7 +207,7 @@ export default function Accropolis({ accroDeputes }) {
         }
       }, [], '+=0.5')
   
-      olderTL.set(`.${styles.accropolis__inner}`, {
+      olderTL.set(`.${deputeCardStyles.deputeCard__inner}`, {
         autoAlpha: 0
       })
   

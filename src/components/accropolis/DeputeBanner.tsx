@@ -16,8 +16,6 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
-  console.log('DeputeBanner RENDER--------------------')
-  console.log(feature.properties)
   const { viewport, setViewport } = mapStore()
 
   useEffect(() => {

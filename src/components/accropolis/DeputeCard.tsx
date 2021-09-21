@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import MapAugora from "components/maps/MapAugora"
-import styles from './Accropolis.module.scss'
+import styles from './DeputeCard.module.scss'
 import { gsap } from "gsap"
 import mapStore from "stores/mapStore"
 import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
@@ -35,40 +35,40 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
         type: "render",
       })
     })
-    renderTL.set(`.${styles.accropolis__depute}`, {
+    renderTL.set(`.${styles.deputeCard__depute}`, {
       autoAlpha: 0,
     })
-    renderTL.set(`.${styles.accropolis__background}`, {
+    renderTL.set(`.${styles.deputeCard__background}`, {
       width: "0%",
       autoAlpha: 0,
     })
-    renderTL.set(`.${styles.accropolis__background}`, {
+    renderTL.set(`.${styles.deputeCard__background}`, {
       width: "0%",
       autoAlpha: 0,
     })
-    renderTL.set(`.${styles.accropolis__group}`, {
+    renderTL.set(`.${styles.deputeCard__group}`, {
       autoAlpha: 0,
     })
-    renderTL.set(`.${styles.accropolis__name}`, {
+    renderTL.set(`.${styles.deputeCard__name}`, {
       autoAlpha: 0,
     })
-    renderTL.set(`.${styles.accropolis__image}`, {
+    renderTL.set(`.${styles.deputeCard__image}`, {
       autoAlpha: 0,
     })
-    renderTL.set(`.${styles.accropolis__question}`, {
+    renderTL.set(`.${styles.deputeCard__question}`, {
       y: "100%",
     })
-    renderTL.set(`.${styles.accropolis__mapinner}`, {
+    renderTL.set(`.${styles.deputeCard__mapinner}`, {
       x: "-100%",
     })
-    renderTL.set(`.${styles.accropolis__geography}`, {
+    renderTL.set(`.${styles.deputeCard__geography}`, {
       y: "-100%",
       autoAlpha: 0,
     })
 
     // Reveal animations
     renderTL.fromTo(
-      `.${styles.accropolis__depute}`,
+      `.${styles.deputeCard__depute}`,
       {
         autoAlpha: 0,
       },
@@ -80,7 +80,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
     )
     renderTL.add("background", "-=0.7")
     renderTL.fromTo(
-      `.${styles.accropolis__background2}`,
+      `.${styles.deputeCard__background2}`,
       {
         width: "calc(0% + 10px)",
         autoAlpha: 0,
@@ -94,7 +94,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
       "background"
     )
     renderTL.fromTo(
-      `.${styles.accropolis__background}`,
+      `.${styles.deputeCard__background}`,
       {
         width: "calc(0% + 10px)",
         autoAlpha: 0,
@@ -108,7 +108,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
       "background+=0.1"
     )
     renderTL.fromTo(
-      `.${styles.accropolis__question}`,
+      `.${styles.deputeCard__question}`,
       {
         y: "100%",
         autoAlpha: 0,
@@ -121,7 +121,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
       }
     )
     renderTL.fromTo(
-      `.${styles.accropolis__name}`,
+      `.${styles.deputeCard__name}`,
       {
         x: "-20%",
         autoAlpha: 0,
@@ -135,7 +135,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
       "-=0.2"
     )
     renderTL.fromTo(
-      `.${styles.accropolis__group}`,
+      `.${styles.deputeCard__group}`,
       {
         autoAlpha: 0,
       },
@@ -146,7 +146,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
       },
       "-=0.5"
     )
-    renderTL.fromTo(`.${styles.accropolis__image}`, {
+    renderTL.fromTo(`.${styles.deputeCard__image}`, {
         x: "-50%",
         autoAlpha: 0,
       },
@@ -159,7 +159,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
       0
     )
     renderTL.fromTo(
-      `.${styles.accropolis__mapinner}`,
+      `.${styles.deputeCard__mapinner}`,
       {
         x: "-100%",
       },
@@ -169,7 +169,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
       `-=${mapDelay}`
     )
     renderTL.fromTo(
-      `.${styles.accropolis__geography}`,
+      `.${styles.deputeCard__geography}`,
       {
         y: "-100%",
         autoAlpha: 0,
@@ -183,24 +183,24 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
   }, [index])
 
   return (
-    <div className={styles.accropolis__inner}>
-      <div className={styles.accropolis__question}>
+    <div className={styles.deputeCard__inner}>
+      <div className={styles.deputeCard__question}>
         Question {index + 1} / {numberOfQuestions}
       </div>
-      <div className={styles.accropolis__depute} key={`accropolis-mini-${depute.Slug}`}>
-        <div className={styles.accropolis__background} style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}>
+      <div className={styles.deputeCard__depute} key={`accropolis-mini-${depute.Slug}`}>
+        <div className={styles.deputeCard__background} style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}>
           {/* Silen is golden */}
         </div>
-        <div className={styles.accropolis__background2}>{/* Silen is golden */}</div>
-        <div className={styles.accropolis__image}>
+        <div className={styles.deputeCard__background2}>{/* Silen is golden */}</div>
+        <div className={styles.deputeCard__image}>
           <DeputyImage src={depute.URLPhotoAugora} alt={`Photographie de ${depute.Nom}`} sex={depute.Sexe} />
         </div>
-        <div className={styles.accropolis__text}>
-          <h2 className={styles.accropolis__name}>{depute.Nom}</h2>
-          <p className={styles.accropolis__group}>{depute.GroupeParlementaire.NomComplet}</p>
+        <div className={styles.deputeCard__text}>
+          <h2 className={styles.deputeCard__name}>{depute.Nom}</h2>
+          <p className={styles.deputeCard__group}>{depute.GroupeParlementaire.NomComplet}</p>
         </div>
-        <div className={styles.accropolis__map}>
-          <div className={styles.accropolis__mapinner}>
+        <div className={styles.deputeCard__map}>
+          <div className={styles.deputeCard__mapinner}>
             <MapAugora
               overlay={false}
               forceCenter={true}
@@ -217,7 +217,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
           </div>
         </div>
       </div>
-      <div className={styles.accropolis__geography}>
+      <div className={styles.deputeCard__geography}>
         {depute.NomRegion}
         <br />
         {depute.NomRegion !== depute.NomDepartement ? depute.NomDepartement : null}
