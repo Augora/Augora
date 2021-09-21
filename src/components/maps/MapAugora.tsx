@@ -22,10 +22,9 @@ import {
   MetroFeature,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
-import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
+import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
-import IconPin from "images/ui-kit/icon-pin.svg"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
@@ -238,19 +237,11 @@ export default function MapAugora(props: IMapAugora) {
       {isMapLoaded && (
         <>
           {overview && geoJSON.features.length === 1 ? (
-            <Popup
-              className="map__popup"
-              longitude={zoneFeature.properties.center[0]}
-              latitude={zoneFeature.properties.center[1]}
-              closeButton={false}
-              tipSize={0}
-              anchor={"bottom"}
-              dynamicPosition={false}
-            >
-              <div className="icon-wrapper">
-                <IconPin style={{ fill: paint.line["line-color"] }} />
-              </div>
-            </Popup>
+            <MapPin
+              long={zoneFeature.properties.center[0]}
+              lat={zoneFeature.properties.center[1]}
+              color={paint.line["line-color"] as string}
+            />
           ) : (
             <Source type="geojson" data={geoJSON} generateId={true}>
               <Layer {...lineLayerProps} paint={paint.line} />
