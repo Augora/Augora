@@ -1,11 +1,11 @@
-@import "../../styles/global/easing";
+/*----------------------------------------------------*/
+// Variables
+/*----------------------------------------------------*/
 
-.accropolis {
-  // Global
-  &__container {
-    display: block;
-    width: 1920px;
-  }
+/*----------------------------------------------------*/
+// Depute Banner
+/*----------------------------------------------------*/
+.deputeCard {
   &__inner {
     display: inline-flex;
     flex-direction: column;
@@ -130,107 +130,5 @@
     line-height: 1.25;
 
     z-index: 0;
-  }
-
-  // Controls
-  &__controls {
-    padding: 20px;
-    width: 100%;
-  }
-  &__navigation {
-    display: flex;
-    flex-wrap: wrap;
-  }
-}
-
-$spacing: 10px;
-$button-color: black;
-.controls {
-  &__next,
-  &__prev {
-    display: inline-flex;
-    justify-content: center;
-    margin: 0 $spacing 10px 0;
-    width: 200px;
-    padding: 30px 20px;
-    border: solid 5px $button-color;
-    background-color: rgba($button-color, 0.05);
-    border-radius: 20px;
-    cursor: pointer;
-
-    transition: background-color 0.2s $ease-in-out-cubic;
-
-    &:hover {
-      background-color: rgba($button-color, 0.25);
-    }
-    & > div {
-      width: 50px;
-      position: relative;
-      justify-content: center;
-    }
-    svg {
-      position: relative;
-      path {
-        fill: $button-color;
-      }
-    }
-  }
-  &__next {
-    &:hover {
-      svg {
-        left: 10px;
-      }
-    }
-    svg {
-      transform: rotate(-90deg) translateY(4px);
-      left: 0px;
-      transition: left 0.2s $ease-in-out-cubic;
-    }
-  }
-  &__prev {
-    &:hover {
-      svg {
-        right: 10px;
-      }
-    }
-    svg {
-      transform: rotate(90deg) translateY(4px);
-      right: 0px;
-      transition: right 0.2s $ease-in-out-cubic;
-    }
-  }
-}
-// Navigation
-.navigation {
-  &__number {
-    font-size: 20px;
-    margin: 0;
-  }
-  &__btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    color: white;
-    width: 200px;
-    min-height: 75px;
-    font-size: 12px;
-    line-height: 1.25;
-    border: none;
-    margin: $spacing $spacing 0 0;
-    cursor: pointer;
-
-    outline: 5px solid rgba($button-color, 0);
-    transition: outline 0.2s $ease-in-out-cubic;
-    &:focus {
-      outline: 5px solid rgba($button-color, 1) !important;
-    }
-  }
-  &__name {
-    margin: 5px 0 0 0;
-    text-align: center;
-    width: 100%;
-  }
-  &__active {
-    outline: 5px solid rgba($button-color, 1);
   }
 }

@@ -4,6 +4,7 @@
 .accropolis__page {
   // background: #5e5e5e;
   display: flex;
+  align-items: flex-start;
   .mapboxgl-ctrl-logo {
     visibility: hidden;
   }

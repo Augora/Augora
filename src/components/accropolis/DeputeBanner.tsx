@@ -1,5 +1,5 @@
-import React, { useEffect } from "react"
-import styles from "./DeputeBanner.module.scss"
+import React, { useState, useEffect } from "react"
+import styles from "./DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
 import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
 import mapStore from "stores/mapStore"
@@ -17,9 +17,6 @@ export default function DeputeBanner({ numberOfQuestions, depute, index, current
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
-  console.log("DeputeBanner RENDER--------------------")
-  console.log(feature.properties)
-
   const { viewport, setViewport, overview } = mapStore()
 
   useEffect(() => {
