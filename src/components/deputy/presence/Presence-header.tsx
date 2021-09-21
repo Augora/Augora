@@ -61,10 +61,16 @@ export default function PresenceHeader(props: IPresenceHeader) {
             key={i}
             name={buttonLabel}
             onClick={() => setDateButton(i)}
-            className={i === DateButton ? "button__active button" : "button"}
+            className={`button${i === DateButton ? " button__active" : ""}`}
             style={i === DateButton ? { backgroundColor: color } : {}}
           >
-            {buttonLabel}
+            <div className="button__border" style={{
+              border: `solid 1px ${color}`,
+            }}>{/* Silence is golden */}</div>
+            <div className="button__background" style={{
+              backgroundColor: color,
+            }}>{/* Silence is golden */}</div>
+            <span>{buttonLabel}</span>
           </button>
         ))}
       </>
