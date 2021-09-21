@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import styles from './DeputeBannerStyles.module.scss'
+import React, { useState, useEffect } from "react"
+import styles from "./DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
 import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
 import mapStore from "stores/mapStore"
@@ -15,13 +15,12 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
-  const { viewport, setViewport } = mapStore()
-  // const [mapOpacity, setMapOpacity] = useState({value: 0})
+  const { viewport, setViewport, overview } = mapStore()
   const refMapOpacity = {value: mapOpacity.value}
 
   useEffect(() => {
     if (currentAnimation.animation) {
-      currentAnimation.animation.kill();
+      currentAnimation.animation.kill()
     }
     const renderTL = gsap.timeline({
       onComplete: () => {
@@ -73,7 +72,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
     //     x: '0%',
     //   },
     // )
-    renderTL.play();
+    renderTL.play()
   }, [index])
 
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
@@ -99,7 +98,10 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         </div>
         <div className={styles.deputeBanner__question}>Bla bla bla...</div>
         <div className={styles.deputeBanner__questionNumber}>
-          <span>Question {index + 1 < 10 ? '0' : null}{ index + 1 } / { numberOfQuestions }</span>
+          <span>
+            Question {index + 1 < 10 ? "0" : null}
+            {index + 1} / {numberOfQuestions}
+          </span>
         </div>
       </section>
 
@@ -134,10 +136,11 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         <div className={styles.deputeBanner__mapContainer}>
           <MapAugora
             overlay={false}
-            forceCenter={true}
+            // forceCenter={true}
             small={true}
             viewport={viewport}
             attribution={false}
+            overview={overview}
             setViewport={setViewport}
             mapView={{
               geoJSON: createFeatureCollection([feature]),
