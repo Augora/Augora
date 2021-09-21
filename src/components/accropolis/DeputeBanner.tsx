@@ -1,20 +1,66 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './depute-banner.module.scss'
+import { gsap } from "gsap"
 import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
 import mapStore from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
 import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
 import { getHSLLightVariation } from "utils/style/color"
 
+const mapDelay = 0.5
 const debug = true
 
-export default function DeputeBanner({numberOfQuestions, depute, index}) {
+export default function DeputeBanner({numberOfQuestions, depute, index, currentAnimation, setCurrentAnimation}) {
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature = getFeature({
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
+  console.log('DeputeBanner RENDER--------------------')
+  console.log(feature.properties)
   const { viewport, setViewport } = mapStore()
+
+  useEffect(() => {
+    if (currentAnimation.animation) {
+      currentAnimation.animation.kill();
+    }
+    const renderTL = gsap.timeline({
+      onComplete: () => {
+        setCurrentAnimation({
+          animation: null,
+          type: null,
+        })
+      }
+    })
+    renderTL.call(() => {
+      setCurrentAnimation({
+        animation: renderTL,
+        type: 'render'
+      })
+    })
+    // renderTL.set(`.${styles.deputeBanner}`, {
+    //   autoAlpha: 0,
+    // })
+    // renderTL.set(`.${styles.deputeBanner__mapContainer}`, {
+    //   x: '-100%',
+    // })
+    // renderTL.fromTo(`.${styles.deputeBanner}`, {
+    //     autoAlpha: 0,
+    //   }, {
+    //     autoAlpha: 1,
+    //     ease: "power1.out",
+    //     duration: 0.8,
+    //   }
+    // )
+    // renderTL.fromTo(`.${styles.deputeBanner__mapContainer}`, {
+    //     x: '-100%',
+    //   },
+    //   {
+    //     x: '0%',
+    //   },
+    // )
+    renderTL.play();
+  }, [index])
 
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const GroupeLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
@@ -28,10 +74,9 @@ export default function DeputeBanner({numberOfQuestions, depute, index}) {
       </div>
       {/* TOP PART -------------------------------- */}
       <section className={styles.deputeBanner__top}>
-        <div
-          className={styles.deputeBanner__topBackground}
+        <div className={styles.deputeBanner__topBackground}
           style={{ 
-            backgroundColor: `hsl(${HSL.H}, ${HSL.S}%, ${getHSLLightVariation(HSL, 15)}%)`
+            backgroundColor: `hsl(${HSL.H}, ${HSL.S}%, ${getHSLLightVariation(HSL, 25)}%)`
           }}>
           {/* Silence is golden... */}
         </div>
@@ -39,7 +84,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index}) {
           Bla bla bla...
         </div>
         <div className={styles.deputeBanner__questionNumber}>
-          <span>Question { index + 1 } / { numberOfQuestions }</span>
+          <span>Question {index + 1 < 10 ? '0' : null}{ index + 1 } / { numberOfQuestions }</span>
         </div>
       </section>
 

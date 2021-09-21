@@ -7,6 +7,7 @@ import { gsap } from "gsap"
 import _ from 'lodash';
 
 import styles from './accropolis.module.scss'
+import deputeBannerStyles from './depute-banner.module.scss'
 
 export default function Accropolis({ accroDeputes }) {
   const [deputeCards, setDeputeCards] = useState([])
@@ -32,6 +33,8 @@ export default function Accropolis({ accroDeputes }) {
           numberOfQuestions={accroDeputes.length}
           depute={depute.Depute}
           index={index}
+          currentAnimation={currentAnimation}
+          setCurrentAnimation={setCurrentAnimation}
         />
       }
     }))
@@ -51,6 +54,31 @@ export default function Accropolis({ accroDeputes }) {
     }
   }, [deputeCurrentCard])
 
+  const olderBannerAnimation = (setCurrentAnimation) => {
+    // Timeline
+    const olderTL = gsap.timeline({
+      onComplete: () => {
+        setCurrentAnimation({
+          animation: null,
+          type: null
+        })
+      }
+    })
+    olderTL.call(() => {
+      setCurrentAnimation({
+        animation: olderTL,
+        type: 'older'
+      })
+    })
+    // olderTL.fromTo(`.${deputeBannerStyles.deputeBanner__mapContainer}`, {
+    //     x: 0,
+    //   },
+    //   {
+    //     x: '-100%',
+    //   }
+    // )
+    return olderTL
+  }
   const olderCardAnimation = (setCurrentAnimation) => {
     // Timeline
     const olderTL = gsap.timeline({
@@ -184,13 +212,36 @@ export default function Accropolis({ accroDeputes }) {
   
       olderTL.play()
     } else if (layoutType === 'banner') {
-      if (cardIndex > deputeCards.length - 1) {
-        setDeputeCurrentCard(0);
-      } else if (cardIndex < 0) {
-        setDeputeCurrentCard(deputeCards.length - 1)
-      } else {
-        setDeputeCurrentCard(cardIndex)
+      if (currentAnimation.animation) {
+        currentAnimation.animation.kill();
+        if (currentAnimation.type === 'older') {
+          if (cardIndex > deputeCards.length - 1) {
+            setDeputeCurrentCard(0);
+          } else if (cardIndex < 0) {
+            setDeputeCurrentCard(deputeCards.length - 1)
+          } else {
+            setDeputeCurrentCard(cardIndex)
+          }
+          return
+        }
       }
+      const olderTL = olderBannerAnimation(setCurrentAnimation)
+      // After timeline
+      olderTL.call(() => {
+        if (cardIndex > deputeCards.length - 1) {
+          setDeputeCurrentCard(0);
+        } else if (cardIndex < 0) {
+          setDeputeCurrentCard(deputeCards.length - 1)
+        } else {
+          setDeputeCurrentCard(cardIndex)
+        }
+      }, [], '+=0.5')
+  
+      // olderTL.set(`.${deputeBannerStyles.deputeBanner}`, {
+      //   autoAlpha: 0
+      // })
+  
+      olderTL.play()
     }
   }
 

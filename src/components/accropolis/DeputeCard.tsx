@@ -124,7 +124,7 @@ export default function DeputeCard({numberOfQuestions, depute, index, currentAni
         duration: 1,
       }, '-=0.5'
     )
-    renderTL.fromTo( `.${styles.accropolis__image}`, {
+    renderTL.fromTo(`.${styles.accropolis__image}`, {
         x: "-50%",
         autoAlpha: 0,
       }, {

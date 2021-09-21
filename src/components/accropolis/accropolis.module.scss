@@ -3,7 +3,8 @@
 .accropolis {
   // Global
   &__container {
-    //
+    display: block;
+    width: 1920px;
   }
   &__inner {
     display: inline-flex;
