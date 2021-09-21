@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import DeputeCard from "./DeputeCard"
 import DeputeBanner from "./DeputeBanner"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
@@ -12,56 +12,25 @@ import deputeBannerStyles from "./DeputeBannerStyles.module.scss"
 import deputeCardStyles from "./DeputeCardStyles.module.scss"
 
 export default function Accropolis({ accroDeputes }) {
-  const [deputeCards, setDeputeCards] = useState([])
-  const [deputeCurrentCard, setDeputeCurrentCard] = useState(null)
-  const [layoutType, setLayoutType] = useState("banner")
+  const { overview, setOverview } = mapStore()
+  const [deputeCurrentCard, setDeputeCurrentCard] = useState(0);
+  const [layoutType, setLayoutType] = useState('banner')
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
     type: null,
   })
-  const { overview, setOverview } = mapStore()
+  const [mapOpacity, setMapOpacity] = useState({value: 0})
+  const refMapOpacity = {value: 1}
 
-  useEffect(() => {
-    setDeputeCards(
-      accroDeputes.map((depute, index) => {
-        if (!layoutType || layoutType === "card") {
-          return (
-            <DeputeCard
-              numberOfQuestions={accroDeputes.length}
-              depute={depute.Depute}
-              index={index}
-              currentAnimation={currentAnimation}
-              setCurrentAnimation={setCurrentAnimation}
-            />
-          )
-        } else if (layoutType === "banner") {
-          return (
-            <DeputeBanner
-              numberOfQuestions={accroDeputes.length}
-              depute={depute.Depute}
-              index={index}
-              currentAnimation={currentAnimation}
-              setCurrentAnimation={setCurrentAnimation}
-            />
-          )
-        }
-      })
-    )
-  }, [layoutType])
-
-  useEffect(() => {
-    setDeputeCurrentCard(0)
-  }, [deputeCards])
-
-  useEffect(() => {
-    if (layoutType === "card") {
-      const newerTL = gsap.timeline()
-      newerTL.set(`.${deputeCardStyles.deputeCard__inner}`, {
-        autoAlpha: 1,
-      })
-      newerTL.play()
-    }
-  }, [deputeCurrentCard])
+  // useEffect(() => {
+  //   if (layoutType === 'card') {
+  //     const newerTL = gsap.timeline()
+  //     newerTL.set(`.${deputeCardStyles.deputeCard__inner}`, {
+  //       autoAlpha: 1
+  //     })
+  //     newerTL.play();
+  //   }
+  // }, [deputeCurrentCard])
 
   const olderBannerAnimation = (setCurrentAnimation) => {
     // Timeline
@@ -79,6 +48,7 @@ export default function Accropolis({ accroDeputes }) {
         type: "older",
       })
     })
+
     // olderTL.fromTo(`.${deputeBannerStyles.deputeBanner__mapContainer}`, {
     //     x: 0,
     //   },
@@ -86,6 +56,13 @@ export default function Accropolis({ accroDeputes }) {
     //     x: '-100%',
     //   }
     // )
+    olderTL.to(refMapOpacity, {
+      value: 0,
+      duration: 0.2,
+      onUpdate: () => {
+        setMapOpacity({value: refMapOpacity.value})
+      }
+    })
     return olderTL
   }
   const olderCardAnimation = (setCurrentAnimation) => {
@@ -223,12 +200,12 @@ export default function Accropolis({ accroDeputes }) {
     // event.preventDefault()
     if (layoutType === "card") {
       if (currentAnimation.animation) {
-        currentAnimation.animation.kill()
-        if (currentAnimation.type === "older") {
-          if (cardIndex > deputeCards.length - 1) {
-            setDeputeCurrentCard(0)
+        currentAnimation.animation.kill();
+        if (currentAnimation.type === 'older') {
+          if (cardIndex > accroDeputes.length - 1) {
+            setDeputeCurrentCard(0);
           } else if (cardIndex < 0) {
-            setDeputeCurrentCard(deputeCards.length - 1)
+            setDeputeCurrentCard(accroDeputes.length - 1)
           } else {
             setDeputeCurrentCard(cardIndex)
           }
@@ -237,20 +214,16 @@ export default function Accropolis({ accroDeputes }) {
       }
       const olderTL = olderCardAnimation(setCurrentAnimation)
       // After timeline
-      olderTL.call(
-        () => {
-          if (cardIndex > deputeCards.length - 1) {
-            setDeputeCurrentCard(0)
-          } else if (cardIndex < 0) {
-            setDeputeCurrentCard(deputeCards.length - 1)
-          } else {
-            setDeputeCurrentCard(cardIndex)
-          }
-        },
-        [],
-        "+=0.5"
-      )
-
+      olderTL.call(() => {
+        if (cardIndex > accroDeputes.length - 1) {
+          setDeputeCurrentCard(0);
+        } else if (cardIndex < 0) {
+          setDeputeCurrentCard(accroDeputes.length - 1)
+        } else {
+          setDeputeCurrentCard(cardIndex)
+        }
+      }, [], '+=0.5')
+  
       olderTL.set(`.${deputeCardStyles.deputeCard__inner}`, {
         autoAlpha: 0,
       })
@@ -258,12 +231,12 @@ export default function Accropolis({ accroDeputes }) {
       olderTL.play()
     } else if (layoutType === "banner") {
       if (currentAnimation.animation) {
-        currentAnimation.animation.kill()
-        if (currentAnimation.type === "older") {
-          if (cardIndex > deputeCards.length - 1) {
-            setDeputeCurrentCard(0)
+        currentAnimation.animation.kill();
+        if (currentAnimation.type === 'older') {
+          if (cardIndex > accroDeputes.length - 1) {
+            setDeputeCurrentCard(0);
           } else if (cardIndex < 0) {
-            setDeputeCurrentCard(deputeCards.length - 1)
+            setDeputeCurrentCard(accroDeputes.length - 1)
           } else {
             setDeputeCurrentCard(cardIndex)
           }
@@ -272,20 +245,16 @@ export default function Accropolis({ accroDeputes }) {
       }
       const olderTL = olderBannerAnimation(setCurrentAnimation)
       // After timeline
-      olderTL.call(
-        () => {
-          if (cardIndex > deputeCards.length - 1) {
-            setDeputeCurrentCard(0)
-          } else if (cardIndex < 0) {
-            setDeputeCurrentCard(deputeCards.length - 1)
-          } else {
-            setDeputeCurrentCard(cardIndex)
-          }
-        },
-        [],
-        "+=0.5"
-      )
-
+      olderTL.call(() => {
+        if (cardIndex > accroDeputes.length - 1) {
+          setDeputeCurrentCard(0);
+        } else if (cardIndex < 0) {
+          setDeputeCurrentCard(accroDeputes.length - 1)
+        } else {
+          setDeputeCurrentCard(cardIndex)
+        }
+      }, [], '+=0.2')
+  
       // olderTL.set(`.${deputeBannerStyles.deputeBanner}`, {
       //   autoAlpha: 0
       // })
@@ -296,7 +265,27 @@ export default function Accropolis({ accroDeputes }) {
 
   return (
     <div className="accropolis__page">
-      <div className={styles.accropolis__container}>{deputeCards[deputeCurrentCard]}</div>
+      <div className={styles.accropolis__container}>
+        { layoutType === 'card' ?
+          <DeputeCard
+            numberOfQuestions={accroDeputes.length}
+            depute={accroDeputes[deputeCurrentCard].Depute}
+            index={deputeCurrentCard}
+            currentAnimation={currentAnimation}
+            setCurrentAnimation={setCurrentAnimation}
+          />
+        : layoutType === 'banner' ?
+          <DeputeBanner
+            numberOfQuestions={accroDeputes.length}
+            depute={accroDeputes[deputeCurrentCard].Depute}
+            index={deputeCurrentCard}
+            currentAnimation={currentAnimation}
+            setCurrentAnimation={setCurrentAnimation}
+            mapOpacity={mapOpacity}
+            setMapOpacity={setMapOpacity}
+          />
+        : null }
+      </div>
       <div className={styles.accropolis__controls}>
         <button className={styles.controls__prev} onClick={(e) => cycleDeputeCard(e, deputeCurrentCard - 1)}>
           <div className="icon-wrapper">
