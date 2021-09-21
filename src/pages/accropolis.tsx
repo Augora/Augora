@@ -1,6 +1,6 @@
 import React from "react"
 import { fetchQuery } from 'utils/utils';
-import { getDeputes } from "../lib/deputes/Wrapper"
+import { getDeputeAccropolis } from "../lib/deputes/Wrapper"
 
 export default function Accropolis(props) {
   return (
@@ -9,15 +9,14 @@ export default function Accropolis(props) {
 }
 
 async function getServerSideProps(context) {
-  const listed_deputes = await fetchQuery('deputes')
-  const deputes = await getDeputes()
+  const strapiDeputes = await fetchQuery('deputes')
+  const accroDeputes = await Promise.all(strapiDeputes.map(async depute => {
+    return await getDeputeAccropolis(depute.Depute_name)
+  }))
 
   return {
     props: {
-      // depute : depute.Depute,
-      // res: res,
-      listed_deputes,
-      deputes,
+      accroDeputes,
       pageBlank: true,
     },
   }

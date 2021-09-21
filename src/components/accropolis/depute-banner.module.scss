@@ -1,0 +1,163 @@
+/*----------------------------------------------------*/
+// Variables
+/*----------------------------------------------------*/
+$skew: -15deg;
+@mixin skewBackground($skew: #{$skew}) {
+  transform: skew($skew);
+}
+@mixin smallText {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+/*----------------------------------------------------*/
+// Depute Banner
+/*----------------------------------------------------*/
+.deputeBanner {
+  // Général
+  /*----------------------------------------------------*/
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  &__top,
+  &__bottom {
+    position: relative;
+  }
+  // Top part
+  /*----------------------------------------------------*/
+  $decal: 710px;
+  &__top {
+    width: calc(100% - #{$decal});
+    padding: 10px 0 10px 40px;
+  }
+  &__topBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  &__question {
+    position: relative;
+    color: white;
+    text-transform: uppercase;
+  }
+  &__questionNumber {
+    position: absolute;
+    right: -15px;
+    top: 0;
+
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background-color: white;
+
+    padding: 10px 40px;
+    @include skewBackground;
+
+    color: #828282;
+    @include smallText;
+
+    span {
+      transform: skew(-$skew);
+    }
+  }
+
+  // Bottom part
+  /*----------------------------------------------------*/
+  &__bottom {
+    display: flex;
+    align-items: center;
+  }
+  &__bottomBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  &__logoGroup {
+    position: relative;
+    padding: 10px 40px;
+    svg {
+      position: relative;
+      width: 100px;
+      height: 80px;
+      * {
+        fill: unset;
+      }
+    }
+  }
+  &__logoBackground {
+    position: absolute;
+    top: 0;
+    left: -50px;
+    width: calc(100% + 50px);
+    height: 100%;
+    background-color: white;
+    @include skewBackground;
+  }
+  &__content {
+    position: relative;
+    padding-left: 50px;
+    color: white;
+  }
+  &__firstname {
+    font-weight: 300;
+  }
+  &__lastname {
+    font-size: 125%;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  // Map part
+  /*----------------------------------------------------*/
+  &__map {
+    position: absolute;
+    bottom: 38px;
+    right: 410px;
+
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+  &__mapContainer {
+    height: 200px;
+  }
+  &__mapHeader {
+    padding: 10px;
+    text-align: center;
+
+    color: white;
+    @include smallText;
+  }
+}
+
+// Debug
+/*----------------------------------------------------*/
+.deputeBannerDebug {
+  position: relative;
+  margin: 1px 0 0 1px;
+  outline: 1px solid red;
+  overflow: hidden;
+}
+.debug {
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+  }
+  &__imageJean {
+    position: absolute;
+    bottom: 9px;
+    right: 29px;
+    z-index: 1;
+  }
+}

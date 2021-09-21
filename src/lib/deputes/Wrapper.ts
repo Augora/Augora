@@ -12,6 +12,14 @@ export function getDeputes() {
             DebutDuMandat
             GroupeParlementaire {
               Couleur
+              CouleurDetail {
+                HSL {
+                  Full
+                  H
+                  L
+                  S
+                }
+              }
               Sigle
               NomComplet
             }
@@ -143,6 +151,64 @@ export function getDepute(slug: string) {
                 ParticipationsEnCommission
                 Question
                 Vacances
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        slug,
+      },
+    })
+    .then((d) => d.data)
+}
+
+export function getDeputeAccropolis(slug: string) {
+  return client
+    .query({
+      query: gql`
+        query SingleDeputy($slug: String!) {
+          Depute(Slug: $slug) {
+            Age
+            DebutDuMandat
+            GroupeParlementaire {
+              Couleur
+              Sigle
+              CouleurDetail {
+                HSL {
+                  Full
+                  H
+                  L
+                  S
+                }
+              }
+            }
+            URLPhotoAugora
+            Nom
+            NomCirconscription
+            NomDeFamille
+            NumeroCirconscription
+            NumeroDepartement
+            Prenom
+            Profession
+            Sexe
+            Slug
+            Collaborateurs
+            DateDeNaissance
+            NomDepartement
+            NomRegion
+            AnciensMandats {
+              data {
+                DateDeDebut
+                DateDeFin
+                Intitule
+              }
+            }
+            AutresMandats {
+              data {
+                Institution
+                Localite
+                Intitule
               }
             }
           }

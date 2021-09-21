@@ -114,6 +114,7 @@ export default function MapAugora(props: IMapAugora) {
       padding = 30;
     }
 
+    console.log('flyToBounds')
     setTimeout(() => {
       flyToBounds(feature, props.viewport, props.setViewport, padding)
     }, delay)

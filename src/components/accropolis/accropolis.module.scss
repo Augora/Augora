@@ -11,7 +11,7 @@
     align-items: flex-start;
     position: relative;
 
-    margin: 100px 0px;
+    margin: 0px 0px 100px;
   }
   &__depute {
     position: relative;
@@ -134,7 +134,7 @@
   // Controls
   &__controls {
     padding: 20px;
-    width: 50%;
+    width: 100%;
   }
   &__navigation {
     display: flex;
@@ -143,23 +143,24 @@
 }
 
 $spacing: 10px;
+$button-color: black;
 .controls {
   &__next,
   &__prev {
     display: inline-flex;
     justify-content: center;
     margin: 0 $spacing 10px 0;
-    width: calc(20% - #{$spacing});
+    width: 200px;
     padding: 30px 20px;
-    border: solid 5px white;
-    background-color: rgba(white, 0.05);
+    border: solid 5px $button-color;
+    background-color: rgba($button-color, 0.05);
     border-radius: 20px;
     cursor: pointer;
 
     transition: background-color 0.2s $ease-in-out-cubic;
 
     &:hover {
-      background-color: rgba(white, 0.25);
+      background-color: rgba($button-color, 0.25);
     }
     & > div {
       width: 50px;
@@ -169,7 +170,7 @@ $spacing: 10px;
     svg {
       position: relative;
       path {
-        fill: white;
+        fill: $button-color;
       }
     }
   }
@@ -209,7 +210,7 @@ $spacing: 10px;
     flex-direction: column;
     justify-content: flex-start;
     color: white;
-    width: calc(20% - #{$spacing});
+    width: 200px;
     min-height: 75px;
     font-size: 12px;
     line-height: 1.25;
@@ -217,8 +218,11 @@ $spacing: 10px;
     margin: $spacing $spacing 0 0;
     cursor: pointer;
 
-    outline: 5px solid rgba(white, 0);
+    outline: 5px solid rgba($button-color, 0);
     transition: outline 0.2s $ease-in-out-cubic;
+    &:focus {
+      outline: 5px solid rgba($button-color, 1) !important;
+    }
   }
   &__name {
     margin: 5px 0 0 0;
@@ -226,6 +230,6 @@ $spacing: 10px;
     width: 100%;
   }
   &__active {
-    outline: 5px solid rgba(white, 1);
+    outline: 5px solid rgba($button-color, 1);
   }
 }
