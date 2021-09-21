@@ -64,9 +64,9 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
 
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const GroupeLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
-  
+
   return (
-    <div className={`${styles.deputeBanner} ${debug ? styles.deputeBannerDebug : ''}`}>
+    <div className={`${styles.deputeBanner} ${debug ? styles.deputeBannerDebug : ""}`}>
       {/* DEBUG ----------------------------------- */}
       <div className={styles.deputeBanner__debug}>
         {debug ? <img src="https://i.imgur.com/P499Dbs.jpeg" className={styles.debug__image} alt="" /> : null}
@@ -74,15 +74,15 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
       </div>
       {/* TOP PART -------------------------------- */}
       <section className={styles.deputeBanner__top}>
-        <div className={styles.deputeBanner__topBackground}
-          style={{ 
-            backgroundColor: `hsl(${HSL.H}, ${HSL.S}%, ${getHSLLightVariation(HSL, 25)}%)`
-          }}>
+        <div
+          className={styles.deputeBanner__topBackground}
+          style={{
+            backgroundColor: `hsl(${HSL.H}, ${HSL.S}%, ${getHSLLightVariation(HSL, 15)}%)`,
+          }}
+        >
           {/* Silence is golden... */}
         </div>
-        <div className={styles.deputeBanner__question}>
-          Bla bla bla...
-        </div>
+        <div className={styles.deputeBanner__question}>Bla bla bla...</div>
         <div className={styles.deputeBanner__questionNumber}>
           <span>Question {index + 1 < 10 ? '0' : null}{ index + 1 } / { numberOfQuestions }</span>
         </div>
@@ -92,43 +92,37 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
       <section className={styles.deputeBanner__bottom}>
         <div
           className={styles.deputeBanner__bottomBackground}
-          style={{ 
-            backgroundColor: depute.GroupeParlementaire.Couleur
-          }}>
+          style={{
+            backgroundColor: depute.GroupeParlementaire.Couleur,
+          }}
+        >
           {/* Silence is golden... */}
         </div>
         <div className={styles.deputeBanner__logoGroup}>
-          <div className={styles.deputeBanner__logoBackground}>
-            {/* Silence is golden... */}
-          </div>
+          <div className={styles.deputeBanner__logoBackground}>{/* Silence is golden... */}</div>
           <GroupeLogo style={{ fill: depute.GroupeParlementaire.Couleur }} />
         </div>
         <div className={styles.deputeBanner__content}>
-          <span className={styles.deputeBanner__firstname}>
-            {depute.Prenom}
-          </span>
-          <br/>
-          <span className={styles.deputeBanner__lastname}>
-            {depute.NomDeFamille}
-          </span>
+          <span className={styles.deputeBanner__firstname}>{depute.Prenom}</span>
+          <br />
+          <span className={styles.deputeBanner__lastname}>{depute.NomDeFamille}</span>
         </div>
       </section>
-    
+
       {/* MAP PART --------------------------------- */}
       <section className={styles.deputeBanner__map}>
         <div className={styles.deputeBanner__mapHeader} style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}>
-          {depute.NomRegion}<br/>
-          {depute.NomRegion !== depute.NomDepartement ? (
-            depute.NomDepartement
-          ) : null}
+          {depute.NomRegion}
+          <br />
+          {depute.NomRegion !== depute.NomDepartement ? depute.NomDepartement : null}
         </div>
         <div className={styles.deputeBanner__mapContainer}>
           <MapAugora
-            deputies={[depute]}
             overlay={false}
             forceCenter={true}
             small={true}
             viewport={viewport}
+            attribution={false}
             setViewport={setViewport}
             mapView={{
               geoJSON: createFeatureCollection([feature]),

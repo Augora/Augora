@@ -41,9 +41,12 @@ interface IMapAugora {
   overlay?: boolean
   /** S'il faut forcer un recentrage de la map au chargement */
   forceCenter?: boolean
-  small?: boolean
-  attributionControl?: boolean
+  /** Délai optionel de la fonction flytobounds */
   delay?: number
+  /** Si le container de la map est petit (<100px) pour éviter le bug de webmercator */
+  small?: boolean
+  /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire) */
+  attribution?: boolean
   children?: React.ReactNode
 }
 
@@ -94,7 +97,7 @@ export default function MapAugora(props: IMapAugora) {
     forceCenter = false,
     mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
     small = false,
-    attributionControl = false,
+    attribution = true,
     delay = 0,
   } = props
 
@@ -220,7 +223,7 @@ export default function MapAugora(props: IMapAugora) {
       onHover={handleHover}
       onMouseOut={() => renderHover()}
       reuseMaps={true}
-      attributionControl={attributionControl}
+      attributionControl={attribution}
     >
       {isMapLoaded && (
         <>
