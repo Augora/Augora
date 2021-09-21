@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { isMobile } from "react-device-detect"
 import InteractiveMap, {
   NavigationControl,
@@ -102,19 +102,22 @@ export default function MapAugora(props: IMapAugora) {
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
 
+  useEffect(() => {
+    flyToFeature(zoneFeature)
+  }, [zoneFeature])
+
   /** useRefs */
   const mapRef = useRef<mapboxgl.Map>()
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
-    let padding = 80;
+    let padding = 80
     if (isMobile) {
       padding = 20
     } else if (small) {
-      padding = 30;
+      padding = 30
     }
 
-    console.log('flyToBounds')
     setTimeout(() => {
       flyToBounds(feature, props.viewport, props.setViewport, padding)
     }, delay)
@@ -127,7 +130,6 @@ export default function MapAugora(props: IMapAugora) {
       if (!compareFeatures(feature, zoneFeature)) {
         if (props.changeZone) props.changeZone(feature)
         renderHover()
-        flyToFeature(feature)
       } else if (zoneCode === Code.Circ) {
         if (props.changeZone) props.changeZone(feature)
       } else flyToFeature(feature)
