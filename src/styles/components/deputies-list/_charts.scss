@@ -123,7 +123,13 @@
     }
   }
 }
-
+.visx-crosshair-vertical {
+  z-index: 2;
+  svg {
+    overflow: visible;
+    margin-left: 33px;
+  }
+}
 .charttooltip__container {
   position: absolute;
   pointer-events: none;

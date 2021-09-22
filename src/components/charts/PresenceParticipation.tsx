@@ -148,6 +148,7 @@ export default function PresenceParticipation(props: IPresence) {
               orientation="bottom"
               hideAxisLine={true}
               top={yMax}
+              left={11}
               tickLength={6}
               numTicks={changeDisplay ? 8 : 12}
               animationTrajectory={"center"}
@@ -159,7 +160,7 @@ export default function PresenceParticipation(props: IPresence) {
               className="charttooltip__container"
               applyPositionStyle={true}
               unstyled={true}
-              snapTooltipToDatumX={true}
+              showVerticalCrosshair
               offsetTop={-100}
               offsetLeft={50}
               renderTooltip={({ tooltipData }) => {
