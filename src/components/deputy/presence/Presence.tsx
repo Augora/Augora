@@ -32,13 +32,14 @@ const Presence = (props: Bloc.Presence) => {
   const glyphSize = 120
   const glyphPosition = 8
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
-    domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
+    //domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
+    domain: ["Présences", "Participations", "Questions orales", "Vacances"],
     range: [
       <CustomGlyph top={glyphPosition}>
         <line
           x1="0"
           y1="0"
-          x2="12"
+          x2="11"
           y2="0"
           stroke={props.color.HSL.Full}
           strokeWidth={4}
@@ -49,7 +50,7 @@ const Presence = (props: Bloc.Presence) => {
         <line
           x1="0"
           y1="0"
-          x2="12"
+          x2="11"
           y2="0"
           stroke={props.color.HSL.Full}
           strokeWidth={4}
@@ -64,14 +65,14 @@ const Presence = (props: Bloc.Presence) => {
         fill={props.color.HSL.Full}
         opacity={DisplayedGraph["Questions orales"] ? 1 : 0.5}
       />,
-      <GlyphSquare
-        key="Mediane des députés"
-        size={glyphSize}
-        top={glyphPosition}
-        left={glyphPosition}
-        fill={medianeDeputeColor}
-        opacity={DisplayedGraph["Mediane des députés"] ? 1 : 0.5}
-      />,
+      // <GlyphSquare
+      //   key="Mediane des députés"
+      //   size={glyphSize}
+      //   top={glyphPosition}
+      //   left={glyphPosition}
+      //   fill={medianeDeputeColor}
+      //   opacity={DisplayedGraph["Mediane des députés"] ? 1 : 0.5}
+      // />,
       <GlyphSquare
         key="Vacances"
         size={glyphSize}
@@ -90,7 +91,12 @@ const Presence = (props: Bloc.Presence) => {
           <>
             {orderedWeeks.length != 0 ? (
               <div className="presence">
-                <PresenceHeader width={parent.width} data={orderedWeeks} setRange={setRangeOrderedWeeks} />
+                <PresenceHeader
+                  width={parent.width}
+                  data={orderedWeeks}
+                  setRange={setRangeOrderedWeeks}
+                  color={props.color.HSL.Full}
+                />
                 <PresenceParticipation
                   width={parent.width}
                   height={parent.height * 0.9}
@@ -104,7 +110,6 @@ const Presence = (props: Bloc.Presence) => {
                   shapeScale={shapeScale}
                 />
                 <PresenceFooter
-                  width={parent.width}
                   color={props.color.HSL.Full}
                   DisplayedGraph={DisplayedGraph}
                   setDisplayedGraph={setDisplayedGraph}

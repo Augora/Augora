@@ -5,6 +5,7 @@
   padding: 0px 20px 0px 10px;
   .info {
     &__button {
+      z-index: 101;
       background-color: transparent;
       position: absolute;
       right: 10px;
@@ -40,36 +41,72 @@
       z-index: 101;
     }
     &__content {
-      display: flex;
+      display: block;
       justify-content: center;
       align-items: center;
       height: 90%;
+      margin-top: 10%;
+      text-align: justify;
+      @media (max-width: 550px) {
+        font-size: 14px;
+      }
+      a {
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.5s $ease-out-cubic;
+        &:hover {
+          color: $secondary-color;
+          text-decoration: underline;
+        }
+      }
     }
   }
   .presence {
-    .calendrier {
-      background: white;
-      position: absolute;
-      top: 110px;
-      right: 20px;
-      padding: 20px;
-      z-index: 101;
+    @media (max-width: 450px) {
+      &__header {
+        .header__title {
+          padding-right: 30px;
+        }
+      }
     }
     &__date {
       position: absolute;
       top: 70px;
       right: 20px;
       .button {
-        &__active {
-          background-color: rgba(77, 77, 77, 0.5);
-          border: 1.5px solid rgb(25, 26, 24);
-        }
-        .icon-agenda {
+        position: relative;
+        border-radius: 5px;
+        border: none;
+        background-color: transparent;
+        padding: 2px 10px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-left: 5px;
+        span {
           position: relative;
-          width: 15px;
-          height: 15px;
-          top: 1px;
-          fill: $text-color;
+        }
+        &__active {
+          transition: color 0.2s $ease-out-cubic;
+          font-weight: bold;
+        }
+        &__border,
+        &__background {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 5px;
+        }
+        &__background {
+          opacity: 0;
+          z-index: 0;
+          transition: opacity 0.2s $ease-in-out-cubic;
+        }
+        &:hover {
+          .button__background {
+            opacity: 0.15;
+          }
         }
       }
     }
@@ -77,6 +114,12 @@
       g > svg > text {
         font-size: 14px !important;
         fill: $text-color !important;
+        font-weight: 400;
+      }
+    }
+    &__axisbottom {
+      g > svg > text {
+        font-weight: 400;
       }
     }
     &__line {
@@ -88,10 +131,7 @@
       left: 4%;
       right: 4%;
       @media (max-width: 875px) {
-        bottom: 112px;
-      }
-      @media (max-width: 400px) {
-        bottom: 125px;
+        bottom: 90px;
       }
     }
 
@@ -100,15 +140,9 @@
       bottom: 0;
       margin-bottom: 12px;
       @media (max-width: 875px) {
-        bottom: 30px;
+        bottom: 22px;
         left: -5px;
         transform: rotate(-90deg);
-      }
-      @media (max-width: 450px) {
-        bottom: 35px;
-      }
-      @media (max-width: 400px) {
-        bottom: 40px;
       }
       text {
         font-size: 16px;
@@ -134,14 +168,15 @@
       }
       @media (max-width: 875px) {
         columns: 2;
-        display: table-column;
+        display: grid;
+        grid-template-columns: repeat(2, 2fr);
+        grid-template-rows: repeat(2, 2fr);
         margin-bottom: 5px;
         margin-left: 10%;
       }
       @media (max-width: 565px) {
-        padding-left: 0px;
-        padding-right: 30px;
         font-size: 12px;
+        margin-bottom: 5px;
       }
     }
     svg {
@@ -165,6 +200,21 @@
       }
       .item__label {
         cursor: pointer;
+        margin: 0 0 12px;
+      }
+      .line {
+        text-decoration: line-through;
+      }
+      &:hover:not(:last-child) {
+        transform: scale(1.05);
+      }
+      &:nth-child(-n + 2) svg {
+        padding-left: 2px;
+      }
+      svg {
+        width: 25px;
+        height: 25px;
+        margin-bottom: 3px;
       }
     }
     &__indisponible {

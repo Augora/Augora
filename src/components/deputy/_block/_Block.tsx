@@ -29,7 +29,10 @@ export default function _Block(props: Bloc.Block) {
       <Header type={props.type} title={props.title} color={props.color} circ={props.circ} />
       <div color={HSLFull} className={`block__background ${props.type}__background`} style={backgroundStyle} />
 
-      <div className={`block__content ${props.type}__content ${props.wip ? "block__content--wip" : ""}`}>
+      <div
+        className={`block__content ${props.type}__content ${props.wip ? "block__content--wip" : ""}`}
+        style={props.type === "presence" ? { height: "85%" } : {}}
+      >
         {!props.wip ? (
           props.children
         ) : (
