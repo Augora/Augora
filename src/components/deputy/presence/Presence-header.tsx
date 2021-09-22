@@ -56,17 +56,27 @@ export default function PresenceHeader(props: IPresenceHeader) {
   const ButtonGroup = ({ buttons }) => {
     return (
       <>
-        {buttons.map((buttonLabel, i) => (
-          <button
-            key={i}
-            name={buttonLabel}
-            onClick={() => setDateButton(i)}
-            className={i === DateButton ? "button__active button" : "button"}
-            style={i === DateButton ? { backgroundColor: color } : {}}
-          >
-            {buttonLabel}
-          </button>
-        ))}
+        {buttons.map((buttonLabel, i) => {
+          const active = i === DateButton
+          return (
+            <button
+              key={i}
+              name={buttonLabel}
+              onClick={() => setDateButton(i)}
+              className={`button${active ? " button__active" : ""}`}
+              style={active ? { backgroundColor: color } : {}}
+            >
+              <div className="button__border" style={{
+                border: `solid 1px ${color}`,
+              }}>{/* Silence is golden */}</div>
+              <div className="button__background" style={{
+                backgroundColor: color,
+              }}>{/* Silence is golden */}</div>
+              <span style={{ color: active ? 'white' : color }}>{buttonLabel}</span>
+            </button>
+          )
+        }
+        )}
       </>
     )
   }
