@@ -115,8 +115,8 @@
       }
     }
   }
-}
 
-svg rect {
-  transition: transform 3s $ease-out-cubic;
+  svg rect {
+    transition: transform 3s $ease-out-cubic;
+  }
 }

@@ -1,3 +1,4 @@
+@import "../../styles/global/easing";
 /*----------------------------------------------------*/
 // Variables
 /*----------------------------------------------------*/
@@ -79,6 +80,15 @@ $skew: -15deg;
     left: 0;
     width: 100%;
     height: 100%;
+
+    transition: background-color 0.2s $ease-in-out-cubic;
+  }
+  &__bottomBackgroundGradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
   &__logoGroup {
     position: relative;
@@ -105,6 +115,8 @@ $skew: -15deg;
     position: relative;
     padding-left: 50px;
     color: white;
+    font-size: 25px;
+    line-height: 1;
   }
   &__firstname {
     font-weight: 300;
@@ -113,6 +125,11 @@ $skew: -15deg;
     font-size: 125%;
     text-transform: uppercase;
     font-weight: bold;
+  }
+  &__recs {
+    rect {
+      transition: transform 120s $ease-out-cubic, opacity 2s $ease-in-out-cubic;
+    }
   }
 
   // Map part

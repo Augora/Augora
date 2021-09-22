@@ -5,11 +5,26 @@ import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
 import mapStore from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
 import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
-import { getHSLLightVariation } from "utils/style/color"
+import _ from "lodash"
 
+// Debug
 const debug = true
 
+// Rectangles
+const numberOfRect = 40
+const svgWidth = 1920
+const svgHeight = 100
+const rectSkew = 15
+const getRandomArbitrary = (min, max, round = 0) => {
+  if (round) {
+    return Math.round((Math.random() * (max - min) + min) * round / round);
+  } else {
+    return Math.random() * (max - min) + min
+  }
+}
+
 export default function DeputeBanner({numberOfQuestions, depute, index, currentAnimation, setCurrentAnimation, mapOpacity, setMapOpacity}) {
+  const [rectangles, setRectangles] = useState([])
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature = getFeature({
     code_circ: NumeroCirconscription,
@@ -17,8 +32,31 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
   })
   const { viewport, setViewport, overview } = mapStore()
   const refMapOpacity = {value: mapOpacity.value}
+  const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
+  const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
+  const GroupeLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
 
+  // Creates Rectangles
   useEffect(() => {
+    setRectangles(() => {
+      const rects = []
+      for (let i = 0; i < numberOfRect; i++) {
+        const xPos = (svgWidth / numberOfRect) * i
+        rects.push({
+            xPos: xPos,
+            width: getRandomArbitrary(100, 500, 100),
+            height: svgHeight,
+            opacity: getRandomArbitrary(0.05, 0.2),
+            translate: getRandomArbitrary(20, 100, 100)
+        })
+      }
+    
+      return rects
+    })
+  }, [index])
+
+  // Reveal animation
+  const renderAnimation = (currentAnimation) => {
     if (currentAnimation.animation) {
       currentAnimation.animation.kill()
     }
@@ -72,12 +110,14 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
     //     x: '0%',
     //   },
     // )
+
+    return renderTL;
+  }
+
+  useEffect(() => {
+    const renderTL = renderAnimation(currentAnimation)
     renderTL.play()
   }, [index])
-
-  const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
-  const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
-  const GroupeLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
 
   return (
     <div className={`${styles.deputeBanner} ${debug ? styles.deputeBannerDebug : ""}`}>
@@ -91,7 +131,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         <div
           className={styles.deputeBanner__topBackground}
           style={{
-            backgroundColor: `hsl(${HSL.H}, ${HSL.S}%, ${getHSLLightVariation(HSL, 15)}%)`,
+            backgroundColor: `hsl(${HSL.H}, ${_.clamp(HSL.S + 5, 0, 100)}%, ${_.clamp(HSL.L - 15, 0, 100)}%)`,
           }}
         >
           {/* Silence is golden... */}
@@ -113,7 +153,46 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
             backgroundColor: depute.GroupeParlementaire.Couleur,
           }}
         >
-          {/* Silence is golden... */}
+         <svg
+          version="1.1"
+          className={styles.deputeBanner__recs}
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
+          preserveAspectRatio="xMinYMin slice"
+        >
+          <g>
+            {rectangles.map((rec, index) => {
+              return(
+                <rect
+                  key={`accro-rec-${index}`}
+                  x={rec.xPos}
+                  y={0}
+                  width={rec.width}
+                  height={rec.height}
+                  style={{
+                    fill: `rgba(255,255,255,${rec.opacity})`,
+                    transform: `skew(-${rectSkew}deg) translate3d(${rec.translate}%, 0, 0)`,
+                  }}
+                />
+              )
+            })}
+            </g>
+          </svg>
+          <div
+            className={styles.deputeBanner__bottomBackgroundGradient}
+            style={{ 
+              backgroundImage: `linear-gradient(to right, rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, 1) 25%, rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, 0) 100%)`
+             }}
+          ></div>
         </div>
         <div className={styles.deputeBanner__logoGroup}>
           <div className={styles.deputeBanner__logoBackground}>{/* Silence is golden... */}</div>
