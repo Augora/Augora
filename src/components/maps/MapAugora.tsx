@@ -8,7 +8,6 @@ import InteractiveMap, {
   Layer,
   LayerProps,
   ViewportProps,
-  Popup,
 } from "react-map-gl"
 import {
   Code,
@@ -19,7 +18,9 @@ import {
   compareFeatures,
   getLayerPaint,
   getDeputies,
-  MetroFeature,
+  flyToCoords,
+  getContinent,
+  Cont,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
@@ -82,7 +83,6 @@ const lineGhostLayerProps: LayerProps = {
   beforeId: "road-label",
   paint: {
     ...getLayerPaint().line,
-    // "line-dasharray": [2, 2],
     "line-opacity": 0.2,
   },
 }
@@ -101,10 +101,10 @@ const lineGhostLayerProps: LayerProps = {
 export default function MapAugora(props: IMapAugora) {
   /** Default props */
   const {
+    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
     overlay = true,
     deputies = [],
     forceCenter = false,
-    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
     overview = false,
     small = false,
     attribution = true,
@@ -119,7 +119,7 @@ export default function MapAugora(props: IMapAugora) {
   /** useEffects */
   useEffect(() => {
     if (!overview) flyToFeature(zoneFeature)
-    else flyToFeature(MetroFeature)
+    else flyToPin(zoneFeature)
   }, [zoneFeature, overview])
 
   /** useRefs */
@@ -137,6 +137,14 @@ export default function MapAugora(props: IMapAugora) {
     setTimeout(() => {
       flyToBounds(feature, props.viewport, props.setViewport, padding)
     }, delay)
+  }
+
+  /** Transitionne le viewport sur un pin en mode overview */
+  const flyToPin = <T extends GeoJSON.Feature>(feature: T) => {
+    const contId = getContinent(feature)
+    const zoom = contId === Cont.World ? -1 : contId === Cont.OM ? 2 : 3.5
+
+    flyToCoords(zoneFeature.properties.center, props.viewport, props.setViewport, zoom)
   }
 
   /** Change la zone affichée et transitionne */
@@ -240,18 +248,17 @@ export default function MapAugora(props: IMapAugora) {
     >
       {isMapLoaded && (
         <>
-          {overview && geoJSON.features.length === 1 ? (
+          {overview && geoJSON.features.length === 1 && (
             <MapPin
               long={zoneFeature.properties.center[0]}
               lat={zoneFeature.properties.center[1]}
               color={paint.line["line-color"] as string}
             />
-          ) : (
-            <Source type="geojson" data={geoJSON} generateId={true}>
-              <Layer {...lineLayerProps} paint={paint.line} />
-              <Layer {...fillLayerProps} paint={paint.fill} />
-            </Source>
           )}
+          <Source type="geojson" data={geoJSON} generateId={true}>
+            <Layer {...lineLayerProps} paint={paint.line} />
+            <Layer {...fillLayerProps} paint={paint.fill} />
+          </Source>
           {ghostGeoJSON && (
             <Source type="geojson" data={ghostGeoJSON} generateId={true}>
               <Layer {...lineGhostLayerProps} />

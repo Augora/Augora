@@ -228,7 +228,7 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
 }
 
 /**
- * Transitionne de façon fluide vers une zone
+ * Transitionne de façon fluide vers une bounding box
  * @param {AugoraMap.Feature} feature La feature vers laquelle aller, dézoom sur le monde si la feature n'a pas de propriété bbox
  * @param {ViewportProps} viewState Le state du viewport
  * @param {React.Dispatch<React.SetStateAction<ViewportProps>>} setViewState Le setState du viewport
@@ -243,14 +243,34 @@ export const flyToBounds = <T extends GeoJSON.Feature>(
   const { longitude, latitude, zoom } = new WebMercatorViewport({ width: 500, height: 500, ...viewState }).fitBounds(bounds, {
     padding: padding ? padding : 80,
   })
+  flyToCoords([longitude, latitude], viewState, setViewState, zoom)
+}
+
+/**
+ * Transitionne de façon fluide vers des coordonnées
+ * @param {AugoraMap.Coordinates} coords Format [longitude, latitude]
+ * @param viewState Le state du viewport
+ * @param setViewState Le setState du viewport
+ * @param {number} [zoom] Default 1
+ * @param {number} [speed] Default 2
+ * @param {number} [duration] Default "auto"
+ */
+export const flyToCoords = (
+  coords: AugoraMap.Coordinates,
+  viewState: ViewportProps,
+  setViewState: React.Dispatch<React.SetStateAction<ViewportProps>>,
+  zoom?: number,
+  speed?: number,
+  duration?: number
+): void => {
   setViewState({
     ...viewState,
-    longitude,
-    latitude,
-    zoom,
-    transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
+    longitude: coords[0],
+    latitude: coords[1],
+    zoom: zoom ? zoom : 1,
+    transitionInterpolator: new FlyToInterpolator({ speed: speed ? speed : 2 }),
     transitionEasing: (x) => -(Math.cos(Math.PI * x) - 1) / 2, //ease in-out sine
-    transitionDuration: "auto" as any, //typedef oversight from map-gl, see if they fixed it in the future
+    transitionDuration: duration ? duration : ("auto" as any), //typedef oversight from map-gl, see if they fixed it in the future
     transitionInterruption: 0,
   })
 }
