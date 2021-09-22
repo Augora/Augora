@@ -66,17 +66,26 @@ export default function PresenceHeader(props: IPresenceHeader) {
               className={`button${active ? " button__active" : ""}`}
               style={active ? { backgroundColor: color } : {}}
             >
-              <div className="button__border" style={{
-                border: `solid 1px ${color}`,
-              }}>{/* Silence is golden */}</div>
-              <div className="button__background" style={{
-                backgroundColor: color,
-              }}>{/* Silence is golden */}</div>
-              <span style={{ color: active ? 'white' : color }}>{buttonLabel}</span>
+              <div
+                className="button__border"
+                style={{
+                  border: `solid 1px ${color}`,
+                }}
+              >
+                {/* Silence is golden */}
+              </div>
+              <div
+                className="button__background"
+                style={{
+                  backgroundColor: color,
+                }}
+              >
+                {/* Silence is golden */}
+              </div>
+              <span style={{ color: active ? "white" : color }}>{buttonLabel}</span>
             </button>
           )
-        }
-        )}
+        })}
       </>
     )
   }
@@ -113,10 +122,10 @@ export default function PresenceHeader(props: IPresenceHeader) {
                 lieu dans l'hémicycle qui n'a pas de rapport avec ses spécialités, il peut se concentrer sur d'autres activités,
                 telles que la préparation des {InformationLink("amendements", "quest-ce-quun-amendement")} et des propositions de
                 loi. Ces activités se déroulent dans le cadre de{" "}
-                {InformationLink("commissions parlementaires", "cest-quoi-une-commission-parlementaire")}. Ils ont également des{" "}
-                {InformationLink("commissions d'enquête", "cest-quoi-une-commission-denquete")},{" "}
-                {InformationLink("missions d'information", "cest-quoi-une-mission-dinformation")} et des{" "}
-                {InformationLink("groupes d'études", "cest-quoi-un-groupe-detude")}.
+                {InformationLink("commissions parlementaires", "quest-ce-quune-commission-parlementaire")}. Ils ont également des{" "}
+                {InformationLink("commissions d'enquête", "quest-ce-quune-commission-denquete")},{" "}
+                {InformationLink("missions d'information", "quest-ce-quune-mission-dinformation")} et des{" "}
+                {InformationLink("groupes d'études", "quest-ce-quun-groupe-detude")}.
               </p>
               <p>
                 Selon sa responsabilité au sein de ces organes parlementaires (membre, président, etc.), le député aura plus ou
