@@ -35,8 +35,8 @@ interface IMapAugora {
   viewport: ViewportProps
   /** Viewport setstate function */
   setViewport(newViewport: ViewportProps): void
-  /** Callback quand la map requete un changement de zone */
-  changeZone?<T extends GeoJSON.Feature>(feature: T): void
+  /** Callback quand une zone de la map est cliquée */
+  onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
   /** Si on affiche les circonscriptions comme un pin en mode dézoomé ou de façon normale */
   overview?: boolean
   /** Liste de députés que la map va fouiller. Inutile si on désactive les overlay */
@@ -88,10 +88,9 @@ const lineGhostLayerProps: LayerProps = {
 /**
  * Renvoie la map augora, il lui faut impérativement des données d'affichage, un viewport, et un setViewport, le reste est optionnel
  * @param {AugoraMap.MapView} mapView Object contenant les données d'affichage : geoJSON (zones affichées), feature (zone parente), ghostGeoJSON (zones voisines), paint (comment les zones sont dessinées)
- * @param {Function} [changeZone] Callback de changement de zone
+ * @param {Function} [onZoneClick] Callback au click d'une zone, fournie la feature cliquée en paramètre
  * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map, inutile si les overlays sont désactivés
  * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default true
- * @param {boolean} [forceCenter] S'il faut recentrer la map au chargement, default false
  * @param {boolean} [small] S'il faut afficher une map plus petite, default false
  * @param {boolean} [attribution] Si on veut afficher le logo MapBox, default true
  * @param {number} [delay] Si on veut retarder l'effet de zoom, default 0
@@ -151,10 +150,10 @@ export default function MapAugora(props: IMapAugora) {
     const zoneCode = getZoneCode(feature)
     if (feature) {
       if (!compareFeatures(feature, zoneFeature)) {
-        if (props.changeZone) props.changeZone(feature)
+        if (props.onZoneClick) props.onZoneClick(feature)
         renderHover()
       } else if (zoneCode === Code.Circ) {
-        if (props.changeZone) props.changeZone(feature)
+        if (props.onZoneClick) props.onZoneClick(feature)
       } else flyToFeature(feature)
     }
   }
