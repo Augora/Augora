@@ -127,8 +127,9 @@ $skew: -15deg;
     font-weight: bold;
   }
   &__recs {
+    $delay: 60s;
     rect {
-      transition: transform 120s $ease-out-cubic, opacity 2s $ease-in-out-cubic;
+      transition: transform $delay $ease-out-cubic, opacity $delay $ease-in-circ, width $delay $ease-in-out-cubic;
     }
   }
 

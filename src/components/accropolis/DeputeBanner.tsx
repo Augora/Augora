@@ -11,7 +11,7 @@ import _ from "lodash"
 const debug = true
 
 // Rectangles
-const numberOfRect = 40
+const numberOfRect = 30
 const svgWidth = 1920
 const svgHeight = 100
 const rectSkew = 15
@@ -44,10 +44,11 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         const xPos = (svgWidth / numberOfRect) * i
         rects.push({
             xPos: xPos,
-            width: getRandomArbitrary(100, 500, 100),
+            width: getRandomArbitrary(svgWidth / 5, svgWidth / 10, 100),
             height: svgHeight,
-            opacity: getRandomArbitrary(0.05, 0.2),
-            translate: getRandomArbitrary(20, 100, 100)
+            opacity: getRandomArbitrary(0.2, 0.4),
+            translate: getRandomArbitrary(0, 50, 100),
+            // translate: 0
         })
       }
     
@@ -121,17 +122,17 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
 
   return (
     <div className={`${styles.deputeBanner} ${debug ? styles.deputeBannerDebug : ""}`}>
-      {/* DEBUG ----------------------------------- */}
+      {/* DEBUG ----------------------------------------------------------------------------------- */}
       <div className={styles.deputeBanner__debug}>
         {debug ? <img src="https://i.imgur.com/P499Dbs.jpeg" className={styles.debug__image} alt="" /> : null}
         {debug ? <img src="https://i.imgur.com/7Uqz9el.png" className={styles.debug__imageJean} alt="" /> : null}
       </div>
-      {/* TOP PART -------------------------------- */}
+      {/* TOP PART -------------------------------------------------------------------------------- */}
       <section className={styles.deputeBanner__top}>
         <div
           className={styles.deputeBanner__topBackground}
           style={{
-            backgroundColor: `hsl(${HSL.H}, ${_.clamp(HSL.S + 5, 0, 100)}%, ${_.clamp(HSL.L - 15, 0, 100)}%)`,
+            backgroundColor: `hsl(${HSL.H}, ${_.clamp(HSL.S - 5, 0, 100)}%, ${_.clamp(HSL.L - 7, 0, 100)}%)`,
           }}
         >
           {/* Silence is golden... */}
@@ -145,7 +146,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         </div>
       </section>
 
-      {/* BOTTOM PART ------------------------------ */}
+      {/* BOTTOM PART ------------------------------------------------------------------------------ */}
       <section className={styles.deputeBanner__bottom}>
         <div
           className={styles.deputeBanner__bottomBackground}
@@ -190,7 +191,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
           <div
             className={styles.deputeBanner__bottomBackgroundGradient}
             style={{ 
-              backgroundImage: `linear-gradient(to right, rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, 1) 25%, rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, 0) 100%)`
+              backgroundImage: `linear-gradient(90deg, rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, 1) 33%, rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, 0) 100%)`
              }}
           ></div>
         </div>
@@ -205,7 +206,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         </div>
       </section>
 
-      {/* MAP PART --------------------------------- */}
+      {/* MAP PART --------------------------------------------------------------------------------- */}
       <section className={styles.deputeBanner__map}>
         <div className={styles.deputeBanner__mapHeader} style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}>
           {depute.NomRegion}
