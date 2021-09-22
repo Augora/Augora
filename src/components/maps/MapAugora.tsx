@@ -250,8 +250,7 @@ export default function MapAugora(props: IMapAugora) {
         <>
           {overview && geoJSON.features.length === 1 && (
             <MapPin
-              long={zoneFeature.properties.center[0]}
-              lat={zoneFeature.properties.center[1]}
+              coords={[zoneFeature.properties.center[0], zoneFeature.properties.center[1]]}
               color={paint.line["line-color"] as string}
             />
           )}

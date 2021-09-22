@@ -3,19 +3,18 @@ import { Popup } from "react-map-gl"
 import IconPin from "images/ui-kit/icon-pin.svg"
 
 interface IMapPin {
-  long: number
-  lat: number
+  coords: AugoraMap.Coordinates
   color?: string
   children?: React.ReactNode
 }
 
-/** Renvoie un popup mapbox avec une icone de pin */
-export default function MapPin({ long, lat, color, children }: IMapPin) {
+/** Renvoie un popup mapbox avec une icone de pin ou des children custom*/
+export default function MapPin({ coords, color, children }: IMapPin) {
   return (
     <Popup
       className="map__popup"
-      longitude={long}
-      latitude={lat}
+      longitude={coords[0]}
+      latitude={coords[1]}
       closeButton={false}
       tipSize={0}
       anchor={"bottom"}
