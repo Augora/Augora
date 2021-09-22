@@ -9,14 +9,22 @@ import { getHSLLightVariation } from "utils/style/color"
 
 const debug = true
 
-export default function DeputeBanner({numberOfQuestions, depute, index, currentAnimation, setCurrentAnimation, mapOpacity, setMapOpacity}) {
+export default function DeputeBanner({
+  numberOfQuestions,
+  depute,
+  index,
+  currentAnimation,
+  setCurrentAnimation,
+  mapOpacity,
+  setMapOpacity,
+}) {
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature = getFeature({
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
   const { viewport, setViewport, overview } = mapStore()
-  const refMapOpacity = {value: mapOpacity.value}
+  const refMapOpacity = { value: mapOpacity.value }
 
   useEffect(() => {
     if (currentAnimation.animation) {
@@ -24,25 +32,33 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
     }
     const renderTL = gsap.timeline({
       onComplete: () => {
-        setCurrentAnimation(Object.assign(currentAnimation, {
-          animation: null,
-          type: null,
-        }))
-      }
+        setCurrentAnimation(
+          Object.assign(currentAnimation, {
+            animation: null,
+            type: null,
+          })
+        )
+      },
     })
     renderTL.call(() => {
-      setCurrentAnimation(Object.assign(currentAnimation, {
-        animation: renderTL,
-        type: 'render',
-      }))
+      setCurrentAnimation(
+        Object.assign(currentAnimation, {
+          animation: renderTL,
+          type: "render",
+        })
+      )
     })
-    renderTL.to(refMapOpacity, {
-      value: 1,
-      duration: 0.5,
-      onUpdate: () => {
-        setMapOpacity({value: refMapOpacity.value})
-      }
-    }, 2)
+    renderTL.to(
+      refMapOpacity,
+      {
+        value: 1,
+        duration: 0.5,
+        onUpdate: () => {
+          setMapOpacity({ value: refMapOpacity.value })
+        },
+      },
+      2
+    )
     // renderTL.set(currentAnimation, {
     //   mapOpacity: 0,
     // })
@@ -136,7 +152,6 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         <div className={styles.deputeBanner__mapContainer}>
           <MapAugora
             overlay={false}
-            // forceCenter={true}
             small={true}
             viewport={viewport}
             attribution={false}

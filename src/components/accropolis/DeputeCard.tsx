@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import MapAugora from "components/maps/MapAugora"
-import styles from './DeputeCardStyles.module.scss'
+import styles from "./DeputeCardStyles.module.scss"
 import { gsap } from "gsap"
 import mapStore from "stores/mapStore"
 import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
@@ -146,7 +146,9 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
       },
       "-=0.5"
     )
-    renderTL.fromTo(`.${styles.deputeCard__image}`, {
+    renderTL.fromTo(
+      `.${styles.deputeCard__image}`,
+      {
         x: "-50%",
         autoAlpha: 0,
       },
@@ -203,7 +205,6 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
           <div className={styles.deputeCard__mapinner}>
             <MapAugora
               overlay={false}
-              forceCenter={true}
               small={true}
               attribution={false}
               viewport={viewport}

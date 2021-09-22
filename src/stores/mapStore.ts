@@ -23,7 +23,7 @@ const mapStore = create<MapState>((set) => ({
     width: 100,
   },
   viewport: {
-    zoom: 5.76,
+    zoom: 3,
     longitude: France.center.lng,
     latitude: France.center.lat,
   },
