@@ -58,24 +58,28 @@ interface IMapAugora {
 const fillLayerProps: LayerProps = {
   id: "zone-fill",
   type: "fill",
+  beforeId: "road-label",
   paint: getLayerPaint().fill,
 }
 
 const lineLayerProps: LayerProps = {
   id: "zone-line",
   type: "line",
+  beforeId: "road-label",
   paint: getLayerPaint().line,
 }
 
 const fillGhostLayerProps: LayerProps = {
   id: "zone-ghost-fill",
   type: "fill",
+  beforeId: "road-label",
   paint: getLayerPaint(null, true).fill,
 }
 
 const lineGhostLayerProps: LayerProps = {
   id: "zone-ghost-line",
   type: "line",
+  beforeId: "road-label",
   paint: {
     ...getLayerPaint().line,
     // "line-dasharray": [2, 2],
