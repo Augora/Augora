@@ -23,7 +23,15 @@ const getRandomArbitrary = (min, max, round = 0) => {
   }
 }
 
-export default function DeputeBanner({numberOfQuestions, depute, index, currentAnimation, setCurrentAnimation, mapOpacity, setMapOpacity}) {
+export default function DeputeBanner({
+  numberOfQuestions,
+  depute,
+  index,
+  currentAnimation,
+  setCurrentAnimation,
+  mapOpacity,
+  setMapOpacity
+}) {
   const [rectangles, setRectangles] = useState([])
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature = getFeature({
@@ -31,7 +39,7 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
     code_dpt: NumeroDepartement,
   })
   const { viewport, setViewport, overview } = mapStore()
-  const refMapOpacity = {value: mapOpacity.value}
+  const refMapOpacity = { value: mapOpacity.value }
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
   const GroupeLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
@@ -63,25 +71,33 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
     }
     const renderTL = gsap.timeline({
       onComplete: () => {
-        setCurrentAnimation(Object.assign(currentAnimation, {
-          animation: null,
-          type: null,
-        }))
-      }
+        setCurrentAnimation(
+          Object.assign(currentAnimation, {
+            animation: null,
+            type: null,
+          })
+        )
+      },
     })
     renderTL.call(() => {
-      setCurrentAnimation(Object.assign(currentAnimation, {
-        animation: renderTL,
-        type: 'render',
-      }))
+      setCurrentAnimation(
+        Object.assign(currentAnimation, {
+          animation: renderTL,
+          type: "render",
+        })
+      )
     })
-    renderTL.to(refMapOpacity, {
-      value: 1,
-      duration: 0.5,
-      onUpdate: () => {
-        setMapOpacity({value: refMapOpacity.value})
-      }
-    }, 2)
+    renderTL.to(
+      refMapOpacity,
+      {
+        value: 1,
+        duration: 0.5,
+        onUpdate: () => {
+          setMapOpacity({ value: refMapOpacity.value })
+        },
+      },
+      2
+    )
     // renderTL.set(currentAnimation, {
     //   mapOpacity: 0,
     // })
@@ -216,7 +232,6 @@ export default function DeputeBanner({numberOfQuestions, depute, index, currentA
         <div className={styles.deputeBanner__mapContainer}>
           <MapAugora
             overlay={false}
-            // forceCenter={true}
             small={true}
             viewport={viewport}
             attribution={false}

@@ -8,7 +8,6 @@ import InteractiveMap, {
   Layer,
   LayerProps,
   ViewportProps,
-  Popup,
 } from "react-map-gl"
 import {
   Code,
@@ -19,7 +18,9 @@ import {
   compareFeatures,
   getLayerPaint,
   getDeputies,
-  MetroFeature,
+  flyToCoords,
+  getContinent,
+  Cont,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
@@ -38,12 +39,10 @@ interface IMapAugora {
   changeZone?<T extends GeoJSON.Feature>(feature: T): void
   /** Si on affiche les circonscriptions comme un pin en mode dézoomé ou de façon normale */
   overview?: boolean
-  /** Liste de députés que la map va fouiller. Hint: on peut passer une array avec un seul député pour par exemple une circonscription */
+  /** Liste de députés que la map va fouiller. Inutile si on désactive les overlay */
   deputies?: Deputy.DeputiesList
   /** Si les overlays doivent être affichés */
   overlay?: boolean
-  /** S'il faut forcer un recentrage de la map au chargement */
-  forceCenter?: boolean
   /** Délai optionel de la fonction flytobounds */
   delay?: number
   /** Si le container de la map est petit (<100px) pour éviter le bug de webmercator */
@@ -58,36 +57,39 @@ interface IMapAugora {
 const fillLayerProps: LayerProps = {
   id: "zone-fill",
   type: "fill",
+  beforeId: "road-label",
   paint: getLayerPaint().fill,
 }
 
 const lineLayerProps: LayerProps = {
   id: "zone-line",
   type: "line",
+  beforeId: "road-label",
   paint: getLayerPaint().line,
 }
 
 const fillGhostLayerProps: LayerProps = {
   id: "zone-ghost-fill",
   type: "fill",
+  beforeId: "road-label",
   paint: getLayerPaint(null, true).fill,
 }
 
 const lineGhostLayerProps: LayerProps = {
   id: "zone-ghost-line",
   type: "line",
+  beforeId: "road-label",
   paint: {
     ...getLayerPaint().line,
-    // "line-dasharray": [2, 2],
     "line-opacity": 0.2,
   },
 }
 
 /**
- * Renvoie la map augora, reçoit un code d'affichage, 2 (Dpt, Circ) s'il s'agit d'une circonscription. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre circonscription > département > région > continent
+ * Renvoie la map augora, il lui faut impérativement des données d'affichage, un viewport, et un setViewport, le reste est optionnel
  * @param {AugoraMap.MapView} mapView Object contenant les données d'affichage : geoJSON (zones affichées), feature (zone parente), ghostGeoJSON (zones voisines), paint (comment les zones sont dessinées)
  * @param {Function} [changeZone] Callback de changement de zone
- * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map
+ * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map, inutile si les overlays sont désactivés
  * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default true
  * @param {boolean} [forceCenter] S'il faut recentrer la map au chargement, default false
  * @param {boolean} [small] S'il faut afficher une map plus petite, default false
@@ -97,10 +99,9 @@ const lineGhostLayerProps: LayerProps = {
 export default function MapAugora(props: IMapAugora) {
   /** Default props */
   const {
+    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
     overlay = true,
     deputies = [],
-    forceCenter = false,
-    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
     overview = false,
     small = false,
     attribution = true,
@@ -114,9 +115,11 @@ export default function MapAugora(props: IMapAugora) {
 
   /** useEffects */
   useEffect(() => {
-    if (!overview) flyToFeature(zoneFeature)
-    else flyToFeature(MetroFeature)
-  }, [zoneFeature, overview])
+    if (isMapLoaded) {
+      if (!overview) flyToFeature(zoneFeature)
+      else flyToPin(zoneFeature)
+    }
+  }, [zoneFeature, overview, isMapLoaded])
 
   /** useRefs */
   const mapRef = useRef<mapboxgl.Map>()
@@ -133,6 +136,14 @@ export default function MapAugora(props: IMapAugora) {
     setTimeout(() => {
       flyToBounds(feature, props.viewport, props.setViewport, padding)
     }, delay)
+  }
+
+  /** Transitionne le viewport sur un pin en mode overview */
+  const flyToPin = <T extends GeoJSON.Feature>(feature: T) => {
+    const contId = getContinent(feature)
+    const zoom = contId === Cont.World ? -1 : contId === Cont.OM ? 2 : 3.5
+
+    flyToCoords(zoneFeature.properties.center, props.viewport, props.setViewport, zoom)
   }
 
   /** Change la zone affichée et transitionne */
@@ -206,10 +217,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleLoad = () => {
-    if (!isMapLoaded) {
-      setIsMapLoaded(true)
-      if (forceCenter) flyToFeature(zoneFeature)
-    }
+    if (!isMapLoaded) setIsMapLoaded(true)
   }
 
   return (
@@ -236,23 +244,21 @@ export default function MapAugora(props: IMapAugora) {
     >
       {isMapLoaded && (
         <>
-          {overview && geoJSON.features.length === 1 ? (
-            <MapPin
-              long={zoneFeature.properties.center[0]}
-              lat={zoneFeature.properties.center[1]}
-              color={paint.line["line-color"] as string}
-            />
-          ) : (
-            <Source type="geojson" data={geoJSON} generateId={true}>
-              <Layer {...lineLayerProps} paint={paint.line} />
-              <Layer {...fillLayerProps} paint={paint.fill} />
-            </Source>
-          )}
+          <Source type="geojson" data={geoJSON} generateId={true}>
+            <Layer {...lineLayerProps} paint={paint.line} />
+            <Layer {...fillLayerProps} paint={paint.fill} />
+          </Source>
           {ghostGeoJSON && (
             <Source type="geojson" data={ghostGeoJSON} generateId={true}>
               <Layer {...lineGhostLayerProps} />
               <Layer {...fillGhostLayerProps} />
             </Source>
+          )}
+          {overview && geoJSON.features.length === 1 && (
+            <MapPin
+              coords={[zoneFeature.properties.center[0], zoneFeature.properties.center[1]]}
+              color={paint.line["line-color"] as string}
+            />
           )}
           {overlay && (
             <>
