@@ -8,4 +8,7 @@
   .mapboxgl-ctrl-logo {
     visibility: hidden;
   }
+  &.debug {
+    // flex-direction: column;
+  }
 }

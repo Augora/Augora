@@ -7,9 +7,6 @@ import MapAugora from "components/maps/MapAugora"
 import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
 import _ from "lodash"
 
-// Debug
-const debug = true
-
 // Rectangles
 const numberOfRect = 30
 const svgWidth = 1920
@@ -24,13 +21,15 @@ const getRandomArbitrary = (min, max, round = 0) => {
 }
 
 export default function DeputeBanner({
+  debug,
   numberOfQuestions,
   depute,
   index,
   currentAnimation,
   setCurrentAnimation,
   mapOpacity,
-  setMapOpacity
+  setMapOpacity,
+  question
 }) {
   const [rectangles, setRectangles] = useState([])
   const { NumeroCirconscription, NumeroDepartement } = depute
@@ -43,29 +42,64 @@ export default function DeputeBanner({
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
   const GroupeLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
+  const [currentQuestionTL, setCurrentQuestionTL] = useState(null)
 
-  // Creates Rectangles
+  // When we change the banner content
+  /*----------------------------------------------------*/
   useEffect(() => {
+    // Creates or modifies Rectangles
     setRectangles(() => {
       const rects = []
       for (let i = 0; i < numberOfRect; i++) {
-        const xPos = (svgWidth / numberOfRect) * i
+        const xPos = 1600
         rects.push({
             xPos: xPos,
-            width: getRandomArbitrary(svgWidth / 5, svgWidth / 10, 100),
+            width: getRandomArbitrary(svgWidth / 5, svgWidth / 30, 100),
             height: svgHeight,
             opacity: getRandomArbitrary(0.2, 0.4),
-            translate: getRandomArbitrary(0, 50, 100),
+            translate: getRandomArbitrary(-50, 25, 100),
             // translate: 0
         })
       }
-    
       return rects
     })
+
+    // Hide question
+    if (currentQuestionTL) {
+      if (!question) {
+        currentQuestionTL.kill()
+        setCurrentQuestionTL(null)
+      }
+      const hideQuestionTL = gsap.timeline({
+        onComplete: () => {
+          currentQuestionTL.kill()
+          setCurrentQuestionTL(null)
+          hideQuestionTL.kill()
+
+          const renderTL = renderAnimation(currentAnimation)
+          renderTL.play()
+        }
+      })
+      hideQuestionTL.to(`.${styles.deputeBanner__questionInner}`, {
+        x: '-100%',
+        ease: 'power1.in',
+        duration: 0.5,
+      })
+      hideQuestionTL.to(`.${styles.deputeBanner__topBackground}`, {
+        scaleX: 0,
+        ease: 'power1.in',
+      })
+      hideQuestionTL.play()
+    } else {
+      const renderTL = renderAnimation(currentAnimation)
+      renderTL.play()
+    }
   }, [index])
 
   // Reveal animation
+  /*----------------------------------------------------*/
   const renderAnimation = (currentAnimation) => {
+    // Resets
     if (currentAnimation.animation) {
       currentAnimation.animation.kill()
     }
@@ -87,6 +121,31 @@ export default function DeputeBanner({
         })
       )
     })
+
+    // If initial state (no anim) hide question background
+    if (!currentQuestionTL) {
+      renderTL.set(`.${styles.deputeBanner__topBackground}`, {
+        scaleX: 0
+      })
+    }
+
+    // Display component
+    renderTL.fromTo(`.${styles.deputeBanner__logoGroup}`, {
+        x: '-100px',
+        autoAlpha: 0,
+        ease: 'power1.in'
+      }, {
+        x: '0px',
+        autoAlpha: 1,
+        ease: 'power1.inOut'
+    })
+    renderTL.to(`.${styles.deputeBanner__content} > *`, {
+      x: '0%',
+      autoAlpha: 1,
+      ease: 'power1.out'
+    }, '-=0.2')
+
+    // Map opacity transition
     renderTL.to(
       refMapOpacity,
       {
@@ -98,46 +157,35 @@ export default function DeputeBanner({
       },
       2
     )
-    // renderTL.set(currentAnimation, {
-    //   mapOpacity: 0,
-    // })
-    // renderTL.fromTo(currentAnimation, {
-    //   mapOpacity: 0,
-    // }, {
-    //   mapOpacity: 1,
-    // })
-    // renderTL.set(`.${styles.deputeBanner}`, {
-    //   autoAlpha: 0,
-    // })
-    // renderTL.set(`.${styles.deputeBanner__mapContainer}`, {
-    //   x: '-100%',
-    // })
-    // renderTL.fromTo(`.${styles.deputeBanner}`, {
-    //     autoAlpha: 0,
-    //   }, {
-    //     autoAlpha: 1,
-    //     ease: "power1.out",
-    //     duration: 0.8,
-    //   }
-    // )
-    // renderTL.fromTo(`.${styles.deputeBanner__mapContainer}`, {
-    //     x: '-100%',
-    //   },
-    //   {
-    //     x: '0%',
-    //   },
-    // )
-
     return renderTL;
   }
 
+  // Question dynamique
+  /*----------------------------------------------------*/
   useEffect(() => {
-    const renderTL = renderAnimation(currentAnimation)
-    renderTL.play()
-  }, [index])
+    if (!currentQuestionTL && question.length) {
+      const questionTL = gsap.timeline()
+      questionTL.addLabel('questionTL')
+
+      questionTL.to(`.${styles.deputeBanner__topBackground}`, {
+        scaleX: 1,
+      })
+      questionTL.to(`.${styles.deputeBanner__questionInner}`, {
+        x: '0%'
+      }, 1)
+
+      setCurrentQuestionTL(questionTL)
+      questionTL.play()
+    }
+  }, [question])
 
   return (
-    <div className={`${styles.deputeBanner} ${debug ? styles.deputeBannerDebug : ""}`}>
+    <div
+      className={`${styles.deputeBanner} ${debug ? styles.deputeBannerDebug : ""}`}
+      style={{ 
+        height: debug ? 500 : 300
+       }}
+    >
       {/* DEBUG ----------------------------------------------------------------------------------- */}
       <div className={styles.deputeBanner__debug}>
         {debug ? <img src="https://i.imgur.com/P499Dbs.jpeg" className={styles.debug__image} alt="" /> : null}
@@ -148,12 +196,17 @@ export default function DeputeBanner({
         <div
           className={styles.deputeBanner__topBackground}
           style={{
-            backgroundColor: `hsl(${HSL.H}, ${_.clamp(HSL.S - 5, 0, 100)}%, ${_.clamp(HSL.L - 7, 0, 100)}%)`,
+            backgroundImage: `linear-gradient(80deg, hsl(${HSL.H}, ${HSL.S}%, ${_.clamp(HSL.L + 5, 0, 100)}%) 0%, hsl(${HSL.H}, ${HSL.S}%, ${_.clamp(HSL.L - 5, 0, 100)}%) 100%)`,
+            // backgroundColor: `hsl(${HSL.H}, ${_.clamp(HSL.S - 5, 0, 100)}%, ${_.clamp(HSL.L - 7, 0, 100)}%)`,
           }}
         >
           {/* Silence is golden... */}
         </div>
-        <div className={styles.deputeBanner__question}>Bla bla bla...</div>
+        <div className={styles.deputeBanner__question}>
+          <div className={styles.deputeBanner__questionInner}>
+            {question}
+          </div>
+        </div>
         <div className={styles.deputeBanner__questionNumber}>
           <span>
             Question {index + 1 < 10 ? "0" : null}
@@ -212,8 +265,10 @@ export default function DeputeBanner({
           ></div>
         </div>
         <div className={styles.deputeBanner__logoGroup}>
-          <div className={styles.deputeBanner__logoBackground}>{/* Silence is golden... */}</div>
           <GroupeLogo style={{ fill: depute.GroupeParlementaire.Couleur }} />
+        </div>
+        <div className={styles.deputeBanner__logoBackground}>
+          {/* Silence is golden... */}
         </div>
         <div className={styles.deputeBanner__content}>
           <span className={styles.deputeBanner__firstname}>{depute.Prenom}</span>
