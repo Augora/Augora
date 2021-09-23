@@ -133,7 +133,7 @@ export default function MapPage() {
             setViewport={setViewport}
             deputies={FilteredList}
             mapView={{ geoJSON: geoJSON, ghostGeoJSON: ghostGeoJSON, feature: zoneFeature, paint: paint }}
-            changeZone={changeZone}
+            onZoneClick={changeZone}
           />
         </div>
       </div>
