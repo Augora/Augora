@@ -9,16 +9,33 @@
 
   // Controls
   &__controls {
-    margin-top: 50px;
     padding: 20px;
-    width: 300px;
-    max-height: 1080px;
-    overflow: scroll;
+    width: 1920px;
+    margin-top: 20px;
+
+    display: flex;
+    flex-wrap: wrap;
 
     // Question live dymanique
     textarea {
       resize: none;
     }
+
+    & > div:not(:last-child) {
+      min-width: calc(20% - 50px);
+      margin-right: 50px;
+      padding-right: 50px;
+      border-right: solid 1px grey;
+    }
+
+    // .controls__navigation &Debug {
+    //   & > div:not(:last-child) {
+    //     min-width: unset;
+    //     margin: unset;
+    //     padding: unset;
+    //     border-right: unset;
+    //   }
+    // }
   }
   &__navigation {
     display: flex;
@@ -29,10 +46,22 @@
 $spacing: 10px;
 $button-color: black;
 // Controls
-.controls {
-  &__debug {
-    display: block;
+.accropolis__controls {
+  &Debug {
+    margin-top: unset;
+    width: 300px;
+    max-height: 1080px;
+    overflow: scroll;
+    & > div:not(:last-child) {
+      min-width: unset;
+      margin: unset;
+      padding: unset;
+      border-right: unset;
+    }
   }
+  // &__navigation {
+  //   position: relative;
+  // }
 }
 // Navigation
 .navigation {
@@ -66,8 +95,8 @@ $button-color: black;
     justify-content: space-between;
     align-items: center;
     color: white;
-    width: 100%;
-    min-height: 50px;
+    width: calc(10% - 10px);
+    min-height: 75px;
     font-size: 12px;
     line-height: 1.25;
     border: none;
@@ -78,6 +107,10 @@ $button-color: black;
     transition: outline 0.2s $ease-in-out-cubic;
     &:focus {
       outline: 5px solid rgba($button-color, 1) !important;
+    }
+
+    &Debug {
+      width: calc(50% - 10px);
     }
   }
   &__number {
@@ -95,6 +128,20 @@ $button-color: black;
   &__active {
     outline: 5px solid rgba($button-color, 1);
   }
+  &__load {
+    display: inline-block;
+    margin: 0;
+    opacity: 0;
+    margin-left: 20px;
+    pointer-events: none;
+    transition: opacity 0.2s $ease-in-out-cubic;
+    &ing {
+      opacity: 1;
+    }
+    span {
+      animation: blink 1s infinite;
+    }
+  }
 }
 
 // Buttons
@@ -110,6 +157,7 @@ $button-color: black;
   border-radius: 5px;
   cursor: pointer;
   margin: 5px;
+  font-size: 12px;
 
   transition: background-color 0.2s $ease-in-out-cubic;
 
@@ -128,6 +176,20 @@ $button-color: black;
     }
   }
   &Active {
-    background: red;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
   }
 }

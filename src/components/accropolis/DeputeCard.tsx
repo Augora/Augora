@@ -29,6 +29,7 @@ export default function DeputeCard({ numberOfQuestions, depute, index, currentAn
         })
       },
     })
+    renderTL.addLabel('renderTL')
     renderTL.call(() => {
       setCurrentAnimation({
         animation: renderTL,
