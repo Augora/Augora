@@ -113,7 +113,6 @@ export function MapPin(props: IMapPin) {
   const zoneCode = getZoneCode(props.feature)
   const coords = props.feature.properties.center ? props.feature.properties.center : getPolygonCenter(props.feature)
   const isHidden = !isExpanded && zoneCode === Code.Circ && props.deputies.length === 0
-
   return (
     !isHidden && (
       <Popup
@@ -129,6 +128,7 @@ export function MapPin(props: IMapPin) {
           {props.handleClick || props.handleHover ? (
             <button
               className="pins__btn"
+              aria-label={`Informations ${props.feature.properties.nom}`}
               onClick={() => {
                 if (props.handleClick) props.handleClick()
               }}

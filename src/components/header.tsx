@@ -35,6 +35,10 @@ const mainPages: Pages = {
     path: "/",
     title: "Députés",
   },
+  statistiques: {
+    path: "/statistiques",
+    title: "Statistiques",
+  },
   map: {
     path: "/map",
     title: "Carte",
@@ -108,7 +112,7 @@ const Header = ({ siteTitle, location, color, onBurgerClick }: IHeader) => {
     <header id="header" className="header">
       <div className="header__wrapper wrapper">
         <Link href="/">
-          <a className="header__home-btn">
+          <a className="header__home-btn" aria-label="Logo page d'accueil">
             <div className="header__logo-wrapper">
               <div className="header__logo">
                 <Logo className="logo" />

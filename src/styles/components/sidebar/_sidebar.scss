@@ -13,27 +13,11 @@
     transform: translate(0, 0);
 
     .sidebar {
-      &__swipe {
-        transform: translate(50%, 0);
-        width: 100px;
-      }
-
       &__close {
         display: flex;
       }
     }
   }
-
-  &__swipe {
-    position: absolute;
-    width: 100px;
-    height: calc(100% - 100px);
-    top: 100px;
-    right: 100%;
-
-    // border: 2px dashed $text-color;
-  }
-
   &__visuals {
     min-width: 300px;
     height: 100vh;
@@ -249,12 +233,6 @@
       opacity: 0.5;
     }
   }
-
-  // @media (max-width: 1700px) {
-  //   &__swipe {
-  //     width: 50px;
-  //   }
-  // }
 
   @media (max-width: 750px) {
     display: flex;

@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import { useSwipeable } from "react-swipeable"
 import IconClose from "images/ui-kit/icon-close.svg"
 import IconRefresh from "images/ui-kit/icon-refresh.svg"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
-import IconArrow from "images/ui-kit/icon-arrow.svg"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 import { NextRouter } from "next/router"
 const GradientBanner = dynamic(() => import("components/graphics/GradientBanner"), {
   ssr: false,
@@ -51,7 +50,7 @@ export const SidebarCategory = ({ title, className, children, opened }: ISidebar
       <button className="category__btn" onClick={() => setVisible(!visible)}>
         {title}
         <div className="icon-wrapper" style={{ transform: visible ? "rotate(-180deg)" : "" }}>
-          <IconArrow />
+          <IconChevron />
         </div>
       </button>
       <div className={`category__content${className ? className : ""}${visible ? " visible" : ""}`}>{children}</div>
@@ -83,6 +82,7 @@ export const SidebarLinks = ({ location }: { location: NextRouter }) => {
   return (
     <div className="content__links">
       <SidebarLink title="Députés" href="/" isCurrent={location.pathname === "/"} />
+      <SidebarLink title="Statistiques" href="/statistiques" isCurrent={location.pathname === "/statistiques"} />
       <SidebarLink title="Carte" href="/carte" isCurrent={location.pathname === "/map"} />
       <SidebarLink title="FAQ" href="/faq" isCurrent={location.pathname === "/faq"} />
     </div>
@@ -154,26 +154,19 @@ export const SidebarHeader = ({ search, keyword }: { search: DebounceSearch; key
 }
 
 /**
- * Renvoie une sidebar avec swipe controls
+ * Renvoie une sidebar
  * @param {boolean} visible State de visibilité
  * @param {Function} [close] Callback pour fermer la sidebar
  * @param {Function} [open] Callback pour ouvrir la sidebar
  */
 export default function Sidebar({ visible, children, close, open }: ISideBar) {
-  const handlers = useSwipeable({
-    onSwipedLeft: open,
-    onSwipedRight: close,
-    trackMouse: true,
-  })
-
   return (
     <div className={`sidebar ${visible ? "visible" : ""}`}>
-      <div className="sidebar__swipe" {...handlers} />
       <div className="sidebar__visuals">{children}</div>
       <div className="sidebar__close">
         <button className="close__btn" onClick={close}>
           <div className="icon-wrapper">
-            <IconArrow style={{ transform: "rotate(-90deg)" }} />
+            <IconChevron style={{ transform: "rotate(-90deg)" }} />
           </div>
         </button>
       </div>

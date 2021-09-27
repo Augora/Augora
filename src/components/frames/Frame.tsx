@@ -19,48 +19,13 @@ export interface IFrame {
  */
 export default function Frame(props: IFrame) {
   return (
-    <div
-      className={`frame ${props.className ? props.className : ""}`}
-      style={props.style ? props.style : null}
-    >
-      <div
-        className={`frame__header ${
-          props.className ? props.className + "__header" : ""
-        }`}
-      >
-        <span
-          className={`frame__header-title ${
-            props.className ? props.className + "__header-title" : ""
-          }`}
-        >
-          {props.title}
-        </span>
-        {props.center ? (
-          <span
-            className={`frame__header-center ${
-              props.className ? props.className + "__header-center" : ""
-            }`}
-          >
-            {props.center}
-          </span>
-        ) : null}
-        {props.right ? (
-          <span
-            className={`frame__header-right ${
-              props.className ? props.className + "__header-right" : ""
-            }`}
-          >
-            {props.right}
-          </span>
-        ) : null}
+    <div className={`frame ${props.className ? props.className : ""}`} style={props.style ? props.style : null}>
+      <div className="frame__header">
+        <span className="header__title">{props.title}</span>
+        {props.center && <span className="header__center">{props.center}</span>}
+        {props.right && <span className="header__right">{props.right}</span>}
       </div>
-      <div
-        className={`frame__content ${
-          props.className ? props.className + "__content" : ""
-        }`}
-      >
-        {props.children ? props.children : null}
-      </div>
+      <div className="frame__content">{props.children ? props.children : null}</div>
     </div>
   )
 }
