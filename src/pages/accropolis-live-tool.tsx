@@ -365,9 +365,10 @@ export default function AccropolisControls({accroDeputes}) {
               cycleDeputeCard={cycleDeputeCard}
               deputeCurrentCard={deputeCurrentCard}
             />
+          </div>
+          <div className="accropolis-live-tool__preview">
             <h2>Aperçu live</h2>
             <div className="controls__affichage">
-              <h2>Affichage</h2>
               <button className={`${controlsStyles.btn} ${!debug ? controlsStyles.btnActive : ''}`} onClick={() => setDebug('')}>
                 OBS
               </button>

@@ -10,10 +10,13 @@ $twitch-color: #6441a5;
   // align-items: center;
   // justify-content: center;
 
-  &__content {
-    padding-top: 100px;
+  &__content,
+  &__preview {
     max-width: 1920px;
     margin: 0 auto;
+  }
+  &__content {
+    padding-top: 100px;
   }
   &.not-logged {
     //
