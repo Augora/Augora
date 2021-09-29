@@ -158,10 +158,10 @@ $skew: -15deg;
     font-weight: bold;
   }
   &__recs {
-    $delay: 120s;
+    $delay: 240s;
     z-index: -1;
     rect {
-      transition: transform $delay $ease-in-out-circ, opacity 0.2s $ease-in-circ, width $delay $ease-in-circ;
+      transition: transform $delay $ease-in-out-circ, opacity 0.2s $ease-in-out-circ, width $delay $ease-in-out-circ;
     }
   }
 

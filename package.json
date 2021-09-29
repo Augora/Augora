@@ -17,6 +17,7 @@
     "@visx/shape": "^2.1.0",
     "@visx/tooltip": "^2.1.0",
     "@visx/xychart": "^2.1.0",
+    "axios": "^0.21.4",
     "dayjs": "^1.10.5",
     "fuse.js": "6.4.6",
     "graphql": "^15.5.2",

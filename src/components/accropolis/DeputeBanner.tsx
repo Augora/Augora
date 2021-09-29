@@ -50,7 +50,7 @@ export default function DeputeBanner({
   // When we change the banner content
   /*----------------------------------------------------*/
   useEffect(() => {
-    console.log('[useEffec index]')
+    console.log('DeputeBanner[useEffec index]')
     // Creates or modifies Rectangles
     setRectangles(() => {
       const rects = []
@@ -204,6 +204,8 @@ export default function DeputeBanner({
     }
   }, [question])
 
+  // Render
+  /*----------------------------------------------------*/
   return (
     <div
       className={`${styles.deputeBanner} ${debug ? styles.deputeBannerDebug : ""}`}
@@ -215,10 +217,12 @@ export default function DeputeBanner({
        }}
     >
       {/* DEBUG ----------------------------------------------------------------------------------- */}
-      <div className={styles.deputeBanner__debug}>
-        {debug ? <img src="https://i.imgur.com/P499Dbs.jpeg" className={styles.debug__image} alt="" /> : null}
-        {debug ? <img src="https://i.imgur.com/7Uqz9el.png" className={styles.debug__imageJean} alt="" /> : null}
-      </div>
+      {debug ? (
+        <div className={styles.deputeBanner__debug}>
+          {debug ? <img src="https://i.imgur.com/P499Dbs.jpeg" className={styles.debug__image} alt="" /> : null}
+          {debug ? <img src="https://i.imgur.com/7Uqz9el.png" className={styles.debug__imageJean} alt="" /> : null}
+        </div>
+      ) : null}
 
       {/* TOP PART -------------------------------------------------------------------------------- */}
       <section className={styles.deputeBanner__top}>
@@ -238,8 +242,7 @@ export default function DeputeBanner({
         </div>
         <div className={styles.deputeBanner__questionNumber}>
           <span>
-            Question {index + 1 < 10 ? "0" : null}
-            {index + 1} / {numberOfQuestions}
+            Question {index + 1 < 10 ? "0" : null}{index + 1} / {numberOfQuestions < 10 ? "0" : null}{numberOfQuestions}
           </span>
         </div>
       </section>

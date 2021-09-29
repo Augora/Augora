@@ -29,7 +29,8 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
         />
       </Head>
       {pageProps.pageBlank ? (
-        <Accropolis {...pageProps}/>
+        // TODO : Websocket ici
+        <Accropolis debug={false} deputeCurrentCard={0} question={''} {...pageProps}/>
       ) : (
         <Layout location={router} title={pageProps.title}>
           <Component {...pageProps} />

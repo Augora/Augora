@@ -1,0 +1,162 @@
+@import "../../styles/global/easing";
+
+.accropolis {
+  // Controls
+  &__controls {
+    padding: 20px;
+    width: 1920px;
+    margin-top: 20px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    // Question live dymanique
+    textarea {
+      resize: none;
+    }
+
+    & > div:not(:last-child) {
+      min-width: calc(20% - 50px);
+      margin-right: 50px;
+      padding-right: 50px;
+      border-right: solid 1px grey;
+    }
+  }
+  &__navigation {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+$spacing: 10px;
+$button-color: black;
+// Navigation
+.navigation {
+  &__next {
+    &:hover {
+      svg {
+        left: 5px;
+      }
+    }
+    svg {
+      transform: rotate(-90deg) translateY(2px);
+      left: 0px;
+      transition: left 0.2s $ease-in-out-cubic;
+    }
+  }
+  &__prev {
+    &:hover {
+      svg {
+        right: 5px;
+      }
+    }
+    svg {
+      transform: rotate(90deg) translateY(2px);
+      right: 0px;
+      transition: right 0.2s $ease-in-out-cubic;
+    }
+  }
+  &__btn {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    width: 200px;
+    min-height: 75px;
+    font-size: 12px;
+    line-height: 1.25;
+    border: none;
+    margin: $spacing $spacing 5px 0;
+    cursor: pointer;
+
+    outline: 5px solid rgba($button-color, 0);
+    transition: outline 0.2s $ease-in-out-cubic;
+    &:focus {
+      outline: 5px solid rgba($button-color, 1) !important;
+    }
+
+    &Debug {
+      width: calc(50% - 10px);
+    }
+  }
+  &__number {
+    font-size: 20px;
+    margin: 0;
+    position: absolute;
+    top: 0px;
+    left: 5px;
+  }
+  &__name {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+  }
+  &__active {
+    outline: 5px solid rgba($button-color, 1);
+  }
+  &__load {
+    display: inline-block;
+    margin: 0;
+    opacity: 0;
+    margin-left: 20px;
+    pointer-events: none;
+    transition: opacity 0.2s $ease-in-out-cubic;
+    &ing {
+      opacity: 1;
+    }
+    span {
+      animation: blink 1s infinite;
+    }
+  }
+}
+
+// Buttons
+/*----------------------------------------------------*/
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  height: 60px;
+  border: solid 2px $button-color;
+  background-color: rgba($button-color, 0.05);
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 12px;
+
+  transition: background-color 0.2s $ease-in-out-cubic;
+
+  &:hover {
+    background-color: rgba($button-color, 0.25);
+  }
+  & > div {
+    width: 30px;
+    position: relative;
+    justify-content: center;
+  }
+  svg {
+    position: relative;
+    path {
+      fill: $button-color;
+    }
+  }
+  &Active {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
