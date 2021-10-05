@@ -18,6 +18,9 @@ $twitch-color: #6441a5;
   &__content {
     padding-top: 100px;
   }
+  &__preview {
+    padding-top: 100px;
+  }
   &.not-logged {
     //
   }
@@ -33,6 +36,7 @@ $twitch-color: #6441a5;
         display: flex;
         text-align: unset;
         padding-left: 10%;
+        overflow: hidden;
 
         svg {
           position: absolute;

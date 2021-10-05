@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { fetchQuery } from 'utils/utils';
-import { getDeputeAccropolis } from "../lib/deputes/Wrapper"
+import { getDeputesAccropolis, getDeputeAccropolis } from "../lib/deputes/Wrapper"
 import Accropolis from "components/accropolis/Accropolis"
 import Controls from "components/accropolis/Controls"
 import { useRouter } from "next/router"
@@ -30,11 +30,12 @@ const LogoTwitch = ({size = 24}) => {
   </svg>
 }
 
-export default function AccropolisControls({accroDeputes}) {
+export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   const router = useRouter()
   const [isLogged, setIsLogged] = useState(false);
   const { overview, setOverview } = mapStore()
   const [deputeCurrentCard, setDeputeCurrentCard] = useState(0);
+  const [activeDepute, setActiveDepute] = useState(null)
   const [layoutType, setLayoutType] = useState('banner')
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
@@ -307,7 +308,6 @@ export default function AccropolisControls({accroDeputes}) {
   useEffect(() => {
     fetch(`https://accrogora.herokuapp.com/auth/twitch/callback${router.asPath.replace('/accropolis-live-tool', '')}`)
       .then(res => {
-        console.log(res)
         if (res.status !== 200) {
           throw new Error(`Couldn't login to Strapi. Status: ${res.status}`);
         }
@@ -355,17 +355,6 @@ export default function AccropolisControls({accroDeputes}) {
               <button className="accropolis__logout-btn" onClick={logOut}>Déconnecter</button>
             </div>
           </div>
-          <div className="accropolis-live-tool__content">
-            <Controls
-              question={question}
-              setQuestion={setQuestion}
-              overview={overview}
-              setOverview={setOverview}
-              accroDeputes={accroDeputes}
-              cycleDeputeCard={cycleDeputeCard}
-              deputeCurrentCard={deputeCurrentCard}
-            />
-          </div>
           <div className="accropolis-live-tool__preview">
             <h2>Aperçu live</h2>
             <div className="controls__affichage">
@@ -381,9 +370,27 @@ export default function AccropolisControls({accroDeputes}) {
             </div>
             <Accropolis
               accroDeputes={accroDeputes}
+              depute={activeDepute}
               debug={debug}
               deputeCurrentCard={deputeCurrentCard}
               question={question}
+            />
+          </div>
+          <div className="accropolis-live-tool__content">
+            <Controls
+              question={question}
+              setQuestion={setQuestion}
+              overview={overview}
+              setOverview={setOverview}
+              accroDeputes={accroDeputes}
+              deputes={allAccroDeputes}
+              activeDepute={activeDepute}
+              setActiveDepute={setActiveDepute}
+              cycleDeputeCard={cycleDeputeCard}
+              deputeCurrentCard={deputeCurrentCard}
+              currentAnimation={currentAnimation}
+              setCurrentAnimation={setCurrentAnimation}
+              olderBannerAnimation={olderBannerAnimation}
             />
           </div>
         </>
@@ -397,11 +404,15 @@ async function getServerSideProps() {
   const accroDeputes = await Promise.all(strapiDeputes.map(async depute => {
     return await getDeputeAccropolis(depute.Depute_name)
   }))
+  const allAccroDeputes = await getDeputesAccropolis()
+  // const deputesNamesAndSlug = await getDeputesNames()
 
   return {
     props: {
       title: "Live Tool",
       accroDeputes,
+      allAccroDeputes,
+      // deputesNamesAndSlug,
     },
   }
 }

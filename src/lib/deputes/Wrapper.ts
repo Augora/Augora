@@ -163,6 +163,69 @@ export function getDepute(slug: string) {
     .then((d) => d.data)
 }
 
+export function getDeputesAccropolis() {
+  return client
+    .query({
+      query: gql`
+        query DeputesEnMandat {
+          DeputesEnMandat(EstEnMandat: true, _size: 700) {
+            data {
+              Age
+              DebutDuMandat
+              GroupeParlementaire {
+                Couleur
+                Sigle
+                CouleurDetail {
+                  RGB {
+                    Full
+                    R
+                    G
+                    B
+                  }
+                  HSL {
+                    Full
+                    H
+                    L
+                    S
+                  }
+                }
+              }
+              URLPhotoAugora
+              Nom
+              NomCirconscription
+              NomDeFamille
+              NumeroCirconscription
+              NumeroDepartement
+              Prenom
+              Profession
+              Sexe
+              Slug
+              Collaborateurs
+              DateDeNaissance
+              NomDepartement
+              NomRegion
+              AnciensMandats {
+                data {
+                  DateDeDebut
+                  DateDeFin
+                  Intitule
+                }
+              }
+              AutresMandats {
+                data {
+                  Institution
+                  Localite
+                  Intitule
+                }
+              }
+            }
+          }
+        }
+      `
+    })
+    .then((d) => d.data)
+}
+
 export function getDeputeAccropolis(slug: string) {
   return client
     .query({
@@ -226,3 +289,4 @@ export function getDeputeAccropolis(slug: string) {
     })
     .then((d) => d.data)
 }
+

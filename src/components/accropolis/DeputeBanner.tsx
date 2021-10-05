@@ -104,7 +104,7 @@ export default function DeputeBanner({
       })
       renderTL.play()
     }
-  }, [index])
+  }, [index, depute])
 
   // Reveal animation
   /*----------------------------------------------------*/

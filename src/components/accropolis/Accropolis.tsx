@@ -6,7 +6,13 @@ import _ from "lodash"
 
 import styles from "./AccropolisStyles.module.scss"
 
-export default function Accropolis({ accroDeputes, debug, question, deputeCurrentCard }) {
+export default function Accropolis({
+    accroDeputes,
+    debug,
+    question,
+    deputeCurrentCard,
+    depute
+  }) {
   const [layoutType, setLayoutType] = useState('banner')
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
@@ -32,7 +38,7 @@ export default function Accropolis({ accroDeputes, debug, question, deputeCurren
           <DeputeBanner
             debug={debug}
             numberOfQuestions={accroDeputes.length}
-            depute={accroDeputes[deputeCurrentCard].Depute}
+            depute={depute ? depute : accroDeputes[deputeCurrentCard].Depute}
             index={deputeCurrentCard}
             currentAnimation={currentAnimation}
             setCurrentAnimation={setCurrentAnimation}

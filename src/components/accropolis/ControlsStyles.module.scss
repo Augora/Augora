@@ -28,6 +28,13 @@
   }
 }
 
+.controls {
+  &__form {
+    display: flex;
+    align-items: center;
+  }
+}
+
 $spacing: 10px;
 $button-color: black;
 // Navigation
@@ -80,6 +87,29 @@ $button-color: black;
       width: calc(50% - 10px);
     }
   }
+  &__search {
+    position: relative;
+    margin-left: 20px;
+  }
+  &__searchResults {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+    padding: 10px;
+    background: #ccc;
+  }
+  &__searchField {
+    padding: 20px;
+    font-size: 20px;
+    border: solid 1px black;
+    border-radius: 5px;
+  }
+  &__activeDepute {
+    //
+  }
   &__number {
     font-size: 20px;
     margin: 0;
@@ -107,6 +137,22 @@ $button-color: black;
     }
     span {
       animation: blink 1s infinite;
+    }
+  }
+}
+
+// Search
+.search {
+  &__depute {
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    margin: 5px 0;
+    opacity: 1;
+    transition: opacity 0.2s $ease-in-out-cubic;
+    &:hover {
+      opacity: 0.5;
     }
   }
 }
