@@ -13,9 +13,10 @@ export default function Controls({
     accroDeputes,
     deputes,
     cycleDeputeCard,
-    deputeCurrentCard,
     activeDepute,
     setActiveDepute,
+    activeDeputeIndex,
+    setActiveDeputeIndex,
     currentAnimation,
     setCurrentAnimation,
     olderBannerAnimation
@@ -79,12 +80,18 @@ export default function Controls({
       <div className="controls__navigation">
         <h2>Navigation</h2>
         <div className={`${styles.controls__form}`}>
-          <button className={`${styles.navigation__prev} ${styles.btn}`} onClick={(e) => cycleDeputeCard(e, deputeCurrentCard - 1)}>
+          <button className={`${styles.navigation__prev} ${styles.btn}`} onClick={() => {
+              setActiveDeputeIndex(activeDeputeIndex - 1)
+              cycleDeputeCard(null, activeDepute)
+            }}>
             <div className="icon-wrapper">
               <IconChevron />
             </div>
           </button>
-          <button className={`${styles.navigation__next} ${styles.btn}`} onClick={(e) => cycleDeputeCard(e, deputeCurrentCard + 1)}>
+          <button className={`${styles.navigation__next} ${styles.btn}`} onClick={() => {
+              setActiveDeputeIndex(activeDeputeIndex + 1)
+              cycleDeputeCard(null, activeDepute)
+            }}>
             <div className="icon-wrapper">
               <IconChevron />
             </div>
@@ -117,10 +124,10 @@ export default function Controls({
             depute = depute.Depute
             return (
               <button
-                className={`${styles.navigation__btn} ${index === deputeCurrentCard ? styles.navigation__active : ""}`}
+                className={`${styles.navigation__btn} ${depute.Slug === activeDepute.Slug ? styles.navigation__active : ""}`}
                 key={`btn-accropolis-nav-${index}`}
                 onClick={(e) => {
-                  cycleDeputeCard(e, index)
+                  cycleDeputeCard(e, depute)
                 }}
                 style={{
                   backgroundColor: depute.GroupeParlementaire.Couleur,

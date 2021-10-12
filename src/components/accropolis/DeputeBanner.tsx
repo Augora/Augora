@@ -160,11 +160,13 @@ export default function DeputeBanner({
       autoAlpha: 1,
       ease: 'power1.out'
     }, '-=0.2')
-    renderTL.to(`.${styles.deputeBanner__questionNumber}`, {
-      x: '0%',
-      ease: 'power1.out',
-      duration: 0.4
-    }, '+=1')
+    if (index) {
+      renderTL.to(`.${styles.deputeBanner__questionNumber}`, {
+        x: '0%',
+        ease: 'power1.out',
+        duration: 0.4
+      }, '+=1')
+    }
 
     // Map opacity transition
     renderTL.to(
@@ -240,11 +242,13 @@ export default function DeputeBanner({
             {question}
           </div>
         </div>
-        <div className={styles.deputeBanner__questionNumber}>
-          <span>
-            Question {index + 1 < 10 ? "0" : null}{index + 1} / {numberOfQuestions < 10 ? "0" : null}{numberOfQuestions}
-          </span>
-        </div>
+        {index ? (
+          <div className={styles.deputeBanner__questionNumber}>
+            <span>
+              Question {index + 1 < 10 ? "0" : null}{index + 1} / {numberOfQuestions < 10 ? "0" : null}{numberOfQuestions}
+            </span>
+          </div>
+        ) : null }
       </section>
 
       {/* BOTTOM PART ------------------------------------------------------------------------------ */}

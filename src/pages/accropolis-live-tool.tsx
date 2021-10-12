@@ -7,7 +7,6 @@ import { useRouter } from "next/router"
 import mapStore from "src/stores/mapStore"
 import controlsStyles from "components/accropolis/ControlsStyles.module.scss"
 import deputeBannerStyles from "components/accropolis/DeputeBannerStyles.module.scss"
-import deputeCardStyles from "components/accropolis/DeputeCardStyles.module.scss"
 import { gsap } from "gsap"
 
 const LogoTwitch = ({size = 24}) => {
@@ -35,8 +34,8 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   const [isLogged, setIsLogged] = useState(false);
   const { overview, setOverview } = mapStore()
   const [deputeCurrentCard, setDeputeCurrentCard] = useState(0);
-  const [activeDepute, setActiveDepute] = useState(null)
-  const [layoutType, setLayoutType] = useState('banner')
+  const [activeDepute, setActiveDepute] = useState(accroDeputes[0].Depute)
+  const [activeDeputeIndex, setActiveDeputeIndex] = useState(null);
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
     type: null,
@@ -45,6 +44,23 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   const [question, setQuestion] = useState('')
   const [mapOpacity, setMapOpacity] = useState({value: 0})
   const refMapOpacity = {value: 1}
+
+  // Depute management
+  /*----------------------------------------------------*/
+  useEffect(() => {
+    const isInList = accroDeputes.some(d => {
+      return d.Depute.Slug === activeDepute.Slug
+    })
+    if (isInList) {
+      accroDeputes.forEach((d, i) => {
+        if (d.Depute.Slug === activeDepute.Slug) {
+          setActiveDeputeIndex(i)
+        } else {
+          setActiveDeputeIndex(null)
+        }
+      })
+    }
+  }, [activeDepute])
 
   // Animations
   /*----------------------------------------------------*/
@@ -102,200 +118,24 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
     })
     return olderTL
   }
-  const olderCardAnimation = (setCurrentAnimation) => {
-    // Timeline
-    const olderTL = gsap.timeline({
-      onComplete: () => {
-        setCurrentAnimation({
-          animation: null,
-          type: null,
-        })
-      },
-    })
-    olderTL.addLabel('olderTL')
-    olderTL.call(() => {
-      setCurrentAnimation({
-        animation: olderTL,
-        type: "older",
-      })
-    })
-    olderTL.fromTo(
-      `.${deputeCardStyles.deputeCard__geography}`,
-      {
-        y: 0,
-        autoAlpha: 1,
-      },
-      {
-        y: "-100%",
-        autoAlpha: 0,
+  const cycleDeputeCard = (event, depute) => {
+    if (event) { event.preventDefault() }
+    console.log('card Depute : ', depute.Nom)
+    if (currentAnimation.animation) {
+      currentAnimation.animation.kill();
+      if (currentAnimation.type === 'older') {
+        setActiveDepute(depute)
+        return
       }
-    )
-    olderTL.fromTo(
-      `.${deputeCardStyles.deputeCard__mapinner}`,
-      {
-        x: "0%",
-        autoAlpha: 1,
-      },
-      {
-        x: "-100%",
-        autoAlpha: 0,
-        duration: 0.3,
-      }
-    )
-    olderTL.fromTo(
-      `.${deputeCardStyles.deputeCard__background}`,
-      {
-        width: "100%",
-      },
-      {
-        width: "0%",
-        ease: "power1.inOut",
-        duration: 1,
-      },
-      "-=0.5"
-    )
-    olderTL.fromTo(
-      `.${deputeCardStyles.deputeCard__background2}`,
-      {
-        width: "100%",
-      },
-      {
-        width: "0%",
-        ease: "power1.inOut",
-        duration: 1,
-      },
-      "-=0.9"
-    )
-    olderTL.fromTo(
-      `.${deputeCardStyles.deputeCard__question}`,
-      {
-        y: "0%",
-        autoAlpha: 1,
-      },
-      {
-        y: "100%",
-        autoAlpha: 0,
-        ease: "power1.inOut",
-        duration: 0.5,
-      },
-      0
-    )
-    olderTL.fromTo(
-      `.${deputeCardStyles.deputeCard__name}`,
-      {
-        x: "0%",
-        autoAlpha: 1,
-      },
-      {
-        x: "-120px",
-        autoAlpha: 0,
-        ease: "power1.in",
-        duration: 0.5,
-      },
-      0
-    )
-    olderTL.fromTo(
-      `.${deputeCardStyles.deputeCard__group}`,
-      {
-        x: "0%",
-        autoAlpha: 1,
-      },
-      {
-        x: "-120px",
-        autoAlpha: 0,
-        ease: "power1.in",
-        duration: 0.5,
-      },
-      "-=1"
-    )
-    olderTL.fromTo(
-      `.${deputeCardStyles.deputeCard__depute}`,
-      {
-        x: 0,
-      },
-      {
-        x: -20,
-        duration: 1,
-      },
-      "-=0.4"
-    )
-    olderTL.fromTo(
-      `.${deputeCardStyles.deputeCard__image}`,
-      {
-        width: "110px",
-      },
-      {
-        width: "0px",
-        ease: "power4.in",
-        duration: 1.1,
-      },
-      "-=1.5"
-    )
-    return olderTL
-  }
-  const cycleDeputeCard = (event, cardIndex) => {
-    event.preventDefault()
-    console.log('cardIndex : ', cardIndex)
-    if (layoutType === "card") {
-      if (currentAnimation.animation) {
-        currentAnimation.animation.kill();
-        if (currentAnimation.type === 'older') {
-          if (cardIndex > accroDeputes.length - 1) {
-            setDeputeCurrentCard(0);
-          } else if (cardIndex < 0) {
-            setDeputeCurrentCard(accroDeputes.length - 1)
-          } else {
-            setDeputeCurrentCard(cardIndex)
-          }
-          return
-        }
-      }
-      const olderTL = olderCardAnimation(setCurrentAnimation)
-      // After timeline
-      olderTL.call(() => {
-        if (cardIndex > accroDeputes.length - 1) {
-          setDeputeCurrentCard(0);
-        } else if (cardIndex < 0) {
-          setDeputeCurrentCard(accroDeputes.length - 1)
-        } else {
-          setDeputeCurrentCard(cardIndex)
-        }
-      }, [], '+=0.5')
-  
-      olderTL.set(`.${deputeCardStyles.deputeCard__inner}`, {
-        autoAlpha: 0,
-      })
-
-      olderTL.play()
-    } else if (layoutType === "banner") {
-      if (currentAnimation.animation) {
-        currentAnimation.animation.kill();
-        if (currentAnimation.type === 'older') {
-          if (cardIndex > accroDeputes.length - 1) {
-            setDeputeCurrentCard(0);
-          } else if (cardIndex < 0) {
-            setDeputeCurrentCard(accroDeputes.length - 1)
-          } else {
-            setDeputeCurrentCard(cardIndex)
-          }
-          return
-        }
-      }
-
-      // After timeline
-      const olderTL = olderBannerAnimation(setCurrentAnimation)
-      olderTL.call(() => {
-        setQuestion('')
-        if (cardIndex > accroDeputes.length - 1) {
-          setDeputeCurrentCard(0);
-        } else if (cardIndex < 0) {
-          setDeputeCurrentCard(accroDeputes.length - 1)
-        } else {
-          setDeputeCurrentCard(cardIndex)
-        }
-      }, [], '+=0.2')
-      olderTL.play()
     }
+
+    // After timeline
+    const olderTL = olderBannerAnimation(setCurrentAnimation)
+    olderTL.call(() => {
+      setQuestion('')
+      setActiveDepute(depute)
+    }, [], '+=0.2')
+    olderTL.play()
   }
 
 
@@ -373,6 +213,7 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
               depute={activeDepute}
               debug={debug}
               deputeCurrentCard={deputeCurrentCard}
+              activeDeputeIndex={activeDeputeIndex}
               question={question}
             />
           </div>
@@ -386,8 +227,9 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
               deputes={allAccroDeputes}
               activeDepute={activeDepute}
               setActiveDepute={setActiveDepute}
+              activeDeputeIndex={activeDeputeIndex}
+              setActiveDeputeIndex={setActiveDeputeIndex}
               cycleDeputeCard={cycleDeputeCard}
-              deputeCurrentCard={deputeCurrentCard}
               currentAnimation={currentAnimation}
               setCurrentAnimation={setCurrentAnimation}
               olderBannerAnimation={olderBannerAnimation}
