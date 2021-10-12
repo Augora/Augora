@@ -22,6 +22,7 @@ import {
   getContinent,
   Cont,
 } from "components/maps/maps-utils"
+import { View } from "stores/mapStore"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
@@ -37,8 +38,8 @@ interface IMapAugora {
   setViewport(newViewport: ViewportProps): void
   /** Callback quand une zone de la map est cliquée */
   onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
-  /** Si on affiche les circonscriptions comme un pin en mode dézoomé ou de façon normale */
-  overview?: boolean
+  /** Le mode de vue sur les zones, par défaut zoomé */
+  viewmode?: View
   /** Liste de députés que la map va fouiller. Inutile si on désactive les overlay */
   deputies?: Deputy.DeputiesList
   /** Si les overlays doivent être affichés */
@@ -101,7 +102,7 @@ export default function MapAugora(props: IMapAugora) {
     mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
     overlay = true,
     deputies = [],
-    overview = false,
+    viewmode = View.Default,
     small = false,
     attribution = true,
     delay = 0,
@@ -115,10 +116,10 @@ export default function MapAugora(props: IMapAugora) {
   /** useEffects */
   useEffect(() => {
     if (isMapLoaded) {
-      if (!overview) flyToFeature(zoneFeature)
+      if (viewmode === View.Default) flyToFeature(zoneFeature)
       else flyToPin(zoneFeature)
     }
-  }, [zoneFeature, overview, isMapLoaded])
+  }, [zoneFeature, viewmode, isMapLoaded])
 
   /** useRefs */
   const mapRef = useRef<mapboxgl.Map>()
@@ -231,7 +232,9 @@ export default function MapAugora(props: IMapAugora) {
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
-      interactiveLayerIds={isMapLoaded && !overview ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
+      interactiveLayerIds={
+        isMapLoaded && viewmode === View.Default ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []
+      }
       onResize={handleResize}
       onLoad={handleLoad}
       onViewportChange={props.setViewport}
@@ -253,7 +256,7 @@ export default function MapAugora(props: IMapAugora) {
               <Layer {...fillGhostLayerProps} />
             </Source>
           )}
-          {overview && geoJSON.features.length === 1 && (
+          {viewmode === View.Overview && geoJSON.features.length === 1 && (
             <MapPin
               coords={[zoneFeature.properties.center[0], zoneFeature.properties.center[1]]}
               color={paint.line["line-color"] as string}

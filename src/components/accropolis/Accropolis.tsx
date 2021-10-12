@@ -6,23 +6,23 @@ import IconChevron from "images/ui-kit/icon-chevron.svg"
 import { gsap } from "gsap"
 import _ from "lodash"
 
-import mapStore from "src/stores/mapStore"
+import mapStore, { View } from "src/stores/mapStore"
 import styles from "./AccropolisStyles.module.scss"
 import deputeBannerStyles from "./DeputeBannerStyles.module.scss"
 import deputeCardStyles from "./DeputeCardStyles.module.scss"
 
 export default function Accropolis({ accroDeputes }) {
-  const { overview, setOverview } = mapStore()
-  const [deputeCurrentCard, setDeputeCurrentCard] = useState(0);
-  const [layoutType, setLayoutType] = useState('banner')
+  const { viewmode, setViewmode } = mapStore()
+  const [deputeCurrentCard, setDeputeCurrentCard] = useState(0)
+  const [layoutType, setLayoutType] = useState("banner")
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
     type: null,
   })
-  const [debug, setDebug] = useState('')
-  const [question, setQuestion] = useState('')
-  const [mapOpacity, setMapOpacity] = useState({value: 0})
-  const refMapOpacity = {value: 1}
+  const [debug, setDebug] = useState("")
+  const [question, setQuestion] = useState("")
+  const [mapOpacity, setMapOpacity] = useState({ value: 0 })
+  const refMapOpacity = { value: 1 }
 
   const olderBannerAnimation = (setCurrentAnimation) => {
     // Timeline
@@ -34,47 +34,59 @@ export default function Accropolis({ accroDeputes }) {
         })
       },
     })
-    olderTL.addLabel('olderTL')
+    olderTL.addLabel("olderTL")
     olderTL.call(() => {
       setCurrentAnimation({
         animation: olderTL,
         type: "older",
       })
     })
-    
+
     olderTL.to(`.${deputeBannerStyles.deputeBanner__questionInner}`, {
-      x: '-100%',
-      ease: 'power1.in',
+      x: "-100%",
+      ease: "power1.in",
       duration: 0.5,
     })
     olderTL.to(`.${deputeBannerStyles.deputeBanner__topBackground}`, {
       scaleX: 0,
-      ease: 'power1.in',
+      ease: "power1.in",
     })
     olderTL.to(`.${deputeBannerStyles.deputeBanner__questionNumber}`, {
-      x: '100%',
-      ease: 'power1.in',
+      x: "100%",
+      ease: "power1.in",
     })
-    olderTL.to(`.${deputeBannerStyles.deputeBanner__content} > *`, {
-      x: '-100%',
-      autoAlpha: 0,
-      ease: 'power1.in'
-    }, '-=0.3')
-    olderTL.to(`.${deputeBannerStyles.deputeBanner__logoGroup}`, {
-      x: '-100px',
-      autoAlpha: 0,
-      ease: 'power1.in'
-    }, '-=0.3')
-    olderTL.to(`.${deputeBannerStyles.deputeBanner__mapHeader}`, {
-      height: 0,
-      ease: 'power1.in'
-    }, '-=0.6')
+    olderTL.to(
+      `.${deputeBannerStyles.deputeBanner__content} > *`,
+      {
+        x: "-100%",
+        autoAlpha: 0,
+        ease: "power1.in",
+      },
+      "-=0.3"
+    )
+    olderTL.to(
+      `.${deputeBannerStyles.deputeBanner__logoGroup}`,
+      {
+        x: "-100px",
+        autoAlpha: 0,
+        ease: "power1.in",
+      },
+      "-=0.3"
+    )
+    olderTL.to(
+      `.${deputeBannerStyles.deputeBanner__mapHeader}`,
+      {
+        height: 0,
+        ease: "power1.in",
+      },
+      "-=0.6"
+    )
     olderTL.to(refMapOpacity, {
       value: 0,
       duration: 0.2,
       onUpdate: () => {
-        setMapOpacity({value: refMapOpacity.value})
-      }
+        setMapOpacity({ value: refMapOpacity.value })
+      },
     })
     return olderTL
   }
@@ -88,7 +100,7 @@ export default function Accropolis({ accroDeputes }) {
         })
       },
     })
-    olderTL.addLabel('olderTL')
+    olderTL.addLabel("olderTL")
     olderTL.call(() => {
       setCurrentAnimation({
         animation: olderTL,
@@ -213,10 +225,10 @@ export default function Accropolis({ accroDeputes }) {
     event.preventDefault()
     if (layoutType === "card") {
       if (currentAnimation.animation) {
-        currentAnimation.animation.kill();
-        if (currentAnimation.type === 'older') {
+        currentAnimation.animation.kill()
+        if (currentAnimation.type === "older") {
           if (cardIndex > accroDeputes.length - 1) {
-            setDeputeCurrentCard(0);
+            setDeputeCurrentCard(0)
           } else if (cardIndex < 0) {
             setDeputeCurrentCard(accroDeputes.length - 1)
           } else {
@@ -227,16 +239,20 @@ export default function Accropolis({ accroDeputes }) {
       }
       const olderTL = olderCardAnimation(setCurrentAnimation)
       // After timeline
-      olderTL.call(() => {
-        if (cardIndex > accroDeputes.length - 1) {
-          setDeputeCurrentCard(0);
-        } else if (cardIndex < 0) {
-          setDeputeCurrentCard(accroDeputes.length - 1)
-        } else {
-          setDeputeCurrentCard(cardIndex)
-        }
-      }, [], '+=0.5')
-  
+      olderTL.call(
+        () => {
+          if (cardIndex > accroDeputes.length - 1) {
+            setDeputeCurrentCard(0)
+          } else if (cardIndex < 0) {
+            setDeputeCurrentCard(accroDeputes.length - 1)
+          } else {
+            setDeputeCurrentCard(cardIndex)
+          }
+        },
+        [],
+        "+=0.5"
+      )
+
       olderTL.set(`.${deputeCardStyles.deputeCard__inner}`, {
         autoAlpha: 0,
       })
@@ -244,10 +260,10 @@ export default function Accropolis({ accroDeputes }) {
       olderTL.play()
     } else if (layoutType === "banner") {
       if (currentAnimation.animation) {
-        currentAnimation.animation.kill();
-        if (currentAnimation.type === 'older') {
+        currentAnimation.animation.kill()
+        if (currentAnimation.type === "older") {
           if (cardIndex > accroDeputes.length - 1) {
-            setDeputeCurrentCard(0);
+            setDeputeCurrentCard(0)
           } else if (cardIndex < 0) {
             setDeputeCurrentCard(accroDeputes.length - 1)
           } else {
@@ -259,24 +275,28 @@ export default function Accropolis({ accroDeputes }) {
 
       // After timeline
       const olderTL = olderBannerAnimation(setCurrentAnimation)
-      olderTL.call(() => {
-        setQuestion('')
-        if (cardIndex > accroDeputes.length - 1) {
-          setDeputeCurrentCard(0);
-        } else if (cardIndex < 0) {
-          setDeputeCurrentCard(accroDeputes.length - 1)
-        } else {
-          setDeputeCurrentCard(cardIndex)
-        }
-      }, [], '+=0.2')
+      olderTL.call(
+        () => {
+          setQuestion("")
+          if (cardIndex > accroDeputes.length - 1) {
+            setDeputeCurrentCard(0)
+          } else if (cardIndex < 0) {
+            setDeputeCurrentCard(accroDeputes.length - 1)
+          } else {
+            setDeputeCurrentCard(cardIndex)
+          }
+        },
+        [],
+        "+=0.2"
+      )
       olderTL.play()
     }
   }
 
   return (
-    <div className={`accropolis__page ${debug ? 'debug' : ''}`}>
+    <div className={`accropolis__page ${debug ? "debug" : ""}`}>
       <div className={styles.accropolis__container}>
-        { layoutType === 'card' ?
+        {layoutType === "card" ? (
           <DeputeCard
             numberOfQuestions={accroDeputes.length}
             depute={accroDeputes[deputeCurrentCard].Depute}
@@ -284,7 +304,7 @@ export default function Accropolis({ accroDeputes }) {
             currentAnimation={currentAnimation}
             setCurrentAnimation={setCurrentAnimation}
           />
-        : layoutType === 'banner' ?
+        ) : layoutType === "banner" ? (
           <DeputeBanner
             debug={debug}
             numberOfQuestions={accroDeputes.length}
@@ -296,47 +316,60 @@ export default function Accropolis({ accroDeputes }) {
             setMapOpacity={setMapOpacity}
             question={question}
           />
-        : null }
+        ) : null}
       </div>
-      <div className={`${styles.accropolis__controls} ${debug ? styles.accropolis__controlsDebug : ''}`}>
+      <div className={`${styles.accropolis__controls} ${debug ? styles.accropolis__controlsDebug : ""}`}>
         <div className="controls__affichage">
           <h2>Affichage</h2>
-          <button className={`${styles.btn} ${!debug ? styles.btnActive : ''}`} onClick={() => setDebug('')}>
+          <button className={`${styles.btn} ${!debug ? styles.btnActive : ""}`} onClick={() => setDebug("")}>
             OBS
           </button>
-          <button className={`${styles.btn} ${debug === 'small' ? styles.btnActive : ''}`} onClick={() => setDebug('small')}>
+          <button className={`${styles.btn} ${debug === "small" ? styles.btnActive : ""}`} onClick={() => setDebug("small")}>
             Petit
           </button>
-          <button className={`${styles.btn} ${debug === 'full' ? styles.btnActive : ''}`} onClick={() => setDebug('full')}>
+          <button className={`${styles.btn} ${debug === "full" ? styles.btnActive : ""}`} onClick={() => setDebug("full")}>
             Plein
           </button>
         </div>
         <div className="controls__question">
           <h2>Question</h2>
-          <textarea value={question} rows={5} onChange={e => {
-            if (e.target.value.length < 100)
-            setQuestion(e.target.value)
-          }}/>
+          <textarea
+            value={question}
+            rows={5}
+            onChange={(e) => {
+              if (e.target.value.length < 100) setQuestion(e.target.value)
+            }}
+          />
         </div>
         <div className="controls__map">
           <h2>Carte</h2>
-          <button className={`${styles.btn}`} onClick={() => setOverview(!overview)}>
-            {overview ? 'Zoomer' : 'Dézoomer'}
+          <button
+            className={`${styles.btn}`}
+            onClick={() => setViewmode(viewmode !== View.Default ? View.Default : View.Overview)}
+          >
+            {viewmode !== View.Default ? "Zoomer" : "Dézoomer"}
           </button>
+          <button className={`${styles.btn}`}>Vue France</button>
         </div>
         <div className={styles.controls__navigation}>
           <h2>Navigation</h2>
-          <button className={`${styles.navigation__prev} ${styles.btn} ${debug ? styles.btnDebug : ''}`} onClick={(e) => cycleDeputeCard(e, deputeCurrentCard - 1)}>
+          <button
+            className={`${styles.navigation__prev} ${styles.btn} ${debug ? styles.btnDebug : ""}`}
+            onClick={(e) => cycleDeputeCard(e, deputeCurrentCard - 1)}
+          >
             <div className="icon-wrapper">
               <IconChevron />
             </div>
           </button>
-          <button className={`${styles.navigation__next} ${styles.btn} ${debug ? styles.btnDebug : ''}`} onClick={(e) => cycleDeputeCard(e, deputeCurrentCard + 1)}>
+          <button
+            className={`${styles.navigation__next} ${styles.btn} ${debug ? styles.btnDebug : ""}`}
+            onClick={(e) => cycleDeputeCard(e, deputeCurrentCard + 1)}
+          >
             <div className="icon-wrapper">
               <IconChevron />
             </div>
           </button>
-          <p className={`${styles.navigation__load} ${currentAnimation.type === 'older' ? styles.navigation__loading : ''}`}>
+          <p className={`${styles.navigation__load} ${currentAnimation.type === "older" ? styles.navigation__loading : ""}`}>
             <span>Chargement du nouveau député</span>
           </p>
           <br />
@@ -345,7 +378,9 @@ export default function Accropolis({ accroDeputes }) {
               depute = depute.Depute
               return (
                 <button
-                  className={`${styles.navigation__btn} ${debug ? styles.navigation__btnDebug : ''} ${index === deputeCurrentCard ? styles.navigation__active : ""}`}
+                  className={`${styles.navigation__btn} ${debug ? styles.navigation__btnDebug : ""} ${
+                    index === deputeCurrentCard ? styles.navigation__active : ""
+                  }`}
                   key={`btn-accropolis-nav-${index}`}
                   onClick={(e) => {
                     cycleDeputeCard(e, index)
