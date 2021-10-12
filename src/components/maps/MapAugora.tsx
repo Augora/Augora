@@ -21,6 +21,7 @@ import {
   flyToCoords,
   getContinent,
   Cont,
+  MetroFeature,
 } from "components/maps/maps-utils"
 import { View } from "stores/mapStore"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
@@ -117,7 +118,8 @@ export default function MapAugora(props: IMapAugora) {
   useEffect(() => {
     if (isMapLoaded) {
       if (viewmode === View.Default) flyToFeature(zoneFeature)
-      else flyToPin(zoneFeature)
+      else if (viewmode === View.Overview) flyToPin(zoneFeature)
+      else flyToFeature(MetroFeature)
     }
   }, [zoneFeature, viewmode, isMapLoaded])
 
@@ -232,9 +234,7 @@ export default function MapAugora(props: IMapAugora) {
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
-      interactiveLayerIds={
-        isMapLoaded && viewmode === View.Default ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []
-      }
+      interactiveLayerIds={isMapLoaded ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
       onResize={handleResize}
       onLoad={handleLoad}
       onViewportChange={props.setViewport}

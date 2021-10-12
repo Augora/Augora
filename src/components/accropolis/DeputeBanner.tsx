@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react"
 import styles from "./DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
 import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
-import mapStore from "stores/mapStore"
+import mapStore, { View } from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
-import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
+import { createFeatureCollection, getFeature, getLayerPaint, MetroFeature } from "components/maps/maps-utils"
 import _ from "lodash"
 
 // Rectangles
@@ -31,13 +31,16 @@ export default function DeputeBanner({
   setMapOpacity,
   question,
 }) {
+  const { viewport, setViewport, viewmode } = mapStore()
   const [rectangles, setRectangles] = useState([])
   const { NumeroCirconscription, NumeroDepartement } = depute
-  const feature = getFeature({
-    code_circ: NumeroCirconscription,
-    code_dpt: NumeroDepartement,
-  })
-  const { viewport, setViewport, viewmode } = mapStore()
+  const feature =
+    viewmode !== View.France
+      ? getFeature({
+          code_circ: NumeroCirconscription,
+          code_dpt: NumeroDepartement,
+        })
+      : MetroFeature
   const refMapOpacity = { value: mapOpacity.value }
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const RGB = depute.GroupeParlementaire.CouleurDetail.RGB

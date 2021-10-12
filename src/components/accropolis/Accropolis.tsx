@@ -349,7 +349,9 @@ export default function Accropolis({ accroDeputes }) {
           >
             {viewmode !== View.Default ? "Zoomer" : "Dézoomer"}
           </button>
-          <button className={`${styles.btn}`}>Vue France</button>
+          <button className={`${styles.btn}`} onClick={() => setViewmode(View.France)}>
+            Vue France
+          </button>
         </div>
         <div className={styles.controls__navigation}>
           <h2>Navigation</h2>
