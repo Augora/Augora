@@ -4,7 +4,6 @@ import { getDeputesAccropolis, getDeputeAccropolis } from "../lib/deputes/Wrappe
 import Accropolis from "components/accropolis/Accropolis"
 import Controls from "components/accropolis/Controls"
 import { useRouter } from "next/router"
-import mapStore from "src/stores/mapStore"
 import controlsStyles from "components/accropolis/ControlsStyles.module.scss"
 import deputeBannerStyles from "components/accropolis/DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
@@ -32,7 +31,6 @@ const LogoTwitch = ({size = 24}) => {
 export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   const router = useRouter()
   const [isLogged, setIsLogged] = useState(false);
-  const { overview, setOverview } = mapStore()
   const [deputeCurrentCard, setDeputeCurrentCard] = useState(0);
   const [activeDepute, setActiveDepute] = useState(accroDeputes[0].Depute)
   const [activeDeputeIndex, setActiveDeputeIndex] = useState(null);
@@ -223,8 +221,6 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
             <Controls
               question={question}
               setQuestion={setQuestion}
-              overview={overview}
-              setOverview={setOverview}
               accroDeputes={accroDeputes}
               deputes={allAccroDeputes}
               activeDepute={activeDepute}

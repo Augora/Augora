@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react"
 import styles from "./DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
 import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
-import mapStore from "stores/mapStore"
+import mapStore, { View } from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
-import { createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
+import { createFeatureCollection, getFeature, getLayerPaint, MetroFeature } from "components/maps/maps-utils"
 import _ from "lodash"
 
 // Rectangles
@@ -14,7 +14,7 @@ const svgHeight = 100
 const rectSkew = 15
 const getRandomArbitrary = (min, max, round = 0) => {
   if (round) {
-    return Math.round((Math.random() * (max - min) + min) * round / round);
+    return Math.round(((Math.random() * (max - min) + min) * round) / round)
   } else {
     return Math.random() * (max - min) + min
   }
@@ -29,15 +29,18 @@ export default function DeputeBanner({
   setCurrentAnimation,
   mapOpacity,
   setMapOpacity,
-  question
+  question,
 }) {
+  const { viewport, setViewport, viewmode } = mapStore()
   const [rectangles, setRectangles] = useState([])
   const { NumeroCirconscription, NumeroDepartement } = depute
-  const feature = getFeature({
-    code_circ: NumeroCirconscription,
-    code_dpt: NumeroDepartement,
-  })
-  const { viewport, setViewport, overview } = mapStore()
+  const feature =
+    viewmode !== View.France
+      ? getFeature({
+          code_circ: NumeroCirconscription,
+          code_dpt: NumeroDepartement,
+        })
+      : MetroFeature
   const refMapOpacity = { value: mapOpacity.value }
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
@@ -56,11 +59,11 @@ export default function DeputeBanner({
       for (let i = 0; i < numberOfRect; i++) {
         const xPos = 1600
         rects.push({
-            xPos: xPos,
-            width: getRandomArbitrary(svgWidth / 5, svgWidth / 30, 100),
-            height: svgHeight,
-            // opacity: getRandomArbitrary(0.05, 0.1),
-            translate: getRandomArbitrary(-50, 25, 100),
+          xPos: xPos,
+          width: getRandomArbitrary(svgWidth / 5, svgWidth / 30, 100),
+          height: svgHeight,
+          // opacity: getRandomArbitrary(0.05, 0.1),
+          translate: getRandomArbitrary(-50, 25, 100),
         })
       }
       return rects
@@ -78,22 +81,22 @@ export default function DeputeBanner({
           setCurrentQuestionTL(null)
           hideQuestionTL.kill()
 
-          const renderTL = renderAnimation(currentAnimation)  
+          const renderTL = renderAnimation(currentAnimation)
           renderTL.set(`.${styles.deputeBanner__bottomBackgroundTransition}`, {
             scaleX: 0,
           })
           renderTL.play()
-        }
+        },
       })
-      hideQuestionTL.addLabel('hideQuestionTL')
+      hideQuestionTL.addLabel("hideQuestionTL")
       hideQuestionTL.to(`.${styles.deputeBanner__questionInner}`, {
-        x: '-100%',
-        ease: 'power1.in',
+        x: "-100%",
+        ease: "power1.in",
         duration: 0.5,
       })
       hideQuestionTL.to(`.${styles.deputeBanner__topBackground}`, {
         scaleX: 0,
-        ease: 'power1.in',
+        ease: "power1.in",
       })
       hideQuestionTL.play()
     } else {
@@ -123,7 +126,7 @@ export default function DeputeBanner({
         )
       },
     })
-    renderTL.addLabel('renderTL')
+    renderTL.addLabel("renderTL")
     renderTL.call(() => {
       setCurrentAnimation(
         Object.assign(currentAnimation, {
@@ -136,21 +139,24 @@ export default function DeputeBanner({
     // If initial state (no anim) hide question background
     if (!currentQuestionTL) {
       renderTL.set(`.${styles.deputeBanner__topBackground}`, {
-        scaleX: 0
+        scaleX: 0,
       })
     }
 
     // Display component
     renderTL.to(`.${styles.deputeBanner__bottomBackgroundTransition}`, {
       scaleX: 1,
-      ease: 'power1.in',
+      ease: "power1.in",
     })
-    renderTL.fromTo(`.${styles.deputeBanner__logoGroup}`, {
-        x: '-100px',
+    renderTL.fromTo(
+      `.${styles.deputeBanner__logoGroup}`,
+      {
+        x: "-100px",
         autoAlpha: 0,
-        ease: 'power1.in'
-      }, {
-        x: '0px',
+        ease: "power1.in",
+      },
+      {
+        x: "0px",
         autoAlpha: 1,
         ease: 'power1.inOut'
     })
@@ -179,11 +185,15 @@ export default function DeputeBanner({
       },
       2
     )
-    renderTL.to(`.${styles.deputeBanner__mapHeader}`, {
-      height: 60,
-      ease: 'power1.out'
-    }, '-=0.2')
-    return renderTL;
+    renderTL.to(
+      `.${styles.deputeBanner__mapHeader}`,
+      {
+        height: 60,
+        ease: "power1.out",
+      },
+      "-=0.2"
+    )
+    return renderTL
   }
 
   // Question dynamique
@@ -191,14 +201,18 @@ export default function DeputeBanner({
   useEffect(() => {
     if (!currentQuestionTL && question.length) {
       const questionTL = gsap.timeline()
-      questionTL.addLabel('questionTL')
+      questionTL.addLabel("questionTL")
 
       questionTL.to(`.${styles.deputeBanner__topBackground}`, {
         scaleX: 1,
       })
-      questionTL.to(`.${styles.deputeBanner__questionInner}`, {
-        x: '0%'
-      }, 1)
+      questionTL.to(
+        `.${styles.deputeBanner__questionInner}`,
+        {
+          x: "0%",
+        },
+        1
+      )
 
       setCurrentQuestionTL(questionTL)
       questionTL.play()
@@ -210,12 +224,9 @@ export default function DeputeBanner({
   return (
     <div
       className={`${styles.deputeBanner} ${debug ? styles.deputeBannerDebug : ""}`}
-      style={{ 
-        height: 
-            debug === 'full'  ? 1080
-          : debug === 'small' ? 500
-          :                     300
-       }}
+      style={{
+        height: debug === "full" ? 1080 : debug === "small" ? 500 : 300,
+      }}
     >
       {/* DEBUG ----------------------------------------------------------------------------------- */}
       {debug ? (
@@ -230,16 +241,16 @@ export default function DeputeBanner({
         <div
           className={styles.deputeBanner__topBackground}
           style={{
-            backgroundImage: `linear-gradient(80deg, hsl(${HSL.H}, ${HSL.S}%, ${_.clamp(HSL.L + 5, 0, 100)}%) 0%, hsl(${HSL.H}, ${HSL.S}%, ${_.clamp(HSL.L - 5, 0, 100)}%) 100%)`,
+            backgroundImage: `linear-gradient(80deg, hsl(${HSL.H}, ${HSL.S}%, ${_.clamp(HSL.L + 5, 0, 100)}%) 0%, hsl(${HSL.H}, ${
+              HSL.S
+            }%, ${_.clamp(HSL.L - 5, 0, 100)}%) 100%)`,
             // backgroundColor: `hsl(${HSL.H}, ${_.clamp(HSL.S - 5, 0, 100)}%, ${_.clamp(HSL.L - 7, 0, 100)}%)`,
           }}
         >
           {/* Silence is golden... */}
         </div>
         <div className={styles.deputeBanner__question}>
-          <div className={styles.deputeBanner__questionInner}>
-            {question}
-          </div>
+          <div className={styles.deputeBanner__questionInner}>{question}</div>
         </div>
         {index ? (
           <div className={styles.deputeBanner__questionNumber}>
@@ -258,49 +269,49 @@ export default function DeputeBanner({
             backgroundColor: oldDepute.GroupeParlementaire.Couleur,
           }}
         >
-         <svg
-          version="1.1"
-          className={styles.deputeBanner__recs}
-          xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-          }}
-          preserveAspectRatio="xMinYMin slice"
-        >
-          <g>
-            {rectangles.map((rec, index) => {
-              return(
-                <rect
-                  key={`accro-rec-${index}`}
-                  x={rec.xPos}
-                  y={0}
-                  width={rec.width}
-                  height={rec.height}
-                  style={{
-                    // fill: `rgba(255,255,255,${rec.opacity})`,
-                    fill: `rgba(255,255,255,0.05)`,
-                    transform: `skew(-${rectSkew}deg) translate3d(${rec.translate}%, 0, 0)`,
-                  }}
-                />
-              )
-            })}
+          <svg
+            version="1.1"
+            className={styles.deputeBanner__recs}
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+            }}
+            preserveAspectRatio="xMinYMin slice"
+          >
+            <g>
+              {rectangles.map((rec, index) => {
+                return (
+                  <rect
+                    key={`accro-rec-${index}`}
+                    x={rec.xPos}
+                    y={0}
+                    width={rec.width}
+                    height={rec.height}
+                    style={{
+                      // fill: `rgba(255,255,255,${rec.opacity})`,
+                      fill: `rgba(255,255,255,0.05)`,
+                      transform: `skew(-${rectSkew}deg) translate3d(${rec.translate}%, 0, 0)`,
+                    }}
+                  />
+                )
+              })}
             </g>
           </svg>
           <div
             className={styles.deputeBanner__bottomBackgroundGradient}
-            style={{ 
-              backgroundImage: `linear-gradient(90deg, rgba(${oldRGB.R}, ${oldRGB.G}, ${oldRGB.B}, 1) 33%, rgba(${oldRGB.R}, ${oldRGB.G}, ${oldRGB.B}, 0) 100%)`
-             }}
+            style={{
+              backgroundImage: `linear-gradient(90deg, rgba(${oldRGB.R}, ${oldRGB.G}, ${oldRGB.B}, 1) 33%, rgba(${oldRGB.R}, ${oldRGB.G}, ${oldRGB.B}, 0) 100%)`,
+            }}
           ></div>
           <div
-            className={styles.deputeBanner__bottomBackgroundTransition} 
+            className={styles.deputeBanner__bottomBackgroundTransition}
             style={{
               backgroundColor: depute.GroupeParlementaire.Couleur,
             }}
@@ -309,9 +320,7 @@ export default function DeputeBanner({
         <div className={styles.deputeBanner__logoGroup}>
           <GroupeLogo style={{ fill: depute.GroupeParlementaire.Couleur }} />
         </div>
-        <div className={styles.deputeBanner__logoBackground}>
-          {/* Silence is golden... */}
-        </div>
+        <div className={styles.deputeBanner__logoBackground}>{/* Silence is golden... */}</div>
         <div className={styles.deputeBanner__content}>
           <span className={styles.deputeBanner__firstname}>{depute.Prenom}</span>
           <br />
@@ -334,7 +343,7 @@ export default function DeputeBanner({
             small={true}
             viewport={viewport}
             attribution={false}
-            overview={overview}
+            viewmode={viewmode}
             borders={true}
             setViewport={setViewport}
             mapView={{

@@ -4,13 +4,12 @@ import IconChevron from "images/ui-kit/icon-chevron.svg"
 import IconGroup from "images/ui-kit/icon-group.svg"
 import { slugify } from "utils/utils"
 import debounce from "lodash/debounce"
+import mapStore, { View } from "src/stores/mapStore"
 // import { getDeputeAccropolis } from "lib/deputes/Wrapper"
 
 export default function Controls({
     question,
     setQuestion,
-    overview,
-    setOverview,
     accroDeputes,
     deputes,
     cycleDeputeCard,
@@ -25,6 +24,7 @@ export default function Controls({
   
   const [search, setSearch] = useState('')
   const [searchedDeputes, setSearchedDeputes] = useState([])
+  const { viewmode, setViewmode } = mapStore()
 
   useEffect(() => {
     if (search.length > 0) {
@@ -74,9 +74,15 @@ export default function Controls({
       </div>
       <div className="controls__map">
         <h2>Carte</h2>
-        <button className={`${styles.btn}`} onClick={() => setOverview(!overview)}>
-          {overview ? 'Zoomer' : 'Dézoomer'}
-        </button>
+          <button
+            className={`${styles.btn}`}
+            onClick={() => setViewmode(viewmode !== View.Default ? View.Default : View.Overview)}
+          >
+            {viewmode !== View.Default ? "Zoomer" : "Dézoomer"}
+          </button>
+          <button className={`${styles.btn}`} onClick={() => setViewmode(View.France)}>
+            Vue France
+          </button>
       </div>
       <div className="controls__navigation">
         <h2>Navigation</h2>
