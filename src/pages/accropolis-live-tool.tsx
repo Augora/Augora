@@ -52,13 +52,11 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
       return d.Depute.Slug === activeDepute.Slug
     })
     if (isInList) {
-      accroDeputes.forEach((d, i) => {
-        if (d.Depute.Slug === activeDepute.Slug) {
-          setActiveDeputeIndex(i)
-        } else {
-          setActiveDeputeIndex(null)
-        }
+      accroDeputes.filter((d, i) => {
+        if (d.Depute.Slug === activeDepute.Slug) setActiveDeputeIndex(i)
       })
+    } else if (activeDepute.Slug !== 'gouvernement') {
+      setActiveDeputeIndex(null)
     }
   }, [activeDepute])
 
@@ -120,7 +118,6 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   }
   const cycleDeputeCard = (event, depute) => {
     if (event) { event.preventDefault() }
-    console.log('card Depute : ', depute.Nom)
     if (currentAnimation.animation) {
       currentAnimation.animation.kill();
       if (currentAnimation.type === 'older') {
@@ -157,10 +154,15 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
       .then(res => {
         // Successfully logged with Strapi
         // Now saving the jwt to use it for future authenticated requests to Strapi
-        localStorage.setItem('jwt', res.jwt);
-        localStorage.setItem('username', res.user.username);
-        setIsLogged(!!localStorage.getItem('jwt'))
-        router.push('/accropolis-live-tool');
+        if (res.user.moderator) {
+          console.log(res.user)
+          localStorage.setItem('jwt', res.jwt);
+          localStorage.setItem('username', res.user.username);
+          setIsLogged(!!localStorage.getItem('jwt'))
+          router.push('/accropolis-live-tool');
+        } else {
+          new Error(`Not a moderator account`);
+        }
       })
       .catch(err => {
         new Error(err);
@@ -247,14 +249,12 @@ async function getServerSideProps() {
     return await getDeputeAccropolis(depute.Depute_name)
   }))
   const allAccroDeputes = await getDeputesAccropolis()
-  // const deputesNamesAndSlug = await getDeputesNames()
 
   return {
     props: {
       title: "Live Tool",
       accroDeputes,
       allAccroDeputes,
-      // deputesNamesAndSlug,
     },
   }
 }

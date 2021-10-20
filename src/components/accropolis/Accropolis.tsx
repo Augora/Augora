@@ -29,7 +29,7 @@ export default function Accropolis({
           debug={debug}
           numberOfQuestions={accroDeputes.length}
           depute={depute ? depute : accroDeputes[deputeCurrentCard].Depute}
-          index={activeDeputeIndex}
+          index={activeDeputeIndex !== null ? activeDeputeIndex + 1 : null}
           currentAnimation={currentAnimation}
           setCurrentAnimation={setCurrentAnimation}
           mapOpacity={mapOpacity}

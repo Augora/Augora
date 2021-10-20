@@ -50,7 +50,6 @@ export default function DeputeBanner({
   // When we change the banner content
   /*----------------------------------------------------*/
   useEffect(() => {
-    console.log('DeputeBanner[useEffec index]')
     // Creates or modifies Rectangles
     setRectangles(() => {
       const rects = []
@@ -245,7 +244,7 @@ export default function DeputeBanner({
         {index ? (
           <div className={styles.deputeBanner__questionNumber}>
             <span>
-              Question {index + 1 < 10 ? "0" : null}{index + 1} / {numberOfQuestions < 10 ? "0" : null}{numberOfQuestions}
+              Question {index < 10 ? "0" : null}{index} / {numberOfQuestions < 10 ? "0" : null}{numberOfQuestions}
             </span>
           </div>
         ) : null }
