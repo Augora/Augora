@@ -126,7 +126,7 @@ export default function MapAugora(props: IMapAugora) {
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
-    const padding = isMobile ? 20 : small ? 30 : 80
+    const padding = isMobile ? 20 : Math.min(props.viewport.width, props.viewport.height) / 20 + 15
 
     setTimeout(() => {
       flyToBounds(feature, props.viewport, props.setViewport, padding)
@@ -136,7 +136,8 @@ export default function MapAugora(props: IMapAugora) {
   /** Transitionne le viewport sur un pin en mode overview */
   const flyToPin = <T extends GeoJSON.Feature>(feature: T) => {
     const contId = getContinent(feature)
-    const zoom = feature !== MetroFeature ? (contId === Cont.World ? -1 : contId === Cont.OM ? 2 : 3.5) : 0
+    const code = getZoneCode(feature)
+    const zoom = contId === Cont.World ? -1 : contId === Cont.OM ? 2 : code !== Code.Cont ? 3.5 : 0
 
     flyToCoords(zoneFeature.properties.center, props.viewport, props.setViewport, zoom)
   }
