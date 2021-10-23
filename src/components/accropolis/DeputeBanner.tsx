@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import styles from "./DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
 import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
-import mapStore, { View } from "stores/mapStore"
+import mapStore from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
 import { createFeatureCollection, getFeature, getLayerPaint, MetroFeature } from "components/maps/maps-utils"
 import _ from "lodash"
@@ -31,11 +31,11 @@ export default function DeputeBanner({
   setMapOpacity,
   question,
 }) {
-  const { viewport, setViewport, viewmode } = mapStore()
+  const { viewport, setViewport, overview } = mapStore()
   const [rectangles, setRectangles] = useState([])
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature =
-      NumeroCirconscription && NumeroDepartement
+    NumeroCirconscription && NumeroDepartement
       ? getFeature({
           code_circ: NumeroCirconscription,
           code_dpt: NumeroDepartement,
@@ -158,19 +158,28 @@ export default function DeputeBanner({
       {
         x: "0px",
         autoAlpha: 1,
-        ease: 'power1.inOut'
-    })
-    renderTL.to(`.${styles.deputeBanner__content} > *`, {
-      x: '0%',
-      autoAlpha: 1,
-      ease: 'power1.out'
-    }, '-=0.2')
+        ease: "power1.inOut",
+      }
+    )
+    renderTL.to(
+      `.${styles.deputeBanner__content} > *`,
+      {
+        x: "0%",
+        autoAlpha: 1,
+        ease: "power1.out",
+      },
+      "-=0.2"
+    )
     if (index) {
-      renderTL.to(`.${styles.deputeBanner__questionNumber}`, {
-        x: '0%',
-        ease: 'power1.out',
-        duration: 0.4
-      }, '+=1')
+      renderTL.to(
+        `.${styles.deputeBanner__questionNumber}`,
+        {
+          x: "0%",
+          ease: "power1.out",
+          duration: 0.4,
+        },
+        "+=1"
+      )
     }
 
     // Map opacity transition
@@ -255,10 +264,12 @@ export default function DeputeBanner({
         {index ? (
           <div className={styles.deputeBanner__questionNumber}>
             <span>
-              Question {index < 10 ? "0" : null}{index} / {numberOfQuestions < 10 ? "0" : null}{numberOfQuestions}
+              Question {index < 10 ? "0" : null}
+              {index} / {numberOfQuestions < 10 ? "0" : null}
+              {numberOfQuestions}
             </span>
           </div>
-        ) : null }
+        ) : null}
       </section>
 
       {/* BOTTOM PART ------------------------------------------------------------------------------ */}
@@ -343,7 +354,7 @@ export default function DeputeBanner({
             small={true}
             viewport={viewport}
             attribution={false}
-            viewmode={viewmode}
+            overview={overview}
             borders={true}
             setViewport={setViewport}
             mapView={{

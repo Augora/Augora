@@ -23,7 +23,6 @@ import {
   Cont,
   MetroFeature,
 } from "components/maps/maps-utils"
-import { View } from "stores/mapStore"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
@@ -40,7 +39,7 @@ interface IMapAugora {
   /** Callback quand une zone de la map est cliquée */
   onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
   /** Le mode de vue sur les zones, par défaut zoomé */
-  viewmode?: View
+  overview?: boolean
   /** Liste de députés que la map va fouiller. Inutile si on désactive les overlay */
   deputies?: Deputy.DeputiesList
   /** Si les overlays doivent être affichés */
@@ -103,7 +102,7 @@ export default function MapAugora(props: IMapAugora) {
     mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
     overlay = true,
     deputies = [],
-    viewmode = View.Default,
+    overview = false,
     small = false,
     attribution = true,
     delay = 0,
@@ -117,11 +116,10 @@ export default function MapAugora(props: IMapAugora) {
   /** useEffects */
   useEffect(() => {
     if (isMapLoaded) {
-      if (viewmode === View.Default) flyToFeature(zoneFeature)
-      else if (viewmode === View.Overview) flyToPin(zoneFeature)
-      else flyToFeature(MetroFeature)
+      if (!overview) flyToFeature(zoneFeature)
+      else flyToPin(zoneFeature)
     }
-  }, [zoneFeature, viewmode, isMapLoaded])
+  }, [zoneFeature, overview, isMapLoaded])
 
   /** useRefs */
   const mapRef = useRef<mapboxgl.Map>()
@@ -256,7 +254,7 @@ export default function MapAugora(props: IMapAugora) {
               <Layer {...fillGhostLayerProps} />
             </Source>
           )}
-          {viewmode === View.Overview && geoJSON.features.length === 1 && (
+          {overview && geoJSON.features.length === 1 && (
             <MapPin
               coords={[zoneFeature.properties.center[0], zoneFeature.properties.center[1]]}
               color={paint.line["line-color"] as string}

@@ -1,31 +1,30 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from "react"
 import styles from "./ControlsStyles.module.scss"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
 import IconGroup from "images/ui-kit/icon-group.svg"
 import { slugify } from "utils/utils"
 import debounce from "lodash/debounce"
-import mapStore, { View } from "src/stores/mapStore"
-import accropolisStore from 'src/stores/accropolisStore'
+import mapStore from "src/stores/mapStore"
+import accropolisStore from "src/stores/accropolisStore"
 // import { getDeputeAccropolis } from "lib/deputes/Wrapper"
 
 export default function Controls({
-    question,
-    setQuestion,
-    accroDeputes,
-    deputes,
-    cycleDeputeCard,
-    activeDepute,
-    setActiveDepute,
-    activeDeputeIndex,
-    setActiveDeputeIndex,
-    currentAnimation,
-    setCurrentAnimation,
-    olderBannerAnimation
-  }) {
-  
-  const [search, setSearch] = useState('')
+  question,
+  setQuestion,
+  accroDeputes,
+  deputes,
+  cycleDeputeCard,
+  activeDepute,
+  setActiveDepute,
+  activeDeputeIndex,
+  setActiveDeputeIndex,
+  currentAnimation,
+  setCurrentAnimation,
+  olderBannerAnimation,
+}) {
+  const [search, setSearch] = useState("")
   const [searchedDeputes, setSearchedDeputes] = useState([])
-  const { viewmode, setViewmode } = mapStore()
+  const { overview, setOverview } = mapStore()
   // const {activeDepute, setActiveDepute} = accropolisStore();
 
   useEffect(() => {
@@ -37,31 +36,39 @@ export default function Controls({
   }, [search])
 
   const verify = useCallback(
-    debounce(value => {
-      const filteredDeputes = deputes.DeputesEnMandat.data.filter(depute => {
-        return slugify(depute.NomDeFamille).includes(slugify(value)) || slugify(depute.Prenom).includes(slugify(value)) || slugify(depute.Nom).includes(slugify(value))
+    debounce((value) => {
+      const filteredDeputes = deputes.DeputesEnMandat.data.filter((depute) => {
+        return (
+          slugify(depute.NomDeFamille).includes(slugify(value)) ||
+          slugify(depute.Prenom).includes(slugify(value)) ||
+          slugify(depute.Nom).includes(slugify(value))
+        )
       })
       setSearchedDeputes(filteredDeputes)
     }, 500),
     []
-  );
+  )
 
   const handleSearch = (event, depute) => {
     event.preventDefault()
     if (currentAnimation.animation) {
-      currentAnimation.animation.kill();
-      if (currentAnimation.type === 'older') {
+      currentAnimation.animation.kill()
+      if (currentAnimation.type === "older") {
         setActiveDepute(depute)
       }
     }
 
     // After timeline
     const olderTL = olderBannerAnimation(setCurrentAnimation)
-    olderTL.call(() => {
-      setQuestion('')
-      setActiveDepute(depute)
-      setSearch('')
-    }, [], '+=0.2')
+    olderTL.call(
+      () => {
+        setQuestion("")
+        setActiveDepute(depute)
+        setSearch("")
+      },
+      [],
+      "+=0.2"
+    )
     olderTL.play()
   }
 
@@ -69,105 +76,109 @@ export default function Controls({
     <div className={styles.accropolis__controls}>
       <div className="controls__question">
         <h2>Question</h2>
-        <textarea value={question} rows={5} onChange={e => {
-          if (e.target.value.length < 100)
-          setQuestion(e.target.value)
-        }}/>
+        <textarea
+          value={question}
+          rows={5}
+          onChange={(e) => {
+            if (e.target.value.length < 100) setQuestion(e.target.value)
+          }}
+        />
       </div>
       <div className="controls__map">
         <h2>Carte</h2>
-          <button
-            className={`${styles.btn}`}
-            onClick={() => setViewmode(viewmode !== View.Default ? View.Default : View.Overview)}
-          >
-            {viewmode !== View.Default ? "Zoomer" : "Dézoomer"}
-          </button>
-          <button className={`${styles.btn}`} onClick={() => setViewmode(View.France)}>
-            Vue France
-          </button>
+        <button className={`${styles.btn}`} onClick={() => setOverview(!overview)}>
+          {overview ? "Zoomer" : "Dézoomer"}
+        </button>
       </div>
       <div className="controls__navigation">
         <h2>Navigation</h2>
         <div className={`${styles.controls__form}`}>
-          <button className={`${styles.navigation__prev} ${styles.btn}`} onClick={() => {
-            cycleDeputeCard(null,
-              activeDeputeIndex - 1 > 0
-                ? accroDeputes[activeDeputeIndex - 1].Depute
-                : accroDeputes[accroDeputes.length - 1].Depute
+          <button
+            className={`${styles.navigation__prev} ${styles.btn}`}
+            onClick={() => {
+              cycleDeputeCard(
+                null,
+                activeDeputeIndex - 1 > 0
+                  ? accroDeputes[activeDeputeIndex - 1].Depute
+                  : accroDeputes[accroDeputes.length - 1].Depute
               )
-            }}>
+            }}
+          >
             <div className="icon-wrapper">
               <IconChevron />
             </div>
           </button>
-          <button className={`${styles.navigation__next} ${styles.btn}`} onClick={() => {
-            cycleDeputeCard(
-              null,
-              activeDeputeIndex + 1 < accroDeputes.length
-                ? accroDeputes[activeDeputeIndex + 1].Depute
-                : accroDeputes[0].Depute
-            )
-            }}>
+          <button
+            className={`${styles.navigation__next} ${styles.btn}`}
+            onClick={() => {
+              cycleDeputeCard(
+                null,
+                activeDeputeIndex + 1 < accroDeputes.length ? accroDeputes[activeDeputeIndex + 1].Depute : accroDeputes[0].Depute
+              )
+            }}
+          >
             <div className="icon-wrapper">
               <IconChevron />
             </div>
           </button>
           <div className={`${styles.navigation__search}`}>
-            <input className={`${styles.navigation__searchField}`} type="text" value={search} onChange={e => setSearch(e.target.value)}/>
+            <input
+              className={`${styles.navigation__searchField}`}
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
             {searchedDeputes.length ? (
               <div className={`${styles.navigation__searchResults}`}>
-                {searchedDeputes.map(d => (
+                {searchedDeputes.map((d) => (
                   <button
                     className={`${styles.search__depute}`}
                     style={{ backgroundColor: d.GroupeParlementaire.Couleur }}
-                    onClick={e => handleSearch(e, d)}
+                    onClick={(e) => handleSearch(e, d)}
                     key={`search-depute-${d.Slug}`}
                   >
-                    { d.Nom }
+                    {d.Nom}
                   </button>
                 ))}
               </div>
-            ) : null }
+            ) : null}
             {activeDepute ? (
               <p className={`${styles.navigation__activeDepute}`}>
-                Député sélectionné : <span style={{ color: activeDepute.GroupeParlementaire.Couleur }}>{ activeDepute.Nom }</span>
+                Député sélectionné : <span style={{ color: activeDepute.GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
               </p>
             ) : null}
           </div>
           <button
             className="navigation__gouvernement"
-            onClick= {() => {
-              cycleDeputeCard(
-                null,
-                {
-                  GroupeParlementaire: {
-                    Couleur: "hsl(203, 68%, 54%)",
-                    CouleurDetail: {
-                      HSL: {
-                        Full: "hsl(203, 68%, 54%)",
-                        H: 203,
-                        S: 68,
-                        L: 54,
-                      },
-                      RGB: {
-                        Full: "rgb(58, 156, 217)",
-                        R: 58,
-                        G: 156,
-                        B: 217,
-                      },
+            onClick={() => {
+              cycleDeputeCard(null, {
+                GroupeParlementaire: {
+                  Couleur: "hsl(203, 68%, 54%)",
+                  CouleurDetail: {
+                    HSL: {
+                      Full: "hsl(203, 68%, 54%)",
+                      H: 203,
+                      S: 68,
+                      L: 54,
                     },
-                    Sigle: "LREM"
+                    RGB: {
+                      Full: "rgb(58, 156, 217)",
+                      R: 58,
+                      G: 156,
+                      B: 217,
+                    },
                   },
-                  Nom: "Gouvernement Français",
-                  NomDeFamille: "Français",
-                  NomRegion: "France",
-                  Prenom: "Gouvernement",
-                  Slug: "gouvernement",
-                }
-              )
+                  Sigle: "LREM",
+                },
+                Nom: "Gouvernement Français",
+                NomDeFamille: "Français",
+                NomRegion: "France",
+                Prenom: "Gouvernement",
+                Slug: "gouvernement",
+              })
             }}
           >
-            <IconGroup width={30}/>
+            <IconGroup width={30} />
             Gouvernement
           </button>
         </div>
