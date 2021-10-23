@@ -35,7 +35,7 @@ export default function DeputeBanner({
   const [rectangles, setRectangles] = useState([])
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature =
-    viewmode !== View.France
+      NumeroCirconscription && NumeroDepartement
       ? getFeature({
           code_circ: NumeroCirconscription,
           code_dpt: NumeroDepartement,

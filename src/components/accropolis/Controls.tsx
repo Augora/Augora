@@ -5,6 +5,7 @@ import IconGroup from "images/ui-kit/icon-group.svg"
 import { slugify } from "utils/utils"
 import debounce from "lodash/debounce"
 import mapStore, { View } from "src/stores/mapStore"
+import accropolisStore from 'src/stores/accropolisStore'
 // import { getDeputeAccropolis } from "lib/deputes/Wrapper"
 
 export default function Controls({
@@ -25,6 +26,7 @@ export default function Controls({
   const [search, setSearch] = useState('')
   const [searchedDeputes, setSearchedDeputes] = useState([])
   const { viewmode, setViewmode } = mapStore()
+  // const {activeDepute, setActiveDepute} = accropolisStore();
 
   useEffect(() => {
     if (search.length > 0) {
@@ -138,18 +140,6 @@ export default function Controls({
               cycleDeputeCard(
                 null,
                 {
-                  // Age: 56,
-                  // AnciensMandats: {__typename: 'AnciensMandats', data: Array(1)},
-                  // AutresMandats: {__typename: 'AutreMandatPage', data: Array(1)},
-                  // Collaborateurs: [
-                  //   'Mme Rebecca Breitman',
-                  //   'Mme Emmanuelle Burtin',
-                  //   'M. Mathieu Zeggiato',
-                  //   'M. Ugo Rostaing',
-                  //   'Mme Julia Poyol',
-                  // ],
-                  // DateDeNaissance: "1967-12-08",
-                  // DebutDuMandat: "2017-06-21",
                   GroupeParlementaire: {
                     Couleur: "hsl(203, 68%, 54%)",
                     CouleurDetail: {
@@ -169,17 +159,10 @@ export default function Controls({
                     Sigle: "LREM"
                   },
                   Nom: "Gouvernement Français",
-                  NomCirconscription: "Bas-Rhin",
                   NomDeFamille: "Français",
-                  NomDepartement: "Bas-Rhin",
-                  NomRegion: "Grand Est",
-                  NumeroCirconscription: 2,
-                  NumeroDepartement: "67",
+                  NomRegion: "France",
                   Prenom: "Gouvernement",
-                  // Profession: "Industriel-Chef d'entreprise",
-                  // Sexe: "H",
                   Slug: "gouvernement",
-                  // URLPhotoAugora: "https://static.augora.fr/depute/sylvain-waserman",
                 }
               )
             }}
