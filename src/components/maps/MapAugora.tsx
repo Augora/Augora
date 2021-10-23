@@ -21,7 +21,6 @@ import {
   flyToCoords,
   getContinent,
   Cont,
-  MetroFeature,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"

@@ -350,12 +350,12 @@ export default function DeputeBanner({
         </div>
         <div className={styles.deputeBanner__mapContainer}>
           <MapAugora
-            overlay={false}
             viewport={viewport}
+            setViewport={setViewport}
+            overlay={false}
             attribution={false}
             overview={overview}
             borders={true}
-            setViewport={setViewport}
             mapView={{
               geoJSON: createFeatureCollection([feature]),
               feature: feature,
