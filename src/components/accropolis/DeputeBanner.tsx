@@ -351,7 +351,6 @@ export default function DeputeBanner({
         <div className={styles.deputeBanner__mapContainer}>
           <MapAugora
             overlay={false}
-            small={true}
             viewport={viewport}
             attribution={false}
             overview={overview}

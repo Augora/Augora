@@ -46,8 +46,6 @@ interface IMapAugora {
   overlay?: boolean
   /** Délai optionel de la fonction flytobounds */
   delay?: number
-  /** Si le container de la map est petit (<100px) pour éviter le bug de webmercator */
-  small?: boolean
   /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire) */
   attribution?: boolean
   /** S'il faut afficher les frontières */
@@ -103,7 +101,6 @@ export default function MapAugora(props: IMapAugora) {
     overlay = true,
     deputies = [],
     overview = false,
-    small = false,
     attribution = true,
     delay = 0,
     borders = false,
@@ -224,7 +221,7 @@ export default function MapAugora(props: IMapAugora) {
       {...props.viewport}
       width="100%"
       height="100%"
-      minZoom={small ? 0 : 1}
+      minZoom={0}
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
