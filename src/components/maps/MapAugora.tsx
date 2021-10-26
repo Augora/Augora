@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { isMobile } from "react-device-detect"
 import InteractiveMap, {
   NavigationControl,
@@ -39,8 +39,6 @@ interface IMapAugora {
   deputies?: Deputy.DeputiesList
   /** Si les overlays doivent être affichés */
   overlay?: boolean
-  /** S'il faut forcer un recentrage de la map au chargement */
-  forceCenter?: boolean
   children?: React.ReactNode
 }
 
@@ -85,13 +83,19 @@ export default function MapAugora(props: IMapAugora) {
   const {
     overlay = true,
     deputies = [],
-    forceCenter = false,
     mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
   } = props
 
   /** useStates */
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
+
+  /** useEffects */
+  useEffect(() => {
+    if (isMapLoaded) {
+      flyToFeature(zoneFeature)
+    }
+  }, [zoneFeature, isMapLoaded])
 
   /** useRefs */
   const mapRef = useRef<mapboxgl.Map>()
@@ -173,10 +177,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleLoad = () => {
-    if (!isMapLoaded) {
-      setIsMapLoaded(true)
-      if (forceCenter) flyToFeature(zoneFeature)
-    }
+    if (!isMapLoaded) setIsMapLoaded(true)
   }
 
   return (
