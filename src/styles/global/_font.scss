@@ -8,3 +8,23 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("https://fonts.googleapis.com/css2?family=Roboto+Slab"),
+    url("/fonts/roboto_slab/subset-RobotoSlab-Regular.woff2") format("woff2"),
+    url("/fonts/roboto_slab/subset-RobotoSlab-Regular.woff") format("woff"),
+    url("/fonts/roboto_slab/subset-RobotoSlab-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("https://fonts.googleapis.com/css2?family=Open+Sans"),
+    url("/fonts/open_sans/subset-OpenSans-Regular.woff2") format("woff2"),
+    url("/fonts/open_sans/subset-OpenSans-Regular.woff") format("woff"),
+    url("/fonts/open_sans/subset-OpenSans-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
