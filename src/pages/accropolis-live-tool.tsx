@@ -7,6 +7,8 @@ import { useRouter } from "next/router"
 import controlsStyles from "components/accropolis/ControlsStyles.module.scss"
 import deputeBannerStyles from "components/accropolis/DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
+import io from 'socket.io-client';
+// import accropolisStore from "src/stores/accropolisStore";
 
 const LogoTwitch = ({size = 24}) => {
   return  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} x="0" y="0" viewBox="0 0 512 512">
@@ -28,11 +30,31 @@ const LogoTwitch = ({size = 24}) => {
   </svg>
 }
 
+function useSocket(url) {
+  const [socket, setSocket] = useState(null)
+
+  useEffect(() => {
+    const socketIo = io(url)
+
+    setSocket(socketIo)
+
+    function cleanup() {
+      socketIo.disconnect()
+    }
+    return cleanup
+
+    // should only run once and not on every re-render,
+    // so pass an empty array
+  }, [])
+
+  return socket
+}
+
 export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   const router = useRouter()
   const [isLogged, setIsLogged] = useState(false);
-  const [deputeCurrentCard, setDeputeCurrentCard] = useState(0);
   const [activeDepute, setActiveDepute] = useState(accroDeputes[0].Depute)
+  // const {activeDepute, setActiveDepute} = accropolisStore();
   const [activeDeputeIndex, setActiveDeputeIndex] = useState(null);
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
@@ -42,10 +64,29 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   const [question, setQuestion] = useState('')
   const [mapOpacity, setMapOpacity] = useState({value: 0})
   const refMapOpacity = {value: 1}
+  const socket = useSocket('ws://localhost:1337')
 
   // Depute management
   /*----------------------------------------------------*/
+  // useEffect(() => {
+  //   setActiveDepute(accroDeputes[0].Depute)
+  // }, [])
+
   useEffect(() => {
+    if (socket) {
+      socket.on('connect', () => {
+        socket.emit('message', 'CONNEXION : accropolis-live-tool.tsx')
+      })
+
+      socket.on('depute_read', depute => {
+        console.log(depute)
+        setActiveDepute(depute)
+      })
+    }
+  }, [socket])
+
+  useEffect(() => {
+    // if (!activeDepute) setActiveDepute(accroDeputes[0].Depute)
     const isInList = accroDeputes.some(d => {
       return d.Depute.Slug === activeDepute.Slug
     })
@@ -119,7 +160,8 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
     if (currentAnimation.animation) {
       currentAnimation.animation.kill();
       if (currentAnimation.type === 'older') {
-        setActiveDepute(depute)
+        // setActiveDepute(depute)
+        socket.emit('depute_write', depute)
         return
       }
     }
@@ -128,7 +170,8 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
     const olderTL = olderBannerAnimation(setCurrentAnimation)
     olderTL.call(() => {
       setQuestion('')
-      setActiveDepute(depute)
+      // setActiveDepute(depute)
+      socket.emit('depute_write', depute)
     }, [], '+=0.2')
     olderTL.play()
   }
@@ -141,30 +184,32 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   }, [])
 
   useEffect(() => {
-    fetch(`https://accrogora.herokuapp.com/auth/twitch/callback${router.asPath.replace('/accropolis-live-tool', '')}`)
-      .then(res => {
-        if (res.status !== 200) {
-          throw new Error(`Couldn't login to Strapi. Status: ${res.status}`);
-        }
-        return res;
-      })
-      .then(res => res.json())
-      .then(res => {
-        // Successfully logged with Strapi
-        // Now saving the jwt to use it for future authenticated requests to Strapi
-        if (res.user.moderator) {
-          console.log(res.user)
-          localStorage.setItem('jwt', res.jwt);
-          localStorage.setItem('username', res.user.username);
-          setIsLogged(!!localStorage.getItem('jwt'))
-          router.push('/accropolis-live-tool');
-        } else {
-          new Error(`Not a moderator account`);
-        }
-      })
-      .catch(err => {
-        new Error(err);
-      });
+    if (!localStorage.jwt && !localStorage.username) {
+      fetch(`https://accrogora.herokuapp.com/auth/twitch/callback${router.asPath.replace('/accropolis-live-tool', '')}`)
+        .then(res => {
+          if (res.status !== 200) {
+            throw new Error(`Couldn't login to Strapi. Status: ${res.status}`);
+          }
+          return res;
+        })
+        .then(res => res.json())
+        .then(res => {
+          // Successfully logged with Strapi
+          // Now saving the jwt to use it for future authenticated requests to Strapi
+          if (res.user.moderator) {
+            console.log(res.user)
+            localStorage.setItem('jwt', res.jwt);
+            localStorage.setItem('username', res.user.username);
+            setIsLogged(!!localStorage.getItem('jwt'))
+            router.push('/accropolis-live-tool');
+          } else {
+            new Error(`Not a moderator account`);
+          }
+        })
+        .catch(err => {
+          new Error(err);
+        });
+    }
   }, [router])
 
   const logOut = e => {
@@ -212,7 +257,6 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
               accroDeputes={accroDeputes}
               depute={activeDepute}
               debug={debug}
-              deputeCurrentCard={deputeCurrentCard}
               activeDeputeIndex={activeDeputeIndex}
               question={question}
             />

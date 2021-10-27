@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { withRouter } from "next/router"
 import Head from "next/head"
 import { AppProps } from "next/app"
@@ -19,6 +19,7 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
     const orderedGroupes = sortBy(pageProps.deputes.data.GroupesParlementairesDetailsActifs.data, "Ordre")
     hydrateStoreWithInitialLists(orderedDeputes, orderedGroupes)
   }
+
   return (
     <ApolloProvider client={client}>
       <Head>
@@ -29,7 +30,6 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
         />
       </Head>
       {pageProps.pageBlank ? (
-        // TODO : Websocket ici
         <Accropolis debug={false} deputeCurrentCard={0} question={''} {...pageProps}/>
       ) : (
         <Layout location={router} title={pageProps.title}>

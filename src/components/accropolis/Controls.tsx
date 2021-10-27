@@ -27,6 +27,8 @@ export default function Controls({
   const { overview, setOverview } = mapStore()
   // const {activeDepute, setActiveDepute} = accropolisStore();
 
+  // Search
+  /*----------------------------------------------------*/
   useEffect(() => {
     if (search.length > 0) {
       verify(search)
@@ -72,6 +74,8 @@ export default function Controls({
     olderTL.play()
   }
 
+  // Render
+  /*----------------------------------------------------*/
   return (
     <div className={styles.accropolis__controls}>
       <div className="controls__question">
