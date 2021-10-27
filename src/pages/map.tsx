@@ -45,7 +45,10 @@ export default function MapPage() {
     setDeputies,
   } = mapStore()
 
-  useNonInitialEffect(() => {
+  useEffect(() => {
+    const ready = !/\?./.test(router.asPath) || Object.keys(router.query).length > 0 //test si on a bien les valeurs finales de la query
+    if (!ready) return
+
     const newFeature = getFeatureFromQuery(router.query)
 
     if (newFeature) displayZone(newFeature)
