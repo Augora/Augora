@@ -52,12 +52,12 @@ export default function MapPage() {
     const newFeature = getFeatureFromQuery(router.query)
 
     if (newFeature) displayZone(newFeature)
-    else if (zoneFeature.geometry.coordinates.length < 1) changeZone(MetroFeature)
+    else if (zoneFeature.properties.nom === "Empty") changeZone(MetroFeature)
     else {
       setPageTitle(getZoneTitle(zoneFeature))
       changeURL(buildURLFromFeature(zoneFeature))
     }
-  }, [router.query])
+  }, [router])
 
   useEffect(() => {
     setViewsize({ height: window.innerHeight, width: window.innerWidth })
