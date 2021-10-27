@@ -26,7 +26,7 @@ const mapStore = create<MapState>((set) => ({
   },
   geoJSON: createFeatureCollection(),
   ghostGeoJSON: null,
-  feature: createFeature(),
+  feature: createFeature("Empty"),
   deputies: [],
   paint: getLayerPaint(),
 
