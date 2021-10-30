@@ -53,7 +53,7 @@ export default function PresenceFooter(props: IPresenceFooter) {
     <>
       <div className="presence__line" />
       <div className="presence__filtre">
-        <text>Filtrer</text>
+        <div>Filtrer</div>
       </div>
       <Legend scale={shapeScale}>
         {(labels) => (
