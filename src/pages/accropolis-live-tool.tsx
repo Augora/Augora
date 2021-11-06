@@ -8,6 +8,7 @@ import controlsStyles from "components/accropolis/ControlsStyles.module.scss"
 import deputeBannerStyles from "components/accropolis/DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
 import io from 'socket.io-client';
+import mapStore from "src/stores/mapStore"
 // import accropolisStore from "src/stores/accropolisStore";
 
 const LogoTwitch = ({size = 24}) => {
@@ -65,6 +66,7 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   const [mapOpacity, setMapOpacity] = useState({value: 0})
   const refMapOpacity = {value: 1}
   const socket = useSocket('ws://localhost:1337')
+  const { overview, setOverview } = mapStore()
 
   // Depute management
   /*----------------------------------------------------*/
@@ -73,14 +75,24 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
   // }, [])
 
   useEffect(() => {
+    if (socket && question.length > 0) {
+      socket.emit('question', question)
+    }
+  }, [question])
+
+  useEffect(() => {
     if (socket) {
       socket.on('connect', () => {
         socket.emit('message', 'CONNEXION : accropolis-live-tool.tsx')
       })
 
+      socket.on('message', message => {
+        console.log('message Socket : ',message)
+      })
       socket.on('depute_read', depute => {
-        console.log(depute)
+        console.log('on depute_read', depute.Slug)
         setActiveDepute(depute)
+        setQuestion('')
       })
     }
   }, [socket])
@@ -98,6 +110,13 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
       setActiveDeputeIndex(null)
     }
   }, [activeDepute])
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit('overview', overview)
+    }
+  }, [overview])
+
 
   // Animations
   /*----------------------------------------------------*/
@@ -160,7 +179,6 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
     if (currentAnimation.animation) {
       currentAnimation.animation.kill();
       if (currentAnimation.type === 'older') {
-        // setActiveDepute(depute)
         socket.emit('depute_write', depute)
         return
       }
@@ -169,8 +187,6 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
     // After timeline
     const olderTL = olderBannerAnimation(setCurrentAnimation)
     olderTL.call(() => {
-      setQuestion('')
-      // setActiveDepute(depute)
       socket.emit('depute_write', depute)
     }, [], '+=0.2')
     olderTL.play()
@@ -197,7 +213,6 @@ export default function AccropolisControls({allAccroDeputes, accroDeputes}) {
           // Successfully logged with Strapi
           // Now saving the jwt to use it for future authenticated requests to Strapi
           if (res.user.moderator) {
-            console.log(res.user)
             localStorage.setItem('jwt', res.jwt);
             localStorage.setItem('username', res.user.username);
             setIsLogged(!!localStorage.getItem('jwt'))

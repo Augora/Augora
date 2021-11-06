@@ -22,9 +22,9 @@ const getRandomArbitrary = (min, max, round = 0) => {
 
 export default function DeputeBanner({
   debug,
-  numberOfQuestions,
+  // numberOfQuestions,
   depute,
-  index,
+  // index,
   currentAnimation,
   setCurrentAnimation,
   mapOpacity,
@@ -106,7 +106,7 @@ export default function DeputeBanner({
       })
       renderTL.play()
     }
-  }, [index, depute])
+  }, [depute])
 
   // Reveal animation
   /*----------------------------------------------------*/
@@ -170,17 +170,15 @@ export default function DeputeBanner({
       },
       "-=0.2"
     )
-    if (index) {
-      renderTL.to(
-        `.${styles.deputeBanner__questionNumber}`,
-        {
-          x: "0%",
-          ease: "power1.out",
-          duration: 0.4,
-        },
-        "+=1"
-      )
-    }
+    // renderTL.to(
+    //   `.${styles.deputeBanner__questionNumber}`,
+    //   {
+    //     x: "0%",
+    //     ease: "power1.out",
+    //     duration: 0.4,
+    //   },
+    //   "+=1"
+    // )
 
     // Map opacity transition
     renderTL.to(
@@ -261,7 +259,7 @@ export default function DeputeBanner({
         <div className={styles.deputeBanner__question}>
           <div className={styles.deputeBanner__questionInner}>{question}</div>
         </div>
-        {index ? (
+        {/* {index ? (
           <div className={styles.deputeBanner__questionNumber}>
             <span>
               Question {index < 10 ? "0" : null}
@@ -269,7 +267,7 @@ export default function DeputeBanner({
               {numberOfQuestions}
             </span>
           </div>
-        ) : null}
+        ) : null} */}
       </section>
 
       {/* BOTTOM PART ------------------------------------------------------------------------------ */}

@@ -20,7 +20,7 @@ export default function Controls({
   setActiveDeputeIndex,
   currentAnimation,
   setCurrentAnimation,
-  olderBannerAnimation,
+  olderBannerAnimation
 }) {
   const [search, setSearch] = useState("")
   const [searchedDeputes, setSearchedDeputes] = useState([])
@@ -56,7 +56,7 @@ export default function Controls({
     if (currentAnimation.animation) {
       currentAnimation.animation.kill()
       if (currentAnimation.type === "older") {
-        setActiveDepute(depute)
+        cycleDeputeCard(event, depute)
       }
     }
 
@@ -64,8 +64,7 @@ export default function Controls({
     const olderTL = olderBannerAnimation(setCurrentAnimation)
     olderTL.call(
       () => {
-        setQuestion("")
-        setActiveDepute(depute)
+        cycleDeputeCard(event, depute)
         setSearch("")
       },
       [],

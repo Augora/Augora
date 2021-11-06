@@ -63,7 +63,6 @@ const Layout = ({ children, location, title }: ILayout) => {
 
   useEffect(() => {
     const pageType = getPageTypeFromRoute(location.route)
-    console.log(location.route)
     if (pageType === PageType.Accueil || pageType === PageType.Map) {
       setisPopinVisible(true)
     } else setisPopinVisible(false)

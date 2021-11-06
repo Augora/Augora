@@ -27,10 +27,10 @@ export default function Accropolis({
       <div className={styles.accropolis__container}>
         <DeputeBanner
           debug={debug}
-          numberOfQuestions={accroDeputes.length}
+          // numberOfQuestions={accroDeputes.length}
           depute={depute ? depute : accroDeputes[0].Depute}
           // depute={activeDepute ? activeDepute : accroDeputes[deputeCurrentCard].Depute}
-          index={activeDeputeIndex !== null ? activeDeputeIndex + 1 : null}
+          // index={activeDeputeIndex !== null ? activeDeputeIndex + 1 : null}
           currentAnimation={currentAnimation}
           setCurrentAnimation={setCurrentAnimation}
           mapOpacity={mapOpacity}
