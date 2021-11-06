@@ -76,7 +76,7 @@ const Layout = ({ children, location, title }: ILayout) => {
   }, [location.route])
 
   return (
-    <div className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${!hasLayout ? ' no-layout' : null}`}>
+    <div className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${!hasLayout ? ' no-layout' : ''}`}>
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
