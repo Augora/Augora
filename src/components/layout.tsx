@@ -36,6 +36,7 @@ const Layout = ({ children, location, title }: ILayout) => {
   const [scrolled, setScrolled] = useState(false)
   const [hasSidebar, setHasSidebar] = useState(false)
   const [isPopinVisible, setisPopinVisible] = useState(false)
+  const [hasLayout, setHasLayout] = useState(true)
 
   const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
 
@@ -62,15 +63,20 @@ const Layout = ({ children, location, title }: ILayout) => {
 
   useEffect(() => {
     const pageType = getPageTypeFromRoute(location.route)
+    console.log(location.route)
     if (pageType === PageType.Accueil || pageType === PageType.Map) {
       setisPopinVisible(true)
     } else setisPopinVisible(false)
+
+    if (location.route === '/accropolis') {
+        setHasLayout(false)
+    }
 
     setHasSidebar(false)
   }, [location.route])
 
   return (
-    <div className={`page-body ${title ? "with-title" : "no-title"}${scrolled ? " scrolled" : ""}`}>
+    <div className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${!hasLayout ? ' no-layout' : null}`}>
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

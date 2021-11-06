@@ -12,3 +12,13 @@
     flex-direction: unset;
   }
 }
+
+.no-layout {
+  .header__container,
+  footer.footer {
+    display: none;
+  }
+  .layout {
+    padding: 0;
+  }
+}
