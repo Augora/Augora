@@ -41,12 +41,12 @@ export default function Accropolis({accroDeputes}) {
   
   // Websockets
   /*----------------------------------------------------*/
-  const socket = useSocket('ws://localhost:1337')
+  const socket = useSocket('ws://localhost:1337/reader')
   useEffect(() => {
     if (socket) {
       socket.on('connect', () => {
         socket.emit('message', 'CONNEXION : accropolis.tsx')
-        socket.emit('req_depute')
+        // socket.emit('req_depute')
       })
       socket.on('message', message => {
           console.log('message Socket : ',message)

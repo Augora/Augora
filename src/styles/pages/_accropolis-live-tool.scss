@@ -63,6 +63,20 @@ $twitch-color: #6441a5;
       }
     }
   }
+  &.not-authorized {
+    color: white;
+    .accropolis {
+      &__login {
+        top: 0;
+        position: relative;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        padding: 200px 0;
+      }
+    }
+  }
 }
 
 .accropolis {

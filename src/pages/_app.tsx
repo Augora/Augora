@@ -29,13 +29,9 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
           media="all"
         />
       </Head>
-      {pageProps.pageBlank ? (
-        <Accropolis debug={false} deputeCurrentCard={0} question={''} {...pageProps}/>
-      ) : (
-        <Layout location={router} title={pageProps.title}>
-          <Component {...pageProps} />
-        </Layout>
-      )}
+      <Layout location={router} title={pageProps.title}>
+        <Component {...pageProps} />
+      </Layout>
     </ApolloProvider>
   )
 })

@@ -24,7 +24,8 @@ export function slugify(string: string) {
 }
 
 export async function fetchQuery(path, params = null) {
-  const baseUrl = 'https://accrogora.herokuapp.com';
+  // const baseUrl = 'https://accrogora.herokuapp.com';
+  const baseUrl = 'http://localhost:1337';
   let url
   if (params !== null) {
     url = `${baseUrl}/${path}/${params}`

@@ -15,9 +15,7 @@ export default function Controls({
   deputes,
   cycleDeputeCard,
   activeDepute,
-  setActiveDepute,
   activeDeputeIndex,
-  setActiveDeputeIndex,
   currentAnimation,
   setCurrentAnimation,
   olderBannerAnimation
