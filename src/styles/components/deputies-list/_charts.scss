@@ -37,6 +37,7 @@
           g > svg > text {
             font-size: 14px !important;
             fill: $text-color !important;
+            font-weight: 400;
           }
           &.axislabel {
             &__bottom {
@@ -122,7 +123,14 @@
     }
   }
 }
-
+.visx-crosshair-vertical {
+  z-index: 2;
+  svg {
+    overflow: visible;
+    margin-left: 33px;
+    margin-top: 8px;
+  }
+}
 .charttooltip__container {
   position: absolute;
   pointer-events: none;
@@ -130,37 +138,56 @@
   .presence__tooltip {
     max-width: 400px;
     .tooltip {
-      &__content div {
-        .legend {
-          &__col {
-            display: flex;
-            align-items: center;
-            &:first-child {
-              flex: 5;
-            }
-            &:last-child {
-              flex: 1;
-              text-align: right;
-            }
-            svg {
-              margin-top: 10px;
-              .last-child {
-                margin-left: 5px;
+      &__content {
+        .item {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          .legend {
+            &__col {
+              display: flex;
+              align-items: center;
+              &:first-child {
+                flex: 5;
+              }
+              &:last-child {
+                flex: 1;
+                text-align: right;
+                font-weight: 400;
+              }
+              svg {
+                width: 25px;
+                height: 25px;
+                margin-top: 10px;
+                .last-child {
+                  margin-left: 5px;
+                }
               }
             }
           }
-        }
-        .item__tooltip {
-          width: 100%;
-          justify-content: space-between;
-          margin-bottom: 12px;
-          &:last-child {
-            margin-bottom: 0px;
+          &__tooltip {
+            width: 100%;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            &:last-child {
+              margin-bottom: 0px;
+            }
+            .labelValue {
+              font-size: 20px;
+              color: $text-color;
+              text-align: right;
+              font-weight: 400;
+            }
           }
-          .labelValue {
-            font-size: 20px;
-            color: rgba($black, 0.5);
-            text-align: right;
+          &__tooltip:not(:last-child) {
+            .legend__col {
+              svg {
+                width: 25px;
+                height: 25px;
+                padding-left: 2px;
+                margin-bottom: 3px;
+              }
+            }
           }
         }
       }

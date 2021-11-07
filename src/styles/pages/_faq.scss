@@ -85,7 +85,9 @@
       margin-top: 30px;
       margin-bottom: 0px;
       padding: 0 30px;
-
+      p {
+        text-align: justify;
+      }
       p:last-child {
         margin-bottom: 0;
       }

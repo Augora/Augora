@@ -30,7 +30,7 @@ const mapStore = create<MapState>((set) => ({
   overview: false,
   geoJSON: createFeatureCollection(),
   ghostGeoJSON: null,
-  feature: createFeature(),
+  feature: createFeature("Empty"),
   deputies: [],
   paint: getLayerPaint(),
 

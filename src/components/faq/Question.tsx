@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
 import dynamic from "next/dynamic"
+import { slugify } from "src/utils/utils"
 const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
   ssr: false,
 })
@@ -13,7 +14,11 @@ interface IQuestion {
 function Question(props: IQuestion) {
   const [Open, setOpen] = useState(true)
   return (
-    <div className={`faq__question ${Open ? "faq__question--opened" : ""}`}>
+    <div
+      id={slugify(props.title)}
+      style={{ scrollMarginTop: 114 }}
+      className={`faq__question ${Open ? "faq__question--opened" : ""}`}
+    >
       <div
         className="faq__title-container"
         onClick={() => setOpen(!Open)}

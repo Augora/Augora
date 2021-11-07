@@ -29,7 +29,13 @@ export default function ButtonIcon(props: IButtonIcon) {
   const classNames = `${props.className} btn--icon ${props.deactivated ? "btn--deactivated" : ""}`
   if (typeof props.onClick === "string") {
     return (
-      <a href={props.onClick} className={`btn ${classNames}`} title={props.title} target={props.onClick ? props.target : ""}>
+      <a
+        href={props.onClick}
+        className={`btn ${classNames}`}
+        title={props.title}
+        target={props.onClick ? props.target : ""}
+        rel={props.target ? "noopener noreferrer" : ""}
+      >
         {props.children}
       </a>
     )
