@@ -16,7 +16,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
   // bounds
   const marginTop = 30
   const marginLeft = 20
-  const marginGraph = 30
+  const marginGraph = 24
   const xMax = width
   const yMax = height - marginTop
 
@@ -26,7 +26,6 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
     round: true,
     domain: data.map((d) => d.id).reverse(),
     paddingInner: 0.2,
-    paddingOuter: -0.1,
   })
 
   const yScale = scaleLinear<number>({

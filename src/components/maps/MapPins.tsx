@@ -128,7 +128,7 @@ export function MapPin(props: IMapPin) {
           {props.handleClick || props.handleHover ? (
             <button
               className="pins__btn"
-              title={`Informations ${props.feature.properties.nom}`}
+              aria-label={`Informations ${props.feature.properties.nom}`}
               onClick={() => {
                 if (props.handleClick) props.handleClick()
               }}

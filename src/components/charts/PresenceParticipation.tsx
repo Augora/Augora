@@ -55,7 +55,7 @@ export default function PresenceParticipation(props: IPresence) {
   const changeDisplay = width < 750
   // bounds
 
-  const margin = width < 400 ? 140 : width < 500 ? 130 : width < 750 ? 110 : 50
+  const margin = width < 500 ? 110 : width < 750 ? 90 : 50
   const marginLeft = 20
   const xMax = width - marginLeft
 
@@ -144,10 +144,11 @@ export default function PresenceParticipation(props: IPresence) {
               animationTrajectory={"center"}
             />
             <AnimatedAxis
-              axisClassName={width < 500 ? " rotate" : ""}
+              axisClassName={width < 500 ? "presence__axisbottom rotate" : "presence__axisbottom"}
               orientation="bottom"
               hideAxisLine={true}
               top={yMax}
+              left={11}
               tickLength={6}
               numTicks={changeDisplay ? 8 : 12}
               animationTrajectory={"center"}
@@ -159,8 +160,9 @@ export default function PresenceParticipation(props: IPresence) {
               className="charttooltip__container"
               applyPositionStyle={true}
               unstyled={true}
-              snapTooltipToDatumX={true}
-              offsetTop={-200}
+              showVerticalCrosshair
+              offsetTop={-100}
+              offsetLeft={50}
               renderTooltip={({ tooltipData }) => {
                 const key = tooltipData.nearestDatum.index
                 const nearest = tooltipData.nearestDatum.datum
@@ -172,7 +174,7 @@ export default function PresenceParticipation(props: IPresence) {
                     {nearest.Vacances === 0 ? (
                       <Legend scale={shapeScale}>
                         {(labels) => (
-                          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                          <div className="item">
                             {labels.map((label, i) => {
                               const shape = shapeScale(label.datum)
                               const isValidElement = React.isValidElement(shape)
@@ -182,7 +184,7 @@ export default function PresenceParticipation(props: IPresence) {
                               ) : (
                                 <LegendItem className="item__tooltip" key={`legend-quantile-${i}`} flexDirection="row">
                                   <div className="legend__col">
-                                    <svg width={25} height={25}>
+                                    <svg>
                                       {isValidElement
                                         ? React.cloneElement(shape as React.ReactElement)
                                         : React.createElement(shape as React.ComponentType<{ fill: string }>, {

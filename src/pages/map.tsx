@@ -46,15 +46,18 @@ export default function MapPage() {
   } = mapStore()
 
   useEffect(() => {
+    const ready = !/\?./.test(router.asPath) || Object.keys(router.query).length > 0 //test si on a bien les valeurs finales de la query
+    if (!ready) return
+
     const newFeature = getFeatureFromQuery(router.query)
 
     if (newFeature) displayZone(newFeature)
-    else if (zoneFeature.geometry.coordinates.length < 1) changeZone(MetroFeature)
+    else if (zoneFeature.properties.nom === "Empty") changeZone(MetroFeature)
     else {
       setPageTitle(getZoneTitle(zoneFeature))
       changeURL(buildURLFromFeature(zoneFeature))
     }
-  }, [router.query])
+  }, [router])
 
   useEffect(() => {
     setViewsize({ height: window.innerHeight, width: window.innerWidth })

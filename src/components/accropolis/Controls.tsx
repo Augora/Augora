@@ -5,7 +5,6 @@ import IconGroup from "images/ui-kit/icon-group.svg"
 import { slugify } from "utils/utils"
 import debounce from "lodash/debounce"
 import mapStore from "src/stores/mapStore"
-import accropolisStore from "src/stores/accropolisStore"
 // import { getDeputeAccropolis } from "lib/deputes/Wrapper"
 
 export default function Controls({
