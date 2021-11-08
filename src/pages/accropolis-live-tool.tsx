@@ -11,6 +11,9 @@ import io from 'socket.io-client';
 import mapStore from "src/stores/mapStore"
 // import accropolisStore from "src/stores/accropolisStore";
 
+// Constantes
+/*----------------------------------------------------*/
+const strapiDN = 'accrogora.herokuapp.com'
 const strapiURI = 'https://accrogora.herokuapp.com/'
 // const strapiURI = 'http://localhost:1337/'
 
@@ -34,6 +37,8 @@ const LogoTwitch = ({size = 24}) => {
   </svg>
 }
 
+// Methods
+/*----------------------------------------------------*/
 function useSocket(url) {
   const [socket, setSocket] = useState(null)
 
@@ -57,6 +62,8 @@ function useSocket(url) {
   return socket
 }
 
+// Component
+/*----------------------------------------------------*/
 export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   const router = useRouter()
   const [isLogged, setIsLogged] = useState(false);
@@ -71,7 +78,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   const [question, setQuestion] = useState('')
   const [mapOpacity, setMapOpacity] = useState({value: 0})
   const refMapOpacity = {value: 1}
-  const socket = useSocket('ws://localhost:1337/writer')
+  const socket = useSocket(`ws://${strapiDN}/writer`)
   const { overview, setOverview } = mapStore()
 
   // Depute management
@@ -326,7 +333,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   )
 }
 
-async function getServerSideProps(context) {
+async function getServerSideProps() {
   const strapiDeputes = await fetchQuery('deputes')
   const accroDeputes = await Promise.all(strapiDeputes.map(async depute => {
     return await getDeputeAccropolis(depute.Depute_name)

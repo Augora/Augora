@@ -7,6 +7,12 @@ import { gsap } from "gsap"
 import io from 'socket.io-client';
 import mapStore from "src/stores/mapStore"
 
+// Constantes
+/*----------------------------------------------------*/
+const strapiDN = 'accrogora.herokuapp.com'
+
+// Methods
+/*----------------------------------------------------*/
 function useSocket(url) {
   const [socket, setSocket] = useState(null)
 
@@ -41,7 +47,7 @@ export default function Accropolis({accroDeputes}) {
   
   // Websockets
   /*----------------------------------------------------*/
-  const socket = useSocket('ws://localhost:1337/reader')
+  const socket = useSocket(`ws://${strapiDN}/reader`)
   useEffect(() => {
     if (socket) {
       socket.on('connect', () => {
