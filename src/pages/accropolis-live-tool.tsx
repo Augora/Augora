@@ -78,7 +78,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   const [question, setQuestion] = useState('')
   const [mapOpacity, setMapOpacity] = useState({value: 0})
   const refMapOpacity = {value: 1}
-  const socket = useSocket(`ws://${strapiDN}/writer`)
+  const socket = useSocket(`https://${strapiDN}/writer`)
   const { overview, setOverview } = mapStore()
 
   // Depute management

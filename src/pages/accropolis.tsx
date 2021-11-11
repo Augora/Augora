@@ -47,7 +47,7 @@ export default function Accropolis({accroDeputes}) {
   
   // Websockets
   /*----------------------------------------------------*/
-  const socket = useSocket(`ws://${strapiDN}/reader`)
+  const socket = useSocket(`https://${strapiDN}/reader`)
   useEffect(() => {
     if (socket) {
       socket.on('connect', () => {
