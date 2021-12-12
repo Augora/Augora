@@ -14,10 +14,6 @@ import jsonwebtoken from "jsonwebtoken"
 
 // Constantes
 /*----------------------------------------------------*/
-const strapiDN = 'accrogora.herokuapp.com'
-const strapiURI = 'https://accrogora.herokuapp.com/'
-// const strapiURI = 'http://localhost:1337/'
-
 const LogoTwitch = ({size = 24}) => {
   return  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} x="0" y="0" viewBox="0 0 512 512">
     <g xmlns="http://www.w3.org/2000/svg">
@@ -59,6 +55,11 @@ function useSocket(url, setLoading, setAuthorized, isLogged) {
       setLoading(false)
     })
 
+    socketIo.on('disconnect', () => {
+      setAuthorized(false)
+      setLoading(false)
+    })
+
     // Cleanup when unloading the component
     function cleanup() {
       socketIo.disconnect()
@@ -96,8 +97,11 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   const refMapOpacity = {value: 1}
   const { overview, setOverview } = mapStore()
 
+  const strapiURI = 'https://accrogora.herokuapp.com'
+  // const strapiURI = 'http://localhost:1337'
+
   // Websockets state
-  const socket = useSocket(`https://${strapiDN}/writer`, setLoading, setAuthorized, isLogged)
+  const socket = useSocket(`${strapiURI}/writer`, setLoading, setAuthorized, isLogged)
 
   // Depute management
   /*----------------------------------------------------*/
@@ -252,7 +256,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
     // Check if we don't have any login informations yet
     if ((!localStorage.jwt && !localStorage.username)) {
       // Fetch the twitch strapi auth
-      fetch(`${strapiURI}auth/twitch/callback${router.asPath.replace('/accropolis-live-tool', '')}`)
+      fetch(`${strapiURI}/auth/twitch/callback${router.asPath.replace('/accropolis-live-tool', '')}`)
         // Error
         .then(res => {
           if (res.status !== 200) {
@@ -292,17 +296,17 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   // Render
   /*----------------------------------------------------*/
   return (
-    <div className={`accropolis-live-tool${isLogged ? ' logged' : ' not-logged'}${isLogged && authorized ? ' authorized' : ' not-authorized'}${loading ? ' loading' : ''}`}>
+    <div className={`accropolis-live-tool${isLogged ? ' logged' : ' not-logged'}${isLogged && authorized ? ' authorized' : ' not-authorized'}${isLogged && authorized && loading ? ' loading' : ''}`}>
       {!isLogged ? (
         <div className="accropolis__login">
           <h2>Vous n'êtes pas connecté</h2>
-          <a className="accropolis__login-btn" href={`${strapiURI}connect/twitch`}>
+          <a className="accropolis__login-btn" href={`${strapiURI}/connect/twitch`}>
             <p>Se connecter avec twitch</p>
             <LogoTwitch />
           </a>
         </div>
       )
-      : (isLogged && !authorized && !loading) ? (
+      : (isLogged && !authorized) ? (
         <div className="accropolis__login">
           <h2>Compté créé avec succès...</h2>
           <p>
@@ -321,7 +325,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
           <button className="accropolis__logout-btn" onClick={logOut}>Se déconnecter</button>
         </div>
       ) 
-      : loading ? (
+      : (isLogged && authorized && loading) ? (
         <>
           <div className="accropolis__login">
               <LogoTwitch size={150} />
