@@ -40,7 +40,7 @@ const LogoTwitch = ({size = 24}) => {
 
 // Methods
 /*----------------------------------------------------*/
-function useSocket(url, setLoading, setAuthorized, loading) {
+function useSocket(url, setLoading, setAuthorized, isLogged) {
   const [socket, setSocket] = useState(null)
 
   useEffect(() => {
@@ -52,15 +52,6 @@ function useSocket(url, setLoading, setAuthorized, loading) {
 
     socketIo.on('connect_error', (err) => {
       console.error('connect_error', err)
-      // console.warn(`jwt token is : ${localStorage.getItem('jwt')}`)
-      // console.warn(`socketIo.auth.token : ${localStorage.getItem('jwt')}`)
-      if (loading) {
-        setTimeout(() => {
-          socketIo.auth.token = localStorage.getItem('jwt');
-          console.log(socketIo)
-          socketIo.connect();
-        }, 2000)
-      }
     })
 
     socketIo.on('connect', () => {
@@ -76,7 +67,7 @@ function useSocket(url, setLoading, setAuthorized, loading) {
 
     // should only run once and not on every re-render,
     // so pass an empty array
-  }, [])
+  }, [isLogged])
 
   return socket
 }
@@ -88,7 +79,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
 
   // Core component states
   const [isLogged, setIsLogged] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [authorized, setAuthorized] = useState(false)
   const [debug, setDebug] = useState('')
   
@@ -106,7 +97,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   const { overview, setOverview } = mapStore()
 
   // Websockets state
-  const socket = useSocket(`https://${strapiDN}/writer`, setLoading, setAuthorized, loading)
+  const socket = useSocket(`https://${strapiDN}/writer`, setLoading, setAuthorized, isLogged)
 
   // Depute management
   /*----------------------------------------------------*/
@@ -301,7 +292,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   // Render
   /*----------------------------------------------------*/
   return (
-    <div className={`accropolis-live-tool${isLogged ? ' logged' : ' not-logged'}${isLogged && authorized ? ' authorized' : ' not-authorized'}`}>
+    <div className={`accropolis-live-tool${isLogged ? ' logged' : ' not-logged'}${isLogged && authorized ? ' authorized' : ' not-authorized'}${loading ? ' loading' : ''}`}>
       {!isLogged ? (
         <div className="accropolis__login">
           <h2>Vous n'êtes pas connecté</h2>
@@ -311,7 +302,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
           </a>
         </div>
       )
-      : (isLogged && !authorized) ? (
+      : (isLogged && !authorized && !loading) ? (
         <div className="accropolis__login">
           <h2>Compté créé avec succès...</h2>
           <p>
@@ -320,7 +311,6 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
           </p>
           <button className="accropolis__logout-btn" onClick={() => {
             if (socket) {
-              setLoading(true)
               socket.auth.token = localStorage.getItem('jwt');
               socket.connect()
             }

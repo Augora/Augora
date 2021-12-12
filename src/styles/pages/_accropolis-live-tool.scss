@@ -63,7 +63,7 @@ $twitch-color: #6441a5;
       }
     }
   }
-  &.not-authorized {
+  &.not-authorized:not(.loading) {
     min-height: unset;
     color: white;
     .accropolis {
