@@ -9,6 +9,7 @@ import deputeBannerStyles from "components/accropolis/DeputeBannerStyles.module.
 import { gsap } from "gsap"
 import io from 'socket.io-client';
 import mapStore from "src/stores/mapStore"
+import jsonwebtoken from "jsonwebtoken"
 // import accropolisStore from "src/stores/accropolisStore";
 
 // Constantes
@@ -39,17 +40,35 @@ const LogoTwitch = ({size = 24}) => {
 
 // Methods
 /*----------------------------------------------------*/
-function useSocket(url) {
+function useSocket(url, setLoading, setAuthorized, loading) {
   const [socket, setSocket] = useState(null)
 
   useEffect(() => {
-    // const socketIo = io(url)
     const socketIo = io(url, {
       auth: {token: localStorage.getItem('jwt')}
     })
-
+    console.log('socketIo', socketIo)
     setSocket(socketIo)
 
+    socketIo.on('connect_error', (err) => {
+      console.error('connect_error', err)
+      // console.warn(`jwt token is : ${localStorage.getItem('jwt')}`)
+      // console.warn(`socketIo.auth.token : ${localStorage.getItem('jwt')}`)
+      if (loading) {
+        setTimeout(() => {
+          socketIo.auth.token = localStorage.getItem('jwt');
+          console.log(socketIo)
+          socketIo.connect();
+        }, 2000)
+      }
+    })
+
+    socketIo.on('connect', () => {
+      setAuthorized(true)
+      setLoading(false)
+    })
+
+    // Cleanup when unloading the component
     function cleanup() {
       socketIo.disconnect()
     }
@@ -66,7 +85,14 @@ function useSocket(url) {
 /*----------------------------------------------------*/
 export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   const router = useRouter()
+
+  // Core component states
   const [isLogged, setIsLogged] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [authorized, setAuthorized] = useState(false)
+  const [debug, setDebug] = useState('')
+  
+  // Banner states
   const [activeDepute, setActiveDepute] = useState(accroDeputes[0].Depute)
   // const {activeDepute, setActiveDepute} = accropolisStore();
   const [activeDeputeIndex, setActiveDeputeIndex] = useState(null);
@@ -74,12 +100,13 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
     animation: null,
     type: null,
   })
-  const [debug, setDebug] = useState('')
   const [question, setQuestion] = useState('')
   const [mapOpacity, setMapOpacity] = useState({value: 0})
   const refMapOpacity = {value: 1}
-  const socket = useSocket(`https://${strapiDN}/writer`)
   const { overview, setOverview } = mapStore()
+
+  // Websockets state
+  const socket = useSocket(`https://${strapiDN}/writer`, setLoading, setAuthorized, loading)
 
   // Depute management
   /*----------------------------------------------------*/
@@ -95,12 +122,6 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   useEffect(() => {
     // Check if socket exists
     if (socket) {
-      // On socket connection
-      socket.on('connect', () => {
-        // Validate connection on backend logs
-        socket.emit('message', 'CONNEXION : accropolis-live-tool.tsx')
-      })
-
       // If we receive a message event
       socket.on('message', message => {
         console.log('message Socket : ',message)
@@ -214,15 +235,31 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
 
   // Login / Logout handler
   /*----------------------------------------------------*/
-  // Check is JWT already exists
+  // If JWT already exists
   useEffect(() => {
-    setIsLogged(!!localStorage.getItem('jwt'))
+    const jwt = localStorage.getItem('jwt')
+    if (jwt) {
+      const now = Math.floor(Date.now() / 1000)
+      const decoded = jsonwebtoken.decode(jwt).exp
+      if (decoded < now) {
+        // If JWT is defined but expired, remove is logged
+        localStorage.removeItem('jwt');
+        localStorage.removeItem('username');
+        setIsLogged(false);
+        if (socket) {
+          socket.disconnect();
+        }
+      } else {
+        // Check if logged
+        setIsLogged(true)
+      }
+    }
   }, [])
 
   // When we trigger Strapi callback URL
   useEffect(() => {
     // Check if we don't have any login informations yet
-    if (!localStorage.jwt && !localStorage.username) {
+    if ((!localStorage.jwt && !localStorage.username)) {
       // Fetch the twitch strapi auth
       fetch(`${strapiURI}auth/twitch/callback${router.asPath.replace('/accropolis-live-tool', '')}`)
         // Error
@@ -237,10 +274,11 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
         .then(res => {
           // Successfully logged with Strapi
           // Now saving the jwt to use it for future authenticated requests to Strapi
+          localStorage.setItem('jwt', res.jwt);
+          localStorage.setItem('username', res.user.username);
+          setIsLogged(!!localStorage.getItem('jwt'))
           if (res.user.moderator) {
-            localStorage.setItem('jwt', res.jwt);
-            localStorage.setItem('username', res.user.username);
-            setIsLogged(!!localStorage.getItem('jwt'))
+            setAuthorized(true)
             router.push('/accropolis-live-tool');
           }
         })
@@ -254,13 +292,16 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
     e.preventDefault();
     localStorage.removeItem('jwt');
     localStorage.removeItem('username');
+    if (socket) {
+      socket.disconnect();
+    }
     setIsLogged(false);
   }
 
   // Render
   /*----------------------------------------------------*/
   return (
-    <div className={`accropolis-live-tool${isLogged ? ' logged' : ' not-logged'}`}>
+    <div className={`accropolis-live-tool${isLogged ? ' logged' : ' not-logged'}${isLogged && authorized ? ' authorized' : ' not-authorized'}`}>
       {!isLogged ? (
         <div className="accropolis__login">
           <h2>Vous n'êtes pas connecté</h2>
@@ -270,19 +311,40 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
           </a>
         </div>
       )
-      // : (isLogged && !authorized) ? (
-      //   <div className="accropolis__login">
-      //     <h2>Compté créé avec succès...</h2>
-      //     <p>
-      //       Contactez un admin pour accéder à l'interface de contrôle<br/>
-      //       Puis rechargez cette page
-      //     </p>
-      //     <a href="https://accrogora.herokuapp.com/connect/twitch">
-      //       Recharger la page
-      //     </a>
-      //     <button className="accropolis__logout-btn" onClick={logOut}>Se déconnecter</button>
-      //   </div>
-      // ) 
+      : (isLogged && !authorized) ? (
+        <div className="accropolis__login">
+          <h2>Compté créé avec succès...</h2>
+          <p>
+            Contactez un admin pour accéder à l'interface de contrôle<br/>
+            Puis rechargez cette page
+          </p>
+          <button className="accropolis__logout-btn" onClick={() => {
+            if (socket) {
+              setLoading(true)
+              socket.auth.token = localStorage.getItem('jwt');
+              socket.connect()
+            }
+          }}>
+            Recharger la page
+          </button>
+          <br/>
+          <button className="accropolis__logout-btn" onClick={logOut}>Se déconnecter</button>
+        </div>
+      ) 
+      : loading ? (
+        <>
+          <div className="accropolis__login">
+              <LogoTwitch size={150} />
+              <div className="login__content">
+                <p>Bienvenue {localStorage.getItem('username')}, vous êtes connecté!</p>
+                <button className="accropolis__logout-btn" onClick={logOut}>Déconnecter</button>
+              </div>
+            </div>
+          <div className="lds-dual-ring">
+            {/* Empty */}
+          </div>
+        </>
+      )
       : (
         <>
           <div className="accropolis__login">
