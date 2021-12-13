@@ -36,7 +36,7 @@ function TopBackground({color, visible}) {
       style={{
         backgroundImage: `linear-gradient(80deg, hsl(${actualColor.H}, ${actualColor.S}%, ${_.clamp(actualColor.L + 5, 0, 100)}%) 0%, hsl(${actualColor.H}, ${
           actualColor.S
-        }%, ${clamp(actualColor.L - 5, 0, 100)}%) 100%)`,
+        }%, ${_.clamp(actualColor.L - 5, 0, 100)}%) 100%)`,
       }}
     >
       {/* Silence is golden... */}
