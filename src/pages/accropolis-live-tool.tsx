@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { fetchQuery } from 'utils/utils';
 import { getDeputesAccropolis, getDeputeAccropolis } from "../lib/deputes/Wrapper"
-import Accropolis from "components/accropolis/Accropolis"
 import Controls from "components/accropolis/Controls"
 import { useRouter } from "next/router"
 import controlsStyles from "components/accropolis/ControlsStyles.module.scss"
@@ -10,6 +9,7 @@ import { gsap } from "gsap"
 import io from 'socket.io-client';
 import mapStore from "src/stores/mapStore"
 import jsonwebtoken from "jsonwebtoken"
+import DeputeBanner from "src/components/accropolis/DeputeBanner";
 // import accropolisStore from "src/stores/accropolisStore";
 
 // Constantes
@@ -43,7 +43,6 @@ function useSocket(url, setLoading, setAuthorized, isLogged) {
     const socketIo = io(url, {
       auth: {token: localStorage.getItem('jwt')}
     })
-    console.log('socketIo', socketIo)
     setSocket(socketIo)
 
     socketIo.on('connect_error', (err) => {
@@ -75,7 +74,7 @@ function useSocket(url, setLoading, setAuthorized, isLogged) {
 
 // Component
 /*----------------------------------------------------*/
-export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
+export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, strapiGovernment}) {
   const router = useRouter()
 
   // Core component states
@@ -86,7 +85,6 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   
   // Banner states
   const [activeDepute, setActiveDepute] = useState(accroDeputes[0].Depute)
-  // const {activeDepute, setActiveDepute} = accropolisStore();
   const [activeDeputeIndex, setActiveDeputeIndex] = useState(null);
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
@@ -95,7 +93,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   const [question, setQuestion] = useState('')
   const [mapOpacity, setMapOpacity] = useState({value: 0})
   const refMapOpacity = {value: 1}
-  const { overview, setOverview } = mapStore()
+  const { overview } = mapStore()
 
   const strapiURI = 'https://accrogora.herokuapp.com'
   // const strapiURI = 'http://localhost:1337'
@@ -107,7 +105,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
   /*----------------------------------------------------*/
   useEffect(() => {
     // Do not emit if question is empty (when we change deputy)
-    if (socket && question.length > 0) {
+    if (socket) {
       socket.emit('question', question)
     }
   }, [question])
@@ -123,12 +121,14 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
       })
 
       // When deputy is changed
-      socket.on('depute_read', depute => {
-        console.log('on depute_read', depute.Slug)
+      socket.on('depute_read', (depute, type = 'dep') => {
         // Modifies depute
-        setActiveDepute(depute)
+        console.log('type', type)
+        setActiveDepute(Object.assign({}, depute, {type: type}))
         // Reset question
-        setQuestion('')
+        if (type === 'dep') {
+          setQuestion('')
+        }
       })
     }
   }, [socket])
@@ -173,15 +173,15 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
       })
     })
     
-    olderTL.to(`.${deputeBannerStyles.deputeBanner__questionInner}`, {
-      x: '-100%',
-      ease: 'power1.in',
-      duration: 0.5,
-    })
-    olderTL.to(`.${deputeBannerStyles.deputeBanner__topBackground}`, {
-      scaleX: 0,
-      ease: 'power1.in',
-    })
+    // olderTL.to(`.${deputeBannerStyles.deputeBanner__questionInner}`, {
+    //   x: '-100%',
+    //   ease: 'power1.in',
+    //   duration: 0.5,
+    // })
+    // olderTL.to(`.${deputeBannerStyles.deputeBanner__topBackground}`, {
+    //   scaleX: 0,
+    //   ease: 'power1.in',
+    // })
     // olderTL.to(`.${deputeBannerStyles.deputeBanner__questionNumber}`, {
     //   x: '100%',
     //   ease: 'power1.in',
@@ -209,12 +209,13 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
     })
     return olderTL
   }
-  const cycleDeputeCard = (event, depute) => {
+  const cycleBannerContent = (event, people, type = 'dep') => {
     if (event) { event.preventDefault() }
     if (currentAnimation.animation) {
       currentAnimation.animation.kill();
       if (currentAnimation.type === 'older') {
-        socket.emit('depute_write', depute)
+        socket.emit('depute_write', people, type)
+        socket.emit('overview', overview)
         return
       }
     }
@@ -222,7 +223,8 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
     // After timeline
     const olderTL = olderBannerAnimation(setCurrentAnimation)
     olderTL.call(() => {
-      socket.emit('depute_write', depute)
+      socket.emit('depute_write', people, type)
+      socket.emit('overview', overview)
     }, [], '+=0.2')
     olderTL.play()
   }
@@ -361,11 +363,13 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
                 Plein
               </button>
             </div>
-            <Accropolis
-              accroDeputes={accroDeputes}
-              depute={activeDepute}
+            <DeputeBanner
               debug={debug}
-              activeDeputeIndex={activeDeputeIndex}
+              depute={activeDepute}
+              currentAnimation={currentAnimation}
+              setCurrentAnimation={setCurrentAnimation}
+              mapOpacity={mapOpacity}
+              setMapOpacity={setMapOpacity}
               question={question}
             />
           </div>
@@ -377,10 +381,11 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
               deputes={allAccroDeputes}
               activeDepute={activeDepute}
               activeDeputeIndex={activeDeputeIndex}
-              cycleDeputeCard={cycleDeputeCard}
+              cycleBannerContent={cycleBannerContent}
               currentAnimation={currentAnimation}
               setCurrentAnimation={setCurrentAnimation}
               olderBannerAnimation={olderBannerAnimation}
+              government={strapiGovernment}
             />
           </div>
         </>
@@ -391,6 +396,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes}) {
 
 async function getServerSideProps() {
   const strapiDeputes = await fetchQuery('deputes')
+  const strapiGovernment = await fetchQuery('governments')
   const accroDeputes = await Promise.all(strapiDeputes.map(async depute => {
     return await getDeputeAccropolis(depute.Depute_name)
   }))
@@ -400,7 +406,8 @@ async function getServerSideProps() {
     props: {
       title: "Live Tool",
       accroDeputes,
-      allAccroDeputes
+      allAccroDeputes,
+      strapiGovernment
     },
   }
 }

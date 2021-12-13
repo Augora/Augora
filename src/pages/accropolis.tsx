@@ -37,7 +37,6 @@ export default function Accropolis({accroDeputes}) {
   const [question, setQuestion] = useState('')
   const [mapOpacity, setMapOpacity] = useState({value: 0})
   const [activeDepute, setActiveDepute] = useState(null)
-  const [dindex, setDindex] = useState(null);
   const refMapOpacity = {value: 1}
   const { overview, setOverview } = mapStore()
 
@@ -51,20 +50,14 @@ export default function Accropolis({accroDeputes}) {
     if (socket) {
       socket.on('connect', () => {
         socket.emit('message', 'CONNEXION : accropolis.tsx')
-        // socket.emit('req_depute')
       })
       socket.on('message', message => {
           console.log('message Socket : ',message)
       })
-      socket.on('depute_read', depute => {
-        console.log('on depute_read : ', depute.Slug)
-        // const rindex = accroDeputes.findIndex(d => {
-        //   return d.Depute.Slug === depute.Slug
-        // })
-
+      socket.on('depute_read', (depute, type) => {
         // Launch disappearing animation
-        // const olderTL = olderBannerAnimation(setCurrentAnimation, depute, rindex >= 0 ? rindex + 1 : null)
-        const olderTL = olderBannerAnimation(setCurrentAnimation, depute)
+        const deputeWithType = Object.assign({}, depute, {type: type})
+        const olderTL = olderBannerAnimation(setCurrentAnimation, deputeWithType)
         olderTL.play()
       })
       socket.on('question', question => {
@@ -72,9 +65,6 @@ export default function Accropolis({accroDeputes}) {
       })
       socket.on('overview', overview => {
         setOverview(overview)
-      })
-      socket.on('resp_depute', depute => {
-        setActiveDepute(depute)
       })
     }
   }, [socket])
@@ -99,17 +89,13 @@ export default function Accropolis({accroDeputes}) {
       })
     })
     
-    olderTL.to(`.${deputeBannerStyles.deputeBanner__questionInner}`, {
-      x: '-100%',
-      ease: 'power1.in',
-      duration: 0.5,
-    })
-    olderTL.to(`.${deputeBannerStyles.deputeBanner__topBackground}`, {
-      scaleX: 0,
-      ease: 'power1.in',
-    })
-    // olderTL.to(`.${deputeBannerStyles.deputeBanner__questionNumber}`, {
-    //   x: '100%',
+    // olderTL.to(`.${deputeBannerStyles.deputeBanner__questionInner}`, {
+    //   x: '-100%',
+    //   ease: 'power1.in',
+    //   duration: 0.5,
+    // })
+    // olderTL.to(`.${deputeBannerStyles.deputeBanner__topBackground}`, {
+    //   scaleX: 0,
     //   ease: 'power1.in',
     // })
     olderTL.to(`.${deputeBannerStyles.deputeBanner__content} > *`, {
@@ -135,8 +121,6 @@ export default function Accropolis({accroDeputes}) {
     })
     olderTL.call(() => {
         setActiveDepute(depute)
-        // setDindex(index)
-        setOverview(false)
     })
     return olderTL
   }
@@ -146,15 +130,13 @@ export default function Accropolis({accroDeputes}) {
   return activeDepute ? (
       <DeputeBanner
         debug={false}
-        // numberOfQuestions={accroDeputes.length}
         depute={activeDepute}
-        // depute={activeDepute ? activeDepute : accroDeputes[deputeCurrentCard].Depute}
-        // index={dindex}
         currentAnimation={currentAnimation}
         setCurrentAnimation={setCurrentAnimation}
         mapOpacity={mapOpacity}
         setMapOpacity={setMapOpacity}
         question={question}
+        forcedOverview={overview}
       />
   ) : null
 }
@@ -168,7 +150,6 @@ async function getServerSideProps() {
   return {
     props: {
       accroDeputes,
-      // pageBlank: true,
     },
   }
 }

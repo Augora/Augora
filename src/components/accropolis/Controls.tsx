@@ -12,48 +12,70 @@ export default function Controls({
   setQuestion,
   accroDeputes,
   deputes,
-  cycleDeputeCard,
+  cycleBannerContent,
   activeDepute,
   activeDeputeIndex,
   currentAnimation,
   setCurrentAnimation,
-  olderBannerAnimation
+  olderBannerAnimation,
+  government
 }) {
-  const [search, setSearch] = useState("")
+  const [deputeSearch, setDeputeSearch] = useState("")
+  const [governmentSearch, setGovernmentSearch] = useState("")
   const [searchedDeputes, setSearchedDeputes] = useState([])
+  const [searchedGovernments, setSearchedGovernments] = useState([])
   const { overview, setOverview } = mapStore()
   // const {activeDepute, setActiveDepute} = accropolisStore();
 
   // Search
   /*----------------------------------------------------*/
   useEffect(() => {
-    if (search.length > 0) {
-      verify(search)
+    if (deputeSearch.length > 0) {
+      verify(deputeSearch, deputes)
     } else {
       setSearchedDeputes([])
     }
-  }, [search])
+  }, [deputeSearch])
+  useEffect(() => {
+    if (governmentSearch.length > 0) {
+      verify(governmentSearch, government)
+    } else {
+      setSearchedGovernments([])
+    }
+  }, [governmentSearch])
 
   const verify = useCallback(
-    debounce((value) => {
-      const filteredDeputes = deputes.DeputesEnMandat.data.filter((depute) => {
-        return (
-          slugify(depute.NomDeFamille).includes(slugify(value)) ||
-          slugify(depute.Prenom).includes(slugify(value)) ||
-          slugify(depute.Nom).includes(slugify(value))
-        )
-      })
-      setSearchedDeputes(filteredDeputes)
+    debounce((value, data) => {
+      if (data.hasOwnProperty('DeputesEnMandat')) {
+        const filteredResults = data.DeputesEnMandat.data.filter((people) => {
+          return (
+            slugify(people.NomDeFamille).includes(slugify(value)) ||
+            slugify(people.Prenom).includes(slugify(value)) ||
+            slugify(people.Nom).includes(slugify(value))
+          )
+        })
+        setSearchedDeputes(filteredResults)
+      } else {
+        const filteredResults = data.filter((people) => {
+          const fullname = slugify(people.firstname) + ' ' + slugify(people.lastname)
+          return (
+            slugify(people.firstname).includes(slugify(value)) ||
+            slugify(people.lastname).includes(slugify(value)) ||
+            slugify(fullname).includes(slugify(value))
+          )
+        })
+        setSearchedGovernments(filteredResults)
+      }
     }, 500),
     []
   )
 
-  const handleSearch = (event, depute) => {
+  const loadSearchedResult = (event, people, type) => {
     event.preventDefault()
     if (currentAnimation.animation) {
       currentAnimation.animation.kill()
       if (currentAnimation.type === "older") {
-        cycleDeputeCard(event, depute)
+        cycleBannerContent(event, people, type)
       }
     }
 
@@ -61,8 +83,9 @@ export default function Controls({
     const olderTL = olderBannerAnimation(setCurrentAnimation)
     olderTL.call(
       () => {
-        cycleDeputeCard(event, depute)
-        setSearch("")
+        cycleBannerContent(event, people, type)
+        setDeputeSearch("")
+        setGovernmentSearch("")
       },
       [],
       "+=0.2"
@@ -74,59 +97,22 @@ export default function Controls({
   /*----------------------------------------------------*/
   return (
     <div className={styles.accropolis__controls}>
-      <div className="controls__question">
-        <h2>Question</h2>
-        <textarea
-          value={question}
-          rows={5}
-          onChange={(e) => {
-            if (e.target.value.length < 100) setQuestion(e.target.value)
-          }}
-        />
+      <div className={`${styles.controls__block} ${styles.controls__selected}`}>
+        {activeDepute ? (
+          <p className={`${styles.navigation__activeDepute}`}>
+            Député/Membre du gouvernement sélectionné : <span style={{ color: activeDepute.GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
+          </p>
+        ) : null}
       </div>
-      <div className="controls__map">
-        <h2>Carte</h2>
-        <button className={`${styles.btn}`} onClick={() => setOverview(!overview)}>
-          {overview ? "Zoomer" : "Dézoomer"}
-        </button>
-      </div>
-      <div className="controls__navigation">
-        <h2>Navigation</h2>
+      <div className={`${styles.controls__block} ${styles.controls__navigation}`}>
+        <h2>Députés</h2>
         <div className={`${styles.controls__form}`}>
-          <button
-            className={`${styles.navigation__prev} ${styles.btn}`}
-            onClick={() => {
-              cycleDeputeCard(
-                null,
-                activeDeputeIndex - 1 > 0
-                  ? accroDeputes[activeDeputeIndex - 1].Depute
-                  : accroDeputes[accroDeputes.length - 1].Depute
-              )
-            }}
-          >
-            <div className="icon-wrapper">
-              <IconChevron />
-            </div>
-          </button>
-          <button
-            className={`${styles.navigation__next} ${styles.btn}`}
-            onClick={() => {
-              cycleDeputeCard(
-                null,
-                activeDeputeIndex + 1 < accroDeputes.length ? accroDeputes[activeDeputeIndex + 1].Depute : accroDeputes[0].Depute
-              )
-            }}
-          >
-            <div className="icon-wrapper">
-              <IconChevron />
-            </div>
-          </button>
           <div className={`${styles.navigation__search}`}>
             <input
               className={`${styles.navigation__searchField}`}
               type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={deputeSearch}
+              onChange={(e) => setDeputeSearch(e.target.value)}
             />
             {searchedDeputes.length ? (
               <div className={`${styles.navigation__searchResults}`}>
@@ -134,55 +120,21 @@ export default function Controls({
                   <button
                     className={`${styles.search__depute}`}
                     style={{ backgroundColor: d.GroupeParlementaire.Couleur }}
-                    onClick={(e) => handleSearch(e, d)}
+                    onClick={(e) => loadSearchedResult(e, d, 'dep')}
                     key={`search-depute-${d.Slug}`}
                   >
                     {d.Nom}
                   </button>
                 ))}
               </div>
-            ) : null}
-            {activeDepute ? (
-              <p className={`${styles.navigation__activeDepute}`}>
-                Député sélectionné : <span style={{ color: activeDepute.GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
-              </p>
-            ) : null}
+            ) : deputeSearch.length && !searchedDeputes.length ? (
+              <div className={`${styles.navigation__searchResults}`}>
+                Aucun résultat
+              </div>
+            ) : null }
           </div>
-          <button
-            className="navigation__gouvernement"
-            onClick={() => {
-              cycleDeputeCard(null, {
-                GroupeParlementaire: {
-                  Couleur: "hsl(203, 68%, 54%)",
-                  CouleurDetail: {
-                    HSL: {
-                      Full: "hsl(203, 68%, 54%)",
-                      H: 203,
-                      S: 68,
-                      L: 54,
-                    },
-                    RGB: {
-                      Full: "rgb(58, 156, 217)",
-                      R: 58,
-                      G: 156,
-                      B: 217,
-                    },
-                  },
-                  Sigle: "LREM",
-                },
-                Nom: "Gouvernement Français",
-                NomDeFamille: "Français",
-                NomRegion: "France",
-                Prenom: "Gouvernement",
-                Slug: "gouvernement",
-              })
-            }}
-          >
-            <IconGroup width={30} />
-            Gouvernement
-          </button>
         </div>
-        <div className={styles.accropolis__navigation}>
+        <div className={styles.accropolis__navigation} style={{ display: 'none' }}>
           {accroDeputes.map((depute, index) => {
             depute = depute.Depute
             return (
@@ -190,7 +142,7 @@ export default function Controls({
                 className={`${styles.navigation__btn} ${depute.Slug === activeDepute.Slug ? styles.navigation__active : ""}`}
                 key={`btn-accropolis-nav-${index}`}
                 onClick={(e) => {
-                  cycleDeputeCard(e, depute)
+                  cycleBannerContent(e, depute)
                 }}
                 style={{
                   backgroundColor: depute.GroupeParlementaire.Couleur,
@@ -208,6 +160,111 @@ export default function Controls({
             )
           })}
         </div>
+      </div>
+      <div className={`${styles.controls__block} ${styles.controls__government}`}>
+        <h2>Gouvernement</h2>
+        <button
+          style={{ display: 'none' }}
+          className={`${styles.navigation__gouvernment}`}
+          onClick={() => {
+            cycleBannerContent(null, {
+              GroupeParlementaire: {
+                Couleur: "hsl(203, 68%, 54%)",
+                CouleurDetail: {
+                  HSL: {
+                    Full: "hsl(203, 68%, 54%)",
+                    H: 203,
+                    S: 68,
+                    L: 54,
+                  },
+                  RGB: {
+                    Full: "rgb(58, 156, 217)",
+                    R: 58,
+                    G: 156,
+                    B: 217,
+                  },
+                },
+                Sigle: "LREM",
+              },
+              Nom: "Gouvernement Français",
+              NomDeFamille: "Français",
+              NomRegion: "France",
+              Prenom: "Gouvernement",
+              Slug: "gouvernement",
+            }, 'gov')
+          }}
+        >
+          <IconGroup width={30} />
+          <span>Gouvernement générique</span>
+        </button>
+        <div className={`${styles.controls__form}`}>
+          <div className={`${styles.navigation__search}`}>
+            <input
+              className={`${styles.navigation__searchField}`}
+              type="text"
+              value={governmentSearch}
+              onChange={(e) => setGovernmentSearch(e.target.value)}
+            />
+            {searchedGovernments.length ? (
+              <div className={`${styles.navigation__searchResults}`}>
+                {searchedGovernments.map((gov) => (
+                  <button
+                    className={`${styles.search__depute}`}
+                    style={{ backgroundColor: "rgb(58, 156, 217)" }}
+                    onClick={(e) => loadSearchedResult(e, {
+                        GroupeParlementaire: {
+                          Couleur: "hsl(203, 68%, 54%)",
+                          CouleurDetail: {
+                            HSL: {
+                              Full: "hsl(203, 68%, 54%)",
+                              H: 203,
+                              S: 68,
+                              L: 54,
+                            },
+                            RGB: {
+                              Full: "rgb(58, 156, 217)",
+                              R: 58,
+                              G: 156,
+                              B: 217,
+                            },
+                          },
+                          Sigle: "LREM",
+                        },
+                        Nom: `${gov.firstname} ${gov.lastname}`,
+                        NomDeFamille: gov.lastname,
+                        NomRegion: "France",
+                        Prenom: gov.firstname,
+                        Slug: "gouvernement",
+                      }, 'gov')}
+                    key={`search-government-${slugify(gov.firstname.toLowerCase())} ${slugify(gov.lastname.toLowerCase())}`}
+                  >
+                    {gov.firstname} {gov.lastname}
+                  </button>
+                ))}
+              </div>
+            ) : governmentSearch.length && !searchedGovernments.length ? (
+              <div className={`${styles.navigation__searchResults}`}>
+                Aucun résultat
+              </div>
+            ) : null }
+          </div>
+        </div>
+      </div>
+      <div className={`${styles.controls__block} ${styles.controls__question}`}>
+        <h2>Question</h2>
+        <textarea
+          value={question}
+          rows={5}
+          onChange={(e) => {
+            if (e.target.value.length < 100) setQuestion(e.target.value)
+          }}
+        />
+      </div>
+      <div className={`${styles.controls__block} ${styles.controls__map}`}>
+        <h2>Carte</h2>
+        <button className={`${styles.btn}`} onClick={() => setOverview(!overview)}>
+          {overview ? "Zoomer" : "Dézoomer"}
+        </button>
       </div>
     </div>
   )

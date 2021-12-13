@@ -6,6 +6,8 @@ import mapStore from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
 import { createFeatureCollection, getFeature, getLayerPaint, MetroFeature } from "components/maps/maps-utils"
 import _ from "lodash"
+import Question from "./DeputeBanner/Question"
+import TopBackground from "./DeputeBanner/TopBackground"
 
 // Rectangles
 const numberOfRect = 30
@@ -22,14 +24,13 @@ const getRandomArbitrary = (min, max, round = 0) => {
 
 export default function DeputeBanner({
   debug,
-  // numberOfQuestions,
   depute,
-  // index,
   currentAnimation,
   setCurrentAnimation,
   mapOpacity,
   setMapOpacity,
   question,
+  forcedOverview = false
 }) {
   const { viewport, setViewport, overview } = mapStore()
   const [rectangles, setRectangles] = useState([])
@@ -45,9 +46,8 @@ export default function DeputeBanner({
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
   const GroupeLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
-  const [currentQuestionTL, setCurrentQuestionTL] = useState(null)
   const [oldDepute, setOldDepute] = useState(depute)
-  const [oldHSL, setOldHSL] = useState(HSL)
+  const [oldHSL, setOldHSL] = useState(null)
   const [oldRGB, setOldRGB] = useState(RGB)
 
   // When we change the banner content
@@ -68,44 +68,17 @@ export default function DeputeBanner({
       }
       return rects
     })
-
-    // Hide question
-    if (currentQuestionTL) {
-      if (!question) {
-        currentQuestionTL.kill()
-        setCurrentQuestionTL(null)
-      }
-      const hideQuestionTL = gsap.timeline({
-        onComplete: () => {
-          currentQuestionTL.kill()
-          setCurrentQuestionTL(null)
-          hideQuestionTL.kill()
-
-          const renderTL = renderAnimation(currentAnimation)
-          renderTL.set(`.${styles.deputeBanner__bottomBackgroundTransition}`, {
-            scaleX: 0,
-          })
-          renderTL.play()
-        },
-      })
-      hideQuestionTL.addLabel("hideQuestionTL")
-      hideQuestionTL.to(`.${styles.deputeBanner__questionInner}`, {
-        x: "-100%",
-        ease: "power1.in",
-        duration: 0.5,
-      })
-      hideQuestionTL.to(`.${styles.deputeBanner__topBackground}`, {
-        scaleX: 0,
-        ease: "power1.in",
-      })
-      hideQuestionTL.play()
-    } else {
-      const renderTL = renderAnimation(currentAnimation)
-      renderTL.set(`.${styles.deputeBanner__bottomBackgroundTransition}`, {
-        scaleX: 0,
-      })
-      renderTL.play()
+    console.log('DeputeBanner depute type : ', depute.type)
+    console.log(depute.type)
+    if (depute.type === 'dep') {
+      setOldHSL(HSL)
     }
+
+    const renderTL = renderAnimation(currentAnimation)
+    renderTL.set(`.${styles.deputeBanner__bottomBackgroundTransition}`, {
+      scaleX: 0,
+    })
+    renderTL.play()
   }, [depute])
 
   // Reveal animation
@@ -136,20 +109,12 @@ export default function DeputeBanner({
       )
     })
 
-    // If initial state (no anim) hide question background
-    if (!currentQuestionTL) {
-      renderTL.set(`.${styles.deputeBanner__topBackground}`, {
-        scaleX: 0,
-      })
-    }
-
     // Display component
     renderTL.to(`.${styles.deputeBanner__bottomBackgroundTransition}`, {
       scaleX: 1,
       ease: "power1.in",
     })
-    renderTL.fromTo(
-      `.${styles.deputeBanner__logoGroup}`,
+    renderTL.fromTo(`.${styles.deputeBanner__logoGroup}`,
       {
         x: "-100px",
         autoAlpha: 0,
@@ -161,8 +126,7 @@ export default function DeputeBanner({
         ease: "power1.inOut",
       }
     )
-    renderTL.to(
-      `.${styles.deputeBanner__content} > *`,
+    renderTL.to(`.${styles.deputeBanner__content} > *`,
       {
         x: "0%",
         autoAlpha: 1,
@@ -170,15 +134,6 @@ export default function DeputeBanner({
       },
       "-=0.2"
     )
-    // renderTL.to(
-    //   `.${styles.deputeBanner__questionNumber}`,
-    //   {
-    //     x: "0%",
-    //     ease: "power1.out",
-    //     duration: 0.4,
-    //   },
-    //   "+=1"
-    // )
 
     // Map opacity transition
     renderTL.to(
@@ -203,29 +158,6 @@ export default function DeputeBanner({
     return renderTL
   }
 
-  // Question dynamique
-  /*----------------------------------------------------*/
-  useEffect(() => {
-    if (!currentQuestionTL && question.length) {
-      const questionTL = gsap.timeline()
-      questionTL.addLabel("questionTL")
-
-      questionTL.to(`.${styles.deputeBanner__topBackground}`, {
-        scaleX: 1,
-      })
-      questionTL.to(
-        `.${styles.deputeBanner__questionInner}`,
-        {
-          x: "0%",
-        },
-        1
-      )
-
-      setCurrentQuestionTL(questionTL)
-      questionTL.play()
-    }
-  }, [question])
-
   // Render
   /*----------------------------------------------------*/
   return (
@@ -245,29 +177,8 @@ export default function DeputeBanner({
 
       {/* TOP PART -------------------------------------------------------------------------------- */}
       <section className={styles.deputeBanner__top}>
-        <div
-          className={styles.deputeBanner__topBackground}
-          style={{
-            backgroundImage: `linear-gradient(80deg, hsl(${HSL.H}, ${HSL.S}%, ${_.clamp(HSL.L + 5, 0, 100)}%) 0%, hsl(${HSL.H}, ${
-              HSL.S
-            }%, ${_.clamp(HSL.L - 5, 0, 100)}%) 100%)`,
-            // backgroundColor: `hsl(${HSL.H}, ${_.clamp(HSL.S - 5, 0, 100)}%, ${_.clamp(HSL.L - 7, 0, 100)}%)`,
-          }}
-        >
-          {/* Silence is golden... */}
-        </div>
-        <div className={styles.deputeBanner__question}>
-          <div className={styles.deputeBanner__questionInner}>{question}</div>
-        </div>
-        {/* {index ? (
-          <div className={styles.deputeBanner__questionNumber}>
-            <span>
-              Question {index < 10 ? "0" : null}
-              {index} / {numberOfQuestions < 10 ? "0" : null}
-              {numberOfQuestions}
-            </span>
-          </div>
-        ) : null} */}
+        <TopBackground color={depute.type === 'dep' || !oldHSL ? HSL : oldHSL} visible={question.length > 0} />
+        <Question question={question} visible={question.length > 0} />
       </section>
 
       {/* BOTTOM PART ------------------------------------------------------------------------------ */}
@@ -352,7 +263,7 @@ export default function DeputeBanner({
             setViewport={setViewport}
             overlay={false}
             attribution={false}
-            overview={overview}
+            overview={forcedOverview ? forcedOverview : overview}
             borders={true}
             mapView={{
               geoJSON: createFeatureCollection([feature]),

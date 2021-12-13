@@ -4,10 +4,14 @@
   // Controls
   &__controls {
     padding: 20px;
-    width: 1920px;
+    width: 100%;
     margin-top: 20px;
 
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(100px, 1fr);
+    grid-gap: 10px;
+    grid-template-rows: masonry;
     flex-wrap: wrap;
 
     // Question live dymanique
@@ -15,12 +19,12 @@
       resize: none;
     }
 
-    & > div:not(:last-child) {
-      min-width: calc(20% - 50px);
-      margin-right: 50px;
-      padding-right: 50px;
-      border-right: solid 1px grey;
-    }
+    // & > div:not(:last-child) {
+    //   min-width: calc(20% - 50px);
+    //   margin-right: 50px;
+    //   padding-right: 50px;
+    //   border-right: solid 1px grey;
+    // }
   }
   &__navigation {
     display: flex;
@@ -32,6 +36,40 @@
   &__form {
     display: flex;
     align-items: center;
+  }
+
+  // Blocks
+  /*----------------------------------------------------*/
+  &__block {
+    padding: 10px;
+    border: solid 2px rgba(black, 0.1);
+    transition: border-color 0.2s $ease-in-out-cubic;
+    border-radius: 5px;
+    &:hover {
+      border-color: rgba(black, 0.5);
+    }
+
+    @media (max-width: 1200px) {
+      grid-column-end: span 2;
+    }
+  }
+  &__selected {
+    grid-column-end: span 4;
+    p {
+      margin: 0;
+    }
+  }
+  &__question {
+    grid-row: 2 / span 1;
+  }
+  &__map {
+    grid-row: 2 / span 1;
+  }
+  &__navigation {
+    grid-row: 2 / span 1;
+  }
+  &__government {
+    grid-row: 2 / span 1;
   }
 }
 
@@ -89,7 +127,6 @@ $button-color: black;
   }
   &__search {
     position: relative;
-    margin-left: 20px;
   }
   &__searchResults {
     display: flex;
@@ -100,6 +137,8 @@ $button-color: black;
     z-index: 1;
     padding: 10px;
     background: #ccc;
+    max-height: 400px;
+    overflow-y: scroll;
   }
   &__searchField {
     padding: 20px;
@@ -108,7 +147,7 @@ $button-color: black;
     border-radius: 5px;
   }
   &__activeDepute {
-    //
+    display: block;
   }
   &__number {
     font-size: 20px;
@@ -137,6 +176,14 @@ $button-color: black;
     }
     span {
       animation: blink 1s infinite;
+    }
+  }
+  &__gouvernment {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    span {
+      margin-left: 10px;
     }
   }
 }
