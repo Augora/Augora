@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import styles from "./Question.module.scss"
 import { gsap } from "gsap"
 

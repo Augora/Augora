@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from "./TopBackground.module.scss"
 import { gsap } from "gsap"
-import { clamp } from "lodash"
+import _ from "lodash"
 
 function TopBackground({color, visible}) {
   const [actualColor, setActualColor] = useState(color)
