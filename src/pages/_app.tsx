@@ -6,7 +6,6 @@ import { ApolloProvider } from "@apollo/client"
 import sortBy from "lodash/sortBy"
 
 import Layout from "components/layout"
-import Accropolis from "components/accropolis/Accropolis"
 import client from "lib/faunadb/client"
 import { hydrateStoreWithInitialLists } from "stores/deputesStore"
 
