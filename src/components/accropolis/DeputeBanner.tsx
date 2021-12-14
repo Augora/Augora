@@ -68,8 +68,6 @@ export default function DeputeBanner({
       }
       return rects
     })
-    console.log('DeputeBanner depute type : ', depute.type)
-    console.log(depute.type)
     if (depute.type === 'dep') {
       setOldHSL(HSL)
     }
