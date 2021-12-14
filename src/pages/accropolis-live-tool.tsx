@@ -95,8 +95,8 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, stra
   const refMapOpacity = {value: 1}
   const { overview } = mapStore()
 
-  // const strapiURI = 'https://accrogora.herokuapp.com'
-  const strapiURI = 'http://localhost:1337'
+  const strapiURI = 'https://accrogora.herokuapp.com'
+  // const strapiURI = 'http://localhost:1337'
 
   // Websockets state
   const socket = useSocket(`${strapiURI}/writer`, setLoading, setAuthorized, isLogged)
