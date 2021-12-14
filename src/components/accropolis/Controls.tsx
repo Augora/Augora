@@ -161,42 +161,18 @@ export default function Controls({
           })}
         </div>
       </div>
+      <div className={`${styles.controls__block} ${styles.controls__question}`}>
+        <h2>Question</h2>
+        <textarea
+          value={question}
+          rows={5}
+          onChange={(e) => {
+            if (e.target.value.length < 100) setQuestion(e.target.value)
+          }}
+        />
+      </div>
       <div className={`${styles.controls__block} ${styles.controls__government}`}>
         <h2>Gouvernement</h2>
-        <button
-          style={{ display: 'none' }}
-          className={`${styles.navigation__gouvernment}`}
-          onClick={() => {
-            cycleBannerContent(null, {
-              GroupeParlementaire: {
-                Couleur: "hsl(203, 68%, 54%)",
-                CouleurDetail: {
-                  HSL: {
-                    Full: "hsl(203, 68%, 54%)",
-                    H: 203,
-                    S: 68,
-                    L: 54,
-                  },
-                  RGB: {
-                    Full: "rgb(58, 156, 217)",
-                    R: 58,
-                    G: 156,
-                    B: 217,
-                  },
-                },
-                Sigle: "LREM",
-              },
-              Nom: "Gouvernement Français",
-              NomDeFamille: "Français",
-              NomRegion: "France",
-              Prenom: "Gouvernement",
-              Slug: "gouvernement",
-            }, 'gov')
-          }}
-        >
-          <IconGroup width={30} />
-          <span>Gouvernement générique</span>
-        </button>
         <div className={`${styles.controls__form}`}>
           <div className={`${styles.navigation__search}`}>
             <input
@@ -235,6 +211,8 @@ export default function Controls({
                         NomRegion: "France",
                         Prenom: gov.firstname,
                         Slug: "gouvernement",
+                        Office: gov.main_office,
+                        RattOffice: gov.ratt_offices
                       }, 'gov')}
                     key={`search-government-${slugify(gov.firstname.toLowerCase())} ${slugify(gov.lastname.toLowerCase())}`}
                   >
@@ -249,16 +227,6 @@ export default function Controls({
             ) : null }
           </div>
         </div>
-      </div>
-      <div className={`${styles.controls__block} ${styles.controls__question}`}>
-        <h2>Question</h2>
-        <textarea
-          value={question}
-          rows={5}
-          onChange={(e) => {
-            if (e.target.value.length < 100) setQuestion(e.target.value)
-          }}
-        />
       </div>
       <div className={`${styles.controls__block} ${styles.controls__map}`}>
         <h2>Carte</h2>
