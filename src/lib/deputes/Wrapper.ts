@@ -27,6 +27,7 @@ export function getDeputes() {
             PlaceEnHemicycle
             Prenom
             Profession
+            RattachementFinancier
             Sexe
             Slug
             Twitter
