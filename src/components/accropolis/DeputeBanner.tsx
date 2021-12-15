@@ -24,6 +24,7 @@ const getRandomArbitrary = (min, max, round = 0) => {
 
 export default function DeputeBanner({
   debug,
+  bannerState,
   depute,
   currentAnimation,
   setCurrentAnimation,

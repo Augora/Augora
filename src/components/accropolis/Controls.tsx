@@ -1,31 +1,28 @@
 import React, { useState, useEffect, useCallback } from "react"
 import styles from "./ControlsStyles.module.scss"
-import IconChevron from "images/ui-kit/icon-chevron.svg"
-import IconGroup from "images/ui-kit/icon-group.svg"
 import { slugify } from "utils/utils"
 import debounce from "lodash/debounce"
 import mapStore from "src/stores/mapStore"
-// import { getDeputeAccropolis } from "lib/deputes/Wrapper"
 
 export default function Controls({
+  socket,
   question,
   setQuestion,
-  accroDeputes,
   deputes,
   cycleBannerContent,
   activeDepute,
-  activeDeputeIndex,
   currentAnimation,
   setCurrentAnimation,
   olderBannerAnimation,
-  government
+  government,
+  bannerState,
+  setBannerState
 }) {
   const [deputeSearch, setDeputeSearch] = useState("")
   const [governmentSearch, setGovernmentSearch] = useState("")
   const [searchedDeputes, setSearchedDeputes] = useState([])
   const [searchedGovernments, setSearchedGovernments] = useState([])
   const { overview, setOverview } = mapStore()
-  // const {activeDepute, setActiveDepute} = accropolisStore();
 
   // Search
   /*----------------------------------------------------*/
@@ -70,12 +67,12 @@ export default function Controls({
     []
   )
 
-  const loadSearchedResult = (event, people, type) => {
+  const loadSearchedResult = (event, people) => {
     event.preventDefault()
     if (currentAnimation.animation) {
       currentAnimation.animation.kill()
       if (currentAnimation.type === "older") {
-        cycleBannerContent(event, people, type)
+        cycleBannerContent(event, people)
       }
     }
 
@@ -83,7 +80,7 @@ export default function Controls({
     const olderTL = olderBannerAnimation(setCurrentAnimation)
     olderTL.call(
       () => {
-        cycleBannerContent(event, people, type)
+        cycleBannerContent(event, people)
         setDeputeSearch("")
         setGovernmentSearch("")
       },
@@ -102,7 +99,15 @@ export default function Controls({
           <p className={`${styles.navigation__activeDepute}`}>
             Député/Membre du gouvernement sélectionné : <span style={{ color: activeDepute.GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
           </p>
-        ) : null}
+        ) : <p>Aucun député sélectionné</p>}
+      </div>
+      <div className={`${styles.controls__block} ${styles.controls__introutro}`}>
+        <button className={`${styles.controls__intro}`} onClick={() => socket.emit('bannerState', 'intro')}>
+          Intro
+        </button>
+        <button className={`${styles.controls__outro}`} onClick={() => socket.emit('bannerState', 'outro')}>
+          Outro
+        </button>
       </div>
       <div className={`${styles.controls__block} ${styles.controls__navigation}`}>
         <h2>Députés</h2>
@@ -116,14 +121,14 @@ export default function Controls({
             />
             {searchedDeputes.length ? (
               <div className={`${styles.navigation__searchResults}`}>
-                {searchedDeputes.map((d) => (
+                {searchedDeputes.map((depute) => (
                   <button
                     className={`${styles.search__depute}`}
-                    style={{ backgroundColor: d.GroupeParlementaire.Couleur }}
-                    onClick={(e) => loadSearchedResult(e, d, 'dep')}
-                    key={`search-depute-${d.Slug}`}
+                    style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}
+                    onClick={(e) => loadSearchedResult(e, Object.assign({}, depute, {type: 'dep'}))}
+                    key={`search-depute-${depute.Slug}`}
                   >
-                    {d.Nom}
+                    {depute.Nom}
                   </button>
                 ))}
               </div>
@@ -134,32 +139,6 @@ export default function Controls({
             ) : null }
           </div>
         </div>
-        <div className={styles.accropolis__navigation} style={{ display: 'none' }}>
-          {accroDeputes.map((depute, index) => {
-            depute = depute.Depute
-            return (
-              <button
-                className={`${styles.navigation__btn} ${depute.Slug === activeDepute.Slug ? styles.navigation__active : ""}`}
-                key={`btn-accropolis-nav-${index}`}
-                onClick={(e) => {
-                  cycleBannerContent(e, depute)
-                }}
-                style={{
-                  backgroundColor: depute.GroupeParlementaire.Couleur,
-                }}
-              >
-                <p className={styles.navigation__number}>{index + 1}</p>
-                <p className={styles.navigation__name}>
-                  {depute.Nom.replace(
-                    // Replace hyphens by non-line-breaking hyphen
-                    "-",
-                    String.fromCharCode(8209)
-                  )}
-                </p>
-              </button>
-            )
-          })}
-        </div>
       </div>
       <div className={`${styles.controls__block} ${styles.controls__question}`}>
         <h2>Question</h2>
@@ -167,7 +146,10 @@ export default function Controls({
           value={question}
           rows={5}
           onChange={(e) => {
-            if (e.target.value.length < 100) setQuestion(e.target.value)
+            if (e.target.value.length < 100) {
+              setQuestion(e.target.value)
+              socket.emit('question', e.target.value)
+            }
           }}
         />
       </div>
@@ -188,32 +170,33 @@ export default function Controls({
                     className={`${styles.search__depute}`}
                     style={{ backgroundColor: "rgb(58, 156, 217)" }}
                     onClick={(e) => loadSearchedResult(e, {
-                        GroupeParlementaire: {
-                          Couleur: "hsl(203, 68%, 54%)",
-                          CouleurDetail: {
-                            HSL: {
-                              Full: "hsl(203, 68%, 54%)",
-                              H: 203,
-                              S: 68,
-                              L: 54,
-                            },
-                            RGB: {
-                              Full: "rgb(58, 156, 217)",
-                              R: 58,
-                              G: 156,
-                              B: 217,
-                            },
+                      type: 'gov',
+                      GroupeParlementaire: {
+                        Couleur: "hsl(203, 68%, 54%)",
+                        CouleurDetail: {
+                          HSL: {
+                            Full: "hsl(203, 68%, 54%)",
+                            H: 203,
+                            S: 68,
+                            L: 54,
                           },
-                          Sigle: "LREM",
+                          RGB: {
+                            Full: "rgb(58, 156, 217)",
+                            R: 58,
+                            G: 156,
+                            B: 217,
+                          },
                         },
-                        Nom: `${gov.firstname} ${gov.lastname}`,
-                        NomDeFamille: gov.lastname,
-                        NomRegion: "France",
-                        Prenom: gov.firstname,
-                        Slug: "gouvernement",
-                        Office: gov.main_office,
-                        RattOffice: gov.ratt_offices
-                      }, 'gov')}
+                        Sigle: "LREM",
+                      },
+                      Nom: `${gov.firstname} ${gov.lastname}`,
+                      NomDeFamille: gov.lastname,
+                      NomRegion: "France",
+                      Prenom: gov.firstname,
+                      Slug: "gouvernement",
+                      Office: gov.main_office,
+                      RattOffice: gov.ratt_offices
+                    })}
                     key={`search-government-${slugify(gov.firstname.toLowerCase())} ${slugify(gov.lastname.toLowerCase())}`}
                   >
                     {gov.firstname} {gov.lastname}
@@ -230,7 +213,7 @@ export default function Controls({
       </div>
       <div className={`${styles.controls__block} ${styles.controls__map}`}>
         <h2>Carte</h2>
-        <button className={`${styles.btn}`} onClick={() => setOverview(!overview)}>
+        <button className={`${styles.btn}`} onClick={() => socket.emit('overview', !overview)}>
           {overview ? "Zoomer" : "Dézoomer"}
         </button>
       </div>

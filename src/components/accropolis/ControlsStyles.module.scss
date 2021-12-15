@@ -9,7 +9,7 @@
 
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(100px, 1fr);
+    grid-template-rows: 50px 60px 1fr;
     grid-gap: 10px;
     grid-template-rows: masonry;
     flex-wrap: wrap;
@@ -18,13 +18,6 @@
     textarea {
       resize: none;
     }
-
-    // & > div:not(:last-child) {
-    //   min-width: calc(20% - 50px);
-    //   margin-right: 50px;
-    //   padding-right: 50px;
-    //   border-right: solid 1px grey;
-    // }
   }
   &__navigation {
     display: flex;
@@ -36,6 +29,24 @@
   &__form {
     display: flex;
     align-items: center;
+  }
+
+  // Intro & outro
+  /*----------------------------------------------------*/
+  &__introutro {
+    grid-column-end: span 4;
+    grid-row: 2 / span 1;
+    button {
+      height: 100%;
+      width: calc(50% - 5px);
+    }
+  }
+  &__intro {
+    width: 50%;
+  }
+  &__outro {
+    width: 50%;
+    margin-left: 10px;
   }
 
   // Blocks
@@ -78,16 +89,16 @@
     }
   }
   &__question {
-    grid-row: 2 / span 1;
+    grid-row: 3 / span 1;
   }
   &__map {
-    grid-row: 2 / span 1;
+    grid-row: 3 / span 1;
   }
   &__navigation {
-    grid-row: 2 / span 1;
+    grid-row: 3 / span 1;
   }
   &__government {
-    grid-row: 2 / span 1;
+    grid-row: 3 / span 1;
   }
 }
 

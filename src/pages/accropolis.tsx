@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react"
 import DeputeBanner from "components/accropolis/DeputeBanner";
 import deputeBannerStyles from "components/accropolis/DeputeBannerStyles.module.scss"
-import { fetchQuery } from 'utils/utils';
-import { getDeputeAccropolis } from "../lib/deputes/Wrapper"
 import { gsap } from "gsap"
 import io from 'socket.io-client';
 import mapStore from "src/stores/mapStore"
@@ -29,7 +27,7 @@ function useSocket(url) {
   return socket
 }
 
-export default function Accropolis({accroDeputes}) {
+export default function Accropolis() {
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
     type: null,
@@ -39,6 +37,7 @@ export default function Accropolis({accroDeputes}) {
   const [activeDepute, setActiveDepute] = useState(null)
   const refMapOpacity = {value: 1}
   const { overview, setOverview } = mapStore()
+  const [bannerState, setBannerState] = useState('intro')
 
   const strapiURI = 'https://accrogora.herokuapp.com'
   // const strapiURI = 'http://localhost:1337'
@@ -54,14 +53,20 @@ export default function Accropolis({accroDeputes}) {
       socket.on('message', message => {
           console.log('message Socket : ',message)
       })
-      socket.on('depute_read', (depute, type) => {
+      socket.on('people', (depute) => {
+        console.log('[READER] people received : ', depute)
         // Launch disappearing animation
-        const deputeWithType = Object.assign({}, depute, {type: type})
-        const olderTL = olderBannerAnimation(setCurrentAnimation, deputeWithType)
+        const olderTL = olderBannerAnimation(setCurrentAnimation, depute)
         olderTL.play()
       })
       socket.on('question', question => {
         setQuestion(question)
+      })
+      socket.on('bannerState', (bannerState) => {
+        setBannerState(bannerState)
+        if (bannerState === 'intro' || bannerState === 'outro') {
+          setActiveDepute(null)
+        }
       })
       socket.on('overview', overview => {
         setOverview(overview)
@@ -88,16 +93,7 @@ export default function Accropolis({accroDeputes}) {
         type: "older",
       })
     })
-    
-    // olderTL.to(`.${deputeBannerStyles.deputeBanner__questionInner}`, {
-    //   x: '-100%',
-    //   ease: 'power1.in',
-    //   duration: 0.5,
-    // })
-    // olderTL.to(`.${deputeBannerStyles.deputeBanner__topBackground}`, {
-    //   scaleX: 0,
-    //   ease: 'power1.in',
-    // })
+
     olderTL.to(`.${deputeBannerStyles.deputeBanner__content} > *`, {
       x: '-100%',
       autoAlpha: 0,
@@ -127,9 +123,15 @@ export default function Accropolis({accroDeputes}) {
 
   // Render
   /*----------------------------------------------------*/
-  return activeDepute ? (
+  return (
+    bannerState === 'intro' ? (
+      <>Intro</>
+    ) : bannerState === 'outro' ? (
+      <>Outro</>
+    ) : bannerState === 'dep' || bannerState === 'gov' ? (
       <DeputeBanner
         debug={false}
+        bannerState={bannerState}
         depute={activeDepute}
         currentAnimation={currentAnimation}
         setCurrentAnimation={setCurrentAnimation}
@@ -138,20 +140,6 @@ export default function Accropolis({accroDeputes}) {
         question={question}
         forcedOverview={overview}
       />
-  ) : null
+    ) : null
+  )
 }
-
-async function getServerSideProps() {
-  const strapiDeputes = await fetchQuery('deputes')
-  const accroDeputes = await Promise.all(strapiDeputes.map(async depute => {
-    return await getDeputeAccropolis(depute.Depute_name)
-  }))
-
-  return {
-    props: {
-      accroDeputes,
-    },
-  }
-}
-
-export { getServerSideProps, fetchQuery }

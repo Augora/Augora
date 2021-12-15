@@ -74,7 +74,7 @@ function useSocket(url, setLoading, setAuthorized, isLogged) {
 
 // Component
 /*----------------------------------------------------*/
-export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, strapiGovernment}) {
+export default function AccropolisLiveTools({allAccroDeputes, strapiGovernment}) {
   const router = useRouter()
 
   // Core component states
@@ -84,8 +84,8 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, stra
   const [debug, setDebug] = useState('')
   
   // Banner states
-  const [activeDepute, setActiveDepute] = useState(accroDeputes[0].Depute)
-  const [activeDeputeIndex, setActiveDeputeIndex] = useState(null);
+  const [activeDepute, setActiveDepute] = useState(null)
+  const [bannerState, setBannerState] = useState('intro')
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
     type: null,
@@ -93,7 +93,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, stra
   const [question, setQuestion] = useState('')
   const [mapOpacity, setMapOpacity] = useState({value: 0})
   const refMapOpacity = {value: 1}
-  const { overview } = mapStore()
+  const { overview, setOverview } = mapStore()
 
   const strapiURI = 'https://accrogora.herokuapp.com'
   // const strapiURI = 'http://localhost:1337'
@@ -101,54 +101,38 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, stra
   // Websockets state
   const socket = useSocket(`${strapiURI}/writer`, setLoading, setAuthorized, isLogged)
 
-  // Depute management
-  /*----------------------------------------------------*/
-  useEffect(() => {
-    // Do not emit if question is empty (when we change deputy)
-    if (socket) {
-      socket.emit('question', question)
-    }
-  }, [question])
-
   // Websockets
   /*----------------------------------------------------*/
   useEffect(() => {
     // Check if socket exists
     if (socket) {
-      // If we receive a message event
       socket.on('message', message => {
         console.log('message Socket : ',message)
       })
 
-      // When deputy is changed
-      socket.on('depute_read', (depute, type = 'dep') => {
-        // Modifies depute
-        setActiveDepute(Object.assign({}, depute, {type: type}))
+      socket.on('people', (depute) => {
+        setActiveDepute(depute)
       })
+      socket.on('question', question => {
+        setQuestion(question)
+      })
+
+      socket.on('bannerState', bannerState => {
+        setBannerState(bannerState)
+        if (bannerState === 'intro' || bannerState === 'outro') {
+          setActiveDepute(null)
+        }
+      })
+
+      socket.on('overview', overview => {
+        setOverview(overview)
+      })
+
       socket.on('reset_question', () => {
-        setQuestion('');
+        setQuestion('')
       })
     }
   }, [socket])
-
-  useEffect(() => {
-    const isInList = accroDeputes.some(d => {
-      return d.Depute.Slug === activeDepute.Slug
-    })
-    if (isInList) {
-      accroDeputes.filter((d, i) => {
-        if (d.Depute.Slug === activeDepute.Slug) setActiveDeputeIndex(i)
-      })
-    } else if (activeDepute.Slug !== 'gouvernement') {
-      setActiveDeputeIndex(null)
-    }
-  }, [activeDepute])
-
-  useEffect(() => {
-    if (socket) {
-      socket.emit('overview', overview)
-    }
-  }, [overview])
 
 
   // Animations
@@ -207,12 +191,12 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, stra
     })
     return olderTL
   }
-  const cycleBannerContent = (event, people, type = 'dep') => {
+  const cycleBannerContent = (event, people) => {
     if (event) { event.preventDefault() }
     if (currentAnimation.animation) {
       currentAnimation.animation.kill();
       if (currentAnimation.type === 'older') {
-        socket.emit('depute_write', people, type)
+        socket.emit('depute_write', people)
         socket.emit('overview', overview)
         return
       }
@@ -221,7 +205,7 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, stra
     // After timeline
     const olderTL = olderBannerAnimation(setCurrentAnimation)
     olderTL.call(() => {
-      socket.emit('depute_write', people, type)
+      socket.emit('depute_write', people)
       socket.emit('overview', overview)
     }, [], '+=0.2')
     olderTL.play()
@@ -361,29 +345,37 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, stra
                 Plein
               </button>
             </div>
-            <DeputeBanner
-              debug={debug}
-              depute={activeDepute}
-              currentAnimation={currentAnimation}
-              setCurrentAnimation={setCurrentAnimation}
-              mapOpacity={mapOpacity}
-              setMapOpacity={setMapOpacity}
-              question={question}
-            />
+            {bannerState === 'intro' ? (
+              <>Intro</>
+            ) : bannerState === 'outro' ? (
+              <>Outro</>
+            ) : bannerState === 'dep' || bannerState === 'gov' ? (
+              <DeputeBanner
+                debug={debug}
+                bannerState={bannerState}
+                depute={activeDepute}
+                currentAnimation={currentAnimation}
+                setCurrentAnimation={setCurrentAnimation}
+                mapOpacity={mapOpacity}
+                setMapOpacity={setMapOpacity}
+                question={question}
+              />
+            ) : null}
           </div>
           <div className="accropolis-live-tool__content">
             <Controls
+              socket={socket}
               question={question}
               setQuestion={setQuestion}
-              accroDeputes={accroDeputes}
               deputes={allAccroDeputes}
               activeDepute={activeDepute}
-              activeDeputeIndex={activeDeputeIndex}
               cycleBannerContent={cycleBannerContent}
               currentAnimation={currentAnimation}
               setCurrentAnimation={setCurrentAnimation}
               olderBannerAnimation={olderBannerAnimation}
               government={strapiGovernment}
+              bannerState={bannerState}
+              setBannerState={setBannerState}
             />
           </div>
         </>
@@ -393,17 +385,12 @@ export default function AccropolisLiveTools({allAccroDeputes, accroDeputes, stra
 }
 
 async function getServerSideProps() {
-  const strapiDeputes = await fetchQuery('deputes')
   const strapiGovernment = await fetchQuery('governments')
-  const accroDeputes = await Promise.all(strapiDeputes.map(async depute => {
-    return await getDeputeAccropolis(depute.Depute_name)
-  }))
   const allAccroDeputes = await getDeputesAccropolis()
 
   return {
     props: {
       title: "Live Tool",
-      accroDeputes,
       allAccroDeputes,
       strapiGovernment
     },
