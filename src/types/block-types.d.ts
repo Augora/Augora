@@ -7,22 +7,16 @@ declare namespace Bloc {
   type Size = "large" | "medium" | "small"
 
   interface Base {
-    /**
-     * Couleur du groupe parlementaire
-     */
-    color: string | HSLDetail | RGBDetail | HEXDetail
-    /**
-     * "large", "medium" ou "small"
-     */
+    /** Couleur du groupe parlementaire */
+    color: Group.CouleurDetail
+    /** "large", "medium" ou "small" */
     size?: Size
     wip?: boolean
   }
 
   interface Header {
-    /**
-     * Couleur du groupe parlementaire
-     */
-    color: string | HSLDetail | RGBDetail | HEXDetail
+    /** Couleur du groupe parlementaire */
+    color: Group.CouleurDetail
     title: string
     /**
      * Identifier du bloc: "general", "mandate", "coworkers", "presence", "contact" ou "map"
