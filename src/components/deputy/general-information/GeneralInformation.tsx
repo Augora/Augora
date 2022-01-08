@@ -96,7 +96,7 @@ export default function GeneralInformation(props: Bloc.General) {
                   />
                 </svg>
               )}
-              <caption>Pas de photo</caption>
+              <figcaption>Pas de photo</figcaption>
             </figure>
           </div>
         </div>

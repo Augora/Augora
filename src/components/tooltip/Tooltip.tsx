@@ -4,7 +4,7 @@ export interface ITooltip extends Omit<React.DetailedHTMLProps<React.HTMLAttribu
   children?: React.ReactNode
   title?: string
   color?: string
-  age?: number
+  age?: number | string
   nbDeputes?: number
   totalDeputes?: number
 }

@@ -1,14 +1,16 @@
 import React from "react"
 import Link from "next/link"
+import { NextRouter } from "next/router"
 import Logo from "images/logos/projet/augora-logo.svg"
 import LogoText from "images/logos/projet/augora-text.svg"
 import LogoTextThin from "images/logos/projet/augora-text-thin.svg"
+import IconBurger from "images/ui-kit/icon-burger.svg"
 import { getHSLLightVariation } from "../utils/style/color"
-import { NextRouter } from "next/router"
 
 interface IHeader {
   siteTitle?: string
   color?: Group.HSLDetail
+  onBurgerClick?(): void
   location: NextRouter
 }
 
@@ -33,8 +35,12 @@ const mainPages: Pages = {
     path: "/",
     title: "Députés",
   },
+  statistiques: {
+    path: "/statistiques",
+    title: "Statistiques",
+  },
   map: {
-    path: "/carte",
+    path: "/map",
     title: "Carte",
   },
 }
@@ -50,12 +56,39 @@ const secondaryPages: Pages = {
   },
 }
 
+function HeaderLinks({ pageGroup, location, styles }: { pageGroup: Pages; location: NextRouter; styles: Styles }) {
+  return (
+    <>
+      {Object.keys(pageGroup).map((page, index) => {
+        const className = `menu__item ${location.pathname === pageGroup[page].path ? "menu__item--current" : ""}`
+
+        return (
+          <div className="menu__link" key={pageGroup[page].path}>
+            <Link href={pageGroup[page].path}>
+              <a className={className}>
+                <span>{pageGroup[page].title}</span>
+                <div className="link__underline"></div>
+              </a>
+            </Link>
+            <Link href={pageGroup[page].path}>
+              <a className={className} style={styles.link}>
+                <span>{pageGroup[page].title}</span>
+                <div className="link__underline" style={styles.underline}></div>
+              </a>
+            </Link>
+          </div>
+        )
+      })}
+    </>
+  )
+}
+
 /**
  * Renvoie le header
  * @param {RouteProps} location Objet du react router contenant les infos de route
  * @param {Group.HSLDetail} [color] Couleur du header optionnelle
  */
-const Header = ({ siteTitle, location, color }: IHeader) => {
+const Header = ({ siteTitle, location, color, onBurgerClick }: IHeader) => {
   let styles: Styles = {
     flat: {},
     gradient: {},
@@ -75,34 +108,11 @@ const Header = ({ siteTitle, location, color }: IHeader) => {
     }
   }
 
-  function isActivePage(path: string) {
-    return `menu__item ${location.pathname === path || location.pathname === path + "/" ? "menu__item--current" : ""}`
-  }
-
-  function setLinks(pageGroup: Pages) {
-    return Object.keys(pageGroup).map((page, index) => (
-      <div className="menu__link" key={pageGroup[page].path}>
-        <Link href={pageGroup[page].path}>
-          <a className={isActivePage(pageGroup[page].path)}>
-            <span>{pageGroup[page].title}</span>
-            <div className="link__underline"></div>
-          </a>
-        </Link>
-        <Link href={pageGroup[page].path}>
-          <a className={isActivePage(pageGroup[page].path)} style={styles.link}>
-            <span>{pageGroup[page].title}</span>
-            <div className="link__underline" style={styles.underline}></div>
-          </a>
-        </Link>
-      </div>
-    ))
-  }
-
   return (
     <header id="header" className="header">
       <div className="header__wrapper wrapper">
         <Link href="/">
-          <a className="header__home-btn">
+          <a className="header__home-btn" aria-label="Logo page d'accueil">
             <div className="header__logo-wrapper">
               <div className="header__logo">
                 <Logo className="logo" />
@@ -116,12 +126,18 @@ const Header = ({ siteTitle, location, color }: IHeader) => {
           </a>
         </Link>
         <div className="header__menu menu">
-          {setLinks(mainPages)}
+          <HeaderLinks pageGroup={mainPages} location={location} styles={styles} />
           <div className="menu__separator-container">
             <span className="menu__separator" />
             <span className="menu__separator" style={styles.separator} />
           </div>
-          {setLinks(secondaryPages)}
+          <HeaderLinks pageGroup={secondaryPages} location={location} styles={styles} />
+          <button className="menu__burger-btn" onClick={() => onBurgerClick()}>
+            <div className="menu__burger-icon">
+              <IconBurger className="icon" />
+              <IconBurger className="icon" style={styles.svg} />
+            </div>
+          </button>
         </div>
       </div>
     </header>

@@ -1,7 +1,37 @@
 .page__deputies {
   padding-top: 40px;
 
+  .filters__section {
+    margin-bottom: 70px;
+    display: flex;
+    justify-content: space-between;
+
+    .frame-chart {
+      min-width: 30vw;
+      margin: 0 0 0 40px;
+      .frame__content {
+        .no-deputy {
+          display: flex;
+          text-align: center;
+          align-items: center;
+          justify-content: center;
+          min-height: calc(100% - 50px);
+        }
+      }
+    }
+  }
+
   // Media queries
+  @media (max-width: 1250px) {
+    .filters__section {
+      flex-direction: column;
+      .frame-chart {
+        height: 350px;
+        margin: 40px 0 0 0;
+      }
+    }
+  }
+
   @media (max-width: 875px) {
     .page-title {
       display: none;

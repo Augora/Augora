@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Popup } from "react-map-gl"
-import { Code, compareFeatures, getDeputies, getZoneCode, getPolygonCenter } from "components/maps/maps-utils"
+import { Code, compareFeatures, getDeputies, getZoneCode, getPolygonCenter, getZoneName } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import orderBy from "lodash/orderBy"
 import Tooltip from "components/tooltip/Tooltip"
 import GroupBar from "components/deputies-list/GroupBar"
 import IconMissing from "images/ui-kit/icon-missingmale.svg"
 import useDeputiesFilters from "src/hooks/deputies-filters/useDeputiesFilters"
+import { slugify } from "utils/utils"
 
 interface IMapPins {
   features: AugoraMap.Feature[]
@@ -112,7 +113,6 @@ export function MapPin(props: IMapPin) {
   const zoneCode = getZoneCode(props.feature)
   const coords = props.feature.properties.center ? props.feature.properties.center : getPolygonCenter(props.feature)
   const isHidden = !isExpanded && zoneCode === Code.Circ && props.deputies.length === 0
-
   return (
     !isHidden && (
       <Popup
@@ -128,6 +128,7 @@ export function MapPin(props: IMapPin) {
           {props.handleClick || props.handleHover ? (
             <button
               className="pins__btn"
+              aria-label={`Informations ${props.feature.properties.nom}`}
               onClick={() => {
                 if (props.handleClick) props.handleClick()
               }}
@@ -167,19 +168,21 @@ export function MapPin(props: IMapPin) {
  * @param {Function} [handleHover] Fonction appelée quand le pin est hover
  */
 export default function MapPins(props: IMapPins) {
-  const activeGhostFeature = props.hoveredFeature
-    ? props.ghostFeatures.find((feature) => compareFeatures(feature, props.hoveredFeature))
-    : null
+  const activeGhostFeature =
+    props.hoveredFeature && props.ghostFeatures
+      ? props.ghostFeatures.find((feature) => compareFeatures(feature, props.hoveredFeature))
+      : null
 
   return (
     <div className="map__pins">
       {orderBy(props.features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
         const featureDeputies = getDeputies(feature, props.deputies)
-        const zoneCode = getZoneCode(feature)
 
         return (
           <MapPin
-            key={`${index}-${zoneCode}-${feature.properties.nom ? feature.properties.nom : feature.properties.nom_dpt}`}
+            key={`pin${feature.properties.nom_dpt ? `-${slugify(feature.properties.nom_dpt)}` : ""}-${slugify(
+              getZoneName(feature)
+            )}${props.features.length <= 1 ? "-solo" : ""}`}
             deputies={featureDeputies}
             feature={feature}
             handleClick={() => {

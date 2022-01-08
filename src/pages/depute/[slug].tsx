@@ -14,8 +14,10 @@ import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 import SEO, { PageType } from "components/seo/seo"
 import GroupeEtParti from "src/components/deputy/groupes/groupe-parti"
+
 interface IDeputy {
   depute: Deputy.Deputy
+  activites: { [Activites: string]: { [data: string]: Deputy.Activite[] } }[]
 }
 
 // const allColors = colors.map((color) => {
@@ -38,7 +40,7 @@ export default function Deputy({ depute }: IDeputy) {
           <Mandate {...getMandate(deputy)} color={color} size="small" />
           <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
           <MapDistrict deputy={deputy} color={color} size="medium" />
-          <Presence color={color} size="large" wip={true} />
+          <Presence color={color} size="large" activite={deputy.Activites.data} wip={false} />
           <Contact color={color} size="medium" adresses={deputy.AdressesDetails.data} />
           <GroupeEtParti {...getGroupesInformation(deputy)} color={color} size="medium" />
         </div>
@@ -47,13 +49,13 @@ export default function Deputy({ depute }: IDeputy) {
   )
 }
 
-export async function getStaticProps({ params: { slug } }) {
-  const depute = await getDepute(slug)
+export async function getStaticProps({ params: { slug } }: { params: { slug: string } }) {
+  const depute: { Depute: Deputy.Deputy } = await getDepute(slug)
 
   return {
     props: {
-      depute,
-      title: depute.Nom,
+      depute: depute.Depute,
+      title: depute.Depute.Nom,
     },
   }
 }
