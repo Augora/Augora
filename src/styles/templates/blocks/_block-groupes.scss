@@ -24,11 +24,15 @@
     }
     &__nom {
       display: flex;
-      width: 70%;
-      height: 100%;
+      width: 50%;
+      height: 50%;
+      max-height: 100%;
+      max-width: 100%;
       align-items: center;
       justify-content: center;
       margin: auto;
+      padding-top: 10px;
+      padding-bottom: 30px;
     }
   }
   .rattachement {
@@ -41,18 +45,25 @@
     }
     &__image {
       display: flex;
-      width: 70%;
-      height: 100%;
+      width: 50%;
+      height: 50%;
+      max-height: 100%;
+      max-width: 100%;
       align-items: center;
       justify-content: center;
       margin: auto;
+      padding-top: 10px;
+      padding-bottom: 30px;
     }
     &__nom {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
       font-weight: 900;
+      padding-top: 30px;
+      padding-bottom: 30px;
     }
   }
 }
