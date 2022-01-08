@@ -101,9 +101,6 @@ export default function GeneralInformation(props: Bloc.General) {
           </div>
         </div>
         <div className="main__info">
-          <div className="icon-wrapper" title={props.groupeComplet}>
-            <props.pictureGroup />
-          </div>
           <div className="main__age">
             <div className="main__age-date">
               {props.age}
@@ -123,7 +120,6 @@ export default function GeneralInformation(props: Bloc.General) {
       </div>
       <div className="general__job">
         <div className="job">{props.job ? props.job : "Sans profession"}</div>
-        {props.party && <div className="party">{`Rattachement financier: ${props.party}`}</div>}
       </div>
     </Block>
   )

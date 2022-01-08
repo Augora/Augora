@@ -141,14 +141,6 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-          .icon-wrapper {
-            pointer-events: auto;
-            width: 50%;
-            margin-bottom: 2em;
-            svg * {
-              fill: white;
-            }
-          }
         }
         &__age {
           position: relative;
@@ -202,9 +194,6 @@
       .job {
         font-weight: bold;
         text-transform: uppercase;
-      }
-      .party {
-        margin-top: 10px;
       }
     }
   }
