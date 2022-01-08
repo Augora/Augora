@@ -18,3 +18,13 @@ export function getGeneralInformation(deputy: Deputy.Deputy) {
     sexe: deputy.Sexe,
   }
 }
+
+export function getGroupesInformation(deputy: Deputy.Deputy) {
+  return {
+    photoGroupe: getPoliticGroupPhotoImport(deputy.GroupeParlementaire.Sigle),
+    photoRattachement: getPoliticPartyPhotoImport(deputy.RattachementFinancier),
+    rattachement: deputy.RattachementFinancier,
+    groupe: deputy.GroupeParlementaire.NomComplet,
+    responsabiliteGroupe: deputy.ResponsabiliteGroupe.Fonction,
+  }
+}

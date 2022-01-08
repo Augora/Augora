@@ -1,0 +1,58 @@
+/*----------------------------------------------------*/
+// Bloc Contact
+/*----------------------------------------------------*/
+.block__groupes {
+  position: relative;
+  .groupes {
+    // &__content {
+    //   align-items: center;
+    //   justify-content: center;
+    // }
+    &__title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+    &__role {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+    &__nom {
+      display: flex;
+      width: 70%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+  }
+  .rattachement {
+    &__title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+    &__image {
+      display: flex;
+      width: 70%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+    &__nom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+  }
+}
