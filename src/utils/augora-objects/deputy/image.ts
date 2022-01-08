@@ -10,7 +10,6 @@ import PS from "images/logos/groupes-parlementaires/ps.svg"
 import AE from "images/logos/groupes-parlementaires/ae.svg"
 import RN from "images/logos/partis-politiques/rn.svg"
 import MD from "images/logos/partis-politiques/md.svg"
-import TAVINI from "images/logos/partis-politiques/tavini.svg"
 import PCF from "images/logos/partis-politiques/pcf.svg"
 import PS_PARTI from "images/logos/partis-politiques/ps.svg"
 import EELV from "images/logos/partis-politiques/eelv.svg"
@@ -74,8 +73,8 @@ export function getPoliticPartyPhotoImport(party: string) {
       return null
     case "Calédonie Ensemble": // SVG à générer
       return null
-    case "Tavini Huiraatira No Te Ao Ma'ohi - Front de libération de Polynésie":
-      return TAVINI
+    case "Tavini Huiraatira No Te Ao Ma'ohi - Front de libération de Polynésie": // SVG à générer
+      return null
     case "Parti communiste français":
       return PCF
     case "Parti socialiste":
