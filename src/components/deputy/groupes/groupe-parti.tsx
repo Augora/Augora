@@ -28,7 +28,7 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
         </div>
       ) : (
         <div className="rattachement__nom" title={props.rattachement}>
-          props.rattachement
+          {props.rattachement.substring(0, props.rattachement.length - 3)}
         </div>
       )}
     </Block>
