@@ -91,6 +91,12 @@ export function getDepute(slug: string) {
               }
             }
             RattachementFinancier
+            ResponsabiliteGroupe {
+              GroupeParlementaire {
+                Sigle
+              }
+              Fonction
+            }
             URLPhotoAugora
             Nom
             NomCirconscription
