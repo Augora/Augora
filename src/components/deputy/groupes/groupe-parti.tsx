@@ -1,5 +1,6 @@
 import React from "react"
 import Block from "../_block/_Block"
+import Image from "next/image"
 
 /**
  * Return deputy's contact info in a Block component
@@ -23,9 +24,15 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
       </div>
 
       {props.photoRattachement != null ? (
-        <div className="rattachement__image" title={props.rattachement}>
-          <props.photoRattachement />
-        </div>
+        typeof props.photoRattachement === "function" ? (
+          <div className="rattachement__image rattachement__svg" title={props.rattachement}>
+            <props.photoRattachement />
+          </div>
+        ) : (
+          <div className="rattachement__image rattachement__png" title={props.rattachement}>
+            <Image src={props.photoRattachement} alt={props.rattachement} layout={"fill"} objectFit={"contain"} priority />
+          </div>
+        )
       ) : (
         <div className="rattachement__nom" title={props.rattachement}>
           {props.rattachement.includes("Non déclaré")
