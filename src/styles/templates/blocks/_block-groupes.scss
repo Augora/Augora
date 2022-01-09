@@ -3,14 +3,28 @@
 /*----------------------------------------------------*/
 .block__groupes {
   position: relative;
+  .icon-info {
+    width: 20px;
+    height: 20px;
+  }
   .groupes {
+    &__container {
+      display: flex;
+      justify-content: center;
+    }
     &__title,
     &__role {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       font-weight: 900;
+    }
+    &__button {
+      margin-left: 10px;
+      background: none;
+      min-height: unset;
     }
     &__nom {
       display: flex;
