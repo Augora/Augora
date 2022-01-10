@@ -39,8 +39,10 @@ export default function Accropolis() {
   const { overview, setOverview } = mapStore()
   const [bannerState, setBannerState] = useState('intro')
 
-  const strapiURI = 'https://accrogora.herokuapp.com'
-  // const strapiURI = 'http://localhost:1337'
+  let strapiURI
+  process.env.NEXT_PUBLIC_ENV === 'production'
+    ? strapiURI = 'https://accrogora.herokuapp.com'
+    : strapiURI = 'http://localhost:1337'
   
   // Websockets
   /*----------------------------------------------------*/
@@ -55,9 +57,12 @@ export default function Accropolis() {
       })
       socket.on('people', (depute) => {
         console.log('[READER] people received : ', depute)
-        // Launch disappearing animation
-        const olderTL = olderBannerAnimation(setCurrentAnimation, depute)
-        olderTL.play()
+        if (activeDepute) {
+          const olderTL = olderBannerAnimation(setCurrentAnimation, depute)
+          olderTL.play()
+        } else {
+          setActiveDepute(depute)
+        }
       })
       socket.on('question', question => {
         setQuestion(question)

@@ -95,8 +95,10 @@ export default function AccropolisLiveTools({allAccroDeputes, strapiGovernment})
   const refMapOpacity = {value: 1}
   const { overview, setOverview } = mapStore()
 
-  const strapiURI = 'https://accrogora.herokuapp.com'
-  // const strapiURI = 'http://localhost:1337'
+  let strapiURI
+  process.env.NEXT_PUBLIC_ENV === 'production'
+    ? strapiURI = 'https://accrogora.herokuapp.com'
+    : strapiURI = 'http://localhost:1337'
 
   // Websockets state
   const socket = useSocket(`${strapiURI}/writer`, setLoading, setAuthorized, isLogged)
@@ -219,8 +221,11 @@ export default function AccropolisLiveTools({allAccroDeputes, strapiGovernment})
     const jwt = localStorage.getItem('jwt')
     if (jwt) {
       const now = Math.floor(Date.now() / 1000)
-      const decoded = jsonwebtoken.decode(jwt).exp
-      if (decoded > now) {
+      const expirationTimestamp = jsonwebtoken.decode(jwt).exp
+      // console.log('expirationTimestamp', expirationTimestamp)
+      // console.log('now', now)
+      // console.log('expirationTimestamp > now', expirationTimestamp > now)
+      if (expirationTimestamp < now) {
         // If JWT is defined but expired, remove is logged
         localStorage.removeItem('jwt');
         localStorage.removeItem('username');
