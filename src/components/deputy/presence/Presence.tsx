@@ -8,10 +8,6 @@ import { ParentSize } from "@visx/responsive"
 import { Glyph as CustomGlyph, GlyphSquare } from "@visx/glyph"
 import { scaleOrdinal } from "@visx/scale"
 
-const InformationLink = (label: string, link: string) => {
-  return <a href={`/faq#${link}`}>{label}</a>
-}
-
 /**
  * Return deputy's presence and participation graph in a Block component
  * @param {*} props
@@ -27,6 +23,14 @@ const Presence = (props: Bloc.Presence) => {
     "Mediane des députés": true,
     Vacances: true,
   })
+
+  const InformationLink = (label: string, link: string) => {
+    return (
+      <a href={`/faq#${link}`} style={{ color: props.color.HSL.Full }}>
+        {label}
+      </a>
+    )
+  }
 
   const medianeDeputeColor = "rgba(77, 77, 77, 0.3)"
   const vacancesColor = "rgba(77, 77, 77, 0.5)"

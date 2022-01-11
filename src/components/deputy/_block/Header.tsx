@@ -43,9 +43,9 @@ export default function Header(props: Bloc.Header) {
             <IconInfo style={{ fill: props.color.HSL.Full }} />
           </button>
           {infoVisible && (
-            <div className="info__content" style={{ backgroundColor: props.color.HSL.Full }}>
+            <div className="info__content" style={{ borderColor: props.color.HSL.Full }}>
               <button className="info__btn content__close" onClick={() => setInfoVisible(false)}>
-                <IconClose />
+                <IconClose style={{ fill: props.color.HSL.Full }} />
               </button>
               {props.info}
             </div>
