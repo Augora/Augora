@@ -33,6 +33,10 @@ type Styles = {
 const mainPages: Pages = {
   home: {
     path: "/",
+    title: "Accueil",
+  },
+  deputes: {
+    path: "/deputes",
     title: "Députés",
   },
   statistiques: {
