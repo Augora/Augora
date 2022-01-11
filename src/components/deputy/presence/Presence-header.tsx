@@ -14,14 +14,6 @@ interface IPresenceHeader {
 export default function PresenceHeader(props: IPresenceHeader) {
   var { width, data, setRange, color } = props
 
-  const InformationLink = (label: string, link: string) => {
-    return (
-      <a href={`/faq#${link}`} style={{ color: color }}>
-        {label}
-      </a>
-    )
-  }
-
   const isMobile = width < 300
   const [DateButton, setDateButton] = useState(isMobile ? 1 : 2)
   const [Informations, setInformations] = useState(false)
@@ -92,7 +84,7 @@ export default function PresenceHeader(props: IPresenceHeader) {
 
   return (
     <div>
-      <div className="presence__informations">
+      {/* <div className="presence__informations">
         <button
           className="info__button"
           onClick={() => (
@@ -109,11 +101,11 @@ export default function PresenceHeader(props: IPresenceHeader) {
             <IconInfo className={"icon-info"} />
           )}
         </button>
-      </div>
+      </div> */}
       <div className="presence__date">
         <ButtonGroup buttons={["3 mois", "6 mois", "1 an"]} />
       </div>
-      {InformationsCached === "false" || Informations ? (
+      {/* {InformationsCached === "false" || Informations ? (
         <>
           <div className="info__bloc">
             <div className="info__content">
@@ -136,7 +128,7 @@ export default function PresenceHeader(props: IPresenceHeader) {
         </>
       ) : (
         ""
-      )}
+      )} */}
     </div>
   )
 }

@@ -23,6 +23,8 @@ declare namespace Bloc {
       circNb: number
       region: string
     }
+    /**  */
+    info?: JSX.Element
   }
 
   interface Block extends Base, Header {

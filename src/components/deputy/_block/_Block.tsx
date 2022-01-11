@@ -26,7 +26,7 @@ export default function _Block(props: Bloc.Block) {
       className={`deputy__block block__${props.type} deputy__block--${props.size ? props.size : "medium"}`}
       style={{ borderColor: HSLFull }}
     >
-      <Header type={props.type} title={props.title} color={props.color} circ={props.circ} />
+      <Header type={props.type} title={props.title} color={props.color} circ={props.circ} info={props.info ? props.info : null} />
       <div color={HSLFull} className={`block__background ${props.type}__background`} style={backgroundStyle} />
 
       <div
