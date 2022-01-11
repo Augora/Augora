@@ -10,6 +10,7 @@ declare namespace Bloc {
     /** "large", "medium" ou "small" */
     size?: Size
     wip?: boolean
+    info?: JSX.Element
   }
 
   interface Header {
@@ -23,8 +24,8 @@ declare namespace Bloc {
       circNb: number
       region: string
     }
-    /**  */
-    info?: JSX.Element
+    /** Callback pour le bouton info */
+    onClick?: (args?: any) => void
   }
 
   interface Block extends Base, Header {

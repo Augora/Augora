@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import Header from "./Header"
 import IconWIP from "images/ui-kit/icon-wip.svg"
+import IconClose from "images/ui-kit/icon-close.svg"
 import { getHSLLightVariation } from "utils/style/color"
 
 /**
@@ -8,6 +9,8 @@ import { getHSLLightVariation } from "utils/style/color"
  * @param props
  */
 export default function _Block(props: Bloc.Block) {
+  const [infoVisible, setInfoVisible] = useState(false)
+
   const HSLFull = props.color.HSL.Full
   const HSL = props.color.HSL
   const gradientStart = getHSLLightVariation(HSL, 0)
@@ -20,13 +23,20 @@ export default function _Block(props: Bloc.Block) {
   } else {
     backgroundStyle.background = "#f3f3f3"
   }
+
   return (
     <div
       color={HSLFull}
       className={`deputy__block block__${props.type} deputy__block--${props.size ? props.size : "medium"}`}
       style={{ borderColor: HSLFull }}
     >
-      <Header type={props.type} title={props.title} color={props.color} circ={props.circ} info={props.info ? props.info : null} />
+      <Header
+        type={props.type}
+        title={props.title}
+        color={props.color}
+        circ={props.circ}
+        onClick={props.info ? setInfoVisible : null}
+      />
       <div color={HSLFull} className={`block__background ${props.type}__background`} style={backgroundStyle} />
 
       <div
@@ -44,6 +54,14 @@ export default function _Block(props: Bloc.Block) {
           </div>
         )}
       </div>
+      {props.info && infoVisible && (
+        <div className="block__info" style={{ border: `2px solid ${props.color.HSL.Full}` }}>
+          <button className="info__close" onClick={() => setInfoVisible(false)}>
+            <IconClose style={{ fill: props.color.HSL.Full }} />
+          </button>
+          {props.info}
+        </div>
+      )}
     </div>
   )
 }

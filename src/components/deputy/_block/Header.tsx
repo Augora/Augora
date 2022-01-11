@@ -1,14 +1,11 @@
 import React, { useState } from "react"
 import IconInfo from "images/ui-kit/icon-info.svg"
-import IconClose from "images/ui-kit/icon-close.svg"
 
 /**
  * Return header block in a div
  * @param {*} props
  */
 export default function Header(props: Bloc.Header) {
-  const [infoVisible, setInfoVisible] = useState(false)
-
   const color = props.color.HSL.Full
 
   return (
@@ -37,20 +34,10 @@ export default function Header(props: Bloc.Header) {
           </span>
         </div>
       )}
-      {props.info && (
-        <div className="header__info">
-          <button className="info__btn" title="Informations" onClick={() => setInfoVisible(!infoVisible)}>
-            <IconInfo style={{ fill: props.color.HSL.Full }} />
-          </button>
-          {infoVisible && (
-            <div className="info__content" style={{ borderColor: props.color.HSL.Full }}>
-              <button className="info__btn content__close" onClick={() => setInfoVisible(false)}>
-                <IconClose style={{ fill: props.color.HSL.Full }} />
-              </button>
-              {props.info}
-            </div>
-          )}
-        </div>
+      {props.onClick && (
+        <button className="header__info" title="Informations supplémentaires" onClick={() => props.onClick(true)}>
+          <IconInfo style={{ fill: props.color.HSL.Full }} />
+        </button>
       )}
     </div>
   )
