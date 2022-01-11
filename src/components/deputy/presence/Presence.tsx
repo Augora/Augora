@@ -26,7 +26,7 @@ const Presence = (props: Bloc.Presence) => {
 
   const InformationLink = (label: string, link: string) => {
     return (
-      <a href={`/faq#${link}`} style={{ color: props.color.HSL.Full }}>
+      <a href={`/faq#${link}`} style={{ color: props.color.HSL.Full }} target="_blank">
         {label}
       </a>
     )
