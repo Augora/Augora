@@ -10,7 +10,7 @@ declare namespace Bloc {
     /** "large", "medium" ou "small" */
     size?: Size
     wip?: boolean
-    info?: JSX.Element | string
+    info?: React.ReactNode
   }
 
   interface Header {
