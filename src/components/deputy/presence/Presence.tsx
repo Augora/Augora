@@ -114,6 +114,7 @@ const Presence = (props: Bloc.Presence) => {
           temps à consacrer à sa participation dans l'hémicycle.
         </p>
       }
+      isLockedByDefault={true}
     >
       <ParentSize debounceTime={400}>
         {(parent) => (

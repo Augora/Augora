@@ -1,5 +1,6 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Header from "./Header"
+import Button from "src/components/buttons/Button"
 import IconWIP from "images/ui-kit/icon-wip.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import { getHSLLightVariation } from "utils/style/color"
@@ -9,6 +10,8 @@ import { getHSLLightVariation } from "utils/style/color"
  * @param props
  */
 export default function _Block(props: Bloc.Block) {
+  const { isLockedByDefault = false } = props
+  const [hasAgreed, setHasAgreed] = useState(isLockedByDefault ? "false" : "true")
   const [infoVisible, setInfoVisible] = useState(false)
 
   const HSLFull = props.color.HSL.Full
@@ -23,6 +26,17 @@ export default function _Block(props: Bloc.Block) {
   } else {
     backgroundStyle.background = "#f3f3f3"
   }
+
+  useEffect(() => {
+    if (isLockedByDefault) {
+      if (localStorage.getItem(`${props.type}.Autorisation`) === null) {
+        localStorage.setItem(`${props.type}.Autorisation`, "false")
+      }
+      const cache = localStorage.getItem(`${props.type}.Autorisation`)
+      setHasAgreed(cache)
+      setInfoVisible(cache === "true" ? false : true)
+    }
+  }, [])
 
   return (
     <div
@@ -56,12 +70,27 @@ export default function _Block(props: Bloc.Block) {
       </div>
       {props.info && infoVisible && (
         <div className="block__popup">
-          <div className="block__overlay" onClick={() => setInfoVisible(false)} />
-          <div className="block__info" style={{ border: `2px solid ${props.color.HSL.Full}` }}>
-            <button className="info__close" onClick={() => setInfoVisible(false)}>
-              <IconClose style={{ fill: props.color.HSL.Full }} />
-            </button>
+          <div className="popup__overlay" onClick={() => hasAgreed === "true" && setInfoVisible(false)} />
+          <div className="popup__info" style={{ border: `2px solid ${props.color.HSL.Full}` }}>
+            {hasAgreed === "true" && (
+              <button className="info__close" onClick={() => setInfoVisible(false)}>
+                <IconClose style={{ fill: props.color.HSL.Full }} />
+              </button>
+            )}
             {props.info}
+            {hasAgreed === "false" && (
+              <Button
+                className="popup__ok"
+                onClick={() => {
+                  setInfoVisible(false)
+                  setHasAgreed("true")
+                  localStorage.setItem(`${props.type}.Autorisation`, "true")
+                }}
+                style={{ backgroundColor: props.color.HSL.Full, borderColor: props.color.HSL.Full }}
+              >
+                J'ai compris
+              </Button>
+            )}
           </div>
         </div>
       )}
