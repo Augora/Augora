@@ -55,7 +55,7 @@ export default function _Block(props: Bloc.Block) {
         )}
       </div>
       {props.info && infoVisible && (
-        <>
+        <div className="block__popup">
           <div className="block__overlay" onClick={() => setInfoVisible(false)} />
           <div className="block__info" style={{ border: `2px solid ${props.color.HSL.Full}` }}>
             <button className="info__close" onClick={() => setInfoVisible(false)}>
@@ -63,7 +63,7 @@ export default function _Block(props: Bloc.Block) {
             </button>
             {props.info}
           </div>
-        </>
+        </div>
       )}
     </div>
   )
