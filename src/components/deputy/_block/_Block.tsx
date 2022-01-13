@@ -71,7 +71,7 @@ export default function _Block(props: Bloc.Block) {
       {props.info && (
         <div className={`block__popup ${infoVisible && "visible"}`}>
           <div className="popup__overlay" onClick={() => hasAgreed === "true" && setInfoVisible(false)} />
-          <div className="popup__info" style={{ border: `2px solid ${props.color.HSL.Full}` }}>
+          <div className="popup__info" style={{ borderLeftColor: props.color.HSL.Full }}>
             {hasAgreed === "true" && (
               <button className="info__close" onClick={() => setInfoVisible(false)}>
                 <IconClose style={{ fill: props.color.HSL.Full }} />
