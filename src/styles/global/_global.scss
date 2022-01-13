@@ -176,7 +176,7 @@
     left: -$width;
     right: -$width;
     color: inherit;
-    border: solid $width var(--groupe-color);
+    // border: solid $width var(--groupe-color);
     border-radius: $width * 3;
     pointer-events: none;
     transition: opacity 0.4s $ease-out-quad;
