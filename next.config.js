@@ -14,6 +14,7 @@ module.exports = withSourceMaps(
     sassOptions: {
       includePaths: [path.join(__dirname, "src", "styles"), path.join(__dirname, "public")],
     },
+    staticPageGenerationTimeout: 120,
     webpack(config) {
       config.module.rules.push({
         test: /\.svg$/,
