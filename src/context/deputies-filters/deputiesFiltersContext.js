@@ -23,10 +23,8 @@ const initialState = {
 export const DeputiesListContext = createContext(initialState)
 
 export default function DeputiesListProvider(props) {
-  const [orderedGroupes] = useState(
-    props.initialData ? sortBy(props.initialData.data.GroupesParlementairesDetailsActifs.data, "Ordre") : []
-  )
-  const [deputies] = useState(props.initialData ? sortBy(props.initialData.data.DeputesEnMandat.data, "Ordre") : [])
+  const [orderedGroupes] = useState(props.initialData ? sortBy(props.initialData.groupes, "Ordre") : [])
+  const [deputies] = useState(props.initialData ? sortBy(props.initialData.deputes, "Ordre") : [])
 
   const fullState = useDeputiesFilters(deputies, orderedGroupes)
 
