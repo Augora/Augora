@@ -40,8 +40,8 @@ export default function Deputy({ depute }: IDeputy) {
           <Mandate {...getMandate(deputy)} color={color} size="small" />
           <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
           <MapDistrict deputy={deputy} color={color} size="medium" />
-          <Presence color={color} size="large" activite={deputy.Activites.data} wip={false} />
-          <Contact color={color} size="medium" adresses={deputy.AdressesDetails.data} />
+          <Presence color={color} size="large" activite={deputy.Activite} wip={false} />
+          <Contact color={color} size="medium" adresses={deputy.Adresses} />
         </div>
       </div>
     </>
@@ -49,12 +49,12 @@ export default function Deputy({ depute }: IDeputy) {
 }
 
 export async function getStaticProps({ params: { slug } }: { params: { slug: string } }) {
-  const depute: { Depute: Deputy.Deputy } = await getDepute(slug)
+  const depute: Deputy.Deputy = await getDepute(slug)
 
   return {
     props: {
-      depute: depute.Depute,
-      title: depute.Depute.Nom,
+      depute: depute,
+      title: depute.Nom,
     },
   }
 }
@@ -71,8 +71,8 @@ export async function getStaticPaths() {
   }
 
   if (!paths) {
-    const deputes = await getDeputesSlugs()
-    paths = deputes.data.DeputesEnMandat.data.map((d) => ({
+    const deputesSlugs = await getDeputesSlugs()
+    paths = deputesSlugs.map((d) => ({
       params: {
         slug: d.Slug,
       },

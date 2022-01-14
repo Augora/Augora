@@ -1,7 +1,7 @@
 import React from "react"
 
 import SEO, { PageType } from "../components/seo/seo"
-import { getDeputes } from "../lib/deputes/Wrapper"
+import { getDeputes, getGroupes } from "../lib/deputes/Wrapper"
 import DeputiesList from "../components/deputies-list/DeputiesList"
 
 export default function IndexPage() {
@@ -16,11 +16,12 @@ export default function IndexPage() {
 }
 
 export async function getStaticProps() {
-  const deputes = await getDeputes()
+  const [deputes, groupes] = await Promise.all([getDeputes(), getGroupes()])
 
   return {
     props: {
       deputes,
+      groupes,
       title: "Liste des députés",
     },
   }

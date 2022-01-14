@@ -60,7 +60,7 @@ declare namespace Deputy {
     /**
      * Array de toutes les adresses renseignées
      */
-    Adresses?: string[]
+    Adresses?: Adresse[]
     /**
      * Array des noms des assistants parlementaires
      * Exemple: ["Luc Derai", "Julie Phan-Pérain",...]
@@ -68,18 +68,9 @@ declare namespace Deputy {
     Collaborateurs?: string[]
     ResponsabiliteGroupe?: Group.ResponsabiliteGroupe
     GroupeParlementaire?: Group.Group
-    Activites: {
-      data: Activite[]
-    }
-    AdressesDetails?: {
-      data: Adresse[]
-    }
-    AutresMandats?: {
-      data: AutreMandat[]
-    }
-    AnciensMandats?: {
-      data: AncienMandat[]
-    }
+    Activite: Activite[]
+    AutreMandat?: AutreMandat[]
+    AncienMandat?: AncienMandat[]
   }
 
   /**
