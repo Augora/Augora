@@ -59,7 +59,6 @@
     "@types/polylabel": "^1.0.5",
     "@types/react": "^17.0.24",
     "@types/react-map-gl": "^6.1.0",
-    "@zeit/next-source-maps": "^0.0.3",
     "json-loader": "^0.5.7",
     "next-sitemap": "^1.8.4"
   }
