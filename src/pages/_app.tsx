@@ -12,7 +12,7 @@ import "../styles/app.scss"
 
 export default withRouter(function MyApp({ Component, pageProps, router }: AppProps) {
   if (pageProps.deputes) {
-    const orderedDeputes = sortBy(pageProps.deputes, "Ordre")
+    const orderedDeputes = pageProps.deputes
     const orderedGroupes = sortBy(pageProps.groupes, "Ordre")
     hydrateStoreWithInitialLists(orderedDeputes, orderedGroupes)
   }
