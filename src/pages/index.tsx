@@ -1,4 +1,5 @@
 import React from "react"
+import shuffle from "lodash/shuffle"
 
 import SEO, { PageType } from "../components/seo/seo"
 import { getDeputes, getGroupes } from "../lib/deputes/Wrapper"
@@ -20,7 +21,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      deputes,
+      deputes: shuffle(deputes),
       groupes,
       title: "Liste des députés",
     },
