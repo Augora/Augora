@@ -60,30 +60,14 @@ export async function getStaticProps({ params: { slug } }: { params: { slug: str
 }
 
 export async function getStaticPaths() {
-  if (!fs.existsSync(".cache/")) {
-    fs.mkdirSync(".cache")
-  }
-  var paths = null
-  if (process.env.USE_CACHE) {
-    if (fs.existsSync(".cache/DeputesSlugs.json")) {
-      paths = JSON.parse(fs.readFileSync(".cache/DeputesSlugs.json").toString())
-    }
-  }
+  const deputesSlugs = await getDeputesSlugs()
 
-  if (!paths) {
-    const deputesSlugs = await getDeputesSlugs()
-    paths = deputesSlugs.map((d) => ({
+  return {
+    paths: deputesSlugs.map((d) => ({
       params: {
         slug: d.Slug,
       },
-    }))
-    if (process.env.USE_CACHE) {
-      fs.writeFileSync(".cache/DeputesSlugs.json", JSON.stringify(paths))
-    }
-  }
-
-  return {
-    paths,
+    })),
     fallback: false,
   }
 }
