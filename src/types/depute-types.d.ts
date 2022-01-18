@@ -1,6 +1,6 @@
 declare namespace Deputy {
   /**
-   * Un object contenant les attributs des députés, tiré de faunaDB
+   * Un object contenant les attributs des députés, tiré de Supabase
    */
   interface Deputy {
     /**
