@@ -14,20 +14,27 @@ module.exports = withSourceMaps(
     sassOptions: {
       includePaths: [path.join(__dirname, "src", "styles"), path.join(__dirname, "public")],
     },
-    webpack5: false,
     webpack(config) {
       config.module.rules.push({
         test: /\.svg$/,
+        use: [
+          {
+            loader: "@svgr/webpack",
+          },
+        ],
+        type: "javascript/auto",
         issuer: {
-          test: /\.(js|ts)x?$/,
+          and: [/\.(ts|tsx|js)$/],
         },
-        use: ["@svgr/webpack"],
-      })
-      config.module.rules.push({
-        test: /\.geojson$/,
-        loader: "json-loader",
-      })
-
+      }),
+        config.module.rules.push({
+          test: /\.geojson$/,
+          use: [
+            {
+              loader: "json-loader",
+            },
+          ],
+        })
       return config
     },
     onDemandEntries: {

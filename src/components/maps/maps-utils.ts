@@ -558,10 +558,12 @@ export const buildURLFromFeature = <T extends GeoJSON.Feature>(feature: T): stri
  * @param {ParsedUrlQuery} query
  */
 export const getFeatureFromQuery = (query: ParsedUrlQuery): AugoraMap.Feature => {
-  let codes: AugoraMap.Codes = {}
-  if (query.circ) codes.code_circ = +query.circ
-  if (query.dpt) codes.code_dpt = query.dpt as string
-  if (query.reg) codes.code_reg = query.reg as string
-  if (query.cont) codes.code_cont = +query.cont
-  return getFeature(codes)
+  if (query) {
+    let codes: AugoraMap.Codes = {}
+    if (query.circ) codes.code_circ = +query.circ
+    if (query.dpt) codes.code_dpt = query.dpt as string
+    if (query.reg) codes.code_reg = query.reg as string
+    if (query.cont) codes.code_cont = +query.cont
+    return getFeature(codes)
+  } else return null
 }

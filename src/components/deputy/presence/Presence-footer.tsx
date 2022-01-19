@@ -27,7 +27,6 @@ const handleLegend = (state, legend: string) => {
 }
 
 interface IPresenceFooter {
-  width: number
   color: string
   DisplayedGraph: {
     Présences: boolean
@@ -49,13 +48,12 @@ interface IPresenceFooter {
 }
 
 export default function PresenceFooter(props: IPresenceFooter) {
-  const { width, color, DisplayedGraph, setDisplayedGraph, shapeScale } = props
-  const isMobile = width < 300
+  const { color, DisplayedGraph, setDisplayedGraph, shapeScale } = props
   return (
     <>
       <div className="presence__line" />
       <div className="presence__filtre">
-        <text>Filtrer</text>
+        <div>Filtrer</div>
       </div>
       <Legend scale={shapeScale}>
         {(labels) => (
@@ -74,17 +72,14 @@ export default function PresenceFooter(props: IPresenceFooter) {
                       : null
                   }}
                 >
-                  <svg width={25} height={25}>
+                  <svg>
                     {isValidElement
                       ? React.cloneElement(shape as React.ReactElement)
                       : React.createElement(shape as React.ComponentType<{ fill: string }>, {
                           fill: color,
                         })}
                   </svg>
-                  <LegendLabel
-                    className="item__label"
-                    style={{ margin: "0 0 12px", textDecoration: !DisplayedGraph[label.text] ? "line-through" : "" }}
-                  >
+                  <LegendLabel className={`item__label${!DisplayedGraph[label.text] ? " line" : ""}`} style={{}}>
                     {label.text}
                   </LegendLabel>
                 </LegendItem>
