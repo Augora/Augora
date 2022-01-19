@@ -50,6 +50,11 @@
       grid-row-end: span 4;
     }
 
+    .frame-nuage {
+      grid-column-end: span 5;
+      grid-row-end: span 4;
+    }
+
     @media (max-width: 1600px) {
       .filters {
         grid-column-end: span 10;

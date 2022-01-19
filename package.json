@@ -16,6 +16,7 @@
     "@visx/scale": "^2.2.2",
     "@visx/shape": "^2.4.0",
     "@visx/tooltip": "^2.2.2",
+    "@visx/wordcloud": "^2.1.0",
     "@visx/xychart": "^2.5.0",
     "dayjs": "^1.10.7",
     "fuse.js": "6.5.3",
