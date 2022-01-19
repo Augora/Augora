@@ -1270,10 +1270,10 @@
     "@babel/runtime" "^7.12.0"
     gl-matrix "^3.0.0"
 
-"@next/bundle-analyzer@^11.1.2":
-  version "11.1.3"
-  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-11.1.3.tgz#627a5e7ce1ca8e7c2d4e8c2a6d8fdd3be5f89bc0"
-  integrity sha512-oNBM19JqJ6MtKAx8wNJRdJW2prj6feyalzAujMgvQ5/yxDpnk0IR6j91fYE+jnmNe031W8N5LUERU3vQBB4Pdg==
+"@next/bundle-analyzer@^12.0.8":
+  version "12.0.8"
+  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-12.0.8.tgz#a4fef1b14f8a4a87c09d97a3d909deddc88d12f8"
+  integrity sha512-tRwFyAkJA0h+rwt4exq31T59qo4qwp7vPoR3yC8gIpK/E5NAwafyk40aNpk4OWhiQ2IvJMFutukMzY3xl79NXA==
   dependencies:
     webpack-bundle-analyzer "4.3.0"
 

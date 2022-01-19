@@ -52,7 +52,7 @@
     "url": "https://github.com/Augora/Augora/issues"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^11.1.2",
+    "@next/bundle-analyzer": "^12.0.8",
     "@types/geojson": "^7946.0.7",
     "@types/lodash": "^4.14.175",
     "@types/next": "^9.0.0",
