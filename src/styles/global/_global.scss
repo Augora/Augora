@@ -71,7 +71,7 @@
           background-color: white;
           width: calc(100% - 40px);
           height: fit-content;
-          max-height: calc(100% - 20px);
+          max-height: calc(100% - 40px);
           overflow: auto;
           position: absolute;
           right: 20px;
@@ -225,5 +225,14 @@
     &--small {
       grid-column-end: span 12;
     }
+    // .block {
+    //   &__popup {
+    //     .popup {
+    //       &__info {
+
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
