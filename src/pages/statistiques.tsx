@@ -148,7 +148,7 @@ const Statistiques = () => {
           <div className="no-deputy">Il n'y a pas de députés correspondant à votre recherche.</div>
         )}
       </Frame>
-      <Frame className="frame-chart frame-nuage" title="Champ lexical des députés">
+      {/* <Frame className="frame-chart frame-nuage" title="Champ lexical des députés">
         {state.FilteredList.length > 0 ? (
           <ParentSize className="nuage__container" debounceTime={400}>
             {(parent) => <WordCloud width={parent.width} height={parent.height} data={Lyrics} />}
@@ -156,7 +156,7 @@ const Statistiques = () => {
         ) : (
           <div className="no-deputy">Il n'y a pas de données correspondant à votre recherche.</div>
         )}
-      </Frame>
+      </Frame> */}
     </div>
   )
 }
