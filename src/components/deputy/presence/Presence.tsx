@@ -12,7 +12,6 @@ import { scaleOrdinal } from "@visx/scale"
  * Return deputy's presence and participation graph in a Block component
  * @param {*} props
  */
-
 const Presence = (props: Bloc.Presence) => {
   const orderedWeeks = orderBy(props.activite, "DateDeFin")
   const [RangeOrderedWeeks, setRangeOrderedWeeks] = useState(orderedWeeks)
@@ -24,6 +23,14 @@ const Presence = (props: Bloc.Presence) => {
     "Mediane des députés": true,
     Vacances: true,
   })
+
+  const InformationLink = (label: string, link: string) => {
+    return (
+      <a href={`/faq#${link}`} style={{ color: props.color.HSL.Full }}>
+        {label}
+      </a>
+    )
+  }
 
   const medianeDeputeColor = "rgba(77, 77, 77, 0.3)"
   const vacancesColor = "rgba(77, 77, 77, 0.5)"
@@ -85,7 +92,30 @@ const Presence = (props: Bloc.Presence) => {
   })
 
   return (
-    <Block title="Présence et participation" type="presence" color={props.color} size={props.size} wip={props.wip}>
+    <Block
+      title="Présence et participation"
+      type="presence"
+      color={props.color}
+      size={props.size}
+      wip={props.wip}
+      info={
+        <p>
+          Le rôle d'un député ne se réduit pas seulement à sa présence aux séances de l'Assemblée Nationale. Si un vote a lieu
+          dans l'hémicycle qui n'a pas de rapport avec ses spécialités, il peut se concentrer sur d'autres activités, telles que
+          la préparation des {InformationLink("amendements", "quest-ce-quun-amendement")} et des propositions de loi. Ces
+          activités se déroulent dans le cadre de{" "}
+          {InformationLink("commissions parlementaires", "quest-ce-quune-commission-parlementaire")}. Ils ont également des{" "}
+          {InformationLink("commissions d'enquête", "quest-ce-quune-commission-denquete")},{" "}
+          {InformationLink("missions d'information", "quest-ce-quune-mission-dinformation")} et des{" "}
+          {InformationLink("groupes d'études", "quest-ce-quun-groupe-detude")}.
+          <br />
+          <br />
+          Selon sa responsabilité au sein de ces organes parlementaires (membre, président, etc.), le député aura plus ou moins de
+          temps à consacrer à sa participation dans l'hémicycle.
+        </p>
+      }
+      isLockedByDefault={true}
+    >
       <ParentSize debounceTime={400}>
         {(parent) => (
           <>
