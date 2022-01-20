@@ -10,6 +10,12 @@ interface ISexButton {
   children?: React.ReactNode
 }
 
+/**
+ * Renvoie un bouton de genre du filtre, peut recevoir une tooltip en enfant
+ * @param {string} sex "H" ou "F"
+ * @param {Function} onClick Callback du click
+ * @param {boolean} [checked] L'état du bouton
+ */
 export default function SexButton(props: ISexButton) {
   const { sex, onClick, checked, children } = props
   const gender = sex === "F" ? "female" : "male"

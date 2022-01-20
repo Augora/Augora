@@ -13,6 +13,10 @@ interface IFilters {
   filteredDeputes?: Deputy.DeputiesList
 }
 
+/**
+ * Renvoie le bloc de filtres
+ * @param {Deputy.DeputiesList} [filteredDeputes] Liste des députés à utiliser dans le bloc. Si omis, récupère state.FilteredList
+ */
 export default function Filters(props: IFilters) {
   const { state, handleSearch, handleGroupClick, handleSexClick, handleAgeSlider, handleReset } = useDeputiesFilters()
   const { filteredDeputes = state.FilteredList } = props

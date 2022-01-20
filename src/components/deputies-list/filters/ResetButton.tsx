@@ -6,6 +6,10 @@ interface IResetButton extends React.DetailedHTMLProps<React.ButtonHTMLAttribute
   onClick(): void
 }
 
+/**
+ * Renvoie un bouton de reset des filtres
+ * @param {Function} onClick Callback du click
+ */
 export default function ResetButton(props: IResetButton) {
   const { onClick, className = "reset__btn", title = "Réinitialiser les filtres", ...restProps } = props
 

@@ -9,6 +9,12 @@ interface IGroupButton {
   children?: React.ReactNode
 }
 
+/**
+ * Renvoie un bouton de groupe du filtre, peut recevoir une tooltip en enfant
+ * @param {Group.Group} Group Objet Groupe
+ * @param {Function} onClick Callback du click
+ * @param {boolean} [checked] L'état du bouton
+ */
 export default function GroupButton(props: IGroupButton) {
   const { checked = true, group, onClick, children, ...restProps } = props
   const GroupeLogo = getGroupLogo(group.Sigle)

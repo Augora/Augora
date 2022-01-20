@@ -10,6 +10,11 @@ interface ISearchForm {
   }
 }
 
+/**
+ * Renvoie champ de recherche des filtres
+ * @param {string} [keyword] Optionnel, pour passer un texte recherché
+ * @param {(arg: string) => void} [search] Optionnel, callback de recherche sous la forme d'une debounce function
+ */
 export default function SearchForm({ keyword, search }: ISearchForm) {
   const [isSearchInteracted, setIsSearchInteracted] = useState(false)
   const [value, setValue] = useState("")
