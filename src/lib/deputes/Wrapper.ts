@@ -27,6 +27,7 @@ export function getDeputes() {
             PlaceEnHemicycle
             Prenom
             Profession
+            RattachementFinancier
             Sexe
             Slug
             Twitter
@@ -89,6 +90,7 @@ export function getDepute(slug: string) {
                 }
               }
             }
+            RattachementFinancier
             URLPhotoAugora
             Nom
             NomCirconscription

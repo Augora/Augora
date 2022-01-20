@@ -5,7 +5,7 @@ import { getDepute, getDeputesSlugs } from "../../lib/deputes/Wrapper"
 import Socials from "components/deputy/socials/Socials"
 import Coworkers from "components/deputy/coworkers/Coworkers"
 import MapDistrict from "components/deputy/map-district/MapDistrict"
-import { getGeneralInformation } from "utils/augora-objects/deputy/information"
+import { getGeneralInformation, getGroupesInformation } from "utils/augora-objects/deputy/information"
 import { getMandate } from "utils/augora-objects/deputy/mandate"
 import { getCoworkers } from "utils/augora-objects/deputy/coworker"
 import GeneralInformation from "components/deputy/general-information/GeneralInformation"
@@ -13,6 +13,7 @@ import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 import SEO, { PageType } from "components/seo/seo"
+import GroupeEtParti from "src/components/deputy/groupes/groupe-parti"
 
 interface IDeputy {
   depute: Deputy.Deputy
@@ -26,7 +27,6 @@ interface IDeputy {
 export default function Deputy({ depute }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.CouleurDetail
-
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
@@ -42,6 +42,7 @@ export default function Deputy({ depute }: IDeputy) {
           <MapDistrict deputy={deputy} color={color} size="medium" />
           <Presence color={color} size="large" activite={deputy.Activites.data} wip={false} />
           <Contact color={color} size="medium" adresses={deputy.AdressesDetails.data} />
+          <GroupeEtParti {...getGroupesInformation(deputy)} color={color} size="medium" />
         </div>
       </div>
     </>

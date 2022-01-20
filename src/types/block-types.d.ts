@@ -1,6 +1,6 @@
 /** Tous les types concernant les blocs de la page détail */
 declare namespace Bloc {
-  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map"
+  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "groupes"
 
   type Size = "large" | "medium" | "small"
 
@@ -36,6 +36,14 @@ declare namespace Bloc {
     children?: React.ReactNode
   }
 
+  interface GroupeEtParti extends Base {
+    groupe: string
+    // responsabiliteGroupe: string
+    rattachement: string
+    photoGroupe: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    photoRattachement: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+  }
+
   interface Contact extends Base {
     adresses: Deputy.Adresse[]
   }
@@ -64,6 +72,8 @@ declare namespace Bloc {
     firstName: string
     picture: string
     pictureGroup: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    pictureParty: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    party: string
     groupe: string
     groupeComplet: string
     age: number

@@ -68,6 +68,7 @@ declare namespace Deputy {
     Collaborateurs?: string[]
     ResponsabiliteGroupe?: Group.ResponsabiliteGroupe
     GroupeParlementaire?: Group.Group
+    RattachementFinancier?: string
     Activites: {
       data: Activite[]
     }
