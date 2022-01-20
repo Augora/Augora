@@ -73,7 +73,7 @@ export default function _Block(props: Bloc.Block) {
                 <IconClose style={{ fill: props.color.HSL.Full }} />
               </button>
             )}
-            {props.info}
+            <div className="popup__content">{props.info}</div>
             {hasAgreed === "false" && (
               <Button
                 className="popup__ok"

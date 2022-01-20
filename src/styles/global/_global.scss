@@ -72,8 +72,9 @@
           width: calc(100% - 40px);
           height: fit-content;
           max-height: calc(100% - 40px);
-          overflow: auto;
           position: absolute;
+          display: flex;
+          flex-direction: column;
           right: 20px;
           top: -100%;
           padding: 40px;
@@ -124,6 +125,10 @@
               text-decoration: underline;
             }
           }
+        }
+
+        &__content {
+          overflow: auto;
         }
 
         &__ok {
