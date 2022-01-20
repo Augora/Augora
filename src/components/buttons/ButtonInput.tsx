@@ -1,17 +1,13 @@
 import React from "react"
 import Button from "./Button"
 
-type ButtonType = "checkbox" | "radio"
-
-export interface IInput {
-  className?: string
+export interface IButtonInput
+  extends Omit<React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, "type"> {
+  className: string
+  category: string
+  type: "checkbox" | "radio"
   onClick: <T>(args?: T) => void
-  style?: React.CSSProperties
-  color?: string
-  children?: React.ReactNode
-  type: ButtonType
   checked?: boolean
-  name?: string
 }
 
 /**
@@ -23,27 +19,18 @@ export interface IInput {
  * @param {boolean} [checked] - Is the button checked
  * @param {ButtonType} [type] - Type of input
  */
-export default function Input(props: IInput) {
+export default function ButtonInput(props: IButtonInput) {
+  const { className, category, type, checked, name, children, onClick, ...restProps } = props
+
   return (
     <Button
-      className={`${props.className} btn--input btn--${props.type} btn--${props.className.split(" ")[0]} ${
-        props.checked ? "checked" : ""
-      }`}
-      onClick={props.onClick}
-      style={{
-        ...props.style,
-      }}
-      color={props.color}
+      className={`${category} ${className} btn--input btn--${props.type} btn--${category} ${props.checked ? "checked" : ""}`}
+      onClick={onClick}
+      {...restProps}
     >
       <label>
-        <input
-          className={`${props.className.split(" ")[0]}__${props.type}`}
-          type={props.type}
-          checked={props.checked}
-          onChange={() => {}}
-          name={props.name}
-        />
-        {props.children}
+        <input className={`${category}__${props.type}`} type={type} checked={checked} name={name} />
+        {children}
       </label>
     </Button>
   )
