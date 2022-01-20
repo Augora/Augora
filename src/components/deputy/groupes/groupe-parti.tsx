@@ -24,7 +24,7 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
             </FAQLink>
           }{" "}
           est un ensemble de députés. Ils peuvent faire partie d'un même parti politique ou de partis différents (alliance de
-          plusieurs partis politiques). Lorsqu'un député fait parti d'un groupe de moins de 15 députés, il est assigné au groupe
+          plusieurs partis politiques). Lorsqu'un député fait partie d'un groupe de moins de 15 députés, il est assigné au groupe
           des non-inscrits.
           <br />
           <br />
@@ -34,8 +34,8 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
               rattachement financier
             </FAQLink>
           }{" "}
-          indique le rattachement d'un député à un parti politique. Cette déclaration permet d'attribuer une partie de leur
-          financement public au parti choisit.
+          indique le rattachement d'un député à un parti politique. Cela permet d'attribuer une partie de leur financement public
+          au parti choisit.
         </p>
       }
       isLockedByDefault={false}

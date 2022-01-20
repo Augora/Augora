@@ -32,7 +32,7 @@ const contentAbout: IContent = [
           <a href="https://fr.wikipedia.org/wiki/Parti_politique" target="_blank" rel="noreferrer">
             parti politique
           </a>{" "}
-          ou de partis différents (alliance de plusieurs partis politiques). Lorsqu'un député fait parti d'un groupe de moins de
+          ou de partis différents (alliance de plusieurs partis politiques). Lorsqu'un député fait partie d'un groupe de moins de
           15 députés, il est assigné au groupe des non-inscrits.
         </p>
         <p>
