@@ -75,7 +75,7 @@
       transition: transform 0.225s cubic-bezier(0.7, 0, 0.3, 1);
       .icon-wrapper {
         svg * {
-          fill: white;
+          fill: white !important;
         }
       }
     }

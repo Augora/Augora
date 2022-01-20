@@ -28,8 +28,10 @@ export default function ButtonInput(props: IButtonInput) {
       onClick={onClick}
       {...restProps}
     >
-      <input className={`${category}__${props.type}`} type={type} checked={checked} name={name} />
-      {children}
+      <label>
+        <input className={`${category}__${props.type}`} type={type} checked={checked} name={name} />
+        {children}
+      </label>
     </Button>
   )
 }

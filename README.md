@@ -14,6 +14,7 @@ Augora, c'est un projet qui a pour vocation de mettre à disposition des outils 
 - <a href="https://reactjs.org" target="_blank">React</a>
 - <a href="https://www.mapbox.com" target="_blank">Mapbox</a>
 - <a href="https://prettier.io" target="_blank">Prettier</a>
+- <a href="https://airbnb.io/visx" target="_blank">Visx</a>
 
 ## Installation de l'environnement
 
@@ -41,7 +42,7 @@ yarn
 yarn dev
 ```
 
-Une fois fait, le site est accessible sur l'adresse : http://localhost:8000 🎉
+Une fois fait, le site est accessible sur l'adresse : http://localhost:3000 🎉
 
 ### Variables d'environnement
 

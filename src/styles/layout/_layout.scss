@@ -46,3 +46,41 @@
     padding-right: 15px;
   }
 }
+
+// Scroll To Top
+/*----------------------------------------------------*/
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  background-image: linear-gradient(to right, $main-color, $secondary-color);
+
+  display: flex;
+  width: 50px;
+  height: 50px;
+
+  padding: 12px;
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s $ease-in-out-cubic, transform 0.5s $ease-in-out-circ;
+
+  z-index: 99;
+
+  svg {
+    transform: rotate(180deg);
+    path {
+      fill: white;
+    }
+  }
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.75s;
+  }
+}

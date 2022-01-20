@@ -1,0 +1,216 @@
+//chart frame
+.frame-chart {
+  .frame {
+    &__header {
+      margin: 0;
+    }
+    &__content {
+      height: 90%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .chart {
+        width: 100%;
+        outline: none;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+          overflow: visible;
+        }
+
+        &__number {
+          pointer-events: none;
+          fill: white;
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        &__axislabel {
+          &.vertical {
+            g > svg > text {
+              transform: translate(-5px, 6px) rotate(-45deg);
+            }
+          }
+          g > svg > text {
+            font-size: 14px !important;
+            fill: $text-color !important;
+            font-weight: 400;
+          }
+          &.axislabel {
+            &__bottom {
+              g > svg > text {
+                font-size: 12px !important;
+              }
+            }
+            &__verticalpyramide {
+              g > svg > text {
+                font-size: 12px !important;
+              }
+            }
+            &__barstack {
+              g > svg > text {
+                font-size: 14px !important;
+                fill: $text-color !important;
+              }
+            }
+          }
+        }
+
+        &__description {
+          font-size: 14px !important;
+          fill: $text-color !important;
+        }
+
+        &__axistick {
+          line {
+            stroke: rgba($text-color, 0.5);
+          }
+        }
+
+        &__rows {
+          line {
+            stroke: rgba($text-color, 0.1) !important;
+            stroke-width: 2 !important;
+          }
+        }
+      }
+
+      .piechart {
+        svg {
+          width: 100%;
+          height: auto;
+        }
+        &__label {
+          svg text {
+            font-weight: normal !important;
+            font-size: 14px !important;
+            fill: $text-color !important;
+          }
+        }
+      }
+
+      .barchart {
+        &__number {
+          font-size: 16px;
+        }
+      }
+
+      .wordcloud {
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+        margin-top: 20px;
+        .svg {
+          margin: 1rem 0;
+          cursor: pointer;
+        }
+        .label {
+          display: inline-flex;
+          align-items: center;
+          font-size: 14px;
+          margin-right: 8px;
+        }
+        .textarea {
+          min-height: 100px;
+        }
+      }
+
+      .charts {
+        &__switch {
+          background-color: transparent;
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          padding: 10px;
+          border: none;
+          height: 50px;
+          cursor: pointer;
+
+          .icon-switch {
+            width: 30px;
+            height: 30px;
+            fill: $text-color;
+          }
+
+          &:hover {
+            background: $btn-hover;
+          }
+        }
+      }
+    }
+  }
+}
+.visx-crosshair-vertical {
+  z-index: 2;
+  svg {
+    overflow: visible;
+    margin-left: 33px;
+    margin-top: 8px;
+  }
+}
+.charttooltip__container {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+  .presence__tooltip {
+    max-width: 400px;
+    .tooltip {
+      &__content {
+        .item {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          .legend {
+            &__col {
+              display: flex;
+              align-items: center;
+              &:first-child {
+                flex: 5;
+              }
+              &:last-child {
+                flex: 1;
+                text-align: right;
+                font-weight: 400;
+              }
+              svg {
+                width: 25px;
+                height: 25px;
+                margin-top: 10px;
+                .last-child {
+                  margin-left: 5px;
+                }
+              }
+            }
+          }
+          &__tooltip {
+            width: 100%;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            &:last-child {
+              margin-bottom: 0px;
+            }
+            .labelValue {
+              font-size: 20px;
+              color: $text-color;
+              text-align: right;
+              font-weight: 400;
+            }
+          }
+          &__tooltip:not(:last-child) {
+            .legend__col {
+              svg {
+                width: 25px;
+                height: 25px;
+                padding-left: 2px;
+                margin-bottom: 3px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
