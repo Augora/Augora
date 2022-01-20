@@ -141,6 +141,14 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+          .icon-wrapper {
+            pointer-events: auto;
+            width: 50%;
+            margin-bottom: 2em;
+            svg * {
+              fill: white !important;
+            }
+          }
         }
         &__age {
           position: relative;

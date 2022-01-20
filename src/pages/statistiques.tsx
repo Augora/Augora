@@ -13,6 +13,8 @@ import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
 import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
 import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
+import WordCloud from "src/components/charts/WordCloud"
+import { Lyrics } from "../static/lyrics"
 
 type Groups = {
   id: string
@@ -146,6 +148,15 @@ const Statistiques = () => {
           <div className="no-deputy">Il n'y a pas de députés correspondant à votre recherche.</div>
         )}
       </Frame>
+      {/* <Frame className="frame-chart frame-nuage" title="Champ lexical des députés">
+        {state.FilteredList.length > 0 ? (
+          <ParentSize className="nuage__container" debounceTime={400}>
+            {(parent) => <WordCloud width={parent.width} height={parent.height} data={Lyrics} />}
+          </ParentSize>
+        ) : (
+          <div className="no-deputy">Il n'y a pas de données correspondant à votre recherche.</div>
+        )}
+      </Frame> */}
     </div>
   )
 }
