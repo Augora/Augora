@@ -1,8 +1,7 @@
 import React from "react"
 import Block from "../_block/_Block"
 import Image from "next/image"
-import IconInfo from "images/ui-kit/icon-info.svg"
-import ButtonIcon from "src/components/buttons/ButtonIcon"
+import FAQLink from "components/faq/Liens-faq"
 
 /**
  * Return deputy's contact info in a Block component
@@ -10,39 +9,48 @@ import ButtonIcon from "src/components/buttons/ButtonIcon"
  */
 const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
   return (
-    <Block title="Groupes et partis" type="groupes" color={props.color} size={props.size} wip={props.wip}>
-      <div className="groupes__container">
-        <div className="groupes__title" style={{ color: props.color.HSL.Full }}>
-          Groupe Parlementaire
-        </div>
-        <ButtonIcon
-          onClick={"/faq#quest-ce-quun-groupe-parlementaire"}
-          className="groupes__button"
-          title={"Qu'est-ce qu'un groupe parlementaire ?"}
-          target=""
-        >
-          <IconInfo className={"icon-info"} style={{ fill: props.color.HSL.Full }} />
-        </ButtonIcon>
+    <Block
+      title="Groupes et partis"
+      type="groupes"
+      color={props.color}
+      size={props.size}
+      wip={props.wip}
+      info={
+        <p>
+          Un{" "}
+          {
+            <FAQLink link={"quest-ce-quun-groupe-parlementaire"} colorHSL={props.color.HSL.Full}>
+              groupe parlementaire
+            </FAQLink>
+          }{" "}
+          est un ensemble de députés. Ils peuvent faire partie d'un même parti politique ou de partis différents (alliance de
+          plusieurs partis politiques). Lorsqu'un député fait parti d'un groupe de moins de 15 députés, il est assigné au groupe
+          des non-inscrits.
+          <br />
+          <br />
+          Un{" "}
+          {
+            <FAQLink link={"quest-ce-quun-rattachement-financier"} colorHSL={props.color.HSL.Full}>
+              rattachement financier
+            </FAQLink>
+          }{" "}
+          indique le rattachement d'un député à un parti politique. Cette déclaration permet d'attribuer une partie de leur
+          financement public au parti choisit.
+        </p>
+      }
+      isLockedByDefault={false}
+    >
+      <div className="groupes__title" style={{ color: props.color.HSL.Full }}>
+        Groupe Parlementaire
       </div>
-
       <div className="groupes__role" style={{ color: props.color.HSL.Full }}>
         {/* ({props.responsabiliteGroupe}) */}
       </div>
       <div className="groupes__nom" title={props.groupe}>
         <props.photoGroupe />
       </div>
-      <div className="groupes__container">
-        <div className="rattachement__title" style={{ color: props.color.HSL.Full }}>
-          Rattachement financier
-        </div>
-        <ButtonIcon
-          onClick={"/faq#quest-ce-quun-rattachement-financier"}
-          className="groupes__button"
-          title={"Qu'est-ce qu'un rattachement financier ?"}
-          target=""
-        >
-          <IconInfo className={"icon-info"} style={{ fill: props.color.HSL.Full }} />
-        </ButtonIcon>
+      <div className="rattachement__title" style={{ color: props.color.HSL.Full }}>
+        Rattachement financier
       </div>
       {props.photoRattachement != null ? (
         typeof props.photoRattachement === "function" ? (
