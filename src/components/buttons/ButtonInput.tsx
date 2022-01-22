@@ -29,7 +29,7 @@ export default function ButtonInput(props: IButtonInput) {
       {...restProps}
     >
       <label>
-        <input className={`${category}__${props.type}`} type={type} checked={checked} name={name} />
+        <input className={`${category}__${props.type}`} type={type} checked={checked} name={name} onChange={() => {}} />
         {children}
       </label>
     </Button>
