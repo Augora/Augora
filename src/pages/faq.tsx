@@ -32,7 +32,7 @@ const contentAbout: IContent = [
           <a href="https://fr.wikipedia.org/wiki/Parti_politique" target="_blank" rel="noreferrer">
             parti politique
           </a>{" "}
-          ou de partis différents (alliance de plusieurs partis politiques). Lorsqu'un député fait parti d'un groupe de moins de
+          ou de partis différents (alliance de plusieurs partis politiques). Lorsqu'un député fait partie d'un groupe de moins de
           15 députés, il est assigné au groupe des non-inscrits.
         </p>
         <p>
@@ -51,9 +51,35 @@ const contentAbout: IContent = [
     ),
   },
   {
+    title: "Qu'est-ce qu'un rattachement financier ?",
+    description: (
+      <>
+        <p>Pour financer leurs dépenses, les partis politiques ont deux sources de revenus principales :</p>
+        <ul>
+          <li>Un financement privé</li>
+          <li>Un financement public</li>
+        </ul>
+        <p>
+          Chaque année, les députés doivent déclarer leur rattachement à un parti politique. Le but de cette déclaration est
+          d'attribuer une partie de leur financement public au parti choisit.
+        </p>
+        Pour plus d'informations, se référer à la page des{" "}
+        <a
+          href="https://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/le-depute/le-financement-de-la-vie-politique-partis-et-campagnes-electorales"
+          target="_blank"
+          rel="noreferrer"
+        >
+          financement de la vie politique
+        </a>{" "}
+        sur le site de l'Assemblée Nationale.
+      </>
+    ),
+  },
+  {
     title: "Qu'est-ce qu'un amendement ?",
     description: (
       <>
+        <p></p>
         <p>
           L'amendement consiste en une modification d'une loi ou un projet de loi. Il peut s'agir d'une correction, d'une
           annulation ou d'un complément. L'amendement peut porter sur une partie ou l'ensemble de la-dite loi.

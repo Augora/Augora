@@ -6,7 +6,7 @@
   "author": "",
   "dependencies": {
     "@supabase/supabase-js": "^1.29.1",
-    "@svgr/webpack": "^5.5.0",
+    "@svgr/webpack": "^6.2.0",
     "@visx/annotation": "^2.5.0",
     "@visx/axis": "^2.4.0",
     "@visx/grid": "^2.4.0",
@@ -16,6 +16,7 @@
     "@visx/scale": "^2.2.2",
     "@visx/shape": "^2.4.0",
     "@visx/tooltip": "^2.2.2",
+    "@visx/wordcloud": "^2.1.0",
     "@visx/xychart": "^2.5.0",
     "dayjs": "^1.10.7",
     "fuse.js": "6.5.3",
@@ -30,7 +31,7 @@
     "react-dom": "17.0.2",
     "react-lazy-load-image-component": "^1.5.0",
     "react-map-gl": "6.1.18",
-    "react-spring": "9.4.1",
+    "react-spring": "9.4.2",
     "sass": "^1.47.0",
     "typescript": "4.5.4",
     "zustand": "^3.6.9"
@@ -51,7 +52,7 @@
     "url": "https://github.com/Augora/Augora/issues"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^11.1.2",
+    "@next/bundle-analyzer": "^12.0.8",
     "@types/geojson": "^7946.0.7",
     "@types/lodash": "^4.14.175",
     "@types/next": "^9.0.0",

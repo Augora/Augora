@@ -46,7 +46,7 @@
         width: 100%;
 
         svg * {
-          fill: white;
+          fill: white !important; // Forces full color only for this icon, keep normal colors for other blocks
         }
       }
     }

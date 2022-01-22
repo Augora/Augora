@@ -71,6 +71,7 @@ declare namespace Deputy {
     Activite: Activite[]
     AutreMandat?: AutreMandat[]
     AncienMandat?: AncienMandat[]
+    RattachementFinancier?: string
   }
 
   /**
