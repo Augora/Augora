@@ -67,7 +67,7 @@ const Footer = () => {
             <FooterLink label="NextJS" link="https://nextjs.org/" target={true} internal={false} />
             <FooterLink label="React" link="https://reactjs.org/" target={true} internal={false} />
             <FooterLink label="GraphQL" link="https://graphql.org/" target={true} internal={false} />
-            <FooterLink label="Fauna" link="https://fauna.com/" target={true} internal={false} />
+            <FooterLink label="Supabase" link="https://supabase.com/" target={true} internal={false} />
             <FooterLink label="Mapbox" link="https://www.mapbox.com/" target={true} internal={false} />
           </FooterMenu>
           <FooterMenu title="Liens Utiles">

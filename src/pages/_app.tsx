@@ -2,11 +2,9 @@ import React from "react"
 import { withRouter } from "next/router"
 import Head from "next/head"
 import { AppProps } from "next/app"
-import { ApolloProvider } from "@apollo/client"
 import sortBy from "lodash/sortBy"
 
 import Layout from "components/layout"
-import client from "lib/faunadb/client"
 import { hydrateStoreWithInitialLists } from "stores/deputesStore"
 
 // Styles
@@ -14,12 +12,13 @@ import "../styles/app.scss"
 
 export default withRouter(function MyApp({ Component, pageProps, router }: AppProps) {
   if (pageProps.deputes) {
-    const orderedDeputes = sortBy(pageProps.deputes.data.DeputesEnMandat.data, "Ordre")
-    const orderedGroupes = sortBy(pageProps.deputes.data.GroupesParlementairesDetailsActifs.data, "Ordre")
+    const orderedDeputes = pageProps.deputes
+    const orderedGroupes = sortBy(pageProps.groupes, "Ordre")
     hydrateStoreWithInitialLists(orderedDeputes, orderedGroupes)
   }
+
   return (
-    <ApolloProvider client={client}>
+    <>
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
@@ -31,6 +30,6 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
       <Layout location={router} title={pageProps.title}>
         <Component {...pageProps} />
       </Layout>
-    </ApolloProvider>
+    </>
   )
 })

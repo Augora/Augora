@@ -198,7 +198,7 @@ const contentAbout: IContent = [
     title: "Quels sont nos outils ?",
     description: (
       <p>
-        Nous utilisons plusieurs technologies dont : NextJS, React, FaunaDB, Github, Mapbox, Visx. <br />
+        Nous utilisons plusieurs technologies dont : NextJS, React, Supabase, Github, Mapbox, Visx. <br />
       </p>
     ),
   },

@@ -8,13 +8,14 @@ import Frame from "components/frames/Frame"
 import { ParentSize } from "@visx/responsive"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { getDeputes } from "src/lib/deputes/Wrapper"
+import { getDeputes, getGroupes } from "../lib/deputes/Wrapper"
 import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
 import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
 import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
-import WordCloud from "src/components/charts/WordCloud"
-import { Lyrics } from "../static/lyrics"
+import shuffle from "lodash/shuffle"
+// import WordCloud from "src/components/charts/WordCloud"
+// import { Lyrics } from "../static/lyrics"
 
 type Groups = {
   id: string
@@ -173,11 +174,12 @@ export default function StatsPage() {
 }
 
 export async function getStaticProps() {
-  const deputes = await getDeputes()
+  const [deputes, groupes] = await Promise.all([getDeputes(), getGroupes()])
 
   return {
     props: {
-      deputes,
+      deputes: shuffle(deputes),
+      groupes,
       title: "Statistiques",
       PageType: PageType.Statistiques,
     },
