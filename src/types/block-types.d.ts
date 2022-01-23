@@ -38,7 +38,7 @@ declare namespace Bloc {
 
   interface GroupeEtParti extends Base {
     groupe: string
-    // responsabiliteGroupe: string
+    responsabiliteGroupe: string
     rattachement: string
     photoGroupe: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
     photoRattachement: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
