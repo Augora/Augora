@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
+import IconInfo from "images/ui-kit/icon-info.svg"
 
 /**
  * Return header block in a div
@@ -6,6 +7,7 @@ import React from "react"
  */
 export default function Header(props: Bloc.Header) {
   const color = props.color.HSL.Full
+
   return (
     <div className={`${props.type}__header block__header`}>
       {/* Verify if the block is general infos */}
@@ -31,6 +33,11 @@ export default function Header(props: Bloc.Header) {
             circonscription
           </span>
         </div>
+      )}
+      {props.onClick && (
+        <button className="header__info" title="Informations supplémentaires" onClick={() => props.onClick(true)}>
+          <IconInfo style={{ fill: props.color.HSL.Full }} />
+        </button>
       )}
     </div>
   )

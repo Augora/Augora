@@ -7,12 +7,12 @@ import { orderBy } from "lodash"
 import { ParentSize } from "@visx/responsive"
 import { Glyph as CustomGlyph, GlyphSquare } from "@visx/glyph"
 import { scaleOrdinal } from "@visx/scale"
+import FAQLink from "components/faq/Liens-faq"
 
 /**
  * Return deputy's presence and participation graph in a Block component
  * @param {*} props
  */
-
 const Presence = (props: Bloc.Presence) => {
   const orderedWeeks = orderBy(props.activite, "DateDeFin")
   const [RangeOrderedWeeks, setRangeOrderedWeeks] = useState(orderedWeeks)
@@ -24,7 +24,6 @@ const Presence = (props: Bloc.Presence) => {
     "Mediane des députés": true,
     Vacances: true,
   })
-
   const medianeDeputeColor = "rgba(77, 77, 77, 0.3)"
   const vacancesColor = "rgba(77, 77, 77, 0.5)"
 
@@ -85,7 +84,55 @@ const Presence = (props: Bloc.Presence) => {
   })
 
   return (
-    <Block title="Présence et participation" type="presence" color={props.color} size={props.size} wip={props.wip}>
+    <Block
+      title="Présence et participation"
+      type="presence"
+      color={props.color}
+      size={props.size}
+      wip={props.wip}
+      info={
+        <p>
+          Le rôle d'un député ne se réduit pas seulement à sa présence aux séances de l'Assemblée Nationale. Si un vote a lieu
+          dans l'hémicycle qui n'a pas de rapport avec ses spécialités, il peut se concentrer sur d'autres activités, telles que
+          la préparation des{" "}
+          {
+            <FAQLink link={"quest-ce-quun-amendement"} colorHSL={props.color.HSL.Full}>
+              amendements
+            </FAQLink>
+          }{" "}
+          et des propositions de loi. Ces activités se déroulent dans le cadre de{" "}
+          {
+            <FAQLink link={"quest-ce-quune-commission-parlementaire"} colorHSL={props.color.HSL.Full}>
+              commissions parlementaires
+            </FAQLink>
+          }
+          . Ils ont également des{" "}
+          {
+            <FAQLink link={"quest-ce-quune-commission-denquete"} colorHSL={props.color.HSL.Full}>
+              commissions d'enquête
+            </FAQLink>
+          }
+          ,{" "}
+          {
+            <FAQLink link={"quest-ce-quune-mission-dinformation"} colorHSL={props.color.HSL.Full}>
+              missions d'information
+            </FAQLink>
+          }{" "}
+          et des{" "}
+          {
+            <FAQLink link={"quest-ce-quun-groupe-detude"} colorHSL={props.color.HSL.Full}>
+              groupes d'études
+            </FAQLink>
+          }
+          .
+          <br />
+          <br />
+          Selon sa responsabilité au sein de ces organes parlementaires (membre, président, etc.), le député aura plus ou moins de
+          temps à consacrer à sa participation dans l'hémicycle.
+        </p>
+      }
+      isLockedByDefault={true}
+    >
       <ParentSize debounceTime={400}>
         {(parent) => (
           <>

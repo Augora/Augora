@@ -1,6 +1,6 @@
 /** Tous les types concernant les blocs de la page détail */
 declare namespace Bloc {
-  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map"
+  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "groupes"
 
   type Size = "large" | "medium" | "small"
 
@@ -10,6 +10,10 @@ declare namespace Bloc {
     /** "large", "medium" ou "small" */
     size?: Size
     wip?: boolean
+    /** Element(s) à mettre dans la tooltip info, s'il faut un bouton info */
+    info?: React.ReactNode
+    /** Si l'overlay info est affiché par défaut et empêche l'accès au bloc */
+    isLockedByDefault?: boolean
   }
 
   interface Header {
@@ -23,11 +27,21 @@ declare namespace Bloc {
       circNb: number
       region: string
     }
+    /** Callback pour le bouton info */
+    onClick?: (args?: any) => void
   }
 
   interface Block extends Base, Header {
     className?: string
     children?: React.ReactNode
+  }
+
+  interface GroupeEtParti extends Base {
+    groupe: string
+    responsabiliteGroupe: string
+    rattachement: string
+    photoGroupe: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    photoRattachement: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
   }
 
   interface Contact extends Base {
@@ -58,6 +72,8 @@ declare namespace Bloc {
     firstName: string
     picture: string
     pictureGroup: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    pictureParty: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    party: string
     groupe: string
     groupeComplet: string
     age: number

@@ -8,7 +8,7 @@ declare namespace Chart {
     /**
      * Data qui feed les charts
      */
-    data: Data[]
+    data?: Data[]
   }
 
   /**
@@ -67,5 +67,18 @@ declare namespace Chart {
     age: number | string
     groups: AgeGroupData
     total: number
+  }
+  interface AgeData {
+    age: number | string
+    groups: AgeGroupData
+    total: number
+  }
+
+  interface WordCloud extends BaseProps {
+    data: string
+  }
+  interface WordData {
+    text: string
+    value: number
   }
 }
