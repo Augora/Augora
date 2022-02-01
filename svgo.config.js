@@ -31,7 +31,6 @@ module.exports = {
           // inlineStyles: {
           //   onlyMatchedOnce: false,
           // },
-
           // or disable plugins
           // removeDoctype: false,
         },
