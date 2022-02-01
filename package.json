@@ -39,7 +39,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "next build --svgo-config ./svgo.config.js",
+    "build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "start": "next start",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\""
