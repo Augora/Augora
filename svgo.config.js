@@ -12,7 +12,7 @@ module.exports = {
     // 'preset-default',
 
     // enable built-in plugins by name
-    // 'prefixIds',
+    "prefixIds",
 
     // or by expanded notation which allows to configure plugin
     // {
