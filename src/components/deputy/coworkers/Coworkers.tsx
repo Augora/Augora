@@ -31,7 +31,7 @@ function Coworkers(props: Bloc.Coworkers) {
           l'aide à la rédaction de propositions de lois ou d'amendements.
           <br />
           <br />
-          <p>Leur rôle est essentiel pour que le député puisse mener à bien son mandat.</p>
+          Leur rôle est essentiel pour que le député puisse mener à bien son mandat.
         </p>
       }
       isLockedByDefault={false}
