@@ -37,9 +37,9 @@ export default function Deputy({ depute }: IDeputy) {
       <div className="page page__deputy">
         <div className="deputy__content">
           <GeneralInformation {...getGeneralInformation(deputy)} color={color} size="medium" dateBegin={deputy.DateDeNaissance} />
-          <Coworkers {...getCoworkers(deputy)} color={color} size="medium" />
-          <MapDistrict deputy={deputy} color={color} size="medium" />
           <GroupeEtParti {...getGroupesInformation(deputy)} color={color} size="medium" />
+          <MapDistrict deputy={deputy} color={color} size="medium" />
+          <Coworkers {...getCoworkers(deputy)} color={color} size="medium" />
           <Mandate {...getMandate(deputy)} color={color} size="medium" />
           <Contact color={color} size="medium" adresses={deputy.Adresses} />
           <Presence color={color} size="large" activite={deputy.Activite} wip={false} />
