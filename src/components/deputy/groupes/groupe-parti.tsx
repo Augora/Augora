@@ -44,9 +44,8 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
         Groupe Parlementaire
       </div>
       <div className="groupes__role" style={{ color: props.color.HSL.Full }}>
-        {/* ({props.responsabiliteGroupe}) */}
+        Fonction : {props.responsabiliteGroupe}
       </div>
-      {console.log(props.groupe)}
       {props.groupe === "Députés Non Inscrits" ? (
         <div className="groupes__logo groupes__non-inscrits" title={props.groupe}>
           <props.photoGroupe />

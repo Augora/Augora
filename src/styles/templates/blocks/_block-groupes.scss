@@ -11,7 +11,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+    }
+    &__title {
       font-weight: 900;
+    }
+
+    &__role {
+      font-weight: 450;
     }
     &__logo {
       display: flex;

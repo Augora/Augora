@@ -1,5 +1,6 @@
 const path = require("path")
 const webpack = require("webpack")
+const SVGOConfig = require("./svgo.config")
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
@@ -19,6 +20,7 @@ module.exports = withBundleAnalyzer({
       use: [
         {
           loader: "@svgr/webpack",
+          options: { svgoConfig: SVGOConfig },
         },
       ],
       type: "javascript/auto",

@@ -25,6 +25,6 @@ export function getGroupesInformation(deputy: Deputy.Deputy) {
     photoRattachement: getPoliticPartyPhotoImport(deputy.RattachementFinancier),
     rattachement: deputy.RattachementFinancier,
     groupe: deputy.GroupeParlementaire.NomComplet,
-    // responsabiliteGroupe: deputy.ResponsabiliteGroupe.Fonction,
+    responsabiliteGroupe: deputy.ResponsabiliteGroupe.Fonction,
   }
 }
