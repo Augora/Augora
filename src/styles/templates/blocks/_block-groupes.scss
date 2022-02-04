@@ -34,7 +34,7 @@
         height: 100%;
       }
     }
-    &__non-inscrits {
+    &__square {
       max-height: 180px;
       max-width: 180px;
     }
@@ -62,8 +62,6 @@
       display: flex;
       width: 50%;
       height: 50%;
-      max-height: 180px;
-      max-width: 300px;
       align-items: center;
       justify-content: center;
       svg,
@@ -72,14 +70,27 @@
         height: 100%;
       }
     }
+    &__square {
+      max-height: 180px;
+      max-width: 180px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      margin: auto;
+    }
     &__svg {
+      max-height: 180px;
+      max-width: 300px;
       padding-top: 15px;
       padding-bottom: 15px;
       margin: auto;
     }
     &__png {
+      position: relative;
+      max-height: 180px;
+      max-width: 180px;
       margin-top: 15px;
       margin-bottom: 15px;
+      padding-bottom: 110px;
       margin-left: auto;
       margin-right: auto;
     }

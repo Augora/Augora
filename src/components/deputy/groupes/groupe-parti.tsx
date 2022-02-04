@@ -46,8 +46,11 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
       <div className="groupes__role" style={{ color: props.color.HSL.Full }}>
         Fonction : {props.responsabiliteGroupe}
       </div>
-      {props.groupe === "Députés Non Inscrits" ? (
-        <div className="groupes__logo groupes__non-inscrits" title={props.groupe}>
+      {props.groupe === "Députés Non Inscrits" ||
+      props.groupe === "Les Républicains" ||
+      props.groupe === "Libertés et Territoires" ||
+      props.groupe === "UDI et Indépendants" ? (
+        <div className="groupes__logo groupes__square" title={props.groupe}>
           <props.photoGroupe />
         </div>
       ) : (
@@ -61,9 +64,15 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
       </div>
       {props.photoRattachement != null ? (
         typeof props.photoRattachement === "function" ? (
-          <div className="rattachement__image rattachement__svg" title={props.rattachement}>
-            <props.photoRattachement />
-          </div>
+          props.rattachement === "Les Républicains" || props.rattachement === "Parti socialiste" ? (
+            <div className="rattachement__image rattachement__square" title={props.rattachement}>
+              <props.photoRattachement />
+            </div>
+          ) : (
+            <div className="rattachement__image rattachement__svg" title={props.rattachement}>
+              <props.photoRattachement />
+            </div>
+          )
         ) : (
           <div className="rattachement__image rattachement__png" title={props.rattachement}>
             <Image src={props.photoRattachement} alt={props.rattachement} layout={"fill"} objectFit={"contain"} priority />
