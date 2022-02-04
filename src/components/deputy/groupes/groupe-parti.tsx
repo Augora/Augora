@@ -86,7 +86,7 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
         </div>
       ) : (
         <div className="rattachement__nom rattachement__nom" title={props.rattachement}>
-          Non déclaré
+          Non déclaré{props.sexe === "F" ? "e" : ""}
         </div>
       )}
     </Block>

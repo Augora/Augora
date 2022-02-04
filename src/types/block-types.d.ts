@@ -42,6 +42,7 @@ declare namespace Bloc {
     rattachement: string
     photoGroupe: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
     photoRattachement: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    sexe: string
   }
 
   interface Contact extends Base {
