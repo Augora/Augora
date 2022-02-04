@@ -53,7 +53,9 @@
       font-weight: 900;
     }
     &__nom {
-      min-height: 180px;
+      align-items: center;
+      justify-content: center;
+      min-height: 150px;
     }
     &__image {
       position: relative;
