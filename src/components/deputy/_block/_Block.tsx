@@ -40,56 +40,58 @@ export default function _Block(props: Bloc.Block) {
 
   return (
     <div color={HSLFull} className={`deputy__block block__${props.type} deputy__block--${props.size ? props.size : "medium"}`}>
-      <Header
-        type={props.type}
-        title={props.title}
-        color={props.color}
-        circ={props.circ}
-        onClick={props.info ? setInfoVisible : null}
-      />
       <div color={HSLFull} className={`block__background ${props.type}__background`} style={backgroundStyle} />
+      <div className="block__wrapper">
+        <Header
+          type={props.type}
+          title={props.title}
+          color={props.color}
+          circ={props.circ}
+          onClick={props.info ? setInfoVisible : null}
+        />
 
-      <div
-        className={`block__content ${props.type}__content ${props.wip ? "block__content--wip" : ""}`}
-        style={props.type === "presence" ? { height: "85%" } : {}}
-      >
-        {!props.wip ? (
-          props.children
-        ) : (
-          <div className="wip__content">
-            <p>Bloc en cours de construction</p>
-            <div className="wip__svg-container">
-              <IconWIP />
+        <div
+          className={`block__content ${props.type}__content ${props.wip ? "block__content--wip" : ""}`}
+          style={props.type === "presence" ? { height: "85%" } : {}}
+        >
+          {!props.wip ? (
+            props.children
+          ) : (
+            <div className="wip__content">
+              <p>Bloc en cours de construction</p>
+              <div className="wip__svg-container">
+                <IconWIP />
+              </div>
+            </div>
+          )}
+        </div>
+        {props.info && (
+          <div className={`block__popup ${infoVisible ? "visible" : ""}`}>
+            <div className="popup__overlay" onClick={() => hasAgreed === "true" && setInfoVisible(false)} />
+            <div className="popup__info" style={{ borderLeftColor: props.color.HSL.Full }}>
+              {hasAgreed === "true" && (
+                <button className="info__close" onClick={() => setInfoVisible(false)}>
+                  <IconClose style={{ fill: props.color.HSL.Full }} />
+                </button>
+              )}
+              <div className="popup__content">{props.info}</div>
+              {hasAgreed === "false" && (
+                <Button
+                  className="popup__ok"
+                  onClick={() => {
+                    setInfoVisible(false)
+                    setHasAgreed("true")
+                    localStorage.setItem(`${props.type}.Autorisation`, "true")
+                  }}
+                  style={{ backgroundColor: props.color.HSL.Full, borderColor: props.color.HSL.Full }}
+                >
+                  J'ai compris
+                </Button>
+              )}
             </div>
           </div>
         )}
       </div>
-      {props.info && (
-        <div className={`block__popup ${infoVisible ? "visible" : ""}`}>
-          <div className="popup__overlay" onClick={() => hasAgreed === "true" && setInfoVisible(false)} />
-          <div className="popup__info" style={{ borderLeftColor: props.color.HSL.Full }}>
-            {hasAgreed === "true" && (
-              <button className="info__close" onClick={() => setInfoVisible(false)}>
-                <IconClose style={{ fill: props.color.HSL.Full }} />
-              </button>
-            )}
-            <div className="popup__content">{props.info}</div>
-            {hasAgreed === "false" && (
-              <Button
-                className="popup__ok"
-                onClick={() => {
-                  setInfoVisible(false)
-                  setHasAgreed("true")
-                  localStorage.setItem(`${props.type}.Autorisation`, "true")
-                }}
-                style={{ backgroundColor: props.color.HSL.Full, borderColor: props.color.HSL.Full }}
-              >
-                J'ai compris
-              </Button>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   )
 }
