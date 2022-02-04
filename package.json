@@ -61,6 +61,6 @@
     "@types/react": "^17.0.39",
     "@types/react-map-gl": "^6.1.0",
     "json-loader": "^0.5.7",
-    "next-sitemap": "^1.8.4"
+    "next-sitemap": "^2.1.8"
   }
 }
