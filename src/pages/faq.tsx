@@ -51,6 +51,35 @@ const contentAbout: IContent = [
     ),
   },
   {
+    title: "Qu’est-ce qu’un assistant parlementaire ?",
+    description: (
+      <>
+        <p>
+          Un assistant parlementaire aide un député durant son mandat. L'assistant est lié par un contrat de droit privé au
+          député.
+        </p>
+        <p>Ci-dessous un liste non exhaustive des tâches qu'ils peuvent accomplir pour aider leur député : </p>
+        <ul>
+          <li>
+            Gérer des dossiers administratifs (préparer l'agenda, répondre aux courriers, adresser des courriers à des organismes,
+            assurer la permanence téléphonique, etc.)
+          </li>
+          <li>Apporter leur expertise sur des textes (projets ou propositions de lois, amendements, etc.)</li>
+          <li>Aider à la rédaction de propositions de lois ou d'amendements</li>
+        </ul>
+        Pour plus d'informations, se référer à la page des{" "}
+        <a
+          href="https://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-autres-structures-de-soutien-a-l-activite-parlementaire/les-collaborateurs-de-deputes"
+          target="_blank"
+          rel="noreferrer"
+        >
+          collaborateurs de députés
+        </a>{" "}
+        sur le site de l'Assemblée Nationale.
+      </>
+    ),
+  },
+  {
     title: "Qu'est-ce qu'un rattachement financier ?",
     description: (
       <>

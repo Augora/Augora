@@ -194,9 +194,6 @@
 
   // Grid system
   @media (min-width: 1401px) {
-    &--small {
-      grid-column-end: span 2;
-    }
     &--medium {
       grid-column-end: span 4;
     }
@@ -208,9 +205,6 @@
     }
   }
   @media (max-width: 1400px) {
-    &--small {
-      grid-column-end: span 4;
-    }
     &--medium {
       grid-column-end: span 8;
     }
@@ -219,18 +213,10 @@
     }
   }
   @media (max-width: 1000px) {
-    &--small {
-      grid-column-end: span 6;
-    }
     &--medium {
       grid-column-end: span 12;
     }
     &--large {
-      grid-column-end: span 12;
-    }
-  }
-  @media (max-width: 600px) {
-    &--small {
       grid-column-end: span 12;
     }
   }

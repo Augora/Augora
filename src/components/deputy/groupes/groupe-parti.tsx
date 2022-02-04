@@ -46,9 +46,16 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
       <div className="groupes__role" style={{ color: props.color.HSL.Full }}>
         Fonction : {props.responsabiliteGroupe}
       </div>
-      <div className="groupes__nom" title={props.groupe}>
-        <props.photoGroupe />
-      </div>
+      {props.groupe === "Députés Non Inscrits" ? (
+        <div className="groupes__logo groupes__non-inscrits" title={props.groupe}>
+          <props.photoGroupe />
+        </div>
+      ) : (
+        <div className="groupes__logo groupes__images" title={props.groupe}>
+          <props.photoGroupe />
+        </div>
+      )}
+
       <div className="rattachement__title" style={{ color: props.color.HSL.Full }}>
         Rattachement financier
       </div>

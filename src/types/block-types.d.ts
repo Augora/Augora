@@ -2,12 +2,12 @@
 declare namespace Bloc {
   type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "groupes"
 
-  type Size = "large" | "medium" | "small"
+  type Size = "large" | "medium"
 
   interface Base {
     /** Couleur du groupe parlementaire */
     color: Group.CouleurDetail
-    /** "large", "medium" ou "small" */
+    /** "large", "medium" */
     size?: Size
     wip?: boolean
     /** Element(s) à mettre dans la tooltip info, s'il faut un bouton info */
