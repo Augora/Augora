@@ -26,9 +26,7 @@
         }
       }
     }
-    &__background {
-      // opacity: 0.75;
-    }
+
     &__header {
       &::after {
         content: "";
@@ -41,6 +39,7 @@
         background-color: white;
       }
     }
+
     &__main {
       display: flex;
       justify-content: space-between;
@@ -226,6 +225,17 @@
     .general {
       &__main {
         padding: 0;
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    .general {
+      &__main {
+        flex-direction: column;
+        .main__info {
+          padding: 40px 0 30px;
+        }
       }
     }
   }
