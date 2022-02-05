@@ -1,0 +1,46 @@
+/*----------------------------------------------------*/
+// Bloc Missions
+/*----------------------------------------------------*/
+.block__missions {
+  position: relative;
+
+  .missions {
+    &__groupe {
+      display: flex;
+    }
+    &__bloc {
+      flex-direction: row;
+      margin: auto;
+    }
+    &__nom {
+      display: flex;
+      text-align: center;
+      // margin: 0 auto 0 auto;
+      word-break: normal;
+      max-width: 260px;
+      padding-bottom: 30px;
+    }
+    &__responsabilite {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-weight: 800;
+      font-size: 28px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    &__boutons {
+      display: flex;
+      flex-direction: row;
+      margin: 0 auto 0 auto;
+    }
+    &__precedent,
+    &__suivant {
+      border-radius: 5px;
+      // background-color: transparent;
+    }
+    &__suivant {
+      margin-left: 10px;
+    }
+  }
+}

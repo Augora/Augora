@@ -15,6 +15,7 @@ import Presence from "components/deputy/presence/Presence"
 import SEO, { PageType } from "components/seo/seo"
 import GroupeEtParti from "src/components/deputy/groupes/groupe-parti"
 import Commission from "src/components/deputy/commission-permanente/commission"
+import Missions from "src/components/deputy/missions-parlementaires/missions"
 
 interface IDeputy {
   depute: Deputy.Deputy
@@ -47,6 +48,13 @@ export default function Deputy({ depute }: IDeputy) {
           <Commission
             color={color}
             size="medium"
+            nomCommission={"Développement durable et aménagement du territoire"}
+            responsabiliteCommission={"Vice-Présidente"}
+            wip={false}
+          />
+          <Missions
+            color={color}
+            size="large"
             nomCommission={"Développement durable et aménagement du territoire"}
             responsabiliteCommission={"Vice-Présidente"}
             wip={false}

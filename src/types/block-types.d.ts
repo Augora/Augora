@@ -92,4 +92,9 @@ declare namespace Bloc {
     nomCommission: string
     responsabiliteCommission: string
   }
+
+  interface Missions extends Base {
+    nomCommission: string
+    responsabiliteCommission: string
+  }
 }
