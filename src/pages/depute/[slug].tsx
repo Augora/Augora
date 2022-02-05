@@ -14,6 +14,7 @@ import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 import SEO, { PageType } from "components/seo/seo"
 import GroupeEtParti from "src/components/deputy/groupes/groupe-parti"
+import Commission from "src/components/deputy/commission-permanente/commission"
 
 interface IDeputy {
   depute: Deputy.Deputy
@@ -43,6 +44,13 @@ export default function Deputy({ depute }: IDeputy) {
           <Mandate {...getMandate(deputy)} color={color} size="medium" />
           <Contact color={color} size="medium" adresses={deputy.Adresses} />
           <Presence color={color} size="large" activite={deputy.Activite} wip={false} />
+          <Commission
+            color={color}
+            size="medium"
+            nomCommission={"Développement durable et aménagement du territoire"}
+            responsabiliteCommission={"Vice-Présidente"}
+            wip={false}
+          />
         </div>
       </div>
     </>
