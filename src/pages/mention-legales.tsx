@@ -53,7 +53,7 @@ const Mentions = () => {
         <h2>Hébergeur</h2>
         <h3>Nos données sont hébergées chez :</h3>
         <p>
-          Fauna <br /> 548 Market Street #87043 <br /> San Francisco, CA 94104 <br /> (855) 432-8623
+          Supabase <br /> Singapore, SG (HQ) <br /> 970 Toa Payoh N, #07-04
         </p>
         <h3>Notre site est hébergé chez :</h3>
         <p>

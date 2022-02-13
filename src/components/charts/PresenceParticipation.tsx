@@ -1,6 +1,6 @@
 import React from "react"
 import { Group } from "@visx/group"
-import { curveMonotoneX } from "@visx/curve"
+import { curveLinear } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
@@ -107,7 +107,7 @@ export default function PresenceParticipation(props: IPresence) {
                 data={slicedData}
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
-                curve={curveMonotoneX}
+                curve={curveLinear}
                 stroke={color}
                 strokeOpacity={opacityParticipation}
               />
@@ -119,7 +119,7 @@ export default function PresenceParticipation(props: IPresence) {
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
                 stroke={color}
-                curve={curveMonotoneX}
+                curve={curveLinear}
               />
             )}
             {DisplayedGraph["Questions orales"] && (

@@ -2,73 +2,18 @@
 // Bloc Présence parlementaire
 /*----------------------------------------------------*/
 .block__presence {
-  padding: 0px 20px 0px 10px;
-  .info {
-    &__button {
-      z-index: 101;
-      background-color: transparent;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      padding: 10px;
-      border: none;
-      height: 50px;
-      cursor: pointer;
-
-      .icon-info {
-        width: 30px;
-        height: 30px;
-        fill: $text-color;
-      }
-      .icon-close {
-        width: 30px;
-        height: 30px;
-        fill: $text-color;
-      }
-
-      &:hover {
-        background: $btn-hover;
-      }
-    }
-    &__bloc {
-      position: absolute;
-      background-color: $frame-color;
-      height: 87%;
-      top: 60px;
-      right: 0px;
-      padding-right: 20px;
-      padding-left: 20px;
-      z-index: 101;
-    }
-    &__content {
-      display: block;
-      justify-content: center;
-      align-items: center;
-      height: 90%;
-      margin-top: 10%;
-      text-align: justify;
-      @media (max-width: 550px) {
-        font-size: 14px;
-      }
-      a {
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.5s $ease-out-cubic;
-        &:hover {
-          color: $secondary-color;
-          text-decoration: underline;
-        }
-      }
-    }
-  }
   .presence {
     @media (max-width: 450px) {
       &__header {
         .header__title {
-          padding-right: 30px;
+          margin-right: 30px;
         }
       }
     }
+    &__content {
+      margin: 0 20px 0 10px;
+    }
+
     &__date {
       position: absolute;
       top: 70px;
@@ -144,7 +89,7 @@
         left: -5px;
         transform: rotate(-90deg);
       }
-      text {
+      div {
         font-size: 16px;
         font-weight: bold;
       }

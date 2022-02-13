@@ -1,5 +1,4 @@
 import React, { useState, createContext } from "react"
-import sortBy from "lodash/sortBy"
 
 import useDeputiesFilters from "../../hooks/deputies-filters/useDeputiesFilters"
 
@@ -23,10 +22,8 @@ const initialState = {
 export const DeputiesListContext = createContext(initialState)
 
 export default function DeputiesListProvider(props) {
-  const [orderedGroupes] = useState(
-    props.initialData ? sortBy(props.initialData.data.GroupesParlementairesDetailsActifs.data, "Ordre") : []
-  )
-  const [deputies] = useState(props.initialData ? sortBy(props.initialData.data.DeputesEnMandat.data, "Ordre") : [])
+  const [orderedGroupes] = useState(props.initialData ? props.initialData.groupes : [])
+  const [deputies] = useState(props.initialData ? props.initialData.deputes : [])
 
   const fullState = useDeputiesFilters(deputies, orderedGroupes)
 
