@@ -8,11 +8,14 @@ import Frame from "components/frames/Frame"
 import { ParentSize } from "@visx/responsive"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { getDeputes } from "src/lib/deputes/Wrapper"
+import { getDeputes, getGroupes } from "../lib/deputes/Wrapper"
 import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
 import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
 import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
+import shuffle from "lodash/shuffle"
+// import WordCloud from "src/components/charts/WordCloud"
+// import { Lyrics } from "../static/lyrics"
 
 type Groups = {
   id: string
@@ -146,6 +149,15 @@ const Statistiques = () => {
           <div className="no-deputy">Il n'y a pas de députés correspondant à votre recherche.</div>
         )}
       </Frame>
+      {/* <Frame className="frame-chart frame-nuage" title="Champ lexical des députés">
+        {state.FilteredList.length > 0 ? (
+          <ParentSize className="nuage__container" debounceTime={400}>
+            {(parent) => <WordCloud width={parent.width} height={parent.height} data={Lyrics} />}
+          </ParentSize>
+        ) : (
+          <div className="no-deputy">Il n'y a pas de données correspondant à votre recherche.</div>
+        )}
+      </Frame> */}
     </div>
   )
 }
@@ -162,11 +174,12 @@ export default function StatsPage() {
 }
 
 export async function getStaticProps() {
-  const deputes = await getDeputes()
+  const [deputes, groupes] = await Promise.all([getDeputes(), getGroupes()])
 
   return {
     props: {
-      deputes,
+      deputes: shuffle(deputes),
+      groupes,
       title: "Statistiques",
       PageType: PageType.Statistiques,
     },

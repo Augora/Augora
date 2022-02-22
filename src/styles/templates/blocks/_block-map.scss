@@ -13,7 +13,7 @@
   .map {
     &__content {
       padding: 0px;
-      height: 100%;
+      height: calc(100% - 75px);
     }
     &__container {
       width: 100%;

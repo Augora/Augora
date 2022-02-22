@@ -46,7 +46,8 @@ jobs:
           CI: "true"
           NODE_ENV: "staging"
           NEXT_PUBLIC_ENV: "staging"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL_STAGING }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY_STAGING }}
         run: yarn build
 
       - name: The build has failed

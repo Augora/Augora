@@ -80,3 +80,6 @@ yarn-error.log
 # Sitemap files
 public/robots.txt
 public/sitemap.xml
+
+# VSCode debugger
+.vscode/launch.json
