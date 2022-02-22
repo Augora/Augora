@@ -28,41 +28,44 @@ export default function Controls({
   /*----------------------------------------------------*/
   useEffect(() => {
     if (deputeSearch.length > 0) {
-      verify(deputeSearch, deputes)
+      verifyDepute(deputeSearch, deputes)
     } else {
       setSearchedDeputes([])
     }
   }, [deputeSearch])
   useEffect(() => {
     if (governmentSearch.length > 0) {
-      verify(governmentSearch, government)
+      verifyGovernment(governmentSearch, government)
     } else {
       setSearchedGovernments([])
     }
   }, [governmentSearch])
 
-  const verify = useCallback(
+  const verifyDepute = useCallback(
     debounce((value, data) => {
-      if (data.hasOwnProperty('DeputesEnMandat')) {
-        const filteredResults = data.DeputesEnMandat.data.filter((people) => {
-          return (
-            slugify(people.NomDeFamille).includes(slugify(value)) ||
-            slugify(people.Prenom).includes(slugify(value)) ||
-            slugify(people.Nom).includes(slugify(value))
-          )
-        })
-        setSearchedDeputes(filteredResults)
-      } else {
-        const filteredResults = data.filter((people) => {
-          const fullname = slugify(people.firstname) + ' ' + slugify(people.lastname)
-          return (
-            slugify(people.firstname).includes(slugify(value)) ||
-            slugify(people.lastname).includes(slugify(value)) ||
-            slugify(fullname).includes(slugify(value))
-          )
-        })
-        setSearchedGovernments(filteredResults)
-      }
+      const filteredResults = data.filter((people) => {
+        return (
+          slugify(people.NomDeFamille).includes(slugify(value)) ||
+          slugify(people.Prenom).includes(slugify(value)) ||
+          slugify(people.Nom).includes(slugify(value))
+        )
+      })
+      setSearchedDeputes(filteredResults)
+    }, 500),
+    []
+  )
+
+  const verifyGovernment = useCallback(
+    debounce((value, data) => {
+      const filteredResults = data.filter((people) => {
+        const fullname = slugify(people.firstname) + ' ' + slugify(people.lastname)
+        return (
+          slugify(people.firstname).includes(slugify(value)) ||
+          slugify(people.lastname).includes(slugify(value)) ||
+          slugify(fullname).includes(slugify(value))
+        )
+      })
+      setSearchedGovernments(filteredResults)
     }, 500),
     []
   )

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { fetchQuery } from 'utils/utils';
-import { getDeputesAccropolis, getDeputeAccropolis } from "../lib/deputes/Wrapper"
+import { getDeputesAccropolis } from "../lib/deputes/Wrapper"
 import Controls from "components/accropolis/Controls"
 import { useRouter } from "next/router"
 import controlsStyles from "components/accropolis/ControlsStyles.module.scss"
@@ -392,6 +392,7 @@ export default function AccropolisLiveTools({allAccroDeputes, strapiGovernment})
 async function getServerSideProps() {
   const strapiGovernment = await fetchQuery('governments')
   const allAccroDeputes = await getDeputesAccropolis()
+  console.log(allAccroDeputes[0]);
 
   return {
     props: {
@@ -402,4 +403,4 @@ async function getServerSideProps() {
   }
 }
 
-export { getServerSideProps, fetchQuery }
+export { getServerSideProps }
