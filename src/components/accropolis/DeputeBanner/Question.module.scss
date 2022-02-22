@@ -1,0 +1,12 @@
+.question {
+  position: relative;
+  color: white;
+  font-weight: bold;
+  overflow: hidden;
+  display: inline-block;
+
+  &__inner {
+    display: inline-block;
+    position: relative;
+  }
+}
