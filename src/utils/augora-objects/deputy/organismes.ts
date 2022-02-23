@@ -10,7 +10,7 @@ export function getOrganismes(deputy: Deputy.Deputy) {
   "Commission de la défense nationale et des forces armées",
   "Commission du développement durable et de l'aménagement du territoire",
   "Commission des finances, de l'économie générale et du contrôle budgétaire",
-  "Commission des lois constitutionnelles, de la législation et de l'administration générale de la République"]
+  "Commission des lois constitutionnelles, de la législation et de l'administration générale de la république"]
 
   const organismes = deputy.Depute_OrganismeParlementaire.map((o) => {
     const organisme = {
