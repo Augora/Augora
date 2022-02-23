@@ -24,6 +24,7 @@ export function getOrganismes(deputy: Deputy.Deputy) {
 
   const props = {
     organismes: organismes,
+    nombre: organismes.length
   }
 
   return props

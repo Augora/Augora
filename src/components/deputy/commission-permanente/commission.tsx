@@ -5,7 +5,7 @@ import Block from "../_block/_Block"
  * Return deputy's commission info in a Block component
  * @param {*} props
  */
-const Commission = (props: Bloc.Commission) => {
+const Commission = (props: Bloc.Organismes) => {
   const permanente = props.organismes.find((o) => o.Permanente)
   return (
     <Block title="Commission permanente" type="commission" color={props.color} size={props.size} wip={props.wip}>

@@ -2,6 +2,7 @@ import React from "react"
 
 interface IMission {
   nom: string
+  fonction: string
   color: string
   isCompact?: boolean
 }
@@ -11,13 +12,11 @@ interface IMission {
  * @param props
  */
 function Mission(props: IMission) {
-  const nomMission = props.nom
-
   return (
     <div className="missions__bloc">
-      <div className="missions__nom">{nomMission}</div>
+      <div className="missions__nom">{props.nom}</div>
       <div className="missions__responsabilite" style={{ color: props.color }}>
-        Vice-Présidente
+        {props.fonction}
       </div>
     </div>
   )

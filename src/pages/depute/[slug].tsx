@@ -30,6 +30,7 @@ interface IDeputy {
 export default function Deputy({ depute }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.CouleurDetail
+  const organismes = getOrganismes(deputy)
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
@@ -46,14 +47,8 @@ export default function Deputy({ depute }: IDeputy) {
           <Mandate {...getMandate(deputy)} color={color} size="medium" />
           <Contact color={color} size="medium" adresses={deputy.Adresses} />
           <Presence color={color} size="large" activite={deputy.Activite} wip={false} />
-          <Commission {...getOrganismes(deputy)} color={color} size="medium" wip={false} />
-          <Missions
-            color={color}
-            size="large"
-            nomCommission={"Développement durable et aménagement du territoire"}
-            responsabiliteCommission={"Vice-Présidente"}
-            wip={false}
-          />
+          <Commission {...organismes} color={color} size="medium" wip={false} />
+          {organismes.nombre > 1 ? <Missions {...organismes} color={color} size="large" wip={false} /> : ""}
         </div>
       </div>
     </>

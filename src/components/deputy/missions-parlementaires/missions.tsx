@@ -6,24 +6,23 @@ import Mission from "src/components/deputy/missions-parlementaires/mission/missi
  * Return deputy's commission info in a Block component
  * @param {*} props
  */
-const Missions = (props: Bloc.Missions) => {
-  const nomsMissions = [
-    "Développement durable et aménagement du territoire",
-    "Commission du développement durable et de l'aménagement du territoire",
-    "Commission spéciale chargée d'examiner le projet de loi portant lutte contre le dérèglement climatique et renforcement de la résilience face à ses effets",
-    "Mission d'information sur le secteur coopératif dans le domaine agricole",
-    "Mission d'information sur l'aide au développement : quelles nouvelles approches pour l'aide française au développement",
-  ]
+const Missions = (props: Bloc.Organismes) => {
   const [IndexMission, setIndexMission] = useState(0)
+  const nombreMission = props.organismes.length < 3 ? props.organismes.length : 3
 
   return (
     <Block title="Missions parlementaires" type="missions" color={props.color} size={props.size} wip={props.wip}>
       <div className="missions__groupe">
-        {nomsMissions.map((mission, i) => {
+        {props.organismes.map((mission, i) => {
           return (
             <>
-              {i >= IndexMission && i < IndexMission + 3 ? (
-                <Mission key={`${mission}-${i}`} color={props.color.HSL.Full} nom={mission} />
+              {i >= IndexMission && i < IndexMission + nombreMission ? (
+                <Mission
+                  key={`${mission}-${i}`}
+                  color={props.color.HSL.Full}
+                  nom={mission.OrganismeNom}
+                  fonction={mission.Fonction}
+                />
               ) : (
                 ""
               )}
@@ -45,7 +44,7 @@ const Missions = (props: Bloc.Missions) => {
         <button
           name={"Suivant"}
           onClick={() => {
-            IndexMission != nomsMissions.length - 3 ? setIndexMission(IndexMission + 1) : ""
+            IndexMission != props.organismes.length - nombreMission ? setIndexMission(IndexMission + 1) : ""
           }}
           className={"missions__suivant"}
           style={{ borderColor: props.color.HSL.Full, color: props.color.HSL.Full }}
