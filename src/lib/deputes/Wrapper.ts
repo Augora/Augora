@@ -52,6 +52,12 @@ export function getDepute(slug: string) {
       ),
       Activite (
         *
+      ),
+      Depute_OrganismeParlementaire (
+        *,
+        OrganismeParlementaire (
+          Nom
+        )
       )
       `
     )

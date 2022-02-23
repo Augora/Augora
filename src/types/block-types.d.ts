@@ -89,8 +89,7 @@ declare namespace Bloc {
     activite: Deputy.Activite[]
   }
   interface Commission extends Base {
-    nomCommission: string
-    responsabiliteCommission: string
+    organismes: Organisme.Contenu[]
   }
 
   interface Missions extends Base {
