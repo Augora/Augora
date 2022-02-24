@@ -16,7 +16,7 @@ const Missions = (props: Bloc.Organismes) => {
         {props.organismes.map((mission, i) => {
           return (
             <>
-              {i >= IndexMission && i < IndexMission + nombreMission ? (
+              {i >= IndexMission && i < IndexMission + nombreMission && !mission.Permanente ? (
                 <Mission
                   key={`${mission}-${i}`}
                   color={props.color.HSL.Full}
