@@ -1,7 +1,8 @@
 declare namespace Organisme {
 
-  interface Nom {
+  interface Complément {
     Nom: string
+    EstPermanent: boolean
   }
 
   interface Contenu {
@@ -26,7 +27,7 @@ declare namespace Organisme {
   /**
    * Nom de l'organisme parlementaire
    */
-  OrganismeParlementaire: Nom
+  OrganismeParlementaire: Complément
   /**
    * Slug de l'organisme parlementaire
    */

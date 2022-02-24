@@ -56,7 +56,8 @@ export function getDepute(slug: string) {
       Depute_OrganismeParlementaire (
         *,
         OrganismeParlementaire (
-          Nom
+          Nom,
+          EstPermanent
         )
       )
       `
