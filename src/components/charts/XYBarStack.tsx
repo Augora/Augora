@@ -89,7 +89,7 @@ export default function XYBarStack(props: BarStackProps) {
               hideAxisLine={true}
               hideTicks={true}
               numTicks={numTicks}
-              left={isAxisRange ? -marginRight / 2 : -marginRight / 4}
+              left={isAxisRange ? -marginRight / 2 : -marginRight / 3 + 1}
             />
           )}
           <AnimatedAxis

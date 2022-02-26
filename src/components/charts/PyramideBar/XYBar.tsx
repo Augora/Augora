@@ -17,13 +17,12 @@ interface IXYBar {
 
 export default function XYBar(props: IXYBar) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
-  const numTicks = 5
-  const marginRight = 30
-  const isRange = /^\d\d$/.test(data[0].age as string)
+  const numTicks = 4
+  const marginRight = 38
 
   return (
     <XYChart
-      margin={{ top: 0, right: marginRight, bottom: 25, left: 0 }}
+      margin={{ top: 0, right: marginRight, bottom: 20, left: 0 }}
       width={width}
       height={height}
       yScale={{ type: "band", range: [yMax, 0], padding: 0.1 }}
@@ -40,7 +39,8 @@ export default function XYBar(props: IXYBar) {
           orientation="left"
           hideAxisLine={true}
           hideTicks={true}
-          left={isRange ? -marginRight / 2 : -marginRight / 4}
+          left={Math.ceil(-marginRight / 4)}
+          top={2}
         />
       )}
       <AnimatedAxis
