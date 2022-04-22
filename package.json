@@ -60,7 +60,7 @@
     "@types/next": "^9.0.0",
     "@types/node": "^17.0.25",
     "@types/polylabel": "^1.0.5",
-    "@types/react": "^18.0.6",
+    "@types/react": "^17.0.39",
     "@types/react-map-gl": "^6.1.2",
     "json-loader": "^0.5.7",
     "next-sitemap": "^2.5.20"
