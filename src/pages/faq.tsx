@@ -215,6 +215,31 @@ const contentAbout: IContent = [
   {
     title: "Quelles sont nos sources ?",
     description: (
+      <>
+        <p>
+          Nous utilisons des données publiques (open-data) venant de :{" "}
+          <a href="https://www.regardscitoyens.org" target="_blank" rel="noreferrer">
+            https://www.regardscitoyens.org
+          </a>
+        </p>
+        <p>
+          Leurs données étant sous licence ODbl, nous redistribuons également publiquement les données que nous générons. Pour
+          plus d'informations, voir notre{" "}
+          <a
+            href="https://github.com/Augora/Nucleus/blob/develop/Readme.md#acc%C3%A8s-aux-donn%C3%A9es"
+            target="_blank"
+            rel="noreferrer"
+          >
+            mode opératoire
+          </a>
+          .
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "Est-ce que nos données sont disponibles publiquement ?",
+    description: (
       <p>
         Nous utilisons des données publiques (open-data) venant de :{" "}
         <a href="https://www.regardscitoyens.org" target="_blank" rel="noreferrer">
