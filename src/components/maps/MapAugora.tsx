@@ -18,12 +18,14 @@ import {
   compareFeatures,
   getLayerPaint,
   getDeputies,
+  flyToCoords,
+  getContinent,
+  Cont,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
-import MapInput from "components/maps/MapInput"
 import MapPins from "components/maps/MapPins"
+import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
-import IconInfo from "images/ui-kit/icon-info.svg"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
@@ -33,57 +35,74 @@ interface IMapAugora {
   viewport: ViewportProps
   /** Viewport setstate function */
   setViewport(newViewport: ViewportProps): void
-  /** Callback quand la map requete un changement de zone */
-  changeZone?<T extends GeoJSON.Feature>(feature: T): void
-  /** Liste de députés que la map va fouiller. Hint: on peut passer une array avec un seul député pour par exemple une circonscription */
+  /** Callback quand une zone de la map est cliquée */
+  onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
+  /** Le mode de vue sur les zones, par défaut zoomé */
+  overview?: boolean
+  /** Liste de députés que la map va fouiller. Inutile si on désactive les overlay */
   deputies?: Deputy.DeputiesList
   /** Si les overlays doivent être affichés */
   overlay?: boolean
+  /** Délai optionel de la fonction flytobounds */
+  delay?: number
+  /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire) */
+  attribution?: boolean
+  /** S'il faut afficher les frontières */
+  borders?: boolean
   children?: React.ReactNode
 }
 
 const fillLayerProps: LayerProps = {
   id: "zone-fill",
   type: "fill",
+  beforeId: "road-label",
   paint: getLayerPaint().fill,
 }
 
 const lineLayerProps: LayerProps = {
   id: "zone-line",
   type: "line",
+  beforeId: "road-label",
   paint: getLayerPaint().line,
 }
 
 const fillGhostLayerProps: LayerProps = {
   id: "zone-ghost-fill",
   type: "fill",
+  beforeId: "road-label",
   paint: getLayerPaint(null, true).fill,
 }
 
 const lineGhostLayerProps: LayerProps = {
   id: "zone-ghost-line",
   type: "line",
+  beforeId: "road-label",
   paint: {
     ...getLayerPaint().line,
-    // "line-dasharray": [2, 2],
     "line-opacity": 0.2,
   },
 }
 
 /**
- * Renvoie la map augora, reçoit un code d'affichage, 2 (Dpt, Circ) s'il s'agit d'une circonscription. Si plusieurs sont fournis, ils seront pris en compte dans l'ordre circonscription > département > région > continent
+ * Renvoie la map augora, il lui faut impérativement des données d'affichage, un viewport, et un setViewport, le reste est optionnel
  * @param {AugoraMap.MapView} mapView Object contenant les données d'affichage : geoJSON (zones affichées), feature (zone parente), ghostGeoJSON (zones voisines), paint (comment les zones sont dessinées)
- * @param {Function} [changeZone] Callback de changement de zone
- * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map
+ * @param {Function} [onZoneClick] Callback au click d'une zone, fournie la feature cliquée en paramètre
+ * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map, inutile si les overlays sont désactivés
  * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default true
- * @param {boolean} [forceCenter] S'il faut recentrer la map au chargement, default false
+ * @param {boolean} [small] S'il faut afficher une map plus petite, default false
+ * @param {boolean} [attribution] Si on veut afficher le logo MapBox, default true
+ * @param {number} [delay] Si on veut retarder l'effet de zoom, default 0
  */
 export default function MapAugora(props: IMapAugora) {
   /** Default props */
   const {
+    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
     overlay = true,
     deputies = [],
-    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
+    overview = false,
+    attribution = true,
+    delay = 0,
+    borders = false,
   } = props
 
   /** useStates */
@@ -93,16 +112,30 @@ export default function MapAugora(props: IMapAugora) {
   /** useEffects */
   useEffect(() => {
     if (isMapLoaded) {
-      flyToFeature(zoneFeature)
+      if (!overview) flyToFeature(zoneFeature)
+      else flyToPin(zoneFeature)
     }
-  }, [zoneFeature, isMapLoaded])
+  }, [zoneFeature, overview, isMapLoaded])
 
   /** useRefs */
   const mapRef = useRef<mapboxgl.Map>()
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
-    flyToBounds(feature, props.viewport, props.setViewport, isMobile ? 20 : 80)
+    const padding = isMobile ? 20 : Math.min(props.viewport.width, props.viewport.height) / 20 + 15
+
+    setTimeout(() => {
+      flyToBounds(feature, props.viewport, props.setViewport, padding)
+    }, delay)
+  }
+
+  /** Transitionne le viewport sur un pin en mode overview */
+  const flyToPin = <T extends GeoJSON.Feature>(feature: T) => {
+    const contId = getContinent(feature)
+    const code = getZoneCode(feature)
+    const zoom = contId === Cont.World ? -1 : contId === Cont.OM ? 2 : code !== Code.Cont ? 3.5 : 0
+
+    flyToCoords(zoneFeature.properties.center, props.viewport, props.setViewport, zoom)
   }
 
   /** Change la zone affichée et transitionne */
@@ -110,11 +143,10 @@ export default function MapAugora(props: IMapAugora) {
     const zoneCode = getZoneCode(feature)
     if (feature) {
       if (!compareFeatures(feature, zoneFeature)) {
-        if (props.changeZone) props.changeZone(feature)
+        if (props.onZoneClick) props.onZoneClick(feature)
         renderHover()
-        flyToFeature(feature)
       } else if (zoneCode === Code.Circ) {
-        if (props.changeZone) props.changeZone(feature)
+        if (props.onZoneClick) props.onZoneClick(feature)
       } else flyToFeature(feature)
     }
   }
@@ -183,12 +215,12 @@ export default function MapAugora(props: IMapAugora) {
   return (
     <InteractiveMap
       mapboxApiAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
-      mapStyle="mapbox://styles/augora/ckh3h62oh2nma19qt1fgb0kq7?optimize=true"
+      mapStyle={`mapbox://styles/augora/${borders ? "cktufpwer194q18pmh09ut4e5" : "ckh3h62oh2nma19qt1fgb0kq7"}?optimize=true`}
       ref={(ref) => (mapRef.current = ref && ref.getMap())}
       {...props.viewport}
       width="100%"
       height="100%"
-      minZoom={1}
+      minZoom={0}
       dragRotate={false}
       doubleClickZoom={false}
       touchRotate={false}
@@ -200,6 +232,7 @@ export default function MapAugora(props: IMapAugora) {
       onHover={handleHover}
       onMouseOut={() => renderHover()}
       reuseMaps={true}
+      attributionControl={attribution}
     >
       {isMapLoaded && (
         <>
@@ -212,6 +245,12 @@ export default function MapAugora(props: IMapAugora) {
               <Layer {...lineGhostLayerProps} />
               <Layer {...fillGhostLayerProps} />
             </Source>
+          )}
+          {overview && geoJSON.features.length === 1 && (
+            <MapPin
+              coords={[zoneFeature.properties.center[0], zoneFeature.properties.center[1]]}
+              color={paint.line["line-color"] as string}
+            />
           )}
           {overlay && (
             <>

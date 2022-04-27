@@ -1,4 +1,4 @@
-import create, { SetState, UseStore, StoreApi } from "zustand"
+import create, { SetState, useStore, StoreApi } from "zustand"
 import Fuse from "fuse.js"
 import deburr from "lodash/deburr"
 

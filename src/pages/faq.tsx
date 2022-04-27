@@ -307,17 +307,6 @@ const contentAbout: IContent = [
     ),
   },
   {
-    title: "Est-ce que nos données sont disponibles publiquement ?",
-    description: (
-      <p>
-        Nous utilisons des données publiques (open-data) venant de :{" "}
-        <a href="https://www.regardscitoyens.org" target="_blank" rel="noreferrer">
-          https://www.regardscitoyens.org
-        </a>
-      </p>
-    ),
-  },
-  {
     title: "Quels sont nos outils ?",
     description: (
       <p>

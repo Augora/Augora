@@ -66,3 +66,39 @@ export function getDepute(slug: string) {
     .then(handleSupabaseError)
     .then((d) => d.body[0])
 }
+
+export function getDeputesAccropolis() {
+  return supabase
+    .from("Depute")
+    .select(
+      `
+      *,
+      GroupeParlementaire (
+        *
+      )
+      `
+    )
+    .eq("EstEnMandat", true)
+    .then(handleSupabaseError)
+    .then((d) => d.body)
+}
+
+export function getDeputeAccropolis(slug: string) {
+  return supabase
+    .from("Depute")
+    .select(
+      `
+      *,
+      GroupeParlementaire (
+        *
+      ),
+      Activite (
+        *
+      )
+      `
+    )
+    .eq("Slug", slug)
+    .then(handleSupabaseError)
+    .then((d) => d.body[0])
+}
+

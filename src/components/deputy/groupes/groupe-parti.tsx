@@ -78,15 +78,9 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
             <Image src={props.photoRattachement} alt={props.rattachement} layout={"fill"} objectFit={"contain"} priority />
           </div>
         )
-      ) : props.rattachement != "" ? (
-        <div className="rattachement__nom" title={props.rattachement}>
-          {props.rattachement.includes("Non déclaré")
-            ? props.rattachement.substring(0, props.rattachement.length - 3)
-            : props.rattachement}
-        </div>
       ) : (
-        <div className="rattachement__nom rattachement__nom" title={props.rattachement}>
-          Non déclaré{props.sexe === "F" ? "e" : ""}
+        <div className="rattachement__nom" title={props.rattachement}>
+          {props.rattachement.includes("Non déclaré") ? `Non déclaré${props.sexe === "F" ? "e" : ""}` : props.rattachement}
         </div>
       )}
     </Block>

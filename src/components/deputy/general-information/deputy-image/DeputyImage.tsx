@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import Image from "next/image"
 
 const MissingFemale = "/images/ui-kit/icon-missingfemale.svg"
 const MissingMale = "/images/ui-kit/icon-missingmale.svg"
