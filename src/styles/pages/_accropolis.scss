@@ -1,0 +1,24 @@
+/*----------------------------------------------------*/
+// Page Module Accropolis
+/*----------------------------------------------------*/
+.accropolis__page {
+  flex-direction: column;
+  display: flex;
+  align-items: flex-start;
+  .mapboxgl-ctrl-logo {
+    visibility: hidden;
+  }
+  &.debug {
+    flex-direction: unset;
+  }
+}
+
+.no-layout {
+  .header__container,
+  footer.footer {
+    display: none;
+  }
+  .layout {
+    padding: 0;
+  }
+}

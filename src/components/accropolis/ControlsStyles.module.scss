@@ -1,0 +1,284 @@
+@import "../../styles/global/easing";
+
+.accropolis {
+  // Controls
+  &__controls {
+    padding: 20px;
+    width: 100%;
+    margin-top: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 50px 60px 1fr;
+    grid-gap: 10px;
+    grid-template-rows: masonry;
+    flex-wrap: wrap;
+
+    // Question live dymanique
+    textarea {
+      resize: none;
+    }
+  }
+  &__navigation {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.controls {
+  &__form {
+    display: flex;
+    align-items: center;
+  }
+
+  // Intro & outro
+  /*----------------------------------------------------*/
+  &__introutro {
+    grid-column-end: span 4;
+    grid-row: 2 / span 1;
+    button {
+      height: 100%;
+      width: calc(50% - 5px);
+    }
+  }
+  &__intro {
+    width: 50%;
+  }
+  &__outro {
+    width: 50%;
+    margin-left: 10px;
+  }
+
+  // Blocks
+  /*----------------------------------------------------*/
+  &__block {
+    position: relative;
+    padding: 10px;
+    border: solid 2px rgba(black, 0.1);
+    transition: border-color 0.2s $ease-in-out-cubic, background-color 1s $ease-in-out-cubic;
+    border-radius: 5px;
+    background-color: rgba(black, 0);
+    &:hover {
+      border-color: rgba(black, 0.5);
+      background-color: rgba(black, 0.05);
+    }
+
+    @media (max-width: 1200px) {
+      grid-column-end: span 2;
+    }
+  }
+  &__locked {
+    pointer-events: none;
+    background-color: rgba(black, 0.2);
+    cursor: not-allowed;
+    &::after {
+      content: "\01F512";
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      opacity: 0.1;
+      font-size: 100px;
+      transform: translate(-50%, -50%);
+    }
+  }
+  &__selected {
+    grid-column-end: span 4;
+    p {
+      margin: 0;
+    }
+  }
+  &__question {
+    grid-row: 3 / span 1;
+  }
+  &__map {
+    grid-row: 3 / span 1;
+  }
+  &__navigation {
+    grid-row: 3 / span 1;
+  }
+  &__government {
+    grid-row: 3 / span 1;
+  }
+}
+
+$spacing: 10px;
+$button-color: black;
+// Navigation
+.navigation {
+  &__next {
+    &:hover {
+      svg {
+        left: 5px;
+      }
+    }
+    svg {
+      transform: rotate(-90deg) translateY(2px);
+      left: 0px;
+      transition: left 0.2s $ease-in-out-cubic;
+    }
+  }
+  &__prev {
+    &:hover {
+      svg {
+        right: 5px;
+      }
+    }
+    svg {
+      transform: rotate(90deg) translateY(2px);
+      right: 0px;
+      transition: right 0.2s $ease-in-out-cubic;
+    }
+  }
+  &__btn {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    width: 200px;
+    min-height: 75px;
+    font-size: 12px;
+    line-height: 1.25;
+    border: none;
+    margin: $spacing $spacing 5px 0;
+    cursor: pointer;
+
+    outline: 5px solid rgba($button-color, 0);
+    transition: outline 0.2s $ease-in-out-cubic;
+    &:focus {
+      outline: 5px solid rgba($button-color, 1) !important;
+    }
+
+    &Debug {
+      width: calc(50% - 10px);
+    }
+  }
+  &__search {
+    position: relative;
+  }
+  &__searchResults {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+    padding: 10px;
+    background: #ccc;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  &__searchField {
+    padding: 20px;
+    font-size: 20px;
+    border: solid 1px black;
+    border-radius: 5px;
+  }
+  &__activeDepute {
+    display: block;
+  }
+  &__number {
+    font-size: 20px;
+    margin: 0;
+    position: absolute;
+    top: 0px;
+    left: 5px;
+  }
+  &__name {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+  }
+  &__active {
+    outline: 5px solid rgba($button-color, 1);
+  }
+  &__load {
+    display: inline-block;
+    margin: 0;
+    opacity: 0;
+    margin-left: 20px;
+    pointer-events: none;
+    transition: opacity 0.2s $ease-in-out-cubic;
+    &ing {
+      opacity: 1;
+    }
+    span {
+      animation: blink 1s infinite;
+    }
+  }
+  &__gouvernment {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    span {
+      margin-left: 10px;
+    }
+  }
+}
+
+// Search
+.search {
+  &__depute {
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    margin: 5px 0;
+    opacity: 1;
+    transition: opacity 0.2s $ease-in-out-cubic;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+// Buttons
+/*----------------------------------------------------*/
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  height: 60px;
+  border: solid 2px $button-color;
+  background-color: rgba($button-color, 0.05);
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 12px;
+
+  transition: background-color 0.2s $ease-in-out-cubic;
+
+  &:hover {
+    background-color: rgba($button-color, 0.25);
+  }
+  & > div {
+    width: 30px;
+    position: relative;
+    justify-content: center;
+  }
+  svg {
+    position: relative;
+    path {
+      fill: $button-color;
+    }
+  }
+  &Active {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
