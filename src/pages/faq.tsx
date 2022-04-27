@@ -123,8 +123,8 @@ const contentAbout: IContent = [
       <>
         <p>
           Une commission est un groupe de députés spécialisé dans un domaine. Il peut s'agir d'une commission dite{" "}
-          <a href="/faq#quest-ce-quune-commission-denquete">d'enquête</a>, ou <b>permanente</b>. 8 d'entre elles sont permanentes
-          :
+          <a href="/faq#quest-ce-quune-commission-denquete">d'enquête</a> qui sera temporaire, ou d'une commission dite{" "}
+          <b>permanente</b> (on en compte 8). Ci-dessous la liste des commissions permanentes :
         </p>
         <ul>
           <li>
