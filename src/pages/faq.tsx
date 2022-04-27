@@ -121,7 +121,11 @@ const contentAbout: IContent = [
     title: "Qu'est-ce qu'une commission parlementaire ?",
     description: (
       <>
-        <p>Une commission est un groupe de députés spécialisé dans un domaine. Il existe 8 commissions dites permanentes :</p>
+        <p>
+          Une commission est un groupe de députés spécialisé dans un domaine. Il peut s'agir d'une commission dite{" "}
+          <a href="/faq#quest-ce-quune-commission-denquete">d'enquête</a>, ou <b>permanente</b>. 8 d'entre elles sont permanentes
+          :
+        </p>
         <ul>
           <li>
             <a
@@ -198,7 +202,7 @@ const contentAbout: IContent = [
         </ul>
         <p>
           Tous les groupes parlementaires sont représentés dans chaque commission permanente de façon proportionnelle. Un député
-          ne peut appartenir qu'à une seule commission.
+          ne peut appartenir qu'à une seule commission permanente.
         </p>
         <p>
           Pour plus d'informations, se référer à la page des{" "}
