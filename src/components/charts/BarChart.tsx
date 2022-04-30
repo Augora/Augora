@@ -7,9 +7,11 @@ import { scaleBand, scaleLinear } from "@visx/scale"
 import { Text } from "@visx/text"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
 export default function BarChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+  const { handleGroupClick } = useDeputiesFilters()
 
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
 
@@ -88,6 +90,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
                   fill={d.color}
                   onMouseLeave={handleMouseLeave}
                   onMouseMove={(event) => handleMouseMove(event, d)}
+                  onClick={() => handleGroupClick(d.id)}
                 />
                 {barHeight >= 25 && (
                   <Text
