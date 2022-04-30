@@ -1,5 +1,6 @@
 import { XYChart, AnimatedAxis, AnimatedGrid, Tooltip, AnimatedBarSeries } from "@visx/xychart"
 import AugoraTooltip from "components/tooltip/Tooltip"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
 interface IXYBar {
   width: number
@@ -17,6 +18,7 @@ interface IXYBar {
 
 export default function XYBar(props: IXYBar) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
+  const { handleSexClick } = useDeputiesFilters()
   const numTicks = 4
   const marginRight = 38
 
@@ -57,6 +59,7 @@ export default function XYBar(props: IXYBar) {
         xAccessor={(data: Chart.AgeData) => data.total}
         yAccessor={(data: Chart.AgeData) => data.age}
         colorAccessor={() => color}
+        onPointerUp={() => handleSexClick(dataKey == "hommes" ? "H" : "F")}
       />
       <Tooltip<Chart.AgeData>
         className="charttooltip__container"
