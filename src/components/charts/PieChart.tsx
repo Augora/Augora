@@ -4,9 +4,11 @@ import { Group } from "@visx/group"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 import { Annotation, Label, Connector } from "@visx/annotation"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
 export default function PieChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+  const { handleGroupClick } = useDeputiesFilters()
 
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
   const ratio = width / height
@@ -93,6 +95,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                       fill={groupeArc.color}
                       onMouseLeave={handleMouseLeave}
                       onMouseMove={(event) => handleMouseMove(event, arc.data)}
+                      onClick={() => handleGroupClick(arc.data.id)}
                     />
 
                     {hasSpaceForLabel && (
