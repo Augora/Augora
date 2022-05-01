@@ -24,7 +24,7 @@ export default function XYBar(props: IXYBar) {
     <XYChart
       margin={{ top: 0, right: marginRight, bottom: 20, left: 0 }}
       width={width}
-      height={height}
+      height={height - 20}
       yScale={{ type: "band", range: [yMax, 0], padding: 0.1 }}
       xScale={
         pyramideRight

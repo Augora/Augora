@@ -76,6 +76,53 @@
             stroke-width: 2 !important;
           }
         }
+        &__legend {
+          position: absolute;
+          width: 100%;
+          bottom: 0;
+          left: 0;
+          margin-bottom:2px;
+          display: flex;
+          justify-content: center;
+        }
+        &__legend-item {
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+          margin-right: 10px;
+                    
+          flex-direction: row;
+          
+          .item__label {
+            cursor: pointer;
+            margin: 0 0 12px;
+          }
+          .line {
+            text-decoration: line-through;
+          }
+          &:hover {
+            transform: scale(1.05);
+          }
+          &:nth-child(-n + 2) svg {
+            padding-left: 2px;
+          }
+          svg {
+            width: 25px;
+            height: 25px;
+            margin-bottom: 2px;
+          }
+          .square {
+            &__hommes {
+              fill: $teal;
+            }
+            &__femmes {
+              fill: $turquoise;
+            }
+          }
+          .visx-legend-label {
+            margin-bottom: 12px;
+          }
+        }
       }
 
       .piechart {
