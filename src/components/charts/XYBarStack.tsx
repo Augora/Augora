@@ -13,6 +13,8 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   renderVertically: boolean
   marginTop: number
   marginLeft: number
+  normalHeight: number
+  responsiveHeight: number
 }
 
 const getGroupNomComplet = (sigle: string, groups: Group.GroupsList) => {
@@ -36,6 +38,8 @@ export default function XYBarStack(props: BarStackProps) {
     renderVertically,
     marginTop,
     marginLeft,
+    normalHeight,
+    responsiveHeight,
   } = props
   const isAxisRange = /^\d\d$/.test(dataAge[0].age as string)
   const isRange = width < 460
@@ -46,7 +50,7 @@ export default function XYBarStack(props: BarStackProps) {
   const xMax = width - marginLeft
   const numTicks = renderVertically ? 4 : maxAge > 50 ? maxAge / 10 : maxAge > 15 ? maxAge / 2 : maxAge
   const ratio = renderVertically && isRange ? (width > 300 ? 1 : width > 176 ? 0.9 : 0.8) : 1
-  const yMax = height * ratio - marginTop * 2
+  const yMax = height * ratio - marginTop * 2 - (width > 368 ? normalHeight : responsiveHeight)
 
   return (
     <svg width={width} height={height}>
@@ -54,7 +58,7 @@ export default function XYBarStack(props: BarStackProps) {
         <XYChart
           margin={{ top: 0, right: 20, bottom: marginTop, left: 0 }}
           width={width}
-          height={height * ratio - marginTop}
+          height={height * ratio - marginTop - (width > 368 ? normalHeight : responsiveHeight)}
           yScale={
             renderVertically
               ? { type: "linear", range: [yMax, 0], domain: [0, maxAge] }

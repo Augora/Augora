@@ -1,11 +1,7 @@
 import React from "react"
 import { Group } from "@visx/group"
-import { scaleOrdinal } from "@visx/scale"
-import { GlyphSquare } from "@visx/glyph"
-import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import XYBarStack from "src/components/charts/XYBarStack"
-import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { getGender } from "src/utils/augora-objects/deputy/gender"
+import ChartLegend from "src/components/charts/ChartLegend"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAgeFemme: Chart.AgeData[]
@@ -13,24 +9,17 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   groups: Group.GroupsList
   totalDeputes: number
   maxAge: number
+  shapes: any
 }
 
 export default function PyramideBarStack(props: BarStackProps) {
-  const { width, height, dataAgeFemme, dataAgeHomme, groups, totalDeputes, maxAge } = props
-  const { state, handleGroupClick } = useDeputiesFilters()
+  const { width, height, dataAgeFemme, dataAgeHomme, groups, totalDeputes, maxAge, shapes } = props
 
   // bounds
   const marginTop = 20
   const marginLeft = 30
-
-  const glyphSize = 120
-  const glyphPosition = 8
-  const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
-    domain: groups.map((g) => g.Sigle),
-    range: groups.map((g) => (
-      <GlyphSquare key={g.Sigle} size={glyphSize} top={glyphPosition} left={glyphPosition} fill={g.Couleur} />
-    )),
-  })
+  const normalHeight = 15
+  const responsiveHeight = 35
 
   return (
     <div className="pyramidechart chart">
@@ -47,6 +36,8 @@ export default function PyramideBarStack(props: BarStackProps) {
             renderVertically={false}
             marginTop={marginTop}
             marginLeft={marginLeft}
+            normalHeight={normalHeight}
+            responsiveHeight={responsiveHeight}
           />
         </Group>
       </svg>
@@ -63,38 +54,12 @@ export default function PyramideBarStack(props: BarStackProps) {
             renderVertically={false}
             marginTop={marginTop}
             marginLeft={marginLeft}
+            normalHeight={normalHeight}
+            responsiveHeight={responsiveHeight}
           />
         </Group>
       </svg>
-      <Legend scale={shapeScale}>
-        {(labels) => (
-          <div className="chart__legend">
-            {labels.map((label, i) => {
-              const shape = shapeScale(label.datum)
-              const isValidElement = React.isValidElement(shape)
-              return (
-                <LegendItem
-                  className="chart__legend-item item"
-                  key={`legend-quantile-${i}`}
-                  style={undefined}
-                  onClick={() => {
-                    handleGroupClick(label.datum)
-                  }}
-                >
-                  <svg className={`square__${label.datum}`}>
-                    {isValidElement
-                      ? React.cloneElement(shape as React.ReactElement)
-                      : React.createElement(shape as React.ComponentType<{ fill: string }>)}
-                  </svg>
-                  <LegendLabel className={`item__label ${state.GroupeValue[label.datum] ? "" : "line"}`} style={{}}>
-                    {label.text}
-                  </LegendLabel>
-                </LegendItem>
-              )
-            })}
-          </div>
-        )}
-      </Legend>
+      <ChartLegend shapeScale={shapes} />
     </div>
   )
 }

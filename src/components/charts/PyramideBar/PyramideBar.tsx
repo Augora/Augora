@@ -22,6 +22,7 @@ export default function PyramideBar(props: BarStackProps) {
   const marginLeft = 30
   const xMax = width / 2 - marginLeft
   const yMax = height - marginTop * 2
+  const delta = 10
 
   const glyphSize = 120
   const glyphPosition = 8
@@ -38,14 +39,14 @@ export default function PyramideBar(props: BarStackProps) {
         <Group top={marginTop}>
           <XYBar
             width={width / 2}
-            height={height}
+            height={height - delta}
             data={dataAgeHomme}
             dataKey={"hommes"}
             color={"#14ccae"}
             totalDeputes={totalDeputes}
             maxAge={maxAge}
             xMax={xMax}
-            yMax={yMax}
+            yMax={yMax - delta}
             pyramideRight={false}
           />
         </Group>
@@ -54,27 +55,27 @@ export default function PyramideBar(props: BarStackProps) {
         <Group top={marginTop} left={marginLeft}>
           <XYBar
             width={width / 2}
-            height={height}
+            height={height - delta}
             data={dataAgeFemme}
             dataKey={"femmes"}
             color={"#00bbcc"}
             totalDeputes={totalDeputes}
             maxAge={maxAge}
             xMax={xMax}
-            yMax={yMax}
+            yMax={yMax - delta}
             pyramideRight={true}
           />
         </Group>
       </svg>
       <Legend scale={shapeScale}>
         {(labels) => (
-          <div className="chart__legend">
+          <div className={`chart__sexe`}>
             {labels.map((label, i) => {
               const shape = shapeScale(label.datum)
               const isValidElement = React.isValidElement(shape)
               return (
                 <LegendItem
-                  className="chart__legend-item item"
+                  className="chart__sexe-item item"
                   key={`legend-quantile-${i}`}
                   style={undefined}
                   onClick={() => {
@@ -84,9 +85,7 @@ export default function PyramideBar(props: BarStackProps) {
                   <svg className={`square__${label.datum}`}>
                     {isValidElement
                       ? React.cloneElement(shape as React.ReactElement)
-                      : React.createElement(shape as React.ComponentType<{ fill: string }>, {
-                          fill: "blue",
-                        })}
+                      : React.createElement(shape as React.ComponentType<{ fill: string }>)}
                   </svg>
                   <LegendLabel
                     className={`item__label ${
