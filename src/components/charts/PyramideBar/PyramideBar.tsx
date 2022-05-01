@@ -25,13 +25,11 @@ export default function PyramideBar(props: BarStackProps) {
 
   const glyphSize = 120
   const glyphPosition = 8
+  const domain = ["hommes", "femmes"]
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
     //domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
-    domain: ["hommes", "femmes"],
-    range: [
-      <GlyphSquare key="hommes" size={glyphSize} top={glyphPosition} left={glyphPosition} />,
-      <GlyphSquare key="femmes" size={glyphSize} top={glyphPosition} left={glyphPosition} />,
-    ],
+    domain: domain,
+    range: domain.map((d) => <GlyphSquare key={d} size={glyphSize} top={glyphPosition} left={glyphPosition} />),
   })
 
   return (
