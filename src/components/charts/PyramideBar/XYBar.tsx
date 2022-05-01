@@ -59,7 +59,7 @@ export default function XYBar(props: IXYBar) {
         xAccessor={(data: Chart.AgeData) => data.total}
         yAccessor={(data: Chart.AgeData) => data.age}
         colorAccessor={() => color}
-        onPointerUp={() => handleSexClick(dataKey == "hommes" ? "H" : "F")}
+        onPointerUp={() => handleSexClick(dataKey == "hommes" ? "F" : "H")}
       />
       <Tooltip<Chart.AgeData>
         className="charttooltip__container"
