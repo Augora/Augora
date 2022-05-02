@@ -48,7 +48,7 @@ export default function XYBarStack(props: BarStackProps) {
 
   // bounds
   const xMax = width - marginLeft
-  const numTicks = renderVertically ? 4 : maxAge > 50 ? maxAge / 10 : maxAge > 15 ? maxAge / 2 : maxAge
+  const tickTwoOrOne = maxAge == 2 ? 2 : maxAge == 1 ? 1 : 4
   const ratio = renderVertically && isRange ? (width > 300 ? 1 : width > 176 ? 0.9 : 0.8) : 1
   const yMax = height * ratio - marginTop * 2 - (width > 368 ? normalHeight : responsiveHeight)
 
@@ -82,7 +82,7 @@ export default function XYBarStack(props: BarStackProps) {
         >
           <AnimatedGrid
             className="chart__rows"
-            numTicks={renderVertically ? numTicks : 4}
+            numTicks={tickTwoOrOne}
             columns={renderVertically ? false : true}
             rows={renderVertically ? true : false}
           />
@@ -92,8 +92,9 @@ export default function XYBarStack(props: BarStackProps) {
               orientation="left"
               hideAxisLine={true}
               hideTicks={true}
-              numTicks={numTicks}
-              left={isAxisRange ? -marginRight / 2 : -marginRight / 3 + 1}
+              numTicks={renderVertically ? tickTwoOrOne : 10}
+              left={isAxisRange ? -marginRight / 2 - 1 : -marginRight / 3 + 1}
+              tickFormat={(d: string) => (renderVertically ? d.toString().replace("-", "") : d)}
             />
           )}
           <AnimatedAxis
@@ -101,7 +102,7 @@ export default function XYBarStack(props: BarStackProps) {
             orientation="bottom"
             tickLength={6}
             hideAxisLine={true}
-            numTicks={renderVertically ? 10 : 4}
+            numTicks={renderVertically ? 10 : tickTwoOrOne}
             hideTicks={renderVertically ? false : true}
             tickFormat={(d: string) => (renderVertically ? d : d.toString().replace("-", ""))}
           />

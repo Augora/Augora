@@ -17,7 +17,7 @@ interface IXYBar {
 
 export default function XYBar(props: IXYBar) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
-  const numTicks = 4
+  const numTicks = maxAge == 2 ? 2 : maxAge == 1 ? 1 : 4
   const marginRight = 38
 
   return (
@@ -39,7 +39,7 @@ export default function XYBar(props: IXYBar) {
           orientation="left"
           hideAxisLine={true}
           hideTicks={true}
-          left={Math.ceil(-marginRight / 4)}
+          left={maxAge > 57 ? Math.ceil(-marginRight / 4) : -16}
           top={2}
         />
       )}

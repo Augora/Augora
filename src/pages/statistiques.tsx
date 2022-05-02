@@ -55,6 +55,7 @@ const Statistiques = () => {
   const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.total))
   const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
   const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
+  const maxAgeCumul = Math.max(...dataAge.map((d) => d.total))
 
   const sumAge = dataAge.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
@@ -103,6 +104,7 @@ const Statistiques = () => {
                     dataAge={dataAge}
                     dataAgeRange={dataAgeRange}
                     totalDeputes={state.FilteredList.length}
+                    maxAge={maxAgeCumul}
                     axisLeft={true}
                     renderVertically={true}
                     marginTop={30}
