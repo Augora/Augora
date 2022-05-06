@@ -20,9 +20,10 @@ export default function PyramideBar(props: BarStackProps) {
   // bounds
   const marginTop = 20
   const marginLeft = 30
-  const xMax = width / 2 - marginLeft
-  const yMax = height - marginTop * 2
   const delta = 10
+
+  const xMax = width / 2 - marginLeft
+  const yMax = height - marginTop - delta - 15
 
   const glyphSize = 120
   const glyphPosition = 8
@@ -36,7 +37,7 @@ export default function PyramideBar(props: BarStackProps) {
   return (
     <div className="pyramidechart chart">
       <svg width={width / 2} height={height}>
-        <Group top={marginTop}>
+        <Group top={marginTop + 20}>
           <XYBar
             width={width / 2}
             height={height - delta}
@@ -46,13 +47,13 @@ export default function PyramideBar(props: BarStackProps) {
             totalDeputes={totalDeputes}
             maxAge={maxAge}
             xMax={xMax}
-            yMax={yMax - delta}
+            yMax={yMax}
             pyramideRight={false}
           />
         </Group>
       </svg>
       <svg width={width / 2} height={height}>
-        <Group top={marginTop} left={marginLeft}>
+        <Group top={marginTop + 20} left={marginLeft}>
           <XYBar
             width={width / 2}
             height={height - delta}
@@ -62,7 +63,7 @@ export default function PyramideBar(props: BarStackProps) {
             totalDeputes={totalDeputes}
             maxAge={maxAge}
             xMax={xMax}
-            yMax={yMax - delta}
+            yMax={yMax}
             pyramideRight={true}
           />
         </Group>

@@ -22,10 +22,10 @@ export default function XYBar(props: IXYBar) {
 
   return (
     <XYChart
-      margin={{ top: 0, right: marginRight, bottom: 20, left: 0 }}
+      margin={{ top: 0, right: marginRight, bottom: 35, left: 0 }}
       width={width}
       height={height - 20}
-      yScale={{ type: "band", range: [yMax, 0], padding: 0.1 }}
+      yScale={{ type: "band", range: [yMax - 20, 0], padding: 0.1 }}
       xScale={
         pyramideRight
           ? { type: "linear", range: [0, xMax], domain: [0, maxAge] }
