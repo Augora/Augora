@@ -56,15 +56,19 @@ export default function XYBarStack(props: BarStackProps) {
     <svg width={width} height={height}>
       <Group top={renderVertically ? marginTop / 2 : 0} left={renderVertically ? marginLeft : 0}>
         <XYChart
-          margin={{ top: 0, right: 20, bottom: marginTop, left: 0 }}
+          margin={{ top: 0, right: 20, bottom: marginTop + (renderVertically ? 30 : 0), left: 0 }}
           width={width}
-          height={height * ratio - marginTop - (width > 368 ? normalHeight : responsiveHeight)}
+          height={
+            height * ratio -
+            marginTop * (!renderVertically && (width / height < 0.9 ? 1.5 : 2)) -
+            (width > 368 ? normalHeight : responsiveHeight)
+          }
           yScale={
             renderVertically
               ? { type: "linear", range: [yMax, 0], domain: [0, maxAge] }
               : {
                   type: "band",
-                  range: [yMax, 0],
+                  range: [yMax - (width / height < 0.9 ? 15 : width / height < 0.4 ? 10 : width / height > 0.6 ? 20 : 0), 0],
                   padding: 0.15,
                 }
           }
