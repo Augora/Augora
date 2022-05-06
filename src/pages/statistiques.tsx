@@ -140,6 +140,10 @@ const Statistiques = () => {
             >
               <IconSwitch className="icon-switch" />
             </button>
+            <div className="frame__axes">
+              <div>Hommes</div>
+              <div>Femmes</div>
+            </div>
             <ParentSize className="pyramide__container" debounceTime={400}>
               {(parent) =>
                 HasPyramideBarStack ? (

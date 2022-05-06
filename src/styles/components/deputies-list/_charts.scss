@@ -4,6 +4,21 @@
     &__header {
       margin: 0;
     }
+
+    &__axes {
+      position: absolute;
+      width: 100%;
+      top: 9%;
+      display: flex;
+      justify-content: space-evenly;
+      font-weight: bold;
+      font-family: "Open Sans";
+
+      @media (max-width: 1020px) {
+        top:12%;
+      }
+    }
+
     &__content {
       height: 90%;
       display: flex;
