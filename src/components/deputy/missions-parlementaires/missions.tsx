@@ -62,44 +62,61 @@ const Missions = (props: Bloc.Organismes) => {
       }
     >
       <div className="missions__groupe">
-                <Mission
+        <Mission
           key={`mission-${IndexMission}`}
-                  color={props.color.HSL.Full}
+          color={props.color.HSL.Full}
           nom={props.organismes[IndexMission].OrganismeNom}
           fonction={props.organismes[IndexMission].Fonction}
           permanente={props.organismes[IndexMission].Permanente}
         />
       </div>
+      {nombreMission > 1 ? (
+        <>
+          <div className="missions__circles">
+            {props.organismes.map((o, i) => {
+              return (
+                <button
+                  key={`circle-${i}`}
+                  name={`circle-${i}`}
+                  onClick={() => {
+                    setIndexMission(i)
+                  }}
+                  className={`circle`}
+                  style={{
+                    borderColor: props.color.HSL.Full,
+                    color: props.color.HSL.Full,
+                    backgroundColor: i == IndexMission ? props.color.HSL.Full : "",
+                  }}
                 />
-              ) : (
-                ""
-              )}
-            </>
-          )
-        })}
-      </div>
-      <div className="missions__boutons">
-        <button
-          name={"Précédent"}
-          onClick={() => {
-            IndexMission != 0 ? setIndexMission(IndexMission - 1) : ""
-          }}
-          className={"missions__precedent"}
-          style={{ borderColor: props.color.HSL.Full, color: props.color.HSL.Full }}
-        >
-          {"<"}
-        </button>
-        <button
-          name={"Suivant"}
-          onClick={() => {
-            IndexMission != props.organismes.length - nombreMission ? setIndexMission(IndexMission + 1) : ""
-          }}
-          className={"missions__suivant"}
-          style={{ borderColor: props.color.HSL.Full, color: props.color.HSL.Full }}
-        >
-          {">"}
-        </button>
-      </div>
+              )
+            })}
+          </div>
+          <div className="missions__boutons">
+            <button
+              key={"Précédent"}
+              name={"Précédent"}
+              onClick={() => {
+                IndexMission != 0 ? setIndexMission(IndexMission - 1) : null
+              }}
+              className={`missions__precedent`}
+              style={{ borderColor: props.color.HSL.Full, color: props.color.HSL.Full }}
+            >
+              {"<"}
+            </button>
+            <button
+              key={"Suivant"}
+              name={"Suivant"}
+              onClick={() => {
+                IndexMission == props.organismes.length - 1 ? null : setIndexMission(IndexMission + 1)
+              }}
+              className={`missions__suivant`}
+              style={{ borderColor: props.color.HSL.Full, color: props.color.HSL.Full }}
+            >
+              {">"}
+            </button>
+          </div>
+        </>
+      ) : null}
     </Block>
   )
 }

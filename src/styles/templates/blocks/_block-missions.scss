@@ -7,15 +7,24 @@
   .missions {
     &__groupe {
       display: flex;
+      min-height:200px;
     }
     &__bloc {
       flex-direction: row;
       margin: auto;
     }
+    &__type {
+      display: flex;
+      margin: 0 auto 0 auto;
+      text-align: center;
+      padding-bottom: 30px;
+      font-weight: 800;
+      font-size: 28px;
+    }
     &__nom {
       display: flex;
       text-align: center;
-      // margin: 0 auto 0 auto;
+      margin: 0 auto 0 auto;
       word-break: normal;
       max-width: 260px;
       padding-bottom: 30px;
@@ -28,6 +37,25 @@
       font-size: 28px;
       text-transform: uppercase;
       text-align: center;
+    }
+    &__circles {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      flex-direction: row;
+      padding-top:15px;
+      padding-bottom:15px;
+      margin: 0 auto 0 auto;
+      
+      .circle {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        }
+      
+      .circle:not(:first-child) {
+        margin-left: 15px;
+      }
     }
     &__boutons {
       display: flex;
