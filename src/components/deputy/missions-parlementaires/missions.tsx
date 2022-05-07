@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import Block from "../_block/_Block"
 import Mission from "src/components/deputy/missions-parlementaires/mission/mission"
 import FAQLink from "src/components/faq/Liens-faq"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 
 /**
  * Return deputy's commission info in a Block component
@@ -81,13 +82,13 @@ const Missions = (props: Bloc.Organismes) => {
                   onClick={() => {
                     setIndexMission(i)
                   }}
-                  className={`circle`}
+                  className={`circle${i == IndexMission ? ' active' : ''}`}
                   style={{
                     border: `2px solid ${props.color.RGB.Full}`,
-                    color: props.color.HSL.Full,
-                    backgroundColor: i == IndexMission ? props.color.HSL.Full : "unset",
                   }}
-                />
+                >
+                  <span style={{ backgroundColor: props.color.HSL.Full }}></span>
+                </button>
               )
             })}
           </div>
@@ -96,23 +97,23 @@ const Missions = (props: Bloc.Organismes) => {
               key={"Précédent"}
               name={"Précédent"}
               onClick={() => {
-                IndexMission != 0 ? setIndexMission(IndexMission - 1) : null
+                IndexMission != 0 ? setIndexMission(IndexMission - 1) : setIndexMission(props.organismes.length - 1)
               }}
               className={`missions__precedent`}
-              style={{ border: `2px solid ${props.color.RGB.Full}`, color: props.color.HSL.Full }}
+              style={{ color: props.color.HSL.Full }}
             >
-              {"<"}
+              <IconChevron style={{ fill: props.color.HSL.Full }} />
             </button>
             <button
               key={"Suivant"}
               name={"Suivant"}
               onClick={() => {
-                IndexMission == props.organismes.length - 1 ? null : setIndexMission(IndexMission + 1)
+                IndexMission == props.organismes.length - 1 ? setIndexMission(0) : setIndexMission(IndexMission + 1)
               }}
               className={`missions__suivant`}
-              style={{ border: `2px solid ${props.color.RGB.Full}`, color: props.color.HSL.Full }}
+              style={{ color: props.color.HSL.Full }}
             >
-              {">"}
+              <IconChevron style={{ fill: props.color.HSL.Full }} />
             </button>
           </div>
         </>
