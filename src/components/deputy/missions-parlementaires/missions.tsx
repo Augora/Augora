@@ -83,9 +83,9 @@ const Missions = (props: Bloc.Organismes) => {
                   }}
                   className={`circle`}
                   style={{
-                    borderColor: props.color.HSL.Full,
+                    border: `2px solid ${props.color.RGB.Full}`,
                     color: props.color.HSL.Full,
-                    backgroundColor: i == IndexMission ? props.color.HSL.Full : "",
+                    backgroundColor: i == IndexMission ? props.color.HSL.Full : "unset",
                   }}
                 />
               )
@@ -99,7 +99,7 @@ const Missions = (props: Bloc.Organismes) => {
                 IndexMission != 0 ? setIndexMission(IndexMission - 1) : null
               }}
               className={`missions__precedent`}
-              style={{ borderColor: props.color.HSL.Full, color: props.color.HSL.Full }}
+              style={{ border: `2px solid ${props.color.RGB.Full}`, color: props.color.HSL.Full }}
             >
               {"<"}
             </button>
@@ -110,7 +110,7 @@ const Missions = (props: Bloc.Organismes) => {
                 IndexMission == props.organismes.length - 1 ? null : setIndexMission(IndexMission + 1)
               }}
               className={`missions__suivant`}
-              style={{ borderColor: props.color.HSL.Full, color: props.color.HSL.Full }}
+              style={{ border: `2px solid ${props.color.RGB.Full}`, color: props.color.HSL.Full }}
             >
               {">"}
             </button>
