@@ -208,10 +208,8 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleClick = (e) => {
-    if (e.leftButton) {
-      const feature = getMouseEventFeature(e)
-      if (feature) goToZone(feature)
-    } else if (e.rightButton) handleBack()
+    const feature = getMouseEventFeature(e)
+    if (feature) goToZone(feature)
   }
 
   const handleBack = () => {
@@ -242,6 +240,7 @@ export default function MapAugora(props: IMapAugora) {
       onLoad={handleLoad}
       onMove={(e) => props.setViewport(e.viewState)}
       onClick={handleClick}
+      onContextMenu={handleBack}
       onMouseMove={handleHover}
       onMouseLeave={() => renderHover()}
       reuseMaps={true}

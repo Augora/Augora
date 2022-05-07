@@ -378,7 +378,7 @@ export const getCodesFromFeature = <T extends GeoJSON.Feature>(feature: T): Augo
  * Renvoie la feature FranceZone d'un mousevent, null si la feature n'a pas le bon format
  */
 export const getMouseEventFeature = (e): AugoraMap.Feature => {
-  if (e.features && e.target.className === "overlays") {
+  if (e.features) {
     if (e.features[0]?.properties) {
       return getFeature(getCodesFromFeature(e.features[0]))
     } else return null
