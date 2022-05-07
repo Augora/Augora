@@ -281,12 +281,12 @@ export default function MapAugora(props: IMapAugora) {
                   <FullscreenControl style={{ position: "relative" }} />
                   <GeolocateControl style={{ position: "relative" }} />
                 </div>
-                {/* <div className="navigation__left">
+                <div className="navigation__left">
                   <MapBreadcrumb feature={zoneFeature} handleClick={goToZone} />
                 </div>
                 <div className="navigation__bottom">
                   <MapFilters zoneDeputies={getDeputies(zoneFeature, deputies)} />
-                </div> */}
+                </div>
               </div>
             </>
           )}
