@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useCallback } from "react"
 import { isMobile } from "react-device-detect"
 import Map, { NavigationControl, FullscreenControl, GeolocateControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
 import {
@@ -122,6 +122,7 @@ export default function MapAugora(props: IMapAugora) {
   /** useStates */
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
+  const [cursor, setCursor] = useState<string>("grab")
 
   /** useEffects */
   useEffect(() => {
@@ -236,13 +237,18 @@ export default function MapAugora(props: IMapAugora) {
       dragRotate={false}
       doubleClickZoom={false}
       interactiveLayerIds={isMapLoaded ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
+      cursor={cursor}
       onResize={handleResize}
       onLoad={handleLoad}
       onMove={(e) => props.setViewport(e.viewState)}
       onClick={handleClick}
       onContextMenu={handleBack}
+      onMouseEnter={() => setCursor("pointer")}
       onMouseMove={handleHover}
-      onMouseLeave={() => renderHover()}
+      onMouseLeave={() => {
+        renderHover()
+        setCursor("grab")
+      }}
       reuseMaps={true}
       attributionControl={attribution}
     >
