@@ -14,6 +14,9 @@ interface IMission {
 function Mission(props: IMission) {
   return (
     <div className="missions__bloc">
+      <div className="missions__type" style={{ color: props.color }}>
+        {props.permanente ? "Commission permanente" : null}
+      </div>
       <div className="missions__nom">{props.nom}</div>
       <div className="missions__responsabilite" style={{ color: props.color }}>
         {props.fonction}
