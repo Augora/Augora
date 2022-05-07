@@ -200,8 +200,8 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleHover = (e) => {
-    if (isMapLoaded && e.target.className !== "pins__btn") {
-      if (e.features && e.target.className === "overlays") {
+    if (isMapLoaded && e.originalEvent.target.className !== "pins__btn") {
+      if (e.features) {
         renderHover(e.features[0])
       } else renderHover()
     }
@@ -243,7 +243,7 @@ export default function MapAugora(props: IMapAugora) {
       onMove={(e) => props.setViewport(e.viewState)}
       onClick={handleClick}
       onMouseMove={handleHover}
-      onMouseOut={() => renderHover()}
+      onMouseLeave={() => renderHover()}
       reuseMaps={true}
       attributionControl={attribution}
     >
