@@ -1,14 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
 import { isMobile } from "react-device-detect"
-import InteractiveMap, {
-  NavigationControl,
-  FullscreenControl,
-  GeolocateControl,
-  Source,
-  Layer,
-  LayerProps,
-  ViewportProps,
-} from "react-map-gl"
+import Map, { NavigationControl, FullscreenControl, GeolocateControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
 import {
   Code,
   flyToBounds,
@@ -27,14 +19,15 @@ import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
 import "mapbox-gl/dist/mapbox-gl.css"
+import mapboxgl from "mapbox-gl"
 
 interface IMapAugora {
   /** Objet view contenant les données d'affichage */
   mapView: AugoraMap.MapView
   /** Viewport state object */
-  viewport: ViewportProps
+  viewport: ViewState
   /** Viewport setstate function */
-  setViewport(newViewport: ViewportProps): void
+  setViewport(newViewport: ViewState): void
   /** Callback quand une zone de la map est cliquée */
   onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
   /** Le mode de vue sur les zones, par défaut zoomé */
@@ -83,6 +76,27 @@ const lineGhostLayerProps: LayerProps = {
   },
 }
 
+const localeFR = {
+  "AttributionControl.ToggleAttribution": "Toggle attribution",
+  "AttributionControl.MapFeedback": "Retours sur la map",
+  "FullscreenControl.Enter": "Entrer en plein écran",
+  "FullscreenControl.Exit": "Sortir du plein écran",
+  "GeolocateControl.FindMyLocation": "Me géolocaliser",
+  "GeolocateControl.LocationNotAvailable": "Géolocalisation indisponible",
+  "LogoControl.Title": "Logo Mapbox ",
+  // "NavigationControl.ResetBearing": "Reset bearing to north",
+  "NavigationControl.ZoomIn": "Zoomer",
+  "NavigationControl.ZoomOut": "Dézoomer",
+  "ScaleControl.Feet": "pieds",
+  "ScaleControl.Meters": "m",
+  "ScaleControl.Kilometers": "km",
+  "ScaleControl.Miles": "miles",
+  "ScaleControl.NauticalMiles": "nm",
+  "ScrollZoomBlocker.CtrlMessage": "Utilisez control + molette pour zoomer la carte",
+  "ScrollZoomBlocker.CmdMessage": "Utilisez ⌘ + molette pour zoomer la carte",
+  "TouchPanBlocker.Message": "Utilisez deux doigts pour bouger la carte",
+}
+
 /**
  * Renvoie la map augora, il lui faut impérativement des données d'affichage, un viewport, et un setViewport, le reste est optionnel
  * @param {AugoraMap.MapView} mapView Object contenant les données d'affichage : geoJSON (zones affichées), feature (zone parente), ghostGeoJSON (zones voisines), paint (comment les zones sont dessinées)
@@ -125,7 +139,7 @@ export default function MapAugora(props: IMapAugora) {
     const padding = isMobile ? 20 : Math.min(props.viewport.width, props.viewport.height) / 20 + 15
 
     setTimeout(() => {
-      flyToBounds(feature, props.viewport, props.setViewport, padding)
+      // flyToBounds(feature, props.viewport, props.setViewport, padding)
     }, delay)
   }
 
@@ -213,23 +227,22 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   return (
-    <InteractiveMap
-      mapboxApiAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
+    <Map
+      mapboxAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
       mapStyle={`mapbox://styles/augora/${borders ? "cktufpwer194q18pmh09ut4e5" : "ckh3h62oh2nma19qt1fgb0kq7"}?optimize=true`}
-      ref={(ref) => (mapRef.current = ref && ref.getMap())}
-      {...props.viewport}
-      width="100%"
-      height="100%"
+      locale={localeFR}
+      ref={mapRef}
+      style={{ width: "100%", height: "100%" }}
+      initialViewState={props.viewport}
       minZoom={0}
       dragRotate={false}
       doubleClickZoom={false}
-      touchRotate={false}
       interactiveLayerIds={isMapLoaded ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
       onResize={handleResize}
       onLoad={handleLoad}
-      onViewportChange={props.setViewport}
+      onMove={(e) => props.setViewport(e.viewState)}
       onClick={handleClick}
-      onHover={handleHover}
+      onMouseMove={handleHover}
       onMouseOut={() => renderHover()}
       reuseMaps={true}
       attributionControl={attribution}
@@ -246,45 +259,40 @@ export default function MapAugora(props: IMapAugora) {
               <Layer {...fillGhostLayerProps} />
             </Source>
           )}
-          {overview && geoJSON.features.length === 1 && (
+          {/* {overview && geoJSON.features.length === 1 && (
             <MapPin
               coords={[zoneFeature.properties.center[0], zoneFeature.properties.center[1]]}
               color={paint.line["line-color"] as string}
             />
-          )}
+          )} */}
           {overlay && (
             <>
-              <MapPins
+              {/* <MapPins
                 features={geoJSON.features}
                 ghostFeatures={ghostGeoJSON?.features}
                 hoveredFeature={hover}
                 deputies={deputies}
                 handleClick={goToZone}
                 handleHover={simulateHover}
-              />
+              /> */}
               <div className="map__navigation">
                 <div className="navigation__right">
-                  <NavigationControl
-                    showCompass={false}
-                    zoomInLabel="Zoomer"
-                    zoomOutLabel="Dézoomer"
-                    style={{ position: "relative" }}
-                  />
-                  <FullscreenControl label="Plein écran" style={{ position: "relative" }} />
-                  <GeolocateControl label="Me Géolocaliser" style={{ position: "relative" }} />
+                  <NavigationControl showCompass={false} style={{ position: "relative" }} />
+                  <FullscreenControl style={{ position: "relative" }} />
+                  <GeolocateControl style={{ position: "relative" }} />
                 </div>
-                <div className="navigation__left">
+                {/* <div className="navigation__left">
                   <MapBreadcrumb feature={zoneFeature} handleClick={goToZone} />
                 </div>
                 <div className="navigation__bottom">
                   <MapFilters zoneDeputies={getDeputies(zoneFeature, deputies)} />
-                </div>
+                </div> */}
               </div>
             </>
           )}
           {props.children}
         </>
       )}
-    </InteractiveMap>
+    </Map>
   )
 }

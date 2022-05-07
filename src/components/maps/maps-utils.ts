@@ -1,4 +1,5 @@
-import { WebMercatorViewport, FlyToInterpolator, ViewportProps } from "react-map-gl"
+import { ViewState } from "react-map-gl"
+import { WebMercatorViewport, flyToViewport } from "@math.gl/web-mercator"
 import { ParsedUrlQuery } from "querystring"
 import polylabel from "polylabel"
 import MetroFranceContFile from "static/cont-france.geojson"
@@ -235,8 +236,8 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
  */
 export const flyToBounds = <T extends GeoJSON.Feature>(
   feature: T,
-  viewState: ViewportProps,
-  setViewState: React.Dispatch<React.SetStateAction<ViewportProps>>,
+  viewState: ViewState,
+  setViewState: React.Dispatch<React.SetStateAction<ViewState>>,
   padding?: number
 ): void => {
   const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
@@ -257,8 +258,8 @@ export const flyToBounds = <T extends GeoJSON.Feature>(
  */
 export const flyToCoords = (
   coords: AugoraMap.Coordinates,
-  viewState: ViewportProps,
-  setViewState: React.Dispatch<React.SetStateAction<ViewportProps>>,
+  viewState: ViewState,
+  setViewState: React.Dispatch<React.SetStateAction<ViewState>>,
   zoom?: number,
   speed?: number,
   duration?: number
@@ -268,9 +269,9 @@ export const flyToCoords = (
     longitude: coords[0],
     latitude: coords[1],
     zoom: zoom ? zoom : 1,
-    transitionInterpolator: new FlyToInterpolator({ speed: speed ? speed : 2 }),
+    transitionInterpolator: new flyToViewport({ speed: speed ? speed : 2 }),
     transitionEasing: (x) => -(Math.cos(Math.PI * x) - 1) / 2, //ease in-out sine
-    transitionDuration: duration ? duration : ("auto" as any), //typedef oversight from map-gl, see if they fixed it in the future
+    transitionDuration: duration ? duration : "auto",
     transitionInterruption: 0,
   })
 }
