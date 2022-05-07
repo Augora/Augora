@@ -4,7 +4,7 @@ interface IMission {
   nom: string
   fonction: string
   color: string
-  isCompact?: boolean
+  permanente: boolean
 }
 
 /**

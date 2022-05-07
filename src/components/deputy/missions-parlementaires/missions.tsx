@@ -9,7 +9,7 @@ import FAQLink from "src/components/faq/Liens-faq"
  */
 const Missions = (props: Bloc.Organismes) => {
   const [IndexMission, setIndexMission] = useState(0)
-  const nombreMission = props.organismes.length < 3 ? props.organismes.length : 3
+  const nombreMission = props.organismes.length
 
   return (
     <Block
@@ -62,15 +62,14 @@ const Missions = (props: Bloc.Organismes) => {
       }
     >
       <div className="missions__groupe">
-        {props.organismes.map((mission, i) => {
-          return (
-            <>
-              {i >= IndexMission && i < IndexMission + nombreMission && !mission.Permanente ? (
                 <Mission
-                  key={`${mission}-${i}`}
+          key={`mission-${IndexMission}`}
                   color={props.color.HSL.Full}
-                  nom={mission.OrganismeNom}
-                  fonction={mission.Fonction}
+          nom={props.organismes[IndexMission].OrganismeNom}
+          fonction={props.organismes[IndexMission].Fonction}
+          permanente={props.organismes[IndexMission].Permanente}
+        />
+      </div>
                 />
               ) : (
                 ""
