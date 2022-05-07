@@ -46,6 +46,17 @@ const Missions = (props: Bloc.Organismes) => {
               </FAQLink>
             }
             .
+            <br />
+            <br />
+            Une commission est un groupe de députés spécialisé dans un domaine. Une commission parmenante est un cas particulier
+            d'une{" "}
+            {
+              <FAQLink link={"quest-ce-quune-commission-parlementaire"} colorHSL={props.color.HSL.Full}>
+                commission parlementaire
+              </FAQLink>
+            }
+            . Tous les groupes parlementaires sont représentés dans chaque commission permanente de façon <b>proportionnelle</b>.
+            Un député ne peut appartenir qu'à une seule commission permanente.
           </p>
         </>
       }
