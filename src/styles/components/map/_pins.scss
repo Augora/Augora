@@ -33,6 +33,7 @@
           width: 70px;
           height: 70px;
           border-radius: 20px;
+          line-height: normal;
           background: $lightestgrey;
           box-shadow: 0px 10px 20px rgba($black, 0.3);
           overflow: hidden;
@@ -48,7 +49,7 @@
 
           &--opened {
             width: unset;
-            border-radius: 5px;
+            border-radius: 10px;
           }
 
           &--missing {
@@ -85,7 +86,7 @@
           height: 100%;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
+          justify-content: space-around;
           padding: 7px 10px;
 
           .info {
@@ -103,11 +104,17 @@
               font-weight: bold;
               font-family: $font-title;
               font-size: 24px;
+              line-height: 1.1em;
+              margin: 5px 0;
             }
 
             // &__group {
             // text-transform: uppercase;
             // }
+
+            &__parti {
+              font-size: 13px;
+            }
           }
         }
       }

@@ -59,14 +59,16 @@ function DeputyContent({ deputy, feature, isOpen }: IDeputyContent) {
       <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
       {isOpen && (
         <div className="deputy__info" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }}>
-          <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>
-          <div className="info__separator" />
+          <div className="info__circ">{`${feature.properties.nom_dpt} (${feature.properties[Code.Circ]})`}</div>
           <div className="info__name">
             <div>{deputy.Prenom}</div>
             <div>{deputy.NomDeFamille}</div>
           </div>
-          <div className="info__separator" />
           <div className="info__group">{deputy.GroupeParlementaire.NomComplet}</div>
+          {!deputy.GroupeParlementaire.NomComplet.toUpperCase().includes(deputy.RattachementFinancier.toUpperCase()) &&
+            deputy.RattachementFinancier !== "Non déclaré(s)" && (
+              <div className="info__parti">({deputy.RattachementFinancier})</div>
+            )}
         </div>
       )}
     </div>
