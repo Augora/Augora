@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Block from "../_block/_Block"
 import Mission from "src/components/deputy/missions-parlementaires/mission/mission"
 import FAQLink from "src/components/faq/Liens-faq"
@@ -10,7 +10,22 @@ import IconChevron from "images/ui-kit/icon-chevron.svg"
  */
 const Missions = (props: Bloc.Organismes) => {
   const [IndexMission, setIndexMission] = useState(0)
+  const [visible, setVisible] = useState(true)
   const nombreMission = props.organismes.length
+
+  const animationMissionChange = (index) => {
+    setVisible(false)
+    setTimeout(() => {
+      setIndexMission(index)
+    }, 350)
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setVisible(true)
+    }, 100)
+  }, [IndexMission])
+  
 
   return (
     <Block
@@ -62,7 +77,7 @@ const Missions = (props: Bloc.Organismes) => {
         </>
       }
     >
-      <div className="missions__groupe">
+      <div className={`missions__groupe ${visible ? 'visible' : 'hidden'}`}>
         <Mission
           key={`mission-${IndexMission}`}
           color={props.color.HSL.Full}
@@ -80,7 +95,7 @@ const Missions = (props: Bloc.Organismes) => {
                   key={`circle-${i}`}
                   name={`circle-${i}`}
                   onClick={() => {
-                    setIndexMission(i)
+                    animationMissionChange(i)
                   }}
                   className={`circle${i == IndexMission ? ' active' : ''}`}
                   style={{
@@ -97,7 +112,7 @@ const Missions = (props: Bloc.Organismes) => {
               key={"Précédent"}
               name={"Précédent"}
               onClick={() => {
-                IndexMission != 0 ? setIndexMission(IndexMission - 1) : setIndexMission(props.organismes.length - 1)
+                IndexMission != 0 ? animationMissionChange(IndexMission - 1) : animationMissionChange(props.organismes.length - 1)
               }}
               className={`missions__precedent`}
               style={{ color: props.color.HSL.Full }}
@@ -108,7 +123,7 @@ const Missions = (props: Bloc.Organismes) => {
               key={"Suivant"}
               name={"Suivant"}
               onClick={() => {
-                IndexMission == props.organismes.length - 1 ? setIndexMission(0) : setIndexMission(IndexMission + 1)
+                IndexMission == props.organismes.length - 1 ? animationMissionChange(0) : animationMissionChange(IndexMission + 1)
               }}
               className={`missions__suivant`}
               style={{ color: props.color.HSL.Full }}

@@ -4,14 +4,40 @@
 .block__missions {
   position: relative;
 
+  .block__content {
+    padding-bottom: 80px;
+  }
+
   .missions {
     &__groupe {
       display: flex;
       min-height:200px;
       padding: 0 50px;
+      transition: opacity 0.2s $ease-in-out-cubic;
+
+      &.visibile .missions {
+        &__type,
+        &__nom,
+        &__responsabilite {
+          opacity: 1;
+          transition-duration: 1s $ease-in-out-cubic;
+        }
+      }
+      &.hidden .missions {
+        &__type,
+        &__nom,
+        &__responsabilite {
+          opacity: 0;
+        }
+      }
     }
     &__bloc {
       margin: auto;
+    }
+    &__type,
+    &__nom,
+    &__responsabilite {
+      transition: opacity 0.2s $ease-in-out-cubic;
     }
     &__type {
       display: flex;
@@ -28,6 +54,7 @@
       word-break: normal;
       max-width: 260px;
       padding-bottom: 30px;
+      transition-delay: 0.05s;
     }
     &__responsabilite {
       display: flex;
@@ -37,6 +64,7 @@
       font-size: 28px;
       text-transform: uppercase;
       text-align: center;
+      transition-delay: 0.1s;
     }
     &__circles {
       display: flex;
@@ -45,6 +73,10 @@
       padding-top:15px;
       padding-bottom:15px;
       margin: 0 auto 0 auto;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       
       .circle {
         position: relative;
