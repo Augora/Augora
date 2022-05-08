@@ -1,5 +1,4 @@
 import React from "react"
-import fs from "fs"
 import Head from "next/head"
 import { getDepute, getDeputesSlugs } from "../../lib/deputes/Wrapper"
 import Socials from "components/deputy/socials/Socials"
@@ -14,6 +13,8 @@ import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 import SEO, { PageType } from "components/seo/seo"
 import GroupeEtParti from "src/components/deputy/groupes/groupe-parti"
+import Missions from "src/components/deputy/missions-parlementaires/missions"
+import { getOrganismes } from "src/utils/augora-objects/deputy/organismes"
 
 interface IDeputy {
   depute: Deputy.Deputy
@@ -27,6 +28,7 @@ interface IDeputy {
 export default function Deputy({ depute }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.CouleurDetail
+  const organismes = getOrganismes(deputy)
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
@@ -43,6 +45,7 @@ export default function Deputy({ depute }: IDeputy) {
           <Mandate {...getMandate(deputy)} color={color} size="medium" />
           <Contact color={color} size="medium" adresses={deputy.Adresses} />
           <Presence color={color} size="large" activite={deputy.Activite} wip={false} />
+          <Missions {...organismes} color={color} size="medium" wip={false} />
         </div>
       </div>
     </>
