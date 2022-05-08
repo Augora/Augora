@@ -1,4 +1,4 @@
-import { ViewState } from "react-map-gl"
+import { MapRef, ViewState } from "react-map-gl"
 import { WebMercatorViewport, flyToViewport } from "@math.gl/web-mercator"
 import { ParsedUrlQuery } from "querystring"
 import polylabel from "polylabel"
@@ -236,15 +236,26 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
  */
 export const flyToBounds = <T extends GeoJSON.Feature>(
   feature: T,
-  viewState: ViewState,
-  setViewState: React.Dispatch<React.SetStateAction<ViewState>>,
-  padding?: number
+  // viewState: ViewState,
+  // setViewState: React.Dispatch<React.SetStateAction<ViewState>>,
+  mapRef: MapRef,
+  isMobile?: boolean
 ): void => {
   const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
-  const { longitude, latitude, zoom } = new WebMercatorViewport({ width: 500, height: 500, ...viewState }).fitBounds(bounds, {
-    padding: padding ? padding : 80,
+
+  const { longitude, latitude, zoom } = new WebMercatorViewport({
+    width: mapRef.getContainer().getBoundingClientRect().width,
+    height: mapRef.getContainer().getBoundingClientRect().height,
+  }).fitBounds(bounds, {
+    padding: isMobile ? 20 : 80,
   })
-  flyToCoords([longitude, latitude], viewState, setViewState, zoom)
+
+  mapRef.easeTo({
+    center: [longitude, latitude],
+    zoom: zoom,
+    easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+  })
+  // flyToCoords([longitude, latitude], viewState, setViewState, zoom)
 }
 
 /**

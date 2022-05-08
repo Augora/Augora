@@ -1,6 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import { isMobile } from "react-device-detect"
-import Map, { NavigationControl, FullscreenControl, GeolocateControl, Source, Layer, LayerProps, ViewState } from "react-map-gl"
+import Map, {
+  NavigationControl,
+  FullscreenControl,
+  GeolocateControl,
+  Source,
+  Layer,
+  LayerProps,
+  ViewState,
+  MapRef,
+} from "react-map-gl"
 import {
   Code,
   flyToBounds,
@@ -133,14 +142,13 @@ export default function MapAugora(props: IMapAugora) {
   }, [zoneFeature, overview, isMapLoaded])
 
   /** useRefs */
-  const mapRef = useRef<mapboxgl.Map>()
+  const mapRef = useRef<MapRef>()
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
-    // const padding = isMobile ? 20 : Math.min(props.viewport.width, props.viewport.height) / 20 + 15
-    // setTimeout(() => {
-    // flyToBounds(feature, props.viewport, props.setViewport, padding)
-    // }, delay)
+    setTimeout(() => {
+      flyToBounds(feature, mapRef.current, isMobile)
+    }, delay)
   }
 
   /** Transitionne le viewport sur un pin en mode overview */
