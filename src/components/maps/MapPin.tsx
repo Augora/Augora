@@ -16,9 +16,8 @@ export default function MapPin({ coords, color, children }: IMapPin) {
       longitude={coords[0]}
       latitude={coords[1]}
       closeButton={false}
-      tipSize={0}
       anchor={"bottom"}
-      dynamicPosition={false}
+      closeOnClick={false}
     >
       {children ? (
         children

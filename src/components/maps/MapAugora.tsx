@@ -137,11 +137,10 @@ export default function MapAugora(props: IMapAugora) {
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
-    const padding = isMobile ? 20 : Math.min(props.viewport.width, props.viewport.height) / 20 + 15
-
-    setTimeout(() => {
-      // flyToBounds(feature, props.viewport, props.setViewport, padding)
-    }, delay)
+    // const padding = isMobile ? 20 : Math.min(props.viewport.width, props.viewport.height) / 20 + 15
+    // setTimeout(() => {
+    // flyToBounds(feature, props.viewport, props.setViewport, padding)
+    // }, delay)
   }
 
   /** Transitionne le viewport sur un pin en mode overview */
@@ -150,7 +149,7 @@ export default function MapAugora(props: IMapAugora) {
     const code = getZoneCode(feature)
     const zoom = contId === Cont.World ? -1 : contId === Cont.OM ? 2 : code !== Code.Cont ? 3.5 : 0
 
-    flyToCoords(zoneFeature.properties.center, props.viewport, props.setViewport, zoom)
+    // flyToCoords(zoneFeature.properties.center, props.viewport, props.setViewport, zoom)
   }
 
   /** Change la zone affichée et transitionne */
@@ -264,22 +263,22 @@ export default function MapAugora(props: IMapAugora) {
               <Layer {...fillGhostLayerProps} />
             </Source>
           )}
-          {/* {overview && geoJSON.features.length === 1 && (
+          {overview && geoJSON.features.length === 1 && (
             <MapPin
               coords={[zoneFeature.properties.center[0], zoneFeature.properties.center[1]]}
               color={paint.line["line-color"] as string}
             />
-          )} */}
+          )}
           {overlay && (
             <>
-              {/* <MapPins
+              <MapPins
                 features={geoJSON.features}
                 ghostFeatures={ghostGeoJSON?.features}
                 hoveredFeature={hover}
                 deputies={deputies}
                 handleClick={goToZone}
                 handleHover={simulateHover}
-              /> */}
+              />
               <div className="map__navigation">
                 <div className="navigation__right">
                   <NavigationControl showCompass={false} style={{ position: "relative" }} />

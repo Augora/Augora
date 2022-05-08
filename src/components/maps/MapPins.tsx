@@ -118,13 +118,12 @@ export function MapPin(props: IMapPin) {
   return (
     !isHidden && (
       <Popup
-        className={`pins__popup ${isExpanded && "pins__popup--expanded"}`}
+        className={`pins__popup ${isExpanded ? "pins__popup--expanded" : ""}`}
         longitude={coords[0]}
         latitude={coords[1]}
         closeButton={false}
-        tipSize={0}
         anchor={"bottom"}
-        dynamicPosition={false}
+        closeOnClick={false}
       >
         <div className="pins__container">
           {props.handleClick || props.handleHover ? (
@@ -176,7 +175,7 @@ export default function MapPins(props: IMapPins) {
       : null
 
   return (
-    <div className="map__pins">
+    <>
       {orderBy(props.features, (feat) => feat.properties.center[1], "desc").map((feature, index) => {
         const featureDeputies = getDeputies(feature, props.deputies)
 
@@ -198,6 +197,6 @@ export default function MapPins(props: IMapPins) {
         )
       })}
       {activeGhostFeature && <MapPin feature={activeGhostFeature} deputies={getDeputies(activeGhostFeature, props.deputies)} />}
-    </div>
+    </>
   )
 }
