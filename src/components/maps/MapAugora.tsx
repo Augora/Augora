@@ -9,7 +9,6 @@ import Map, {
   LayerProps,
   ViewState,
   MapRef,
-  MapboxGeoJSONFeature,
 } from "react-map-gl"
 import {
   Code,
@@ -86,7 +85,7 @@ const lineGhostLayerProps: LayerProps = {
 }
 
 const localeFR = {
-  "AttributionControl.ToggleAttribution": "Toggle attribution",
+  // "AttributionControl.ToggleAttribution": "Toggle attribution",
   "AttributionControl.MapFeedback": "Retours sur la map",
   "FullscreenControl.Enter": "Entrer en plein écran",
   "FullscreenControl.Exit": "Sortir du plein écran",
@@ -129,7 +128,7 @@ export default function MapAugora(props: IMapAugora) {
   } = props
 
   /** useStates */
-  const [hover, setHover] = useState<MapboxGeoJSONFeature>(null)
+  const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
   const [cursor, setCursor] = useState<string>("grab")
 
@@ -174,7 +173,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /** Renvoie la feature mapbox actuellement affichée correspondant à la feature fournie, undefined si elle n'est pas rendered */
-  const getRenderedFeature = (feature: AugoraMap.Feature): MapboxGeoJSONFeature => {
+  const getRenderedFeature = (feature: AugoraMap.Feature): mapboxgl.MapboxGeoJSONFeature => {
     const zoneCode = getZoneCode(feature)
 
     return mapRef.current.queryRenderedFeatures(null, { layers: ["zone-fill"] }).find((feat) => {
@@ -196,7 +195,7 @@ export default function MapAugora(props: IMapAugora) {
    * Crée un effet de hover sur la rendered feature mapbox fournie
    * @param {MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
    */
-  const renderHover = (renderedFeature?: MapboxGeoJSONFeature) => {
+  const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
     if (hover && !compareFeatures(hover, renderedFeature)) {
       mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
       setHover(null)

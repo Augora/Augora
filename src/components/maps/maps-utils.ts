@@ -1,4 +1,4 @@
-import { MapRef, ViewState } from "react-map-gl"
+import { MapRef } from "react-map-gl"
 import { WebMercatorViewport, flyToViewport } from "@math.gl/web-mercator"
 import { ParsedUrlQuery } from "querystring"
 import polylabel from "polylabel"
