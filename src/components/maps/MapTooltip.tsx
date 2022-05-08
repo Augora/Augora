@@ -38,9 +38,8 @@ export default function MapTooltip(props: IMapTooltip) {
       longitude={props.lngLat[0]}
       latitude={props.lngLat[1]}
       closeButton={false}
-      tipSize={0}
+      closeOnClick={false}
       anchor={"top-left"}
-      offsetTop={20}
     >
       {zoneCode !== Code.Circ ? (
         <Tooltip className="map__tooltip" title={zoneName} nbDeputes={deputies.length} totalDeputes={props.deputiesList.length}>
