@@ -1,5 +1,5 @@
 import React from "react"
-import { Popup } from "react-map-gl"
+import { MapboxGeoJSONFeature, Popup } from "react-map-gl"
 import { Code, compareFeatures, getDeputies, getZoneCode, getPolygonCenter, getZoneName } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import orderBy from "lodash/orderBy"
@@ -13,7 +13,7 @@ interface IMapPins {
   features: AugoraMap.Feature[]
   deputies: Deputy.DeputiesList
   ghostFeatures?: AugoraMap.Feature[]
-  hoveredFeature?: mapboxgl.MapboxGeoJSONFeature
+  hoveredFeature?: MapboxGeoJSONFeature
   handleHover?: (args?: any) => any
   handleClick?: (args?: any) => any
 }
@@ -164,7 +164,7 @@ export function MapPin(props: IMapPin) {
  * Renvoie un pin pour chaque zone affichée
  * @param {AugoraMap.Feature[]} features Array des features
  * @param {Deputy.DeputiesList} deputies Liste des députés à filtrer
- * @param {mapboxgl.MapboxGeoJSONFeature} hoveredFeature La zone de la map hovered s'il y a actuellement un hover
+ * @param {MapboxGeoJSONFeature} hoveredFeature La zone de la map hovered s'il y a actuellement un hover
  * @param {Function} [handleClick] Fonction appelée quand le pin est cliqué
  * @param {Function} [handleHover] Fonction appelée quand le pin est hover
  */

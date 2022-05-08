@@ -9,6 +9,7 @@ import Map, {
   LayerProps,
   ViewState,
   MapRef,
+  MapboxGeoJSONFeature,
 } from "react-map-gl"
 import {
   Code,
@@ -28,7 +29,6 @@ import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
 import "mapbox-gl/dist/mapbox-gl.css"
-import mapboxgl from "mapbox-gl"
 
 interface IMapAugora {
   /** Objet view contenant les données d'affichage */
@@ -129,7 +129,7 @@ export default function MapAugora(props: IMapAugora) {
   } = props
 
   /** useStates */
-  const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
+  const [hover, setHover] = useState<MapboxGeoJSONFeature>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
   const [cursor, setCursor] = useState<string>("grab")
 
@@ -174,7 +174,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /** Renvoie la feature mapbox actuellement affichée correspondant à la feature fournie, undefined si elle n'est pas rendered */
-  const getRenderedFeature = (feature: AugoraMap.Feature): mapboxgl.MapboxGeoJSONFeature => {
+  const getRenderedFeature = (feature: AugoraMap.Feature): MapboxGeoJSONFeature => {
     const zoneCode = getZoneCode(feature)
 
     return mapRef.current.queryRenderedFeatures(null, { layers: ["zone-fill"] }).find((feat) => {
@@ -194,9 +194,9 @@ export default function MapAugora(props: IMapAugora) {
 
   /**
    * Crée un effet de hover sur la rendered feature mapbox fournie
-   * @param {mapboxgl.MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
+   * @param {MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
    */
-  const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
+  const renderHover = (renderedFeature?: MapboxGeoJSONFeature) => {
     if (hover && !compareFeatures(hover, renderedFeature)) {
       mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
       setHover(null)
