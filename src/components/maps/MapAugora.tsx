@@ -157,7 +157,7 @@ export default function MapAugora(props: IMapAugora) {
     const code = getZoneCode(feature)
     const zoom = contId === Cont.World ? -1 : contId === Cont.OM ? 2 : code !== Code.Cont ? 3.5 : 0
 
-    // flyToCoords(zoneFeature.properties.center, props.viewport, props.setViewport, zoom)
+    flyToCoords(mapRef.current, zoneFeature.properties.center, zoom)
   }
 
   /** Change la zone affichée et transitionne */

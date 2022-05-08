@@ -231,16 +231,10 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
 /**
  * Transitionne de façon fluide vers une bounding box
  * @param {AugoraMap.Feature} feature La feature vers laquelle aller, dézoom sur le monde si la feature n'a pas de propriété bbox
- * @param {ViewportProps} viewState Le state du viewport
+ * @param {mapRef} mapRef Pointeur vers l'objet map
  * @param {React.Dispatch<React.SetStateAction<ViewportProps>>} setViewState Le setState du viewport
  */
-export const flyToBounds = <T extends GeoJSON.Feature>(
-  feature: T,
-  // viewState: ViewState,
-  // setViewState: React.Dispatch<React.SetStateAction<ViewState>>,
-  mapRef: MapRef,
-  isMobile?: boolean
-): void => {
+export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRef, isMobile?: boolean): void => {
   const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
 
   const { longitude, latitude, zoom } = new WebMercatorViewport({
@@ -250,40 +244,22 @@ export const flyToBounds = <T extends GeoJSON.Feature>(
     padding: isMobile ? 20 : 80,
   })
 
-  mapRef.easeTo({
-    center: [longitude, latitude],
-    zoom: zoom,
-    easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
-  })
-  // flyToCoords([longitude, latitude], viewState, setViewState, zoom)
+  flyToCoords(mapRef, [longitude, latitude], zoom)
 }
 
 /**
  * Transitionne de façon fluide vers des coordonnées
+ * @param {mapRef} mapRef Pointeur vers l'objet map
  * @param {AugoraMap.Coordinates} coords Format [longitude, latitude]
- * @param viewState Le state du viewport
- * @param setViewState Le setState du viewport
  * @param {number} [zoom] Default 1
- * @param {number} [speed] Default 2
- * @param {number} [duration] Default "auto"
+ * @param {number} [duration] Default 800 ms
  */
-export const flyToCoords = (
-  coords: AugoraMap.Coordinates,
-  viewState: ViewState,
-  setViewState: React.Dispatch<React.SetStateAction<ViewState>>,
-  zoom?: number,
-  speed?: number,
-  duration?: number
-): void => {
-  setViewState({
-    ...viewState,
-    longitude: coords[0],
-    latitude: coords[1],
+export const flyToCoords = (mapRef: MapRef, coords: AugoraMap.Coordinates, zoom?: number, duration?: number): void => {
+  mapRef.easeTo({
+    center: [coords[0], coords[1]],
     zoom: zoom ? zoom : 1,
-    transitionInterpolator: new flyToViewport({ speed: speed ? speed : 2 }),
-    transitionEasing: (x) => -(Math.cos(Math.PI * x) - 1) / 2, //ease in-out sine
-    transitionDuration: duration ? duration : "auto",
-    transitionInterruption: 0,
+    easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+    duration: duration ? duration : 800,
   })
 }
 
