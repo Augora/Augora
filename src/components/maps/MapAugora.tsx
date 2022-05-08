@@ -28,6 +28,7 @@ import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
 import "mapbox-gl/dist/mapbox-gl.css"
+import mapboxgl from "mapbox-gl"
 
 interface IMapAugora {
   /** Objet view contenant les données d'affichage */
@@ -261,8 +262,8 @@ export default function MapAugora(props: IMapAugora) {
       {isMapLoaded && (
         <>
           <Source type="geojson" data={geoJSON} generateId={true}>
-            <Layer {...lineLayerProps} paint={paint.line} />
-            <Layer {...fillLayerProps} paint={paint.fill} />
+            <Layer {...lineLayerProps} />
+            <Layer {...fillLayerProps} />
           </Source>
           {ghostGeoJSON && (
             <Source type="geojson" data={ghostGeoJSON} generateId={true}>
