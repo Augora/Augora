@@ -1,26 +1,4 @@
 .pins {
-  &__popup {
-    z-index: 0;
-
-    .mapboxgl {
-      &-popup-tip {
-        display: none;
-      }
-      &-popup-content {
-        pointer-events: none;
-        display: flex;
-        flex-direction: column;
-        background: none;
-        box-shadow: none;
-        padding: 0;
-      }
-    }
-
-    &--expanded {
-      z-index: 1;
-    }
-  }
-
   &__container {
     display: flex;
     align-items: center;
@@ -41,6 +19,7 @@
         justify-content: center;
         align-items: center;
         position: relative;
+        pointer-events: none;
 
         z-index: 0;
 
@@ -204,4 +183,8 @@
     border-right: 15px solid transparent;
     z-index: 1;
   }
+}
+
+.mapboxgl-marker {
+  cursor: pointer;
 }

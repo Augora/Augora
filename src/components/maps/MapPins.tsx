@@ -1,5 +1,5 @@
 import React from "react"
-import { Popup } from "react-map-gl"
+import { Marker } from "react-map-gl"
 import { Code, compareFeatures, getDeputies, getZoneCode, getPolygonCenter, getZoneName } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import orderBy from "lodash/orderBy"
@@ -117,14 +117,7 @@ export function MapPin(props: IMapPin) {
   const isHidden = !isExpanded && zoneCode === Code.Circ && props.deputies.length === 0
   return (
     !isHidden && (
-      <Popup
-        className={`pins__popup ${isExpanded ? "pins__popup--expanded" : ""}`}
-        longitude={coords[0]}
-        latitude={coords[1]}
-        closeButton={false}
-        anchor={"bottom"}
-        closeOnClick={false}
-      >
+      <Marker longitude={coords[0]} latitude={coords[1]} anchor={"bottom"}>
         <div className="pins__container">
           {props.handleClick || props.handleHover ? (
             <button
@@ -155,7 +148,7 @@ export function MapPin(props: IMapPin) {
             }}
           />
         </div>
-      </Popup>
+      </Marker>
     )
   )
 }

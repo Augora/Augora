@@ -255,7 +255,7 @@ export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRe
  * @param {number} [duration] Default 800 ms
  */
 export const flyToCoords = (mapRef: MapRef, coords: AugoraMap.Coordinates, zoom?: number, duration?: number): void => {
-  mapRef.easeTo({
+  mapRef.flyTo({
     center: [coords[0], coords[1]],
     zoom: zoom ? zoom : 1,
     easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,

@@ -214,15 +214,17 @@ export default function MapAugora(props: IMapAugora) {
     }
   }
 
-  const handlePointerMove = (e: mapboxgl.MapLayerMouseEvent) => {
-    const renderedFeature = getMouseEventFeature(e)
+  const handlePointerMove = (e) => {
+    if (e.originalEvent.target.className === "mapboxgl-canvas") {
+      const renderedFeature = getMouseEventFeature(e)
 
-    if (renderedFeature) {
-      if (cursor === "grab") setCursor("pointer")
-      renderHover(renderedFeature)
-    } else {
-      if (cursor !== "grab") setCursor("grab")
-      if (hover) renderHover()
+      if (renderedFeature) {
+        if (cursor === "grab") setCursor("pointer")
+        renderHover(renderedFeature)
+      } else {
+        if (cursor !== "grab") setCursor("grab")
+        if (hover) renderHover()
+      }
     }
   }
 

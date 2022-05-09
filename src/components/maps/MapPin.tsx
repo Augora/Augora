@@ -1,5 +1,5 @@
 import React from "react"
-import { Popup } from "react-map-gl"
+import { Marker } from "react-map-gl"
 import IconPin from "images/ui-kit/icon-pin.svg"
 
 interface IMapPin {
@@ -11,14 +11,7 @@ interface IMapPin {
 /** Renvoie un popup mapbox avec une icone de pin ou des children custom*/
 export default function MapPin({ coords, color, children }: IMapPin) {
   return (
-    <Popup
-      className="map__popup"
-      longitude={coords[0]}
-      latitude={coords[1]}
-      closeButton={false}
-      anchor={"bottom"}
-      closeOnClick={false}
-    >
+    <Marker longitude={coords[0]} latitude={coords[1]} anchor={"bottom"}>
       {children ? (
         children
       ) : (
@@ -26,6 +19,6 @@ export default function MapPin({ coords, color, children }: IMapPin) {
           <IconPin style={{ fill: color }} />
         </div>
       )}
-    </Popup>
+    </Marker>
   )
 }
