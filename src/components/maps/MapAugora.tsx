@@ -219,7 +219,7 @@ export default function MapAugora(props: IMapAugora) {
       const renderedFeature = getMouseEventFeature(e)
 
       if (renderedFeature) {
-        if (cursor === "grab") setCursor("pointer")
+        if (cursor === "grab" || cursor === "grabbing") setCursor("pointer")
         renderHover(renderedFeature)
       } else {
         if (cursor !== "grab") setCursor("grab")
@@ -265,6 +265,7 @@ export default function MapAugora(props: IMapAugora) {
       onMouseMove={handlePointerMove}
       onClick={handleClick}
       onContextMenu={handleBack}
+      onMouseDown={() => setCursor("grabbing")}
       reuseMaps={true}
       attributionControl={attribution}
     >
