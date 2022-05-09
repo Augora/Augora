@@ -238,8 +238,8 @@ export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRe
   const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
 
   const { longitude, latitude, zoom } = new WebMercatorViewport({
-    width: mapRef.getContainer().getBoundingClientRect().width,
-    height: mapRef.getContainer().getBoundingClientRect().height,
+    width: mapRef.getCanvas().width,
+    height: mapRef.getCanvas().height,
   }).fitBounds(bounds, {
     padding: isMobile ? 20 : 80,
   })
