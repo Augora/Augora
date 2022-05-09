@@ -266,7 +266,6 @@ export default function MapAugora(props: IMapAugora) {
       onClick={handleClick}
       onContextMenu={handleBack}
       onMouseDown={() => setCursor("grabbing")}
-      onMouseOut={() => renderHover()}
       reuseMaps={true}
       attributionControl={attribution}
     >
