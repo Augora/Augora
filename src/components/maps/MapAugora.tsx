@@ -34,9 +34,9 @@ interface IMapAugora {
   /** Objet view contenant les données d'affichage */
   mapView: AugoraMap.MapView
   /** Viewport state object */
-  viewport: ViewState
+  viewstate: ViewState
   /** Viewport setstate function */
-  setViewport(newViewport: ViewState): void
+  setViewstate(newViewport: ViewState): void
   /** Callback quand une zone de la map est cliquée */
   onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
   /** Le mode de vue sur les zones, par défaut zoomé */
@@ -107,7 +107,7 @@ const localeFR = {
 }
 
 /**
- * Renvoie la map augora, il lui faut impérativement des données d'affichage, un viewport, et un setViewport, le reste est optionnel
+ * Renvoie la map augora, il lui faut impérativement des données d'affichage, un viewport, et un setViewstate, le reste est optionnel
  * @param {AugoraMap.MapView} mapView Object contenant les données d'affichage : geoJSON (zones affichées), feature (zone parente), ghostGeoJSON (zones voisines), paint (comment les zones sont dessinées)
  * @param {Function} [onZoneClick] Callback au click d'une zone, fournie la feature cliquée en paramètre
  * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map, inutile si les overlays sont désactivés
@@ -239,7 +239,7 @@ export default function MapAugora(props: IMapAugora) {
       locale={localeFR}
       ref={mapRef}
       style={{ width: "100%", height: "100%" }}
-      initialViewState={props.viewport}
+      initialViewState={props.viewstate}
       minZoom={0}
       dragRotate={false}
       doubleClickZoom={false}
@@ -247,7 +247,7 @@ export default function MapAugora(props: IMapAugora) {
       cursor={cursor}
       onResize={handleResize}
       onLoad={handleLoad}
-      onMove={(e) => props.setViewport(e.viewState)}
+      onMove={(e) => props.setViewstate(e.viewState)}
       onClick={handleClick}
       onContextMenu={handleBack}
       onMouseEnter={() => setCursor("pointer")}
