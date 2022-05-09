@@ -262,8 +262,9 @@ export default function MapAugora(props: IMapAugora) {
       {isMapLoaded && (
         <>
           <Source type="geojson" data={geoJSON} generateId={true}>
-            <Layer {...lineLayerProps} />
-            <Layer {...fillLayerProps} />
+            {/* spread pour éviter un bug de typescript de react map gl, à changer quand c'est fix */}
+            <Layer {...lineLayerProps} {...{ paint: paint.line }} />
+            <Layer {...fillLayerProps} {...{ paint: paint.fill }} />
           </Source>
           {ghostGeoJSON && (
             <Source type="geojson" data={ghostGeoJSON} generateId={true}>
