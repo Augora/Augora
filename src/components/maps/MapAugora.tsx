@@ -173,6 +173,13 @@ export default function MapAugora(props: IMapAugora) {
     }
   }
 
+  /** Renvoie la feature mapbox sous l'event pointeur fourni, undefined s'il n'y en a pas */
+  const getMouseEventFeature = (e: mapboxgl.MapLayerMouseEvent): mapboxgl.MapboxGeoJSONFeature => {
+    return mapRef.current
+      .queryRenderedFeatures(e.point)
+      .find((feat) => feat.layer.id === "zone-fill" || feat.layer.id === "zone-ghost-fill")
+  }
+
   /** Renvoie la feature mapbox actuellement affichée correspondant à la feature fournie, undefined si elle n'est pas rendered */
   const getRenderedFeature = (feature: AugoraMap.Feature): mapboxgl.MapboxGeoJSONFeature => {
     const zoneCode = getZoneCode(feature)
@@ -207,17 +214,22 @@ export default function MapAugora(props: IMapAugora) {
     }
   }
 
-  const handleHover = (e) => {
-    if (isMapLoaded && e.originalEvent.target.className !== "pins__btn") {
-      if (e.features) {
-        renderHover(e.features[0])
-      } else renderHover()
+  const handlePointerMove = (e: mapboxgl.MapLayerMouseEvent) => {
+    const renderedFeature = getMouseEventFeature(e)
+
+    if (renderedFeature) {
+      if (cursor === "grab") setCursor("pointer")
+      renderHover(renderedFeature)
+    } else {
+      if (cursor !== "grab") setCursor("grab")
+      if (hover) renderHover()
     }
   }
 
-  const handleClick = (e) => {
-    const feature = getMouseEventFeature(e)
-    if (feature) goToZone(feature)
+  const handleClick = (e: mapboxgl.MapLayerMouseEvent) => {
+    const renderedFeature = getMouseEventFeature(e)
+
+    if (renderedFeature) goToZone(renderedFeature)
   }
 
   const handleBack = () => {
@@ -243,19 +255,14 @@ export default function MapAugora(props: IMapAugora) {
       minZoom={0}
       dragRotate={false}
       doubleClickZoom={false}
-      interactiveLayerIds={isMapLoaded ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
+      // interactiveLayerIds={isMapLoaded ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
       cursor={cursor}
       onResize={handleResize}
       onLoad={handleLoad}
       onMove={(e) => props.setViewstate(e.viewState)}
+      onMouseMove={handlePointerMove}
       onClick={handleClick}
       onContextMenu={handleBack}
-      onMouseEnter={() => setCursor("pointer")}
-      onMouseMove={handleHover}
-      onMouseLeave={() => {
-        renderHover()
-        setCursor("grab")
-      }}
       reuseMaps={true}
       attributionControl={attribution}
     >
