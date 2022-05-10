@@ -300,9 +300,9 @@ export default function MapAugora(props: IMapAugora) {
               />
               <div className="map__navigation">
                 <div className="navigation__right">
-                  <NavigationControl showCompass={false} style={{ position: "relative" }} />
-                  <FullscreenControl style={{ position: "relative" }} />
-                  <GeolocateControl style={{ position: "relative" }} />
+                  <NavigationControl showCompass={false} />
+                  <FullscreenControl />
+                  <GeolocateControl />
                 </div>
                 <div className="navigation__left">
                   <MapBreadcrumb feature={zoneFeature} handleClick={goToZone} />
