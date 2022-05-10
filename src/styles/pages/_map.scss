@@ -4,10 +4,14 @@
 
 .page__map {
   padding: 0;
+
   .map {
     &__container {
       width: 100%;
       height: calc(100vh - 60px);
+      .mapboxgl-map {
+        font-family: $font;
+      }
 
       .mapboxgl-control-container {
         .mapboxgl-ctrl-bottom-left,
