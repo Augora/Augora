@@ -9,18 +9,19 @@ import Map, {
   LayerProps,
   ViewState,
   MapRef,
+  GeolocateResultEvent,
 } from "react-map-gl"
 import {
   Code,
   flyToBounds,
   getZoneCode,
-  getMouseEventFeature,
   getParentFeature,
   compareFeatures,
   getLayerPaint,
   getDeputies,
   flyToCoords,
   getContinent,
+  geolocateCirc,
   Cont,
 } from "components/maps/maps-utils"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
@@ -246,6 +247,18 @@ export default function MapAugora(props: IMapAugora) {
     if (!isMapLoaded) setIsMapLoaded(true)
   }
 
+  const handleGeolocate = (e: GeolocateResultEvent) => {
+    const coords = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)] as AugoraMap.Coordinates
+
+    if (coords) {
+      const feature = geolocateCirc(coords)
+      // const feature = geolocateCirc([-15.33, 47.35])
+
+      if (feature) goToZone(feature)
+      else console.warn(`Pas de circonscription trouvée à ces coordonnées: ${e.coords.longitude}, ${e.coords.latitude}`)
+    }
+  }
+
   return (
     <Map
       mapboxAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
@@ -302,7 +315,7 @@ export default function MapAugora(props: IMapAugora) {
                 <div className="navigation__right">
                   <NavigationControl showCompass={false} />
                   <FullscreenControl />
-                  <GeolocateControl />
+                  <GeolocateControl onGeolocate={handleGeolocate} />
                 </div>
                 <div className="navigation__left">
                   <MapBreadcrumb feature={zoneFeature} handleClick={goToZone} />

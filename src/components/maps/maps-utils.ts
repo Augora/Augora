@@ -1,7 +1,8 @@
 import { MapRef } from "react-map-gl"
-import { WebMercatorViewport, flyToViewport } from "@math.gl/web-mercator"
+import { WebMercatorViewport } from "@math.gl/web-mercator"
 import { ParsedUrlQuery } from "querystring"
 import polylabel from "polylabel"
+import pointInPolygon from "point-in-polygon"
 import MetroFranceContFile from "static/cont-france.geojson"
 import MetroRegFile from "static/reg-metro.geojson"
 import MetroDptFile from "static/dpt-metro.geojson"
@@ -561,10 +562,7 @@ export const buildURLFromFeature = <T extends GeoJSON.Feature>(feature: T): stri
   } else return ""
 }
 
-/**
- * Renvoie une feature correspondant à une query nextjs
- * @param {ParsedUrlQuery} query
- */
+/** Renvoie une feature correspondant à une query nextjs */
 export const getFeatureFromQuery = (query: ParsedUrlQuery): AugoraMap.Feature => {
   if (query) {
     let codes: AugoraMap.Codes = {}
@@ -574,4 +572,25 @@ export const getFeatureFromQuery = (query: ParsedUrlQuery): AugoraMap.Feature =>
     if (query.cont) codes.code_cont = +query.cont
     return getFeature(codes)
   } else return null
+}
+
+/**
+ * Trouve la circonscription à l'endroit de coordonnées
+ * @param {AugoraMap.Coordinates} coords Coordonnées [lng, lat]
+ */
+export const geolocateCirc = (coords: AugoraMap.Coordinates): AugoraMap.Feature => {
+  const trimmedFeatures = AllCirc.features.filter((feature) => {
+    const SW = feature.properties.bbox[0]
+    const NE = feature.properties.bbox[1]
+
+    return coords[0] > SW[0] && coords[0] < NE[0] && coords[1] > SW[1] && coords[1] < NE[1]
+  }) //préfiltre les features avec la bounding box, moins couteux en calcul
+
+  return trimmedFeatures.find((feature) => {
+    if (feature.geometry.type === "Polygon") {
+      return pointInPolygon(coords, feature.geometry.coordinates[0])
+    } else if (feature.geometry.type === "MultiPolygon") {
+      return feature.geometry.coordinates.find((polygon) => pointInPolygon(coords, polygon[0])) !== undefined
+    }
+  })
 }
