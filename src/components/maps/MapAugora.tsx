@@ -247,16 +247,19 @@ export default function MapAugora(props: IMapAugora) {
     if (!isMapLoaded) setIsMapLoaded(true)
   }
 
-  const handleGeolocate = (e: GeolocateResultEvent) => {
-    const coords = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)] as AugoraMap.Coordinates
-
+  const goToCoordsCirc = (coords: AugoraMap.Coordinates) => {
     if (coords) {
       const feature = geolocateCirc(coords)
       // const feature = geolocateCirc([-15.33, 47.35])
 
       if (feature) goToZone(feature)
-      else console.warn(`Pas de circonscription trouvée à ces coordonnées: ${e.coords.longitude}, ${e.coords.latitude}`)
+      else console.warn(`Pas de circonscription trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
     }
+  }
+
+  const handleGeolocate = (e: GeolocateResultEvent) => {
+    const coords = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)] as AugoraMap.Coordinates
+    goToCoordsCirc(coords)
   }
 
   return (
@@ -316,6 +319,24 @@ export default function MapAugora(props: IMapAugora) {
                   <NavigationControl showCompass={false} />
                   <FullscreenControl />
                   <GeolocateControl onGeolocate={handleGeolocate} />
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      const lng = e.target[0].value
+                      const lat = e.target[1].value
+
+                      if (isNaN(lng) || isNaN(lat) || lng === "" || lat === "") {
+                        console.error("Les données fournis ne sont pas valides")
+                      } else {
+                        goToCoordsCirc([lng, lat])
+                      }
+                    }}
+                    style={{ position: "relative", top: 170, display: "flex", flexDirection: "column" }}
+                  >
+                    <input type="text" placeholder="Longitude" />
+                    <input type="text" placeholder="Latitude" />
+                    <button>GO</button>
+                  </form>
                 </div>
                 <div className="navigation__left">
                   <MapBreadcrumb feature={zoneFeature} handleClick={goToZone} />
