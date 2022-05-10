@@ -117,7 +117,7 @@ export function MapPin(props: IMapPin) {
   const isHidden = !isExpanded && zoneCode === Code.Circ && props.deputies.length === 0
   return (
     !isHidden && (
-      <Marker longitude={coords[0]} latitude={coords[1]} anchor={"bottom"}>
+      <Marker longitude={coords[0]} latitude={coords[1]} anchor={"bottom"} style={{ zIndex: isExpanded ? 1 : 0 }}>
         <div className="pins__container">
           {props.handleClick || props.handleHover ? (
             <button
