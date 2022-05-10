@@ -10,7 +10,7 @@
       width: 100%;
       height: calc(100vh - 60px);
       .mapboxgl-map {
-        font-family: $font;
+        font: 18px/1.45rem $font; //override mapboxgl injecting its own css
       }
 
       .mapboxgl-control-container {

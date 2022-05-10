@@ -28,8 +28,8 @@ import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
-import "mapbox-gl/dist/mapbox-gl.css"
 import mapboxgl from "mapbox-gl"
+import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
   /** Objet view contenant les données d'affichage */
