@@ -102,7 +102,6 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
           vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
           vercel-project-name: augora
-          scope: augora
           alias-domains: |
             preprod.augora.fr
 
