@@ -131,6 +131,8 @@
 
       .frame {
         overflow: scroll;
+        height: 100%;
+        justify-content: unset;
         .tooltip {
           display: none;
         }

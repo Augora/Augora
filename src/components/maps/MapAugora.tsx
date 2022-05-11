@@ -318,32 +318,31 @@ export default function MapAugora(props: IMapAugora) {
               <MapControl position="top-left">
                 <MapBreadcrumb feature={zoneFeature} handleClick={goToZone} />
               </MapControl>
-              <div className="map__navigation">
-                <div className="navigation__right">
-                  <NavigationControl showCompass={false} />
-                  <FullscreenControl />
-                  <GeolocateControl onGeolocate={handleGeolocate} />
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault()
-                      const lng = e.target[0].value
-                      const lat = e.target[1].value
+              <MapControl position="top-right">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    const lng = e.target[0].value
+                    const lat = e.target[1].value
 
-                      if (isNaN(lng) || isNaN(lat) || lng === "" || lat === "") {
-                        console.error("Les données fournis ne sont pas valides")
-                      } else {
-                        goToCoordsCirc([lng, lat])
-                      }
-                    }}
-                    style={{ position: "absolute", top: 170, right: 0, display: "flex", flexDirection: "column" }}
-                  >
-                    <input type="text" placeholder="Longitude" />
-                    <input type="text" placeholder="Latitude" />
-                    <button>GO</button>
-                  </form>
-                </div>
-                <div className="navigation__left"></div>
-                <div className="navigation__bottom">
+                    if (isNaN(lng) || isNaN(lat) || lng === "" || lat === "") {
+                      console.error("Les données fournis ne sont pas valides")
+                    } else {
+                      goToCoordsCirc([lng, lat])
+                    }
+                  }}
+                  style={{ position: "absolute", top: 170, right: 0, display: "flex", flexDirection: "column" }}
+                >
+                  <input type="text" placeholder="Longitude" />
+                  <input type="text" placeholder="Latitude" />
+                  <button>GO</button>
+                </form>
+              </MapControl>
+              <NavigationControl showCompass={false} />
+              <FullscreenControl />
+              <GeolocateControl onGeolocate={handleGeolocate} />
+              <div className="custom-control-container">
+                <div className="ctrl-bottom">
                   <MapFilters zoneDeputies={getDeputies(zoneFeature, deputies)} />
                 </div>
               </div>
