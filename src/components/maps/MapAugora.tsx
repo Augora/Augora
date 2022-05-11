@@ -331,7 +331,7 @@ export default function MapAugora(props: IMapAugora) {
                         goToCoordsCirc([lng, lat])
                       }
                     }}
-                    style={{ position: "relative", top: 170, display: "flex", flexDirection: "column" }}
+                    style={{ position: "absolute", top: 170, right: 0, display: "flex", flexDirection: "column" }}
                   >
                     <input type="text" placeholder="Longitude" />
                     <input type="text" placeholder="Latitude" />
