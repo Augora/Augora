@@ -29,6 +29,7 @@ import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
+import Geocoder from "components/maps/Geocoder"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 
@@ -134,6 +135,7 @@ export default function MapAugora(props: IMapAugora) {
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
   const [cursor, setCursor] = useState<string>("grab")
+  const [geoPin, setGeoPin] = useState<AugoraMap.Coordinates>(null)
 
   /** useEffects */
   useEffect(() => {
@@ -316,6 +318,7 @@ export default function MapAugora(props: IMapAugora) {
                 handleClick={goToZone}
                 handleHover={simulateHover}
               />
+              {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
               <MapControl position="top-left">
                 <MapBreadcrumb
                   feature={zoneFeature}
@@ -323,7 +326,14 @@ export default function MapAugora(props: IMapAugora) {
                 />
               </MapControl>
               <MapControl position="top-right">
-                <form
+                <Geocoder
+                  token={MAPBOX_TOKEN}
+                  handleClick={(coords) => {
+                    goToCoordsCirc(coords)
+                    setGeoPin(coords)
+                  }}
+                />
+                {/* <form
                   style={{ position: "absolute", top: 170, right: 0, display: "flex", flexDirection: "column" }}
                   onSubmit={(e) => {
                     e.preventDefault()
@@ -340,7 +350,7 @@ export default function MapAugora(props: IMapAugora) {
                   <input type="text" placeholder="Longitude" />
                   <input type="text" placeholder="Latitude" />
                   <button>GO</button>
-                </form>
+                </form> */}
               </MapControl>
               <NavigationControl showCompass={false} />
               <FullscreenControl />

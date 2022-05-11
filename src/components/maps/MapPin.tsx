@@ -5,18 +5,19 @@ import IconPin from "images/ui-kit/icon-pin.svg"
 interface IMapPin {
   coords: AugoraMap.Coordinates
   color?: string
+  style?: React.CSSProperties
   children?: React.ReactNode
 }
 
 /** Renvoie un popup mapbox avec une icone de pin ou des children custom*/
-export default function MapPin({ coords, color, children }: IMapPin) {
+export default function MapPin({ coords, color, style, children }: IMapPin) {
   return (
-    <Marker longitude={coords[0]} latitude={coords[1]} anchor={"bottom"}>
+    <Marker longitude={coords[0]} latitude={coords[1]} anchor={"bottom"} style={style}>
       {children ? (
         children
       ) : (
         <div className="icon-wrapper">
-          <IconPin style={{ fill: color }} />
+          <IconPin style={{ fill: color ? color : "#14ccae" }} />
         </div>
       )}
     </Marker>
