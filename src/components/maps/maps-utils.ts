@@ -233,7 +233,7 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
  * Transitionne de façon fluide vers une bounding box
  * @param {AugoraMap.Feature} feature La feature vers laquelle aller, dézoom sur le monde si la feature n'a pas de propriété bbox
  * @param {mapRef} mapRef Pointeur vers l'objet map
- * @param {React.Dispatch<React.SetStateAction<ViewportProps>>} setViewState Le setState du viewport
+ * @param {boolean} isMobile Pour réduire le padding
  */
 export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRef, isMobile?: boolean): void => {
   const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
@@ -253,7 +253,7 @@ export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRe
  * @param {mapRef} mapRef Pointeur vers l'objet map
  * @param {AugoraMap.Coordinates} coords Format [longitude, latitude]
  * @param {number} [zoom] Default 1
- * @param {number} [duration] Default 800 ms
+ * @param {number} [duration] Default 1200 ms
  */
 export const flyToCoords = (mapRef: MapRef, coords: AugoraMap.Coordinates, zoom?: number, duration?: number): void => {
   mapRef.flyTo({
