@@ -260,7 +260,7 @@ export const flyToCoords = (mapRef: MapRef, coords: AugoraMap.Coordinates, zoom?
     center: [coords[0], coords[1]],
     zoom: zoom ? zoom : 1,
     easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
-    duration: duration ? duration : 1000,
+    duration: duration ? duration : 1200,
   })
 }
 
