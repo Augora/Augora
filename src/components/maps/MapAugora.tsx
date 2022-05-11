@@ -24,6 +24,7 @@ import {
   geolocateCirc,
   Cont,
 } from "components/maps/maps-utils"
+import MapControl from "components/maps/MapControl"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
@@ -314,6 +315,9 @@ export default function MapAugora(props: IMapAugora) {
                 handleClick={goToZone}
                 handleHover={simulateHover}
               />
+              <MapControl position="top-left">
+                <MapBreadcrumb feature={zoneFeature} handleClick={goToZone} />
+              </MapControl>
               <div className="map__navigation">
                 <div className="navigation__right">
                   <NavigationControl showCompass={false} />
@@ -338,9 +342,7 @@ export default function MapAugora(props: IMapAugora) {
                     <button>GO</button>
                   </form>
                 </div>
-                <div className="navigation__left">
-                  <MapBreadcrumb feature={zoneFeature} handleClick={goToZone} />
-                </div>
+                <div className="navigation__left"></div>
                 <div className="navigation__bottom">
                   <MapFilters zoneDeputies={getDeputies(zoneFeature, deputies)} />
                 </div>
