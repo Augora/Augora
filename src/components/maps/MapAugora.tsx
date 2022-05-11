@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { isMobile } from "react-device-detect"
 import Map, {
   NavigationControl,
@@ -146,6 +146,8 @@ export default function MapAugora(props: IMapAugora) {
   /** useRefs */
   const mapRef = useRef<MapRef>()
 
+  const MAPBOX_TOKEN = "pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
+
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
     setTimeout(() => {
@@ -264,7 +266,7 @@ export default function MapAugora(props: IMapAugora) {
 
   return (
     <Map
-      mapboxAccessToken="pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
+      mapboxAccessToken={MAPBOX_TOKEN}
       mapStyle={`mapbox://styles/augora/${borders ? "cktufpwer194q18pmh09ut4e5" : "ckh3h62oh2nma19qt1fgb0kq7"}?optimize=true`}
       locale={localeFR}
       ref={mapRef}
