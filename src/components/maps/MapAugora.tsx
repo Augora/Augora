@@ -315,7 +315,10 @@ export default function MapAugora(props: IMapAugora) {
                 handleHover={simulateHover}
               />
               <MapControl position="top-left">
-                <MapBreadcrumb feature={zoneFeature} handleClick={goToZone} />
+                <MapBreadcrumb
+                  feature={zoneFeature}
+                  handleClick={(feature) => (!compareFeatures(feature, zoneFeature) ? goToZone(feature) : flyToFeature(feature))}
+                />
               </MapControl>
               <MapControl position="top-right">
                 <form
