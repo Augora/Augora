@@ -249,18 +249,17 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const goToCoordsCirc = (coords: AugoraMap.Coordinates) => {
-    if (coords) {
-      const feature = geolocateCirc(coords)
-      // const feature = geolocateCirc([-15.33, 47.35])
+    const feature = geolocateCirc(coords)
 
-      if (feature) goToZone(feature)
-      else console.warn(`Pas de circonscription trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
-    }
+    if (feature) {
+      if (!compareFeatures(feature, zoneFeature)) goToZone(feature)
+      else flyToFeature(feature)
+    } else console.warn(`Pas de circonscription trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
   }
 
   const handleGeolocate = (e: GeolocateResultEvent) => {
     const coords = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)] as AugoraMap.Coordinates
-    goToCoordsCirc(coords)
+    if (coords) goToCoordsCirc(coords)
   }
 
   return (
@@ -320,6 +319,7 @@ export default function MapAugora(props: IMapAugora) {
               </MapControl>
               <MapControl position="top-right">
                 <form
+                  style={{ position: "absolute", top: 170, right: 0, display: "flex", flexDirection: "column" }}
                   onSubmit={(e) => {
                     e.preventDefault()
                     const lng = e.target[0].value
@@ -331,7 +331,6 @@ export default function MapAugora(props: IMapAugora) {
                       goToCoordsCirc([lng, lat])
                     }
                   }}
-                  style={{ position: "absolute", top: 170, right: 0, display: "flex", flexDirection: "column" }}
                 >
                   <input type="text" placeholder="Longitude" />
                   <input type="text" placeholder="Latitude" />
