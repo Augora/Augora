@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react"
+import IconSearch from "images/ui-kit/icon-loupe.svg"
+import IconClose from "images/ui-kit/icon-close.svg"
 
 interface IGeocoder {
   token: string
@@ -21,19 +23,50 @@ export default function Geocoder(props: IGeocoder) {
   const searchField = useRef<HTMLInputElement>()
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        if (value.length >= 3) {
-          fetchMapboxAPI(value, props.token).then(
-            (value) => setResults(value),
-            () => console.error("Erreur de la requête à l'API mapbox")
-          )
-        } else console.error("3 caractères ou plus requis")
-      }}
-    >
-      <input ref={searchField} type="text" placeholder="Lieu" value={value} onChange={(e) => setValue(e.target.value)} />
-      <button>Search</button>
+    <div className="map__geocoder">
+      <form
+        className="geocoder__form"
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (value.length >= 3) {
+            fetchMapboxAPI(value, props.token).then(
+              (value) => setResults(value),
+              () => console.error("Erreur de la requête à l'API mapbox")
+            )
+          } else console.error("3 caractères ou plus requis")
+        }}
+      >
+        <div className="form__icon icon-wrapper">
+          <IconSearch />
+        </div>
+        <input
+          className="form__input"
+          ref={searchField}
+          type="text"
+          placeholder="Lieu"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        {value.length > 0 && (
+          <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
+            <input
+              className="form__clear-btn"
+              type="reset"
+              value=""
+              title="Effacer"
+              onClick={() => {
+                setValue("")
+                setResults(null)
+                props.handleClick(null)
+              }}
+            />
+            <div className="icon-wrapper">
+              <IconClose />
+            </div>
+          </div>
+        )}
+        <button style={{ fontSize: "15px", border: "none", borderRadius: 5 }}>Chercher</button>
+      </form>
       {results && results.features.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column" }}>
           {results.features.map((feature) => (
@@ -41,7 +74,6 @@ export default function Geocoder(props: IGeocoder) {
               key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`}
               onClick={() => {
                 setResults(null)
-                setValue("")
                 props.handleClick(feature.center)
               }}
             >
@@ -50,6 +82,6 @@ export default function Geocoder(props: IGeocoder) {
           ))}
         </div>
       )}
-    </form>
+    </div>
   )
 }

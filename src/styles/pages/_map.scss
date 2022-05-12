@@ -31,6 +31,11 @@
             font: 12px/20px "Helvetica Neue", "Arial", "Helvetica", "sans-serif";
           }
         }
+
+        .mapboxgl-ctrl-geo {
+          position: absolute;
+          right: 45px;
+        }
       }
 
       .custom-control-container {
@@ -81,5 +86,6 @@
 
   @import "components/map/pins";
   @import "components/map/breadcrumb";
+  @import "components/map/geocoder";
   @import "components/map/mapfilters";
 }

@@ -325,12 +325,14 @@ export default function MapAugora(props: IMapAugora) {
                   handleClick={(feature) => (!compareFeatures(feature, zoneFeature) ? goToZone(feature) : flyToFeature(feature))}
                 />
               </MapControl>
-              <MapControl position="top-right">
+              <MapControl position="top-right" className="mapboxgl-ctrl-geo">
                 <Geocoder
                   token={MAPBOX_TOKEN}
                   handleClick={(coords) => {
-                    goToCoordsCirc(coords)
-                    setGeoPin(coords)
+                    if (coords) {
+                      goToCoordsCirc(coords)
+                      setGeoPin(coords)
+                    } else setGeoPin(null)
                   }}
                 />
                 {/* <form

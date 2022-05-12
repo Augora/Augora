@@ -44,7 +44,7 @@ class OverlayControl implements IControl {
  * @param {ControlPosition} position Position dans la map (top left, top right, bottom left, bottom right)
  */
 export default function MapControl({ position, className, children }: IMapControl) {
-  const ctrl = useControl<OverlayControl>(() => new OverlayControl(className ? className : "mapboxgl-ctrl"), {
+  const ctrl = useControl<OverlayControl>(() => new OverlayControl(`mapboxgl-ctrl ${className ? className : ""}`), {
     position: position,
   })
 
