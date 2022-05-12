@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import Tooltip from "components/tooltip/Tooltip"
@@ -17,8 +17,12 @@ async function fetchMapboxAPI(search, token): Promise<AugoraMap.MapboxAPIFeature
   return data
 }
 
+/** A partir d'une string avec au moins une virgule, renvoie ["ce qui est avant la première virgule", "ce qui est après la première virgule"], si pas de virgule, renvoie ["string", ""] */
 const splitAddress = (address: string): [string, string] => {
-  return [address.match(/^.*?(?=\,)/)[0], address.match(/(?<=\,\s).*$/)[0]]
+  const title = address.match(/^.*?(?=\,)/) // recupère tout ce qui est avant la première virgule
+  const description = address.match(/(?<=\,\s).*$/) // recupère tout ce qui est après la première virgule
+
+  return [title ? title[0] : address, description ? description[0] : ""]
 }
 
 export default function Geocoder(props: IGeocoder) {
@@ -26,19 +30,39 @@ export default function Geocoder(props: IGeocoder) {
   const [results, setResults] = useState<AugoraMap.MapboxAPIFeatureCollection>(null)
 
   const searchField = useRef<HTMLInputElement>()
+  const node = useRef<HTMLDivElement>()
+
+  useEffect(() => {
+    document.addEventListener("mousedown", clickOutside)
+    return () => {
+      document.removeEventListener("mousedown", clickOutside)
+    }
+  }, [])
+
+  const clickOutside = (e) => {
+    if (node?.current) {
+      if (!node.current.contains(e.target)) {
+        setResults(null)
+      }
+    }
+  }
+
+  const resetForm = () => {
+    setValue("")
+    setResults(null)
+    props.handleClick(null)
+  }
 
   return (
-    <div className="map__geocoder">
+    <div className="map__geocoder" ref={node}>
       <form
         className="geocoder__form"
         onSubmit={(e) => {
           e.preventDefault()
-          if (value.length >= 3) {
-            fetchMapboxAPI(value, props.token).then(
-              (value) => setResults(value),
-              () => console.error("Erreur de la requête à l'API mapbox")
-            )
-          } else console.error("3 caractères ou plus requis")
+          fetchMapboxAPI(value, props.token).then(
+            (value) => setResults(value),
+            () => console.error("Erreur de la requête à l'API mapbox")
+          )
         }}
       >
         <div className="form__icon icon-wrapper">
@@ -48,23 +72,16 @@ export default function Geocoder(props: IGeocoder) {
           className="form__input"
           ref={searchField}
           type="text"
-          placeholder="Lieu"
+          placeholder="Trouver une circonscription..."
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value !== "") setValue(e.target.value)
+            else resetForm()
+          }}
         />
         {value.length > 0 && (
           <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
-            <input
-              className="form__clear-btn"
-              type="reset"
-              value=""
-              title="Effacer"
-              onClick={() => {
-                setValue("")
-                setResults(null)
-                props.handleClick(null)
-              }}
-            />
+            <input className="form__clear-btn" type="reset" value="" title="Effacer" onClick={() => resetForm()} />
             <div className="icon-wrapper">
               <IconClose />
             </div>
@@ -74,7 +91,6 @@ export default function Geocoder(props: IGeocoder) {
       </form>
       {results && results.features.length > 0 && (
         <Tooltip className="geocoder__results">
-          {console.log(results)}
           <ul>
             {results.features.map(
               (feature) =>
@@ -84,6 +100,7 @@ export default function Geocoder(props: IGeocoder) {
                       className="results__link"
                       onClick={() => {
                         setResults(null)
+                        setValue(feature.place_name)
                         props.handleClick(feature.center)
                       }}
                     >
