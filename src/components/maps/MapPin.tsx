@@ -16,8 +16,8 @@ export default function MapPin({ coords, color, style, children }: IMapPin) {
       {children ? (
         children
       ) : (
-        <div className="icon-wrapper">
-          <IconPin style={{ fill: color ? color : "#14ccae" }} />
+        <div className="icon-wrapper marker__pin">
+          <IconPin style={{ fill: color ? color : "blue" }} />
         </div>
       )}
     </Marker>

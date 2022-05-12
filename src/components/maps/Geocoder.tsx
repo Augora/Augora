@@ -20,8 +20,6 @@ export default function Geocoder(props: IGeocoder) {
 
   const searchField = useRef<HTMLInputElement>()
 
-  console.log(results)
-
   return (
     <form
       onSubmit={(e) => {

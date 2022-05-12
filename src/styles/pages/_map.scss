@@ -44,17 +44,27 @@
         }
       }
 
-      .mapboxgl {
-        &-marker {
-          pointer-events: none;
-          display: flex;
-          flex-direction: column;
-          background: none;
-          box-shadow: none;
-          padding: 0;
+      .mapboxgl-canvas-container {
+        .mapboxgl {
+          &-marker {
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            background: none;
+            box-shadow: none;
+            padding: 0;
 
-          .icon-wrapper {
-            width: 40px;
+            .icon-wrapper {
+              width: 40px;
+            }
+
+            .marker {
+              &__pin {
+                svg {
+                  filter: drop-shadow(0px 10px 5px rgb(0 0 0 / 0.2));
+                }
+              }
+            }
           }
         }
       }
