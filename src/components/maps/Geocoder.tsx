@@ -63,11 +63,12 @@ export default function Geocoder(props: IGeocoder) {
     if (input && input.length > 0) {
       setValue(input)
       handleSearch(input)
-    } else resetForm()
+    } else clearForm()
   }, [])
 
-  const resetForm = () => {
+  const clearForm = () => {
     setValue("")
+    setResults(null)
     setResultsVisible(false)
     handleSearch.cancel()
     props.handleClick(null)
@@ -103,7 +104,7 @@ export default function Geocoder(props: IGeocoder) {
         />
         {value.length > 0 && (
           <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
-            <input className="form__clear-btn" type="reset" value="" title="Effacer" onClick={() => resetForm()} />
+            <input className="form__clear-btn" type="reset" value="" title="Effacer" onClick={() => clearForm()} />
             <div className="icon-wrapper">
               <IconClose />
             </div>
