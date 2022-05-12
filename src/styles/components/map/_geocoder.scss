@@ -63,41 +63,52 @@
       max-width: unset;
       pointer-events: auto;
 
+      .results {
+        &__item {
+          display: block;
+          cursor: pointer;
+
+          width: 100%;
+          padding: 5px 10px;
+
+          text-align: left;
+          font-size: 14px;
+
+          &:hover {
+            background: $btn-hover;
+          }
+
+          &:active {
+            background: $btn-active;
+          }
+
+          .link {
+            &__title {
+              font-weight: bold;
+            }
+          }
+        }
+
+        &__notfound {
+          cursor: default;
+
+          &:hover,
+          &:active {
+            background: none;
+          }
+        }
+      }
+
       ul {
         list-style-type: none;
         margin: 0;
-        text-align: left;
-        font-size: 14px;
 
-        .results {
-          &__link {
-            display: block;
-            cursor: pointer;
+        li {
+          margin: 0;
 
-            width: 100%;
-            padding: 5px 10px;
-
-            &:hover {
+          &:first-child {
+            a {
               background: $btn-hover;
-            }
-
-            &:active {
-              background: $btn-active;
-            }
-
-            .link {
-              &__title {
-                font-weight: bold;
-              }
-            }
-          }
-          &__element {
-            margin: 0;
-
-            &:first-child {
-              a {
-                background: $btn-hover;
-              }
             }
           }
         }

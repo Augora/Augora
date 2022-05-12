@@ -110,21 +110,25 @@ export default function Geocoder(props: IGeocoder) {
           </div>
         )}
       </form>
-      {resultsVisible && results && results.features.length > 0 && (
+      {resultsVisible && results && (
         <Tooltip className="geocoder__results">
-          <ul>
-            {results.features.map(
-              (feature) =>
-                feature.relevance === 1 && (
-                  <li key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`} className="results__element">
-                    <a className="results__link" onClick={() => handleSubmit(feature)}>
-                      <div className="link__title">{splitAddress(feature.place_name)[0]}</div>
-                      <div className="link__description">{splitAddress(feature.place_name)[1]}</div>
-                    </a>
-                  </li>
-                )
-            )}
-          </ul>
+          {results.features.length > 0 ? (
+            <ul>
+              {results.features.map(
+                (feature) =>
+                  feature.relevance === 1 && (
+                    <li key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`}>
+                      <a className="results__item" onClick={() => handleSubmit(feature)}>
+                        <div className="link__title">{splitAddress(feature.place_name)[0]}</div>
+                        <div className="link__description">{splitAddress(feature.place_name)[1]}</div>
+                      </a>
+                    </li>
+                  )
+              )}
+            </ul>
+          ) : (
+            <div className="results__item results__notfound">Aucun résultat trouvé</div>
+          )}
         </Tooltip>
       )}
     </div>
