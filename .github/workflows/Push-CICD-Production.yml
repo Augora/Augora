@@ -26,7 +26,6 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
           vercel-project-name: augora
           vercel-args: --prod
-          scope: augora
           alias-domains: |
             augora.fr
 
