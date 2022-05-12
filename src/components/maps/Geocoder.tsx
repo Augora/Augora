@@ -29,6 +29,7 @@ const splitAddress = (address: string): [string, string] => {
 export default function Geocoder(props: IGeocoder) {
   const [value, setValue] = useState<string>("")
   const [results, setResults] = useState<AugoraMap.MapboxAPIFeatureCollection>(null)
+  const [resultsVisible, setResultsVisible] = useState(false)
 
   const searchField = useRef<HTMLInputElement>()
   const node = useRef<HTMLDivElement>()
@@ -43,14 +44,17 @@ export default function Geocoder(props: IGeocoder) {
   const clickOutside = (e) => {
     if (node?.current) {
       if (!node.current.contains(e.target)) {
-        setResults(null)
+        setResultsVisible(false)
       }
     }
   }
 
   const handleSearch = debounce((search: string) => {
     fetchMapboxAPI(search, props.token).then(
-      (result) => setResults(result),
+      (result) => {
+        setResults(result)
+        setResultsVisible(true)
+      },
       () => console.error("Erreur de la requête à l'API mapbox")
     )
   }, 500)
@@ -64,7 +68,7 @@ export default function Geocoder(props: IGeocoder) {
 
   const resetForm = () => {
     setValue("")
-    setResults(null)
+    setResultsVisible(false)
     handleSearch.cancel()
     props.handleClick(null)
   }
@@ -73,6 +77,7 @@ export default function Geocoder(props: IGeocoder) {
     setValue(feature.place_name)
     props.handleClick(feature.center)
     setResults(null)
+    setResultsVisible(false)
   }
 
   return (
@@ -94,6 +99,7 @@ export default function Geocoder(props: IGeocoder) {
           placeholder="Trouver une circonscription..."
           value={value}
           onChange={(e) => handleTextInput(e.target.value)}
+          onFocus={() => results && setResultsVisible(true)}
         />
         {value.length > 0 && (
           <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
@@ -104,7 +110,7 @@ export default function Geocoder(props: IGeocoder) {
           </div>
         )}
       </form>
-      {results && results.features.length > 0 && (
+      {resultsVisible && results && results.features.length > 0 && (
         <Tooltip className="geocoder__results">
           <ul>
             {results.features.map(
