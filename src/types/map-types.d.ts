@@ -29,6 +29,34 @@ declare namespace AugoraMap {
     features: Feature[]
   }
 
+  /** Objet properties des feature de l'API geocode mapbox */
+  interface MapboxAPIProperties extends GeoJSON.GeoJsonProperties {
+    wikidata: string
+  }
+
+  /** Objet feature de l'API geocode mapbox */
+  interface MapboxAPIFeature extends GeoJSON.Feature<GeoJSON.Geometry, MapboxAPIProperties> {
+    center: Coordinates
+    id: string
+    language: string
+    place_name: string
+    text: string
+    relevance: number
+    context: {
+      id: string
+      wikidata: string
+      text: string
+      short_code?: string
+    }[]
+  }
+
+  /** Feature collection de l'API geocode mapbox */
+  interface MapboxAPIFeatureCollection extends GeoJSON.FeatureCollection {
+    attribution: string
+    query: string[]
+    features: MapboxAPIFeature[]
+  }
+
   /** Objet contenant les codes de zone pour la map */
   interface Codes {
     /** ID continent (0 France, 1 World, 2 DROM-COM) */
