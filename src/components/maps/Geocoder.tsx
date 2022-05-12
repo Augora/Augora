@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useCallback } from "react"
+import debounce from "lodash/debounce"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import Tooltip from "components/tooltip/Tooltip"
@@ -47,24 +48,30 @@ export default function Geocoder(props: IGeocoder) {
     }
   }
 
+  const handleSearch = debounce((search: string) => {
+    fetchMapboxAPI(search, props.token).then(
+      (result) => setResults(result),
+      () => console.error("Erreur de la requête à l'API mapbox")
+    )
+  }, 500)
+
+  const handleTextInput = useCallback((value?: string) => {
+    if (value && value.length > 0) {
+      setValue(value)
+      handleSearch(value)
+    } else resetForm()
+  }, [])
+
   const resetForm = () => {
     setValue("")
     setResults(null)
+    handleSearch.cancel()
     props.handleClick(null)
   }
 
   return (
     <div className="map__geocoder" ref={node}>
-      <form
-        className="geocoder__form"
-        onSubmit={(e) => {
-          e.preventDefault()
-          fetchMapboxAPI(value, props.token).then(
-            (value) => setResults(value),
-            () => console.error("Erreur de la requête à l'API mapbox")
-          )
-        }}
-      >
+      <form className="geocoder__form" onSubmit={(e) => e.preventDefault()}>
         <div className="form__icon icon-wrapper">
           <IconSearch />
         </div>
@@ -74,10 +81,7 @@ export default function Geocoder(props: IGeocoder) {
           type="text"
           placeholder="Trouver une circonscription..."
           value={value}
-          onChange={(e) => {
-            if (e.target.value !== "") setValue(e.target.value)
-            else resetForm()
-          }}
+          onChange={(e) => handleTextInput(e.target.value)}
         />
         {value.length > 0 && (
           <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
@@ -87,7 +91,6 @@ export default function Geocoder(props: IGeocoder) {
             </div>
           </div>
         )}
-        <button style={{ fontSize: "15px", border: "none", borderRadius: 5 }}>Chercher</button>
       </form>
       {results && results.features.length > 0 && (
         <Tooltip className="geocoder__results">
