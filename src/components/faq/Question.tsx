@@ -12,7 +12,7 @@ interface IQuestion {
 }
 
 function Question(props: IQuestion) {
-  const [Open, setOpen] = useState(true)
+  const [Open, setOpen] = useState(false)
   return (
     <div
       id={slugify(props.title)}

@@ -13,6 +13,8 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   renderVertically: boolean
   marginTop: number
   marginLeft: number
+  normalHeight: number
+  responsiveHeight: number
 }
 
 const getGroupNomComplet = (sigle: string, groups: Group.GroupsList) => {
@@ -36,6 +38,8 @@ export default function XYBarStack(props: BarStackProps) {
     renderVertically,
     marginTop,
     marginLeft,
+    normalHeight,
+    responsiveHeight,
   } = props
   const isAxisRange = /^\d\d$/.test(dataAge[0].age as string)
   const isRange = width < 460
@@ -44,23 +48,27 @@ export default function XYBarStack(props: BarStackProps) {
 
   // bounds
   const xMax = width - marginLeft
-  const numTicks = renderVertically ? 4 : maxAge > 50 ? maxAge / 10 : maxAge > 15 ? maxAge / 2 : maxAge
+  const tickTwoOrOne = maxAge == 2 ? 2 : maxAge == 1 ? 1 : 4
   const ratio = renderVertically && isRange ? (width > 300 ? 1 : width > 176 ? 0.9 : 0.8) : 1
-  const yMax = height * ratio - marginTop
+  const yMax = height * ratio - marginTop * 2 - (width > 368 ? normalHeight : responsiveHeight)
 
   return (
     <svg width={width} height={height}>
       <Group top={renderVertically ? marginTop / 2 : 0} left={renderVertically ? marginLeft : 0}>
         <XYChart
-          margin={{ top: 0, right: 20, bottom: marginTop, left: 0 }}
+          margin={{ top: 0, right: 20, bottom: marginTop + (renderVertically ? 30 : 0), left: 0 }}
           width={width}
-          height={height * ratio}
+          height={
+            height * ratio -
+            marginTop * (!renderVertically && (width / height < 0.9 ? 1.5 : 2)) -
+            (width > 368 ? normalHeight : responsiveHeight)
+          }
           yScale={
             renderVertically
               ? { type: "linear", range: [yMax, 0], domain: [0, maxAge] }
               : {
                   type: "band",
-                  range: [yMax, 0],
+                  range: [yMax - (width / height < 0.9 ? 15 : width / height < 0.4 ? 10 : width / height > 0.6 ? 20 : 0), 0],
                   padding: 0.15,
                 }
           }
@@ -78,7 +86,7 @@ export default function XYBarStack(props: BarStackProps) {
         >
           <AnimatedGrid
             className="chart__rows"
-            numTicks={renderVertically ? numTicks : 4}
+            numTicks={tickTwoOrOne}
             columns={renderVertically ? false : true}
             rows={renderVertically ? true : false}
           />
@@ -88,8 +96,9 @@ export default function XYBarStack(props: BarStackProps) {
               orientation="left"
               hideAxisLine={true}
               hideTicks={true}
-              numTicks={numTicks}
-              left={isAxisRange ? -marginRight / 2 : -marginRight / 3 + 1}
+              numTicks={renderVertically ? tickTwoOrOne : 10}
+              left={isAxisRange ? -marginRight / 2 - 1 : -marginRight / 3 + 1}
+              tickFormat={(d: string) => (renderVertically ? d.toString().replace("-", "") : d)}
             />
           )}
           <AnimatedAxis
@@ -97,7 +106,7 @@ export default function XYBarStack(props: BarStackProps) {
             orientation="bottom"
             tickLength={6}
             hideAxisLine={true}
-            numTicks={renderVertically ? 10 : 4}
+            numTicks={renderVertically ? 10 : tickTwoOrOne}
             hideTicks={renderVertically ? false : true}
             tickFormat={(d: string) => (renderVertically ? d : d.toString().replace("-", ""))}
           />
