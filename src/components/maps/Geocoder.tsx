@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
+import Tooltip from "components/tooltip/Tooltip"
 
 interface IGeocoder {
   token: string
@@ -14,6 +15,10 @@ async function fetchMapboxAPI(search, token): Promise<AugoraMap.MapboxAPIFeature
   const data: AugoraMap.MapboxAPIFeatureCollection = await response.json()
 
   return data
+}
+
+const splitAddress = (address: string): [string, string] => {
+  return [address.match(/^.*?(?=\,)/)[0], address.match(/(?<=\,\s).*$/)[0]]
 }
 
 export default function Geocoder(props: IGeocoder) {
@@ -68,19 +73,28 @@ export default function Geocoder(props: IGeocoder) {
         <button style={{ fontSize: "15px", border: "none", borderRadius: 5 }}>Chercher</button>
       </form>
       {results && results.features.length > 0 && (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {results.features.map((feature) => (
-            <button
-              key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`}
-              onClick={() => {
-                setResults(null)
-                props.handleClick(feature.center)
-              }}
-            >
-              {feature.place_name}
-            </button>
-          ))}
-        </div>
+        <Tooltip className="geocoder__results">
+          {console.log(results)}
+          <ul>
+            {results.features.map(
+              (feature) =>
+                feature.relevance === 1 && (
+                  <li key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`} className="results__element">
+                    <a
+                      className="results__link"
+                      onClick={() => {
+                        setResults(null)
+                        props.handleClick(feature.center)
+                      }}
+                    >
+                      <div className="link__title">{splitAddress(feature.place_name)[0]}</div>
+                      <div className="link__description">{splitAddress(feature.place_name)[1]}</div>
+                    </a>
+                  </li>
+                )
+            )}
+          </ul>
+        </Tooltip>
       )}
     </div>
   )

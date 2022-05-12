@@ -1,4 +1,6 @@
 .map__geocoder {
+  width: 300px;
+
   .geocoder {
     &__form {
       display: flex;
@@ -6,7 +8,6 @@
       background: white;
       box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
       border-radius: 5px;
-      width: 300px;
       margin: 0;
       .form {
         &__input {
@@ -50,6 +51,49 @@
             svg {
               fill: $text-color;
             }
+          }
+        }
+      }
+    }
+
+    &__results {
+      margin-top: 10px;
+      padding: 0;
+      max-width: unset;
+      pointer-events: auto;
+
+      ul {
+        list-style-type: none;
+        margin: 0;
+        text-align: left;
+        font-size: 14px;
+
+        .results {
+          &__link {
+            display: block;
+            cursor: pointer;
+
+            width: 100%;
+            padding: 5px 10px;
+
+            &:hover {
+              background: $btn-hover;
+            }
+
+            &:active {
+              background: $btn-active;
+            }
+
+            .link {
+              &__title {
+                font-weight: bold;
+              }
+              &__description {
+              }
+            }
+          }
+          &__element {
+            margin: 0;
           }
         }
       }

@@ -31,11 +31,13 @@ declare namespace AugoraMap {
 
   /** Objet properties des feature de l'API geocode mapbox */
   interface MapboxAPIProperties extends GeoJSON.GeoJsonProperties {
-    wikidata: string
+    wikidata?: string
+    accuracy?: string
   }
 
   /** Objet feature de l'API geocode mapbox */
   interface MapboxAPIFeature extends GeoJSON.Feature<GeoJSON.Geometry, MapboxAPIProperties> {
+    address?: string
     center: Coordinates
     id: string
     language: string
