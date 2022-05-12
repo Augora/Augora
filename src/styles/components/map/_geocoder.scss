@@ -88,12 +88,16 @@
               &__title {
                 font-weight: bold;
               }
-              &__description {
-              }
             }
           }
           &__element {
             margin: 0;
+
+            &:first-child {
+              a {
+                background: $btn-hover;
+              }
+            }
           }
         }
       }

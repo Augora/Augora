@@ -55,10 +55,10 @@ export default function Geocoder(props: IGeocoder) {
     )
   }, 500)
 
-  const handleTextInput = useCallback((value?: string) => {
-    if (value && value.length > 0) {
-      setValue(value)
-      handleSearch(value)
+  const handleTextInput = useCallback((input?: string) => {
+    if (input && input.length > 0) {
+      setValue(input)
+      handleSearch(input)
     } else resetForm()
   }, [])
 
@@ -69,9 +69,21 @@ export default function Geocoder(props: IGeocoder) {
     props.handleClick(null)
   }
 
+  const handleSubmit = (feature: AugoraMap.MapboxAPIFeature) => {
+    setValue(feature.place_name)
+    props.handleClick(feature.center)
+    setResults(null)
+  }
+
   return (
     <div className="map__geocoder" ref={node}>
-      <form className="geocoder__form" onSubmit={(e) => e.preventDefault()}>
+      <form
+        className="geocoder__form"
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (results?.features.length > 0) handleSubmit(results.features[0])
+        }}
+      >
         <div className="form__icon icon-wrapper">
           <IconSearch />
         </div>
@@ -99,14 +111,7 @@ export default function Geocoder(props: IGeocoder) {
               (feature) =>
                 feature.relevance === 1 && (
                   <li key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`} className="results__element">
-                    <a
-                      className="results__link"
-                      onClick={() => {
-                        setResults(null)
-                        setValue(feature.place_name)
-                        props.handleClick(feature.center)
-                      }}
-                    >
+                    <a className="results__link" onClick={() => handleSubmit(feature)}>
                       <div className="link__title">{splitAddress(feature.place_name)[0]}</div>
                       <div className="link__description">{splitAddress(feature.place_name)[1]}</div>
                     </a>
