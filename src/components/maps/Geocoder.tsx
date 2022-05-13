@@ -28,6 +28,7 @@ const splitAddress = (address: string): [string, string] => {
 
 export default function Geocoder(props: IGeocoder) {
   const [value, setValue] = useState<string>("")
+  const [isExpanded, setIsExpanded] = useState(true)
   const [results, setResults] = useState<AugoraMap.MapboxAPIFeature[]>(null)
   const [resultsVisible, setResultsVisible] = useState(false)
   const [cursor, setCursor] = useState<number>(0)
@@ -94,18 +95,31 @@ export default function Geocoder(props: IGeocoder) {
     props.handleClick(feature.center)
   }
 
+  const handleExpand = () => {
+    if (isExpanded) {
+      setIsExpanded(!isExpanded)
+      clearForm()
+    } else setIsExpanded(true)
+  }
+
   return (
     <div className="map__geocoder" ref={node}>
+      <button
+        className="geocoder__expand"
+        title={isExpanded ? "Femer la recherche" : "Ouvrir la recherche"}
+        onClick={handleExpand}
+      >
+        <div className="expand__icon icon-wrapper">
+          <IconSearch />
+        </div>
+      </button>
       <form
-        className="geocoder__form"
+        className={`geocoder__form ${isExpanded ? "geocoder__form--visible" : ""}`}
         onSubmit={(e) => {
           e.preventDefault()
           if (results?.length > 0) handleSubmit(results[cursor])
         }}
       >
-        <div className="form__icon icon-wrapper">
-          <IconSearch />
-        </div>
         <input
           className="form__input"
           ref={searchField}
@@ -116,14 +130,12 @@ export default function Geocoder(props: IGeocoder) {
           onFocus={() => results && setResultsVisible(true)}
           onKeyDown={handleKeyDown}
         />
-        {value.length > 0 && (
-          <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
-            <input className="form__clear-btn" type="reset" value="" title="Effacer" onClick={() => clearForm()} />
-            <div className="icon-wrapper">
-              <IconClose />
-            </div>
+        <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
+          <input className="form__clear-btn" type="reset" value="" title="Effacer" onClick={() => clearForm()} />
+          <div className="icon-wrapper">
+            <IconClose />
           </div>
-        )}
+        </div>
       </form>
       {resultsVisible && results && (
         <Tooltip className="geocoder__results">

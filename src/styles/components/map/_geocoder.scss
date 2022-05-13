@@ -1,14 +1,44 @@
 .map__geocoder {
-  width: 350px;
+  display: flex;
+  background: white;
+  box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
+  border-radius: 5px;
 
   .geocoder {
-    &__form {
-      display: flex;
-
-      background: white;
-      box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
+    &__expand {
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
       border-radius: 5px;
+
+      &:hover {
+        background: $btn-hover;
+      }
+
+      .expand {
+        &__icon {
+          margin: 10px;
+
+          svg {
+            width: 15px;
+            fill: $text-color;
+          }
+        }
+      }
+    }
+
+    &__form {
       margin: 0;
+      display: flex;
+      width: 0;
+
+      transition: width 0.3s $ease-in-out-cubic;
+
+      &--visible {
+        width: 300px;
+      }
+
       .form {
         &__input {
           width: 100%;
@@ -19,20 +49,13 @@
           line-height: 1em;
         }
 
-        &__icon {
-          margin: 7px;
-
-          svg {
-            width: 15px;
-            fill: $text-color;
-          }
-        }
-
         &__clear {
           position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
+          opacity: 0;
+          pointer-events: none;
 
           &-btn {
             position: absolute;
@@ -46,21 +69,28 @@
           }
 
           .icon-wrapper {
-            width: 13px;
             margin: 7px;
 
             svg {
+              width: 13px;
               fill: $text-color;
             }
+          }
+
+          &--visible {
+            opacity: 1;
+            pointer-events: auto;
           }
         }
       }
     }
 
     &__results {
-      margin-top: 10px;
+      position: absolute;
+      top: calc(100% + 10px);
       padding: 0;
       max-width: unset;
+      width: 100%;
       pointer-events: auto;
 
       .results {
