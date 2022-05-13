@@ -64,7 +64,28 @@
       pointer-events: auto;
 
       .results {
+        &__list {
+          list-style-type: none;
+          margin: 0;
+        }
+
         &__item {
+          margin: 0;
+
+          &--selected {
+            background: $btn-hover;
+
+            &:first-child {
+              border-radius: 5px 5px 0 0;
+            }
+
+            &:last-child {
+              border-radius: 0 0 5px 5px;
+            }
+          }
+        }
+
+        &__link {
           display: block;
           cursor: pointer;
 
@@ -73,14 +94,6 @@
 
           text-align: left;
           font-size: 14px;
-
-          &:hover {
-            background: $btn-hover;
-          }
-
-          &:active {
-            background: $btn-active;
-          }
 
           .link {
             &__title {
@@ -91,26 +104,6 @@
 
         &__notfound {
           cursor: default;
-
-          &:hover,
-          &:active {
-            background: none;
-          }
-        }
-      }
-
-      ul {
-        list-style-type: none;
-        margin: 0;
-
-        li {
-          margin: 0;
-
-          &:first-child {
-            a {
-              background: $btn-hover;
-            }
-          }
         }
       }
     }

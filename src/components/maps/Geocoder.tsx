@@ -28,8 +28,9 @@ const splitAddress = (address: string): [string, string] => {
 
 export default function Geocoder(props: IGeocoder) {
   const [value, setValue] = useState<string>("")
-  const [results, setResults] = useState<AugoraMap.MapboxAPIFeatureCollection>(null)
+  const [results, setResults] = useState<AugoraMap.MapboxAPIFeature[]>(null)
   const [resultsVisible, setResultsVisible] = useState(false)
+  const [cursor, setCursor] = useState<number>(0)
 
   const searchField = useRef<HTMLInputElement>()
   const node = useRef<HTMLDivElement>()
@@ -45,14 +46,24 @@ export default function Geocoder(props: IGeocoder) {
     if (node?.current) {
       if (!node.current.contains(e.target)) {
         setResultsVisible(false)
+        setCursor(0)
       }
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (results && results.length > 0) {
+      if (e.key === "ArrowUp" && cursor > 0) {
+        e.preventDefault()
+        setCursor(cursor - 1)
+      } else if (e.key === "ArrowDown" && cursor < results.length - 1) setCursor(cursor + 1)
     }
   }
 
   const handleSearch = debounce((search: string) => {
     fetchMapboxAPI(search, props.token).then(
       (result) => {
-        setResults(result)
+        setResults(result.features.filter((feat) => feat.relevance === 1))
         setResultsVisible(true)
       },
       () => console.error("Erreur de la requête à l'API mapbox")
@@ -70,15 +81,17 @@ export default function Geocoder(props: IGeocoder) {
     setValue("")
     setResults(null)
     setResultsVisible(false)
+    setCursor(0)
     handleSearch.cancel()
     props.handleClick(null)
   }
 
   const handleSubmit = (feature: AugoraMap.MapboxAPIFeature) => {
     setValue(feature.place_name)
-    props.handleClick(feature.center)
     setResults(null)
     setResultsVisible(false)
+    setCursor(0)
+    props.handleClick(feature.center)
   }
 
   return (
@@ -87,7 +100,7 @@ export default function Geocoder(props: IGeocoder) {
         className="geocoder__form"
         onSubmit={(e) => {
           e.preventDefault()
-          if (results?.features.length > 0) handleSubmit(results.features[0])
+          if (results?.length > 0) handleSubmit(results[cursor])
         }}
       >
         <div className="form__icon icon-wrapper">
@@ -101,6 +114,7 @@ export default function Geocoder(props: IGeocoder) {
           value={value}
           onChange={(e) => handleTextInput(e.target.value)}
           onFocus={() => results && setResultsVisible(true)}
+          onKeyDown={handleKeyDown}
         />
         {value.length > 0 && (
           <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
@@ -113,22 +127,22 @@ export default function Geocoder(props: IGeocoder) {
       </form>
       {resultsVisible && results && (
         <Tooltip className="geocoder__results">
-          {results.features.length > 0 ? (
-            <ul>
-              {results.features.map(
-                (feature) =>
-                  feature.relevance === 1 && (
-                    <li key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`}>
-                      <a className="results__item" onClick={() => handleSubmit(feature)}>
-                        <div className="link__title">{splitAddress(feature.place_name)[0]}</div>
-                        <div className="link__description">{splitAddress(feature.place_name)[1]}</div>
-                      </a>
-                    </li>
-                  )
-              )}
+          {results.length > 0 ? (
+            <ul className="results__list">
+              {results.map((feature, index) => (
+                <li
+                  key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`}
+                  className={`results__item ${cursor === index ? "results__item--selected" : ""}`}
+                >
+                  <a className="results__link" onClick={() => handleSubmit(feature)} onMouseOver={() => setCursor(index)}>
+                    <div className="link__title">{splitAddress(feature.place_name)[0]}</div>
+                    <div className="link__description">{splitAddress(feature.place_name)[1]}</div>
+                  </a>
+                </li>
+              ))}
             </ul>
           ) : (
-            <div className="results__item results__notfound">Aucun résultat trouvé</div>
+            <div className="results__link results__notfound">Aucun résultat trouvé</div>
           )}
         </Tooltip>
       )}
