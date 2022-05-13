@@ -114,8 +114,9 @@ const localeFR = {
  * @param {AugoraMap.MapView} mapView Object contenant les données d'affichage : geoJSON (zones affichées), feature (zone parente), ghostGeoJSON (zones voisines), paint (comment les zones sont dessinées)
  * @param {Function} [onZoneClick] Callback au click d'une zone, fournie la feature cliquée en paramètre
  * @param {Deputy.DeputiesList} [deputies] Liste des députés à afficher sur la map, inutile si les overlays sont désactivés
+ * @param {boolean} [overview] Pour afficher les zones en mode overview, default false
  * @param {boolean} [overlay] S'il faut afficher les overlay ou pas, default true
- * @param {boolean} [small] S'il faut afficher une map plus petite, default false
+ * @param {boolean} [borders] S'il faut afficher les frontières, default false
  * @param {boolean} [attribution] Si on veut afficher le logo MapBox, default true
  * @param {number} [delay] Si on veut retarder l'effet de zoom, default 0
  */
