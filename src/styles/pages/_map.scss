@@ -15,16 +15,12 @@
 
       .mapboxgl-control-container {
         .mapboxgl-ctrl {
+          z-index: 0;
           &-top-left {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             pointer-events: auto;
-          }
-
-          &-bottom-left,
-          &-bottom-right {
-            z-index: 0;
           }
 
           &-attrib {
@@ -33,8 +29,8 @@
         }
 
         .mapboxgl-ctrl-geo {
-          position: absolute;
-          right: 45px;
+          position: relative;
+          z-index: 1;
         }
       }
 

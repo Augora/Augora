@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react"
 import debounce from "lodash/debounce"
+import { isMobile } from "react-device-detect"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import Tooltip from "components/tooltip/Tooltip"
@@ -28,7 +29,7 @@ const splitAddress = (address: string): [string, string] => {
 
 export default function Geocoder(props: IGeocoder) {
   const [value, setValue] = useState<string>("")
-  const [isExpanded, setIsExpanded] = useState(true)
+  const [isExpanded, setIsExpanded] = useState(!isMobile)
   const [results, setResults] = useState<AugoraMap.MapboxAPIFeature[]>(null)
   const [resultsVisible, setResultsVisible] = useState(false)
   const [cursor, setCursor] = useState<number>(0)
