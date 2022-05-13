@@ -335,6 +335,7 @@ export default function MapAugora(props: IMapAugora) {
                       setGeoPin(coords)
                     } else setGeoPin(null)
                   }}
+                  isOpenByDefault={!isMobile}
                 />
                 {/* <form
                   style={{ position: "absolute", top: 170, right: 0, display: "flex", flexDirection: "column" }}

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from "react"
 import debounce from "lodash/debounce"
-import { isMobile } from "react-device-detect"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import Tooltip from "components/tooltip/Tooltip"
@@ -8,6 +7,7 @@ import Tooltip from "components/tooltip/Tooltip"
 interface IGeocoder {
   token: string
   handleClick: (args: AugoraMap.Coordinates) => any
+  isOpenByDefault?: boolean
 }
 
 async function fetchMapboxAPI(search, token): Promise<AugoraMap.MapboxAPIFeatureCollection> {
@@ -27,9 +27,17 @@ const splitAddress = (address: string): [string, string] => {
   return [title ? title[0] : address, description ? description[0] : ""]
 }
 
+/**
+ * Renvoie le champ de recherche d'adresse, aka "geocoder"
+ * @param {string} token Token mapbox, obligatoire pour la requete API
+ * @param {(args: AugoraMap.Coordinates) => any} handleClick Callback à la selection d'un résultat de recherche
+ * @param {boolean} [isOpenByDefault] Si le geocoder doit etre ouvert ou fermé initialement, default true
+ */
 export default function Geocoder(props: IGeocoder) {
+  const { isOpenByDefault = true } = props
+
   const [value, setValue] = useState<string>("")
-  const [isExpanded, setIsExpanded] = useState(!isMobile)
+  const [isExpanded, setIsExpanded] = useState(isOpenByDefault)
   const [results, setResults] = useState<AugoraMap.MapboxAPIFeature[]>(null)
   const [resultsVisible, setResultsVisible] = useState(false)
   const [cursor, setCursor] = useState<number>(0)
