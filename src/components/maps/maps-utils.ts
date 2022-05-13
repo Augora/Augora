@@ -147,6 +147,20 @@ export const getLayerPaint = (
   }
 }
 
+/** Renvoie la distance en km entre 2 coordonnées */
+const getDistance = (coords1: AugoraMap.Coordinates, coords2: AugoraMap.Coordinates): number => {
+  const R = 6371 // kilometres
+  const φ1 = (coords1[1] * Math.PI) / 180 // φ, λ in radians
+  const φ2 = (coords2[1] * Math.PI) / 180
+  const Δφ = ((coords2[1] - coords1[1]) * Math.PI) / 180
+  const Δλ = ((coords2[0] - coords1[0]) * Math.PI) / 180
+
+  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+  return Math.round(R * c) // in kmetres
+}
+
 /**
  * Renvoie une bounding box utilisable par mapbox depuis un array GEOJson coordinates de type polygon ou multipolygon
  * @param {AugoraMap.Position} coordinates L'array de coordonnées GEOJson
@@ -253,14 +267,17 @@ export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRe
  * @param {mapRef} mapRef Pointeur vers l'objet map
  * @param {AugoraMap.Coordinates} coords Format [longitude, latitude]
  * @param {number} [zoom] Default 1
- * @param {number} [duration] Default 1200 ms
+ * @param {number} [duration] Pour renseigner une durée fixe, par défaut entre 1 et 3 secondes selon la distance
  */
 export const flyToCoords = (mapRef: MapRef, coords: AugoraMap.Coordinates, zoom?: number, duration?: number): void => {
+  const distance = getDistance(mapRef.getCenter().toArray() as AugoraMap.Coordinates, coords)
+  const dynDuration = distance < 750 ? 1000 : distance > 3000 ? 3000 : distance
+
   mapRef.flyTo({
     center: [coords[0], coords[1]],
     zoom: zoom ? zoom : 1,
     easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
-    duration: duration ? duration : 1200,
+    duration: duration ? duration : dynDuration,
   })
 }
 
