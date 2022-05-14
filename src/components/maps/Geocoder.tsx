@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState, useCallback } from "react"
 import debounce from "lodash/debounce"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 import Tooltip from "components/tooltip/Tooltip"
 
 interface IGeocoder {
   token: string
   handleClick: (args: AugoraMap.Coordinates) => any
-  isOpenByDefault?: boolean
+  isCollapsed?: boolean
 }
 
 async function fetchMapboxAPI(search, token): Promise<AugoraMap.MapboxAPIFeatureCollection> {
@@ -31,15 +32,16 @@ const splitAddress = (address: string): [string, string] => {
  * Renvoie le champ de recherche d'adresse, aka "geocoder"
  * @param {string} token Token mapbox, obligatoire pour la requete API
  * @param {(args: AugoraMap.Coordinates) => any} handleClick Callback à la selection d'un résultat de recherche
- * @param {boolean} [isOpenByDefault] Si le geocoder doit etre ouvert ou fermé initialement, default true
+ * @param {boolean} [isCollapsed] Si le geocoder doit etre ouvert ou fermé initialement, default true
  */
 export default function Geocoder(props: IGeocoder) {
-  const { isOpenByDefault = true } = props
+  const { isCollapsed = false } = props
 
   const [value, setValue] = useState<string>("")
-  const [isExpanded, setIsExpanded] = useState(isOpenByDefault)
+  const [isExpanded, setIsExpanded] = useState(!isCollapsed)
   const [results, setResults] = useState<AugoraMap.MapboxAPIFeature[]>(null)
   const [resultsVisible, setResultsVisible] = useState(false)
+  const [choice, setChoice] = useState<AugoraMap.MapboxAPIFeature>(null)
   const [cursor, setCursor] = useState<number>(0)
 
   const searchField = useRef<HTMLInputElement>()
@@ -88,6 +90,7 @@ export default function Geocoder(props: IGeocoder) {
   }, [])
 
   const clearForm = () => {
+    setChoice(null)
     setValue("")
     setResults(null)
     setResultsVisible(false)
@@ -97,76 +100,95 @@ export default function Geocoder(props: IGeocoder) {
   }
 
   const handleSubmit = (feature: AugoraMap.MapboxAPIFeature) => {
+    setChoice(feature)
     setValue(feature.place_name)
     setResults(null)
     setResultsVisible(false)
     setCursor(0)
+    setIsExpanded(false)
     props.handleClick(feature.center)
   }
 
-  const handleExpand = () => {
-    if (isExpanded) {
-      setIsExpanded(!isExpanded)
-      clearForm()
-    } else setIsExpanded(true)
+  const handleExpand = (val: boolean) => {
+    if (val) {
+      setIsExpanded(true)
+      searchField.current.focus()
+    } else {
+      setIsExpanded(false)
+      setResultsVisible(false)
+    }
   }
 
   return (
-    <div className="map__geocoder" ref={node}>
-      <button
-        className="geocoder__expand"
-        title={isExpanded ? "Femer la recherche" : "Ouvrir la recherche"}
-        onClick={handleExpand}
-      >
-        <div className="expand__icon icon-wrapper">
-          <IconSearch />
-        </div>
-      </button>
-      <form
-        className={`geocoder__form ${isExpanded ? "geocoder__form--visible" : ""}`}
-        onSubmit={(e) => {
-          e.preventDefault()
-          if (results?.length > 0) handleSubmit(results[cursor])
-        }}
-      >
-        <input
-          className="form__input"
-          ref={searchField}
-          type="text"
-          placeholder="Trouver une circonscription..."
-          value={value}
-          onChange={(e) => handleTextInput(e.target.value)}
-          onFocus={() => results && setResultsVisible(true)}
-          onKeyDown={handleKeyDown}
-        />
-        <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
-          <input className="form__clear-btn" type="reset" value="" title="Effacer" onClick={() => clearForm()} />
-          <div className="icon-wrapper">
-            <IconClose />
+    <>
+      <div
+        className={`geocoder__overlay ${isExpanded ? "geocoder__overlay--visible" : ""}`}
+        onClick={() => handleExpand(false)}
+      />
+      <div className={`map__geocoder ${isExpanded ? "map__geocoder--visible" : ""}`} ref={node}>
+        <button
+          className="geocoder__expand"
+          title={isExpanded ? "Femer la recherche" : "Ouvrir la recherche"}
+          onClick={() => handleExpand(!isExpanded)}
+        >
+          <div className="expand__icon icon-wrapper">
+            <IconSearch />
           </div>
+          <div className="expand__arrow icon-wrapper">
+            <IconChevron />
+          </div>
+        </button>
+        <form
+          className={"geocoder__form"}
+          onSubmit={(e) => {
+            e.preventDefault()
+            if (results?.length > 0) handleSubmit(results[cursor])
+          }}
+        >
+          <input
+            className="form__input"
+            ref={searchField}
+            type="text"
+            placeholder="Trouver une circonscription..."
+            value={value}
+            onChange={(e) => handleTextInput(e.target.value)}
+            onFocus={() => results && setTimeout(() => setResultsVisible(true), 400)}
+            onKeyDown={handleKeyDown}
+          />
+          <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
+            <input className="form__clear-btn" type="reset" value="" title="Effacer" onClick={() => clearForm()} />
+            <div className="icon-wrapper">
+              <IconClose />
+            </div>
+          </div>
+        </form>
+        {resultsVisible && results && (
+          <Tooltip className="geocoder__results">
+            {results.length > 0 ? (
+              <ul className="results__list">
+                {results.map((feature, index) => (
+                  <li
+                    key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`}
+                    className={`results__item ${cursor === index ? "results__item--selected" : ""}`}
+                  >
+                    <a className="results__link" onClick={() => handleSubmit(feature)} onMouseOver={() => setCursor(index)}>
+                      <div className="link__title">{splitAddress(feature.place_name)[0]}</div>
+                      <div className="link__description">{splitAddress(feature.place_name)[1]}</div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="results__link results__notfound">Aucun résultat trouvé</div>
+            )}
+          </Tooltip>
+        )}
+        <div className={`geocoder__dot icon-wrapper ${choice ? "geocoder__dot--visible" : ""}`}>
+          <svg xmlns="http://www.w3.org/2000/svg">
+            <circle cx="6" cy="6" r="3" fill="red" />
+          </svg>
         </div>
-      </form>
-      {resultsVisible && results && (
-        <Tooltip className="geocoder__results">
-          {results.length > 0 ? (
-            <ul className="results__list">
-              {results.map((feature, index) => (
-                <li
-                  key={`${feature.text}-${feature.center[0]}-${feature.center[1]}`}
-                  className={`results__item ${cursor === index ? "results__item--selected" : ""}`}
-                >
-                  <a className="results__link" onClick={() => handleSubmit(feature)} onMouseOver={() => setCursor(index)}>
-                    <div className="link__title">{splitAddress(feature.place_name)[0]}</div>
-                    <div className="link__description">{splitAddress(feature.place_name)[1]}</div>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="results__link results__notfound">Aucun résultat trouvé</div>
-          )}
-        </Tooltip>
-      )}
-    </div>
+      </div>
+    </>
   )
 }

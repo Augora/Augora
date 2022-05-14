@@ -335,26 +335,8 @@ export default function MapAugora(props: IMapAugora) {
                       setGeoPin(coords)
                     } else setGeoPin(null)
                   }}
-                  isOpenByDefault={!isMobile}
+                  isCollapsed={isMobile}
                 />
-                {/* <form
-                  style={{ position: "absolute", top: 170, right: 0, display: "flex", flexDirection: "column" }}
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    const lng = e.target[0].value
-                    const lat = e.target[1].value
-
-                    if (isNaN(lng) || isNaN(lat) || lng === "" || lat === "") {
-                      console.error("Les données fournis ne sont pas valides")
-                    } else {
-                      goToCoordsCirc([lng, lat])
-                    }
-                  }}
-                >
-                  <input type="text" placeholder="Longitude" />
-                  <input type="text" placeholder="Latitude" />
-                  <button>GO</button>
-                </form> */}
               </MapControl>
               <NavigationControl showCompass={false} />
               <FullscreenControl />
