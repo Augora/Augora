@@ -119,8 +119,6 @@
         &__tooltip {
           min-width: 190px;
           max-width: none;
-          max-height: calc(100vh - 275px);
-          overflow: auto;
           position: absolute;
 
           padding: 0;
@@ -228,6 +226,12 @@
       }
 
       &__menu {
+        .menu {
+          &__tooltip {
+            max-height: calc(100vh - 275px);
+            overflow: auto;
+          }
+        }
         &.list {
           display: none;
         }
