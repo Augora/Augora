@@ -91,6 +91,7 @@
         &--missing {
           height: 70px;
           transform: translate(0, 0);
+          opacity: 0.6;
 
           .missing {
             &__image {
@@ -118,6 +119,7 @@
 
           &.deputy__visuals--opened {
             height: 100px;
+            opacity: 1;
           }
         }
       }
