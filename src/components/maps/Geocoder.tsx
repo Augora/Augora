@@ -4,6 +4,7 @@ import IconSearch from "images/ui-kit/icon-loupe.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
 import Tooltip from "components/tooltip/Tooltip"
+import LoadingSpinner from "components/spinners/loading-spinner/LoadingSpinner"
 
 interface IGeocoder {
   token: string
@@ -43,6 +44,7 @@ export default function Geocoder(props: IGeocoder) {
   const [resultsVisible, setResultsVisible] = useState(false)
   const [choice, setChoice] = useState<AugoraMap.MapboxAPIFeature>(null)
   const [cursor, setCursor] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState(false)
 
   const searchField = useRef<HTMLInputElement>()
   const node = useRef<HTMLDivElement>()
@@ -77,6 +79,7 @@ export default function Geocoder(props: IGeocoder) {
       (result) => {
         setResults(result.features.filter((feat) => feat.relevance === 1))
         setResultsVisible(true)
+        setIsLoading(false)
       },
       () => console.error("Erreur de la requête à l'API mapbox")
     )
@@ -86,6 +89,7 @@ export default function Geocoder(props: IGeocoder) {
     if (input && input.length > 0) {
       setValue(input)
       handleSearch(input)
+      setIsLoading(true)
     } else clearForm()
   }, [])
 
@@ -116,6 +120,16 @@ export default function Geocoder(props: IGeocoder) {
     } else {
       setIsExpanded(false)
       setResultsVisible(false)
+    }
+  }
+
+  const handleFocus = () => {
+    if (results) {
+      setIsLoading(true)
+      setTimeout(() => {
+        setResultsVisible(true)
+        setIsLoading(false)
+      }, 400)
     }
   }
 
@@ -153,14 +167,20 @@ export default function Geocoder(props: IGeocoder) {
             placeholder="Trouver une circonscription..."
             value={value}
             onChange={(e) => handleTextInput(e.target.value)}
-            onFocus={() => results && setTimeout(() => setResultsVisible(true), 400)}
+            onFocus={handleFocus}
             onKeyDown={handleKeyDown}
           />
           <div className={`form__clear ${value.length > 0 ? "form__clear--visible" : ""}`}>
-            <input className="form__clear-btn" type="reset" value="" title="Effacer" onClick={() => clearForm()} />
-            <div className="icon-wrapper">
-              <IconClose />
-            </div>
+            {!isLoading ? (
+              <>
+                <input className="form__clear-btn" type="reset" value="" title="Effacer" onClick={() => clearForm()} />
+                <div className="icon-wrapper">
+                  <IconClose />
+                </div>
+              </>
+            ) : (
+              <LoadingSpinner />
+            )}
           </div>
         </form>
         {resultsVisible && results && (
