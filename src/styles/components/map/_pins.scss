@@ -28,17 +28,6 @@
           width: max-content;
           border-radius: 10px;
         }
-
-        &--missing {
-          .icon-wrapper {
-            align-self: center;
-            pointer-events: none;
-            width: 80%;
-            // svg {
-            //   fill: $lightgrey;
-            // }
-          }
-        }
       }
 
       &__photo {
@@ -85,10 +74,6 @@
             margin: 5px 0;
           }
 
-          // &__group {
-          // text-transform: uppercase;
-          // }
-
           &__parti {
             font-size: 13px;
           }
@@ -107,9 +92,32 @@
           height: 70px;
           transform: translate(0, 0);
 
-          .deputy__info {
-            color: $text-color;
-            text-align: center;
+          .missing {
+            &__image {
+              pointer-events: none;
+              font-size: 30px;
+              font-weight: bold;
+            }
+            &__info {
+              color: $text-color;
+              text-align: center;
+              padding: 10px;
+            }
+            &__zone {
+              text-transform: uppercase;
+            }
+            &__text {
+              margin-top: 10px;
+              font-weight: bold;
+            }
+            &__ps {
+              font-size: 12px;
+              font-style: italic;
+            }
+          }
+
+          &.deputy__visuals--opened {
+            height: 100px;
           }
         }
       }
