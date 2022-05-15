@@ -21,7 +21,8 @@ import {
   getDeputies,
   flyToCoords,
   getContinent,
-  geolocateCirc,
+  geolocateFromCoords,
+  geolocateZone,
   Cont,
 } from "components/maps/maps-utils"
 import MapControl from "components/maps/MapControl"
@@ -168,7 +169,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /** Change la zone affichée et transitionne */
-  const goToZone = <T extends GeoJSON.Feature>(feature: T) => {
+  const goToZone = <T extends GeoJSON.Feature>(feature: T, coords?: AugoraMap.Coordinates) => {
     const zoneCode = getZoneCode(feature)
     if (feature) {
       if (!compareFeatures(feature, zoneFeature)) {
@@ -177,6 +178,9 @@ export default function MapAugora(props: IMapAugora) {
       } else if (zoneCode === Code.Circ) {
         if (props.onZoneClick) props.onZoneClick(feature)
       } else flyToFeature(feature)
+    } else if (coords) {
+      flyToCoords(mapRef.current, coords, 3)
+      console.warn(`Pas de zone trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
     }
   }
 
@@ -221,18 +225,6 @@ export default function MapAugora(props: IMapAugora) {
     }
   }
 
-  const goToCoordsCirc = (coords: AugoraMap.Coordinates) => {
-    const feature = geolocateCirc(coords)
-
-    if (feature) {
-      if (!compareFeatures(feature, zoneFeature)) goToZone(feature)
-      else flyToFeature(feature)
-    } else {
-      flyToCoords(mapRef.current, coords, 3)
-      console.warn(`Pas de circonscription trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
-    }
-  }
-
   const handlePointerMove = (e) => {
     if (e.originalEvent.target.className === "mapboxgl-canvas") {
       const renderedFeature = getMouseEventFeature(e)
@@ -267,13 +259,13 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleGeolocate = (e: GeolocateResultEvent) => {
     const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
-    if (coords) goToCoordsCirc(coords)
+    if (coords) goToZone(geolocateFromCoords(coords, Code.Circ), coords)
   }
 
   const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
     if (feature) {
-      goToCoordsCirc(feature.center)
       setGeoPin(feature.center)
+      goToZone(geolocateZone(feature), feature.center)
     } else setGeoPin(null)
   }
 

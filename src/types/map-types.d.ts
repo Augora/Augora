@@ -42,6 +42,7 @@ declare namespace AugoraMap {
     id: string
     language: string
     place_name: string
+    place_type: [string]
     text: string
     relevance: number
     context: {

@@ -591,28 +591,74 @@ export const getFeatureFromQuery = (query: ParsedUrlQuery): AugoraMap.Feature =>
   } else return null
 }
 
-/**
- * Trouve la circonscription à l'endroit de coordonnées
- * @param {AugoraMap.Coordinates} coords Coordonnées [lng, lat]
- */
-export const geolocateCirc = (coords: AugoraMap.Coordinates): AugoraMap.Feature => {
-  const trimmedFeatures = AllCirc.features.filter((feature) => {
+/** Cherche dans nos fichiers une feature aux coordonnées fournies */
+export const geolocateFeature = (coords: AugoraMap.Coordinates, features: AugoraMap.FeatureCollection): AugoraMap.Feature => {
+  const trimmedFeatures = features.features.filter((feature) => {
     const SW = feature.properties.bbox[0]
     const NE = feature.properties.bbox[1]
 
     return coords[0] > SW[0] && coords[0] < NE[0] && coords[1] > SW[1] && coords[1] < NE[1]
   }) //préfiltre les features avec la bounding box, moins couteux en calcul
 
-  return trimmedFeatures.find((feature) => {
-    if (feature.geometry.type === "Polygon") {
-      return pointInPolygon(coords, feature.geometry.coordinates[0])
-    } else if (feature.geometry.type === "MultiPolygon") {
-      return feature.geometry.coordinates.find((polygon) => pointInPolygon(coords, polygon[0])) !== undefined
-    }
-  })
+  if (trimmedFeatures.length > 1) {
+    return trimmedFeatures.find((feature) => {
+      if (feature.geometry.type === "Polygon") {
+        return pointInPolygon(coords, feature.geometry.coordinates[0])
+      } else if (feature.geometry.type === "MultiPolygon") {
+        return feature.geometry.coordinates.find((polygon) => pointInPolygon(coords, polygon[0])) !== undefined
+      }
+    })
+  } else if (trimmedFeatures.length === 1) return trimmedFeatures[0]
+  else return undefined
 }
 
-/** Requete les features d'une recherche à l'API mapbox */
+/** Cherche dans nos fichiers une feature aux coordonnées fournies
+ * @param {Code} code Pour savoir dans quel fichier de zones fouiller
+ */
+export const geolocateFromCoords = (coords: AugoraMap.Coordinates, code: Code): AugoraMap.Feature => {
+  const features =
+    code === Code.Circ
+      ? AllCirc
+      : code === Code.Dpt
+      ? AllDpt
+      : code === Code.Reg
+      ? AllReg
+      : createFeatureCollection([MetroFeature])
+
+  return geolocateFeature(coords, features)
+}
+
+/** Renvoie la feature de nos fichiers la plus adaptée à un résultat de recherche API mapbox */
+export const geolocateZone = (feature: AugoraMap.MapboxAPIFeature): AugoraMap.Feature => {
+  switch (feature.place_type[0]) {
+    case "country":
+      switch (feature.text) {
+        case "Guyane":
+        case "Guadeloupe":
+        case "Martinique":
+        case "La Réunion":
+        case "Mayotte":
+        case "Nouvelle-Calédonie":
+        case "Polynésie française":
+        case "Saint-Pierre-et-Miquelon":
+        case "Wallis-et-Futuna":
+          return geolocateFeature(feature.center, OMDptFile)
+        case "France":
+          return MetroFeature
+        default:
+          return geolocateFeature(feature.center, AllCirc)
+      }
+    case "region":
+      if (feature.context[0].short_code === "fr") return geolocateFeature(feature.center, MetroDptFile)
+      else return geolocateFeature(feature.center, AllCirc)
+    default:
+      return geolocateFeature(feature.center, AllCirc)
+  }
+}
+
+/** Requete les features d'une recherche à l'API mapbox
+ * @param {string} token Le mapbox token, obligatoire pour contacter l'API
+ */
 export async function searchMapboxAPI(search: string, token: string): Promise<AugoraMap.MapboxAPIFeatureCollection> {
   const response = await fetch(
     `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?language=fr&limit=10&proximity=2.2137,46.2276&access_token=${token}`
