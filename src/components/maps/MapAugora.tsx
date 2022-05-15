@@ -221,6 +221,18 @@ export default function MapAugora(props: IMapAugora) {
     }
   }
 
+  const goToCoordsCirc = (coords: AugoraMap.Coordinates) => {
+    const feature = geolocateCirc(coords)
+
+    if (feature) {
+      if (!compareFeatures(feature, zoneFeature)) goToZone(feature)
+      else flyToFeature(feature)
+    } else {
+      flyToCoords(mapRef.current, coords, 3)
+      console.warn(`Pas de circonscription trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
+    }
+  }
+
   const handlePointerMove = (e) => {
     if (e.originalEvent.target.className === "mapboxgl-canvas") {
       const renderedFeature = getMouseEventFeature(e)
@@ -253,18 +265,16 @@ export default function MapAugora(props: IMapAugora) {
     if (!isMapLoaded) setIsMapLoaded(true)
   }
 
-  const goToCoordsCirc = (coords: AugoraMap.Coordinates) => {
-    const feature = geolocateCirc(coords)
-
-    if (feature) {
-      if (!compareFeatures(feature, zoneFeature)) goToZone(feature)
-      else flyToFeature(feature)
-    } else console.warn(`Pas de circonscription trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
-  }
-
   const handleGeolocate = (e: GeolocateResultEvent) => {
     const coords = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)] as AugoraMap.Coordinates
     if (coords) goToCoordsCirc(coords)
+  }
+
+  const handleGeocode = (coords: AugoraMap.Coordinates) => {
+    if (coords) {
+      goToCoordsCirc(coords)
+      setGeoPin(coords)
+    } else setGeoPin(null)
   }
 
   return (
@@ -327,16 +337,7 @@ export default function MapAugora(props: IMapAugora) {
                 />
               </MapControl>
               <MapControl position="top-right" className="mapboxgl-ctrl-geo">
-                <Geocoder
-                  token={MAPBOX_TOKEN}
-                  handleClick={(coords) => {
-                    if (coords) {
-                      goToCoordsCirc(coords)
-                      setGeoPin(coords)
-                    } else setGeoPin(null)
-                  }}
-                  isCollapsed={isMobile}
-                />
+                <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
               </MapControl>
               <NavigationControl showCompass={false} />
               <FullscreenControl />
