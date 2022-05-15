@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from "react"
+import { searchMapboxAPI } from "components/maps/maps-utils"
 import debounce from "lodash/debounce"
 import IconSearch from "images/ui-kit/icon-loupe.svg"
 import IconClose from "images/ui-kit/icon-close.svg"
@@ -8,17 +9,8 @@ import LoadingSpinner from "components/spinners/loading-spinner/LoadingSpinner"
 
 interface IGeocoder {
   token: string
-  handleClick: (args: AugoraMap.Coordinates) => any
+  handleClick: (arg: AugoraMap.MapboxAPIFeature) => any
   isCollapsed?: boolean
-}
-
-async function fetchMapboxAPI(search, token): Promise<AugoraMap.MapboxAPIFeatureCollection> {
-  const response = await fetch(
-    `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?language=fr&limit=10&proximity=2.2137,46.2276&access_token=${token}`
-  )
-  const data: AugoraMap.MapboxAPIFeatureCollection = await response.json()
-
-  return data
 }
 
 /** A partir d'une string avec au moins une virgule, renvoie ["ce qui est avant la première virgule", "ce qui est après la première virgule"], si pas de virgule, renvoie ["string", ""] */
@@ -75,7 +67,7 @@ export default function Geocoder(props: IGeocoder) {
   }
 
   const handleSearch = debounce((search: string) => {
-    fetchMapboxAPI(search, props.token).then(
+    searchMapboxAPI(search, props.token).then(
       (result) => {
         setResults(result.features.filter((feat) => feat.relevance === 1))
         setResultsVisible(true)
@@ -110,7 +102,7 @@ export default function Geocoder(props: IGeocoder) {
     setResultsVisible(false)
     setCursor(0)
     setIsExpanded(false)
-    props.handleClick(feature.center)
+    props.handleClick(feature)
   }
 
   const handleExpand = (val: boolean) => {

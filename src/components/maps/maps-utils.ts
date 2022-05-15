@@ -611,3 +611,13 @@ export const geolocateCirc = (coords: AugoraMap.Coordinates): AugoraMap.Feature 
     }
   })
 }
+
+/** Requete les features d'une recherche à l'API mapbox */
+export async function searchMapboxAPI(search: string, token: string): Promise<AugoraMap.MapboxAPIFeatureCollection> {
+  const response = await fetch(
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?language=fr&limit=10&proximity=2.2137,46.2276&access_token=${token}`
+  )
+  const data: AugoraMap.MapboxAPIFeatureCollection = await response.json()
+
+  return data
+}

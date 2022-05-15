@@ -266,14 +266,14 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleGeolocate = (e: GeolocateResultEvent) => {
-    const coords = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)] as AugoraMap.Coordinates
+    const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
     if (coords) goToCoordsCirc(coords)
   }
 
-  const handleGeocode = (coords: AugoraMap.Coordinates) => {
-    if (coords) {
-      goToCoordsCirc(coords)
-      setGeoPin(coords)
+  const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
+    if (feature) {
+      goToCoordsCirc(feature.center)
+      setGeoPin(feature.center)
     } else setGeoPin(null)
   }
 
