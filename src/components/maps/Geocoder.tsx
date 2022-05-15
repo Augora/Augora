@@ -128,6 +128,7 @@ export default function Geocoder(props: IGeocoder) {
       <div className={`map__geocoder ${isExpanded ? "map__geocoder--visible" : ""}`} ref={node}>
         <button
           className="geocoder__expand"
+          type="button"
           title={isExpanded ? "Femer la recherche" : "Ouvrir la recherche"}
           onClick={() => handleExpand(!isExpanded)}
         >

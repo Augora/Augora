@@ -223,6 +223,27 @@
       }
     }
   }
+
+  @media (hover: none) {
+    .geocoder {
+      &__expand {
+        .expand {
+          &__arrow {
+            display: none;
+          }
+        }
+
+        &:hover {
+          background: none;
+          .expand {
+            &__icon {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .geocoder__overlay {
