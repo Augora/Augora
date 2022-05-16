@@ -613,7 +613,7 @@ export const geolocateFeature = (coords: AugoraMap.Coordinates, features: Augora
 }
 
 /** Cherche dans nos fichiers une feature aux coordonnées fournies
- * @param {Code} code Pour savoir dans quel fichier de zones fouiller
+ * @param {Code} code Pour savoir dans quel type de zone chercher
  */
 export const geolocateFromCoords = (coords: AugoraMap.Coordinates, code: Code): AugoraMap.Feature => {
   const features =
@@ -649,8 +649,25 @@ export const geolocateZone = (feature: AugoraMap.MapboxAPIFeature): AugoraMap.Fe
           return geolocateFeature(feature.center, AllCirc)
       }
     case "region":
-      if (feature.context[0].short_code === "fr") return geolocateFeature(feature.center, MetroDptFile)
-      else return geolocateFeature(feature.center, AllCirc)
+      if (feature.context[0].short_code === "fr") {
+        switch (feature.text) {
+          case "Bretagne":
+          case "Normandie":
+          case "Hauts-de-France":
+          case "Pays de la Loire":
+          case "Île-de-France":
+          case "Centre-Val de Loire":
+          case "Bourgogne-Franche-Comté":
+          case "Auvergne-Rhône-Alpes":
+          case "Nouvelle-Aquitaine":
+          case "Provence-Alpes-Côte d'Azur":
+          case "Occitanie":
+          case "Corse":
+            return geolocateFeature(feature.center, MetroRegFile)
+          default:
+            return geolocateFeature(feature.center, MetroDptFile)
+        }
+      } else return geolocateFeature(feature.center, AllCirc)
     default:
       return geolocateFeature(feature.center, AllCirc)
   }
