@@ -142,7 +142,7 @@ export const getLayerPaint = (
     },
     line: {
       "line-color": color ? color : "#00bbcc",
-      "line-width": 2,
+      "line-width": 1,
     },
   }
 }
