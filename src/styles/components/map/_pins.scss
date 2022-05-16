@@ -7,9 +7,9 @@
     .deputy,
     .number {
       &__visuals {
-        width: 70px;
-        height: 70px;
-        border-radius: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 15px;
         line-height: normal;
         background: $lightestgrey;
         box-shadow: 0px 10px 20px rgba($black, 0.3);
@@ -38,7 +38,7 @@
       }
       &__number {
         display: block;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: bold;
       }
 
@@ -89,7 +89,6 @@
           transform: translate(-60px, 0);
         }
         &--missing {
-          height: 70px;
           transform: translate(0, 0);
           opacity: 0.6;
 
