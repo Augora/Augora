@@ -264,7 +264,10 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleGeolocate = (e: GeolocateResultEvent) => {
     const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
-    if (coords) goToZone({ feature: geolocateFromCoords(coords, Code.Circ), coords: coords, redirect: false })
+    if (coords) {
+      setGeoPin(coords)
+      goToZone({ feature: geolocateFromCoords(coords, Code.Circ), coords: coords, redirect: false })
+    }
   }
 
   const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
@@ -338,7 +341,7 @@ export default function MapAugora(props: IMapAugora) {
               </MapControl>
               <NavigationControl showCompass={false} />
               <FullscreenControl />
-              <GeolocateControl onGeolocate={handleGeolocate} />
+              <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} />
               <div className="custom-control-container">
                 <div className="ctrl-bottom">
                   <MapFilters zoneDeputies={getDeputies(zoneFeature, deputies)} />
