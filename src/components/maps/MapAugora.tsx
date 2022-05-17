@@ -168,15 +168,20 @@ export default function MapAugora(props: IMapAugora) {
     flyToCoords(mapRef.current, zoneFeature.properties.center, zoom)
   }
 
-  /** Change la zone affichée et transitionne */
-  const goToZone = <T extends GeoJSON.Feature>(feature: T, coords?: AugoraMap.Coordinates) => {
-    const zoneCode = getZoneCode(feature)
+  /** Change la zone affichée et transitionne
+   * @param {T} [opts.feature] La feature à afficher
+   * @param {AugoraMap.Coordinates} [opts.coords] Les coords sur lesquelles transitionner, ignoré si une feature est aussi passée
+   * @param {boolean} [opts.redirect] S'il faut changer pour la page détal en cas de clic sur une circonscription, defaut true
+   */
+  const goToZone = <T extends GeoJSON.Feature>(opts: { feature?: T; coords?: AugoraMap.Coordinates; redirect?: boolean }) => {
+    const { feature, coords, redirect = true } = opts
     if (feature) {
+      const zoneCode = getZoneCode(feature)
       if (!compareFeatures(feature, zoneFeature)) {
-        if (props.onZoneClick) props.onZoneClick(feature)
+        props.onZoneClick && props.onZoneClick(feature)
         renderHover()
-      } else if (zoneCode === Code.Circ) {
-        if (props.onZoneClick) props.onZoneClick(feature)
+      } else if (redirect && zoneCode === Code.Circ) {
+        props.onZoneClick && props.onZoneClick(feature)
       } else flyToFeature(feature)
     } else if (coords) {
       flyToCoords(mapRef.current, coords, 3)
@@ -242,11 +247,11 @@ export default function MapAugora(props: IMapAugora) {
   const handleClick = (e: mapboxgl.MapLayerMouseEvent) => {
     const renderedFeature = getMouseEventFeature(e)
 
-    if (renderedFeature) goToZone(renderedFeature)
+    if (renderedFeature) goToZone({ feature: renderedFeature })
   }
 
   const handleBack = () => {
-    goToZone(getParentFeature(zoneFeature))
+    goToZone({ feature: getParentFeature(zoneFeature) })
   }
 
   const handleResize = () => {
@@ -259,13 +264,13 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleGeolocate = (e: GeolocateResultEvent) => {
     const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
-    if (coords) goToZone(geolocateFromCoords(coords, Code.Circ), coords)
+    if (coords) goToZone({ feature: geolocateFromCoords(coords, Code.Circ), coords: coords, redirect: false })
   }
 
   const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
     if (feature) {
       setGeoPin(feature.center)
-      goToZone(geolocateZone(feature), feature.center)
+      goToZone({ feature: geolocateZone(feature), coords: feature.center, redirect: false })
     } else setGeoPin(null)
   }
 
