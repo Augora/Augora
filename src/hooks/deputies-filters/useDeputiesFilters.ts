@@ -69,20 +69,19 @@ export default function useDeputiesFilters() {
    * @param clickedSex L'initiale du sexe séléctionné, "H", ou "F"
    */
   const handleSexClick = (clickedSex: Filter.Gender) => {
-    const currentSexValue = SexValue[clickedSex]
     const otherSex = clickedSex === "F" ? "H" : "F"
     let newSexValue = {
       F: true,
       H: true,
     }
 
-    if (!SexValue[otherSex]) {
-      newSexValue[clickedSex] = false
-      newSexValue[otherSex] = true
+    if (SexValue[otherSex]) {
+      newSexValue[clickedSex] = true
+      newSexValue[otherSex] = false
     } else {
-      newSexValue[clickedSex] = !currentSexValue
+      newSexValue[clickedSex] = true
+      newSexValue[otherSex] = true
     }
-
     setSexValue(newSexValue)
   }
 
