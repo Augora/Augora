@@ -75,6 +75,7 @@ const Footer = () => {
             <FooterLink label="Regards Citoyens" link="https://www.regardscitoyens.org/" target={true} internal={false} />
             <FooterLink label="Accropolis.fr" link="http://accropolis.fr/" target={true} internal={false} />
             <FooterLink label="Mentions légales" link="/mention-legales" target={false} internal={true} />
+            <FooterLink label="Nous soutenir" link="https://utip.io/augora" target={true} internal={false} />
           </FooterMenu>
           <FooterMenu title="Nous Contacter">
             <FooterLink label="contact@augora.fr" link="mailto:contact@augora.fr" target={true} internal={false}>
