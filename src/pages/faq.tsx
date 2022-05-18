@@ -21,6 +21,19 @@ const contentAbout: IContent = [
     ),
   },
   {
+    title: "Comment nous soutenir ?",
+    description: (
+      <p>
+        Nous avons ouvert une page{" "}
+        <a href="https://utip.io/augora" target="_blank" rel="noreferrer">
+          uTip
+        </a>{" "}
+        afin de recueillir des dons. Comme nous sommes bénévoles et que nous mettons à jour le site sur notre temps libre, vos
+        dons nous permettront de couvrir nos frais de fonctionnement, tel que l'hébergement du site.
+      </p>
+    ),
+  },
+  {
     title: "Qu’est-ce qu’un groupe parlementaire ?",
     description: (
       <>
@@ -124,7 +137,7 @@ const contentAbout: IContent = [
         <p>
           Une commission est un groupe de députés spécialisé dans un domaine. Il peut s'agir d'une commission dite{" "}
           <a href="/faq#quest-ce-quune-commission-denquete">d'enquête</a> qui sera temporaire, ou d'une commission dite{" "}
-          <b>permanente</b> (on en compte 8). Ci-dessous la liste des commissions permanentes :
+          <strong>permanente</strong> (on en compte 8). Ci-dessous la liste des commissions permanentes :
         </p>
         <ul>
           <li>
@@ -377,16 +390,6 @@ const contentAbout: IContent = [
       </p>
     ),
   },
-  // {
-  //   title: "Comment nous soutenir ?",
-  //   description: (
-  //     <p>
-  //       Nous avons ouvert une page <strong>Tipeee</strong> afin de recueillir
-  //       des dons, étant une association à but non lucratif, nous ne retirons
-  //       aucuns avantages personnels aux dons.
-  //     </p>
-  //   ),
-  // },
   {
     title: "Quels sont nos projets pour le futur ?",
     description: (
