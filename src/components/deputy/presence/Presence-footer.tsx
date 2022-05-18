@@ -10,7 +10,7 @@ const handleLegend = (state, legend: string) => {
     if (allActive) {
       newState[key] = key !== legend ? true : false
     } else {
-      newState[key] = key !== legend ? true : !newState[key]
+      if (key === legend) newState[key] = !newState[key]
     }
   })
   return newState
