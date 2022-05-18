@@ -15,6 +15,9 @@
       grid-column-end: span 6;
       grid-row-end: span 3;
       height: 100%;
+      .frame__content {
+        padding-top: 22px;
+      }
     }
 
     .frame-chart {
