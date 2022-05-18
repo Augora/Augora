@@ -72,6 +72,7 @@ declare namespace Deputy {
     AutreMandat?: AutreMandat[]
     AncienMandat?: AncienMandat[]
     RattachementFinancier?: string
+    Depute_OrganismeParlementaire?: Organisme.Organisme[]
   }
 
   /**

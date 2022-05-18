@@ -57,7 +57,7 @@ export default function SearchForm({ keyword, search }: ISearchForm) {
         className="search__input"
         ref={searchField}
         type="text"
-        placeholder="Chercher..."
+        placeholder="Filtrer par nom, parti politique, groupe parlementaire..."
         value={value}
         onChange={(e) => handleTextInput(e.target.value)}
         onFocus={() => setIsSearchInteracted(true)}

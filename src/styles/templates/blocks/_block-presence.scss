@@ -138,13 +138,12 @@
       margin-left: 10px;
       margin-right: 10px;
       flex-direction: row;
+      cursor: pointer;
+
       &:last-child {
-        .item__label {
-          cursor: default;
-        }
+        cursor: default;
       }
       .item__label {
-        cursor: pointer;
         margin: 0 0 12px;
       }
       .line {

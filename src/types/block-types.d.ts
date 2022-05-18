@@ -1,6 +1,6 @@
 /** Tous les types concernant les blocs de la page détail */
 declare namespace Bloc {
-  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "groupes"
+  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "groupes" | "commission" | "missions"
 
   type Size = "large" | "medium"
 
@@ -20,7 +20,7 @@ declare namespace Bloc {
     /** Couleur du groupe parlementaire */
     color: Group.CouleurDetail
     title: string
-    /** Identifier du bloc: "general", "mandate", "coworkers", "presence", "contact" ou "map" */
+    /** Identifier du bloc: "general", "mandate", "coworkers", "presence", "contact","map", "commission" ou "missions" */
     type: Type
     /** Infos de la circonscription du député pour le bloc map */
     circ?: {
@@ -88,4 +88,8 @@ declare namespace Bloc {
   interface Presence extends Base {
     activite: Deputy.Activite[]
   }
+  interface Organismes extends Base {
+    organismes: Organisme.Contenu[]
+  }
+
 }
