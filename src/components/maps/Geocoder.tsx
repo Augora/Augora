@@ -156,7 +156,7 @@ export default function Geocoder(props: IGeocoder) {
             className="form__input"
             ref={searchField}
             type="text"
-            placeholder="Trouver une circonscription..."
+            placeholder="Chercher un lieu..."
             value={value}
             onChange={(e) => handleTextInput(e.target.value)}
             onFocus={handleFocus}
