@@ -53,6 +53,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                 const [centroidX, centroidY] = pie.path.centroid(arc)
                 const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.2
                 const justifiedMidAngle = (arc.endAngle - arc.startAngle) / 2 + arc.startAngle - Math.PI / 2
+                const filterCurrentId = data.filter((f) => f.id !== arc.data.id)
                 return (
                   <g key={`arc-${groupeArc.id}-${index}`}>
                     {
@@ -99,7 +100,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                       onMouseLeave={handleMouseLeave}
                       onMouseMove={(event) => handleMouseMove(event, arc.data)}
                       onClick={() => {
-                        handleGroupClick(arc.data.id)
+                        filterCurrentId.map((group) => handleGroupClick(group.id))
                         router.push("/")
                       }}
                     />
