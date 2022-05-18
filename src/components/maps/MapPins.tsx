@@ -169,7 +169,7 @@ export default function MapPins(props: IMapPins) {
             )}${props.features.length <= 1 ? "-solo" : ""}`}
             deputies={featureDeputies}
             feature={feature}
-            handleClick={() => props.handleClick && props.handleClick(feature)}
+            handleClick={() => props.handleClick && props.handleClick({ feature: feature })}
             handleHover={() => props.handleHover && props.handleHover(feature)}
             isExpanded={compareFeatures(feature, props.hoveredFeature)}
           />

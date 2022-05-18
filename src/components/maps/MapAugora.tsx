@@ -329,12 +329,9 @@ export default function MapAugora(props: IMapAugora) {
                 handleClick={goToZone}
                 handleHover={simulateHover}
               />
-              {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
+              {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} color={paint.line["line-color"] as string} />}
               <MapControl position="top-left">
-                <MapBreadcrumb
-                  feature={zoneFeature}
-                  handleClick={(feature) => (!compareFeatures(feature, zoneFeature) ? goToZone(feature) : flyToFeature(feature))}
-                />
+                <MapBreadcrumb feature={zoneFeature} handleClick={(feature) => goToZone({ feature: feature, redirect: false })} />
               </MapControl>
               <MapControl position="top-right" className="mapboxgl-ctrl-geo">
                 <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
