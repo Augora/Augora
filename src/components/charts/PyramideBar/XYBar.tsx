@@ -21,7 +21,7 @@ interface IXYBar {
 
 export default function XYBar(props: IXYBar) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
-  const { handleSexClick, handleAgeSlider } = useDeputiesFilters()
+  const { state, handleSexClick, handleAgeSlider } = useDeputiesFilters()
   const router = useRouter()
   const [AgeClicked, setAgeClicked] = useState("" as string | number)
 
@@ -67,7 +67,7 @@ export default function XYBar(props: IXYBar) {
         colorAccessor={() => color}
         onPointerUp={() => {
           handleAgeSlider(getAgeDomainGraph(AgeClicked as string))
-          handleSexClick(dataKey == "hommes" ? "H" : "F")
+          state.SexValue.F === false || state.SexValue.H ? handleSexClick(dataKey == "hommes" ? "H" : "F") : ""
           router.push("/")
         }}
       />
