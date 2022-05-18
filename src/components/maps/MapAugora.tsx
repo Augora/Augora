@@ -313,12 +313,7 @@ export default function MapAugora(props: IMapAugora) {
               <Layer {...fillGhostLayerProps} />
             </Source>
           )}
-          {overview && geoJSON.features.length === 1 && (
-            <MapPin
-              coords={[zoneFeature.properties.center[0], zoneFeature.properties.center[1]]}
-              color={paint.line["line-color"] as string}
-            />
-          )}
+          {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
           {overlay && (
             <>
               <MapPins
