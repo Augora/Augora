@@ -2,6 +2,7 @@ import React from "react"
 import AugoraTooltip from "components/tooltip/Tooltip"
 import { Group } from "@visx/group"
 import { XYChart, AnimatedGrid, AnimatedAxis, Tooltip, BarSeries, BarStack } from "@visx/xychart"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
   dataAge: Chart.AgeData[]
@@ -41,6 +42,7 @@ export default function XYBarStack(props: BarStackProps) {
     normalHeight,
     responsiveHeight,
   } = props
+  const { handleGroupClick } = useDeputiesFilters()
   const isAxisRange = /^\d\d$/.test(dataAge[0].age as string)
   const isRange = width < 460
   const marginRight = 30
@@ -122,6 +124,9 @@ export default function XYBarStack(props: BarStackProps) {
                   }
                   yAccessor={(data) => (renderVertically ? data.groups[sigle].length : data.age)}
                   colorAccessor={() => getGroupColor(sigle, groups)}
+                  onPointerUp={() => console.log("test")}
+                  onPointerMove={() => console.log("test")}
+                  onPointerOut={() => console.log("test")}
                 />
               )
             })}

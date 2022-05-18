@@ -5,22 +5,12 @@ const handleLegend = (state, legend: string) => {
   let newState = { ...state }
   const statesAsArray = Object.entries(newState)
   const allActive = statesAsArray.every(([key, value]) => value)
-  const isClickedAloneActive =
-    newState[legend] &&
-    statesAsArray
-      .filter(([key]) => {
-        return key === legend
-      })
-      .every(([value]) => {
-        return value
-      })
+
   Object.keys(state).forEach((key) => {
     if (allActive) {
-      newState[key] = key !== legend ? false : true
-    } else if (isClickedAloneActive) {
-      newState[key] = true
+      newState[key] = key !== legend ? true : false
     } else {
-      newState[key] = key !== legend ? false : true
+      if (key === legend) newState[key] = !newState[key]
     }
   })
   return newState

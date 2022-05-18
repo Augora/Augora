@@ -1,5 +1,9 @@
 import { XYChart, AnimatedAxis, AnimatedGrid, Tooltip, AnimatedBarSeries } from "@visx/xychart"
 import AugoraTooltip from "components/tooltip/Tooltip"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { useRouter } from "next/router"
+import { useState } from "react"
+import { getAgeDomainGraph } from "src/components/deputies-list/deputies-list-utils"
 
 interface IXYBar {
   width: number
@@ -17,6 +21,10 @@ interface IXYBar {
 
 export default function XYBar(props: IXYBar) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
+  const { state, handleSexClick, handleAgeSlider } = useDeputiesFilters()
+  const router = useRouter()
+  const [AgeClicked, setAgeClicked] = useState("" as string | number)
+
   const numTicks = maxAge == 2 ? 2 : maxAge == 1 ? 1 : 4
   const marginRight = 38
 
@@ -57,6 +65,11 @@ export default function XYBar(props: IXYBar) {
         xAccessor={(data: Chart.AgeData) => data.total}
         yAccessor={(data: Chart.AgeData) => data.age}
         colorAccessor={() => color}
+        onPointerUp={() => {
+          handleAgeSlider(getAgeDomainGraph(AgeClicked as string))
+          state.SexValue.F === false || state.SexValue.H ? handleSexClick(dataKey == "hommes" ? "H" : "F") : ""
+          router.push("/")
+        }}
       />
       <Tooltip<Chart.AgeData>
         className="charttooltip__container"
@@ -64,6 +77,7 @@ export default function XYBar(props: IXYBar) {
         renderTooltip={({ tooltipData }) => {
           const key = tooltipData.nearestDatum.key
           const tooltipDeputeValue = tooltipData.nearestDatum.datum.total
+          setAgeClicked(tooltipData.datumByKey[key].datum.age)
           return (
             <>
               {tooltipDeputeValue == 0 ? (
