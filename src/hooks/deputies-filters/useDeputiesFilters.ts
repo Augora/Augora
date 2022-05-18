@@ -51,22 +51,10 @@ export default function useDeputiesFilters() {
     const groupesAsArray = Object.entries(GroupeValue)
     const allActive = groupesAsArray.every(([key, value]) => value)
 
-    const isClickedAloneActive =
-      GroupeValue[sigle] &&
-      groupesAsArray
-        .filter(([key, value]) => {
-          return key !== sigle
-        })
-        .every(([key, value]) => {
-          return !value
-        })
-
     let newGroupValue: Filter.GroupValue = GroupeValue
 
     Object.keys(GroupeValue).forEach((key) => {
       if (allActive) {
-        newGroupValue[key] = key !== sigle ? false : true
-      } else if (isClickedAloneActive) {
         newGroupValue[key] = key !== sigle ? true : false
       } else {
         if (key === sigle) newGroupValue[sigle] = !newGroupValue[sigle]
