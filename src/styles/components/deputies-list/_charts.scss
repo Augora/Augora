@@ -58,6 +58,9 @@
             }
           }
         }
+        svg > g > svg > rect {
+         cursor: pointer;
+        }
 
         &__description {
           font-size: 14px !important;
