@@ -1,7 +1,7 @@
 .tooltip {
   background-color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: 5px;
   font-family: $font;
   color: $text-color;
@@ -13,9 +13,9 @@
   transition: opacity 0.225s linear, top 0.225s linear;
 
   &__age {
-    font-size: 24px;
+    font-size: 20px;
     display: flex;
-    margin-bottom: 0.5em;
+    margin-bottom: 5px;
     justify-content: center;
     span {
       font-weight: bold;
@@ -24,10 +24,10 @@
   }
 
   &__title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     text-transform: uppercase;
-    line-height: 1.3em;
+    // line-height: 1.3em;
     letter-spacing: -0.03em;
     text-align: center;
   }
@@ -39,9 +39,9 @@
   &__numbers {
     display: flex;
     justify-content: space-between;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    margin-top: 0.5em;
+    margin-top: 5px;
 
     margin-bottom: 0px;
     &--centered {
@@ -53,13 +53,13 @@
     align-items: center;
     margin-right: 10px;
     span {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: bold;
       padding-right: 5px;
     }
   }
   &__percentage {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
   }
 

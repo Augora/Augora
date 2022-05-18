@@ -34,14 +34,14 @@ export default function MapPage() {
   /** Zustand state */
   const {
     viewsize,
-    viewport,
+    viewstate,
     geoJSON,
     ghostGeoJSON,
     feature: zoneFeature,
     deputies,
     paint,
     setViewsize,
-    setViewport,
+    setViewstate,
     setMapView,
     setDeputies,
   } = mapStore()
@@ -133,8 +133,8 @@ export default function MapPage() {
       <div className="page page__map">
         <div className="map__container" style={{ height: viewsize.height - 60 }}>
           <MapAugora
-            viewport={viewport}
-            setViewport={setViewport}
+            viewstate={viewstate}
+            setViewstate={setViewstate}
             deputies={FilteredList}
             mapView={{ geoJSON: geoJSON, ghostGeoJSON: ghostGeoJSON, feature: zoneFeature, paint: paint }}
             onZoneClick={changeZone}

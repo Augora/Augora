@@ -5,10 +5,10 @@ declare namespace AugoraMap {
   /** Un array de 2 coordonnées: southwest [lng, lat] & northeast [lng, lat] utilisable par mapbox pour les bounding boxes */
   type Bounds = [Coordinates, Coordinates]
 
-  /** Un object GEOJson geometry ne contenant que polygon ou multipolygon */
+  /** Un object GeoJSON geometry ne contenant que polygon ou multipolygon */
   type Geometry = GeoJSON.Polygon | GeoJSON.MultiPolygon
 
-  /** Un object GEOJson properties contenant les clés de nos fichiers GEOJson */
+  /** Un object GEOJson properties contenant les clés de nos fichiers GeoJSON */
   interface Properties extends GeoJSON.GeoJsonProperties {
     nom?: string
     nom_dpt?: string
@@ -29,6 +29,37 @@ declare namespace AugoraMap {
     features: Feature[]
   }
 
+  /** Objet properties des feature de l'API geocode mapbox */
+  interface MapboxAPIProperties extends GeoJSON.GeoJsonProperties {
+    wikidata?: string
+    accuracy?: string
+  }
+
+  /** Objet feature de l'API geocode mapbox */
+  interface MapboxAPIFeature extends GeoJSON.Feature<GeoJSON.Geometry, MapboxAPIProperties> {
+    address?: string
+    center: Coordinates
+    id: string
+    language: string
+    place_name: string
+    place_type: [string]
+    text: string
+    relevance: number
+    context: {
+      id: string
+      wikidata: string
+      text: string
+      short_code?: string
+    }[]
+  }
+
+  /** Feature collection de l'API geocode mapbox */
+  interface MapboxAPIFeatureCollection extends GeoJSON.FeatureCollection {
+    attribution: string
+    query: string[]
+    features: MapboxAPIFeature[]
+  }
+
   /** Objet contenant les codes de zone pour la map */
   interface Codes {
     /** ID continent (0 France, 1 World, 2 DROM-COM) */
@@ -41,7 +72,7 @@ declare namespace AugoraMap {
     code_circ?: number
   }
 
-  /** Object contenant les données geojson de la map */
+  /** Object contenant les données GeoJSON de la map */
   interface MapView {
     /** Feature collection des zones affichées. Exemple: en vue Occitanie, tous ses départements */
     geoJSON: FeatureCollection

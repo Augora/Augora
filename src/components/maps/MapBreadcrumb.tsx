@@ -11,7 +11,6 @@ import {
   getParentFeature,
 } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
-import CustomControl from "components/maps/CustomControl"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
 import sortBy from "lodash/sortBy"
 import { slugify } from "utils/utils"
@@ -182,10 +181,10 @@ export default function MapBreadcrumb({ feature, handleClick }: IMapBreadcrumb) 
   const history = getHistory(feature)
 
   return (
-    <CustomControl className="map__breadcrumb">
+    <div className="map__breadcrumb">
       {history.map((item, index) => (
         <BreadcrumbItem key={`breadcrumb-${index}-${slugify(getZoneName(item))}`} feature={item} handleClick={handleClick} />
       ))}
-    </CustomControl>
+    </div>
   )
 }
