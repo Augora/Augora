@@ -329,7 +329,7 @@ export default function MapAugora(props: IMapAugora) {
                 handleClick={goToZone}
                 handleHover={simulateHover}
               />
-              {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} color={paint.line["line-color"] as string} />}
+              {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
               <MapControl position="top-left">
                 <MapBreadcrumb feature={zoneFeature} handleClick={(feature) => goToZone({ feature: feature, redirect: false })} />
               </MapControl>
