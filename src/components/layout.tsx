@@ -109,6 +109,7 @@ const Layout = ({ children, location, title }: ILayout) => {
           </button>
         </Popin>
       </div>
+      <div className={`sidebar__overlay ${hasSidebar ? "visible" : ""}`} onClick={() => setHasSidebar(false)} />
       <Sidebar visible={hasSidebar} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)}>
         <SidebarHeader search={handleSearch} keyword={Keyword} />
         <div className="sidebar__content">
