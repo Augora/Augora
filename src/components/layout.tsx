@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import useScrollBlock from "utils/hooks/useScrollBlock"
+import useScrollBlock from "src/hooks/useScrollBlock"
 import Head from "next/head"
 import { colors } from "utils/variables"
 import Header from "./header"
@@ -100,7 +100,7 @@ const Layout = ({ children, location, title }: ILayout) => {
       setHasLayout(false)
     }
 
-    toggleSidebar(false)
+    setHasSidebar(false)
   }, [location.route])
 
   return (
