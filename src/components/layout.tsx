@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import useScrollBlock from "src/hooks/useScrollBlock"
 import Head from "next/head"
 import { colors } from "utils/variables"
 import Header from "./header"
@@ -40,31 +39,15 @@ const Layout = ({ children, location, title }: ILayout) => {
   const [isPopinVisible, setisPopinVisible] = useState(false)
   const [hasLayout, setHasLayout] = useState(true)
 
-  const [blockScroll, allowScroll] = useScrollBlock()
-
   const { ref: documentRef } = useSwipeable({
     onSwiped: ({ dir }) => {
-      if (dir === "Left") toggleSidebar(true)
-      else if (dir === "Right") toggleSidebar(false)
+      if (dir === "Left") setHasSidebar(true)
+      else if (dir === "Right") setHasSidebar(false)
     },
     trackMouse: true, //doesn't seem to work
   })
 
   const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
-
-  const toggleSidebar = (val?: boolean) => {
-    if (val) {
-      setHasSidebar(true)
-      blockScroll()
-    } else if (val === undefined) {
-      if (hasSidebar) allowScroll()
-      else blockScroll()
-      setHasSidebar(!hasSidebar)
-    } else {
-      setHasSidebar(false)
-      allowScroll()
-    }
-  }
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -117,7 +100,7 @@ const Layout = ({ children, location, title }: ILayout) => {
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <div className="header__container">
-        <Header siteTitle={"Augora"} location={location} color={pageColor} onBurgerClick={() => toggleSidebar()} />
+        <Header siteTitle={"Augora"} location={location} color={pageColor} onBurgerClick={() => setHasSidebar(!hasSidebar)} />
         <PageTitle color={pageColor} title={title ? title : null} />
         <Popin displayed={isPopinVisible && !IsInitialState}>
           <p>Certains filtres sont actifs</p>
@@ -126,8 +109,8 @@ const Layout = ({ children, location, title }: ILayout) => {
           </button>
         </Popin>
       </div>
-      <div className={`sidebar__overlay ${hasSidebar ? "visible" : ""}`} onClick={() => toggleSidebar(false)} />
-      <Sidebar visible={hasSidebar} close={() => toggleSidebar(false)} open={() => toggleSidebar(true)}>
+      <div className={`sidebar__overlay ${hasSidebar ? "visible" : ""}`} onClick={() => setHasSidebar(false)} />
+      <Sidebar visible={hasSidebar} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)}>
         <SidebarHeader search={handleSearch} keyword={Keyword} />
         <div className="sidebar__content">
           <SidebarLinks location={location} />
