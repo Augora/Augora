@@ -6,6 +6,7 @@ import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
 import Sidebar, { SidebarCategory, SidebarFooter, SidebarHeader, SidebarLinks } from "components/sidebar/Sidebar"
+import { useSwipeable } from "react-swipeable"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
@@ -38,6 +39,14 @@ const Layout = ({ children, location, title }: ILayout) => {
   const [isPopinVisible, setisPopinVisible] = useState(false)
   const [hasLayout, setHasLayout] = useState(true)
 
+  const { ref: documentRef } = useSwipeable({
+    onSwiped: ({ dir }) => {
+      if (dir === "Left") setHasSidebar(true)
+      else if (dir === "Right") setHasSidebar(false)
+    },
+    trackMouse: true, //doesn't seem to work
+  })
+
   const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
 
   const handleScroll = () => {
@@ -56,6 +65,9 @@ const Layout = ({ children, location, title }: ILayout) => {
     window.addEventListener("scroll", (e) => {
       handleScroll()
     })
+
+    documentRef(document as any)
+
     return () => {
       window.removeEventListener("scroll", handleScroll, true)
     }
@@ -67,15 +79,17 @@ const Layout = ({ children, location, title }: ILayout) => {
       setisPopinVisible(true)
     } else setisPopinVisible(false)
 
-    if (location.route === '/accropolis') {
-        setHasLayout(false)
+    if (location.route === "/accropolis") {
+      setHasLayout(false)
     }
 
     setHasSidebar(false)
   }, [location.route])
 
   return (
-    <div className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${!hasLayout ? ' no-layout' : ''}`}>
+    <div
+      className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${!hasLayout ? " no-layout" : ""}`}
+    >
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -95,6 +109,7 @@ const Layout = ({ children, location, title }: ILayout) => {
           </button>
         </Popin>
       </div>
+      <div className={`sidebar__overlay ${hasSidebar ? "visible" : ""}`} onClick={() => setHasSidebar(false)} />
       <Sidebar visible={hasSidebar} close={() => setHasSidebar(false)} open={() => setHasSidebar(true)}>
         <SidebarHeader search={handleSearch} keyword={Keyword} />
         <div className="sidebar__content">
