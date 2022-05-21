@@ -22,7 +22,7 @@ interface IPresenceFooter {
     Présences: boolean
     Participations: boolean
     "Questions orales": boolean
-    "Mediane des d\u00E9put\u00E9s": boolean
+    "Mediane des pr\u00E9sences": boolean
     Vacances: boolean
   }
   setDisplayedGraph: React.Dispatch<
@@ -30,7 +30,7 @@ interface IPresenceFooter {
       Présences: boolean
       Participations: boolean
       "Questions orales": boolean
-      "Mediane des députés": boolean
+      "Mediane des pr\u00E9sences": boolean
       Vacances: boolean
     }>
   >

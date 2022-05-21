@@ -99,6 +99,7 @@ declare namespace Deputy {
     ParticipationEnHemicycle?: number
     Question?: number
     Vacances?: number
+    MedianeTotal?: number
   }
 
   interface AutreMandat {
