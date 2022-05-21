@@ -62,7 +62,6 @@ export default function PresenceParticipation(props: IPresence) {
 
   const changeDisplay = width < 750
   // bounds
-
   const margin = width < 500 ? 110 : width < 750 ? 90 : 50
   const marginLeft = 20
   const xMax = width - marginLeft
@@ -70,8 +69,6 @@ export default function PresenceParticipation(props: IPresence) {
   const yMax = height - margin
 
   var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
-
-  //const medianeArray = orderBy(mediane, "DateDeDebut")
 
   return width < 10 ? null : (
     <div>
@@ -221,7 +218,11 @@ export default function PresenceParticipation(props: IPresence) {
                                           ? nearest.ParticipationEnHemicycle + nearest.ParticipationsEnCommission
                                           : "0"
                                         : null}
-                                      {label.datum === "Mediane des présences" ? "0" : null}
+                                      {label.datum === "Mediane des présences"
+                                        ? nearest.MedianeTotal != 0
+                                          ? nearest.MedianeTotal
+                                          : "0"
+                                        : null}
                                     </LegendLabel>
                                   </div>
                                 </LegendItem>
