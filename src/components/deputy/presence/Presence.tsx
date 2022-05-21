@@ -139,12 +139,16 @@ const Presence = (props: Bloc.Presence) => {
           <>
             {orderedWeeks.length != 0 ? (
               <div className="presence">
-                <PresenceHeader
-                  width={parent.width}
-                  data={slicedOrderedWeeks}
-                  setRange={setRangeOrderedWeeks}
-                  color={props.color.HSL.Full}
-                />
+                {orderedWeeks.length > 14 ? (
+                  <PresenceHeader
+                    width={parent.width}
+                    data={slicedOrderedWeeks}
+                    setRange={setRangeOrderedWeeks}
+                    color={props.color.HSL.Full}
+                  />
+                ) : (
+                  ""
+                )}
                 <PresenceParticipation
                   width={parent.width}
                   height={parent.height * 0.9}
