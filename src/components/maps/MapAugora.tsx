@@ -150,7 +150,7 @@ export default function MapAugora(props: IMapAugora) {
   /** useRefs */
   const mapRef = useRef<MapRef>()
 
-  const MAPBOX_TOKEN = "pk.eyJ1IjoiYXVnb3JhIiwiYSI6ImNraDNoMXVwdjA2aDgyeG55MjN0cWhvdWkifQ.pNUguYV6VedR4PY0urld8w"
+  const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
