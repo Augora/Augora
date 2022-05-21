@@ -38,7 +38,7 @@ interface IPresence {
     Présences: boolean
     Participations: boolean
     "Questions orales": boolean
-    "Mediane des députés": boolean
+    "Mediane des présences": boolean
     Vacances: boolean
   }
   medianeDeputeColor: string
@@ -94,7 +94,7 @@ export default function PresenceParticipation(props: IPresence) {
                 colorAccessor={() => vacancesColor}
               />
             )}
-            {DisplayedGraph["Mediane des députés"] && (
+            {DisplayedGraph["Mediane des présences"] && (
               <AnimatedAreaSeries
                 dataKey={"Mediane"}
                 data={slicedData}
@@ -184,8 +184,7 @@ export default function PresenceParticipation(props: IPresence) {
                             {labels.map((label, i) => {
                               const shape = shapeScale(label.datum)
                               const isValidElement = React.isValidElement(shape)
-                              // Passer à 3 pour intégrer la mediane dans la tooltip
-                              return i > 2 ? (
+                              return i > 3 ? (
                                 ""
                               ) : (
                                 <LegendItem className="item__tooltip" key={`legend-quantile-${i}`} flexDirection="row">
@@ -200,7 +199,7 @@ export default function PresenceParticipation(props: IPresence) {
                                     <LegendLabel className="label">
                                       {label.datum === "Questions orales"
                                         ? "Questions"
-                                        : label.datum === "Mediane des députés"
+                                        : label.datum === "Mediane des présences"
                                         ? "Mediane"
                                         : label.text}
                                     </LegendLabel>
@@ -222,7 +221,7 @@ export default function PresenceParticipation(props: IPresence) {
                                           ? nearest.ParticipationEnHemicycle + nearest.ParticipationsEnCommission
                                           : "0"
                                         : null}
-                                      {label.datum === "Mediane" ? "0" : null}
+                                      {label.datum === "Mediane des présences" ? "0" : null}
                                     </LegendLabel>
                                   </div>
                                 </LegendItem>
