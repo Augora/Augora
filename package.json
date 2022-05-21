@@ -5,6 +5,9 @@
   "version": "0.2.0",
   "author": "",
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.8.0",
     "@supabase/supabase-js": "^1.35.2",
     "@svgr/webpack": "^6.2.1",
     "@visx/annotation": "^2.10.0",

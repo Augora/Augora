@@ -20,19 +20,25 @@
     }
 
     //Slider
-    &__slider {
-      position: relative;
-      height: 60px;
-      margin-left: 17px;
-      margin-right: 100px;
-      pointer-events: none;
-
-      &-label {
-        position: absolute;
-        right: -80px;
-        top: 16px;
+    $labelSize: 100px;
+    &__age-slider {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      .MuiSlider-root {
+        width: calc(100% - #{$labelSize});
+        color: #4d4d4d;
+      }
+      .MuiSlider-valueLabel {
+        font-family: "Open Sans";
         font-weight: bold;
       }
+    }
+    &__slider-label {
+      width: $labelSize;
+      font-weight: bold;
+      text-align: center;
+      margin-left: 20px;
     }
   }
   //responsive
@@ -95,17 +101,17 @@
         }
       }
 
-      &__slider {
+      &__age-slider {
         margin-top: 20px;
         margin-right: 17px;
         margin-bottom: 10px;
         order: 1;
-        &-label {
-          right: unset;
-          top: -5px;
-          left: 50%;
-          transform: translate(-50%, 0);
-        }
+      }
+      &__slider-label {
+        // right: unset;
+        // top: -5px;
+        // left: 50%;
+        // transform: translate(-50%, 0);
       }
     }
 
