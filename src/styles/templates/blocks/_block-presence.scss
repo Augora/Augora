@@ -78,50 +78,64 @@
       @media (max-width: 875px) {
         bottom: 90px;
       }
+      @media (max-width: 470px) {
+        bottom: 125px;
+      }
     }
 
     &__filtre {
       position: absolute;
       bottom: 0;
       margin-bottom: 12px;
+
+      div {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
       @media (max-width: 875px) {
         bottom: 22px;
         left: -5px;
         transform: rotate(-90deg);
       }
-      div {
-        font-size: 16px;
-        font-weight: bold;
+      @media (max-width: 470px) {
+        bottom: 40px;
       }
     }
     &__legend {
-      position: absolute;
+      position: relative;
       width: 100%;
-      bottom: 0;
-      left: 0;
+      vertical-align: center;
       display: flex;
       justify-content: center;
+      white-space:nowrap;
+      margin-top:14px;
       @media (max-width: 1550px) {
         font-size: 16px;
-        margin-left: 10px;
       }
       @media (max-width: 1400px) {
         font-size: 18px;
       }
-      @media (max-width: 1020px) {
+      @media (max-width: 1060px) {
         font-size: 14px;
       }
+      @media (max-width: 930px) {
+        font-size: 12px;
+      }
       @media (max-width: 875px) {
-        columns: 2;
         display: grid;
-        grid-template-columns: repeat(2, 2fr);
-        grid-template-rows: repeat(2, 2fr);
-        margin-bottom: 5px;
-        margin-left: 10%;
+        grid-template-columns: repeat(3, 3fr);
+        margin-top: -25px;
+        margin-left: 20px;
+        justify-content: space-between;
       }
       @media (max-width: 565px) {
+        grid-template-columns: repeat(2, 2fr);
+        margin-left: 0px;
+        font-size: 14px;
+      }
+      @media (max-width: 415px) {
         font-size: 12px;
-        margin-bottom: 5px;
       }
     }
     svg {
@@ -139,6 +153,11 @@
       margin-right: 10px;
       flex-direction: row;
       cursor: pointer;
+
+      @media (max-width: 875px) {
+        // margin-left: 0px;
+        // margin-right: 0px;
+      }
 
       &:last-child {
         cursor: default;

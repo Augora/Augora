@@ -151,7 +151,7 @@ const Presence = (props: Bloc.Presence) => {
                 )}
                 <PresenceParticipation
                   width={parent.width}
-                  height={parent.height * 0.9}
+                  height={parent.height * (parent.width > 370 ? 0.9 : 0.8)}
                   data={slicedOrderedWeeks}
                   slicedData={RangeOrderedWeeks}
                   color={props.color.HSL.Full}
