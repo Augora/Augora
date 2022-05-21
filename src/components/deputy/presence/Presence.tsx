@@ -64,14 +64,14 @@ const Presence = (props: Bloc.Presence) => {
         fill={props.color.HSL.Full}
         opacity={DisplayedGraph["Questions orales"] ? 1 : 0.5}
       />,
-      // <GlyphSquare
-      //   key="Mediane des députés"
-      //   size={glyphSize}
-      //   top={glyphPosition}
-      //   left={glyphPosition}
-      //   fill={medianeDeputeColor}
-      //   opacity={DisplayedGraph["Mediane des députés"] ? 1 : 0.5}
-      // />,
+      <GlyphSquare
+        key="Mediane des députés"
+        size={glyphSize}
+        top={glyphPosition}
+        left={glyphPosition}
+        fill={medianeDeputeColor}
+        opacity={DisplayedGraph["Mediane des députés"] ? 1 : 0.5}
+      />,
       <GlyphSquare
         key="Vacances"
         size={glyphSize}

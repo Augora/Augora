@@ -4,7 +4,15 @@ import { curveLinear } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
-import { XYChart, AnimatedAxis, AnimatedBarSeries, AnimatedGrid, AnimatedLineSeries, Tooltip } from "@visx/xychart"
+import {
+  XYChart,
+  AnimatedAxis,
+  AnimatedBarSeries,
+  AnimatedGrid,
+  AnimatedLineSeries,
+  Tooltip,
+  AnimatedAreaSeries,
+} from "@visx/xychart"
 
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import AugoraTooltip from "components/tooltip/Tooltip"
@@ -86,21 +94,19 @@ export default function PresenceParticipation(props: IPresence) {
                 colorAccessor={() => vacancesColor}
               />
             )}
-
-            {/*
             {DisplayedGraph["Mediane des députés"] && (
-            <AnimatedAreaSeries
-              dataKey={"Mediane"}
-              data={medianeArray}
-              xAccessor={(d) => getDate(d).dateDebut}
-              yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
-              stroke={medianeDeputeColor}
-              fill={medianeDeputeColor}
-              renderLine={false}
-              curve={curveType}
-              opacity={opacityParticipation}
-            />
-            )} */}
+              <AnimatedAreaSeries
+                dataKey={"Mediane"}
+                data={slicedData}
+                xAccessor={(d) => d.DateDeFin}
+                yAccessor={(d) => d.MedianeTotal}
+                stroke={medianeDeputeColor}
+                fill={medianeDeputeColor}
+                renderLine={false}
+                curve={curveLinear}
+                opacity={opacityParticipation}
+              />
+            )}
             {DisplayedGraph.Participations && (
               <AnimatedLineSeries
                 dataKey={"Participation"}
