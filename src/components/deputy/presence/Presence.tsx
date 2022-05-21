@@ -15,7 +15,9 @@ import FAQLink from "components/faq/Liens-faq"
  */
 const Presence = (props: Bloc.Presence) => {
   const orderedWeeks = orderBy(props.activite, "DateDeFin")
-  const [RangeOrderedWeeks, setRangeOrderedWeeks] = useState(orderedWeeks)
+  const slicedOrderedWeeks =
+    orderedWeeks.length > 52 ? orderedWeeks.slice(orderedWeeks.length - 52, orderedWeeks.length) : orderedWeeks
+  const [RangeOrderedWeeks, setRangeOrderedWeeks] = useState(slicedOrderedWeeks)
 
   const [DisplayedGraph, setDisplayedGraph] = useState({
     Présences: true,
@@ -139,14 +141,14 @@ const Presence = (props: Bloc.Presence) => {
               <div className="presence">
                 <PresenceHeader
                   width={parent.width}
-                  data={orderedWeeks}
+                  data={slicedOrderedWeeks}
                   setRange={setRangeOrderedWeeks}
                   color={props.color.HSL.Full}
                 />
                 <PresenceParticipation
                   width={parent.width}
                   height={parent.height * 0.9}
-                  data={orderedWeeks}
+                  data={slicedOrderedWeeks}
                   slicedData={RangeOrderedWeeks}
                   color={props.color.HSL.Full}
                   opacityParticipation={opacityParticipation}
