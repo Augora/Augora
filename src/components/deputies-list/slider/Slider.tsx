@@ -7,7 +7,6 @@ function valuetext(value: number) {
 }
 
 export default function AgeSlider(props) {
-  console.log(props.selectedDomain)
   const [value, setValue] = useState<number[]>(props.selectedDomain);
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
@@ -16,7 +15,7 @@ export default function AgeSlider(props) {
   useEffect(() => {
     changeDomain(value)
   }, [value]);
-  
+
   useEffect(() => {
     setValue(props.selectedDomain)
   }, [props.selectedDomain]);
