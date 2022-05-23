@@ -1,8 +1,8 @@
-import React from "react"
-
+import React, { useEffect, useState } from "react"
 import SEO, { PageType } from "../components/seo/seo"
+import { useRouter } from "next/router"
 import Question from "components/faq/Question"
-import FAQLink from "src/components/faq/Liens-faq"
+import { slugify } from "utils/utils"
 
 type IContent = {
   title: string
@@ -408,12 +408,17 @@ const contentAbout: IContent = [
 ]
 
 export default function FAQ() {
+  const { asPath } = useRouter()
+  const [hash, setHash] = useState("")
+
+  useEffect(() => setHash(asPath.split("#")[1]), [asPath])
+
   return (
     <>
       <SEO pageType={PageType.FAQ} />
       <div className="page page__faq">
         {contentAbout.map((question, index) => (
-          <Question key={`faq-question-${index}`} title={question.title}>
+          <Question key={`faq-question-${index}`} title={question.title} opened={hash === slugify(question.title)}>
             {question.description}
           </Question>
         ))}

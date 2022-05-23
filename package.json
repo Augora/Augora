@@ -37,6 +37,7 @@
     "react-lazy-load-image-component": "^1.5.4",
     "react-map-gl": "7.0.11",
     "react-spring": "9.4.5",
+    "react-swipeable": "^7.0.0",
     "sass": "^1.50.1",
     "socket.io-client": "^4.3.2",
     "typescript": "4.6.4",
