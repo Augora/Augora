@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
+import { flushSync } from "react-dom"
 import { isMobile } from "react-device-detect"
 import Map, {
   NavigationControl,
@@ -220,13 +221,15 @@ export default function MapAugora(props: IMapAugora) {
    * @param {MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
    */
   const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
-    if (hover && !compareFeatures(hover, renderedFeature)) {
+    const isSameAsHover = compareFeatures(hover, renderedFeature)
+
+    if (hover && !isSameAsHover) {
       mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
-      setHover(null)
+      flushSync(() => setHover(null))
     }
-    if (renderedFeature) {
+    if (renderedFeature && !isSameAsHover) {
       mapRef.current.setFeatureState({ source: renderedFeature.source, id: renderedFeature.id }, { hover: true })
-      setHover(renderedFeature)
+      flushSync(() => setHover(renderedFeature))
     }
   }
 
