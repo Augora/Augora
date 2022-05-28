@@ -7,9 +7,10 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 })
 
 module.exports = withBundleAnalyzer({
-  // images: {
-  //   domains: ["static.augora.fr"],
-  // },
+  experimental: { images: { layoutRaw: true } },
+  images: {
+    domains: ["static.augora.fr", "nptlldvxqlpsqftjchty.supabase.co"],
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, "src", "styles"), path.join(__dirname, "public")],
   },
