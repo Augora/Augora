@@ -56,7 +56,7 @@ function MissingContent({ feature, isOpen }: IMissingContent) {
 function DeputyContent({ deputy, feature, isOpen }: IDeputyContent) {
   return (
     <div className={`deputy__visuals ${isOpen ? "deputy__visuals--opened" : ""}`}>
-      <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
+      <DeputyImage slug={deputy.Slug} alt={deputy.Nom} sex={deputy.Sexe} />
       {isOpen && (
         <div className="deputy__info" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }}>
           <div className="info__circ">{`${feature.properties.nom_dpt} ${feature.properties[Code.Circ]}`}</div>

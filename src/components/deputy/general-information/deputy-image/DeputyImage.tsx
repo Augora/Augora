@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import Image from "next/image"
 
 const MissingFemale = "/images/ui-kit/icon-missingfemale.svg"
 const MissingMale = "/images/ui-kit/icon-missingmale.svg"
@@ -29,7 +30,7 @@ export function DeputyDefaultPlaceholder(sex: string) {
  * @returns <img> deputy image </img>
  */
 export default function DeputyImage(props: IDeputyImageInformation) {
-  const [Src, setSrc] = useState(props.src)
+  const [Src, setSrc] = useState(`https://nptlldvxqlpsqftjchty.supabase.co/storage/v1/object/public/deputes/${props.slug}.jpg`)
   const [HasErrored, setHasErrored] = useState(false)
 
   function onError() {
@@ -41,8 +42,11 @@ export default function DeputyImage(props: IDeputyImageInformation) {
   }
 
   return (
-    <img
+    <Image
       className={HasErrored ? "icon-wrapper deputy__photo deputy__photo--errored" : "deputy__photo"}
+      layout="raw"
+      width="150"
+      height="192"
       src={Src}
       alt={props.alt}
       onError={() => onError()}
@@ -51,7 +55,7 @@ export default function DeputyImage(props: IDeputyImageInformation) {
 }
 
 export interface IDeputyImageInformation {
-  src: string
+  slug: string
   alt: string
   sex: string
 }

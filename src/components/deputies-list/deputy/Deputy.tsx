@@ -21,7 +21,7 @@ export default function OneDeputy({ depute }: IOneDeputy) {
           }}
         >
           <h2>{depute.Nom}</h2>
-          <DeputyImage src={depute.URLPhotoAugora} alt={depute.Slug} sex={depute.Sexe} />
+          <DeputyImage slug={depute.Slug} alt={depute.Slug} sex={depute.Sexe} />
           <div className="deputy__icon-container">
             <div className="icon-wrapper">
               <GroupLogo />

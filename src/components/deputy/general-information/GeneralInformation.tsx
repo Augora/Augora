@@ -26,7 +26,7 @@ const getDates = (date: string) => {
  * Return deputy's general information in a Block component
  * @param {*} props
  */
-export default function GeneralInformation(props: Bloc.General) {
+export default function (props: Bloc.General) {
   const [Date, setDate] = useState({
     day: "01",
     month: "janvier",
@@ -55,7 +55,7 @@ export default function GeneralInformation(props: Bloc.General) {
               borderColor: props.color.HSL.Full,
             }}
           >
-            <DeputyImage src={props.picture} alt={props.id} sex={props.sexe} />
+            <DeputyImage slug={props.id} alt={props.id} sex={props.sexe} />
             <figure
               className="svg-placeholder"
               style={{
