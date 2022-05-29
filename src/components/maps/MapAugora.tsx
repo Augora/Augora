@@ -221,15 +221,11 @@ export default function MapAugora(props: IMapAugora) {
    * @param {MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
    */
   const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
-    const isSameAsHover = compareFeatures(hover, renderedFeature)
-
-    if (hover && !isSameAsHover) {
-      mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
-      flushSync(() => setHover(null))
-    }
-    if (renderedFeature && !isSameAsHover) {
-      mapRef.current.setFeatureState({ source: renderedFeature.source, id: renderedFeature.id }, { hover: true })
-      flushSync(() => setHover(renderedFeature))
+    if (!compareFeatures(hover, renderedFeature)) {
+      if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
+      if (renderedFeature)
+        mapRef.current.setFeatureState({ source: renderedFeature.source, id: renderedFeature.id }, { hover: true })
+      flushSync(() => setHover(renderedFeature ? renderedFeature : null))
     }
   }
 
