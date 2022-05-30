@@ -210,9 +210,11 @@ export default function MapAugora(props: IMapAugora) {
 
   /** Active le hover de la feature si elle est actuellement affichée sur la map */
   const simulateHover = (feature: AugoraMap.Feature) => {
-    if (!compareFeatures(hover, feature)) {
-      const renderedFeature = getRenderedFeature(feature)
-      renderHover(renderedFeature)
+    if (isMapLoaded) {
+      if (!compareFeatures(hover, feature)) {
+        const renderedFeature = getRenderedFeature(feature)
+        renderHover(renderedFeature)
+      }
     }
   }
 
