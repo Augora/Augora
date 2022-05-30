@@ -23,7 +23,6 @@ export default function XYBar(props: IXYBar) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
   const { state, handleSexClick, handleAgeSlider } = useDeputiesFilters()
   const router = useRouter()
-  const [AgeClicked, setAgeClicked] = useState("" as string | number)
 
   const numTicks = maxAge == 2 ? 2 : maxAge == 1 ? 1 : 4
   const marginRight = 38
@@ -65,8 +64,8 @@ export default function XYBar(props: IXYBar) {
         xAccessor={(data: Chart.AgeData) => data.total}
         yAccessor={(data: Chart.AgeData) => data.age}
         colorAccessor={() => color}
-        onPointerUp={() => {
-          handleAgeSlider(getAgeDomainGraph(AgeClicked as string))
+        onPointerUp={(data) => {
+          handleAgeSlider(getAgeDomainGraph(data.datum.age as string))
           state.SexValue.F === false || state.SexValue.H ? handleSexClick(dataKey == "hommes" ? "H" : "F") : ""
           router.push("/")
         }}
@@ -77,7 +76,6 @@ export default function XYBar(props: IXYBar) {
         renderTooltip={({ tooltipData }) => {
           const key = tooltipData.nearestDatum.key
           const tooltipDeputeValue = tooltipData.nearestDatum.datum.total
-          setAgeClicked(tooltipData.datumByKey[key].datum.age)
           return (
             <>
               {tooltipDeputeValue == 0 ? (
