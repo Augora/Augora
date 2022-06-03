@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
 import dynamic from "next/dynamic"
 import { slugify } from "src/utils/utils"
@@ -8,11 +8,18 @@ const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
 
 interface IQuestion {
   title: string
+  /** Si la question doit etre ouverte au rendering, default false */
+  opened?: boolean
   children?: React.ReactNode
 }
 
-function Question(props: IQuestion) {
-  const [Open, setOpen] = useState(true)
+export default function Question(props: IQuestion) {
+  const [Open, setOpen] = useState(props.opened ? true : false)
+
+  useEffect(() => {
+    setOpen(props.opened)
+  }, [props.opened])
+
   return (
     <div
       id={slugify(props.title)}
@@ -36,5 +43,3 @@ function Question(props: IQuestion) {
     </div>
   )
 }
-
-export default Question

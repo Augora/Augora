@@ -380,19 +380,14 @@ header#header.header {
 
   @media (max-width: 875px) {
     .header {
-      &__home-btn {
-        margin: 0;
-      }
-    }
-  }
-
-  @media (max-width: 750px) {
-    .header {
       &__logo-wrapper {
         .text:first-child,
         .text:last-child {
           display: none;
         }
+      }
+      &__home-btn {
+        margin: 0;
       }
       &__menu {
         .menu {

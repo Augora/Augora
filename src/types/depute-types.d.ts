@@ -72,6 +72,7 @@ declare namespace Deputy {
     AutreMandat?: AutreMandat[]
     AncienMandat?: AncienMandat[]
     RattachementFinancier?: string
+    Depute_OrganismeParlementaire?: Organisme.Organisme[]
   }
 
   /**
@@ -98,6 +99,7 @@ declare namespace Deputy {
     ParticipationEnHemicycle?: number
     Question?: number
     Vacances?: number
+    MedianeTotal?: number
   }
 
   interface AutreMandat {

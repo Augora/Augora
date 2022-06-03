@@ -14,7 +14,13 @@ export default function PresenceHeader(props: IPresenceHeader) {
   const [DateButton, setDateButton] = useState(isMobile ? 1 : 2)
 
   useEffect(() => {
-    if (isMobile) {
+    if (data.length < 14) {
+      // 3 mois
+      setDateButton(0)
+    } else if (data.length < 27) {
+      // 6 mois
+      setDateButton(1)
+    } else if (isMobile) {
       setDateButton(1)
     } else {
       setDateButton(2)
@@ -49,17 +55,13 @@ export default function PresenceHeader(props: IPresenceHeader) {
                 style={{
                   border: `solid 1px ${color}`,
                 }}
-              >
-                {/* Silence is golden */}
-              </div>
+              />
               <div
                 className="button__background"
                 style={{
                   backgroundColor: color,
                 }}
-              >
-                {/* Silence is golden */}
-              </div>
+              />
               <span style={{ color: active ? "white" : color }}>{buttonLabel}</span>
             </button>
           )

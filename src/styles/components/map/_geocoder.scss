@@ -1,0 +1,272 @@
+.map__geocoder {
+  position: relative;
+  display: flex;
+  background: white;
+  box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
+  border-radius: 5px;
+  width: 29px;
+
+  transition: width 0.5s $ease-in-out-cubic;
+
+  .geocoder {
+    &__expand {
+      position: relative;
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
+      border-radius: 5px;
+
+      .expand {
+        &__icon {
+          margin: 7px;
+
+          svg {
+            width: 15px;
+            fill: $text-color;
+          }
+        }
+
+        &__arrow {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          opacity: 0;
+          svg {
+            height: 7px;
+            transform: rotate(90deg);
+            fill: $text-color;
+          }
+        }
+      }
+      &:hover {
+        background: $btn-hover;
+
+        .expand {
+          &__icon {
+            opacity: 0;
+          }
+
+          &__arrow {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    &__form {
+      opacity: 0;
+      display: flex;
+      pointer-events: none;
+      width: 100%;
+      height: 20px;
+      margin: 0;
+
+      .form {
+        &__input {
+          width: 100%;
+          border: none;
+          background: none;
+          padding: 7px 0 7px 5px;
+          font-size: 15px;
+          line-height: 1em;
+        }
+
+        &__clear {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          pointer-events: none;
+
+          &-btn {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+
+            padding: 0;
+          }
+
+          .icon-wrapper {
+            margin: 7px;
+
+            svg {
+              width: 13px;
+              fill: $text-color;
+            }
+          }
+
+          .loading-spinner {
+            margin: 7px;
+            .spinner {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+      }
+    }
+
+    &__results {
+      position: absolute;
+      top: calc(100% + 5px);
+      padding: 0;
+      max-width: unset;
+      width: 100%;
+      pointer-events: auto;
+
+      .results {
+        &__list {
+          list-style-type: none;
+          margin: 0;
+          max-height: calc(100vh - 170px);
+          overflow: auto;
+        }
+
+        &__item {
+          margin: 0;
+
+          &--selected {
+            background: $btn-hover;
+
+            &:first-child {
+              border-radius: 5px 5px 0 0;
+            }
+
+            &:last-child {
+              border-radius: 0 0 5px 5px;
+            }
+          }
+        }
+
+        &__link {
+          display: block;
+          cursor: pointer;
+
+          width: 100%;
+          padding: 5px 10px;
+
+          text-align: left;
+          font-size: 14px;
+
+          .link {
+            &__title {
+              font-weight: bold;
+            }
+          }
+        }
+
+        &__notfound {
+          cursor: default;
+        }
+      }
+    }
+
+    &__dot {
+      display: none;
+      position: absolute;
+      pointer-events: none;
+      right: 0;
+      top: 0;
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+
+      &--visible {
+        display: flex;
+      }
+    }
+  }
+
+  &--visible {
+    width: 350px;
+
+    .geocoder {
+      &__expand {
+        .expand {
+          &__icon {
+            margin: 10px;
+          }
+          &__arrow > svg {
+            transform: rotate(-90deg);
+          }
+        }
+      }
+
+      &__form {
+        opacity: 1;
+        height: unset;
+        pointer-events: auto;
+
+        .form {
+          &__clear {
+            &--visible {
+              opacity: 1;
+              pointer-events: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 875px) {
+    &--visible {
+      width: calc(100vw - 20px);
+
+      .geocoder {
+        &__form {
+          width: 100%;
+        }
+
+        &__overlay {
+          display: block;
+        }
+      }
+    }
+  }
+
+  @media (hover: none) {
+    .geocoder {
+      &__expand {
+        .expand {
+          &__arrow {
+            display: none;
+          }
+        }
+
+        &:hover {
+          background: none;
+          .expand {
+            &__icon {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.geocoder__overlay {
+  display: none;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  width: 100vw;
+  height: calc(100vh - 10px);
+  background-color: rgba($black, 0.1);
+  backdrop-filter: blur(2px) opacity(1);
+
+  @media (max-width: 875px) {
+    &--visible {
+      display: block;
+    }
+  }
+}

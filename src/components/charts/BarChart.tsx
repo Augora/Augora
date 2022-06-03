@@ -7,9 +7,13 @@ import { scaleBand, scaleLinear } from "@visx/scale"
 import { Text } from "@visx/text"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { useRouter } from "next/router"
 
 export default function BarChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+  const { handleGroupClick } = useDeputiesFilters()
+  const router = useRouter()
 
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
 
@@ -76,6 +80,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
             const barHeight = yMax - (yScale(d.value) ?? 0)
             const barX = xScale(d.id)
             const barY = yMax - barHeight
+            const filterCurrentId = data.filter((f) => f.id !== d.id)
             return (
               <Group key={`bar-${d.id}-${index}`}>
                 <Bar
@@ -88,6 +93,10 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
                   fill={d.color}
                   onMouseLeave={handleMouseLeave}
                   onMouseMove={(event) => handleMouseMove(event, d)}
+                  onClick={() => {
+                    filterCurrentId.map((group) => handleGroupClick(group.id))
+                    router.push("/")
+                  }}
                 />
                 {barHeight >= 25 && (
                   <Text
