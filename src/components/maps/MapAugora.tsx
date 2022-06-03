@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
+import { flushSync } from "react-dom"
 import { isMobile } from "react-device-detect"
 import Map, {
   NavigationControl,
@@ -209,9 +210,11 @@ export default function MapAugora(props: IMapAugora) {
 
   /** Active le hover de la feature si elle est actuellement affichée sur la map */
   const simulateHover = (feature: AugoraMap.Feature) => {
-    if (!compareFeatures(hover, feature)) {
-      const renderedFeature = getRenderedFeature(feature)
-      renderHover(renderedFeature)
+    if (isMapLoaded) {
+      if (!compareFeatures(hover, feature)) {
+        const renderedFeature = getRenderedFeature(feature)
+        renderHover(renderedFeature)
+      }
     }
   }
 
@@ -220,13 +223,11 @@ export default function MapAugora(props: IMapAugora) {
    * @param {MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
    */
   const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
-    if (hover && !compareFeatures(hover, renderedFeature)) {
-      mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
-      setHover(null)
-    }
-    if (renderedFeature) {
-      mapRef.current.setFeatureState({ source: renderedFeature.source, id: renderedFeature.id }, { hover: true })
-      setHover(renderedFeature)
+    if (!compareFeatures(hover, renderedFeature)) {
+      if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
+      if (renderedFeature)
+        mapRef.current.setFeatureState({ source: renderedFeature.source, id: renderedFeature.id }, { hover: true })
+      flushSync(() => setHover(renderedFeature ? renderedFeature : null))
     }
   }
 
