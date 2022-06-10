@@ -1,6 +1,8 @@
-import { WebMercatorViewport, FlyToInterpolator, ViewportProps } from "react-map-gl"
+import { MapRef } from "react-map-gl"
+import { WebMercatorViewport } from "@math.gl/web-mercator"
 import { ParsedUrlQuery } from "querystring"
 import polylabel from "polylabel"
+import pointInPolygon from "point-in-polygon"
 import MetroFranceContFile from "static/cont-france.geojson"
 import MetroRegFile from "static/reg-metro.geojson"
 import MetroDptFile from "static/dpt-metro.geojson"
@@ -140,9 +142,23 @@ export const getLayerPaint = (
     },
     line: {
       "line-color": color ? color : "#00bbcc",
-      "line-width": 2,
+      "line-width": 1,
     },
   }
+}
+
+/** Renvoie la distance en km entre 2 coordonnées */
+const getDistance = (coords1: AugoraMap.Coordinates, coords2: AugoraMap.Coordinates): number => {
+  const R = 6371 // kilometres
+  const φ1 = (coords1[1] * Math.PI) / 180 // φ, λ in radians
+  const φ2 = (coords2[1] * Math.PI) / 180
+  const Δφ = ((coords2[1] - coords1[1]) * Math.PI) / 180
+  const Δλ = ((coords2[0] - coords1[0]) * Math.PI) / 180
+
+  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+
+  return Math.round(R * c) // in kmetres
 }
 
 /**
@@ -228,30 +244,40 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
 }
 
 /**
- * Transitionne de façon fluide vers une zone
+ * Transitionne de façon fluide vers une bounding box
  * @param {AugoraMap.Feature} feature La feature vers laquelle aller, dézoom sur le monde si la feature n'a pas de propriété bbox
- * @param {ViewportProps} viewState Le state du viewport
- * @param {React.Dispatch<React.SetStateAction<ViewportProps>>} setViewState Le setState du viewport
+ * @param {mapRef} mapRef Pointeur vers l'objet map
+ * @param {boolean} isMobile Pour réduire le padding
  */
-export const flyToBounds = <T extends GeoJSON.Feature>(
-  feature: T,
-  viewState: ViewportProps,
-  setViewState: React.Dispatch<React.SetStateAction<ViewportProps>>,
-  padding?: number
-): void => {
+export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRef, isMobile?: boolean): void => {
   const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
-  const { longitude, latitude, zoom } = new WebMercatorViewport({ width: 500, height: 500, ...viewState }).fitBounds(bounds, {
-    padding: padding ? padding : 80,
+
+  const { longitude, latitude, zoom } = new WebMercatorViewport({
+    width: mapRef.getContainer().getBoundingClientRect().width,
+    height: mapRef.getContainer().getBoundingClientRect().height,
+  }).fitBounds(bounds, {
+    padding: isMobile ? 20 : 80,
   })
-  setViewState({
-    ...viewState,
-    longitude,
-    latitude,
-    zoom,
-    transitionInterpolator: new FlyToInterpolator({ speed: 2 }),
-    transitionEasing: (x) => -(Math.cos(Math.PI * x) - 1) / 2, //ease in-out sine
-    transitionDuration: "auto" as any, //typedef oversight from map-gl, see if they fixed it in the future
-    transitionInterruption: 0,
+
+  flyToCoords(mapRef, [longitude, latitude], zoom)
+}
+
+/**
+ * Transitionne de façon fluide vers des coordonnées
+ * @param {mapRef} mapRef Pointeur vers l'objet map
+ * @param {AugoraMap.Coordinates} coords Format [longitude, latitude]
+ * @param {number} [zoom] Default 1
+ * @param {number} [duration] Pour renseigner une durée fixe, par défaut entre 1 et 3 secondes selon la distance
+ */
+export const flyToCoords = (mapRef: MapRef, coords: AugoraMap.Coordinates, zoom?: number, duration?: number): void => {
+  const distance = getDistance(mapRef.getCenter().toArray() as AugoraMap.Coordinates, coords)
+  const dynDuration = distance < 750 ? 1000 : distance > 3000 ? 3000 : distance
+
+  mapRef.flyTo({
+    center: [coords[0], coords[1]],
+    zoom: zoom ? zoom : 1,
+    easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
+    duration: duration ? duration : dynDuration,
   })
 }
 
@@ -357,7 +383,7 @@ export const getCodesFromFeature = <T extends GeoJSON.Feature>(feature: T): Augo
  * Renvoie la feature FranceZone d'un mousevent, null si la feature n'a pas le bon format
  */
 export const getMouseEventFeature = (e): AugoraMap.Feature => {
-  if (e.features && e.target.className === "overlays") {
+  if (e.features) {
     if (e.features[0]?.properties) {
       return getFeature(getCodesFromFeature(e.features[0]))
     } else return null
@@ -553,10 +579,7 @@ export const buildURLFromFeature = <T extends GeoJSON.Feature>(feature: T): stri
   } else return ""
 }
 
-/**
- * Renvoie une feature correspondant à une query nextjs
- * @param {ParsedUrlQuery} query
- */
+/** Renvoie une feature correspondant à une query nextjs */
 export const getFeatureFromQuery = (query: ParsedUrlQuery): AugoraMap.Feature => {
   if (query) {
     let codes: AugoraMap.Codes = {}
@@ -566,4 +589,98 @@ export const getFeatureFromQuery = (query: ParsedUrlQuery): AugoraMap.Feature =>
     if (query.cont) codes.code_cont = +query.cont
     return getFeature(codes)
   } else return null
+}
+
+/** Cherche dans nos fichiers une feature aux coordonnées fournies */
+export const geolocateFeature = (coords: AugoraMap.Coordinates, features: AugoraMap.FeatureCollection): AugoraMap.Feature => {
+  const trimmedFeatures = features.features.filter((feature) => {
+    const SW = feature.properties.bbox[0]
+    const NE = feature.properties.bbox[1]
+
+    return coords[0] > SW[0] && coords[0] < NE[0] && coords[1] > SW[1] && coords[1] < NE[1]
+  }) //préfiltre les features avec la bounding box, moins couteux en calcul
+
+  if (trimmedFeatures.length > 1) {
+    return trimmedFeatures.find((feature) => {
+      if (feature.geometry.type === "Polygon") {
+        return pointInPolygon(coords, feature.geometry.coordinates[0])
+      } else if (feature.geometry.type === "MultiPolygon") {
+        return feature.geometry.coordinates.find((polygon) => pointInPolygon(coords, polygon[0])) !== undefined
+      }
+    })
+  } else if (trimmedFeatures.length === 1) return trimmedFeatures[0]
+  else return undefined
+}
+
+/** Cherche dans nos fichiers une feature aux coordonnées fournies
+ * @param {Code} code Pour savoir dans quel type de zone chercher
+ */
+export const geolocateFromCoords = (coords: AugoraMap.Coordinates, code: Code): AugoraMap.Feature => {
+  const features =
+    code === Code.Circ
+      ? AllCirc
+      : code === Code.Dpt
+      ? AllDpt
+      : code === Code.Reg
+      ? AllReg
+      : createFeatureCollection([MetroFeature])
+
+  return geolocateFeature(coords, features)
+}
+
+/** Renvoie la feature de nos fichiers la plus adaptée à un résultat de recherche API mapbox */
+export const geolocateZone = (feature: AugoraMap.MapboxAPIFeature): AugoraMap.Feature => {
+  switch (feature.place_type[0]) {
+    case "country":
+      switch (feature.text) {
+        case "Guyane":
+        case "Guadeloupe":
+        case "Martinique":
+        case "La Réunion":
+        case "Mayotte":
+        case "Nouvelle-Calédonie":
+        case "Polynésie française":
+        case "Saint-Pierre-et-Miquelon":
+        case "Wallis-et-Futuna":
+          return geolocateFeature(feature.center, OMDptFile)
+        case "France":
+          return MetroFeature
+        default:
+          return geolocateFeature(feature.center, AllCirc)
+      }
+    case "region":
+      if (feature.context[0].short_code === "fr") {
+        switch (feature.text) {
+          case "Bretagne":
+          case "Normandie":
+          case "Hauts-de-France":
+          case "Pays de la Loire":
+          case "Île-de-France":
+          case "Centre-Val de Loire":
+          case "Bourgogne-Franche-Comté":
+          case "Auvergne-Rhône-Alpes":
+          case "Nouvelle-Aquitaine":
+          case "Provence-Alpes-Côte d'Azur":
+          case "Occitanie":
+          case "Corse":
+            return geolocateFeature(feature.center, MetroRegFile)
+          default:
+            return geolocateFeature(feature.center, MetroDptFile)
+        }
+      } else return geolocateFeature(feature.center, AllCirc)
+    default:
+      return geolocateFeature(feature.center, AllCirc)
+  }
+}
+
+/** Requete les features d'une recherche à l'API mapbox
+ * @param {string} token Le mapbox token, obligatoire pour contacter l'API
+ */
+export async function searchMapboxAPI(search: string, token: string): Promise<AugoraMap.MapboxAPIFeatureCollection> {
+  const response = await fetch(
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?language=fr&limit=10&proximity=2.2137,46.2276&access_token=${token}`
+  )
+  const data: AugoraMap.MapboxAPIFeatureCollection = await response.json()
+
+  return data
 }

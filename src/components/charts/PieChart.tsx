@@ -4,9 +4,13 @@ import { Group } from "@visx/group"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 import { Annotation, Label, Connector } from "@visx/annotation"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { useRouter } from "next/router"
 
 export default function PieChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
+  const { handleGroupClick } = useDeputiesFilters()
+  const router = useRouter()
 
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
   const ratio = width / height
@@ -49,6 +53,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                 const [centroidX, centroidY] = pie.path.centroid(arc)
                 const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.2
                 const justifiedMidAngle = (arc.endAngle - arc.startAngle) / 2 + arc.startAngle - Math.PI / 2
+                const filterCurrentId = data.filter((f) => f.id !== arc.data.id)
                 return (
                   <g key={`arc-${groupeArc.id}-${index}`}>
                     {
@@ -89,10 +94,15 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                       </Annotation>
                     }
                     <path
+                      className={`arc arc__${arc.data.id}`}
                       d={pie.path(arc)}
                       fill={groupeArc.color}
                       onMouseLeave={handleMouseLeave}
                       onMouseMove={(event) => handleMouseMove(event, arc.data)}
+                      onClick={() => {
+                        filterCurrentId.map((group) => handleGroupClick(group.id))
+                        router.push("/")
+                      }}
                     />
 
                     {hasSpaceForLabel && (

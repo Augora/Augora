@@ -1,0 +1,216 @@
+@import "../../styles/global/easing";
+/*----------------------------------------------------*/
+// Variables
+/*----------------------------------------------------*/
+$skew: -15deg;
+@mixin skewBackground($skew: #{$skew}) {
+  transform: skew($skew);
+}
+@mixin smallText {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.5;
+}
+
+/*----------------------------------------------------*/
+// Depute Banner
+/*----------------------------------------------------*/
+.deputeBanner {
+  // Général
+  /*----------------------------------------------------*/
+  width: 1920px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  margin: 1px 0 0 1px;
+
+  transition: height 0.2s $ease-in-out-cubic;
+  &__top,
+  &__bottom {
+    position: relative;
+  }
+  // Top part
+  /*----------------------------------------------------*/
+  $decal: 710px;
+  &__top {
+    height: 50px;
+    width: calc(100% - #{$decal});
+    padding: 10px 0 10px 40px;
+  }
+  &__questionNumber {
+    position: absolute;
+    right: -15px;
+    top: 0;
+
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background-color: white;
+
+    padding: 10px 40px;
+    @include skewBackground;
+
+    color: #828282;
+    @include smallText;
+
+    span {
+      transform: skew(-$skew);
+    }
+  }
+
+  // Bottom part
+  /*----------------------------------------------------*/
+  &__bottom {
+    display: flex;
+    align-items: center;
+  }
+  &__bottomBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+
+    // transition: background-color 0.2s $ease-in-out-cubic;
+  }
+  &__bottomBackgroundGradient {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  &__bottomBackgroundTransition {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  &__logoGroup {
+    position: relative;
+    padding: 10px 40px 10px 60px;
+    z-index: 1;
+    svg {
+      position: relative;
+      width: 100px;
+      height: 80px;
+      * {
+        fill: unset;
+      }
+    }
+  }
+  &__logoBackground {
+    position: absolute;
+    top: 0;
+    left: -50px;
+    width: 250px;
+    height: calc(100% + 1px);
+    background-color: white;
+    @include skewBackground;
+    z-index: 0;
+  }
+  &__content {
+    position: relative;
+    margin-left: 40px;
+    color: white;
+    font-size: 25px;
+    line-height: 1;
+    overflow: hidden;
+
+    & > * {
+      display: inline-block;
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+  }
+  &__firstname {
+    font-weight: 300;
+  }
+  &__lastname {
+    font-size: 125%;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  &__recs {
+    $delay: 240s;
+    z-index: -1;
+    rect {
+      transition: transform $delay $ease-in-out-circ, opacity 0.2s $ease-in-out-circ, width $delay $ease-in-out-circ;
+    }
+  }
+
+  // Map part
+  /*----------------------------------------------------*/
+  &__map {
+    position: absolute;
+    bottom: 38px;
+    right: 410px;
+
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+
+    overflow: hidden;
+  }
+  &__mapContainer {
+    height: 200px;
+    width: 100%;
+  }
+  &__mapHeader {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    color: white;
+    @include smallText;
+    transform-origin: bottom;
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform: translate(-50%, -50%);
+      margin-bottom: 0;
+      padding: 10px;
+    }
+  }
+}
+
+// Debug
+/*----------------------------------------------------*/
+.deputeBannerDebug {
+  position: relative;
+  outline: 1px solid red;
+  overflow: hidden;
+}
+.debug {
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    z-index: -100;
+  }
+  &__imageJean {
+    position: absolute;
+    bottom: 9px;
+    right: 29px;
+    z-index: 1;
+  }
+}

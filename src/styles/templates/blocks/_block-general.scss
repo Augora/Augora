@@ -26,9 +26,7 @@
         }
       }
     }
-    &__background {
-      // opacity: 0.75;
-    }
+
     &__header {
       &::after {
         content: "";
@@ -41,6 +39,7 @@
         background-color: white;
       }
     }
+
     &__main {
       display: flex;
       justify-content: space-between;
@@ -192,13 +191,17 @@
     }
     &__job {
       text-align: center;
-      font-weight: bold;
-      text-transform: uppercase;
       color: white;
       height: 20%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+
+      .job {
+        font-weight: bold;
+        text-transform: uppercase;
+      }
     }
   }
   &:hover {
@@ -222,6 +225,17 @@
     .general {
       &__main {
         padding: 0;
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    .general {
+      &__main {
+        flex-direction: column;
+        .main__info {
+          padding: 40px 0 30px;
+        }
       }
     }
   }

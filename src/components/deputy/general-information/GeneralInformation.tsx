@@ -101,9 +101,6 @@ export default function GeneralInformation(props: Bloc.General) {
           </div>
         </div>
         <div className="main__info">
-          <div className="icon-wrapper" title={props.groupeComplet}>
-            <props.pictureGroup />
-          </div>
           <div className="main__age">
             <div className="main__age-date">
               {props.age}

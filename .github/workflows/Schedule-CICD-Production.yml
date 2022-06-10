@@ -12,10 +12,10 @@ jobs:
         with:
           ref: master
 
-      - name: Use Node.js 14.x
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
 
       - uses: amondnet/vercel-action@v20
         with:
@@ -25,7 +25,6 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
           vercel-project-name: augora
           vercel-args: --prod --force
-          scope: augora
           alias-domains: |
             augora.fr
 

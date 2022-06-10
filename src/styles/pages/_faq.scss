@@ -87,11 +87,13 @@
       padding: 0 30px;
       p {
         text-align: justify;
+        strong {
+          color: $main-color;
+        }
       }
       p:last-child {
         margin-bottom: 0;
       }
-
       a {
         color: $main-color;
         text-decoration: none;
@@ -117,8 +119,8 @@
       }
     }
   }
-}
 
-svg rect {
-  transition: transform 3s $ease-out-cubic;
+  svg rect {
+    transition: transform 3s $ease-out-cubic;
+  }
 }

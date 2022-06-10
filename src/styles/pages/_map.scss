@@ -4,15 +4,79 @@
 
 .page__map {
   padding: 0;
+
   .map {
     &__container {
       width: 100%;
       height: calc(100vh - 60px);
+      .mapboxgl-map {
+        font: 18px/1.45rem $font; //override mapboxgl injecting its own css
+      }
 
       .mapboxgl-control-container {
-        .mapboxgl-ctrl-bottom-left,
-        .mapboxgl-ctrl-bottom-right {
+        .mapboxgl-ctrl {
           z-index: 0;
+          &-top-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            pointer-events: auto;
+          }
+
+          &-attrib {
+            font: 12px/20px "Helvetica Neue", "Arial", "Helvetica", "sans-serif";
+          }
+        }
+
+        .mapboxgl-ctrl-geo {
+          position: relative;
+          z-index: 1;
+        }
+      }
+
+      .custom-control-container {
+        .ctrl-bottom {
+          position: absolute;
+          pointer-events: auto;
+          left: 50%;
+          transform: translate(-50%, 0);
+          bottom: 10px;
+          z-index: 2;
+        }
+      }
+
+      .mapboxgl-canvas-container {
+        .mapboxgl {
+          &-marker {
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            background: none;
+            box-shadow: none;
+            padding: 0;
+
+            .icon-wrapper {
+              width: 40px;
+            }
+
+            .marker {
+              &__pin {
+                svg {
+                  filter: drop-shadow(0px 10px 5px rgb(0 0 0 / 0.2));
+                  circle {
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      @media (max-width: 875px) {
+        .custom-control-container {
+          .ctrl-bottom {
+            bottom: -5px;
+          }
         }
       }
     }
@@ -20,6 +84,6 @@
 
   @import "components/map/pins";
   @import "components/map/breadcrumb";
-  @import "components/map/navigation";
+  @import "components/map/geocoder";
   @import "components/map/mapfilters";
 }

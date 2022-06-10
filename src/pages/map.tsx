@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import MapAugora from "components/maps/MapAugora"
-import { getDeputes } from "../lib/deputes/Wrapper"
+import { getDeputes, getGroupes } from "../lib/deputes/Wrapper"
 import { useRouter } from "next/router"
 import SEO, { PageType } from "components/seo/seo"
 import mapStore from "stores/mapStore"
@@ -20,6 +20,7 @@ import {
   getZoneTitle,
   MetroFeature,
 } from "components/maps/maps-utils"
+import shuffle from "lodash/shuffle"
 
 export default function MapPage() {
   const router = useRouter()
@@ -33,14 +34,14 @@ export default function MapPage() {
   /** Zustand state */
   const {
     viewsize,
-    viewport,
+    viewstate,
     geoJSON,
     ghostGeoJSON,
     feature: zoneFeature,
     deputies,
     paint,
     setViewsize,
-    setViewport,
+    setViewstate,
     setMapView,
     setDeputies,
   } = mapStore()
@@ -132,11 +133,11 @@ export default function MapPage() {
       <div className="page page__map">
         <div className="map__container" style={{ height: viewsize.height - 60 }}>
           <MapAugora
-            viewport={viewport}
-            setViewport={setViewport}
+            viewstate={viewstate}
+            setViewstate={setViewstate}
             deputies={FilteredList}
             mapView={{ geoJSON: geoJSON, ghostGeoJSON: ghostGeoJSON, feature: zoneFeature, paint: paint }}
-            changeZone={changeZone}
+            onZoneClick={changeZone}
           />
         </div>
       </div>
@@ -145,11 +146,12 @@ export default function MapPage() {
 }
 
 export async function getStaticProps() {
-  const deputes = await getDeputes()
+  const [deputes, groupes] = await Promise.all([getDeputes(), getGroupes()])
 
   return {
     props: {
-      deputes,
+      deputes: shuffle(deputes),
+      groupes,
     },
   }
 }

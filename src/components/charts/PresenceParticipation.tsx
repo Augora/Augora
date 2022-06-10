@@ -1,10 +1,18 @@
 import React from "react"
 import { Group } from "@visx/group"
-import { curveMonotoneX } from "@visx/curve"
+import { curveLinear } from "@visx/curve"
 import { getNbActivitesMax } from "components/deputies-list/deputies-list-utils"
 import dayjs from "dayjs"
 import "dayjs/locale/fr"
-import { XYChart, AnimatedAxis, AnimatedBarSeries, AnimatedGrid, AnimatedLineSeries, Tooltip } from "@visx/xychart"
+import {
+  XYChart,
+  AnimatedAxis,
+  AnimatedBarSeries,
+  AnimatedGrid,
+  AnimatedLineSeries,
+  Tooltip,
+  AnimatedAreaSeries,
+} from "@visx/xychart"
 
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import AugoraTooltip from "components/tooltip/Tooltip"
@@ -30,7 +38,7 @@ interface IPresence {
     Présences: boolean
     Participations: boolean
     "Questions orales": boolean
-    "Mediane des députés": boolean
+    "Mediane des présences": boolean
     Vacances: boolean
   }
   medianeDeputeColor: string
@@ -54,7 +62,6 @@ export default function PresenceParticipation(props: IPresence) {
 
   const changeDisplay = width < 750
   // bounds
-
   const margin = width < 500 ? 110 : width < 750 ? 90 : 50
   const marginLeft = 20
   const xMax = width - marginLeft
@@ -62,8 +69,6 @@ export default function PresenceParticipation(props: IPresence) {
   const yMax = height - margin
 
   var maxActivite = getNbActivitesMax(data) < 10 ? 10 : getNbActivitesMax(data)
-
-  //const medianeArray = orderBy(mediane, "DateDeDebut")
 
   return width < 10 ? null : (
     <div>
@@ -86,28 +91,26 @@ export default function PresenceParticipation(props: IPresence) {
                 colorAccessor={() => vacancesColor}
               />
             )}
-
-            {/*
-            {DisplayedGraph["Mediane des députés"] && (
-            <AnimatedAreaSeries
-              dataKey={"Mediane"}
-              data={medianeArray}
-              xAccessor={(d) => getDate(d).dateDebut}
-              yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
-              stroke={medianeDeputeColor}
-              fill={medianeDeputeColor}
-              renderLine={false}
-              curve={curveType}
-              opacity={opacityParticipation}
-            />
-            )} */}
+            {DisplayedGraph["Mediane des présences"] && (
+              <AnimatedAreaSeries
+                dataKey={"Mediane"}
+                data={slicedData}
+                xAccessor={(d) => d.DateDeFin}
+                yAccessor={(d) => d.MedianeTotal}
+                stroke={medianeDeputeColor}
+                fill={medianeDeputeColor}
+                renderLine={false}
+                curve={curveLinear}
+                opacity={opacityParticipation}
+              />
+            )}
             {DisplayedGraph.Participations && (
               <AnimatedLineSeries
                 dataKey={"Participation"}
                 data={slicedData}
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.ParticipationEnHemicycle + d.ParticipationsEnCommission}
-                curve={curveMonotoneX}
+                curve={curveLinear}
                 stroke={color}
                 strokeOpacity={opacityParticipation}
               />
@@ -119,7 +122,7 @@ export default function PresenceParticipation(props: IPresence) {
                 xAccessor={(d) => d.DateDeFin}
                 yAccessor={(d) => d.PresenceEnHemicycle + d.PresencesEnCommission}
                 stroke={color}
-                curve={curveMonotoneX}
+                curve={curveLinear}
               />
             )}
             {DisplayedGraph["Questions orales"] && (
@@ -178,8 +181,7 @@ export default function PresenceParticipation(props: IPresence) {
                             {labels.map((label, i) => {
                               const shape = shapeScale(label.datum)
                               const isValidElement = React.isValidElement(shape)
-                              // Passer à 3 pour intégrer la mediane dans la tooltip
-                              return i > 2 ? (
+                              return i > 3 ? (
                                 ""
                               ) : (
                                 <LegendItem className="item__tooltip" key={`legend-quantile-${i}`} flexDirection="row">
@@ -194,7 +196,7 @@ export default function PresenceParticipation(props: IPresence) {
                                     <LegendLabel className="label">
                                       {label.datum === "Questions orales"
                                         ? "Questions"
-                                        : label.datum === "Mediane des députés"
+                                        : label.datum === "Mediane des présences"
                                         ? "Mediane"
                                         : label.text}
                                     </LegendLabel>
@@ -216,7 +218,11 @@ export default function PresenceParticipation(props: IPresence) {
                                           ? nearest.ParticipationEnHemicycle + nearest.ParticipationsEnCommission
                                           : "0"
                                         : null}
-                                      {label.datum === "Mediane" ? "0" : null}
+                                      {label.datum === "Mediane des présences"
+                                        ? nearest.MedianeTotal != 0
+                                          ? nearest.MedianeTotal
+                                          : "0"
+                                        : null}
                                     </LegendLabel>
                                   </div>
                                 </LegendItem>

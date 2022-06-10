@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [macOS-latest, windows-latest, ubuntu-latest]
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
       - uses: actions/checkout@v2
 
@@ -46,7 +46,9 @@ jobs:
           CI: "true"
           NODE_ENV: "staging"
           NEXT_PUBLIC_ENV: "staging"
-          FAUNADB_TOKEN: ${{ secrets.FAUNADB_TOKEN_ADMIN_STAGING }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL_STAGING }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY_STAGING }}
+          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
         run: yarn build
 
       - name: The build has failed
@@ -89,10 +91,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js 14.x
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
 
       - uses: amondnet/vercel-action@v20
         with:
@@ -101,7 +103,6 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
           vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
           vercel-project-name: augora
-          scope: augora
           alias-domains: |
             preprod.augora.fr
 

@@ -5,22 +5,12 @@ const handleLegend = (state, legend: string) => {
   let newState = { ...state }
   const statesAsArray = Object.entries(newState)
   const allActive = statesAsArray.every(([key, value]) => value)
-  const isClickedAloneActive =
-    newState[legend] &&
-    statesAsArray
-      .filter(([key]) => {
-        return key === legend
-      })
-      .every(([value]) => {
-        return value
-      })
+
   Object.keys(state).forEach((key) => {
     if (allActive) {
-      newState[key] = key !== legend ? false : true
-    } else if (isClickedAloneActive) {
-      newState[key] = true
+      newState[key] = key !== legend ? true : false
     } else {
-      newState[key] = key !== legend ? false : true
+      if (key === legend) newState[key] = !newState[key]
     }
   })
   return newState
@@ -32,7 +22,7 @@ interface IPresenceFooter {
     Présences: boolean
     Participations: boolean
     "Questions orales": boolean
-    "Mediane des d\u00E9put\u00E9s": boolean
+    "Mediane des pr\u00E9sences": boolean
     Vacances: boolean
   }
   setDisplayedGraph: React.Dispatch<
@@ -40,7 +30,7 @@ interface IPresenceFooter {
       Présences: boolean
       Participations: boolean
       "Questions orales": boolean
-      "Mediane des députés": boolean
+      "Mediane des pr\u00E9sences": boolean
       Vacances: boolean
     }>
   >

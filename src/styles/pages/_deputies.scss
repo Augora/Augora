@@ -3,12 +3,27 @@
 
   .filters__section {
     margin-bottom: 70px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-auto-rows: 100px;
+    grid-column-gap: 50px;
+    grid-row-gap: 50px;
+
+    .frame-filters {
+      margin: 0;
+      display: block;
+      grid-column-end: span 6;
+      grid-row-end: span 3;
+      height: 100%;
+      .frame__content {
+        padding-top: 22px;
+      }
+    }
 
     .frame-chart {
       min-width: 30vw;
-      margin: 0 0 0 40px;
+      grid-column-end: span 4;
+      grid-row-end: span 3;
       .frame__content {
         .no-deputy {
           display: flex;
@@ -19,22 +34,80 @@
         }
       }
     }
-  }
 
-  // Media queries
-  @media (max-width: 1250px) {
-    .filters__section {
-      flex-direction: column;
-      .frame-chart {
-        height: 350px;
-        margin: 40px 0 0 0;
+    // Media queries
+
+    @media (max-width: 1550px) {
+      grid-auto-rows: 50px;
+      .frame-filters {
+        grid-row-end: span 5;
+      }
+  
+      .frame-pie {
+        grid-row-end: span 5;
       }
     }
-  }
 
-  @media (max-width: 875px) {
-    .page-title {
-      display: none;
+    @media (max-width: 1370px) {
+      grid-auto-rows: 50px;
+      .frame-filters {
+        grid-row-end: span 6;
+      }
+  
+      .frame-pie {
+        grid-row-end: span 6;
+      }
+    }
+
+    @media (max-width: 1250px) {
+      grid-auto-rows: 25px;
+      grid-column-gap: 25px;
+      .frame-filters {
+        grid-column-end: span 10;
+        grid-row-end: span 6;
+      }
+  
+      .frame-pie {
+        grid-column-end: span 10;
+      }
+    }
+
+    @media (max-width: 950px) {
+      grid-auto-rows: 25px;
+      .frame-filters {
+        grid-row-end: span 7;
+      }
+    }
+
+    @media (max-width: 880px) {
+      grid-auto-rows: 25px;
+      .frame-filters {
+        grid-row-end: span 8;
+      }
+  
+    }
+
+    @media (max-width: 640px) {
+      grid-auto-rows: 25px;
+      .frame-filters {
+        grid-row-end: span 9;
+      }
+  
+      .frame-pie {
+        grid-row-end: span 5;
+      }
+    }
+    @media (max-width: 530px) {
+      grid-auto-rows: 25px;
+      .frame-filters {
+        grid-row-end: span 10;
+      }
+    }
+    @media (max-width: 400px) {
+      grid-auto-rows: 25px;
+      .frame-filters {
+        grid-row-end: span 11;
+      }
     }
   }
 

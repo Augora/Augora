@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import dynamic from "next/dynamic"
 import { getHSLLightVariation } from "utils/style/color"
-const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
-  ssr: false,
-})
+// const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
+//   ssr: false,
+// })
 
 /**
  * Renvoie le component titre de page
@@ -34,7 +34,7 @@ export default function PageTitle(props: { title?: string; color?: Group.HSLDeta
           <p className="page-title__title">{props.title}</p>
         </div>
       ) : null}
-      <GradientBanner />
+      {/* <GradientBanner /> */}
     </div>
   )
 }

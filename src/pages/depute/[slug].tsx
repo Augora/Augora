@@ -1,11 +1,10 @@
 import React from "react"
-import fs from "fs"
 import Head from "next/head"
 import { getDepute, getDeputesSlugs } from "../../lib/deputes/Wrapper"
 import Socials from "components/deputy/socials/Socials"
 import Coworkers from "components/deputy/coworkers/Coworkers"
 import MapDistrict from "components/deputy/map-district/MapDistrict"
-import { getGeneralInformation } from "utils/augora-objects/deputy/information"
+import { getGeneralInformation, getGroupesInformation } from "utils/augora-objects/deputy/information"
 import { getMandate } from "utils/augora-objects/deputy/mandate"
 import { getCoworkers } from "utils/augora-objects/deputy/coworker"
 import GeneralInformation from "components/deputy/general-information/GeneralInformation"
@@ -13,6 +12,9 @@ import Mandate from "components/deputy/mandate/Mandate"
 import Contact from "components/deputy/contact/Contact"
 import Presence from "components/deputy/presence/Presence"
 import SEO, { PageType } from "components/seo/seo"
+import GroupeEtParti from "src/components/deputy/groupes/groupe-parti"
+import Missions from "src/components/deputy/missions-parlementaires/missions"
+import { getOrganismes } from "src/utils/augora-objects/deputy/organismes"
 
 interface IDeputy {
   depute: Deputy.Deputy
@@ -26,7 +28,7 @@ interface IDeputy {
 export default function Deputy({ depute }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.CouleurDetail
-
+  const organismes = getOrganismes(deputy)
   return (
     <>
       <SEO pageType={PageType.Depute} depute={deputy} />
@@ -37,11 +39,13 @@ export default function Deputy({ depute }: IDeputy) {
       <div className="page page__deputy">
         <div className="deputy__content">
           <GeneralInformation {...getGeneralInformation(deputy)} color={color} size="medium" dateBegin={deputy.DateDeNaissance} />
-          <Mandate {...getMandate(deputy)} color={color} size="small" />
-          <Coworkers {...getCoworkers(deputy)} color={color} size="small" />
+          <GroupeEtParti {...getGroupesInformation(deputy)} sexe={deputy.Sexe} color={color} size="medium" />
           <MapDistrict deputy={deputy} color={color} size="medium" />
-          <Presence color={color} size="large" activite={deputy.Activites.data} wip={false} />
-          <Contact color={color} size="medium" adresses={deputy.AdressesDetails.data} />
+          <Coworkers {...getCoworkers(deputy)} color={color} size="medium" />
+          <Mandate {...getMandate(deputy)} color={color} size="medium" />
+          <Contact color={color} size="medium" adresses={deputy.Adresses} />
+          <Presence color={color} size="large" activite={deputy.Activite} wip={false} />
+          <Missions {...organismes} color={color} size="medium" wip={false} />
         </div>
       </div>
     </>
@@ -49,41 +53,25 @@ export default function Deputy({ depute }: IDeputy) {
 }
 
 export async function getStaticProps({ params: { slug } }: { params: { slug: string } }) {
-  const depute: { Depute: Deputy.Deputy } = await getDepute(slug)
+  const depute: Deputy.Deputy = await getDepute(slug)
 
   return {
     props: {
-      depute: depute.Depute,
-      title: depute.Depute.Nom,
+      depute: depute,
+      title: depute.Nom,
     },
   }
 }
 
 export async function getStaticPaths() {
-  if (!fs.existsSync(".cache/")) {
-    fs.mkdirSync(".cache")
-  }
-  var paths = null
-  if (process.env.USE_CACHE) {
-    if (fs.existsSync(".cache/DeputesSlugs.json")) {
-      paths = JSON.parse(fs.readFileSync(".cache/DeputesSlugs.json").toString())
-    }
-  }
+  const deputesSlugs = await getDeputesSlugs()
 
-  if (!paths) {
-    const deputes = await getDeputesSlugs()
-    paths = deputes.data.DeputesEnMandat.data.map((d) => ({
+  return {
+    paths: deputesSlugs.map((d) => ({
       params: {
         slug: d.Slug,
       },
-    }))
-    if (process.env.USE_CACHE) {
-      fs.writeFileSync(".cache/DeputesSlugs.json", JSON.stringify(paths))
-    }
-  }
-
-  return {
-    paths,
+    })),
     fallback: false,
   }
 }

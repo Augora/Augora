@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import mapStore from "stores/mapStore"
-import CustomControl from "components/maps/CustomControl"
 import GroupBar from "components/deputies-list/GroupBar"
 import Tooltip from "components/tooltip/Tooltip"
 import Filters from "components//deputies-list/filters/Filters"
@@ -71,7 +70,7 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
   }, [isBigFilter])
 
   return (
-    <CustomControl className="map__filters">
+    <div className="map__filters">
       {!isBigFilter ? (
         <div className="filters__container">
           <div className="filters__close filters__close--mini">
@@ -110,6 +109,6 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
           </div>
         </div>
       )}
-    </CustomControl>
+    </div>
   )
 }
