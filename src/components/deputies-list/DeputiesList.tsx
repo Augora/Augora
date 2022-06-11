@@ -9,6 +9,9 @@ import BarChart from "../charts/BarChart"
 import { ParentSize } from "@visx/responsive"
 import { LazyLoadComponent } from "react-lazy-load-image-component"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
+import IconWikipedia from "images/ui-kit/icon-wikipedia.svg"
+import IconAssemblee from "images/ui-kit/icon-palace.svg"
+import DeputiesWiki from "./DeputiesWiki"
 
 export default function DeputiesList() {
   const { state } = useDeputiesFilters()
@@ -24,6 +27,12 @@ export default function DeputiesList() {
       color: groupe.Couleur,
     }
   }).filter((groupe) => groupe.value !== 0)
+
+  // Workaround until the value is in groupesData
+  const groupeContent = `Le groupe La France insoumise (LFI) est un groupe parlementaire français de gauche radicale à l'Assemblée nationale.
+  Présidé par Mathilde Panot, il est composé de dix-sept députés élus sous la bannière de La France insoumise lors des
+  élections législatives de 2017. Certains d'entre eux sont également membres d'autres partis politiques, tels que le Parti
+  de gauche, Ensemble !, la Gauche républicaine et socialiste, Picardie debout ou encore Rézistan's Égalité 974.`
 
   return (
     <>
@@ -50,6 +59,33 @@ export default function DeputiesList() {
           )}
         </Frame>
       </section>
+      {groupesData.length === 1 ? (
+        <>
+          <section className="wikipedia__section">
+            <Frame className="frame-wikipedia" title={`Groupe ${groupesData[0].label}`} style={{ color: groupesData[0].color }}>
+              <a
+                href={`https://fr.wikipedia.org/wiki/Groupe_La_France_insoumise`}
+                target="_blank"
+                rel="noreferrer"
+                className="lien lien__wikipedia"
+              >
+                <IconWikipedia className="icon-wikipedia" style={{ fill: groupesData[0].color }} />
+              </a>
+              <a
+                href={`https://www2.assemblee-nationale.fr/15/les-groupes-politiques/groupe-la-france-insoumise/(block)/42317`}
+                target="_blank"
+                rel="noreferrer"
+                className="lien lien__assemblee"
+              >
+                <IconAssemblee className="icon-assemblee" style={{ fill: groupesData[0].color }} />
+              </a>
+              <DeputiesWiki content={groupeContent} />
+            </Frame>
+          </section>
+        </>
+      ) : (
+        ""
+      )}
 
       <section className="deputies__list">
         {state.FilteredList.length > 0 ? (

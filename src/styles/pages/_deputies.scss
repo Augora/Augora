@@ -111,6 +111,52 @@
     }
   }
 
+  .wikipedia__section {
+    .frame {
+      max-width: none;
+      margin-bottom: 70px;
+      &__header {
+        .header__title {
+          display: flex;
+          flex-wrap: wrap;
+          max-width: 80%;
+        }
+      }
+      &__content {
+        color: $text-color;
+        .lien {
+          background-color: transparent;
+          position: absolute;
+          top: 10px;
+          padding: 10px;
+          border: none;
+          height: 50px;
+  
+          &__wikipedia {
+            right: 50px;
+          }
+          &__assemblee {
+            right: 10px;
+          }
+
+          .icon-wikipedia {
+            width: 30px;
+            height: 30px;
+            fill: $text-color;
+            cursor: pointer;
+          }
+          .icon-assemblee {
+            width: 30px;
+            height: 30px;
+            fill: $text-color;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+    
+
   // Import styles
   @import "../components/deputies-list/deputies-list";
 }
