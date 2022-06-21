@@ -1,0 +1,42 @@
+.header__banner {
+  position: relative;
+  background: white;
+  background-image: linear-gradient(to left, rgba(#00bbcc, 0.3), rgba(#14ccae, 0.3));
+  pointer-events: auto;
+
+  transition: transform 0.3s $ease-in-out-cubic;
+
+  .banner {
+    &__content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+
+      text-align: center;
+
+      padding: 7px;
+    }
+    &__close {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translate(0, -50%);
+
+      background: none;
+      border: none;
+      padding: none;
+      cursor: pointer;
+      .icon-wrapper {
+        width: 15px;
+        svg {
+          fill: $text-color;
+        }
+      }
+    }
+  }
+
+  .scrolled & {
+    transform: translate3d(0, -75px, 0);
+  }
+}
