@@ -6,6 +6,7 @@ import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
 import Sidebar, { SidebarCategory, SidebarFooter, SidebarHeader, SidebarLinks } from "components/sidebar/Sidebar"
+import HeaderBanner from "components/banners/HeaderBanner"
 import { useSwipeable } from "react-swipeable"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
@@ -102,6 +103,7 @@ const Layout = ({ children, location, title }: ILayout) => {
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} onBurgerClick={() => setHasSidebar(!hasSidebar)} />
         <PageTitle color={pageColor} title={title ? title : null} />
+        <HeaderBanner>Le site sera bientôt mis à jour suite aux éléctions législatives de 2022.</HeaderBanner>
         <Popin displayed={isPopinVisible && !IsInitialState}>
           <p>Certains filtres sont actifs</p>
           <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
