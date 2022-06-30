@@ -7,7 +7,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 })
 
 module.exports = withBundleAnalyzer({
-  experimental: { images: { layoutRaw: true } },
+  experimental: { images: { allowFutureImage: true } },
   images: {
     domains: ["static.augora.fr", "nptlldvxqlpsqftjchty.supabase.co"],
   },

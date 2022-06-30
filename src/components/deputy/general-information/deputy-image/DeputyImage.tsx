@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import Image from "next/image"
+import Image from "next/future/image"
 
 const MissingFemale = "/images/ui-kit/icon-missingfemale.svg"
 const MissingMale = "/images/ui-kit/icon-missingmale.svg"
@@ -44,9 +44,6 @@ export default function DeputyImage(props: IDeputyImageInformation) {
   return (
     <Image
       className={HasErrored ? "icon-wrapper deputy__photo deputy__photo--errored" : "deputy__photo"}
-      layout="raw"
-      width="150"
-      height="192"
       src={Src}
       alt={props.alt}
       onError={() => onError()}

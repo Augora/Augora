@@ -1,6 +1,6 @@
 import React from "react"
 import Block from "../_block/_Block"
-import Image from "next/image"
+import Image from "next/future/image"
 import FAQLink from "components/faq/Liens-faq"
 
 /**
@@ -75,7 +75,7 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
           )
         ) : (
           <div className="rattachement__image rattachement__png" title={props.rattachement}>
-            <Image src={props.photoRattachement} alt={props.rattachement} layout={"fill"} objectFit={"contain"} priority />
+            <Image src={props.photoRattachement} alt={props.rattachement} priority />
           </div>
         )
       ) : (
