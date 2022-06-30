@@ -1,3 +1,7 @@
+.page__deputy {
+  padding-top: 40px;
+}
+
 .deputy {
   &__header {
     display: flex;
@@ -96,6 +100,7 @@
   }
 
   &__content {
+    padding-top: 40px;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-auto-rows: 500px;
@@ -153,6 +158,7 @@ $headerHeight: 75px;
 @import "blocks/block-presence";
 @import "blocks/block-contact";
 @import "blocks/block-groupes";
+@import "blocks/block-missions";
 
 @keyframes full-rotation {
   0% {

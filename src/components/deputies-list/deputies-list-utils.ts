@@ -44,6 +44,14 @@ export const getAgeDomain = (list: Deputy.DeputiesList): Filter.AgeDomain => {
   return [Math.min(...listAge), Math.max(...listAge)]
 }
 
+export const getAgeDomainGraph = (range: string): Filter.AgeDomain => {
+  const type = typeof range
+  const rangeSplitted = type === "string" ? range.split("-") : range
+  const min = type === "string" ? Number(rangeSplitted[0]) : Number(range)
+  const max = type === "string" ? Number(rangeSplitted[1]) : Number(range)
+  return [min, max]
+}
+
 /**
  * Renvoie le plus grand nombre d'activité d'un député
  * @param {Deputy.Activite} list

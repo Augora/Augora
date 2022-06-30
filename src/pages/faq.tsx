@@ -1,7 +1,8 @@
-import React from "react"
-
+import React, { useEffect, useState } from "react"
 import SEO, { PageType } from "../components/seo/seo"
+import { useRouter } from "next/router"
 import Question from "components/faq/Question"
+import { slugify } from "utils/utils"
 
 type IContent = {
   title: string
@@ -16,6 +17,19 @@ const contentAbout: IContent = [
       <p>
         Nous sommes une association à but non lucratif qui a pour vocation de mettre à disposition des outils d'informations
         statistiques sur les députés via <strong>Augora.fr</strong>.
+      </p>
+    ),
+  },
+  {
+    title: "Comment nous soutenir ?",
+    description: (
+      <p>
+        Nous avons ouvert une page{" "}
+        <a href="https://utip.io/augora" target="_blank" rel="noreferrer">
+          uTip
+        </a>{" "}
+        afin de recueillir des dons. Comme nous sommes bénévoles et que nous mettons à jour le site sur notre temps libre, vos
+        dons nous permettront de couvrir nos frais de fonctionnement, tel que l'hébergement du site.
       </p>
     ),
   },
@@ -120,20 +134,88 @@ const contentAbout: IContent = [
     title: "Qu'est-ce qu'une commission parlementaire ?",
     description: (
       <>
-        <p>Une commission est un groupe de députés spécialisé dans un domaine. Il existe 8 commissions dites permanentes :</p>
+        <p>
+          Une commission est un groupe de députés spécialisé dans un domaine. Il peut s'agir d'une commission dite{" "}
+          <a href="/faq#quest-ce-quune-commission-denquete">d'enquête</a> qui sera temporaire, ou d'une commission dite{" "}
+          <strong>permanente</strong> (on en compte 8). Ci-dessous la liste des commissions permanentes :
+        </p>
         <ul>
-          <li>Affaires culturelles et éducation</li>
-          <li>Affaires économiques</li>
-          <li>Affaires étrangères</li>
-          <li>Affaires sociales</li>
-          <li>Défense nationale et forces armées</li>
-          <li>Développement durable et aménagement du territoire</li>
-          <li>Finances</li>
-          <li>Lois</li>
+          <li>
+            <a
+              href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-affaires-culturelles"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Affaires culturelles et éducation
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-affaires-economiques"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Affaires économiques
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-affaires-etrangeres"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Affaires étrangères
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-affaires-sociales"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Affaires sociales
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-de-la-defense"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Défense nationale et forces armées
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-du-developpement-durable"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Développement durable et aménagement du territoire
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-finances"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Finances
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-lois"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Lois
+            </a>
+          </li>
         </ul>
         <p>
           Tous les groupes parlementaires sont représentés dans chaque commission permanente de façon proportionnelle. Un député
-          ne peut appartenir qu'à une seule commission.
+          ne peut appartenir qu'à une seule commission permanente.
         </p>
         <p>
           Pour plus d'informations, se référer à la page des{" "}
@@ -308,16 +390,6 @@ const contentAbout: IContent = [
       </p>
     ),
   },
-  // {
-  //   title: "Comment nous soutenir ?",
-  //   description: (
-  //     <p>
-  //       Nous avons ouvert une page <strong>Tipeee</strong> afin de recueillir
-  //       des dons, étant une association à but non lucratif, nous ne retirons
-  //       aucuns avantages personnels aux dons.
-  //     </p>
-  //   ),
-  // },
   {
     title: "Quels sont nos projets pour le futur ?",
     description: (
@@ -336,12 +408,17 @@ const contentAbout: IContent = [
 ]
 
 export default function FAQ() {
+  const { asPath } = useRouter()
+  const [hash, setHash] = useState("")
+
+  useEffect(() => setHash(asPath.split("#")[1]), [asPath])
+
   return (
     <>
       <SEO pageType={PageType.FAQ} />
       <div className="page page__faq">
         {contentAbout.map((question, index) => (
-          <Question key={`faq-question-${index}`} title={question.title}>
+          <Question key={`faq-question-${index}`} title={question.title} opened={hash === slugify(question.title)}>
             {question.description}
           </Question>
         ))}

@@ -11,7 +11,7 @@ export default function MapDistrict(props: Bloc.Map) {
     code_circ: NumeroCirconscription,
     code_dpt: NumeroDepartement,
   })
-  const { viewport, setViewport } = mapStore()
+  const { viewstate, setViewstate } = mapStore()
 
   return (
     <Block
@@ -28,8 +28,8 @@ export default function MapDistrict(props: Bloc.Map) {
         <MapAugora
           deputies={[props.deputy]}
           overlay={false}
-          viewport={viewport}
-          setViewport={setViewport}
+          viewstate={viewstate}
+          setViewstate={setViewstate}
           mapView={{
             geoJSON: createFeatureCollection([feature]),
             feature: feature,

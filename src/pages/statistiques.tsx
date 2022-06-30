@@ -14,6 +14,10 @@ import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack
 import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
 import shuffle from "lodash/shuffle"
+import { scaleOrdinal } from "@visx/scale"
+import { GlyphSquare } from "@visx/glyph"
+import ChartLegend from "src/components/charts/ChartLegend"
+
 // import WordCloud from "src/components/charts/WordCloud"
 // import { Lyrics } from "../static/lyrics"
 
@@ -51,6 +55,7 @@ const Statistiques = () => {
   const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.total))
   const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
   const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
+  const maxAgeCumul = Math.max(...dataAge.map((d) => d.total))
 
   const sumAge = dataAge.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
@@ -58,6 +63,15 @@ const Statistiques = () => {
   }, 0)
 
   const averageAge = sumAge > 0 ? Math.round(sumAge / state.FilteredList.length) : 0
+
+  const glyphSize = 120
+  const glyphPosition = 8
+  const shapeScaleGroups = scaleOrdinal<string, React.FC | React.ReactNode>({
+    domain: state.GroupesList.map((g) => g.Sigle),
+    range: state.GroupesList.map((g) => (
+      <GlyphSquare key={g.Sigle} size={glyphSize} top={glyphPosition} left={glyphPosition} fill={g.Couleur} />
+    )),
+  })
 
   return (
     <div className="statistiques__grid">
@@ -81,20 +95,26 @@ const Statistiques = () => {
         {state.FilteredList.length > 0 ? (
           <ParentSize className="barstack__container" debounceTime={400}>
             {(parent) => (
-              <div className="barstackchart chart">
-                <XYBarStack
-                  width={parent.width}
-                  height={parent.height}
-                  groups={state.GroupesList}
-                  dataAge={dataAge}
-                  dataAgeRange={dataAgeRange}
-                  totalDeputes={state.FilteredList.length}
-                  axisLeft={true}
-                  renderVertically={true}
-                  marginTop={30}
-                  marginLeft={20}
-                />
-              </div>
+              <>
+                <div className="barstackchart chart">
+                  <XYBarStack
+                    width={parent.width}
+                    height={parent.height}
+                    groups={state.GroupesList}
+                    dataAge={dataAge}
+                    dataAgeRange={dataAgeRange}
+                    totalDeputes={state.FilteredList.length}
+                    maxAge={maxAgeCumul}
+                    axisLeft={true}
+                    renderVertically={true}
+                    marginTop={30}
+                    marginLeft={20}
+                    normalHeight={15}
+                    responsiveHeight={20}
+                  />
+                </div>
+                <ChartLegend shapeScale={shapeScaleGroups} />
+              </>
             )}
           </ParentSize>
         ) : (
@@ -120,6 +140,10 @@ const Statistiques = () => {
             >
               <IconSwitch className="icon-switch" />
             </button>
+            <div className="frame__axes">
+              <div>Hommes</div>
+              <div>Femmes</div>
+            </div>
             <ParentSize className="pyramide__container" debounceTime={400}>
               {(parent) =>
                 HasPyramideBarStack ? (
@@ -140,6 +164,7 @@ const Statistiques = () => {
                     dataAgeHomme={dataAgeHomme}
                     totalDeputes={state.FilteredList.length}
                     maxAge={maxAge}
+                    shapes={shapeScaleGroups}
                   />
                 )
               }

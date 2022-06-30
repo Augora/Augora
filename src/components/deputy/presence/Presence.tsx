@@ -15,13 +15,15 @@ import FAQLink from "components/faq/Liens-faq"
  */
 const Presence = (props: Bloc.Presence) => {
   const orderedWeeks = orderBy(props.activite, "DateDeFin")
-  const [RangeOrderedWeeks, setRangeOrderedWeeks] = useState(orderedWeeks)
+  const slicedOrderedWeeks =
+    orderedWeeks.length > 52 ? orderedWeeks.slice(orderedWeeks.length - 52, orderedWeeks.length) : orderedWeeks
+  const [RangeOrderedWeeks, setRangeOrderedWeeks] = useState(slicedOrderedWeeks)
 
   const [DisplayedGraph, setDisplayedGraph] = useState({
     Présences: true,
     Participations: true,
     "Questions orales": true,
-    "Mediane des députés": true,
+    "Mediane des présences": true,
     Vacances: true,
   })
   const medianeDeputeColor = "rgba(77, 77, 77, 0.3)"
@@ -31,8 +33,7 @@ const Presence = (props: Bloc.Presence) => {
   const glyphSize = 120
   const glyphPosition = 8
   const shapeScale = scaleOrdinal<string, React.FC | React.ReactNode>({
-    //domain: ["Présences", "Participations", "Questions orales", "Mediane des députés", "Vacances"],
-    domain: ["Présences", "Participations", "Questions orales", "Vacances"],
+    domain: ["Présences", "Participations", "Questions orales", "Mediane des présences", "Vacances"],
     range: [
       <CustomGlyph top={glyphPosition}>
         <line
@@ -64,14 +65,14 @@ const Presence = (props: Bloc.Presence) => {
         fill={props.color.HSL.Full}
         opacity={DisplayedGraph["Questions orales"] ? 1 : 0.5}
       />,
-      // <GlyphSquare
-      //   key="Mediane des députés"
-      //   size={glyphSize}
-      //   top={glyphPosition}
-      //   left={glyphPosition}
-      //   fill={medianeDeputeColor}
-      //   opacity={DisplayedGraph["Mediane des députés"] ? 1 : 0.5}
-      // />,
+      <GlyphSquare
+        key="Mediane des députés"
+        size={glyphSize}
+        top={glyphPosition}
+        left={glyphPosition}
+        fill={medianeDeputeColor}
+        opacity={DisplayedGraph["Mediane des présences"] ? 1 : 0.5}
+      />,
       <GlyphSquare
         key="Vacances"
         size={glyphSize}
@@ -138,16 +139,20 @@ const Presence = (props: Bloc.Presence) => {
           <>
             {orderedWeeks.length != 0 ? (
               <div className="presence">
-                <PresenceHeader
-                  width={parent.width}
-                  data={orderedWeeks}
-                  setRange={setRangeOrderedWeeks}
-                  color={props.color.HSL.Full}
-                />
+                {orderedWeeks.length > 14 ? (
+                  <PresenceHeader
+                    width={parent.width}
+                    data={slicedOrderedWeeks}
+                    setRange={setRangeOrderedWeeks}
+                    color={props.color.HSL.Full}
+                  />
+                ) : (
+                  ""
+                )}
                 <PresenceParticipation
                   width={parent.width}
-                  height={parent.height * 0.9}
-                  data={orderedWeeks}
+                  height={parent.height * (parent.width > 370 ? 0.9 : 0.8)}
+                  data={slicedOrderedWeeks}
                   slicedData={RangeOrderedWeeks}
                   color={props.color.HSL.Full}
                   opacityParticipation={opacityParticipation}

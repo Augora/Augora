@@ -31,9 +31,9 @@ export default function DeputeBanner({
   mapOpacity,
   setMapOpacity,
   question,
-  forcedOverview = false
+  forcedOverview = false,
 }) {
-  const { viewport, setViewport, overview } = mapStore()
+  const { viewstate, setViewstate, overview } = mapStore()
   const [rectangles, setRectangles] = useState([])
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature =
@@ -69,7 +69,7 @@ export default function DeputeBanner({
       }
       return rects
     })
-    if (depute.type === 'dep') {
+    if (depute.type === "dep") {
       setOldHSL(HSL)
     }
 
@@ -113,7 +113,8 @@ export default function DeputeBanner({
       scaleX: 1,
       ease: "power1.in",
     })
-    renderTL.fromTo(`.${styles.deputeBanner__logoGroup}`,
+    renderTL.fromTo(
+      `.${styles.deputeBanner__logoGroup}`,
       {
         x: "-100px",
         autoAlpha: 0,
@@ -125,7 +126,8 @@ export default function DeputeBanner({
         ease: "power1.inOut",
       }
     )
-    renderTL.to(`.${styles.deputeBanner__content} > *`,
+    renderTL.to(
+      `.${styles.deputeBanner__content} > *`,
       {
         x: "0%",
         autoAlpha: 1,
@@ -176,7 +178,7 @@ export default function DeputeBanner({
 
       {/* TOP PART -------------------------------------------------------------------------------- */}
       <section className={styles.deputeBanner__top}>
-        <TopBackground color={depute.type === 'dep' || !oldHSL ? HSL : oldHSL} visible={question.length > 0} />
+        <TopBackground color={depute.type === "dep" || !oldHSL ? HSL : oldHSL} visible={question.length > 0} />
         <Question question={question} visible={question.length > 0} />
       </section>
 
@@ -258,8 +260,8 @@ export default function DeputeBanner({
         </div>
         <div className={styles.deputeBanner__mapContainer}>
           <MapAugora
-            viewport={viewport}
-            setViewport={setViewport}
+            viewstate={viewstate}
+            setViewstate={setViewstate}
             overlay={false}
             attribution={false}
             overview={forcedOverview ? forcedOverview : overview}

@@ -30,6 +30,7 @@
 @import "templates/deputy";
 @import "templates/frames/frame";
 @import "templates/titles/page-title";
+@import "components/header/banner";
 
 // Components
 // -----------------------------------------------------
@@ -42,3 +43,4 @@
 @import "components/deputies-list/charts";
 @import "components/deputies-list/group-bar";
 @import "components/sidebar/sidebar";
+@import "components/spinners/loading-spinner";

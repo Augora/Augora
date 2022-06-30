@@ -1,5 +1,9 @@
 import { XYChart, AnimatedAxis, AnimatedGrid, Tooltip, AnimatedBarSeries } from "@visx/xychart"
 import AugoraTooltip from "components/tooltip/Tooltip"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { useRouter } from "next/router"
+import { useState } from "react"
+import { getAgeDomainGraph } from "src/components/deputies-list/deputies-list-utils"
 
 interface IXYBar {
   width: number
@@ -17,15 +21,18 @@ interface IXYBar {
 
 export default function XYBar(props: IXYBar) {
   const { width, height, data, dataKey, color, totalDeputes, maxAge, xMax, yMax, pyramideRight } = props
-  const numTicks = 4
+  const { state, handleSexClick, handleAgeSlider } = useDeputiesFilters()
+  const router = useRouter()
+
+  const numTicks = maxAge == 2 ? 2 : maxAge == 1 ? 1 : 4
   const marginRight = 38
 
   return (
     <XYChart
-      margin={{ top: 0, right: marginRight, bottom: 20, left: 0 }}
+      margin={{ top: 0, right: marginRight, bottom: 35, left: 0 }}
       width={width}
-      height={height}
-      yScale={{ type: "band", range: [yMax, 0], padding: 0.1 }}
+      height={height - 20}
+      yScale={{ type: "band", range: [yMax - 20, 0], padding: 0.1 }}
       xScale={
         pyramideRight
           ? { type: "linear", range: [0, xMax], domain: [0, maxAge] }
@@ -39,7 +46,7 @@ export default function XYBar(props: IXYBar) {
           orientation="left"
           hideAxisLine={true}
           hideTicks={true}
-          left={Math.ceil(-marginRight / 4)}
+          left={maxAge > 57 ? Math.ceil(-marginRight / 4) : -16}
           top={2}
         />
       )}
@@ -57,6 +64,11 @@ export default function XYBar(props: IXYBar) {
         xAccessor={(data: Chart.AgeData) => data.total}
         yAccessor={(data: Chart.AgeData) => data.age}
         colorAccessor={() => color}
+        onPointerUp={(data) => {
+          handleAgeSlider(getAgeDomainGraph(data.datum.age as string))
+          state.SexValue.F === false || state.SexValue.H ? handleSexClick(dataKey == "hommes" ? "H" : "F") : ""
+          router.push("/")
+        }}
       />
       <Tooltip<Chart.AgeData>
         className="charttooltip__container"
