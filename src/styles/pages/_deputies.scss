@@ -138,18 +138,24 @@
           &__assemblee {
             right: 10px;
           }
-
+          
           .icon-wikipedia {
             width: 30px;
             height: 30px;
             fill: $text-color;
             cursor: pointer;
+            &:hover {
+              transform: scale(1.1);
+            }
           }
           .icon-assemblee {
             width: 30px;
             height: 30px;
             fill: $text-color;
             cursor: pointer;
+            &:hover {
+              transform: scale(1.1);
+            }
           }
         }
       }
