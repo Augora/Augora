@@ -68,6 +68,7 @@ export default function DeputiesList() {
                 target="_blank"
                 rel="noreferrer"
                 className="lien lien__wikipedia"
+                title={`Page Wikipedia du groupe ${groupesData[0].label}`}
               >
                 <IconWikipedia className="icon-wikipedia" style={{ fill: groupesData[0].color }} />
               </a>
@@ -76,6 +77,7 @@ export default function DeputiesList() {
                 target="_blank"
                 rel="noreferrer"
                 className="lien lien__assemblee"
+                title={`Page de l'Assemblée Nationale du groupe ${groupesData[0].label}`}
               >
                 <IconAssemblee className="icon-assemblee" style={{ fill: groupesData[0].color }} />
               </a>
