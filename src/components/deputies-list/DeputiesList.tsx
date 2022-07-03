@@ -25,6 +25,13 @@ export default function DeputiesList() {
     }
   }).filter((groupe) => groupe.value !== 0)
 
+  const isPresidentGroupe = state.FilteredList.some(
+    (depute) => depute.ResponsabiliteGroupe.Fonction === "président" || depute.ResponsabiliteGroupe.Fonction === "présidente"
+  )
+  const presidentGroupe = state.FilteredList.find(
+    (depute) => depute.ResponsabiliteGroupe.Fonction === "président" || depute.ResponsabiliteGroupe.Fonction === "présidente"
+  )
+
   return (
     <>
       <section className="filters__section">
@@ -53,13 +60,37 @@ export default function DeputiesList() {
 
       <section className="deputies__list">
         {state.FilteredList.length > 0 ? (
-          state.FilteredList.map((depute) => {
-            return (
-              <LazyLoadComponent key={depute.Slug}>
-                <Deputy depute={depute} />
-              </LazyLoadComponent>
-            )
-          })
+          groupesData.length > 1 ? (
+            state.FilteredList.map((depute) => {
+              return (
+                <LazyLoadComponent key={depute.Slug}>
+                  <Deputy depute={depute} />
+                </LazyLoadComponent>
+              )
+            })
+          ) : isPresidentGroupe ? (
+            <>
+              <Deputy depute={presidentGroupe} groupNumber={groupesData.length} />
+              {state.FilteredList.filter(
+                (depute) =>
+                  depute.ResponsabiliteGroupe.Fonction !== "président" && depute.ResponsabiliteGroupe.Fonction !== "présidente"
+              ).map((depute) => {
+                return (
+                  <LazyLoadComponent key={depute.Slug}>
+                    <Deputy depute={depute} />
+                  </LazyLoadComponent>
+                )
+              })}
+            </>
+          ) : (
+            state.FilteredList.map((depute) => {
+              return (
+                <LazyLoadComponent key={depute.Slug}>
+                  <Deputy depute={depute} />
+                </LazyLoadComponent>
+              )
+            })
+          )
         ) : (
           <div className="deputies__no-result">Aucun résultat ne correspond à votre recherche</div>
         )}
