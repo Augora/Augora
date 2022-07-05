@@ -21,7 +21,6 @@ interface ILayout {
   children: React.ReactElement
   title?: string
   location: NextRouter
-  contact: boolean
 }
 
 const allColors = colors.map((color) => {
