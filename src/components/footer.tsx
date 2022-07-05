@@ -82,7 +82,7 @@ const Footer = ({ togglePopup }) => {
               <div className="icon-wrapper">
                 <IconMail />
               </div>
-              Contact
+              Par e-mail
             </button>
             <FooterLink label="@AugoraFR" link="https://twitter.com/AugoraFR" target={true} internal={false}>
               <div className="icon-wrapper">

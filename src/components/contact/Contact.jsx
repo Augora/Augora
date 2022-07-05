@@ -26,10 +26,11 @@ function Contact() {
   return (
     <div className="contact__content">
       <p className="contact__text">
-        Si vous souhaitez nous contacter, merci de remplir ce formulaire.
-        <br />
         <span className="bigtext">
-          <span>&#9888;</span> Ce formulaire ne sert pas à contacter directement un député
+          <span>&#9888;</span>
+          <br />
+          <br />
+          Ce formulaire ne permet pas de contacter un député directement
         </span>
       </p>
       <form ref={form} id="contact-form" onSubmit={sendEmail}>
@@ -46,6 +47,7 @@ function Contact() {
           required
           rows={5}
         />
+        <FormControlLabel control={<Checkbox required />} label="Je souhaite contacter Augora et non pas un député" />
         <FormControlLabel
           control={<Checkbox required />}
           label={

@@ -15,9 +15,11 @@
     width: 50%;
     height: calc(100% - 140px);
     margin-top: 70px;
-    display: flex;
+    // display: flex;
     justify-content: center;
     align-items: center;
+    overflow: auto;
+    padding: 20px 10px 0;
   }
 
   &__close {

@@ -12,6 +12,7 @@
       font-weight: bold;
       span {
         font-weight: normal;
+        font-size: 300%;
       }
     }
   }
@@ -19,7 +20,7 @@
 #contact-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
 
   // input general rules
@@ -72,6 +73,7 @@
   }
   .MuiFormControlLabel-root {
     margin-bottom: 10px;
+    text-align: left;
   }
   .MuiSvgIcon-root {
     color: $white;

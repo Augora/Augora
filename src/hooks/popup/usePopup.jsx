@@ -4,7 +4,7 @@ const usePopup = () => {
   const [isShowing, setIsShowing] = useState(false)
 
   function toggle() {
-    console.log("test2")
+    document.querySelector("html").classList.toggle("unscrollable")
     setIsShowing(!isShowing)
   }
 
