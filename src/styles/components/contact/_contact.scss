@@ -70,4 +70,10 @@
     border-image-source: linear-gradient(to left, $main-color, $secondary-color);
     border-radius: 5px;
   }
+  .MuiFormControlLabel-root {
+    margin-bottom: 10px;
+  }
+  .MuiSvgIcon-root {
+    color: $white;
+  }
 }

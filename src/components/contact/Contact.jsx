@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import emailjs from "@emailjs/browser"
-import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
+import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material"
+import Link from "next/link"
 
 function Contact() {
   const form = useRef()
@@ -45,6 +45,23 @@ function Contact() {
           multiline
           required
           rows={5}
+        />
+        <FormControlLabel
+          control={<Checkbox required />}
+          label={
+            <div>
+              J’autorise ce site à conserver mes données transmises via ce formulaire.&nbsp;
+              <Link
+                href={{
+                  path: "/mention-legales",
+                  hash: "cgu-formulaire-contact",
+                }}
+                passHref
+              >
+                <a target="_blank">Voir notre paragraphe sur le formulaire de contact de nos mentions légales</a>
+              </Link>
+            </div>
+          }
         />
         <Button variant="outlined" type="submit" size="large">
           Envoyer

@@ -1,10 +1,10 @@
 import React from "react"
 
-export default function Popup({ className, children, show, setShow }) {
-  if (show) {
+export default function Popup({ className, children, showing, togglePopup }) {
+  if (showing) {
     return (
       <div className={`popup ${className}`}>
-        <div className="popup__close" onClick={() => setShow(false)}>
+        <div className="popup__close" onClick={togglePopup}>
           <span></span>
           <span></span>
         </div>
