@@ -51,6 +51,22 @@
     font-size: 22px;
     padding-right: 10px;
   }
+  h3 {
+    margin: 0;
+    text-align: left;
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    left: 10px;
+    bottom: 10px;
+    font-family: $font;
+    font-size: 18px;
+    flex-wrap: wrap;
+    max-width: 22%;
+  }
+  &__president {
+    grid-column-end: span 2;
+  }
   .deputy {
     &__photo {
       position: absolute;
