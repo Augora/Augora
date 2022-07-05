@@ -1,13 +1,14 @@
-import UDI from "images/logos/groupes-parlementaires/udi.svg"
 import GDR from "images/logos/groupes-parlementaires/gdr.svg"
 import LFI from "images/logos/groupes-parlementaires/lfi.svg"
+import ECO from "images/logos/groupes-parlementaires/eco.svg"
 import LR from "images/logos/groupes-parlementaires/lr.svg"
-import LREM from "images/logos/groupes-parlementaires/lrem.svg"
 import LT from "images/logos/groupes-parlementaires/lt.svg"
 import MODEM from "images/logos/groupes-parlementaires/modem.svg"
+import REN from "images/logos/groupes-parlementaires/ren.svg"
+import HOR from "images/logos/groupes-parlementaires/hor.svg"
 import NI from "images/logos/groupes-parlementaires/ni.svg"
 import PS from "images/logos/groupes-parlementaires/ps.svg"
-import AE from "images/logos/groupes-parlementaires/ae.svg"
+import RN from "images/logos/groupes-parlementaires/rn.svg"
 
 /**
  * Renvoie le nombre de députés d'un groupe donné
@@ -109,24 +110,28 @@ export const filterList = (
  */
 export function getGroupLogo(groupe: string) {
   switch (groupe) {
-    case "LFI":
-      return LFI
+    case "ECO":
+      return ECO
     case "GDR":
       return GDR
-    case "LT":
-      return LT
-    case "MODEM":
-      return MODEM
+    case "LFI":
+      return LFI
     case "SOC":
       return PS
+    case "LT":
+      return LT
+    case "REN":
+      return REN
+    case "MODEM":
+      return MODEM
+    case "HOR":
+      return HOR
     case "LR":
       return LR
-    case "LREM":
-      return LREM
-    case "UDI":
-      return UDI
-    case "AE":
-      return AE
+    case "RN":
+      return RN
+    case "NI":
+      return NI
     default:
       return NI
   }
