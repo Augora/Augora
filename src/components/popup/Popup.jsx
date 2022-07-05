@@ -1,19 +1,17 @@
-import React from 'react'
+import React from "react"
 
-function Popup({ children, show, setShow }) {
+export default function Popup({ className, children, show, setShow }) {
   if (show) {
     return (
-      <div className="popup">
+      <div className={`popup ${className}`}>
         <div className="popup__close" onClick={() => setShow(false)}>
           <span></span>
           <span></span>
         </div>
-        { children }
+        <div className="popup__wrapper">{children}</div>
       </div>
     )
   } else {
     return null
   }
 }
-
-export default Popup

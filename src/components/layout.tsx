@@ -129,7 +129,7 @@ const Layout = ({ children, location, title }: ILayout) => {
         <IconArrow />
       </div>
       <Footer contact={contact} setContact={setContact} />
-      <Popup show={contact} setShow={setContact}>
+      <Popup className="popup--contact" show={contact} setShow={setContact}>
         <Contact />
       </Popup>
     </div>

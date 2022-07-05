@@ -78,10 +78,11 @@ const Footer = ({ contact, setContact }) => {
             <FooterLink label="Nous soutenir" link="https://utip.io/augora" target={true} internal={false} />
           </FooterMenu>
           <FooterMenu title="Nous Contacter">
-            <button onClick={() => setContact(!contact)}>
+            <button className="open-contact" onClick={() => setContact(!contact)}>
               <div className="icon-wrapper">
-                <IconMail /> Par e-mail
+                <IconMail />
               </div>
+              Contact
             </button>
             <FooterLink label="@AugoraFR" link="https://twitter.com/AugoraFR" target={true} internal={false}>
               <div className="icon-wrapper">

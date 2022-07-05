@@ -2,14 +2,25 @@
 // Contact component (popup)
 /*----------------------------------------------------*/
 
+.contact {
+  &__content {
+    text-align: center;
+  }
+  &__text {
+    .bigtext {
+      font-size: 150%;
+      font-weight: bold;
+      span {
+        font-weight: normal;
+      }
+    }
+  }
+}
 #contact-form {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  &__input-wrapper {
-    margin-bottom: 10px;
-  }
+  width: 100%;
 
   // input general rules
   input, textarea {
@@ -26,6 +37,9 @@
   }
 
   // MUI Customization
+  .MuiFormControl-root {
+    width: 100%;
+  }
   .MuiInput-root {
     color: $white;
     margin-bottom: 15px;
@@ -47,5 +61,13 @@
   }
   .MuiInputLabel-shrink {
     margin-left: 0;
+  }
+  .MuiButton-root {
+    color: $white;
+    border: 10px solid;
+    border-image-slice: 1;
+    border-width: 1px;
+    border-image-source: linear-gradient(to left, $main-color, $secondary-color);
+    border-radius: 5px;
   }
 }

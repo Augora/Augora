@@ -67,6 +67,38 @@ footer {
     text-align: center;
   }
 
+  .open-contact {
+    display: flex;
+    font-family: $font;
+    font-size: 16px;
+    text-decoration: none;
+    color: $grey;
+    transition: color 0.2s linear;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    .icon-wrapper {
+      margin-right: 5px;
+      svg {
+        height: 30px;
+        width: 25px;
+        fill: $grey;
+        pointer-events: none;
+        transition: fill 0.2s linear;
+      }
+    }
+
+    &:hover {
+      color: white;
+      .icon-wrapper {
+        svg {
+          fill: white;
+        }
+      }
+    }
+  }
+
   @media (max-width: 900px) {
     &__menus {
       flex-direction: column;
