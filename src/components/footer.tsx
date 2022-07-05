@@ -51,7 +51,7 @@ const FooterMenu = ({ title, children }: { title: string; children?: React.React
 /**
  * Renvoie le footer, pas d'arguments
  */
-const Footer = () => {
+const Footer = ({ contact, setContact }) => {
   return (
     <footer
       style={{
@@ -78,11 +78,11 @@ const Footer = () => {
             <FooterLink label="Nous soutenir" link="https://utip.io/augora" target={true} internal={false} />
           </FooterMenu>
           <FooterMenu title="Nous Contacter">
-            <FooterLink label="contact@augora.fr" link="mailto:contact@augora.fr" target={true} internal={false}>
+            <button onClick={() => setContact(!contact)}>
               <div className="icon-wrapper">
-                <IconMail />
+                <IconMail /> Par e-mail
               </div>
-            </FooterLink>
+            </button>
             <FooterLink label="@AugoraFR" link="https://twitter.com/AugoraFR" target={true} internal={false}>
               <div className="icon-wrapper">
                 <IconTwitter />

@@ -5,6 +5,8 @@ import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
+import Popup from "./popup/Popup"
+import Contact from "./contact/Contact"
 import Sidebar, { SidebarCategory, SidebarFooter, SidebarHeader, SidebarLinks } from "components/sidebar/Sidebar"
 import HeaderBanner from "components/banners/HeaderBanner"
 import { useSwipeable } from "react-swipeable"
@@ -18,6 +20,7 @@ interface ILayout {
   children: React.ReactElement
   title?: string
   location: NextRouter
+  contact: boolean
 }
 
 const allColors = colors.map((color) => {
@@ -39,6 +42,7 @@ const Layout = ({ children, location, title }: ILayout) => {
   const [hasSidebar, setHasSidebar] = useState(false)
   const [isPopinVisible, setisPopinVisible] = useState(false)
   const [hasLayout, setHasLayout] = useState(true)
+  const [contact, setContact] = useState(false)
 
   const { ref: documentRef } = useSwipeable({
     onSwiped: ({ dir }) => {
@@ -124,7 +128,10 @@ const Layout = ({ children, location, title }: ILayout) => {
       <div className={`scroll-to-top ${scrolled ? "visible" : "hidden"}`} onClick={() => handleScrollTop()}>
         <IconArrow />
       </div>
-      <Footer />
+      <Footer contact={contact} setContact={setContact} />
+      <Popup show={contact} setShow={setContact}>
+        <Contact />
+      </Popup>
     </div>
   )
 }

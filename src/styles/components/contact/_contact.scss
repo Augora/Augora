@@ -1,0 +1,51 @@
+/*----------------------------------------------------*/
+// Contact component (popup)
+/*----------------------------------------------------*/
+
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__input-wrapper {
+    margin-bottom: 10px;
+  }
+
+  // input general rules
+  input, textarea {
+    padding: 5px;
+  }
+  input {
+    // honeypot
+    &[id="contact__name"] {
+      display: none;
+    }
+  }
+  label {
+    margin-left: 5px;
+  }
+
+  // MUI Customization
+  .MuiInput-root {
+    color: $white;
+    margin-bottom: 15px;
+    background-color: rgba($white, 0.1);
+  }
+  .MuiInputBase-root::before {
+    border-bottom-color: $white;
+  }
+  .MuiInputBase-root::after {
+    border-bottom: none;
+    background: linear-gradient(to left, $main-color, $secondary-color);
+    height: 2px;
+  }
+  .MuiFormHelperText-root {
+    color: $white;
+  }
+  .MuiInputLabel-root {
+    color: $white;
+  }
+  .MuiInputLabel-shrink {
+    margin-left: 0;
+  }
+}
