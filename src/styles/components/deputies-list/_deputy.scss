@@ -64,9 +64,7 @@
     flex-wrap: wrap;
     max-width: 22%;
   }
-  &__president {
-    grid-column-end: span 2;
-  }
+
   .deputy {
     &__photo {
       position: absolute;
@@ -100,6 +98,14 @@
     transform: scale(1.05);
     .deputy__icon-container {
       transform: translate(0%, 0%);
+    }
+  }
+
+  &__president {
+    grid-column-end: span 2;
+
+    .deputy__icon-container {
+      width: 25%;
     }
   }
 
