@@ -26,8 +26,7 @@
       align-items: center;
       justify-content: center;
       margin: auto;
-      padding-top: 15px;
-      padding-bottom: 15px;
+      padding: 20px 0;
       svg,
       img {
         width: 100%;
@@ -35,11 +34,11 @@
       }
     }
     &__square {
-      max-height: 180px;
+      height: 180px;
       max-width: 180px;
     }
     &__images {
-      max-height: 180px;
+      height: 180px;
       max-width: 300px;
     }
   }
