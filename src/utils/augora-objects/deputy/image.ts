@@ -2,7 +2,7 @@ import GDR from "images/logos/groupes-parlementaires/gdr.svg"
 import LFI from "images/logos/groupes-parlementaires/lfi.svg"
 import ECO from "images/logos/groupes-parlementaires/eco.svg"
 import LR from "images/logos/groupes-parlementaires/lr.svg"
-import LT from "images/logos/groupes-parlementaires/lt.svg"
+import LIOT from "images/logos/groupes-parlementaires/lt.svg"
 import MODEM from "images/logos/groupes-parlementaires/modem.svg"
 import REN from "images/logos/groupes-parlementaires/ren.svg"
 import HOR from "images/logos/groupes-parlementaires/hor.svg"
@@ -55,8 +55,8 @@ export function getPoliticGroupPhotoImport(politicGroupAcronym: string) {
       return LFI
     case "SOC":
       return PS
-    case "LT":
-      return LT
+    case "LIOT":
+      return LIOT
     case "REN":
       return REN
     case "MODEM":
