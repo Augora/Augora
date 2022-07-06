@@ -17,7 +17,6 @@ export default function DeputiesList() {
   const { state } = useDeputiesFilters()
 
   const [HasPieChart, setHasPieChart] = useState(true)
-
   const groupesData = state.GroupesList.map((groupe) => {
     const nbDeputeGroup = getNbDeputiesGroup(state.FilteredList, groupe.Sigle)
     return {
@@ -25,14 +24,11 @@ export default function DeputiesList() {
       label: groupe.NomComplet,
       value: nbDeputeGroup,
       color: groupe.Couleur,
+      descriptionWikipedia: groupe.DescriptionWikipedia,
+      IdWikipedia: groupe.IDWikipedia,
+      IdAssembleeNationale: groupe.IDAssembleeNationale,
     }
   }).filter((groupe) => groupe.value !== 0)
-
-  // Workaround until the value is in groupesData
-  const groupeContent = `Le groupe La France insoumise (LFI) est un groupe parlementaire français de gauche radicale à l'Assemblée nationale.
-  Présidé par Mathilde Panot, il est composé de dix-sept députés élus sous la bannière de La France insoumise lors des
-  élections législatives de 2017. Certains d'entre eux sont également membres d'autres partis politiques, tels que le Parti
-  de gauche, Ensemble !, la Gauche républicaine et socialiste, Picardie debout ou encore Rézistan's Égalité 974.`
 
   return (
     <>
@@ -64,7 +60,7 @@ export default function DeputiesList() {
           <section className="wikipedia__section">
             <Frame className="frame-wikipedia" title={`Groupe ${groupesData[0].label}`} style={{ color: groupesData[0].color }}>
               <a
-                href={`https://fr.wikipedia.org/wiki/Groupe_La_France_insoumise`}
+                href={`https://fr.wikipedia.org/wiki/${groupesData[0].IdWikipedia}`}
                 target="_blank"
                 rel="noreferrer"
                 className="lien lien__wikipedia"
@@ -73,7 +69,7 @@ export default function DeputiesList() {
                 <IconWikipedia className="icon-wikipedia" style={{ fill: groupesData[0].color }} />
               </a>
               <a
-                href={`https://www2.assemblee-nationale.fr/15/les-groupes-politiques/groupe-la-france-insoumise/(block)/42317`}
+                href={`https://www2.assemblee-nationale.fr/16/les-groupes-politiques/${groupesData[0].IdAssembleeNationale}`}
                 target="_blank"
                 rel="noreferrer"
                 className="lien lien__assemblee"
@@ -81,7 +77,7 @@ export default function DeputiesList() {
               >
                 <IconAssemblee className="icon-assemblee" style={{ fill: groupesData[0].color }} />
               </a>
-              <DeputiesWiki content={groupeContent} />
+              <DeputiesWiki content={groupesData[0].descriptionWikipedia} />
             </Frame>
           </section>
         </>
