@@ -51,7 +51,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
               return pie.arcs.map((arc, index, originArray) => {
                 const groupeArc = arc.data
                 const [centroidX, centroidY] = pie.path.centroid(arc)
-                const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.2
+                const hasSpaceForLabel = arc.endAngle - arc.startAngle >= (width < 450 ? 0.35 : 0.2)
                 const justifiedMidAngle = (arc.endAngle - arc.startAngle) / 2 + arc.startAngle - Math.PI / 2
                 const filterCurrentId = data.filter((f) => f.id !== arc.data.id)
                 return (
