@@ -22,7 +22,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
   const marginLeft = 20
   const marginGraph = 24
   const xMax = width
-  const yMax = height - marginTop
+  const yMax = height - marginTop - (width < 450 ? 10 : 0)
 
   // scales, memoize for performance
   const xScale = scaleBand<string>({
@@ -115,7 +115,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
           })}
         </Group>
         <Group top={marginTop / 2} left={marginGraph / 2}>
-          {window.innerWidth < 420 || (window.innerWidth > 1200 && window.innerWidth < 1450) ? (
+          {width < 450 ? (
             <AxisBottom
               axisClassName="chart__axislabel axislabel__bottom"
               tickClassName="chart__axistick"
