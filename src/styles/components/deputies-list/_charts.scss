@@ -184,9 +184,6 @@
           &:hover {
             transform: scale(1.05);
           }
-          &:nth-child(-n + 2) svg {
-            padding-left: 2px;
-          }
           svg {
             width: 25px;
             height: 25px;
@@ -206,6 +203,11 @@
           @media (max-width: 875px) {
             margin-left: 0px;
             margin-right: 0px;
+          }
+        }
+        &__sexe-item {
+          .square__femmes {
+            margin-left: 20px;
           }
         }
       }
