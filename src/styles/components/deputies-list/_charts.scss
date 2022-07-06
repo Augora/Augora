@@ -116,26 +116,22 @@
           @media (max-width: 875px) {
             margin-bottom: 0px;
             margin-left: 2%;
-            columns: 5;
             display: grid;
-            grid-template-columns: repeat(5, 18%);
-            grid-template-rows: repeat(2, 24px);
-            
-            .item:nth-child(n+6):nth-last-child(n+4) {
-              margin-left: 2px;
-            }           
+            grid-template-columns: repeat(6, 12%);
+            grid-template-rows: repeat(2, 24px);    
+          }
+          @media (max-width: 670px) {
+            grid-template-columns: repeat(6, 15%);
           }
           @media (max-width: 565px) {
             font-size: 12px;
-            margin-left: -2%;
+          }
+          @media (max-width: 480px) {
+            margin-left: 5%;
+            grid-template-columns: repeat(4, 24%);
+            grid-template-rows: repeat(3, 20px);
           }
           @media (max-width: 360px) {
-            .item:nth-child(n+5) {
-              margin-left: 2px;
-            }
-            .item:nth-child(n+7):nth-last-child(n+3) {
-              margin-left: 0px;
-            } 
             margin-left: 2%;
             grid-template-columns: repeat(4, 24%);
             grid-template-rows: repeat(3, 20px);
