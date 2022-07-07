@@ -134,6 +134,11 @@
         overflow: scroll;
         height: 100%;
         justify-content: unset;
+
+        &__content {
+          height: unset;
+        }
+
         .tooltip {
           display: none;
         }
