@@ -1,6 +1,4 @@
 .page__deputies {
-  padding-top: 40px;
-
   .filters__section {
     margin-bottom: 70px;
     display: grid;
@@ -126,14 +124,14 @@
           padding: 10px;
           border: none;
           height: 50px;
-  
+
           &__wikipedia {
             right: 50px;
           }
           &__assemblee {
             right: 10px;
           }
-          
+
           .icon-wikipedia {
             width: 30px;
             height: 30px;
@@ -156,7 +154,6 @@
       }
     }
   }
-    
 
   // Import styles
   @import "../components/deputies-list/deputies-list";

@@ -6,7 +6,7 @@
 /*----------------------------------------------------*/
 .layout {
   .with-title & {
-    padding-top: 200px;
+    padding-top: 175px;
   }
   .no-title & {
     padding-top: 60px;
@@ -54,8 +54,7 @@
 }
 
 .page {
-  padding: 0 7vw;
-  padding-bottom: 70px;
+  padding: 40px 7vw 70px 7vw;
 
   @media (max-width: 1700px) {
     padding-left: 30px;
