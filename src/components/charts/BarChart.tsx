@@ -95,7 +95,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
                   onMouseMove={(event) => handleMouseMove(event, d)}
                   onClick={() => {
                     filterCurrentId.map((group) => handleGroupClick(group.id))
-                    router.push("/")
+                    router.push("/deputes")
                   }}
                 />
                 {barHeight >= 25 && (

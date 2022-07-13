@@ -4,10 +4,10 @@ import SEO, { PageType } from "../components/seo/seo"
 import { getDeputes } from "../lib/deputes/Wrapper"
 import DeputiesList from "../components/deputies-list/DeputiesList"
 
-export default function IndexPage() {
+export default function DeputesPage() {
   return (
     <>
-      <SEO pageType={PageType.Accueil} />
+      <SEO pageType={PageType.Deputes} />
       <div className="page page__deputies">
         <DeputiesList />
       </div>

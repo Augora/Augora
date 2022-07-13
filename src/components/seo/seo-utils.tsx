@@ -128,25 +128,25 @@ export function buildTitleFromPageType(pageType: PageType, depute: Deputy.Deputy
     return "Augora"
   }
   if (pageType === PageType.Deputes) {
-    return "Liste des députés"
+    return "Liste des députés | Augora"
   }
   if (pageType === PageType.Depute) {
-    return `${depute.Nom} - ${depute.Sexe === "H" ? "Député" : "Députée"} ${depute.GroupeParlementaire.Sigle}`
+    return `${depute.Nom} - ${depute.Sexe === "H" ? "Député" : "Députée"} ${depute.GroupeParlementaire.Sigle} | Augora`
   }
   if (pageType === PageType.FAQ) {
-    return "Foire aux Questions"
+    return "Foire aux Questions | Augora"
   }
   if (pageType === PageType.Statistiques) {
-    return "Statistiques"
+    return "Statistiques | Augora"
   }
   if (pageType === PageType.Map) {
-    return "Carte du monde"
+    return "Carte du monde | Augora"
   }
   if (pageType === PageType.NotFound) {
-    return "Page introuvable"
+    return "Page introuvable | Augora"
   }
   if (pageType === PageType.MentionsLegales) {
-    return "Mentions légales"
+    return "Mentions légales | Augora"
   }
   return ""
 }

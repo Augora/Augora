@@ -15,7 +15,7 @@ function SEO(props: ISEOProps) {
 
   return (
     <Head>
-      <title>{title} | Augora</title>
+      <title>{title}</title>
       {meta}
     </Head>
   )

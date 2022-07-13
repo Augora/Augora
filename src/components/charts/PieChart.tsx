@@ -101,7 +101,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                       onMouseMove={(event) => handleMouseMove(event, arc.data)}
                       onClick={() => {
                         filterCurrentId.map((group) => handleGroupClick(group.id))
-                        router.push("/")
+                        router.push("/deputes")
                       }}
                     />
 

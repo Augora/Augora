@@ -67,7 +67,7 @@ export default function XYBar(props: IXYBar) {
         onPointerUp={(data) => {
           handleAgeSlider(getAgeDomainGraph(data.datum.age as string))
           state.SexValue.F === false || state.SexValue.H ? handleSexClick(dataKey == "hommes" ? "H" : "F") : ""
-          router.push("/")
+          router.push("/deputes")
         }}
       />
       <Tooltip<Chart.AgeData>
