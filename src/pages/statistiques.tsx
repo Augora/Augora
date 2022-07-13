@@ -110,7 +110,7 @@ const Statistiques = () => {
                     marginTop={30}
                     marginLeft={20}
                     normalHeight={15}
-                    responsiveHeight={20}
+                    responsiveHeight={30}
                   />
                 </div>
                 <ChartLegend shapeScale={shapeScaleGroups} />

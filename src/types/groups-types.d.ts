@@ -13,6 +13,9 @@ declare namespace Group {
     URLImage?: string
     Ordre?: number
     Actif?: boolean
+    DescriptionWikipedia?: string
+    IDWikipedia?: string
+    IDAssembleeNationale?: string
   }
 
   interface CouleurDetail {

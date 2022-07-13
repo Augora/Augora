@@ -1,0 +1,61 @@
+.header__banner {
+  position: relative;
+  background: $grey;
+  pointer-events: auto;
+  border: solid 1px $text-color;
+  border-left: none;
+  border-right: none;
+
+  transition: transform 0.3s $ease-in-out-cubic;
+
+  .banner {
+    &__content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+
+      text-align: center;
+      font-size: 16px;
+      color: white;
+
+      padding: 7px 40px 7px 10px;
+    }
+    &__close {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translate(0, -50%);
+
+      background: none;
+      border: none;
+      padding: none;
+      cursor: pointer;
+
+      & > svg {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        path {
+          fill: $grey;
+        }
+      }
+
+      &:hover {
+        svg {
+          path {
+            fill: $black;
+          }
+        }
+      }
+    }
+  }
+
+  .scrolled & {
+    transform: translate3d(0, -75px, 0);
+  }
+}

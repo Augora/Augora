@@ -19,7 +19,7 @@ export default function PyramideBarStack(props: BarStackProps) {
   const marginTop = 20
   const marginLeft = 30
   const normalHeight = 15
-  const responsiveHeight = 35
+  const responsiveHeight = width <= 585 ? 50 : width <= 735 ? 35 : 0
 
   return (
     <div className="pyramidechart chart">
