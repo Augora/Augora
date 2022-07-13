@@ -1,26 +1,26 @@
 import React from "react"
-import random from "lodash/random"
+// import random from "lodash/random"
 
 import SEO, { PageType } from "../components/seo/seo"
 
-const dummyBlockNumber = 20
-const DummyBlock = () => {
-  return (
-    <div
-      className="deputes__dummy-block"
-      style={{
-        backgroundColor: `hsl(${random(170, 185)}, 90%, 40%)`,
-      }}
-    ></div>
-  )
-}
+// const dummyBlockNumber = 20
+// const DummyBlock = () => {
+//   return (
+//     <div
+//       className="deputes__dummy-block"
+//       style={{
+//         backgroundColor: `hsl(${random(170, 185)}, 90%, 40%)`,
+//       }}
+//     ></div>
+//   )
+// }
 
 export default function IndexPage() {
   return (
     <>
       <SEO pageType={PageType.Accueil} />
       <div className="page page__home page__landing">
-        <div className="grid">
+        {/* <div className="grid">
           <button className="home__deputes home__block">
             <h2>Liste</h2>
             <div className="deputes__dummy-grid">
@@ -37,6 +37,18 @@ export default function IndexPage() {
           <button className="home__stats home__block">
             <h2>Statistiques</h2>
           </button>
+        </div> */}
+        <div className="home__intro">
+          <div className="intro__background">
+            <img className="background__img" src="images/photos/hemicycle.jpg" />
+          </div>
+          <div className="intro__content">
+            <h2>Reconnecter les citoyens avec les députés</h2>
+            <p>
+              Nous sommes une association qui met en avant une utilisation éthique des données publiques. Nous proposons une
+              présentation moderne des députés de l’assemblée nationale pour faciliter au maximum l’accès à ces informations.
+            </p>
+          </div>
         </div>
       </div>
     </>

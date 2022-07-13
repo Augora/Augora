@@ -3,62 +3,118 @@
 /*----------------------------------------------------*/
 
 .page__home {
-  padding-bottom: 20vh;
-  .grid {
-    display: grid;
-    height: 250px;
+  padding: 0;
 
-    grid-template-columns: repeat(12, 1fr);
-    grid-gap: 20px;
+  .home {
+    &__intro {
+      position: relative;
+      width: 100vw;
+      height: calc(100vh - 175px);
 
-    padding: 20px 0;
+      display: flex;
+      justify-content: end;
+      align-items: center;
 
-    & > button {
-      background: rgba(black, 0.1);
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-    }
+      .intro {
+        &__background {
+          position: absolute;
+          width: 100%;
+          height: 100%;
 
-    h2 {
-      color: $white;
-      padding: 10px;
-    }
-  }
-}
+          display: flex;
+          justify-content: center;
+          align-items: center;
 
-.home {
-  &__deputes {
-    grid-column: 1 / span 3;
-    .deputes__dummy-grid {
-      overflow: hidden;
-      height: 250px;
-      &:hover {
-        .deputes__dummy-grid-wrapper {
-          transform: scale(1.1) translateY(-100%);
-          transition: transform 10s $ease-in-out-cubic;
+          overflow: hidden;
+          z-index: -1;
+
+          .background {
+            &__img {
+              width: auto;
+              height: auto;
+              max-width: unset;
+              min-height: 100%;
+              margin: 0;
+              transform: scale(0.7);
+            }
+          }
+
+          &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(black, 0.5);
+          }
+        }
+
+        &__content {
+          margin-right: 7vw;
+          max-width: 50vw;
+
+          color: white;
+          text-align: right;
         }
       }
     }
-    .deputes__dummy-grid-wrapper {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-gap: 5px;
+  }
+  //   padding-bottom: 20vh;
+  //   .grid {
+  //     display: grid;
+  //     height: 250px;
 
-      height: 100%;
-      width: 100%;
-      transform: scale(1.1) translateY(0);
-      transition: transform 1s $ease-out-cubic;
-    }
-    .deputes__dummy-block {
-      grid-column-end: span 4;
-      padding-bottom: 100%;
-    }
-  }
-  &__map {
-    grid-column: 4 / span 6;
-  }
-  &__stats {
-    grid-column: 10 / span 3;
-  }
+  //     grid-template-columns: repeat(12, 1fr);
+  //     grid-gap: 20px;
+
+  //     padding: 20px 0;
+
+  //     & > button {
+  //       background: rgba(black, 0.1);
+  //       border-radius: 10px;
+  //       border: none;
+  //       cursor: pointer;
+  //     }
+
+  //     h2 {
+  //       color: $white;
+  //       padding: 10px;
+  //     }
+  //   }
+  // }
+
+  // .home {
+  //   &__deputes {
+  //     grid-column: 1 / span 3;
+  //     .deputes__dummy-grid {
+  //       overflow: hidden;
+  //       height: 250px;
+  //       &:hover {
+  //         .deputes__dummy-grid-wrapper {
+  //           transform: scale(1.1) translateY(-100%);
+  //           transition: transform 10s $ease-in-out-cubic;
+  //         }
+  //       }
+  //     }
+  //     .deputes__dummy-grid-wrapper {
+  //       display: grid;
+  //       grid-template-columns: repeat(12, 1fr);
+  //       grid-gap: 5px;
+
+  //       height: 100%;
+  //       width: 100%;
+  //       transform: scale(1.1) translateY(0);
+  //       transition: transform 1s $ease-out-cubic;
+  //     }
+  //     .deputes__dummy-block {
+  //       grid-column-end: span 4;
+  //       padding-bottom: 100%;
+  //     }
+  //   }
+  //   &__map {
+  //     grid-column: 4 / span 6;
+  //   }
+  //   &__stats {
+  //     grid-column: 10 / span 3;
+  //   }
 }
