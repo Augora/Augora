@@ -35,7 +35,7 @@
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-lazy-load-image-component": "^1.5.4",
-    "react-map-gl": "7.0.16",
+    "react-map-gl": "7.0.17",
     "react-spring": "9.4.5",
     "react-swipeable": "^7.0.0",
     "sass": "^1.53.0",
