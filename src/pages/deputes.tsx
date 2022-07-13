@@ -22,6 +22,7 @@ export async function getStaticProps() {
     props: {
       deputes,
       title: "Liste des députés",
+      PageType: PageType.Deputes,
     },
   }
 }

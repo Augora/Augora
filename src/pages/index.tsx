@@ -1,16 +1,18 @@
 import React from "react"
-import _ from "lodash"
+import random from "lodash/random"
 
 import SEO, { PageType } from "../components/seo/seo"
 
-const dummyBlockNumber = 20;
+const dummyBlockNumber = 20
 const DummyBlock = () => {
-  return <div
-    className="deputes__dummy-block"
-    style={{
-      backgroundColor: `hsl(${_.random(170, 185)}, 90%, 40%)`,
-    }}
-  ></div>
+  return (
+    <div
+      className="deputes__dummy-block"
+      style={{
+        backgroundColor: `hsl(${random(170, 185)}, 90%, 40%)`,
+      }}
+    ></div>
+  )
 }
 
 export default function IndexPage() {
@@ -24,7 +26,7 @@ export default function IndexPage() {
             <div className="deputes__dummy-grid">
               <div className="deputes__dummy-grid-wrapper">
                 {Array.apply(0, Array(dummyBlockNumber)).map((_, i) => {
-                  return <DummyBlock key={`home-dummy-block-${i}`}/>
+                  return <DummyBlock key={`home-dummy-block-${i}`} />
                 })}
               </div>
             </div>
@@ -45,6 +47,7 @@ export async function getStaticProps() {
   return {
     props: {
       title: "Augora",
+      PageType: PageType.Accueil,
     },
   }
 }
