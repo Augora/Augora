@@ -17,14 +17,19 @@
     &__content {
       max-width: 40vw;
 
-      h2 {
-        font-size: 36px;
-        background: linear-gradient(to right, $secondary-color, $main-color);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
       .content {
+        &__title {
+          font-size: 36px;
+          background: linear-gradient(to right, $secondary-color, $main-color);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+
+          &--withbg {
+            color: white;
+            background: none;
+            -webkit-text-fill-color: unset;
+          }
+        }
         &__buttons {
           display: flex;
           justify-content: space-evenly;
@@ -113,11 +118,6 @@
       .panel {
         &__content {
           color: white;
-
-          h2 {
-            background: none;
-            -webkit-text-fill-color: unset;
-          }
         }
       }
 
@@ -130,17 +130,6 @@
           height: 100%;
           opacity: 0.5;
           background: black;
-        }
-      }
-    }
-
-    &__stats {
-      .panel {
-        &__content {
-          h2 {
-            background: none;
-            -webkit-text-fill-color: unset;
-          }
         }
       }
     }

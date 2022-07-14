@@ -6,6 +6,7 @@ import IconPin from "images/ui-kit/icon-pin.svg"
 import IconGroup from "images/ui-kit/icon-group.svg"
 import IconFrance from "images/ui-kit/icon-france.svg"
 import IconStat from "images/ui-kit/icon-stat.svg"
+import IconInfo from "images/ui-kit/icon-info.svg"
 // import random from "lodash/random"
 
 // const dummyBlockNumber = 20
@@ -50,7 +51,7 @@ export default function IndexPage() {
             <img className="background__img" src="images/photos/hemicycle.jpg" />
           </div>
           <div className="panel__content">
-            <h2>Reconnecter les citoyens avec les députés</h2>
+            <h2 className="content__title content__title--withbg">Reconnecter les citoyens avec les députés</h2>
             <p>
               Nous sommes une association qui met en avant une utilisation éthique des données publiques. Nous proposons une
               présentation moderne des députés de l’assemblée nationale pour faciliter au maximum l’accès à ces informations.
@@ -75,7 +76,7 @@ export default function IndexPage() {
         </div>
         <div className="home__map panel panel--left">
           <div className="panel__content">
-            <h2>Une carte interactive</h2>
+            <h2 className="content__title">Une carte interactive</h2>
             <p>
               Parcourez la terre avec une visualisation précise de chaque région, département, et territoire d’outre-mer.
               Découvrez où chaque circonscription se situe, et son député associé, y compris les députés hors de france, le monde
@@ -97,7 +98,7 @@ export default function IndexPage() {
             <img className="background__img background__img--transparent" src="images/photos/bibliotheque.jpg" />
           </div>
           <div className="panel__content">
-            <h2>Des Statistiques</h2>
+            <h2 className="content__title content__title--withbg">Des Statistiques</h2>
             <div className="content__buttons">
               <HomeButton
                 text="Les Statistiques"
@@ -109,9 +110,9 @@ export default function IndexPage() {
             </div>
           </div>
         </div>
-        <div className="home__deputes panel panel--right">
+        <div className="home__groups panel panel--right">
           <div className="panel__content">
-            <h2>Vos Députés</h2>
+            <h2 className="content__title">Vos Députés</h2>
             <p>
               Classés par leur groupe parlementaire, à ne pas confondre avec leur parti politique. Pour plus d’informations,
               consultez la FAQ.
@@ -122,6 +123,24 @@ export default function IndexPage() {
                 icon={<IconGroup />}
                 onClick={() => router.push("/deputes")}
                 title="Voir tous les députés"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="home__faq panel panel--center">
+          <div className="background">
+            <div className="background__back" />
+            <img className="background__img background__img--transparent" src="images/photos/colonnade.jpg" />
+          </div>
+          <div className="panel__content">
+            <h2 className="content__title content__title--withbg">En savoir plus</h2>
+            <div className="content__buttons">
+              <HomeButton
+                text="La FAQ"
+                icon={<IconInfo />}
+                inverted={true}
+                onClick={() => router.push("/faq")}
+                title="Aller consulter la FAQ"
               />
             </div>
           </div>
