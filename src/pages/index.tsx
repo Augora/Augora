@@ -1,7 +1,10 @@
 import React from "react"
-// import random from "lodash/random"
-
+import HomeButton from "components/buttons/HomeButton"
 import SEO, { PageType } from "../components/seo/seo"
+import { useRouter } from "next/router"
+import IconPin from "images/ui-kit/icon-pin.svg"
+import IconGroup from "images/ui-kit/icon-group.svg"
+// import random from "lodash/random"
 
 // const dummyBlockNumber = 20
 // const DummyBlock = () => {
@@ -16,6 +19,8 @@ import SEO, { PageType } from "../components/seo/seo"
 // }
 
 export default function IndexPage() {
+  const router = useRouter()
+
   return (
     <>
       <SEO pageType={PageType.Accueil} />
@@ -38,7 +43,7 @@ export default function IndexPage() {
             <h2>Statistiques</h2>
           </button>
         </div> */}
-        <div className="home__intro">
+        <div className="home__intro panel">
           <div className="intro__background">
             <img className="background__img" src="images/photos/hemicycle.jpg" />
           </div>
@@ -48,6 +53,22 @@ export default function IndexPage() {
               Nous sommes une association qui met en avant une utilisation éthique des données publiques. Nous proposons une
               présentation moderne des députés de l’assemblée nationale pour faciliter au maximum l’accès à ces informations.
             </p>
+            <div className="content__buttons">
+              <HomeButton
+                text="Mon Député"
+                icon={<IconPin />}
+                inverted={true}
+                onClick={() => router.push("/carte")}
+                title="Découvrir mon député"
+              />
+              <HomeButton
+                text="L'assemblée"
+                icon={<IconGroup />}
+                inverted={true}
+                onClick={() => router.push("/deputes")}
+                title="Voir tous les députés"
+              />
+            </div>
           </div>
         </div>
       </div>
