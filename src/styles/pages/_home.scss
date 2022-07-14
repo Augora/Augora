@@ -17,14 +17,11 @@
     &__content {
       max-width: 40vw;
 
-      &--right {
-        margin-right: 7vw;
-        text-align: right;
-        align-self: end;
-      }
-      &--left {
-        margin-left: 7vw;
-        align-self: start;
+      h2 {
+        font-size: 36px;
+        background: linear-gradient(to right, $secondary-color, $main-color);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .content {
@@ -36,50 +33,114 @@
         }
       }
     }
+
+    &--right {
+      align-items: end;
+      .panel {
+        &__content {
+          margin-right: 7vw;
+          text-align: right;
+        }
+      }
+    }
+
+    &--left {
+      align-items: start;
+      .panel {
+        &__content {
+          margin-left: 7vw;
+        }
+      }
+    }
+
+    &--center {
+      align-items: center;
+      .panel {
+        &__content {
+          color: white;
+
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          padding: 50px;
+        }
+      }
+    }
+  }
+
+  .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+    z-index: -1;
+
+    &__img {
+      width: auto;
+      height: auto;
+      max-width: unset;
+      min-height: 100%;
+      margin: 0;
+      transform: scale(0.7);
+
+      &--transparent {
+        filter: grayscale(1);
+        opacity: 0.1;
+      }
+    }
+
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, $secondary-color, $main-color);
+    }
   }
 
   .home {
     &__intro {
       height: calc(100vh - 175px);
 
-      .intro {
-        &__background {
-          position: absolute;
-          width: 100%;
-          height: 100%;
+      .panel {
+        &__content {
+          color: white;
 
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          overflow: hidden;
-          z-index: -1;
-
-          .background {
-            &__img {
-              width: auto;
-              height: auto;
-              max-width: unset;
-              min-height: 100%;
-              margin: 0;
-              transform: scale(0.7);
-            }
-          }
-
-          &::after {
-            content: "";
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(black, 0.5);
+          h2 {
+            background: none;
+            -webkit-text-fill-color: unset;
           }
         }
       }
 
+      .background {
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          opacity: 0.5;
+          background: black;
+        }
+      }
+    }
+
+    &__stats {
       .panel {
         &__content {
-          color: white;
+          h2 {
+            background: none;
+            -webkit-text-fill-color: unset;
+          }
         }
       }
     }

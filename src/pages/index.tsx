@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import IconPin from "images/ui-kit/icon-pin.svg"
 import IconGroup from "images/ui-kit/icon-group.svg"
 import IconFrance from "images/ui-kit/icon-france.svg"
+import IconStat from "images/ui-kit/icon-stat.svg"
 // import random from "lodash/random"
 
 // const dummyBlockNumber = 20
@@ -44,11 +45,11 @@ export default function IndexPage() {
             <h2>Statistiques</h2>
           </button>
         </div> */}
-        <div className="home__intro panel">
-          <div className="intro__background">
+        <div className="home__intro panel panel--right">
+          <div className="background">
             <img className="background__img" src="images/photos/hemicycle.jpg" />
           </div>
-          <div className="panel__content panel__content--right">
+          <div className="panel__content">
             <h2>Reconnecter les citoyens avec les députés</h2>
             <p>
               Nous sommes une association qui met en avant une utilisation éthique des données publiques. Nous proposons une
@@ -72,8 +73,8 @@ export default function IndexPage() {
             </div>
           </div>
         </div>
-        <div className="home__map panel">
-          <div className="panel__content panel__content--left">
+        <div className="home__map panel panel--left">
+          <div className="panel__content">
             <h2>Une carte interactive</h2>
             <p>
               Parcourez la terre avec une visualisation précise de chaque région, département, et territoire d’outre-mer.
@@ -86,6 +87,24 @@ export default function IndexPage() {
                 icon={<IconFrance />}
                 onClick={() => router.push("/carte")}
                 title="Aller sur la carte"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="home__stats panel panel--center">
+          <div className="background">
+            <div className="background__back" />
+            <img className="background__img background__img--transparent" src="images/photos/bibliotheque.jpg" />
+          </div>
+          <div className="panel__content">
+            <h2>Des Statistiques</h2>
+            <div className="content__buttons">
+              <HomeButton
+                text="Les Statistiques"
+                icon={<IconStat />}
+                inverted={true}
+                onClick={() => router.push("/statistiques")}
+                title="Aller voir les statistiques"
               />
             </div>
           </div>
