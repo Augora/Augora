@@ -24,7 +24,7 @@
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
 
-          &--withbg {
+          &--center {
             color: white;
             background: none;
             -webkit-text-fill-color: unset;
@@ -189,6 +189,37 @@
       }
     }
   }
+
+  @media (max-width: 1200px) {
+    .panel__content {
+      max-width: 60vw;
+    }
+  }
+
+  @media (max-width: 875px) {
+    .panel {
+      &__content {
+        max-width: 70vw;
+      }
+
+      &--right,
+      &--left {
+        align-items: center;
+        .panel__content {
+          text-align: center;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    .panel__content {
+      max-width: 100%;
+      padding: 0 15px;
+    }
+  }
+
   //   padding-bottom: 20vh;
   //   .grid {
   //     display: grid;

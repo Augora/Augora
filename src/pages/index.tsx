@@ -51,7 +51,7 @@ export default function IndexPage() {
             <img className="background__img" src="images/photos/hemicycle.jpg" />
           </div>
           <div className="panel__content">
-            <h2 className="content__title content__title--withbg">Reconnecter les citoyens avec les députés</h2>
+            <h2 className="content__title content__title--center">Reconnecter les citoyens avec les députés</h2>
             <p>
               Nous sommes une association qui met en avant une utilisation éthique des données publiques. Nous proposons une
               présentation moderne des députés de l’assemblée nationale pour faciliter au maximum l’accès à ces informations.
@@ -98,7 +98,7 @@ export default function IndexPage() {
             <img className="background__img background__img--transparent" src="images/photos/bibliotheque.jpg" />
           </div>
           <div className="panel__content">
-            <h2 className="content__title content__title--withbg">Des Statistiques</h2>
+            <h2 className="content__title content__title--center">Des Statistiques</h2>
             <div className="content__buttons">
               <HomeButton
                 text="Les Statistiques"
@@ -133,7 +133,7 @@ export default function IndexPage() {
             <img className="background__img background__img--transparent" src="images/photos/colonnade.jpg" />
           </div>
           <div className="panel__content">
-            <h2 className="content__title content__title--withbg">En savoir plus</h2>
+            <h2 className="content__title content__title--center">En savoir plus</h2>
             <div>
               <p>
                 Nous sommes une association à but non lucratif visant à proposer un site d’information publique au design moderne.
