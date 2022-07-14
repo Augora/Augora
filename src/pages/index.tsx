@@ -134,6 +134,16 @@ export default function IndexPage() {
           </div>
           <div className="panel__content">
             <h2 className="content__title content__title--withbg">En savoir plus</h2>
+            <div>
+              <p>
+                Nous sommes une association à but non lucratif visant à proposer un site d’information publique au design moderne.
+              </p>
+              <p>
+                Nous ne sommes pas associés à l’assemblée nationale ou aux députés, vous pourrez trouver des liens pour contacter
+                ceux-ci sur leurs page personelles dédiées.{" "}
+              </p>
+              <p>Pour toute question concernant le site ou le fonctionnement de l’assemblée, consultez la FAQ.</p>
+            </div>
             <div className="content__buttons">
               <HomeButton
                 text="La FAQ"
