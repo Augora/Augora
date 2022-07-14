@@ -109,6 +109,23 @@ export default function IndexPage() {
             </div>
           </div>
         </div>
+        <div className="home__deputes panel panel--right">
+          <div className="panel__content">
+            <h2>Vos Députés</h2>
+            <p>
+              Classés par leur groupe parlementaire, à ne pas confondre avec leur parti politique. Pour plus d’informations,
+              consultez la FAQ.
+            </p>
+            <div className="content__buttons">
+              <HomeButton
+                text="L'assemblée"
+                icon={<IconGroup />}
+                onClick={() => router.push("/deputes")}
+                title="Voir tous les députés"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </>
   )
