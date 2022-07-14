@@ -4,6 +4,7 @@ import SEO, { PageType } from "../components/seo/seo"
 import { useRouter } from "next/router"
 import IconPin from "images/ui-kit/icon-pin.svg"
 import IconGroup from "images/ui-kit/icon-group.svg"
+import IconFrance from "images/ui-kit/icon-france.svg"
 // import random from "lodash/random"
 
 // const dummyBlockNumber = 20
@@ -47,7 +48,7 @@ export default function IndexPage() {
           <div className="intro__background">
             <img className="background__img" src="images/photos/hemicycle.jpg" />
           </div>
-          <div className="intro__content">
+          <div className="panel__content panel__content--right">
             <h2>Reconnecter les citoyens avec les députés</h2>
             <p>
               Nous sommes une association qui met en avant une utilisation éthique des données publiques. Nous proposons une
@@ -67,6 +68,24 @@ export default function IndexPage() {
                 inverted={true}
                 onClick={() => router.push("/deputes")}
                 title="Voir tous les députés"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="home__map panel">
+          <div className="panel__content panel__content--left">
+            <h2>Une carte interactive</h2>
+            <p>
+              Parcourez la terre avec une visualisation précise de chaque région, département, et territoire d’outre-mer.
+              Découvrez où chaque circonscription se situe, et son député associé, y compris les députés hors de france, le monde
+              entier est couvert. Les filtres permettent un affinage des données géographiques recherchées.
+            </p>
+            <div className="content__buttons">
+              <HomeButton
+                text="La Carte"
+                icon={<IconFrance />}
+                onClick={() => router.push("/carte")}
+                title="Aller sur la carte"
               />
             </div>
           </div>

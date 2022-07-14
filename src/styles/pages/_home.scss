@@ -11,8 +11,31 @@
     height: calc(100vh - 95px);
 
     display: flex;
-    justify-content: end;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    &__content {
+      max-width: 40vw;
+
+      &--right {
+        margin-right: 7vw;
+        text-align: right;
+        align-self: end;
+      }
+      &--left {
+        margin-left: 7vw;
+        align-self: start;
+      }
+
+      .content {
+        &__buttons {
+          display: flex;
+          justify-content: space-evenly;
+
+          margin-top: 40px;
+        }
+      }
+    }
   }
 
   .home {
@@ -52,20 +75,11 @@
             background-color: rgba(black, 0.5);
           }
         }
+      }
 
+      .panel {
         &__content {
-          margin-right: 7vw;
-          max-width: 40vw;
-
           color: white;
-          text-align: right;
-
-          .content {
-            &__buttons {
-              display: flex;
-              justify-content: space-evenly;
-            }
-          }
         }
       }
     }
@@ -94,7 +108,7 @@
       }
 
       &__text {
-        margin: 0 5px;
+        margin: 0 5px 0 7px;
 
         color: white;
         font-weight: bold;
