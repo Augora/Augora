@@ -20,7 +20,7 @@
       .content {
         &__title {
           font-size: 36px;
-          background: linear-gradient(to right, $secondary-color, $main-color);
+          background: linear-gradient(to right, $main-color, $secondary-color);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
 
@@ -140,13 +140,13 @@
       align-items: center;
 
       padding: 10px 15px;
-      border: none;
+      border: 3px solid $secondary-color;
       border-radius: 30px;
       background-image: linear-gradient(to right, $secondary-color, $main-color);
 
       cursor: pointer;
 
-      transition: transform 0.3s $ease-in-out-cubic;
+      transition: border-color 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
 
       &__icon {
         width: 40px;
@@ -165,13 +165,10 @@
         font-weight: bold;
       }
 
-      &:hover {
-        transform: scale(1.1);
-      }
-
       &.inverted {
         background-image: none;
         background: white;
+        border-color: white;
 
         .home-btn {
           &__icon {
@@ -185,6 +182,15 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
           }
+        }
+      }
+
+      &:hover {
+        // transform: scale(1.1);
+        border-color: rgba(white, 0.5);
+
+        &.inverted {
+          border-color: $secondary-color;
         }
       }
     }
