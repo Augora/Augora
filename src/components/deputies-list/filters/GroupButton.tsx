@@ -6,6 +6,7 @@ interface IGroupButton {
   group: Group.Group
   onClick(arg: string): void
   checked?: boolean
+  title?: string
   children?: React.ReactNode
 }
 

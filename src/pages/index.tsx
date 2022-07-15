@@ -162,6 +162,8 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
             {groupes.map((group) => (
               <GroupButton
                 group={group}
+                title={group.NomComplet}
+                key={`groupe--${group.Sigle}`}
                 onClick={() => {
                   groupes.forEach((grp) => {
                     if (grp.Sigle !== group.Sigle && GroupeValue[grp.Sigle]) handleGroupClick(grp.Sigle)
