@@ -48,20 +48,8 @@ export default function useDeputiesFilters() {
    * @param sigle Le sigle du groupe
    */
   const handleGroupClick = (sigle: string) => {
-    const groupesAsArray = Object.entries(GroupeValue)
-    const allActive = groupesAsArray.every(([key, value]) => value)
-
-    let newGroupValue: Filter.GroupValue = GroupeValue
-
-    Object.keys(GroupeValue).forEach((key) => {
-      if (allActive) {
-        newGroupValue[key] = key !== sigle ? true : false
-      } else {
-        if (key === sigle) newGroupValue[sigle] = !newGroupValue[sigle]
-      }
-    })
-
-    setGroupeValue(newGroupValue)
+    GroupeValue[sigle] = !GroupeValue[sigle]
+    setGroupeValue(GroupeValue)
   }
 
   /**
@@ -69,20 +57,8 @@ export default function useDeputiesFilters() {
    * @param clickedSex L'initiale du sexe séléctionné, "H", ou "F"
    */
   const handleSexClick = (clickedSex: Filter.Gender) => {
-    const otherSex = clickedSex === "F" ? "H" : "F"
-    let newSexValue = {
-      F: true,
-      H: true,
-    }
-
-    if (SexValue[otherSex]) {
-      newSexValue[clickedSex] = true
-      newSexValue[otherSex] = false
-    } else {
-      newSexValue[clickedSex] = true
-      newSexValue[otherSex] = true
-    }
-    setSexValue(newSexValue)
+    SexValue[clickedSex] = !SexValue[clickedSex]
+    setSexValue(SexValue)
   }
 
   /**
@@ -99,7 +75,7 @@ export default function useDeputiesFilters() {
   const handleReset = () => {
     search("")
     setGroupeValue(getGroupValue(initialGroupesList.map((g) => g.Sigle)))
-    setSexValue({ H: true, F: true })
+    setSexValue({ H: false, F: false })
     setAgeDomain(getAgeDomain(initialDeputesList))
   }
 

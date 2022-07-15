@@ -75,7 +75,7 @@ export const getNbActivitesMax = (list: Deputy.Activite[]): number => {
  * @param sigles Array des sigles
  * @param value Valeur à set, true par défaut
  */
-export const getGroupValue = (sigles: string[], value = true): Filter.GroupValue => {
+export const getGroupValue = (sigles: string[], value = false): Filter.GroupValue => {
   return sigles.reduce((a, b) => ((a[b] = value), a), {})
 }
 
@@ -92,12 +92,15 @@ export const filterList = (
     SexValue: Filter.SelectedGenders
   }
 ): Deputy.DeputiesList => {
+  const GroupsOff = Object.values(state.GroupeValue).every((value) => !value)
+  const SexesOff = Object.values(state.SexValue).every((value) => !value)
+
   return list
     .filter((depute) => {
-      return state.GroupeValue[depute.GroupeParlementaire.Sigle] ? true : false
+      return GroupsOff ? true : state.GroupeValue[depute.GroupeParlementaire.Sigle] ? true : false
     })
     .filter((depute) => {
-      return state.SexValue[depute.Sexe] ? true : false
+      return SexesOff ? true : state.SexValue[depute.Sexe] ? true : false
     })
     .filter((depute) => {
       return depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
