@@ -6,7 +6,14 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ViewState } from "react-map-gl"
 import MapAugora from "components/maps/MapAugora"
-import { MetroFeature, AllReg, AllDpt, getLayerPaint, createFeatureCollection } from "components/maps/maps-utils"
+import {
+  MetroFeature,
+  AllReg,
+  AllDpt,
+  getLayerPaint,
+  createFeatureCollection,
+  buildURLFromFeature,
+} from "components/maps/maps-utils"
 import { getDeputes, getGroupes } from "src/lib/deputes/Wrapper"
 import GroupButton from "components/deputies-list/filters/GroupButton"
 import shuffle from "lodash/shuffle"
@@ -143,7 +150,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
                 paint: getLayerPaint(),
               }}
             >
-              <Link href="/carte">
+              <Link href={buildURLFromFeature(feature)}>
                 <div className="map__redirect">
                   <span>{feature.properties.nom}</span>
                 </div>
