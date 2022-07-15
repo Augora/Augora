@@ -53,6 +53,19 @@ export default function useDeputiesFilters() {
   }
 
   /**
+   * Isole un seul groupe dans les filtres
+   * @param sigle Le sigle du groupe
+   */
+  const isolateGroup = (sigle: string) => {
+    Object.keys(GroupeValue).forEach((key) => {
+      if (key === sigle) GroupeValue[key] = true
+      else GroupeValue[key] = false
+    })
+
+    setGroupeValue(GroupeValue)
+  }
+
+  /**
    * Change les filtres au clic d'un bouton sexe
    * @param clickedSex L'initiale du sexe séléctionné, "H", ou "F"
    */
@@ -97,5 +110,6 @@ export default function useDeputiesFilters() {
     handleSexClick,
     handleAgeSlider,
     handleReset,
+    isolateGroup,
   }
 }
