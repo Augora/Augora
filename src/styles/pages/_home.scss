@@ -98,11 +98,27 @@
         border: 3px solid white;
 
         position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
 
         cursor: pointer;
         pointer-events: auto;
 
         transition: border-color 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+        span {
+          max-width: 70%;
+          margin-bottom: 10%;
+          padding: 15px;
+          background: white;
+          border-radius: 30px;
+
+          font-size: 20px;
+          font-weight: bold;
+          text-align: center;
+          color: $main-color;
+        }
 
         &:hover {
           border-color: $main-color;

@@ -144,7 +144,9 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
               }}
             >
               <Link href="/carte">
-                <div className="map__redirect" />
+                <div className="map__redirect">
+                  <span>{feature.properties.nom}</span>
+                </div>
               </Link>
             </MapAugora>
           </div>
