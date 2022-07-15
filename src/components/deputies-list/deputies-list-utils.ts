@@ -92,15 +92,15 @@ export const filterList = (
     SexValue: Filter.SelectedGenders
   }
 ): Deputy.DeputiesList => {
-  const GroupsOff = Object.values(state.GroupeValue).every((value) => !value)
-  const SexesOff = Object.values(state.SexValue).every((value) => !value)
+  const allGroupsOff = Object.values(state.GroupeValue).every((value) => !value)
+  const allSexesOff = Object.values(state.SexValue).every((value) => !value)
 
   return list
     .filter((depute) => {
-      return GroupsOff ? true : state.GroupeValue[depute.GroupeParlementaire.Sigle] ? true : false
+      return allGroupsOff ? true : state.GroupeValue[depute.GroupeParlementaire.Sigle] ? true : false
     })
     .filter((depute) => {
-      return SexesOff ? true : state.SexValue[depute.Sexe] ? true : false
+      return allSexesOff ? true : state.SexValue[depute.Sexe] ? true : false
     })
     .filter((depute) => {
       return depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]

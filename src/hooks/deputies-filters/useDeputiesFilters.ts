@@ -66,6 +66,23 @@ export default function useDeputiesFilters() {
   }
 
   /**
+   * Retire le groupe desfiltres et active tous les autres ou toggle si des filtres sont deja actifs
+   * @param sigle Le sigle du groupe
+   */
+  const filterGroup = (sigle: string) => {
+    const allGroupsOff = Object.values(state.GroupeValue).every((value) => !value)
+
+    if (allGroupsOff)
+      Object.keys(GroupeValue).forEach((key) => {
+        if (key === sigle) GroupeValue[key] = false
+        else GroupeValue[key] = true
+      })
+    else GroupeValue[sigle] = !GroupeValue[sigle]
+
+    setGroupeValue(GroupeValue)
+  }
+
+  /**
    * Change les filtres au clic d'un bouton sexe
    * @param clickedSex L'initiale du sexe séléctionné, "H", ou "F"
    */
@@ -111,5 +128,6 @@ export default function useDeputiesFilters() {
     handleAgeSlider,
     handleReset,
     isolateGroup,
+    filterGroup,
   }
 }

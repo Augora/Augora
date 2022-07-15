@@ -8,7 +8,16 @@ interface IChartLegend {
 
 export default function ChartLegend(props: IChartLegend) {
   const { shapeScale } = props
-  const { state, handleGroupClick } = useDeputiesFilters()
+  const {
+    state: { GroupeValue },
+    filterGroup,
+  } = useDeputiesFilters()
+
+  const isCrossed = (sigle: string): boolean => {
+    if (!Object.values(GroupeValue).every((value) => !value)) return !GroupeValue[sigle]
+    else return false
+  }
+
   return (
     <Legend scale={shapeScale}>
       {(labels) => (
@@ -22,7 +31,7 @@ export default function ChartLegend(props: IChartLegend) {
                 key={`legend-quantile-${i}`}
                 style={undefined}
                 onClick={() => {
-                  handleGroupClick(label.datum as string)
+                  filterGroup(label.datum as string)
                 }}
               >
                 <svg className={`square__${label.datum}`}>
@@ -30,7 +39,7 @@ export default function ChartLegend(props: IChartLegend) {
                     ? React.cloneElement(shape as React.ReactElement)
                     : React.createElement(shape as React.ComponentType<{ fill: string }>)}
                 </svg>
-                <LegendLabel className={`item__label ${state.GroupeValue[label.datum as string] ? "" : "line"}`} style={{}}>
+                <LegendLabel className={`item__label ${isCrossed(label.datum as string) ? "line" : ""}`} style={{}}>
                   {label.text}
                 </LegendLabel>
               </LegendItem>
