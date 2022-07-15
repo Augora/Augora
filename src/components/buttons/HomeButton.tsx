@@ -11,7 +11,7 @@ interface IHomeButton {
 /**
  * Return a button for home page
  * @param text Le texte à l'intérieur
- * @param icon Une icone (<svg> ou <img>) à afficher à la gauche
+ * @param icon Une icone (svg ou img) à afficher à la gauche
  * @param inverted Savoir si les couleurs doivent etre inversées ou pas, par défaut fond blanc
  * @param onClick La fonction appelée au click
  */

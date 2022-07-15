@@ -1,13 +1,17 @@
-import React from "react"
+import React, { useState } from "react"
 import HomeButton from "components/buttons/HomeButton"
 import HomeGradientBar from "components/graphics/HomeGradientBar"
 import SEO, { PageType } from "../components/seo/seo"
+import Link from "next/link"
 import { useRouter } from "next/router"
+import { ViewState } from "react-map-gl"
+import { MetroFeature, getLayerPaint, createFeatureCollection } from "src/components/maps/maps-utils"
 import IconPin from "images/ui-kit/icon-pin.svg"
 import IconGroup from "images/ui-kit/icon-group.svg"
 import IconFrance from "images/ui-kit/icon-france.svg"
 import IconStat from "images/ui-kit/icon-stat.svg"
 import IconInfo from "images/ui-kit/icon-info.svg"
+import MapAugora from "src/components/maps/MapAugora"
 // import random from "lodash/random"
 
 // const dummyBlockNumber = 20
@@ -24,6 +28,20 @@ import IconInfo from "images/ui-kit/icon-info.svg"
 
 export default function IndexPage() {
   const router = useRouter()
+
+  const [viewstate, setViewstate] = useState<ViewState>({
+    zoom: 2,
+    longitude: 2.23,
+    latitude: 46.44,
+    bearing: 0,
+    pitch: 0,
+    padding: {
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
+  })
 
   return (
     <>
@@ -75,7 +93,7 @@ export default function IndexPage() {
             </div>
           </div>
         </div>
-        <div className="home__map panel panel--left">
+        <div className="home__map panel panel--left panel--shared">
           <HomeGradientBar pos="left" />
           <div className="panel__content">
             <h2 className="content__title">Une carte interactive</h2>
@@ -92,6 +110,22 @@ export default function IndexPage() {
                 title="Aller sur la carte"
               />
             </div>
+          </div>
+          <div className="panel__map">
+            <MapAugora
+              overlay={false}
+              viewstate={viewstate}
+              setViewstate={setViewstate}
+              mapView={{
+                geoJSON: createFeatureCollection([MetroFeature]),
+                feature: MetroFeature,
+                paint: getLayerPaint(),
+              }}
+            >
+              <Link href="/carte">
+                <div className="map__redirect" />
+              </Link>
+            </MapAugora>
           </div>
         </div>
         <div className="home__stats panel panel--center">
