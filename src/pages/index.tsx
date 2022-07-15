@@ -5,13 +5,18 @@ import SEO, { PageType } from "../components/seo/seo"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { ViewState } from "react-map-gl"
-import { MetroFeature, getLayerPaint, createFeatureCollection } from "src/components/maps/maps-utils"
+import MapAugora from "components/maps/MapAugora"
+import { MetroFeature, getLayerPaint, createFeatureCollection } from "components/maps/maps-utils"
+import { getDeputes, getGroupes } from "src/lib/deputes/Wrapper"
+import GroupButton from "components/deputies-list/filters/GroupButton"
+import shuffle from "lodash/shuffle"
+import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import IconPin from "images/ui-kit/icon-pin.svg"
 import IconGroup from "images/ui-kit/icon-group.svg"
 import IconFrance from "images/ui-kit/icon-france.svg"
 import IconStat from "images/ui-kit/icon-stat.svg"
 import IconInfo from "images/ui-kit/icon-info.svg"
-import MapAugora from "src/components/maps/MapAugora"
+
 // import random from "lodash/random"
 
 // const dummyBlockNumber = 20
@@ -26,8 +31,13 @@ import MapAugora from "src/components/maps/MapAugora"
 //   )
 // }
 
-export default function IndexPage() {
+export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
   const router = useRouter()
+
+  const {
+    state: { GroupeValue },
+    handleGroupClick,
+  } = useDeputiesFilters()
 
   const [viewstate, setViewstate] = useState<ViewState>({
     zoom: 2,
@@ -146,8 +156,22 @@ export default function IndexPage() {
             </div>
           </div>
         </div>
-        <div className="home__groups panel panel--right">
+        <div className="home__groups panel panel--right panel--shared">
           <HomeGradientBar pos="right" />
+          <div className="panel__groups">
+            {groupes.map((group) => (
+              <GroupButton
+                group={group}
+                onClick={() => {
+                  groupes.forEach((grp) => {
+                    if (grp.Sigle !== group.Sigle && GroupeValue[grp.Sigle]) handleGroupClick(grp.Sigle)
+                    else if (grp.Sigle === group.Sigle && !GroupeValue[grp.Sigle]) handleGroupClick(grp.Sigle)
+                  })
+                  router.push("/deputes")
+                }}
+              />
+            ))}
+          </div>
           <div className="panel__content">
             <h2 className="content__title">Vos Députés</h2>
             <p>
@@ -198,8 +222,12 @@ export default function IndexPage() {
 }
 
 export async function getStaticProps() {
+  const [deputes, groupes] = await Promise.all([getDeputes(), getGroupes()])
+
   return {
     props: {
+      deputes: shuffle(deputes),
+      groupes: groupes,
       title: "Augora",
       PageType: PageType.Accueil,
     },
