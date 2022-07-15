@@ -13,7 +13,14 @@
   .filters {
     @import "filters/search";
     @import "filters/sexes";
-    @import "filters/groupes";
+
+    &__groupe {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      position: relative;
+    }
 
     //sex / group / allornone group
     &__middle-line {
