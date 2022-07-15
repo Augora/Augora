@@ -104,18 +104,12 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
               présentation moderne des députés de l’assemblée nationale pour faciliter au maximum l’accès à ces informations.
             </p>
             <div className="content__buttons">
-              <HomeButton
-                text="Mon Député"
-                icon={<IconPin />}
-                inverted={true}
-                onClick={() => router.push("/carte")}
-                title="Découvrir mon député"
-              />
+              <HomeButton text="Mon Député" icon={<IconPin />} inverted={true} onClick="/carte" title="Découvrir mon député" />
               <HomeButton
                 text="L'assemblée"
                 icon={<IconGroup />}
                 inverted={true}
-                onClick={() => router.push("/deputes")}
+                onClick="/deputes"
                 title="Voir tous les députés"
               />
             </div>
@@ -131,12 +125,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
               entier est couvert. Les filtres permettent un affinage des données géographiques recherchées.
             </p>
             <div className="content__buttons">
-              <HomeButton
-                text="La Carte"
-                icon={<IconFrance />}
-                onClick={() => router.push("/carte")}
-                title="Aller sur la carte"
-              />
+              <HomeButton text="La Carte" icon={<IconFrance />} onClick="/carte" title="Aller sur la carte" />
             </div>
           </div>
           <div className="panel__map">
@@ -170,7 +159,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
                 text="Les Statistiques"
                 icon={<IconStat />}
                 inverted={true}
-                onClick={() => router.push("/statistiques")}
+                onClick="/statistiques"
                 title="Aller voir les statistiques"
               />
             </div>
@@ -201,12 +190,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
               consultez la FAQ.
             </p>
             <div className="content__buttons">
-              <HomeButton
-                text="L'assemblée"
-                icon={<IconGroup />}
-                onClick={() => router.push("/deputes")}
-                title="Voir tous les députés"
-              />
+              <HomeButton text="L'assemblée" icon={<IconGroup />} onClick="/deputes" title="Voir tous les députés" />
             </div>
           </div>
         </div>
@@ -228,13 +212,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
               <p>Pour toute question concernant le site ou le fonctionnement de l’assemblée, consultez la FAQ.</p>
             </div>
             <div className="content__buttons">
-              <HomeButton
-                text="La FAQ"
-                icon={<IconInfo />}
-                inverted={true}
-                onClick={() => router.push("/faq")}
-                title="Aller consulter la FAQ"
-              />
+              <HomeButton text="La FAQ" icon={<IconInfo />} inverted={true} onClick="/faq" title="Aller consulter la FAQ" />
             </div>
           </div>
         </div>
