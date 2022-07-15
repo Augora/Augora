@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import HomeButton from "components/buttons/HomeButton"
 import HomeGradientBar from "components/graphics/HomeGradientBar"
 import SEO, { PageType } from "../components/seo/seo"
@@ -6,10 +6,11 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ViewState } from "react-map-gl"
 import MapAugora from "components/maps/MapAugora"
-import { MetroFeature, getLayerPaint, createFeatureCollection } from "components/maps/maps-utils"
+import { MetroFeature, AllReg, AllDpt, getLayerPaint, createFeatureCollection } from "components/maps/maps-utils"
 import { getDeputes, getGroupes } from "src/lib/deputes/Wrapper"
 import GroupButton from "components/deputies-list/filters/GroupButton"
 import shuffle from "lodash/shuffle"
+import random from "lodash/random"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import IconPin from "images/ui-kit/icon-pin.svg"
 import IconGroup from "images/ui-kit/icon-group.svg"
@@ -52,6 +53,16 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
       right: 0,
     },
   })
+  const [feature, setFeature] = useState<AugoraMap.Feature>(MetroFeature)
+  const allFeatures = useMemo(() => [MetroFeature, ...AllReg.features, ...AllDpt.features], [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Changing feature...")
+      setFeature(allFeatures[random(0, allFeatures.length - 1)])
+    }, 10000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <>
@@ -127,8 +138,8 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
               viewstate={viewstate}
               setViewstate={setViewstate}
               mapView={{
-                geoJSON: createFeatureCollection([MetroFeature]),
-                feature: MetroFeature,
+                geoJSON: createFeatureCollection([feature]),
+                feature: feature,
                 paint: getLayerPaint(),
               }}
             >
