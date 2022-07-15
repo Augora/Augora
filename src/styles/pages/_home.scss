@@ -8,7 +8,7 @@
   .panel {
     position: relative;
     width: 100vw;
-    height: calc(100vh - 95px);
+    height: 100vh;
 
     display: flex;
     flex-direction: column;
@@ -162,7 +162,7 @@
 
   .home {
     &__intro {
-      height: calc(100vh - 175px);
+      // height: calc(100vh - 175px);
 
       .panel {
         &__content {
