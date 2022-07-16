@@ -15,7 +15,10 @@ interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
 
 export default function PyramideBar(props: BarStackProps) {
   const { width, height, dataAgeHomme, dataAgeFemme, totalDeputes, maxAge } = props
-  const { state, handleSexClick } = useDeputiesFilters()
+  const {
+    state: { SexValue },
+    filterSex,
+  } = useDeputiesFilters()
 
   // bounds
   const marginTop = 20
@@ -33,6 +36,11 @@ export default function PyramideBar(props: BarStackProps) {
     domain: domain,
     range: domain.map((d) => <GlyphSquare key={d} size={glyphSize} top={glyphPosition} left={glyphPosition} />),
   })
+
+  const isCrossed = (sex: Filter.Gender) => {
+    if (Object.values(SexValue).every((value) => !value)) return false
+    else return !SexValue[sex]
+  }
 
   return (
     <div className="pyramidechart chart">
@@ -80,7 +88,7 @@ export default function PyramideBar(props: BarStackProps) {
                   key={`legend-quantile-${i}`}
                   style={undefined}
                   onClick={() => {
-                    handleSexClick(label.datum == "hommes" ? "F" : "H")
+                    filterSex(label.datum == "hommes" ? "H" : "F")
                   }}
                 >
                   <svg className={`square__${label.datum}`}>
@@ -90,7 +98,7 @@ export default function PyramideBar(props: BarStackProps) {
                   </svg>
                   <LegendLabel
                     className={`item__label ${
-                      label.datum == "hommes" ? (state.SexValue.H ? "" : "line") : state.SexValue.F ? "" : "line"
+                      label.datum == "hommes" ? (isCrossed("H") ? "line" : "") : isCrossed("F") ? "line" : ""
                     }`}
                     style={{}}
                   >
