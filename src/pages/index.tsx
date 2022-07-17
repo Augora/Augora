@@ -8,11 +8,10 @@ import { ViewState } from "react-map-gl"
 import MapAugora from "components/maps/MapAugora"
 import {
   MetroFeature,
-  AllReg,
-  AllDpt,
   getLayerPaint,
   createFeatureCollection,
   buildURLFromFeature,
+  getZoneName,
 } from "components/maps/maps-utils"
 import { getDeputes, getGroupes } from "src/lib/deputes/Wrapper"
 import GroupButton from "components/deputies-list/filters/GroupButton"
@@ -24,8 +23,8 @@ import IconGroup from "images/ui-kit/icon-group.svg"
 import IconFrance from "images/ui-kit/icon-france.svg"
 import IconStat from "images/ui-kit/icon-stat.svg"
 import IconInfo from "images/ui-kit/icon-info.svg"
-
-// import random from "lodash/random"
+import MetroCircFile from "static/circ-metro.geojson"
+import OMCircFile from "static/circ-om.geojson"
 
 // const dummyBlockNumber = 20
 // const DummyBlock = () => {
@@ -46,7 +45,6 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
     state: { GroupeValue },
     handleGroupClick,
   } = useDeputiesFilters()
-
   const [viewstate, setViewstate] = useState<ViewState>({
     zoom: 2,
     longitude: 2.23,
@@ -60,8 +58,9 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
       right: 0,
     },
   })
+
   const [feature, setFeature] = useState<AugoraMap.Feature>(MetroFeature)
-  const allFeatures = useMemo(() => [MetroFeature, ...AllReg.features, ...AllDpt.features], [])
+  const allFeatures = useMemo(() => [MetroFeature, ...MetroCircFile.features, ...OMCircFile.features], [])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -141,7 +140,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
             >
               <Link href={buildURLFromFeature(feature)}>
                 <div className="map__redirect">
-                  <span>{feature.properties.nom}</span>
+                  <span>{`${getZoneName(feature)}${feature.properties.nom_dpt ? ` de ${feature.properties.nom_dpt}` : ""}`}</span>
                 </div>
               </Link>
             </MapAugora>
