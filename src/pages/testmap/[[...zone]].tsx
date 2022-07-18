@@ -5,31 +5,16 @@ import { useRouter } from "next/router"
 import SEO, { PageType } from "components/seo/seo"
 import mapStore from "stores/mapStore"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import useNonInitialEffect from "hooks/useNonInitialEffect"
-import {
-  buildURLFromFeature,
-  Code,
-  compareFeatures,
-  createFeatureCollection,
-  getChildFeatures,
-  getDeputies,
-  getFeatureFromQuery,
-  getGhostZones,
-  getLayerPaint,
-  getZoneCode,
-  getZoneTitle,
-  MetroFeature,
-} from "components/maps/maps-utils"
-import { slugify } from "src/utils/utils"
-import MetroFranceContFile from "static/cont-france.geojson"
-import MetroRegFile from "static/reg-metro.geojson"
-import MetroDptFile from "static/dpt-metro.geojson"
-import OMDptFile from "static/dpt-om.geojson"
-import MetroCircFile from "static/circ-metro.geojson"
-import OMCircFile from "static/circ-om.geojson"
-import HorsCircFile from "static/circ-hors.geojson"
+import { buildURLFromFeature, Code, compareFeatures, createFeatureCollection, getZoneCode } from "components/maps/maps-utils"
+import { getMapFeature, getMapGeoJSON } from "components/maps/maps-imports"
 
-export default function MapPage(props) {
+interface IMapProps {
+  feature: AugoraMap.Feature
+  geoJSON: AugoraMap.FeatureCollection
+  ghostGeoJSON?: AugoraMap.FeatureCollection
+}
+
+export default function MapPage(props: IMapProps) {
   const router = useRouter()
 
   const {
@@ -75,9 +60,9 @@ export default function MapPage(props) {
     }
   }, []) //calcule le vh en js pour contrecarrer le bug des 100vh sur mobile
 
-  useNonInitialEffect(() => {
-    displayZone(zoneFeature) //refresh les overlays si la liste des deputés change
-  }, [FilteredList])
+  // useNonInitialEffect(() => {
+  //   displayZone(zoneFeature) //refresh les overlays si la liste des deputés change
+  // }, [FilteredList])
 
   const handleResize = (e) => {
     setViewsize({ height: e.target.innerHeight, width: e.target.innerWidth })
@@ -102,37 +87,37 @@ export default function MapPage(props) {
     }
   }
 
-  /**
-   * Affiche une nouvelle vue et transitionne, sans changer l'url, ne pas utiliser directement
-   * @param {AugoraMap.Feature} feature La feature de la zone à afficher
-   */
-  const displayZone = (feature: AugoraMap.Feature) => {
-    if (feature) {
-      const zoneDeputies = getDeputies(feature, FilteredList)
-      setDeputies(zoneDeputies)
+  // /**
+  //  * Affiche une nouvelle vue et transitionne, sans changer l'url, ne pas utiliser directement
+  //  * @param {AugoraMap.Feature} feature La feature de la zone à afficher
+  //  */
+  // const displayZone = (feature: AugoraMap.Feature) => {
+  //   if (feature) {
+  //     const zoneDeputies = getDeputies(feature, FilteredList)
+  //     setDeputies(zoneDeputies)
 
-      if (getZoneCode(feature) === Code.Circ) {
-        const groupColor = zoneDeputies[0]?.GroupeParlementaire?.Couleur
+  //     if (getZoneCode(feature) === Code.Circ) {
+  //       const groupColor = zoneDeputies[0]?.GroupeParlementaire?.Couleur
 
-        setMapView({
-          geoJSON: createFeatureCollection([feature]),
-          feature: feature,
-          paint: groupColor ? getLayerPaint(groupColor) : getLayerPaint("#808080"),
-        })
-      } else {
-        setMapView({
-          geoJSON: getChildFeatures(feature),
-          ghostGeoJSON: getGhostZones(feature),
-          feature: feature,
-          paint: getLayerPaint(),
-        })
-      }
-      setPageTitle(getZoneTitle(feature))
-    } else {
-      console.warn("Zone à afficher non trouvée. Redirection vers France Métropolitaine")
-      changeZone(MetroFeature)
-    }
-  }
+  //       setMapView({
+  //         geoJSON: createFeatureCollection([feature]),
+  //         feature: feature,
+  //         paint: groupColor ? getLayerPaint(groupColor) : getLayerPaint("#808080"),
+  //       })
+  //     } else {
+  //       setMapView({
+  //         geoJSON: getChildFeatures(feature),
+  //         ghostGeoJSON: getGhostZones(feature),
+  //         feature: feature,
+  //         paint: getLayerPaint(),
+  //       })
+  //     }
+  //     setPageTitle(getZoneTitle(feature))
+  //   } else {
+  //     console.warn("Zone à afficher non trouvée. Redirection vers France Métropolitaine")
+  //     changeZone(MetroFeature)
+  //   }
+  // }
 
   return (
     <>
@@ -144,7 +129,7 @@ export default function MapPage(props) {
             setViewstate={setViewstate}
             deputies={FilteredList}
             mapView={{
-              geoJSON: createFeatureCollection([props.feature]),
+              geoJSON: props.geoJSON,
               ghostGeoJSON: ghostGeoJSON,
               feature: props.feature,
               paint: paint,
@@ -157,37 +142,11 @@ export default function MapPage(props) {
   )
 }
 
-const getMapProps = (query: string[]): AugoraMap.Feature => {
-  if (query) {
-    switch (query[0]) {
-      case "france":
-        if (query.length <= 1) return MetroFranceContFile.features[0]
-        else if (query.length === 2) return MetroRegFile.features.find((feature) => slugify(feature.properties.nom) === query[1])
-        else if (query.length === 3) return MetroDptFile.features.find((feature) => slugify(feature.properties.nom) === query[2])
-        else
-          return MetroCircFile.features.find(
-            (feature) => slugify(feature.properties.nom_dpt) === query[2] && feature.properties.code_circ === parseInt(query[3])
-          )
-      case "om":
-        if (query.length <= 1) return MetroFranceContFile.features[0]
-        else if (query.length === 2) return OMDptFile.features.find((feature) => slugify(feature.properties.nom) === query[1])
-        else
-          return OMCircFile.features.find(
-            (feature) => slugify(feature.properties.nom_dpt) === query[1] && feature.properties.code_circ === parseInt(query[2])
-          )
-      case "monde":
-        if (query.length <= 1) return MetroFranceContFile.features[0]
-        else return HorsCircFile.features.find((feature) => feature.properties.code_circ === parseInt(query[1]))
-      default:
-        return MetroFranceContFile.features[0]
-    }
-  } else return MetroFranceContFile.features[0]
-}
-
 export const getStaticProps: GetStaticProps = async ({ params: { zone = null } }: { params: { zone: string[] } }) => {
   return {
     props: {
-      feature: getMapProps(zone),
+      feature: getMapFeature(zone),
+      geoJSON: getMapGeoJSON(zone),
     },
   }
 }
