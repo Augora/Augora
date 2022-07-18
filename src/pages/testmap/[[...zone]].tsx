@@ -5,8 +5,8 @@ import { useRouter } from "next/router"
 import SEO, { PageType } from "components/seo/seo"
 import mapStore from "stores/mapStore"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { buildURLFromFeature, Code, compareFeatures, createFeatureCollection, getZoneCode } from "components/maps/maps-utils"
-import { getMapFeature, getMapGeoJSON } from "components/maps/maps-imports"
+import { buildURLFromFeature, Code, compareFeatures, getZoneCode } from "components/maps/maps-utils"
+import { getMapFeature, getMapGeoJSON, getMapGhostGeoJSON } from "components/maps/maps-imports"
 
 interface IMapProps {
   feature: AugoraMap.Feature
@@ -130,7 +130,7 @@ export default function MapPage(props: IMapProps) {
             deputies={FilteredList}
             mapView={{
               geoJSON: props.geoJSON,
-              ghostGeoJSON: ghostGeoJSON,
+              ghostGeoJSON: props.ghostGeoJSON,
               feature: props.feature,
               paint: paint,
             }}
@@ -147,6 +147,7 @@ export const getStaticProps: GetStaticProps = async ({ params: { zone = null } }
     props: {
       feature: getMapFeature(zone),
       geoJSON: getMapGeoJSON(zone),
+      ghostGeoJSON: getMapGhostGeoJSON(zone),
     },
   }
 }

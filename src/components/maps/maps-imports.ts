@@ -289,20 +289,20 @@ export const geolocateZone = (feature: AugoraMap.MapboxAPIFeature): AugoraMap.Fe
   }
 }
 
-export const getPositionFromQuery = (query: string[]): Pos => {
-  if (query) {
-    switch (query[0]) {
+export const getPositionFromRoute = (route: string[]): Pos => {
+  if (route) {
+    switch (route[0]) {
       case "france":
-        if (query.length <= 1) return Pos.France
-        else if (query.length === 2) return Pos.FrReg
-        else if (query.length === 3) return Pos.FrDpt
+        if (route.length <= 1) return Pos.France
+        else if (route.length === 2) return Pos.FrReg
+        else if (route.length === 3) return Pos.FrDpt
         else return Pos.FrCirc
       case "om":
-        if (query.length <= 1) return null
-        else if (query.length === 2) return Pos.OMDpt
+        if (route.length <= 1) return null
+        else if (route.length === 2) return Pos.OMDpt
         else return Pos.OMCirc
       case "monde":
-        if (query.length <= 1) return Pos.World
+        if (route.length <= 1) return Pos.World
         else return Pos.WCirc
       default:
         return null
@@ -310,84 +310,82 @@ export const getPositionFromQuery = (query: string[]): Pos => {
   } else return null
 }
 
-export const getMapFeature = (query: string[]): AugoraMap.Feature => {
-  switch (getPositionFromQuery(query)) {
+export const getMapFeature = (route: string[]): AugoraMap.Feature => {
+  switch (getPositionFromRoute(route)) {
     case Pos.France:
       return MetroFeature
     case Pos.FrReg:
-      return MetroRegFile.features.find((feature) => slugify(feature.properties.nom) === query[1])
+      return MetroRegFile.features.find((feature) => slugify(feature.properties.nom) === route[1])
     case Pos.FrDpt:
-      return MetroDptFile.features.find((feature) => slugify(feature.properties.nom) === query[2])
+      return MetroDptFile.features.find((feature) => slugify(feature.properties.nom) === route[2])
     case Pos.FrCirc:
       return MetroCircFile.features.find(
-        (feature) => slugify(feature.properties.nom_dpt) === query[2] && feature.properties.code_circ === +query[3]
+        (feature) => slugify(feature.properties.nom_dpt) === route[2] && feature.properties.code_circ === +route[3]
       )
     case Pos.OMDpt:
-      return OMDptFile.features.find((feature) => slugify(feature.properties.nom) === query[1])
+      return OMDptFile.features.find((feature) => slugify(feature.properties.nom) === route[1])
     case Pos.OMCirc:
       return OMCircFile.features.find(
-        (feature) => slugify(feature.properties.nom_dpt) === query[1] && feature.properties.code_circ === +query[2]
+        (feature) => slugify(feature.properties.nom_dpt) === route[1] && feature.properties.code_circ === +route[2]
       )
     case Pos.World:
       return WorldFeature
     case Pos.WCirc:
-      return HorsCircFile.features.find((feature) => feature.properties.code_circ === +query[1])
+      return HorsCircFile.features.find((feature) => feature.properties.code_circ === +route[1])
     default:
       return null
   }
 }
 
-export const getMapGeoJSON = (query: string[]): AugoraMap.FeatureCollection => {
-  switch (getPositionFromQuery(query)) {
+export const getMapGeoJSON = (route: string[]): AugoraMap.FeatureCollection => {
+  switch (getPositionFromRoute(route)) {
     case Pos.France:
       return MetroRegFile
     case Pos.World:
       return WorldCont
     case Pos.FrReg:
-      return createFeatureCollection(MetroDptFile.features.filter((element) => slugify(element.properties.nom_reg) === query[1]))
+      return createFeatureCollection(MetroDptFile.features.filter((element) => slugify(element.properties.nom_reg) === route[1]))
     case Pos.FrDpt:
       return createFeatureCollection(
         MetroCircFile.features.filter(
-          (element) => slugify(element.properties.nom_reg) === query[1] && slugify(element.properties.nom_dpt) === query[2]
+          (element) => slugify(element.properties.nom_reg) === route[1] && slugify(element.properties.nom_dpt) === route[2]
         )
       )
     case Pos.OMDpt:
-      return createFeatureCollection(OMCircFile.features.filter((element) => slugify(element.properties.nom_dpt) === query[1]))
+      return createFeatureCollection(OMCircFile.features.filter((element) => slugify(element.properties.nom_dpt) === route[1]))
     case Pos.WCirc:
-      return createFeatureCollection([HorsCircFile.features.find((element) => element.properties.code_circ === +query[1])])
+      return createFeatureCollection([HorsCircFile.features.find((element) => element.properties.code_circ === +route[1])])
     case Pos.OMCirc:
       return createFeatureCollection([
         OMCircFile.features.find(
-          (element) => slugify(element.properties.nom_dpt) === query[1] && element.properties.code_circ === +query[2]
+          (element) => slugify(element.properties.nom_dpt) === route[1] && element.properties.code_circ === +route[2]
         ),
       ])
     case Pos.FrCirc:
       return createFeatureCollection([
         MetroCircFile.features.find(
           (element) =>
-            slugify(element.properties.nom_reg) === query[1] &&
-            slugify(element.properties.nom_dpt) === query[2] &&
-            element.properties.code_circ === +query[3]
+            slugify(element.properties.nom_reg) === route[1] &&
+            slugify(element.properties.nom_dpt) === route[2] &&
+            element.properties.code_circ === +route[3]
         ),
       ])
     default:
       return createFeatureCollection()
   }
+}
 
-  // switch (zoneCode) {
-  //   case Code.Cont:
-  //     if (feature.properties[zoneCode] === Cont.OM) return OMDptFile
-  //     else if (feature.properties[zoneCode] === Cont.World) return WorldCont
-  //     else return MetroRegFile
-  //   case Code.Reg:
-  //     return createFeatureCollection(
-  //       AllDpt.features.filter((element) => element.properties[zoneCode] === feature.properties[zoneCode])
-  //     )
-  //   case Code.Dpt:
-  //     return createFeatureCollection(
-  //       AllCirc.features.filter((element) => element.properties[zoneCode] === feature.properties[zoneCode])
-  //     )
-  //   default:
-  //     return createFeatureCollection()
-  // }
+export const getMapGhostGeoJSON = (route: string[]): AugoraMap.FeatureCollection => {
+  switch (getPositionFromRoute(route)) {
+    case Pos.FrReg:
+      return createFeatureCollection(MetroRegFile.features.filter((entry) => slugify(entry.properties.nom) !== route[1]))
+    case Pos.FrDpt:
+      const regSisters = MetroRegFile.features.filter((entry) => slugify(entry.properties.nom) !== route[1])
+      const dptSisters = MetroDptFile.features.filter(
+        (entry) => slugify(entry.properties.nom) !== route[2] && slugify(entry.properties.nom_reg) === route[1]
+      )
+      return createFeatureCollection([...regSisters, ...dptSisters])
+    default:
+      return createFeatureCollection()
+  }
 }
