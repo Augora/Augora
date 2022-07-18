@@ -43,7 +43,7 @@ export default function MapPage() {
             onLoad={(e) =>
               e.target.flyTo({
                 center: [2.23, 46.44],
-                zoom: 3,
+                zoom: 4,
                 easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
               })
             }

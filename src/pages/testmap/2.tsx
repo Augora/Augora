@@ -3,7 +3,8 @@ import Map, { Layer, MapRef, Source } from "react-map-gl"
 import SEO, { PageType } from "components/seo/seo"
 import mapStore from "stores/mapStore"
 import { useRouter } from "next/router"
-import Asie from "static/hors/11.geojson"
+import OmDpt from "static/dpt-om.geojson"
+import { createFeatureCollection } from "src/components/maps/maps-utils"
 
 export default function MapPage() {
   const router = useRouter()
@@ -42,14 +43,14 @@ export default function MapPage() {
             onClick={() => router.push("/testmap/1", "/testmap/1", { shallow: true })}
             onLoad={(e) =>
               e.target.flyTo({
-                center: [138.25, 36.2],
-                zoom: 3,
+                center: [55.52, -21.13],
+                zoom: 5,
                 easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
               })
             }
             reuseMaps={true}
           >
-            <Source type="geojson" data={Asie} generateId={true}>
+            <Source type="geojson" data={createFeatureCollection([OmDpt.features[3]])} generateId={true}>
               <Layer id="zone-fill" type="fill" paint={{ "fill-color": "#00bbcc" }} />
             </Source>
           </Map>{" "}
