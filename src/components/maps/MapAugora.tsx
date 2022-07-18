@@ -16,16 +16,14 @@ import {
   Code,
   flyToBounds,
   getZoneCode,
-  getParentFeature,
   compareFeatures,
   getLayerPaint,
   getDeputies,
   flyToCoords,
   getContinent,
-  geolocateFromCoords,
-  geolocateZone,
   Cont,
 } from "components/maps/maps-utils"
+import { getParentFeature, geolocateFromCoords, geolocateZone } from "components/maps/maps-imports"
 import MapControl from "components/maps/MapControl"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
