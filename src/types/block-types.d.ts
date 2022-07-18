@@ -91,5 +91,4 @@ declare namespace Bloc {
   interface Organismes extends Base {
     organismes: Organisme.Contenu[]
   }
-
 }

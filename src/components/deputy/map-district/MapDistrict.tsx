@@ -1,6 +1,7 @@
 import React from "react"
 import MapAugora from "components/maps/MapAugora"
-import { buildURLFromFeature, createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
+import { buildURLFromFeature, createFeatureCollection, getLayerPaint } from "components/maps/maps-utils"
+import { getFeature } from "components/maps/maps-imports"
 import Block from "components/deputy/_block/_Block"
 import Link from "next/link"
 import mapStore from "stores/mapStore"
