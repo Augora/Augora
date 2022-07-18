@@ -295,8 +295,8 @@ export default function MapAugora(props: IMapAugora) {
       onLoad={handleLoad}
       onMove={(e) => props.setViewstate(e.viewState)}
       onMouseMove={handlePointerMove}
-      onClick={handleClick}
-      onContextMenu={handleBack}
+      // onClick={handleClick}
+      // onContextMenu={handleBack}
       onMouseDown={() => setCursor("grabbing")}
       reuseMaps={false}
       attributionControl={attribution}
@@ -314,7 +314,7 @@ export default function MapAugora(props: IMapAugora) {
               <Layer {...fillGhostLayerProps} />
             </Source>
           )}
-          {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
+          {/* {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
           {overlay && (
             <>
               <MapPins
@@ -341,7 +341,7 @@ export default function MapAugora(props: IMapAugora) {
                 </div>
               </div>
             </>
-          )}
+          )} */}
           {props.children}
         </>
       )}
