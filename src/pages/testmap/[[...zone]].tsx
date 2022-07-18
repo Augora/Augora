@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { GetStaticPaths, GetStaticProps } from "next"
 import MapAugora from "components/maps/MapAugora"
-import { getDeputes, getGroupes } from "lib/deputes/Wrapper"
 import { useRouter } from "next/router"
 import SEO, { PageType } from "components/seo/seo"
 import mapStore from "stores/mapStore"
@@ -21,7 +20,6 @@ import {
   getZoneTitle,
   MetroFeature,
 } from "components/maps/maps-utils"
-import shuffle from "lodash/shuffle"
 import { slugify } from "src/utils/utils"
 import MetroFranceContFile from "static/cont-france.geojson"
 import MetroRegFile from "static/reg-metro.geojson"
@@ -160,27 +158,30 @@ export default function MapPage(props) {
 }
 
 const getMapProps = (query: string[]): AugoraMap.Feature => {
-  switch (query[0]) {
-    case "france":
-      if (query.length <= 1) return MetroFranceContFile.features[0]
-      else if (query.length === 2) return MetroRegFile.features.find((feature) => slugify(feature.properties.nom) === query[1])
-      else if (query.length === 3) return MetroDptFile.features.find((feature) => slugify(feature.properties.nom) === query[2])
-      else
-        return MetroCircFile.features.find(
-          (feature) => slugify(feature.properties.nom_dpt) === query[2] && feature.properties.code_circ === parseInt(query[3])
-        )
-    case "om":
-      if (query.length <= 1) return null
-      else if (query.length === 2) return OMDptFile.features.find((feature) => slugify(feature.properties.nom) === query[1])
-      else
-        return OMCircFile.features.find(
-          (feature) => slugify(feature.properties.nom_dpt) === query[1] && feature.properties.code_circ === parseInt(query[2])
-        )
-    case "monde":
-      return HorsCircFile.features.find((feature) => feature.properties.code_circ === parseInt(query[1]))
-    default:
-      return MetroFranceContFile.features[0]
-  }
+  if (query) {
+    switch (query[0]) {
+      case "france":
+        if (query.length <= 1) return MetroFranceContFile.features[0]
+        else if (query.length === 2) return MetroRegFile.features.find((feature) => slugify(feature.properties.nom) === query[1])
+        else if (query.length === 3) return MetroDptFile.features.find((feature) => slugify(feature.properties.nom) === query[2])
+        else
+          return MetroCircFile.features.find(
+            (feature) => slugify(feature.properties.nom_dpt) === query[2] && feature.properties.code_circ === parseInt(query[3])
+          )
+      case "om":
+        if (query.length <= 1) return MetroFranceContFile.features[0]
+        else if (query.length === 2) return OMDptFile.features.find((feature) => slugify(feature.properties.nom) === query[1])
+        else
+          return OMCircFile.features.find(
+            (feature) => slugify(feature.properties.nom_dpt) === query[1] && feature.properties.code_circ === parseInt(query[2])
+          )
+      case "monde":
+        if (query.length <= 1) return MetroFranceContFile.features[0]
+        else return HorsCircFile.features.find((feature) => feature.properties.code_circ === parseInt(query[1]))
+      default:
+        return MetroFranceContFile.features[0]
+    }
+  } else return MetroFranceContFile.features[0]
 }
 
 export const getStaticProps: GetStaticProps = async ({ params: { zone = null } }: { params: { zone: string[] } }) => {
