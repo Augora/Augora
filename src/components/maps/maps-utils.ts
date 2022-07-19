@@ -2,6 +2,7 @@ import { MapRef } from "react-map-gl"
 import { WebMercatorViewport } from "@math.gl/web-mercator"
 import polylabel from "polylabel"
 import pointInPolygon from "point-in-polygon"
+import { slugify } from "utils/utils"
 
 /**
  * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
@@ -498,6 +499,27 @@ export const getPosition = <T extends GeoJSON.Feature>(feature: T): Pos => {
   } else return null
 }
 
-// export const getFeatureURL = <T extends GeoJSON.Feature>(feature: T): string => {
-
-// }
+export const getFeatureURL = <T extends GeoJSON.Feature>(feature: T): string => {
+  switch (getPosition(feature)) {
+    case Pos.France:
+      return "france"
+    case Pos.FrReg:
+      return `france/${slugify(feature.properties.nom)}`
+    case Pos.FrDpt:
+      return `france/${slugify(feature.properties.nom_reg)}/${slugify(feature.properties.nom)}`
+    case Pos.FrCirc:
+      return `france/${slugify(feature.properties.nom_reg)}/${slugify(feature.properties.nom_dpt)}/${
+        feature.properties.code_circ
+      }`
+    case Pos.OMDpt:
+      return `om/${slugify(feature.properties.nom)}`
+    case Pos.OMCirc:
+      return `om/${slugify(feature.properties.nom_dpt)}/${feature.properties.code_circ}`
+    case Pos.World:
+      return "monde"
+    case Pos.WCirc:
+      return `monde/${slugify(feature.properties.code_circ)}`
+    default:
+      return null
+  }
+}

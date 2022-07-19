@@ -293,26 +293,25 @@ export default function MapAugora(props: IMapAugora) {
       onLoad={handleLoad}
       onMove={(e) => props.setViewstate(e.viewState)}
       onMouseMove={handlePointerMove}
-      // onClick={handleClick}
+      onClick={handleClick}
       // onContextMenu={handleBack}
       onMouseDown={() => setCursor("grabbing")}
-      reuseMaps={false}
+      reuseMaps={true}
       attributionControl={attribution}
     >
-      {isMapLoaded && (
-        <>
-          <Source type="geojson" data={geoJSON} generateId={true}>
-            {/* spread pour éviter un bug de typescript de react map gl, à changer quand c'est fix */}
-            <Layer {...lineLayerProps} {...{ paint: paint.line }} />
-            <Layer {...fillLayerProps} {...{ paint: paint.fill }} />
+      <>
+        <Source type="geojson" data={geoJSON} generateId={true}>
+          {/* spread pour éviter un bug de typescript de react map gl, à changer quand c'est fix */}
+          <Layer {...lineLayerProps} {...{ paint: paint.line }} />
+          <Layer {...fillLayerProps} {...{ paint: paint.fill }} />
+        </Source>
+        {ghostGeoJSON && (
+          <Source type="geojson" data={ghostGeoJSON} generateId={true}>
+            <Layer {...lineGhostLayerProps} />
+            <Layer {...fillGhostLayerProps} />
           </Source>
-          {ghostGeoJSON && (
-            <Source type="geojson" data={ghostGeoJSON} generateId={true}>
-              <Layer {...lineGhostLayerProps} />
-              <Layer {...fillGhostLayerProps} />
-            </Source>
-          )}
-          {/* {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
+        )}
+        {/* {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
           {overlay && (
             <>
               <MapPins
@@ -340,9 +339,8 @@ export default function MapAugora(props: IMapAugora) {
               </div>
             </>
           )} */}
-          {props.children}
-        </>
-      )}
+        {props.children}
+      </>
     </Map>
   )
 }

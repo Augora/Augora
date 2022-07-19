@@ -5,7 +5,15 @@ import { useRouter } from "next/router"
 import SEO, { PageType } from "components/seo/seo"
 import mapStore from "stores/mapStore"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { buildURLFromFeature, Code, compareFeatures, getPosition, getZoneCode } from "components/maps/maps-utils"
+import {
+  buildURLFromFeature,
+  Code,
+  compareFeatures,
+  getFeatureURL,
+  getLayerPaint,
+  getPosition,
+  getZoneCode,
+} from "components/maps/maps-utils"
 import { getMapFeature, getMapGeoJSON, getMapGhostGeoJSON } from "components/maps/maps-imports"
 
 interface IMapProps {
@@ -57,7 +65,7 @@ export default function MapPage(props: IMapProps) {
   }
 
   const changeURL = (URL: string) => {
-    router.push(URL, URL, { shallow: true })
+    router.push(`/testmap/${URL}`)
   }
 
   // /**
@@ -122,7 +130,7 @@ export default function MapPage(props: IMapProps) {
               feature: props.feature,
               paint: paint,
             }}
-            // onZoneClick={changeZone}
+            onZoneClick={(feat) => changeURL(getFeatureURL(feat))}
           />
         </div>
       </div>
