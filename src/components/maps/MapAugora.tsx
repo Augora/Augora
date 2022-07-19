@@ -314,7 +314,7 @@ export default function MapAugora(props: IMapAugora) {
         {/* {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />} */}
         {overlay && (
           <>
-            {/* <MapPins
+            <MapPins
               features={geoJSON.features}
               ghostFeatures={ghostGeoJSON?.features}
               hoveredFeature={hover}
@@ -322,16 +322,16 @@ export default function MapAugora(props: IMapAugora) {
               handleClick={goToZone}
               handleHover={simulateHover}
             />
-            {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
-            <MapControl position="top-left">
+            {/* {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />} */}
+            {/* <MapControl position="top-left">
               <MapBreadcrumb feature={zoneFeature} handleClick={(feature) => goToZone({ feature: feature, redirect: false })} />
-            </MapControl>
-            <MapControl position="top-right" className="mapboxgl-ctrl-geo">
+            </MapControl> */}
+            {/* <MapControl position="top-right" className="mapboxgl-ctrl-geo">
               <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
-            </MapControl>
+            </MapControl> */}
             <NavigationControl showCompass={false} />
             <FullscreenControl />
-            <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} /> */}
+            {/* <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} /> */}
             <div className="custom-control-container">
               <div className="ctrl-bottom">
                 <MapFilters zoneDeputies={getDeputies(zoneFeature, deputies)} />
