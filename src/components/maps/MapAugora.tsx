@@ -23,7 +23,7 @@ import {
   getContinent,
   Cont,
 } from "components/maps/maps-utils"
-import { geolocateFromCoords, geolocateZone } from "components/maps/maps-imports"
+// import { geolocateFromCoords, geolocateZone } from "components/maps/maps-imports"
 import MapControl from "components/maps/MapControl"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
@@ -267,20 +267,20 @@ export default function MapAugora(props: IMapAugora) {
     if (!isMapLoaded) setIsMapLoaded(true)
   }
 
-  const handleGeolocate = (e: GeolocateResultEvent) => {
-    const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
-    if (coords) {
-      setGeoPin(coords)
-      goToZone({ feature: geolocateFromCoords(coords, Code.Circ), coords: coords, redirect: false })
-    }
-  }
+  // const handleGeolocate = (e: GeolocateResultEvent) => {
+  //   const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
+  //   if (coords) {
+  //     setGeoPin(coords)
+  //     goToZone({ feature: geolocateFromCoords(coords, Code.Circ), coords: coords, redirect: false })
+  //   }
+  // }
 
-  const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
-    if (feature) {
-      setGeoPin(feature.center)
-      goToZone({ feature: geolocateZone(feature), coords: feature.center, redirect: false })
-    } else setGeoPin(null)
-  }
+  // const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
+  //   if (feature) {
+  //     setGeoPin(feature.center)
+  //     goToZone({ feature: geolocateZone(feature), coords: feature.center, redirect: false })
+  //   } else setGeoPin(null)
+  // }
 
   return (
     <Map
@@ -317,7 +317,7 @@ export default function MapAugora(props: IMapAugora) {
             <Layer {...fillGhostLayerProps} />
           </Source>
         )}
-        {/* {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />} */}
+        {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
         {overlay && (
           <>
             <MapPins
