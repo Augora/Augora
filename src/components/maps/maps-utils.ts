@@ -223,7 +223,7 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
  * @param {boolean} isMobile Pour réduire le padding
  */
 export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRef, isMobile?: boolean): void => {
-  const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
+  const bounds: AugoraMap.Bounds = feature?.properties?.bbox ? feature.properties.bbox : worldBox
 
   const { longitude, latitude, zoom } = new WebMercatorViewport({
     width: mapRef.getContainer().getBoundingClientRect().width,
@@ -562,7 +562,7 @@ export const getParentURL = <T extends GeoJSON.Feature>(feature: T): string => {
 export const getHistory = (feature: AugoraMap.Feature): { url: string; nom: string }[] => {
   const monde = { url: "monde", nom: "Monde" }
   const france = { url: "france", nom: "France" }
-  const props = feature.properties
+  const props = feature?.properties
 
   switch (getPosition(feature)) {
     case Pos.FrReg:
