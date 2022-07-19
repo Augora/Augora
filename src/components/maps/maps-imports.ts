@@ -7,6 +7,7 @@ import {
   createFeatureCollection,
   flyToCoords,
   franceBox,
+  worldBox,
   geolocateFeature,
   getCodeFromCodes,
   getCodesFromFeature,
@@ -14,7 +15,6 @@ import {
   getZoneCode,
   getBoundingBoxFromCoordinates,
   getPositionFromRoute,
-  worldBox,
 } from "components/maps/maps-utils"
 import { WebMercatorViewport } from "@math.gl/web-mercator"
 import { slugify } from "utils/utils"

@@ -14,6 +14,7 @@ import {
   getParentURL,
   getPosition,
   getZoneCode,
+  getHistory,
 } from "components/maps/maps-utils"
 import { getMapFeature, getMapGeoJSON, getMapGhostGeoJSON } from "components/maps/maps-imports"
 import { getDeputes, getGroupes } from "lib/deputes/Wrapper"
@@ -23,6 +24,7 @@ interface IMapProps {
   feature: AugoraMap.Feature
   geoJSON: AugoraMap.FeatureCollection
   ghostGeoJSON?: AugoraMap.FeatureCollection
+  history: AugoraMap.History
 }
 
 export default function MapPage(props: IMapProps) {
@@ -135,6 +137,8 @@ export default function MapPage(props: IMapProps) {
             }}
             onZoneClick={(feat) => changeURL(getFeatureURL(feat))}
             onBack={() => changeURL(getParentURL(props.feature))}
+            onBreadcrumbClick={(url) => changeURL(url)}
+            history={props.history}
           />
         </div>
       </div>
@@ -144,12 +148,14 @@ export default function MapPage(props: IMapProps) {
 
 export const getStaticProps: GetStaticProps = async ({ params: { zone = null } }: { params: { zone: string[] } }) => {
   const [deputes, groupes] = await Promise.all([getDeputes(), getGroupes()])
+  const feature = getMapFeature(zone)
 
   return {
     props: {
-      feature: getMapFeature(zone),
+      feature: feature,
       geoJSON: getMapGeoJSON(zone),
       ghostGeoJSON: getMapGhostGeoJSON(zone),
+      history: getHistory(feature),
       deputes: shuffle(deputes),
       groupes,
     },

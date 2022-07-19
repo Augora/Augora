@@ -3,6 +3,7 @@ import { WebMercatorViewport } from "@math.gl/web-mercator"
 import polylabel from "polylabel"
 import pointInPolygon from "point-in-polygon"
 import { slugify } from "utils/utils"
+import cloneDeepWith from "lodash/cloneDeepWith"
 
 /**
  * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
@@ -551,5 +552,60 @@ export const getParentURL = <T extends GeoJSON.Feature>(feature: T): string => {
     case Pos.World:
     default:
       return null
+  }
+}
+
+/**
+ * Renvoie l'historique des zones du breadcrumb sous forme de feature array
+ * @param {AugoraMap.Feature} feature L'object feature à analyser
+ */
+export const getHistory = (feature: AugoraMap.Feature): { url: string; nom: string }[] => {
+  const monde = { url: "monde", nom: "Monde" }
+  const france = { url: "france", nom: "France" }
+  const props = feature.properties
+
+  switch (getPosition(feature)) {
+    case Pos.FrReg:
+      return [monde, france, { url: `france/${slugify(props.nom)}`, nom: props.nom }]
+    case Pos.FrDpt:
+      return [
+        monde,
+        france,
+        { url: `france/${slugify(props.nom_reg)}`, nom: props.nom_reg },
+        { url: `france/${slugify(props.nom_reg)}/${slugify(props.nom)}`, nom: props.nom },
+      ]
+    case Pos.FrCirc:
+      return [
+        monde,
+        france,
+        { url: `france/${slugify(props.nom_reg)}`, nom: props.nom_reg },
+        { url: `france/${slugify(props.nom_reg)}/${slugify(props.nom_dpt)}`, nom: props.nom_dpt },
+        {
+          url: `france/${slugify(props.nom_reg)}/${slugify(props.nom_dpt)}/${props.code_circ}`,
+          nom: `${props.code_circ}${props.code_circ === 1 ? "ère" : "ème"} Circonscription`,
+        },
+      ]
+    case Pos.OMDpt:
+      return [monde, { url: `om/${slugify(props.nom)}`, nom: props.nom }]
+    case Pos.OMCirc:
+      return [
+        monde,
+        { url: `om/${slugify(props.nom_dpt)}`, nom: props.nom_dpt },
+        {
+          url: `om/${slugify(props.nom_dpt)}/${props.code_circ}`,
+          nom: `${props.code_circ}${props.code_circ === 1 ? "ère" : "ème"} Circonscription`,
+        },
+      ]
+    case Pos.WCirc:
+      return [
+        monde,
+        { url: `monde/${props.code_circ}}`, nom: `${props.code_circ}${props.code_circ === 1 ? "ère" : "ème"} Circonscription` },
+      ]
+    case Pos.France:
+      return [monde, france]
+    case Pos.World:
+      return [monde]
+    default:
+      return []
   }
 }

@@ -44,6 +44,10 @@ interface IMapAugora {
   onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
   /**  */
   onBack?(args?: any): void
+  /**  */
+  onBreadcrumbClick?(url: string): void
+  /**  */
+  history?: AugoraMap.History
   /** Le mode de vue sur les zones, par défaut zoomé */
   overview?: boolean
   /** Liste de députés que la map va fouiller. Inutile si on désactive les overlay */
@@ -325,9 +329,9 @@ export default function MapAugora(props: IMapAugora) {
               handleHover={simulateHover}
             />
             {/* {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />} */}
-            {/* <MapControl position="top-left">
-              <MapBreadcrumb feature={zoneFeature} handleClick={(feature) => goToZone({ feature: feature, redirect: false })} />
-            </MapControl> */}
+            <MapControl position="top-left">
+              <MapBreadcrumb history={props.history} handleClick={props.onBreadcrumbClick} />
+            </MapControl>
             {/* <MapControl position="top-right" className="mapboxgl-ctrl-geo">
               <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
             </MapControl> */}

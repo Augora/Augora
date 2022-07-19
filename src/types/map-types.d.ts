@@ -86,4 +86,11 @@ declare namespace AugoraMap {
       line: mapboxgl.LinePaint
     }
   }
+
+  type Breadcrumb = {
+    url: string
+    nom: string
+  }
+
+  type History = Breadcrumb[]
 }
