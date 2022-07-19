@@ -15,6 +15,8 @@ import {
   getZoneCode,
 } from "components/maps/maps-utils"
 import { getMapFeature, getMapGeoJSON, getMapGhostGeoJSON } from "components/maps/maps-imports"
+import { getDeputes, getGroupes } from "lib/deputes/Wrapper"
+import shuffle from "lodash/shuffle"
 
 interface IMapProps {
   feature: AugoraMap.Feature
@@ -32,7 +34,7 @@ export default function MapPage(props: IMapProps) {
   const [pageTitle, setPageTitle] = useState<string>("Carte")
 
   /** Zustand state */
-  const { viewsize, viewstate, deputies, paint, setViewsize, setViewstate } = mapStore()
+  const { viewsize, viewstate, paint, setViewsize, setViewstate } = mapStore()
 
   // useEffect(() => {
   //   const ready = !/\?./.test(router.asPath) || Object.keys(router.query).length > 0 //test si on a bien les valeurs finales de la query
@@ -139,11 +141,15 @@ export default function MapPage(props: IMapProps) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params: { zone = null } }: { params: { zone: string[] } }) => {
+  const [deputes, groupes] = await Promise.all([getDeputes(), getGroupes()])
+
   return {
     props: {
       feature: getMapFeature(zone),
       geoJSON: getMapGeoJSON(zone),
       ghostGeoJSON: getMapGhostGeoJSON(zone),
+      deputes: shuffle(deputes),
+      groupes,
     },
   }
 }
@@ -165,39 +171,3 @@ export const getStaticPaths: GetStaticPaths = async () => {
     fallback: false,
   }
 }
-
-/*map/
-├─ france
-├─ monde
-├─ france/
-|  ├─ occitanie
-|  ├─ ile-de-france
-│  ├─ occitanie/
-|  |  ├─ pyrenees-orientales
-|  |  ├─ pyrenees-orientales/
-|  |  |  ├─ 1
-|  |  |  ├─ 2
-│  ├─ ile-de-france/
-|  |  ├─ paris
-|  |  ├─ paris/
-|  |  |  ├─ 1
-|  |  |  ├─ 2
-|  |  |  ├─ 3
-|  |  |  ├─ 4
-|  |  |  ├─ 5
-├─ om/
-|  ├─ guadeloupe
-|  ├─ martinique
-│  ├─ guadeloupe/
-│  |  ├─ 1
-│  |  ├─ 2
-│  |  ├─ 3
-│  |  ├─ 4
-│  ├─ martinique/
-│  |  ├─ 1
-│  |  ├─ 2
-├─ monde/
-│   ├─ 1
-│   ├─ 2
-│   ├─ 3
-│   ├─ 4*/
