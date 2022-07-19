@@ -11,6 +11,7 @@ import {
   compareFeatures,
   getFeatureURL,
   getLayerPaint,
+  getParentURL,
   getPosition,
   getZoneCode,
 } from "components/maps/maps-utils"
@@ -133,6 +134,7 @@ export default function MapPage(props: IMapProps) {
               paint: paint,
             }}
             onZoneClick={(feat) => changeURL(getFeatureURL(feat))}
+            onBack={() => changeURL(getParentURL(props.feature))}
           />
         </div>
       </div>

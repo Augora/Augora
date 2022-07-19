@@ -42,6 +42,8 @@ interface IMapAugora {
   setViewstate(newViewport: ViewState): void
   /** Callback quand une zone de la map est cliquée */
   onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
+  /**  */
+  onBack?(args?: any): void
   /** Le mode de vue sur les zones, par défaut zoomé */
   overview?: boolean
   /** Liste de députés que la map va fouiller. Inutile si on désactive les overlay */
@@ -250,7 +252,7 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleBack = () => {
-    goToZone({ feature: getParentFeature(zoneFeature) })
+    props.onBack && props.onBack()
   }
 
   const handleResize = () => {
@@ -294,7 +296,7 @@ export default function MapAugora(props: IMapAugora) {
       onMove={(e) => props.setViewstate(e.viewState)}
       onMouseMove={handlePointerMove}
       onClick={handleClick}
-      // onContextMenu={handleBack}
+      onContextMenu={handleBack}
       onMouseDown={() => setCursor("grabbing")}
       reuseMaps={true}
       attributionControl={attribution}

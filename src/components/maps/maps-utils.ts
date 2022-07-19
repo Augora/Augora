@@ -523,3 +523,27 @@ export const getFeatureURL = <T extends GeoJSON.Feature>(feature: T): string => 
       return null
   }
 }
+
+/**
+ * Renvoie l'URL parente de la feature fournie
+ * @param {GeoJSON.Feature} feature
+ */
+export const getParentURL = <T extends GeoJSON.Feature>(feature: T): string => {
+  switch (getPosition(feature)) {
+    case Pos.FrReg:
+      return "france"
+    case Pos.FrDpt:
+      return `france/${slugify(feature.properties.nom_reg)}`
+    case Pos.FrCirc:
+      return `france/${slugify(feature.properties.nom_reg)}/${slugify(feature.properties.nom_dpt)}`
+    case Pos.OMCirc:
+      return `om/${slugify(feature.properties.nom_dpt)}`
+    case Pos.France:
+    case Pos.OMDpt:
+    case Pos.WCirc:
+      return "monde"
+    case Pos.World:
+    default:
+      return null
+  }
+}
