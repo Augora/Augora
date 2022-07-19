@@ -13,6 +13,7 @@ import {
   getContinent,
   getZoneCode,
   getBoundingBoxFromCoordinates,
+  getPositionFromRoute,
 } from "components/maps/maps-utils"
 import { WebMercatorViewport } from "@math.gl/web-mercator"
 import { slugify } from "utils/utils"
@@ -287,27 +288,6 @@ export const geolocateZone = (feature: AugoraMap.MapboxAPIFeature): AugoraMap.Fe
     default:
       return geolocateFeature(feature.center, AllCirc)
   }
-}
-
-export const getPositionFromRoute = (route: string[]): Pos => {
-  if (route) {
-    switch (route[0]) {
-      case "france":
-        if (route.length <= 1) return Pos.France
-        else if (route.length === 2) return Pos.FrReg
-        else if (route.length === 3) return Pos.FrDpt
-        else return Pos.FrCirc
-      case "om":
-        if (route.length <= 1) return null
-        else if (route.length === 2) return Pos.OMDpt
-        else return Pos.OMCirc
-      case "monde":
-        if (route.length <= 1) return Pos.World
-        else return Pos.WCirc
-      default:
-        return null
-    }
-  } else return null
 }
 
 export const getMapFeature = (route: string[]): AugoraMap.Feature => {

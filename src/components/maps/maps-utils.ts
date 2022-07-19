@@ -26,14 +26,23 @@ export enum Cont {
   OM,
 }
 
+/**
+ * Un enum pour identifier la position sur la map
+ */
 export enum Pos {
   France,
   World,
+  /** Circonscription hors de france */
   WCirc,
+  /** Circonscription outre-mer */
   OMCirc,
+  /** Circonscription metropole */
   FrCirc,
+  /** Département outre-mer */
   OMDpt,
+  /** Département metropole */
   FrDpt,
+  /** Région metropole */
   FrReg,
 }
 
@@ -431,7 +440,8 @@ export const geolocateFeature = (coords: AugoraMap.Coordinates, features: Augora
   else return undefined
 }
 
-/** Requete les features d'une recherche à l'API mapbox
+/**
+ * Requete les features d'une recherche à l'API mapbox
  * @param {string} token Le mapbox token, obligatoire pour contacter l'API
  */
 export async function searchMapboxAPI(search: string, token: string): Promise<AugoraMap.MapboxAPIFeatureCollection> {
@@ -442,3 +452,52 @@ export async function searchMapboxAPI(search: string, token: string): Promise<Au
 
   return data
 }
+
+/**
+ * Renvoie la position d'une URL de la map
+ * @param {string} route
+ */
+export const getPositionFromRoute = (route: string[]): Pos => {
+  if (route) {
+    switch (route[0]) {
+      case "france":
+        if (route.length <= 1) return Pos.France
+        else if (route.length === 2) return Pos.FrReg
+        else if (route.length === 3) return Pos.FrDpt
+        else return Pos.FrCirc
+      case "om":
+        if (route.length <= 1) return null
+        else if (route.length === 2) return Pos.OMDpt
+        else return Pos.OMCirc
+      case "monde":
+        if (route.length <= 1) return Pos.World
+        else return Pos.WCirc
+      default:
+        return null
+    }
+  } else return null
+}
+
+export const getPosition = <T extends GeoJSON.Feature>(feature: T): Pos => {
+  if (feature?.properties) {
+    const featureKeys = Object.keys(feature.properties)
+
+    if (featureKeys.includes("code_circ")) {
+      if (feature.properties.code_dpt.length > 2) {
+        if (feature.properties.code_dpt === "999") return Pos.WCirc
+        else return Pos.OMCirc
+      } else return Pos.FrCirc
+    } else if (featureKeys.includes("code_dpt")) {
+      if (feature.properties.code_dpt.length > 2) return Pos.OMDpt
+      else return Pos.FrDpt
+    } else if (featureKeys.includes("code_reg")) return Pos.FrReg
+    else if (featureKeys.includes("code_cont")) {
+      if (feature.properties.code_cont === 0) return Pos.France
+      else if (feature.properties.code_cont === 1) return Pos.World
+    } else return null
+  } else return null
+}
+
+// export const getFeatureURL = <T extends GeoJSON.Feature>(feature: T): string => {
+
+// }

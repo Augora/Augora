@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import SEO, { PageType } from "components/seo/seo"
 import mapStore from "stores/mapStore"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { buildURLFromFeature, Code, compareFeatures, getZoneCode } from "components/maps/maps-utils"
+import { buildURLFromFeature, Code, compareFeatures, getPosition, getZoneCode } from "components/maps/maps-utils"
 import { getMapFeature, getMapGeoJSON, getMapGhostGeoJSON } from "components/maps/maps-imports"
 
 interface IMapProps {
@@ -24,19 +24,7 @@ export default function MapPage(props: IMapProps) {
   const [pageTitle, setPageTitle] = useState<string>("Carte")
 
   /** Zustand state */
-  const {
-    viewsize,
-    viewstate,
-    geoJSON,
-    ghostGeoJSON,
-    feature: zoneFeature,
-    deputies,
-    paint,
-    setViewsize,
-    setViewstate,
-    setMapView,
-    setDeputies,
-  } = mapStore()
+  const { viewsize, viewstate, deputies, paint, setViewsize, setViewstate } = mapStore()
 
   // useEffect(() => {
   //   const ready = !/\?./.test(router.asPath) || Object.keys(router.query).length > 0 //test si on a bien les valeurs finales de la query
@@ -72,20 +60,20 @@ export default function MapPage(props: IMapProps) {
     router.push(URL, URL, { shallow: true })
   }
 
-  /**
-   * Fonction principale de changement de zone. Determine la prochaine route à prendre selon l'état de la map et la feature fournie
-   * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
-   */
-  const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
-    const zoneCode = getZoneCode(feature)
-    if (!compareFeatures(feature, zoneFeature)) {
-      if (feature) changeURL(buildURLFromFeature(feature))
-      else console.error("Feature à afficher non valide :", feature)
-    } else if (zoneCode === Code.Circ) {
-      const deputy = deputies[0]
-      if (deputy) changeURL(`/depute/${deputy.Slug}`)
-    }
-  }
+  // /**
+  //  * Fonction principale de changement de zone. Determine la prochaine route à prendre selon l'état de la map et la feature fournie
+  //  * @param {GeoJSON.Feature} feature La feature de la nouvelle zone
+  //  */
+  // const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
+  //   const zoneCode = getZoneCode(feature)
+  //   if (!compareFeatures(feature, zoneFeature)) {
+  //     if (feature) changeURL(buildURLFromFeature(feature))
+  //     else console.error("Feature à afficher non valide :", feature)
+  //   } else if (zoneCode === Code.Circ) {
+  //     const deputy = deputies[0]
+  //     if (deputy) changeURL(`/depute/${deputy.Slug}`)
+  //   }
+  // }
 
   // /**
   //  * Affiche une nouvelle vue et transitionne, sans changer l'url, ne pas utiliser directement
