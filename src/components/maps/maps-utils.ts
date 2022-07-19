@@ -99,6 +99,12 @@ export const franceBox: AugoraMap.Bounds = [
   [11.162109, 51.426614],
 ]
 
+/** Bounding box de l'atlantique */
+export const worldBox: AugoraMap.Bounds = [
+  [-111.005859, -28.381735],
+  [81.914063, 59.800634],
+]
+
 /**
  * Renvoie un objet paint pour les layers
  * @param color Pour renseigner une couleur dynamiquement
@@ -216,7 +222,7 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
  * @param {boolean} isMobile Pour réduire le padding
  */
 export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRef, isMobile?: boolean): void => {
-  const bounds: AugoraMap.Bounds = feature.properties.bbox
+  const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
 
   const { longitude, latitude, zoom } = new WebMercatorViewport({
     width: mapRef.getContainer().getBoundingClientRect().width,

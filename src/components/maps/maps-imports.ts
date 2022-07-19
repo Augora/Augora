@@ -14,6 +14,7 @@ import {
   getZoneCode,
   getBoundingBoxFromCoordinates,
   getPositionFromRoute,
+  worldBox,
 } from "components/maps/maps-utils"
 import { WebMercatorViewport } from "@math.gl/web-mercator"
 import { slugify } from "utils/utils"
@@ -38,12 +39,6 @@ export const AllCirc: AugoraMap.FeatureCollection = createFeatureCollection([
   ...OMCircFile.features,
   ...HorsCircFile.features,
 ])
-
-/** Bounding box de l'atlantique */
-export const worldBox: AugoraMap.Bounds = [
-  [-111.005859, -28.381735],
-  [81.914063, 59.800634],
-]
 
 /** Feature de la france metropolitaine */
 export const MetroFeature: AugoraMap.Feature = MetroFranceContFile.features[0]
