@@ -3,7 +3,6 @@ import { WebMercatorViewport } from "@math.gl/web-mercator"
 import polylabel from "polylabel"
 import pointInPolygon from "point-in-polygon"
 import { slugify } from "utils/utils"
-import cloneDeepWith from "lodash/cloneDeepWith"
 
 /**
  * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
@@ -223,16 +222,18 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
  * @param {boolean} isMobile Pour réduire le padding
  */
 export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRef, isMobile?: boolean): void => {
-  const bounds: AugoraMap.Bounds = feature?.properties?.bbox ? feature.properties.bbox : worldBox
+  if (feature && mapRef) {
+    const bounds: AugoraMap.Bounds = feature?.properties?.bbox ? feature.properties.bbox : worldBox
 
-  const { longitude, latitude, zoom } = new WebMercatorViewport({
-    width: mapRef.getContainer().getBoundingClientRect().width,
-    height: mapRef.getContainer().getBoundingClientRect().height,
-  }).fitBounds(bounds, {
-    padding: isMobile ? 20 : 80,
-  })
+    const { longitude, latitude, zoom } = new WebMercatorViewport({
+      width: mapRef.getContainer().getBoundingClientRect().width,
+      height: mapRef.getContainer().getBoundingClientRect().height,
+    }).fitBounds(bounds, {
+      padding: isMobile ? 20 : 80,
+    })
 
-  flyToCoords(mapRef, [longitude, latitude], zoom)
+    flyToCoords(mapRef, [longitude, latitude], zoom)
+  }
 }
 
 /**
