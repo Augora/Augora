@@ -40,7 +40,7 @@ const mainPages: Pages = {
     title: "Statistiques",
   },
   map: {
-    path: "/map",
+    path: "/carte",
     title: "Carte",
   },
 }

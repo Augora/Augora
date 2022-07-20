@@ -48,6 +48,24 @@ module.exports = withBundleAnalyzer({
         source: "/carte",
         destination: "/map",
       },
+      {
+        source: "/carte/:path*",
+        destination: "/map/:path*",
+      },
+    ]
+  },
+  async redirects() {
+    return [
+      {
+        source: "/map",
+        destination: "/carte/france",
+        permanent: true,
+      },
+      {
+        source: "/carte",
+        destination: "/carte/france",
+        permanent: true,
+      },
     ]
   },
 })
