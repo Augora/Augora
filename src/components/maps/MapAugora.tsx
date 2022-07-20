@@ -31,6 +31,7 @@ import MapFilters from "components/maps/MapFilters"
 import Geocoder from "components/maps/Geocoder"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
+import { useRouter } from "next/router"
 
 interface IMapAugora {
   /** Objet view contenant les données d'affichage */
@@ -44,7 +45,7 @@ interface IMapAugora {
   /**  */
   onBack?(args?: any): void
   /**  */
-  onBreadcrumbClick?(url: string): void
+  onURLRequest?(url: string): void
   /**  */
   history?: AugoraMap.History
   /** Le mode de vue sur les zones, par défaut zoomé */
@@ -128,6 +129,8 @@ const localeFR = {
  * @param {number} [delay] Si on veut retarder l'effet de zoom, default 0
  */
 export default function MapAugora(props: IMapAugora) {
+  const { asPath } = useRouter()
+
   /** Default props */
   const {
     mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
@@ -177,10 +180,16 @@ export default function MapAugora(props: IMapAugora) {
   /** Change la zone affichée et transitionne
    * @param {T} [opts.feature] La feature à afficher
    * @param {AugoraMap.Coordinates} [opts.coords] Les coords sur lesquelles transitionner, ignoré si une feature est aussi passée
+   * @param {string} [url] Pour requeter un changement d'url
    * @param {boolean} [opts.redirect] S'il faut changer pour la page détal en cas de clic sur une circonscription, defaut true
    */
-  const goToZone = <T extends GeoJSON.Feature>(opts: { feature?: T; coords?: AugoraMap.Coordinates; redirect?: boolean }) => {
-    const { feature, coords, redirect = true } = opts
+  const goToZone = <T extends GeoJSON.Feature>(opts: {
+    feature?: T
+    coords?: AugoraMap.Coordinates
+    redirect?: boolean
+    url?: string
+  }) => {
+    const { feature, coords, redirect = true, url } = opts
     if (feature) {
       const zoneCode = getZoneCode(feature)
       if (!compareFeatures(feature, zoneFeature)) {
@@ -192,6 +201,9 @@ export default function MapAugora(props: IMapAugora) {
     } else if (coords) {
       flyToCoords(mapRef.current, coords, 3)
       console.warn(`Pas de zone trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
+    } else if (url) {
+      if (asPath !== `/carte/${url}`) props.onURLRequest(url)
+      else flyToFeature(zoneFeature)
     }
   }
 
@@ -331,7 +343,7 @@ export default function MapAugora(props: IMapAugora) {
             />
             {/* {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />} */}
             <MapControl position="top-left">
-              <MapBreadcrumb history={props.history} handleClick={props.onBreadcrumbClick} />
+              <MapBreadcrumb history={props.history} handleClick={(url) => goToZone({ url: url })} />
             </MapControl>
             {/* <MapControl position="top-right" className="mapboxgl-ctrl-geo">
               <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />

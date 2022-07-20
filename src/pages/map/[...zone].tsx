@@ -107,7 +107,7 @@ export default function MapPage(props: IMapProps) {
             }}
             onZoneClick={changeZone}
             onBack={() => changeURL(getParentURL(props.feature))}
-            onBreadcrumbClick={(url) => changeURL(url)}
+            onURLRequest={(url) => changeURL(url)}
             history={props.history}
           />
         </div>
