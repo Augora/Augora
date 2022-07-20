@@ -121,7 +121,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: [
-      { params: { zone: [] } },
       ...pathsFile.default.map((route) => {
         return {
           params: {

@@ -45,10 +45,6 @@ module.exports = withBundleAnalyzer({
   async rewrites() {
     return [
       {
-        source: "/carte",
-        destination: "/map",
-      },
-      {
         source: "/carte/:path*",
         destination: "/map/:path*",
       },
