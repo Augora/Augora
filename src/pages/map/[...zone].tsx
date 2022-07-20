@@ -45,7 +45,6 @@ export default function MapPage(props: IMapProps) {
   useEffect(() => {
     const handleStart = (url) => url.startsWith("/carte") && setIsLoading(true)
     const handleComplete = (url) => setIsLoading(false)
-
     router.events.on("routeChangeStart", handleStart)
     router.events.on("routeChangeComplete", handleComplete)
     router.events.on("routeChangeError", handleComplete)
@@ -53,6 +52,7 @@ export default function MapPage(props: IMapProps) {
     window.addEventListener("resize", handleResize)
 
     setViewsize({ height: window.innerHeight, width: window.innerWidth }) //calcule le vh en js pour contrecarrer le bug des 100vh sur mobile
+
     return () => {
       router.events.off("routeChangeStart", handleStart)
       router.events.off("routeChangeComplete", handleComplete)
@@ -61,6 +61,13 @@ export default function MapPage(props: IMapProps) {
       window.removeEventListener("resize", handleResize)
     }
   }, [])
+
+  useEffect(() => {
+    const allZones = [...props.geoJSON.features, ...props.ghostGeoJSON.features]
+
+    allZones.forEach((feat) => router.prefetch(`/carte/${getFeatureURL(feat)}`))
+    props.history.forEach((breadcrumb) => router.prefetch(`/carte/${breadcrumb.url}`))
+  }, [router])
 
   const zoneDeputies = getDeputies(props.feature, FilteredList)
   const paint =
