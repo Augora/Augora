@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { GetStaticPaths, GetStaticProps } from "next"
 import MapAugora from "components/maps/MapAugora"
 import { useRouter } from "next/router"
@@ -16,6 +16,7 @@ import {
   getZoneCode,
   getHistory,
   getZoneTitle,
+  getDeputies,
 } from "components/maps/maps-utils"
 import { getMapFeature, getMapGeoJSON, getMapGhostGeoJSON } from "components/maps/maps-imports"
 import { getDeputesMap, getGroupes } from "lib/deputes/Wrapper"
@@ -36,7 +37,7 @@ export default function MapPage(props: IMapProps) {
   } = useDeputiesFilters()
 
   /** Zustand state */
-  const { viewsize, viewstate, paint, setViewsize, setViewstate } = mapStore()
+  const { viewsize, viewstate, setViewsize, setViewstate } = mapStore()
 
   useEffect(() => {
     setViewsize({ height: window.innerHeight, width: window.innerWidth })
@@ -45,6 +46,14 @@ export default function MapPage(props: IMapProps) {
       window.removeEventListener("resize", handleResize)
     }
   }, []) //calcule le vh en js pour contrecarrer le bug des 100vh sur mobile
+
+  const zoneDeputies = getDeputies(props.feature, FilteredList)
+  const paint =
+    zoneDeputies.length === 1
+      ? getLayerPaint(zoneDeputies[0]?.GroupeParlementaire?.Couleur)
+      : zoneDeputies.length === 0
+      ? getLayerPaint("#808080")
+      : getLayerPaint()
 
   const handleResize = (e) => {
     setViewsize({ height: e.target.innerHeight, width: e.target.innerWidth })
@@ -62,7 +71,7 @@ export default function MapPage(props: IMapProps) {
           <MapAugora
             viewstate={viewstate}
             setViewstate={setViewstate}
-            deputies={FilteredList}
+            deputies={zoneDeputies}
             mapView={{
               geoJSON: props.geoJSON,
               ghostGeoJSON: props.ghostGeoJSON,

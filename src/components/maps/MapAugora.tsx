@@ -18,7 +18,6 @@ import {
   getZoneCode,
   compareFeatures,
   getLayerPaint,
-  getDeputies,
   flyToCoords,
   getContinent,
   Cont,
@@ -340,7 +339,7 @@ export default function MapAugora(props: IMapAugora) {
             {/* <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} /> */}
             <div className="custom-control-container">
               <div className="ctrl-bottom">
-                <MapFilters zoneDeputies={getDeputies(zoneFeature, deputies)} />
+                <MapFilters zoneDeputies={props.deputies} />
               </div>
             </div>
           </>
