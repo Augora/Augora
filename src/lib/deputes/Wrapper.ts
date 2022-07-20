@@ -121,6 +121,7 @@ export function getDeputesMap() {
       NumeroCirconscription,
       NomCirconscription,
       RattachementFinancier,
+      ResponsabiliteGroupe,
       GroupeParlementaire (
         Sigle,
         NomComplet,
