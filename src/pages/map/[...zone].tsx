@@ -75,7 +75,7 @@ export default function MapPage(props: IMapProps) {
   }
 
   const changeURL = (URL: string) => {
-    router.push(`/carte/${URL}`)
+    if (URL) router.push(`/carte/${URL}`)
   }
 
   const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
