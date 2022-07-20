@@ -1,10 +1,11 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { GetStaticPaths, GetStaticProps } from "next"
-import MapAugora from "components/maps/MapAugora"
 import { useRouter } from "next/router"
 import SEO, { PageType } from "components/seo/seo"
-import mapStore from "stores/mapStore"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import mapStore from "stores/mapStore"
+import MapAugora from "components/maps/MapAugora"
+import LoadingSpinner from "components/spinners/loading-spinner/LoadingSpinner"
 import {
   buildURLFromFeature,
   Code,
@@ -36,16 +37,30 @@ export default function MapPage(props: IMapProps) {
     state: { FilteredList },
   } = useDeputiesFilters()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   /** Zustand state */
   const { viewsize, viewstate, setViewsize, setViewstate } = mapStore()
 
   useEffect(() => {
-    setViewsize({ height: window.innerHeight, width: window.innerWidth })
+    const handleStart = (url) => setIsLoading(true)
+    const handleComplete = (url) => setIsLoading(false)
+
+    router.events.on("routeChangeStart", handleStart)
+    router.events.on("routeChangeComplete", handleComplete)
+    router.events.on("routeChangeError", handleComplete)
+
     window.addEventListener("resize", handleResize)
+
+    setViewsize({ height: window.innerHeight, width: window.innerWidth }) //calcule le vh en js pour contrecarrer le bug des 100vh sur mobile
     return () => {
+      router.events.off("routeChangeStart", handleStart)
+      router.events.off("routeChangeComplete", handleComplete)
+      router.events.off("routeChangeError", handleComplete)
+
       window.removeEventListener("resize", handleResize)
     }
-  }, []) //calcule le vh en js pour contrecarrer le bug des 100vh sur mobile
+  }, [])
 
   const zoneDeputies = getDeputies(props.feature, FilteredList)
   const paint =
@@ -95,6 +110,9 @@ export default function MapPage(props: IMapProps) {
             onBreadcrumbClick={(url) => changeURL(url)}
             history={props.history}
           />
+        </div>
+        <div className={`map__loading${isLoading ? " visible" : ""}`}>
+          <LoadingSpinner />
         </div>
       </div>
     </>
