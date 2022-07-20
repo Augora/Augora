@@ -43,7 +43,7 @@ export default function MapPage(props: IMapProps) {
   const { viewsize, viewstate, setViewsize, setViewstate } = mapStore()
 
   useEffect(() => {
-    const handleStart = (url) => setIsLoading(true)
+    const handleStart = (url) => url.startsWith("/carte") && setIsLoading(true)
     const handleComplete = (url) => setIsLoading(false)
 
     router.events.on("routeChangeStart", handleStart)
