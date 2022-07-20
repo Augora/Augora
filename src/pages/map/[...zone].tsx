@@ -63,6 +63,17 @@ export default function MapPage(props: IMapProps) {
     router.push(`/carte/${URL}`)
   }
 
+  const changeZone = <T extends GeoJSON.Feature>(feature: T) => {
+    const zoneCode = getZoneCode(feature)
+    if (!compareFeatures(feature, props.feature)) {
+      if (feature) changeURL(getFeatureURL(feature))
+      else console.error("Feature à afficher non valide :", feature)
+    } else if (zoneCode === Code.Circ) {
+      const deputy = zoneDeputies[0]
+      if (deputy) router.push(`/depute/${deputy.Slug}`)
+    }
+  }
+
   return (
     <>
       <SEO pageType={PageType.Map} title={getZoneTitle(props.feature)} />
@@ -78,7 +89,7 @@ export default function MapPage(props: IMapProps) {
               feature: props.feature,
               paint: paint,
             }}
-            onZoneClick={(feat) => changeURL(getFeatureURL(feat))}
+            onZoneClick={changeZone}
             onBack={() => changeURL(getParentURL(props.feature))}
             onBreadcrumbClick={(url) => changeURL(url)}
             history={props.history}
