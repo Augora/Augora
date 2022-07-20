@@ -82,7 +82,8 @@ export default function MapPage(props: IMapProps) {
           <MapAugora
             viewstate={viewstate}
             setViewstate={setViewstate}
-            deputies={zoneDeputies}
+            deputies={FilteredList}
+            zoneDeputies={zoneDeputies}
             mapView={{
               geoJSON: props.geoJSON,
               ghostGeoJSON: props.ghostGeoJSON,

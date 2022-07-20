@@ -49,8 +49,10 @@ interface IMapAugora {
   history?: AugoraMap.History
   /** Le mode de vue sur les zones, par défaut zoomé */
   overview?: boolean
-  /** Liste de députés que la map va fouiller. Inutile si on désactive les overlay */
+  /** Liste de tous les députés. Inutile si on désactive les overlay */
   deputies?: Deputy.DeputiesList
+  /** Liste des députés dans la zone actuelle. Inutile si on désactive les overlay */
+  zoneDeputies?: Deputy.DeputiesList
   /** Si les overlays doivent être affichés */
   overlay?: boolean
   /** Délai optionel de la fonction flytobounds */
@@ -339,7 +341,7 @@ export default function MapAugora(props: IMapAugora) {
             {/* <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} /> */}
             <div className="custom-control-container">
               <div className="ctrl-bottom">
-                <MapFilters zoneDeputies={props.deputies} />
+                <MapFilters zoneDeputies={props.zoneDeputies} />
               </div>
             </div>
           </>
