@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Code, getZoneCode, getZoneName } from "components/maps/maps-utils"
-// import { MetroFeature, WorldFeature, getChildFeatures, getParentFeature } from "components/maps/maps-imports"
 import Tooltip from "components/tooltip/Tooltip"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
 import sortBy from "lodash/sortBy"
@@ -17,8 +15,8 @@ interface IBreadcrumbItem {
 }
 
 interface IBreadcrumbMenu {
-  zones: AugoraMap.Feature[]
-  onClick: (args?: any) => any
+  zones: AugoraMap.BreadcrumbList
+  onClick: (url?: string) => void
   closeParent?: (args?: any) => any
   className?: string
 }
@@ -69,79 +67,80 @@ interface IBreadcrumbMenu {
 //   })
 // }
 
-// /**
-//  * Renvoie un bouton de menu déroulant pour des zones apparentées
-//  * @param {AugoraMap.Feature[]} zones La liste des zones apparentées
-//  * @param {Function} onClick La fonction au click des zones
-//  * @param {string} [className] Overload classname optionel
-//  * @param {string} [title] Title du bouton optionel
-//  */
-// function BreadcrumbMenu(props: IBreadcrumbMenu) {
-//   const [isOpen, setIsOpen] = useState(false)
+/**
+ * Renvoie un menu déroulant pour des zones enfant
+ * @param {AugoraMap.Feature[]} zones La liste des zones enfant
+ * @param {Function} onClick La fonction au click des zones
+ * @param {string} [className] Overload classname optionel
+ * @param {string} [title] Title du bouton optionel
+ */
+function BreadcrumbMenu(props: IBreadcrumbMenu) {
+  const [isOpen, setIsOpen] = useState(false)
 
-//   const node = useRef<HTMLDivElement>()
+  const node = useRef<HTMLDivElement>()
 
-//   useEffect(() => {
-//     document.addEventListener("mousedown", handleClick)
-//     return () => {
-//       document.removeEventListener("mousedown", handleClick)
-//     }
-//   }, [])
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClick)
+    return () => {
+      document.removeEventListener("mousedown", handleClick)
+    }
+  }, [])
 
-//   const closeAll = () => {
-//     if (props.closeParent) props.closeParent()
-//     setIsOpen(false)
-//   }
+  const closeAll = () => {
+    if (props.closeParent) props.closeParent()
+    setIsOpen(false)
+  }
 
-//   const handleClick = (e) => {
-//     if (node?.current) {
-//       if (!node.current.contains(e.target)) {
-//         setIsOpen(false)
-//       }
-//     }
-//   }
+  const handleClick = (e) => {
+    if (node?.current) {
+      if (!node.current.contains(e.target)) {
+        setIsOpen(false)
+      }
+    }
+  }
 
-//   return (
-//     <div className={`breadcrumb__menu ${props.className ? props.className : ""}`} ref={node}>
-//       <button
-//         className={`menu__btn ${isOpen ? "menu__btn--active" : ""}`}
-//         title="Voir les zones enfants"
-//         onClick={() => setIsOpen(!isOpen)}
-//       >
-//         <div className="icon-wrapper">
-//           <IconChevron />
-//         </div>
-//       </button>
-//       {isOpen && (
-//         <Tooltip className="menu__tooltip">
-//           {props.zones.map((feature, index) => {
-//             const zoneName = getZoneName(feature)
-//             const zoneCode = getZoneCode(feature)
-//             const childZones = getBreadcrumbChildren(feature)
-
-//             return (
-//               <div className="tooltip__item" key={`tooltip-btn-${index}-${feature.properties[zoneCode]}-${zoneCode}`}>
-//                 <button
-//                   className="tooltip__btn"
-//                   onClick={() => {
-//                     props.onClick(feature)
-//                     closeAll()
-//                   }}
-//                   title={`Aller sur ${zoneName}`}
-//                 >
-//                   <div className="tooltip__name">{zoneName}</div>
-//                 </button>
-//                 {childZones.length > 0 && (
-//                   <BreadcrumbMenu className="list" zones={childZones} onClick={props.onClick} closeParent={closeAll} />
-//                 )}
-//               </div>
-//             )
-//           })}
-//         </Tooltip>
-//       )}
-//     </div>
-//   )
-// }
+  return (
+    <div className={`breadcrumb__menu ${props.className ? props.className : ""}`} ref={node}>
+      <button
+        className={`menu__btn ${isOpen ? "menu__btn--active" : ""}`}
+        title="Voir les zones enfant"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <div className="icon-wrapper">
+          <IconChevron />
+        </div>
+      </button>
+      {isOpen && (
+        <Tooltip className="menu__tooltip">
+          {props.zones.map((item, index) => {
+            return (
+              <div className="tooltip__item" key={`tooltip-btn-${index}-${slugify(item.nom)}`}>
+                <button
+                  className="tooltip__btn"
+                  onClick={() => {
+                    props.onClick(item.url)
+                    closeAll()
+                  }}
+                  title={`Aller sur ${item.nom}`}
+                >
+                  <div className="tooltip__name">{item.nom}</div>
+                </button>
+                {item.children && item.children.length > 0 && (
+                  <BreadcrumbMenu
+                    className="list"
+                    zones={sortBy(item.children, (o) => o.nom)}
+                    onClick={props.onClick}
+                    closeParent={closeAll}
+                  />
+                )}
+              </div>
+            )
+          })}
+        </Tooltip>
+      )}
+    </div>
+  )
+}
 
 /**
  * Renvoie un bouton de breadcrumb
@@ -150,19 +149,18 @@ interface IBreadcrumbMenu {
  * @param {boolean} [isLast] Si l'item est le dernier du breadcrumb
  */
 function BreadcrumbItem({ zone, handleClick }: IBreadcrumbItem) {
-  // const childZones = getBreadcrumbChildren(feature)
-
   return (
     <div className="breadcrumb__item">
       <button
-        // className={`breadcrumb__zone ${!childZones.length ? "breadcrumb__zone--solo" : ""}`}
-        className={`breadcrumb__zone breadcrumb__zone--solo`}
+        className={`breadcrumb__zone ${!zone.children || zone.children.length < 1 ? "breadcrumb__zone--solo" : ""}`}
         onClick={() => handleClick(zone.url)}
         title={`Revenir sur ${zone.nom}`}
       >
         {zone.nom}
       </button>
-      {/* {childZones.length > 0 && <BreadcrumbMenu className="zone" zones={childZones} onClick={handleClick} />} */}
+      {zone.children && zone.children.length > 0 && (
+        <BreadcrumbMenu className="zone" zones={sortBy(zone.children, (o) => o.nom)} onClick={handleClick} />
+      )}
     </div>
   )
 }
