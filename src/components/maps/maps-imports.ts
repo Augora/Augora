@@ -3,7 +3,6 @@ import {
   Pos,
   createFeature,
   createFeatureCollection,
-  flyToCoords,
   franceBox,
   worldBox,
   geolocateFeature,
@@ -14,7 +13,6 @@ import {
   getPosFromCodes,
   getZoneName,
 } from "components/maps/maps-utils"
-import { WebMercatorViewport } from "@math.gl/web-mercator"
 import { slugify } from "utils/utils"
 import MetroFranceContFile from "static/cont-france.geojson"
 import MetroRegFile from "static/reg-metro.geojson"
@@ -251,6 +249,10 @@ export const getMapGhostGeoJSON = (route: string[]): AugoraMap.FeatureCollection
   }
 }
 
+/**
+ * Renvoie tous les enfants breadcrumb d'une zone dans une array
+ * @param {AugoraMap.Codes} codes Les codes de la zone
+ */
 export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.BreadcrumbList => {
   switch (getPosFromCodes(codes)) {
     case Pos.World:
@@ -258,7 +260,7 @@ export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.Breadcr
         { url: "france", nom: "France Metropolitaine", children: getBreadcrumbChildren({ code_cont: 0 }) },
         ...OMDptFile.features.map((item) => {
           return {
-            nom: `${item.properties.nom} (${item.properties[Code.Dpt]})`,
+            nom: getZoneName(item),
             url: `om/${slugify(item.properties.nom)}`,
             children: getBreadcrumbChildren({ code_dpt: item.properties[Code.Dpt] }),
           }
@@ -268,7 +270,7 @@ export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.Breadcr
       return sortBy(
         MetroRegFile.features.map((item) => {
           return {
-            nom: item.properties.nom,
+            nom: getZoneName(item),
             url: `france/${slugify(item.properties.nom)}`,
             children: getBreadcrumbChildren({ code_reg: item.properties[Code.Reg] }),
           }
@@ -281,7 +283,7 @@ export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.Breadcr
           .filter((feature) => feature.properties[Code.Reg] === codes[Code.Reg])
           .map((item) => {
             return {
-              nom: `${item.properties.nom} (${item.properties[Code.Dpt]})`,
+              nom: getZoneName(item),
               url: `france/${slugify(item.properties.nom_reg)}/${slugify(item.properties.nom)}`,
               children: getBreadcrumbChildren({ code_dpt: item.properties[Code.Dpt] }),
             }
@@ -294,7 +296,7 @@ export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.Breadcr
           .filter((feature) => feature.properties[Code.Dpt] === codes[Code.Dpt])
           .map((item) => {
             return {
-              nom: `${item.properties[Code.Circ]}${item.properties[Code.Circ] === 1 ? "ère" : "ème"} Circonscription`,
+              nom: getZoneName(item),
               url: `france/${slugify(item.properties.nom_reg)}/${slugify(item.properties.nom_dpt)}/${item.properties[Code.Circ]}`,
             }
           }),
@@ -306,22 +308,19 @@ export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.Breadcr
           .filter((feature) => feature.properties[Code.Dpt] === codes[Code.Dpt])
           .map((item) => {
             return {
-              nom: `${item.properties[Code.Circ]}${item.properties[Code.Circ] === 1 ? "ère" : "ème"} Circonscription`,
+              nom: getZoneName(item),
               url: `om/${slugify(item.properties.nom_dpt)}/${item.properties[Code.Circ]}`,
             }
           }),
         (o) => o.nom
       )
-    case Pos.FrCirc:
-    case Pos.OMCirc:
-    case Pos.WCirc:
     default:
       return []
   }
 }
 
 /**
- * Renvoie les zones du breadcrumb
+ * Renvoie le breadcrumb entier
  * @param {AugoraMap.Feature} feature L'object feature dans lequel on se situe
  */
 export const getBreadcrumb = (feature: AugoraMap.Feature): AugoraMap.BreadcrumbList => {

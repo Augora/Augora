@@ -21,52 +21,6 @@ interface IBreadcrumbMenu {
   className?: string
 }
 
-// /**
-//  * Renvoie l'historique des zones parcourues sous forme de feature array
-//  * @param {AugoraMap.Feature} feature L'object feature à analyser
-//  */
-// const getHistory = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
-//   const zoneCode = getZoneCode(feature)
-//   const contId = getContinent(feature)
-
-//   switch (zoneCode) {
-//     case Code.Cont:
-//       return contId === Cont.France ? [WorldFeature, MetroFeature] : [WorldFeature]
-//     case Code.Reg:
-//       return [WorldFeature, MetroFeature, feature]
-//     case Code.Dpt:
-//       return contId === Cont.France ? [WorldFeature, MetroFeature, getParentFeature(feature), feature] : [WorldFeature, feature]
-//     case Code.Circ:
-//       const dpt = getParentFeature(feature)
-//       switch (contId) {
-//         case Cont.France:
-//           return [WorldFeature, MetroFeature, getParentFeature(dpt), dpt, feature]
-//         case Cont.OM:
-//           return [WorldFeature, dpt, feature]
-//         case Cont.World:
-//           return [WorldFeature, feature]
-//       }
-//     default:
-//       return []
-//   }
-// }
-
-// /**
-//  * Renvoie les enfants de la feature pour le breadcrumb (rangé par ordre alphabétique)
-//  * @param {AugoraMap.Feature} feature
-//  */
-// const getBreadcrumbChildren = (feature: AugoraMap.Feature): AugoraMap.Feature[] => {
-//   const cont = getContinent(feature)
-//   const childFeatures =
-//     cont !== Cont.World
-//       ? getChildFeatures(feature).features
-//       : getChildFeatures(feature).features.filter((feat) => getZoneCode(feat) !== Code.Circ)
-
-//   return sortBy(childFeatures, (o) => {
-//     return o.properties.nom ? o.properties.nom : o.properties.code_circ
-//   })
-// }
-
 /**
  * Renvoie un menu déroulant pour des zones enfant
  * @param {AugoraMap.Feature[]} zones La liste des zones enfant
