@@ -90,6 +90,7 @@
       background-color: rgba($white, 0);
       z-index: 2;
       pointer-events: none;
+      cursor: wait;
 
       transition: background-color 0.3s $ease-out-cubic, backdrop-filter 0.3s $ease-out-cubic;
 
@@ -114,6 +115,8 @@
       &.visible {
         background-color: rgba($black, 0.2);
         backdrop-filter: blur(3px) grayscale(50%) opacity(1);
+        pointer-events: auto;
+
         transition: background-color 0.3s $ease-out-cubic, backdrop-filter 0.3s $ease-out-cubic;
 
         .loading-spinner {
