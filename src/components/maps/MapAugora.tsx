@@ -19,8 +19,8 @@ import {
   compareFeatures,
   getLayerPaint,
   flyToCoords,
-  getContinent,
-  Cont,
+  getPosition,
+  Pos,
 } from "components/maps/maps-utils"
 // import { geolocateFromCoords, geolocateZone } from "components/maps/maps-imports"
 import MapControl from "components/maps/MapControl"
@@ -170,9 +170,9 @@ export default function MapAugora(props: IMapAugora) {
 
   /** Transitionne le viewport sur un pin en mode overview */
   const flyToPin = <T extends GeoJSON.Feature>(feature: T) => {
-    const contId = getContinent(feature)
-    const code = getZoneCode(feature)
-    const zoom = contId === Cont.World ? -1 : contId === Cont.OM ? 2 : code !== Code.Cont ? 3.5 : 0
+    const pos = getPosition(feature)
+    const zoom =
+      pos === Pos.World || pos === Pos.WCirc ? -1 : pos === Pos.OMDpt || pos === Pos.OMCirc ? 2 : pos === Pos.France ? 0 : 3.5
 
     flyToCoords(mapRef.current, zoneFeature.properties.center, zoom)
   }

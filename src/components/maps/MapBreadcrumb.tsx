@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Code, Cont, getContinent, getZoneCode, getZoneName } from "components/maps/maps-utils"
+import { Code, getZoneCode, getZoneName } from "components/maps/maps-utils"
 // import { MetroFeature, WorldFeature, getChildFeatures, getParentFeature } from "components/maps/maps-imports"
 import Tooltip from "components/tooltip/Tooltip"
 import IconChevron from "images/ui-kit/icon-chevron.svg"

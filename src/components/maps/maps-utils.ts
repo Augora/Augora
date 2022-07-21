@@ -17,17 +17,6 @@ export enum Code {
 }
 
 /**
- * Un enum pour simplifier visuellement un code de Continent
- *
- * Valeurs possibles: France, OM (Outre-Mer), Hors (Etablis hors de france)
- */
-export enum Cont {
-  France,
-  World,
-  OM,
-}
-
-/**
  * Un enum pour identifier la position sur la map
  */
 export enum Pos {
@@ -271,29 +260,6 @@ export const getZoneCode = <T extends GeoJSON.Feature>(feature: T): Code => {
   } else return null
 }
 
-/**
- * Renvoie l'id du continent d'une feature
- * @param {AugoraMap.Feature} feature La feature à analyser
- */
-export const getContinent = <T extends GeoJSON.Feature>(feature: T): Cont => {
-  const zoneCode = getZoneCode(feature)
-
-  switch (zoneCode) {
-    case Code.Cont:
-      return feature.properties[zoneCode]
-    case Code.Reg:
-      return Cont.France
-    case Code.Dpt:
-      return feature.properties[Code.Dpt] > 900 ? Cont.OM : Cont.France
-    case Code.Circ:
-      if (feature.properties[Code.Dpt] === "999") return Cont.World
-      else if (feature.properties[Code.Dpt] > 900) return Cont.OM
-      else return Cont.France
-    default:
-      return null
-  }
-}
-
 /** Renvoie le code d'une zone qui devrait être affiché selon une liste de de codes
  * @param codes Contient cont, reg, dpt, circ
  */
@@ -307,6 +273,23 @@ export const getCodeFromCodes = (codes: AugoraMap.Codes): Code => {
       return Code.Reg
     } else if (codes[Code.Cont] !== undefined) {
       return Code.Cont
+    } else return null
+  } else return null
+}
+
+/** Renvoie la position d'une zone qui devrait être affiché selon une liste de de codes
+ * @param codes Contient cont, reg, dpt, circ
+ */
+export const getPosFromCodes = (codes: AugoraMap.Codes): Pos => {
+  if (codes) {
+    if (codes[Code.Circ]) {
+      return codes[Code.Dpt] === "999" ? Pos.WCirc : codes[Code.Dpt] > 900 ? Pos.OMCirc : Pos.FrCirc
+    } else if (codes[Code.Dpt]) {
+      return codes[Code.Dpt] > 900 ? Pos.OMDpt : Pos.FrDpt
+    } else if (codes[Code.Reg]) {
+      return Pos.FrReg
+    } else if (codes[Code.Cont] !== undefined) {
+      return codes[Code.Cont] === 1 ? Pos.World : Pos.France
     } else return null
   } else return null
 }
@@ -352,31 +335,29 @@ export const compareFeatures = <T extends GeoJSON.Feature, U extends GeoJSON.Fea
  * @param {Deputy.DeputiesList} deputies La liste de députés à filtrer
  */
 export const getDeputies = <T extends GeoJSON.Feature>(feature: T, deputies: Deputy.DeputiesList): Deputy.DeputiesList => {
-  const zoneCode = getZoneCode(feature)
   const props = feature?.properties
-  const contId = getContinent(feature)
 
-  switch (zoneCode) {
-    case Code.Cont:
-      return contId === Cont.World
-        ? deputies
-        : deputies.filter((deputy) => {
-            if (contId === Cont.OM) return parseInt(deputy.NumeroDepartement) > 900 && deputy.NumeroDepartement !== "999"
-            else return parseInt(deputy.NumeroDepartement) < 900
-          })
-    case Code.Reg:
+  switch (getPosition(feature)) {
+    case Pos.FrReg:
       return deputies.filter((deputy) => {
         return deputy.NumeroRegion == props[Code.Reg]
       })
-    case Code.Dpt:
+    case Pos.OMDpt:
+    case Pos.FrDpt:
       return deputies.filter((deputy) => {
         return deputy.NumeroDepartement == props[Code.Dpt]
       })
-    case Code.Circ:
+    case Pos.OMCirc:
+    case Pos.FrCirc:
+    case Pos.WCirc:
       const depute = deputies.find((deputy) => {
         return deputy.NumeroCirconscription == props[Code.Circ] && deputy.NumeroDepartement == props[Code.Dpt]
       })
       return depute !== undefined ? [depute] : []
+    case Pos.France:
+      return deputies.filter((deputy) => +deputy.NumeroDepartement < 900)
+    case Pos.World:
+      return deputies
     default:
       return []
   }
