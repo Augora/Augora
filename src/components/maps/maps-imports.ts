@@ -51,8 +51,9 @@ export const WorldCont: AugoraMap.FeatureCollection = createFeatureCollection([
 ])
 
 /**
- * Renvoie une bounding box utilisable par mapbox depuis un ou plusieurs polygones GeoJSON
- * @param {AugoraMap.Feature} feature Une feature GeoJSON de type polygon ou multipolygone
+ * Renvoie une bounding box utilisable par mapbox depuis un ou plusieurs polygones geoJSON
+ * Inutile depuis qu'on a calculé la bbox statiquement dans les geoJSON, privilégiez `feature.properties.bbox` à la place.
+ * @param {AugoraMap.Feature} feature Une feature geoJSON de type polygon ou multipolygone
  */
 export const getBoundingBoxFromFeature = (feature: AugoraMap.Feature): AugoraMap.Bounds => {
   if (feature?.geometry?.type) {
@@ -63,25 +64,6 @@ export const getBoundingBoxFromFeature = (feature: AugoraMap.Feature): AugoraMap
     else if (getPosition(feature) === Pos.France) return franceBox
     else return worldBox
   } else return null
-}
-
-/**
- * Transitionne de façon fluide vers une bounding box
- * @param {AugoraMap.Feature} feature La feature vers laquelle aller, dézoom sur le monde si la feature n'a pas de propriété bbox
- * @param {mapRef} mapRef Pointeur vers l'objet map
- * @param {boolean} isMobile Pour réduire le padding
- */
-export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRef, isMobile?: boolean): void => {
-  const bounds: AugoraMap.Bounds = feature.properties.bbox ? feature.properties.bbox : worldBox
-
-  const { longitude, latitude, zoom } = new WebMercatorViewport({
-    width: mapRef.getContainer().getBoundingClientRect().width,
-    height: mapRef.getContainer().getBoundingClientRect().height,
-  }).fitBounds(bounds, {
-    padding: isMobile ? 20 : 80,
-  })
-
-  flyToCoords(mapRef, [longitude, latitude], zoom)
 }
 
 /**
@@ -176,6 +158,10 @@ export const geolocateZone = (feature: AugoraMap.MapboxAPIFeature): AugoraMap.Fe
   }
 }
 
+/**
+ * Renvoie la Feature d'une route de la map
+ * @param {string[]} route Route query de next.js
+ */
 export const getMapFeature = (route: string[]): AugoraMap.Feature => {
   switch (getPositionFromRoute(route)) {
     case Pos.France:
@@ -203,6 +189,10 @@ export const getMapFeature = (route: string[]): AugoraMap.Feature => {
   }
 }
 
+/**
+ * Renvoie les geoJSON d'une route de la map
+ * @param {string[]} route Route query de next.js
+ */
 export const getMapGeoJSON = (route: string[]): AugoraMap.FeatureCollection => {
   switch (getPositionFromRoute(route)) {
     case Pos.France:
@@ -241,6 +231,10 @@ export const getMapGeoJSON = (route: string[]): AugoraMap.FeatureCollection => {
   }
 }
 
+/**
+ * Renvoie les geoJSON voisins d'une route de la map
+ * @param {string[]} route Route query de next.js
+ */
 export const getMapGhostGeoJSON = (route: string[]): AugoraMap.FeatureCollection => {
   switch (getPositionFromRoute(route)) {
     case Pos.FrReg:

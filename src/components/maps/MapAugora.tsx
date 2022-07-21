@@ -47,7 +47,7 @@ interface IMapAugora {
   /**  */
   onURLRequest?(url: string): void
   /**  */
-  history?: AugoraMap.History
+  breadcrumb?: AugoraMap.Breadcrumb
   /** Le mode de vue sur les zones, par défaut zoomé */
   overview?: boolean
   /** Liste de tous les députés. Inutile si on désactive les overlay */
@@ -343,7 +343,7 @@ export default function MapAugora(props: IMapAugora) {
             />
             {/* {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />} */}
             <MapControl position="top-left">
-              <MapBreadcrumb history={props.history} handleClick={(url) => goToZone({ url: url })} />
+              <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={(url) => goToZone({ url: url })} />
             </MapControl>
             {/* <MapControl position="top-right" className="mapboxgl-ctrl-geo">
               <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />

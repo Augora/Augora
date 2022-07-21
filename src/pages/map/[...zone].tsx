@@ -7,7 +7,6 @@ import mapStore from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
 import LoadingSpinner from "components/spinners/loading-spinner/LoadingSpinner"
 import {
-  buildURLFromFeature,
   Code,
   compareFeatures,
   getFeatureURL,
@@ -15,7 +14,7 @@ import {
   getParentURL,
   getPosition,
   getZoneCode,
-  getHistory,
+  getBreadcrumb,
   getZoneTitle,
   getDeputies,
 } from "components/maps/maps-utils"
@@ -27,7 +26,7 @@ interface IMapProps {
   feature: AugoraMap.Feature
   geoJSON: AugoraMap.FeatureCollection
   ghostGeoJSON?: AugoraMap.FeatureCollection
-  history: AugoraMap.History
+  breadcrumb: AugoraMap.Breadcrumb
 }
 
 export default function MapPage(props: IMapProps) {
@@ -66,7 +65,7 @@ export default function MapPage(props: IMapProps) {
     const allZones = [...props.geoJSON.features, ...props.ghostGeoJSON.features]
 
     allZones.forEach((feat) => router.prefetch(`/carte/${getFeatureURL(feat)}`))
-    props.history.forEach((breadcrumb) => router.prefetch(`/carte/${breadcrumb.url}`))
+    props.breadcrumb.forEach((breadcrumb) => router.prefetch(`/carte/${breadcrumb.url}`))
   }, [router])
 
   const zoneDeputies = getDeputies(props.feature, FilteredList)
@@ -115,7 +114,7 @@ export default function MapPage(props: IMapProps) {
             onZoneClick={changeZone}
             onBack={() => changeURL(getParentURL(props.feature))}
             onURLRequest={(url) => changeURL(url)}
-            history={props.history}
+            breadcrumb={props.breadcrumb}
           />
         </div>
         <div className={`map__loading${isLoading ? " visible" : ""}`}>
@@ -135,7 +134,7 @@ export const getStaticProps: GetStaticProps = async ({ params: { zone = null } }
       feature: feature,
       geoJSON: getMapGeoJSON(zone),
       ghostGeoJSON: getMapGhostGeoJSON(zone),
-      history: getHistory(feature),
+      breadcrumb: getBreadcrumb(feature),
       deputes: shuffle(deputes),
       groupes,
     },

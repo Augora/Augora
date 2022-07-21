@@ -7,12 +7,12 @@ import sortBy from "lodash/sortBy"
 import { slugify } from "utils/utils"
 
 interface IMapBreadcrumb {
-  history: AugoraMap.History
+  breadcrumb: AugoraMap.Breadcrumb
   handleClick: (url?: string) => void
 }
 
 interface IBreadcrumbItem {
-  zone: AugoraMap.Breadcrumb
+  zone: AugoraMap.BreadcrumbItem
   handleClick: (url?: string) => void
 }
 
@@ -172,10 +172,10 @@ function BreadcrumbItem({ zone, handleClick }: IBreadcrumbItem) {
  * @param {AugoraMap.Feature} feature La zone dans laquelle la map est
  * @param {Function} handleClick La fonction à exécuter au click de l'item breadcrumb
  */
-export default function MapBreadcrumb({ history, handleClick }: IMapBreadcrumb) {
+export default function MapBreadcrumb({ breadcrumb, handleClick }: IMapBreadcrumb) {
   return (
     <div className="map__breadcrumb">
-      {history.map((item, index) => (
+      {breadcrumb.map((item, index) => (
         <BreadcrumbItem key={`breadcrumb-${index}-${slugify(item.nom)}`} zone={item} handleClick={handleClick} />
       ))}
     </div>

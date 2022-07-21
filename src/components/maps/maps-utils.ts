@@ -395,19 +395,19 @@ export const getZoneTitle = <T extends GeoJSON.Feature>(feature: T) => {
   }
 }
 
-/** Renvoie l'URL map correspondant à une feature */
-export const buildURLFromFeature = <T extends GeoJSON.Feature>(feature: T): string => {
-  const props = feature?.properties
-  if (props) {
-    const featureKeys = Object.keys(props)
+// /** Renvoie l'URL map correspondant à une feature */
+// export const buildURLFromFeature = <T extends GeoJSON.Feature>(feature: T): string => {
+//   const props = feature?.properties
+//   if (props) {
+//     const featureKeys = Object.keys(props)
 
-    if (featureKeys.includes(Code.Circ)) return `/carte?dpt=${props[Code.Dpt]}&circ=${props[Code.Circ]}`
-    else if (featureKeys.includes(Code.Dpt)) return `/carte?dpt=${props[Code.Dpt]}`
-    else if (featureKeys.includes(Code.Reg)) return `/carte?reg=${props[Code.Reg]}`
-    else if (featureKeys.includes(Code.Cont)) return `/carte?cont=${props[Code.Cont]}`
-    else return ""
-  } else return ""
-}
+//     if (featureKeys.includes(Code.Circ)) return `/carte?dpt=${props[Code.Dpt]}&circ=${props[Code.Circ]}`
+//     else if (featureKeys.includes(Code.Dpt)) return `/carte?dpt=${props[Code.Dpt]}`
+//     else if (featureKeys.includes(Code.Reg)) return `/carte?reg=${props[Code.Reg]}`
+//     else if (featureKeys.includes(Code.Cont)) return `/carte?cont=${props[Code.Cont]}`
+//     else return ""
+//   } else return ""
+// }
 
 /** Cherche dans nos fichiers une feature aux coordonnées fournies */
 export const geolocateFeature = (coords: AugoraMap.Coordinates, features: AugoraMap.FeatureCollection): AugoraMap.Feature => {
@@ -444,7 +444,7 @@ export async function searchMapboxAPI(search: string, token: string): Promise<Au
 }
 
 /**
- * Renvoie la position d'une URL de la map
+ * Renvoie la position d'une route query de la map
  * @param {string} route
  */
 export const getPositionFromRoute = (route: string[]): Pos => {
@@ -538,10 +538,10 @@ export const getParentURL = <T extends GeoJSON.Feature>(feature: T): string => {
 }
 
 /**
- * Renvoie l'historique des zones du breadcrumb sous forme de feature array
+ * Renvoie les zones du breadcrumb sous forme de feature array
  * @param {AugoraMap.Feature} feature L'object feature à analyser
  */
-export const getHistory = (feature: AugoraMap.Feature): { url: string; nom: string }[] => {
+export const getBreadcrumb = (feature: AugoraMap.Feature): { url: string; nom: string }[] => {
   const monde = { url: "monde", nom: "Monde" }
   const france = { url: "france", nom: "France" }
   const props = feature?.properties

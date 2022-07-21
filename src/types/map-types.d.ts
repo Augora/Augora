@@ -87,10 +87,10 @@ declare namespace AugoraMap {
     }
   }
 
-  type Breadcrumb = {
+  type BreadcrumbItem = {
     url: string
     nom: string
   }
 
-  type History = Breadcrumb[]
+  type Breadcrumb = BreadcrumbItem[]
 }
