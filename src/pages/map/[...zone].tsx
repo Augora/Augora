@@ -107,7 +107,7 @@ export default function MapPage(props: IMapProps) {
               geoJSON: props.geoJSON,
               ghostGeoJSON: props.ghostGeoJSON,
               feature: props.feature,
-              // paint: paint,
+              paint: paint,
             }}
             onZoneClick={changeZone}
             onBack={() => changeURL(getParentURL(props.feature))}

@@ -193,6 +193,22 @@ export const getBoundingBoxFromCoordinates = (
 }
 
 /**
+ * Renvoie une bounding box utilisable par mapbox depuis un ou plusieurs polygones geoJSON
+ * Inutile depuis qu'on a calculé la bbox statiquement dans les geoJSON, privilégiez `feature.properties.bbox` à la place.
+ * @param {AugoraMap.Feature} feature Une feature geoJSON de type polygon ou multipolygone
+ */
+export const getBoundingBoxFromFeature = (feature: AugoraMap.Feature): AugoraMap.Bounds => {
+  if (feature?.geometry?.type) {
+    if (getZoneCode(feature) !== Code.Cont)
+      return feature.geometry.type === "Polygon"
+        ? getBoundingBoxFromCoordinates(feature.geometry.coordinates)
+        : getBoundingBoxFromCoordinates(feature.geometry.coordinates, true)
+    else if (getPosition(feature) === Pos.France) return franceBox
+    else return worldBox
+  } else return null
+}
+
+/**
  * Renvoie les coordonnées du centre d'une bounding box
  * @param {AugoraMap.Bounds} bbox Bounding box de type [[number, number], [number, number]]
  */

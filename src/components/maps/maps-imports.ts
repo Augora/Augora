@@ -43,7 +43,7 @@ const AllCirc: AugoraMap.FeatureCollection = createFeatureCollection([
 const MetroFeature: AugoraMap.Feature = MetroFranceContFile.features[0]
 
 /** Pseudo-feature du monde */
-const WorldFeature: AugoraMap.Feature = createFeature("Monde", { code_cont: 1 })
+const WorldFeature: AugoraMap.Feature = createFeature("Monde", { code_cont: 1, center: [10.46, 31.43] })
 
 /** Feature collection du monde */
 const WorldCont: AugoraMap.FeatureCollection = createFeatureCollection([
@@ -51,22 +51,6 @@ const WorldCont: AugoraMap.FeatureCollection = createFeatureCollection([
   ...HorsCircFile.features,
   ...OMDptFile.features,
 ])
-
-/**
- * Renvoie une bounding box utilisable par mapbox depuis un ou plusieurs polygones geoJSON
- * Inutile depuis qu'on a calculé la bbox statiquement dans les geoJSON, privilégiez `feature.properties.bbox` à la place.
- * @param {AugoraMap.Feature} feature Une feature geoJSON de type polygon ou multipolygone
- */
-export const getBoundingBoxFromFeature = (feature: AugoraMap.Feature): AugoraMap.Bounds => {
-  if (feature?.geometry?.type) {
-    if (getZoneCode(feature) !== Code.Cont)
-      return feature.geometry.type === "Polygon"
-        ? getBoundingBoxFromCoordinates(feature.geometry.coordinates)
-        : getBoundingBoxFromCoordinates(feature.geometry.coordinates, true)
-    else if (getPosition(feature) === Pos.France) return franceBox
-    else return worldBox
-  } else return null
-}
 
 /**
  * Renvoie la feature associée à un set de codes

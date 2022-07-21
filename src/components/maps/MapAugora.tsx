@@ -81,7 +81,7 @@ export default function MapAugora(props: IMapAugora) {
 
   /** Default props */
   const {
-    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
+    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint = getLayerPaint() },
     overlay = true,
     deputies = [],
     overview = false,
@@ -94,17 +94,13 @@ export default function MapAugora(props: IMapAugora) {
 
   /** useStates */
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
-  const [isMapLoaded, setIsMapLoaded] = useState(false)
   const [cursor, setCursor] = useState<string>("grab")
   const [geoPin, setGeoPin] = useState<AugoraMap.Coordinates>(null)
 
   /** useEffects */
   useEffect(() => {
-    if (isMapLoaded) {
-      if (!overview) flyToFeature(zoneFeature)
-      else flyToPin(zoneFeature)
-    }
-  }, [zoneFeature, overview, isMapLoaded])
+    handleLoad()
+  }, [zoneFeature, overview])
 
   /** useRefs */
   const mapRef = useRef<MapRef>()
@@ -112,7 +108,7 @@ export default function MapAugora(props: IMapAugora) {
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
     setTimeout(() => {
-      flyToBounds(feature, mapRef.current, isMobile)
+      if (mapRef.current) flyToBounds(feature, mapRef.current, isMobile)
     }, delay)
   }
 
@@ -122,7 +118,7 @@ export default function MapAugora(props: IMapAugora) {
     const zoom =
       pos === Pos.World || pos === Pos.WCirc ? -1 : pos === Pos.OMDpt || pos === Pos.OMCirc ? 2 : pos === Pos.France ? 0 : 3.5
 
-    flyToCoords(mapRef.current, zoneFeature.properties.center, zoom)
+    if (mapRef.current) flyToCoords(mapRef.current, zoneFeature.properties.center, zoom)
   }
 
   /** Change la zone affichée et transitionne
@@ -175,7 +171,7 @@ export default function MapAugora(props: IMapAugora) {
 
   /** Active le hover de la feature si elle est actuellement affichée sur la map */
   const simulateHover = (feature: AugoraMap.Feature) => {
-    if (isMapLoaded) {
+    if (mapRef.current) {
       if (!compareFeatures(hover, feature)) {
         const renderedFeature = getRenderedFeature(feature)
         renderHover(renderedFeature)
@@ -221,11 +217,12 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleResize = () => {
-    if (isMapLoaded) flyToFeature(zoneFeature)
+    if (mapRef.current) flyToFeature(zoneFeature)
   }
 
   const handleLoad = () => {
-    if (!isMapLoaded) setIsMapLoaded(true)
+    if (!overview) flyToFeature(zoneFeature)
+    else flyToPin(zoneFeature)
   }
 
   // const handleGeolocate = (e: GeolocateResultEvent) => {
@@ -251,7 +248,7 @@ export default function MapAugora(props: IMapAugora) {
       ref={mapRef}
       style={{ width: "100%", height: "100%" }}
       initialViewState={props.viewstate}
-      minZoom={0}
+      minZoom={-1}
       dragRotate={false}
       doubleClickZoom={false}
       // interactiveLayerIds={isMapLoaded ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
@@ -268,8 +265,8 @@ export default function MapAugora(props: IMapAugora) {
     >
       <>
         <Source type="geojson" data={geoJSON} generateId={true}>
-          <Layer id="zone-line" type="line" beforeId="road-label" paint={paint ? paint.line : getLayerPaint().line} />
-          <Layer id="zone-fill" type="fill" beforeId="road-label" paint={paint ? paint.fill : getLayerPaint().fill} />
+          <Layer id="zone-line" type="line" beforeId="road-label" paint={paint.line} />
+          <Layer id="zone-fill" type="fill" beforeId="road-label" paint={paint.fill} />
         </Source>
         {ghostGeoJSON && (
           <Source type="geojson" data={ghostGeoJSON} generateId={true}>
