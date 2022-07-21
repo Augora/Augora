@@ -81,17 +81,18 @@ declare namespace AugoraMap {
     /** Feature contenant toutes les zones. */
     feature: Feature
     /** Objet paint pour les layers. Utilisé pour avoir une couleur dynamique */
-    paint: {
+    paint?: {
       fill: mapboxgl.FillPaint
       line: mapboxgl.LinePaint
     }
   }
 
-  type BreadcrumbItem = {
+  /** Object pour un élément breadcrumb  */
+  type Breadcrumb = {
+    /** L'url de la zone */
     url: string
     nom: string
-    children?: BreadcrumbList
+    /** Les enfants de la zone */
+    children?: Breadcrumb[]
   }
-
-  type BreadcrumbList = BreadcrumbItem[]
 }

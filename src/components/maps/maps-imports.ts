@@ -1,3 +1,6 @@
+/**
+ * @file Fichier pour importer les données geoJSON pour la map, éviter de l'utiliser en dehors de génération statique au risque d'avoir un temps de chargement très long
+ */
 import {
   Code,
   Pos,
@@ -24,26 +27,26 @@ import HorsCircFile from "static/circ-hors.geojson"
 import sortBy from "lodash/sortBy"
 
 /** Feature collection GeoJSON de toutes les régions */
-export const AllReg: AugoraMap.FeatureCollection = MetroRegFile
+const AllReg: AugoraMap.FeatureCollection = MetroRegFile
 
 /** Feature collection GeoJSON de tous les départements */
-export const AllDpt: AugoraMap.FeatureCollection = createFeatureCollection([...MetroDptFile.features, ...OMDptFile.features])
+const AllDpt: AugoraMap.FeatureCollection = createFeatureCollection([...MetroDptFile.features, ...OMDptFile.features])
 
 /** Feature collection GeoJSON de toutes les circonscriptions */
-export const AllCirc: AugoraMap.FeatureCollection = createFeatureCollection([
+const AllCirc: AugoraMap.FeatureCollection = createFeatureCollection([
   ...MetroCircFile.features,
   ...OMCircFile.features,
   ...HorsCircFile.features,
 ])
 
 /** Feature de la france metropolitaine */
-export const MetroFeature: AugoraMap.Feature = MetroFranceContFile.features[0]
+const MetroFeature: AugoraMap.Feature = MetroFranceContFile.features[0]
 
 /** Pseudo-feature du monde */
-export const WorldFeature: AugoraMap.Feature = createFeature("Monde", { code_cont: 1 })
+const WorldFeature: AugoraMap.Feature = createFeature("Monde", { code_cont: 1 })
 
 /** Feature collection du monde */
-export const WorldCont: AugoraMap.FeatureCollection = createFeatureCollection([
+const WorldCont: AugoraMap.FeatureCollection = createFeatureCollection([
   MetroFeature,
   ...HorsCircFile.features,
   ...OMDptFile.features,
@@ -253,7 +256,7 @@ export const getMapGhostGeoJSON = (route: string[]): AugoraMap.FeatureCollection
  * Renvoie tous les enfants breadcrumb d'une zone dans une array
  * @param {AugoraMap.Codes} codes Les codes de la zone
  */
-export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.BreadcrumbList => {
+export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.Breadcrumb[] => {
   switch (getPosFromCodes(codes)) {
     case Pos.World:
       return [
@@ -323,9 +326,9 @@ export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.Breadcr
  * Renvoie le breadcrumb entier
  * @param {AugoraMap.Feature} feature L'object feature dans lequel on se situe
  */
-export const getBreadcrumb = (feature: AugoraMap.Feature): AugoraMap.BreadcrumbList => {
-  const monde: AugoraMap.BreadcrumbItem = { url: "monde", nom: "Monde", children: getBreadcrumbChildren({ code_cont: 1 }) }
-  const france: AugoraMap.BreadcrumbItem = {
+export const getBreadcrumb = (feature: AugoraMap.Feature): AugoraMap.Breadcrumb[] => {
+  const monde: AugoraMap.Breadcrumb = { url: "monde", nom: "Monde", children: getBreadcrumbChildren({ code_cont: 1 }) }
+  const france: AugoraMap.Breadcrumb = {
     url: "france",
     nom: "France Métropolitaine",
     children: getBreadcrumbChildren({ code_cont: 0 }),

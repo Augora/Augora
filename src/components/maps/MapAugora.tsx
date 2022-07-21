@@ -21,8 +21,8 @@ import {
   flyToCoords,
   getPosition,
   Pos,
+  localeFR,
 } from "components/maps/maps-utils"
-// import { geolocateFromCoords, geolocateZone } from "components/maps/maps-imports"
 import MapControl from "components/maps/MapControl"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
@@ -42,12 +42,12 @@ interface IMapAugora {
   setViewstate(newViewport: ViewState): void
   /** Callback quand une zone de la map est cliquée */
   onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
-  /**  */
+  /** Callback de quand le clic droit est utilisé */
   onBack?(args?: any): void
-  /**  */
+  /** Callback lorsque la map requete un changement d'url (Uniquement pour la page map) */
   onURLRequest?(url: string): void
-  /**  */
-  breadcrumb?: AugoraMap.BreadcrumbList
+  /** Objet breadcrumb pour savoir quoi afficher */
+  breadcrumb?: AugoraMap.Breadcrumb[]
   /** Le mode de vue sur les zones, par défaut zoomé */
   overview?: boolean
   /** Liste de tous les députés. Inutile si on désactive les overlay */
@@ -63,58 +63,6 @@ interface IMapAugora {
   /** S'il faut afficher les frontières */
   borders?: boolean
   children?: React.ReactNode
-}
-
-const fillLayerProps: LayerProps = {
-  id: "zone-fill",
-  type: "fill",
-  beforeId: "road-label",
-  paint: getLayerPaint().fill,
-}
-
-const lineLayerProps: LayerProps = {
-  id: "zone-line",
-  type: "line",
-  beforeId: "road-label",
-  paint: getLayerPaint().line,
-}
-
-const fillGhostLayerProps: LayerProps = {
-  id: "zone-ghost-fill",
-  type: "fill",
-  beforeId: "road-label",
-  paint: getLayerPaint(null, true).fill,
-}
-
-const lineGhostLayerProps: LayerProps = {
-  id: "zone-ghost-line",
-  type: "line",
-  beforeId: "road-label",
-  paint: {
-    ...getLayerPaint().line,
-    "line-opacity": 0.2,
-  },
-}
-
-const localeFR = {
-  // "AttributionControl.ToggleAttribution": "Toggle attribution",
-  "AttributionControl.MapFeedback": "Retours sur la map",
-  "FullscreenControl.Enter": "Entrer en plein écran",
-  "FullscreenControl.Exit": "Sortir du plein écran",
-  "GeolocateControl.FindMyLocation": "Me géolocaliser",
-  "GeolocateControl.LocationNotAvailable": "Géolocalisation indisponible",
-  "LogoControl.Title": "Logo Mapbox ",
-  // "NavigationControl.ResetBearing": "Reset bearing to north",
-  "NavigationControl.ZoomIn": "Zoomer",
-  "NavigationControl.ZoomOut": "Dézoomer",
-  "ScaleControl.Feet": "pieds",
-  "ScaleControl.Meters": "m",
-  "ScaleControl.Kilometers": "km",
-  "ScaleControl.Miles": "miles",
-  "ScaleControl.NauticalMiles": "nm",
-  "ScrollZoomBlocker.CtrlMessage": "Utilisez control + molette pour zoomer la carte",
-  "ScrollZoomBlocker.CmdMessage": "Utilisez ⌘ + molette pour zoomer la carte",
-  "TouchPanBlocker.Message": "Utilisez deux doigts pour bouger la carte",
 }
 
 /**
@@ -142,6 +90,8 @@ export default function MapAugora(props: IMapAugora) {
     borders = false,
   } = props
 
+  const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
+
   /** useStates */
   const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
@@ -158,8 +108,6 @@ export default function MapAugora(props: IMapAugora) {
 
   /** useRefs */
   const mapRef = useRef<MapRef>()
-
-  const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
@@ -180,8 +128,8 @@ export default function MapAugora(props: IMapAugora) {
   /** Change la zone affichée et transitionne
    * @param {T} [opts.feature] La feature à afficher
    * @param {AugoraMap.Coordinates} [opts.coords] Les coords sur lesquelles transitionner, ignoré si une feature est aussi passée
-   * @param {string} [url] Pour requeter un changement d'url
-   * @param {boolean} [opts.redirect] S'il faut changer pour la page détal en cas de clic sur une circonscription, defaut true
+   * @param {string} [opts.url] Pour requeter un changement d'url, ignoré si une feature et des coordonnées sont passées
+   * @param {boolean} [opts.redirect] S'il faut changer pour la page détal en cas de clic sur une circonscription @default true
    */
   const goToZone = <T extends GeoJSON.Feature>(opts: {
     feature?: T
@@ -320,14 +268,13 @@ export default function MapAugora(props: IMapAugora) {
     >
       <>
         <Source type="geojson" data={geoJSON} generateId={true}>
-          {/* spread pour éviter un bug de typescript de react map gl, à changer quand c'est fix */}
-          <Layer {...lineLayerProps} {...{ paint: paint.line }} />
-          <Layer {...fillLayerProps} {...{ paint: paint.fill }} />
+          <Layer id="zone-line" type="line" beforeId="road-label" paint={paint ? paint.line : getLayerPaint().line} />
+          <Layer id="zone-fill" type="fill" beforeId="road-label" paint={paint ? paint.fill : getLayerPaint().fill} />
         </Source>
         {ghostGeoJSON && (
           <Source type="geojson" data={ghostGeoJSON} generateId={true}>
-            <Layer {...lineGhostLayerProps} />
-            <Layer {...fillGhostLayerProps} />
+            <Layer id="zone-ghost-line" type="line" beforeId="road-label" paint={getLayerPaint(null, true).line} />
+            <Layer id="zone-ghost-fill" type="fill" beforeId="road-label" paint={getLayerPaint(null, true).fill} />
           </Source>
         )}
         {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}

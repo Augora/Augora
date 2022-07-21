@@ -5,17 +5,17 @@ import sortBy from "lodash/sortBy"
 import { slugify } from "utils/utils"
 
 interface IMapBreadcrumb {
-  breadcrumb: AugoraMap.BreadcrumbList
+  breadcrumb: AugoraMap.Breadcrumb[]
   handleClick: (url?: string) => void
 }
 
 interface IBreadcrumbItem {
-  zone: AugoraMap.BreadcrumbItem
+  zone: AugoraMap.Breadcrumb
   handleClick: (url?: string) => void
 }
 
 interface IBreadcrumbMenu {
-  zones: AugoraMap.BreadcrumbList
+  zones: AugoraMap.Breadcrumb[]
   onClick: (url?: string) => void
   closeParent?: (args?: any) => any
   className?: string

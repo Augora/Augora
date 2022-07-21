@@ -1,4 +1,4 @@
-import { MapRef } from "react-map-gl"
+import { LayerProps, MapRef } from "react-map-gl"
 import { WebMercatorViewport } from "@math.gl/web-mercator"
 import polylabel from "polylabel"
 import pointInPolygon from "point-in-polygon"
@@ -34,6 +34,28 @@ export enum Pos {
   FrDpt,
   /** Région metropole */
   FrReg,
+}
+
+/** Traduction FR de l'interface mapbox */
+export const localeFR = {
+  // "AttributionControl.ToggleAttribution": "Toggle attribution",
+  "AttributionControl.MapFeedback": "Retours sur la map",
+  "FullscreenControl.Enter": "Entrer en plein écran",
+  "FullscreenControl.Exit": "Sortir du plein écran",
+  "GeolocateControl.FindMyLocation": "Me géolocaliser",
+  "GeolocateControl.LocationNotAvailable": "Géolocalisation indisponible",
+  "LogoControl.Title": "Logo Mapbox ",
+  // "NavigationControl.ResetBearing": "Reset bearing to north",
+  "NavigationControl.ZoomIn": "Zoomer",
+  "NavigationControl.ZoomOut": "Dézoomer",
+  "ScaleControl.Feet": "pieds",
+  "ScaleControl.Meters": "m",
+  "ScaleControl.Kilometers": "km",
+  "ScaleControl.Miles": "miles",
+  "ScaleControl.NauticalMiles": "nm",
+  "ScrollZoomBlocker.CtrlMessage": "Utilisez control + molette pour zoomer la carte",
+  "ScrollZoomBlocker.CmdMessage": "Utilisez ⌘ + molette pour zoomer la carte",
+  "TouchPanBlocker.Message": "Utilisez deux doigts pour bouger la carte",
 }
 
 /**
@@ -119,6 +141,7 @@ export const getLayerPaint = (
     line: {
       "line-color": color ? color : "#00bbcc",
       "line-width": 1,
+      "line-opacity": ghost ? 0.2 : 1,
     },
   }
 }

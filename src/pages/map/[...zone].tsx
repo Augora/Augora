@@ -12,7 +12,6 @@ import {
   getFeatureURL,
   getLayerPaint,
   getParentURL,
-  getPosition,
   getZoneCode,
   getZoneTitle,
   getDeputies,
@@ -25,7 +24,7 @@ interface IMapProps {
   feature: AugoraMap.Feature
   geoJSON: AugoraMap.FeatureCollection
   ghostGeoJSON?: AugoraMap.FeatureCollection
-  breadcrumb: AugoraMap.BreadcrumbList
+  breadcrumb: AugoraMap.Breadcrumb[]
 }
 
 export default function MapPage(props: IMapProps) {
@@ -65,7 +64,7 @@ export default function MapPage(props: IMapProps) {
 
     allZones.forEach((feat) => router.prefetch(`/carte/${getFeatureURL(feat)}`))
     props.breadcrumb.forEach((breadcrumb) => router.prefetch(`/carte/${breadcrumb.url}`))
-  }, [router])
+  }, [router]) //prefetch les pages des features visibles
 
   const zoneDeputies = getDeputies(props.feature, FilteredList)
   const paint =
@@ -108,7 +107,7 @@ export default function MapPage(props: IMapProps) {
               geoJSON: props.geoJSON,
               ghostGeoJSON: props.ghostGeoJSON,
               feature: props.feature,
-              paint: paint,
+              // paint: paint,
             }}
             onZoneClick={changeZone}
             onBack={() => changeURL(getParentURL(props.feature))}
@@ -124,7 +123,7 @@ export default function MapPage(props: IMapProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ params: { zone = null } }: { params: { zone: string[] } }) => {
+export const getStaticProps: GetStaticProps<IMapProps> = async ({ params: { zone = null } }: { params: { zone: string[] } }) => {
   const [deputes, groupes] = await Promise.all([getDeputesMap(), getGroupes()])
   const feature = getMapFeature(zone)
 

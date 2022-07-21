@@ -5,7 +5,7 @@ import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
 import mapStore from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
 import { createFeatureCollection, getLayerPaint } from "components/maps/maps-utils"
-import { getFeature, MetroFeature } from "components/maps/maps-imports"
+import { getFeature } from "components/maps/maps-imports"
 import _ from "lodash"
 import Question from "./DeputeBanner/Question"
 import TopBackground from "./DeputeBanner/TopBackground"
@@ -43,7 +43,9 @@ export default function DeputeBanner({
           code_circ: NumeroCirconscription,
           code_dpt: NumeroDepartement,
         })
-      : MetroFeature
+      : getFeature({
+          code_cont: 0,
+        })
   const refMapOpacity = { value: mapOpacity.value }
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
