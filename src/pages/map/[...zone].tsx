@@ -71,7 +71,7 @@ export default function MapPage(props: IMapProps) {
 
   const zoneDeputies = getDeputies(props.feature, FilteredList)
   const paint =
-    zoneDeputies.length === 1
+    zoneDeputies.length === 1 && getZoneCode(props.feature) === Code.Circ
       ? getLayerPaint(zoneDeputies[0]?.GroupeParlementaire?.Couleur)
       : zoneDeputies.length === 0
       ? getLayerPaint("#808080")
