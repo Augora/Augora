@@ -14,11 +14,10 @@ import {
   getParentURL,
   getPosition,
   getZoneCode,
-  getBreadcrumb,
   getZoneTitle,
   getDeputies,
 } from "components/maps/maps-utils"
-import { getMapFeature, getMapGeoJSON, getMapGhostGeoJSON } from "components/maps/maps-imports"
+import { getMapFeature, getMapGeoJSON, getMapGhostGeoJSON, getBreadcrumb } from "components/maps/maps-imports"
 import { getDeputesMap, getGroupes } from "lib/deputes/Wrapper"
 import shuffle from "lodash/shuffle"
 
@@ -26,7 +25,7 @@ interface IMapProps {
   feature: AugoraMap.Feature
   geoJSON: AugoraMap.FeatureCollection
   ghostGeoJSON?: AugoraMap.FeatureCollection
-  breadcrumb: AugoraMap.Breadcrumb
+  breadcrumb: AugoraMap.BreadcrumbList
 }
 
 export default function MapPage(props: IMapProps) {

@@ -47,7 +47,7 @@ interface IMapAugora {
   /**  */
   onURLRequest?(url: string): void
   /**  */
-  breadcrumb?: AugoraMap.Breadcrumb
+  breadcrumb?: AugoraMap.BreadcrumbList
   /** Le mode de vue sur les zones, par défaut zoomé */
   overview?: boolean
   /** Liste de tous les députés. Inutile si on désactive les overlay */

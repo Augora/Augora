@@ -249,3 +249,142 @@ export const getMapGhostGeoJSON = (route: string[]): AugoraMap.FeatureCollection
       return createFeatureCollection()
   }
 }
+
+export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.BreadcrumbList => {
+  switch (getPosFromCodes(codes)) {
+    case Pos.World:
+      return [
+        { url: "france", nom: "France", children: getBreadcrumbChildren({ code_cont: 0 }) },
+        ...OMDptFile.features.map((item) => {
+          return {
+            nom: item.properties.nom,
+            url: `om/${slugify(item.properties.nom)}`,
+            children: getBreadcrumbChildren({ code_dpt: item.properties[Code.Dpt] }),
+          }
+        }),
+      ]
+    case Pos.France:
+      return MetroRegFile.features.map((item) => {
+        return {
+          nom: item.properties.nom,
+          url: `france/${slugify(item.properties.nom)}`,
+          children: getBreadcrumbChildren({ code_reg: item.properties[Code.Reg] }),
+        }
+      })
+    case Pos.FrReg:
+      return MetroDptFile.features
+        .filter((feature) => feature.properties[Code.Reg] === codes[Code.Reg])
+        .map((item) => {
+          return {
+            nom: item.properties.nom,
+            url: `france/${slugify(item.properties.nom_reg)}/${slugify(item.properties.nom)}`,
+            children: getBreadcrumbChildren({ code_dpt: item.properties[Code.Dpt] }),
+          }
+        })
+    case Pos.FrDpt:
+      return MetroCircFile.features
+        .filter((feature) => feature.properties[Code.Dpt] === codes[Code.Dpt])
+        .map((item) => {
+          return {
+            nom: `${item.properties[Code.Circ]}${item.properties[Code.Circ] === 1 ? "ère" : "ème"} Circonscription`,
+            url: `france/${slugify(item.properties.nom_reg)}/${slugify(item.properties.nom_dpt)}/${item.properties[Code.Circ]}`,
+          }
+        })
+    case Pos.OMDpt:
+      return OMCircFile.features
+        .filter((feature) => feature.properties[Code.Dpt] === codes[Code.Dpt])
+        .map((item) => {
+          return {
+            nom: `${item.properties[Code.Circ]}${item.properties[Code.Circ] === 1 ? "ère" : "ème"} Circonscription`,
+            url: `om/${slugify(item.properties.nom_dpt)}/${item.properties[Code.Circ]}`,
+          }
+        })
+    case Pos.FrCirc:
+    case Pos.OMCirc:
+    case Pos.WCirc:
+    default:
+      return []
+  }
+}
+
+/**
+ * Renvoie les zones du breadcrumb
+ * @param {AugoraMap.Feature} feature L'object feature dans lequel on se situe
+ */
+export const getBreadcrumb = (feature: AugoraMap.Feature): AugoraMap.BreadcrumbList => {
+  const monde: AugoraMap.BreadcrumbItem = { url: "monde", nom: "Monde", children: getBreadcrumbChildren({ code_cont: 1 }) }
+  const france: AugoraMap.BreadcrumbItem = { url: "france", nom: "France", children: getBreadcrumbChildren({ code_cont: 0 }) }
+  const props = feature?.properties
+
+  switch (getPosition(feature)) {
+    case Pos.FrReg:
+      return [
+        monde,
+        france,
+        { url: `france/${slugify(props.nom)}`, nom: props.nom, children: getBreadcrumbChildren({ code_reg: props[Code.Reg] }) },
+      ]
+    case Pos.FrDpt:
+      return [
+        monde,
+        france,
+        {
+          url: `france/${slugify(props.nom_reg)}`,
+          nom: props.nom_reg,
+          children: getBreadcrumbChildren({ code_reg: props[Code.Reg] }),
+        },
+        {
+          url: `france/${slugify(props.nom_reg)}/${slugify(props.nom)}`,
+          nom: props.nom,
+          children: getBreadcrumbChildren({ code_dpt: props[Code.Dpt] }),
+        },
+      ]
+    case Pos.FrCirc:
+      return [
+        monde,
+        france,
+        {
+          url: `france/${slugify(props.nom_reg)}`,
+          nom: props.nom_reg,
+          children: getBreadcrumbChildren({ code_reg: props[Code.Reg] }),
+        },
+        {
+          url: `france/${slugify(props.nom_reg)}/${slugify(props.nom_dpt)}`,
+          nom: props.nom_dpt,
+          children: getBreadcrumbChildren({ code_dpt: props[Code.Dpt] }),
+        },
+        {
+          url: `france/${slugify(props.nom_reg)}/${slugify(props.nom_dpt)}/${props.code_circ}`,
+          nom: `${props.code_circ}${props.code_circ === 1 ? "ère" : "ème"} Circonscription`,
+        },
+      ]
+    case Pos.OMDpt:
+      return [
+        monde,
+        { url: `om/${slugify(props.nom)}`, nom: props.nom, children: getBreadcrumbChildren({ code_dpt: props[Code.Dpt] }) },
+      ]
+    case Pos.OMCirc:
+      return [
+        monde,
+        {
+          url: `om/${slugify(props.nom_dpt)}`,
+          nom: props.nom_dpt,
+          children: getBreadcrumbChildren({ code_dpt: props[Code.Dpt] }),
+        },
+        {
+          url: `om/${slugify(props.nom_dpt)}/${props.code_circ}`,
+          nom: `${props.code_circ}${props.code_circ === 1 ? "ère" : "ème"} Circonscription`,
+        },
+      ]
+    case Pos.WCirc:
+      return [
+        monde,
+        { url: `monde/${props.code_circ}}`, nom: `${props.code_circ}${props.code_circ === 1 ? "ère" : "ème"} Circonscription` },
+      ]
+    case Pos.France:
+      return [monde, france]
+    case Pos.World:
+      return [monde]
+    default:
+      return []
+  }
+}

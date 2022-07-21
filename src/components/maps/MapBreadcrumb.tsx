@@ -7,7 +7,7 @@ import sortBy from "lodash/sortBy"
 import { slugify } from "utils/utils"
 
 interface IMapBreadcrumb {
-  breadcrumb: AugoraMap.Breadcrumb
+  breadcrumb: AugoraMap.BreadcrumbList
   handleClick: (url?: string) => void
 }
 

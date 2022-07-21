@@ -395,20 +395,6 @@ export const getZoneTitle = <T extends GeoJSON.Feature>(feature: T) => {
   }
 }
 
-// /** Renvoie l'URL map correspondant à une feature */
-// export const buildURLFromFeature = <T extends GeoJSON.Feature>(feature: T): string => {
-//   const props = feature?.properties
-//   if (props) {
-//     const featureKeys = Object.keys(props)
-
-//     if (featureKeys.includes(Code.Circ)) return `/carte?dpt=${props[Code.Dpt]}&circ=${props[Code.Circ]}`
-//     else if (featureKeys.includes(Code.Dpt)) return `/carte?dpt=${props[Code.Dpt]}`
-//     else if (featureKeys.includes(Code.Reg)) return `/carte?reg=${props[Code.Reg]}`
-//     else if (featureKeys.includes(Code.Cont)) return `/carte?cont=${props[Code.Cont]}`
-//     else return ""
-//   } else return ""
-// }
-
 /** Cherche dans nos fichiers une feature aux coordonnées fournies */
 export const geolocateFeature = (coords: AugoraMap.Coordinates, features: AugoraMap.FeatureCollection): AugoraMap.Feature => {
   const trimmedFeatures = features.features.filter((feature) => {
@@ -468,6 +454,10 @@ export const getPositionFromRoute = (route: string[]): Pos => {
   } else return null
 }
 
+/**
+ * Renvoie la position d'une feature
+ * @param {GeoJSON.Feature} feature
+ */
 export const getPosition = <T extends GeoJSON.Feature>(feature: T): Pos => {
   if (feature?.properties) {
     const featureKeys = Object.keys(feature.properties)
@@ -488,6 +478,10 @@ export const getPosition = <T extends GeoJSON.Feature>(feature: T): Pos => {
   } else return null
 }
 
+/**
+ * Renvoie l'URL feature fournie
+ * @param {GeoJSON.Feature} feature
+ */
 export const getFeatureURL = <T extends GeoJSON.Feature>(feature: T): string => {
   switch (getPosition(feature)) {
     case Pos.France:
@@ -534,60 +528,5 @@ export const getParentURL = <T extends GeoJSON.Feature>(feature: T): string => {
     case Pos.World:
     default:
       return null
-  }
-}
-
-/**
- * Renvoie les zones du breadcrumb sous forme de feature array
- * @param {AugoraMap.Feature} feature L'object feature à analyser
- */
-export const getBreadcrumb = (feature: AugoraMap.Feature): { url: string; nom: string }[] => {
-  const monde = { url: "monde", nom: "Monde" }
-  const france = { url: "france", nom: "France" }
-  const props = feature?.properties
-
-  switch (getPosition(feature)) {
-    case Pos.FrReg:
-      return [monde, france, { url: `france/${slugify(props.nom)}`, nom: props.nom }]
-    case Pos.FrDpt:
-      return [
-        monde,
-        france,
-        { url: `france/${slugify(props.nom_reg)}`, nom: props.nom_reg },
-        { url: `france/${slugify(props.nom_reg)}/${slugify(props.nom)}`, nom: props.nom },
-      ]
-    case Pos.FrCirc:
-      return [
-        monde,
-        france,
-        { url: `france/${slugify(props.nom_reg)}`, nom: props.nom_reg },
-        { url: `france/${slugify(props.nom_reg)}/${slugify(props.nom_dpt)}`, nom: props.nom_dpt },
-        {
-          url: `france/${slugify(props.nom_reg)}/${slugify(props.nom_dpt)}/${props.code_circ}`,
-          nom: `${props.code_circ}${props.code_circ === 1 ? "ère" : "ème"} Circonscription`,
-        },
-      ]
-    case Pos.OMDpt:
-      return [monde, { url: `om/${slugify(props.nom)}`, nom: props.nom }]
-    case Pos.OMCirc:
-      return [
-        monde,
-        { url: `om/${slugify(props.nom_dpt)}`, nom: props.nom_dpt },
-        {
-          url: `om/${slugify(props.nom_dpt)}/${props.code_circ}`,
-          nom: `${props.code_circ}${props.code_circ === 1 ? "ère" : "ème"} Circonscription`,
-        },
-      ]
-    case Pos.WCirc:
-      return [
-        monde,
-        { url: `monde/${props.code_circ}}`, nom: `${props.code_circ}${props.code_circ === 1 ? "ère" : "ème"} Circonscription` },
-      ]
-    case Pos.France:
-      return [monde, france]
-    case Pos.World:
-      return [monde]
-    default:
-      return []
   }
 }
