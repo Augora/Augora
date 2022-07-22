@@ -431,8 +431,8 @@ export const getZoneTitle = <T extends GeoJSON.Feature>(feature: T) => {
 }
 
 /** Cherche dans nos fichiers une feature aux coordonnées fournies */
-export const geolocateFeature = (coords: AugoraMap.Coordinates, features: AugoraMap.FeatureCollection): AugoraMap.Feature => {
-  const trimmedFeatures = features.features.filter((feature) => {
+export const geolocateFeature = (coords: AugoraMap.Coordinates, features: AugoraMap.Feature[]): AugoraMap.Feature => {
+  const trimmedFeatures = features.filter((feature) => {
     const SW = feature.properties.bbox[0]
     const NE = feature.properties.bbox[1]
 
@@ -449,6 +449,27 @@ export const geolocateFeature = (coords: AugoraMap.Coordinates, features: Augora
     })
   } else if (trimmedFeatures.length === 1) return trimmedFeatures[0]
   else return undefined
+}
+
+/** Cherche dans nos fichiers une feature aux coordonnées fournies
+ * @param {Code} code Pour savoir dans quel type de zone chercher
+ */
+export const geolocateFromCoords = async (coords: AugoraMap.Coordinates, code: Code) => {
+  switch (code) {
+    case Code.Circ:
+      const metroCirc = (await import("static/circ-metro.geojson")).default
+      const omCirc = (await import("static/circ-om.geojson")).default
+      const wCirc = (await import("static/circ-hors.geojson")).default
+      return geolocateFeature(coords, [...metroCirc.features, ...omCirc.features, ...wCirc.features])
+    case Code.Dpt:
+      const metroDpt = (await import("static/dpt-metro.geojson")).default
+      const omDpt = (await import("static/dpt-om.geojson")).default
+      return geolocateFeature(coords, [...metroDpt.features, ...omDpt.features])
+    case Code.Reg:
+      return geolocateFeature(coords, (await import("static/reg-metro.geojson")).default.features)
+    default:
+      return geolocateFeature(coords, (await import("static/cont-france.geojson")).default.features)
+  }
 }
 
 /**

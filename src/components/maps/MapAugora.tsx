@@ -22,6 +22,7 @@ import {
   getPosition,
   Pos,
   localeFR,
+  geolocateFromCoords,
 } from "components/maps/maps-utils"
 import MapControl from "components/maps/MapControl"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
@@ -100,7 +101,7 @@ export default function MapAugora(props: IMapAugora) {
   /** useEffects */
   useEffect(() => {
     handleLoad()
-  }, [zoneFeature, overview])
+  }, [zoneFeature, overview]) //lance une transition entre zones lorsque l'affichage change
 
   /** useRefs */
   const mapRef = useRef<MapRef>()
@@ -225,13 +226,15 @@ export default function MapAugora(props: IMapAugora) {
     else flyToPin(zoneFeature)
   }
 
-  // const handleGeolocate = (e: GeolocateResultEvent) => {
-  //   const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
-  //   if (coords) {
-  //     setGeoPin(coords)
-  //     goToZone({ feature: geolocateFromCoords(coords, Code.Circ), coords: coords, redirect: false })
-  //   }
-  // }
+  const handleGeolocate = (e: GeolocateResultEvent) => {
+    const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
+    if (coords) {
+      setGeoPin(coords)
+      geolocateFromCoords(coords, Code.Circ).then((result) => {
+        goToZone({ feature: result, coords: coords, redirect: false })
+      })
+    }
+  }
 
   // const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
   //   if (feature) {
@@ -285,7 +288,7 @@ export default function MapAugora(props: IMapAugora) {
               handleClick={goToZone}
               handleHover={simulateHover}
             />
-            {/* {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />} */}
+            {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
             <MapControl position="top-left">
               <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={(url) => goToZone({ url: url })} />
             </MapControl>
@@ -294,7 +297,7 @@ export default function MapAugora(props: IMapAugora) {
             </MapControl> */}
             <NavigationControl showCompass={false} />
             <FullscreenControl />
-            {/* <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} /> */}
+            <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} />
             <div className="custom-control-container">
               <div className="ctrl-bottom">
                 <MapFilters zoneDeputies={props.zoneDeputies} />
