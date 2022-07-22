@@ -40,8 +40,19 @@ export default function MapPage(props: IMapProps) {
   const { viewsize, viewstate, setViewsize, setViewstate } = mapStore()
 
   useEffect(() => {
-    const handleStart = (url) => url.startsWith("/carte") && setIsLoading(true)
-    const handleComplete = (url) => setIsLoading(false)
+    let timer: NodeJS.Timeout
+
+    const handleStart = (url) => {
+      if (url.startsWith("/carte")) {
+        timer = setTimeout(() => {
+          setIsLoading(true)
+        }, 500)
+      }
+    }
+    const handleComplete = (url) => {
+      clearTimeout(timer)
+      setIsLoading(false)
+    }
     router.events.on("routeChangeStart", handleStart)
     router.events.on("routeChangeComplete", handleComplete)
     router.events.on("routeChangeError", handleComplete)
@@ -56,6 +67,8 @@ export default function MapPage(props: IMapProps) {
       router.events.off("routeChangeError", handleComplete)
 
       window.removeEventListener("resize", handleResize)
+
+      clearTimeout(timer)
     }
   }, [])
 

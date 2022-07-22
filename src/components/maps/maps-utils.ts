@@ -451,6 +451,10 @@ export const geolocateFeature = (coords: AugoraMap.Coordinates, features: Augora
   else return undefined
 }
 
+/**
+ * Récupère une feature collection de toutes les zones d'un type donné
+ * @param code Quel type de zone renvoyer. `Code.Cont` ne renvoie que la france
+ */
 const getAsyncFileBundle = async (code?: Code) => {
   switch (code) {
     case Code.Circ:
@@ -471,6 +475,10 @@ const getAsyncFileBundle = async (code?: Code) => {
   }
 }
 
+/**
+ * Récupère un fichier geoJSON de façon asynchrone
+ * @param pos Quel fichier récupérer. Ne fonctionne pas avec `Pos.World`
+ */
 const getAsyncFile = async (pos?: Pos) => {
   switch (pos) {
     case Pos.France:
