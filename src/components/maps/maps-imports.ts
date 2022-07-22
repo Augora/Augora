@@ -6,11 +6,6 @@ import {
   Pos,
   createFeature,
   createFeatureCollection,
-  franceBox,
-  worldBox,
-  geolocateFeature,
-  getZoneCode,
-  getBoundingBoxFromCoordinates,
   getPositionFromRoute,
   getPosition,
   getPosFromCodes,
@@ -25,19 +20,6 @@ import MetroCircFile from "static/circ-metro.geojson"
 import OMCircFile from "static/circ-om.geojson"
 import HorsCircFile from "static/circ-hors.geojson"
 import sortBy from "lodash/sortBy"
-
-/** Feature collection GeoJSON de toutes les régions */
-const AllReg: AugoraMap.FeatureCollection = MetroRegFile
-
-/** Feature collection GeoJSON de tous les départements */
-const AllDpt: AugoraMap.FeatureCollection = createFeatureCollection([...MetroDptFile.features, ...OMDptFile.features])
-
-/** Feature collection GeoJSON de toutes les circonscriptions */
-const AllCirc: AugoraMap.FeatureCollection = createFeatureCollection([
-  ...MetroCircFile.features,
-  ...OMCircFile.features,
-  ...HorsCircFile.features,
-])
 
 /** Feature de la france metropolitaine */
 const MetroFeature: AugoraMap.Feature = MetroFranceContFile.features[0]
@@ -82,51 +64,6 @@ export const getFeature = (codes: AugoraMap.Codes) => {
       return null
   }
 }
-
-// /** Renvoie la feature de nos fichiers la plus adaptée à un résultat de recherche API mapbox */
-// export const geolocateZone = (feature: AugoraMap.MapboxAPIFeature): AugoraMap.Feature => {
-//   switch (feature.place_type[0]) {
-//     case "country":
-//       switch (feature.text) {
-//         case "Guyane":
-//         case "Guadeloupe":
-//         case "Martinique":
-//         case "La Réunion":
-//         case "Mayotte":
-//         case "Nouvelle-Calédonie":
-//         case "Polynésie française":
-//         case "Saint-Pierre-et-Miquelon":
-//         case "Wallis-et-Futuna":
-//           return geolocateFeature(feature.center, OMDptFile)
-//         case "France":
-//           return MetroFeature
-//         default:
-//           return geolocateFeature(feature.center, AllCirc)
-//       }
-//     case "region":
-//       if (feature.context[0].short_code === "fr") {
-//         switch (feature.text) {
-//           case "Bretagne":
-//           case "Normandie":
-//           case "Hauts-de-France":
-//           case "Pays de la Loire":
-//           case "Île-de-France":
-//           case "Centre-Val de Loire":
-//           case "Bourgogne-Franche-Comté":
-//           case "Auvergne-Rhône-Alpes":
-//           case "Nouvelle-Aquitaine":
-//           case "Provence-Alpes-Côte d'Azur":
-//           case "Occitanie":
-//           case "Corse":
-//             return geolocateFeature(feature.center, MetroRegFile)
-//           default:
-//             return geolocateFeature(feature.center, MetroDptFile)
-//         }
-//       } else return geolocateFeature(feature.center, AllCirc)
-//     default:
-//       return geolocateFeature(feature.center, AllCirc)
-//   }
-// }
 
 /**
  * Renvoie la Feature d'une route de la map

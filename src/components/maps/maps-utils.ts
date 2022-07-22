@@ -1,4 +1,4 @@
-import { LayerProps, MapRef } from "react-map-gl"
+import { MapRef } from "react-map-gl"
 import { WebMercatorViewport } from "@math.gl/web-mercator"
 import polylabel from "polylabel"
 import pointInPolygon from "point-in-polygon"
@@ -451,24 +451,107 @@ export const geolocateFeature = (coords: AugoraMap.Coordinates, features: Augora
   else return undefined
 }
 
+const getAsyncFileBundle = async (code?: Code) => {
+  switch (code) {
+    case Code.Circ:
+      const metroCirc = (await import("static/circ-metro.geojson")).default
+      const omCirc = (await import("static/circ-om.geojson")).default
+      const wCirc = (await import("static/circ-hors.geojson")).default
+      return createFeatureCollection([...metroCirc.features, ...omCirc.features, ...wCirc.features])
+    case Code.Dpt:
+      const metroDpt = (await import("static/dpt-metro.geojson")).default
+      const omDpt = (await import("static/dpt-om.geojson")).default
+      return createFeatureCollection([...metroDpt.features, ...omDpt.features])
+    case Code.Reg:
+      return (await import("static/reg-metro.geojson")).default
+    case Code.Cont:
+      return (await import("static/cont-france.geojson")).default
+    default:
+      return createFeatureCollection()
+  }
+}
+
+const getAsyncFile = async (pos?: Pos) => {
+  switch (pos) {
+    case Pos.France:
+      return (await import("static/cont-france.geojson")).default
+    case Pos.FrReg:
+      return (await import("static/reg-metro.geojson")).default
+    case Pos.FrDpt:
+      return (await import("static/dpt-metro.geojson")).default
+    case Pos.FrCirc:
+      return (await import("static/circ-metro.geojson")).default
+    case Pos.OMDpt:
+      return (await import("static/dpt-om.geojson")).default
+    case Pos.OMCirc:
+      return (await import("static/circ-om.geojson")).default
+    case Pos.WCirc:
+      return (await import("static/circ-hors.geojson")).default
+    default:
+      return createFeatureCollection()
+  }
+}
+
 /** Cherche dans nos fichiers une feature aux coordonnées fournies
  * @param {Code} code Pour savoir dans quel type de zone chercher
  */
 export const geolocateFromCoords = async (coords: AugoraMap.Coordinates, code: Code) => {
   switch (code) {
     case Code.Circ:
-      const metroCirc = (await import("static/circ-metro.geojson")).default
-      const omCirc = (await import("static/circ-om.geojson")).default
-      const wCirc = (await import("static/circ-hors.geojson")).default
-      return geolocateFeature(coords, [...metroCirc.features, ...omCirc.features, ...wCirc.features])
+      return geolocateFeature(coords, (await getAsyncFileBundle(Code.Circ)).features)
     case Code.Dpt:
-      const metroDpt = (await import("static/dpt-metro.geojson")).default
-      const omDpt = (await import("static/dpt-om.geojson")).default
-      return geolocateFeature(coords, [...metroDpt.features, ...omDpt.features])
+      return geolocateFeature(coords, (await getAsyncFileBundle(Code.Dpt)).features)
     case Code.Reg:
-      return geolocateFeature(coords, (await import("static/reg-metro.geojson")).default.features)
+      return geolocateFeature(coords, (await getAsyncFileBundle(Code.Reg)).features)
     default:
-      return geolocateFeature(coords, (await import("static/cont-france.geojson")).default.features)
+      return geolocateFeature(coords, (await getAsyncFileBundle(Code.Cont)).features)
+  }
+}
+
+/** Renvoie la feature de nos fichiers la plus adaptée à un résultat de recherche API mapbox */
+export const geolocateZone = async (feature: AugoraMap.MapboxAPIFeature) => {
+  switch (feature.place_type[0]) {
+    case "country":
+      switch (feature.text) {
+        case "Guyane":
+        case "Guadeloupe":
+        case "Martinique":
+        case "La Réunion":
+        case "Mayotte":
+        case "Nouvelle-Calédonie":
+        case "Polynésie française":
+        case "Saint-Pierre-et-Miquelon":
+        case "Wallis-et-Futuna":
+          return geolocateFeature(feature.center, (await getAsyncFile(Pos.OMDpt)).features)
+        case "France":
+          return geolocateFeature(feature.center, (await getAsyncFile(Pos.France)).features)
+        default:
+          return geolocateFeature(feature.center, (await getAsyncFileBundle(Code.Circ)).features)
+      }
+    case "region":
+      if (feature.context[0].short_code === "fr") {
+        switch (feature.text) {
+          case "Bretagne":
+          case "Normandie":
+          case "Hauts-de-France":
+          case "Pays de la Loire":
+          case "Île-de-France":
+          case "Centre-Val de Loire":
+          case "Bourgogne-Franche-Comté":
+          case "Auvergne-Rhône-Alpes":
+          case "Nouvelle-Aquitaine":
+          case "Provence-Alpes-Côte d'Azur":
+          case "Occitanie":
+          case "Corse":
+            return geolocateFeature(feature.center, (await getAsyncFile(Pos.FrReg)).features)
+          default:
+            return geolocateFeature(feature.center, (await getAsyncFile(Pos.FrDpt)).features)
+        }
+      } else {
+        return geolocateFeature(feature.center, (await getAsyncFileBundle(Code.Circ)).features)
+      }
+    default:
+      return geolocateFeature(feature.center, (await getAsyncFileBundle(Code.Circ)).features)
   }
 }
 

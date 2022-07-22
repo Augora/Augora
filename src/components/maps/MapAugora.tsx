@@ -23,6 +23,7 @@ import {
   Pos,
   localeFR,
   geolocateFromCoords,
+  geolocateZone,
 } from "components/maps/maps-utils"
 import MapControl from "components/maps/MapControl"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
@@ -229,19 +230,27 @@ export default function MapAugora(props: IMapAugora) {
   const handleGeolocate = (e: GeolocateResultEvent) => {
     const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
     if (coords) {
-      setGeoPin(coords)
-      geolocateFromCoords(coords, Code.Circ).then((result) => {
-        goToZone({ feature: result, coords: coords, redirect: false })
-      })
+      geolocateFromCoords(coords, Code.Circ).then(
+        (result) => {
+          goToZone({ feature: result, coords: coords, redirect: false })
+          setGeoPin(coords)
+        },
+        (error) => console.error(error)
+      )
     }
   }
 
-  // const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
-  //   if (feature) {
-  //     setGeoPin(feature.center)
-  //     goToZone({ feature: geolocateZone(feature), coords: feature.center, redirect: false })
-  //   } else setGeoPin(null)
-  // }
+  const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
+    if (feature) {
+      geolocateZone(feature).then(
+        (result) => {
+          goToZone({ feature: result, coords: feature.center, redirect: false })
+          setGeoPin(feature.center)
+        },
+        (error) => console.error(error)
+      )
+    } else setGeoPin(null)
+  }
 
   return (
     <Map
@@ -292,9 +301,9 @@ export default function MapAugora(props: IMapAugora) {
             <MapControl position="top-left">
               <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={(url) => goToZone({ url: url })} />
             </MapControl>
-            {/* <MapControl position="top-right" className="mapboxgl-ctrl-geo">
+            <MapControl position="top-right" className="mapboxgl-ctrl-geo">
               <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
-            </MapControl> */}
+            </MapControl>
             <NavigationControl showCompass={false} />
             <FullscreenControl />
             <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} />
