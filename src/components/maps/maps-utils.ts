@@ -60,27 +60,20 @@ export const localeFR = {
 
 /**
  * Renvoie une feature augoramap
- * @param {string} [nom] La property nom optionnelle
- * @param {AugoraMap.Properties} [otherProps] N'importe quelles autres properties, optionel
- * @param {"Polygon" | "MultiPolygon"} [type] Le type de geometry optionnel, par defaut: Polygon
- * @param {any[]} [coords] L'array de coordonnées optionnelle, par défaut une array vide
+ * @param {AugoraMap.Properties} [opts.props] Les properties
+ * @param {AugoraMap.Properties} [opts.geometry] L'objet geometry
  */
-export const createFeature = (
-  nom?: string,
-  otherProps?: AugoraMap.Properties,
-  type?: "Polygon" | "MultiPolygon",
-  coords?: any[]
-): AugoraMap.Feature => {
+export const createFeature = (opts?: { props?: AugoraMap.Properties; geometry?: AugoraMap.Geometry }): AugoraMap.Feature => {
+  const { props, geometry } = opts || {}
+
   return {
     type: "Feature",
     geometry: {
-      type: type ? type : "Polygon",
-      coordinates: coords ? coords : [],
+      type: "Polygon",
+      coordinates: [],
+      ...geometry,
     },
-    properties: {
-      nom: nom ? nom : "",
-      ...otherProps,
-    },
+    properties: props,
   }
 }
 
@@ -118,16 +111,18 @@ export const worldBox: AugoraMap.Bounds = [
 
 /**
  * Renvoie un objet paint pour les layers
- * @param color Pour renseigner une couleur dynamiquement
- * @param ghost Si c'est la layer ghost
+ * @param {string} [opts.color] Pour renseigner une couleur dynamiquement
+ * @param {boolean} [opts.ghost] Si c'est la layer ghost
  */
-export const getLayerPaint = (
-  color?: string,
+export const getLayerPaint = (opts?: {
+  color?: string
   ghost?: boolean
-): {
+}): {
   fill: mapboxgl.FillPaint
   line: mapboxgl.LinePaint
 } => {
+  const { color, ghost } = opts || {}
+
   return {
     fill: {
       "fill-color": [
@@ -260,7 +255,7 @@ export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRe
       padding: isMobile ? 20 : 80,
     })
 
-    flyToCoords(mapRef, [longitude, latitude], zoom)
+    flyToCoords(mapRef, [longitude, latitude], { zoom: zoom })
   }
 }
 
@@ -268,18 +263,19 @@ export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRe
  * Transitionne de façon fluide vers des coordonnées
  * @param {mapRef} mapRef Pointeur vers l'objet map
  * @param {AugoraMap.Coordinates} coords Format [longitude, latitude]
- * @param {number} [zoom] Default 1
- * @param {number} [duration] Pour renseigner une durée fixe, par défaut entre 1 et 3 secondes selon la distance
+ * @param {number} [opts.zoom] Default 1
+ * @param {number} [opts.duration] Pour renseigner une durée fixe, par défaut entre 1 et 3 secondes selon la distance
  */
-export const flyToCoords = (mapRef: MapRef, coords: AugoraMap.Coordinates, zoom?: number, duration?: number): void => {
+export const flyToCoords = (mapRef: MapRef, coords: AugoraMap.Coordinates, opts?: { zoom?: number; duration?: number }): void => {
   const distance = getDistance(mapRef.getCenter().toArray() as AugoraMap.Coordinates, coords)
   const dynDuration = distance < 750 ? 1000 : distance > 3000 ? 3000 : distance
+  const { zoom = 1, duration = dynDuration } = opts || {}
 
   mapRef.flyTo({
     center: [coords[0], coords[1]],
-    zoom: zoom ? zoom : 1,
+    zoom: zoom,
     easing: (x) => -(Math.cos(Math.PI * x) - 1) / 2,
-    duration: duration ? duration : dynDuration,
+    duration: duration,
   })
 }
 

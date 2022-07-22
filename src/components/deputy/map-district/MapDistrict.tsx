@@ -28,7 +28,7 @@ export default function MapDistrict(props: Bloc.Map) {
           mapView={{
             geoJSON: createFeatureCollection([props.deputeCirc]),
             feature: props.deputeCirc,
-            paint: getLayerPaint(props.deputy.GroupeParlementaire.Couleur),
+            paint: getLayerPaint({ color: props.deputy.GroupeParlementaire.Couleur }),
           }}
         />
         <Link href={`/carte/${getFeatureURL(props.deputeCirc)}`}>

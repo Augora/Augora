@@ -118,7 +118,7 @@ export default function MapAugora(props: IMapAugora) {
     const zoom =
       pos === Pos.World || pos === Pos.WCirc ? -1 : pos === Pos.OMDpt || pos === Pos.OMCirc ? 2 : pos === Pos.France ? 0 : 3.5
 
-    if (mapRef.current) flyToCoords(mapRef.current, zoneFeature.properties.center, zoom)
+    if (mapRef.current) flyToCoords(mapRef.current, zoneFeature.properties.center, { zoom: zoom })
   }
 
   /** Change la zone affichée et transitionne
@@ -130,8 +130,8 @@ export default function MapAugora(props: IMapAugora) {
   const goToZone = <T extends GeoJSON.Feature>(opts: {
     feature?: T
     coords?: AugoraMap.Coordinates
-    redirect?: boolean
     url?: string
+    redirect?: boolean
   }) => {
     const { feature, coords, redirect = true, url } = opts
     if (feature) {
@@ -143,7 +143,7 @@ export default function MapAugora(props: IMapAugora) {
         props.onZoneClick && props.onZoneClick(feature)
       } else flyToFeature(feature)
     } else if (coords) {
-      flyToCoords(mapRef.current, coords, 3)
+      flyToCoords(mapRef.current, coords, { zoom: 3 })
       console.warn(`Pas de zone trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
     } else if (url) {
       if (asPath !== `/carte/${url}`) props.onURLRequest(url)
@@ -270,8 +270,8 @@ export default function MapAugora(props: IMapAugora) {
         </Source>
         {ghostGeoJSON && (
           <Source type="geojson" data={ghostGeoJSON} generateId={true}>
-            <Layer id="zone-ghost-line" type="line" beforeId="road-label" paint={getLayerPaint(null, true).line} />
-            <Layer id="zone-ghost-fill" type="fill" beforeId="road-label" paint={getLayerPaint(null, true).fill} />
+            <Layer id="zone-ghost-line" type="line" beforeId="road-label" paint={getLayerPaint({ ghost: true }).line} />
+            <Layer id="zone-ghost-fill" type="fill" beforeId="road-label" paint={getLayerPaint({ ghost: true }).fill} />
           </Source>
         )}
         {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}

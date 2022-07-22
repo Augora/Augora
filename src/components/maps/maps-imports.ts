@@ -43,7 +43,7 @@ const AllCirc: AugoraMap.FeatureCollection = createFeatureCollection([
 const MetroFeature: AugoraMap.Feature = MetroFranceContFile.features[0]
 
 /** Pseudo-feature du monde */
-const WorldFeature: AugoraMap.Feature = createFeature("Monde", { code_cont: 1, center: [10.46, 31.43] })
+const WorldFeature: AugoraMap.Feature = createFeature({ props: { nom: "Monde", code_cont: 1, center: [10.46, 31.43] } })
 
 /** Feature collection du monde */
 const WorldCont: AugoraMap.FeatureCollection = createFeatureCollection([
