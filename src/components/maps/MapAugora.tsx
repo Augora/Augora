@@ -7,7 +7,6 @@ import Map, {
   GeolocateControl,
   Source,
   Layer,
-  LayerProps,
   ViewState,
   MapRef,
   GeolocateResultEvent,
@@ -33,7 +32,6 @@ import MapFilters from "components/maps/MapFilters"
 import Geocoder from "components/maps/Geocoder"
 import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
-import { useRouter } from "next/router"
 
 interface IMapAugora {
   /** Objet view contenant les données d'affichage */
@@ -77,13 +75,12 @@ interface IMapAugora {
  * @param {number} [delay] Si on veut retarder l'effet de zoom, default 0
  */
 export default function MapAugora(props: IMapAugora) {
-  const { asPath } = useRouter()
-
   /** Default props */
   const {
     mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint = getLayerPaint() },
     overlay = true,
     deputies = [],
+    zoneDeputies = [],
     overview = false,
     attribution = true,
     delay = 0,
@@ -301,7 +298,7 @@ export default function MapAugora(props: IMapAugora) {
             <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} />
             <div className="custom-control-container">
               <div className="ctrl-bottom">
-                <MapFilters zoneDeputies={props.zoneDeputies} />
+                <MapFilters zoneDeputies={zoneDeputies} />
               </div>
             </div>
           </>

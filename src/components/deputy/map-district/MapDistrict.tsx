@@ -4,6 +4,7 @@ import { createFeatureCollection, getFeatureURL, getLayerPaint } from "component
 import Block from "components/deputy/_block/_Block"
 import Link from "next/link"
 import mapStore from "stores/mapStore"
+import IconExpand from "images/ui-kit/icon-expand.svg"
 
 export default function MapDistrict(props: Bloc.Map) {
   const { viewstate, setViewstate } = mapStore()
@@ -32,7 +33,11 @@ export default function MapDistrict(props: Bloc.Map) {
           }}
         />
         <Link href={`/carte/${getFeatureURL(props.deputeCirc)}`}>
-          <div className="map__redirect"></div>
+          <div className="map__redirect" title="Voir sur la carte">
+            <div className="icon-wrapper">
+              <IconExpand style={{ fill: props.color.HSL.Full }} />
+            </div>
+          </div>
         </Link>
       </div>
     </Block>
