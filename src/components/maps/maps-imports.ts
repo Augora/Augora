@@ -10,6 +10,7 @@ import {
   getPosition,
   getPosFromCodes,
   getZoneName,
+  getCodesFromFeature,
 } from "components/maps/maps-utils"
 import { slugify } from "utils/utils"
 import MetroFranceContFile from "static/cont-france.geojson"
@@ -165,101 +166,81 @@ export const getBreadcrumbChildren = (codes: AugoraMap.Codes): AugoraMap.Breadcr
   switch (getPosFromCodes(codes)) {
     case Pos.World:
       return [
-        { url: "france", nom: "France Metropolitaine", children: getBreadcrumbChildren({ code_cont: 0 }) },
+        {
+          feature: createFeature({ props: MetroFranceContFile.features[0].properties }),
+          children: getBreadcrumbChildren({ code_cont: 0 }),
+        },
         ...OMDptFile.features.map((item) => {
           return {
-            nom: getZoneName(item),
-            url: `om/${slugify(item.properties.nom)}`,
-            children: getBreadcrumbChildren({ code_dpt: item.properties[Code.Dpt] }),
+            feature: createFeature({ props: item.properties }),
+            children: getBreadcrumbChildren(getCodesFromFeature(item)),
           }
         }),
       ]
     case Pos.France:
-      return sortBy(
-        MetroRegFile.features.map((item) => {
-          return {
-            nom: getZoneName(item),
-            url: `france/${slugify(item.properties.nom)}`,
-            children: getBreadcrumbChildren({ code_reg: item.properties[Code.Reg] }),
-          }
-        }),
-        (o) => o.nom
-      )
+      return MetroRegFile.features.map((item) => {
+        return {
+          feature: createFeature({ props: item.properties }),
+          children: getBreadcrumbChildren(getCodesFromFeature(item)),
+        }
+      })
     case Pos.FrReg:
-      return sortBy(
-        MetroDptFile.features
-          .filter((feature) => feature.properties[Code.Reg] === codes[Code.Reg])
-          .map((item) => {
-            return {
-              nom: getZoneName(item),
-              url: `france/${slugify(item.properties.nom_reg)}/${slugify(item.properties.nom)}`,
-              children: getBreadcrumbChildren({ code_dpt: item.properties[Code.Dpt] }),
-            }
-          }),
-        (o) => o.nom
-      )
+      return MetroDptFile.features
+        .filter((item) => item.properties[Code.Reg] === codes[Code.Reg])
+        .map((item) => {
+          return {
+            feature: createFeature({ props: item.properties }),
+            children: getBreadcrumbChildren(getCodesFromFeature(item)),
+          }
+        })
     case Pos.FrDpt:
-      return sortBy(
-        MetroCircFile.features
-          .filter((feature) => feature.properties[Code.Dpt] === codes[Code.Dpt])
-          .map((item) => {
-            return {
-              nom: getZoneName(item),
-              url: `france/${slugify(item.properties.nom_reg)}/${slugify(item.properties.nom_dpt)}/${item.properties[Code.Circ]}`,
-            }
-          }),
-        (o) => o.nom
-      )
+      return MetroCircFile.features
+        .filter((item) => item.properties[Code.Dpt] === codes[Code.Dpt])
+        .map((item) => {
+          return {
+            feature: createFeature({ props: item.properties }),
+          }
+        })
     case Pos.OMDpt:
-      return sortBy(
-        OMCircFile.features
-          .filter((feature) => feature.properties[Code.Dpt] === codes[Code.Dpt])
-          .map((item) => {
-            return {
-              nom: getZoneName(item),
-              url: `om/${slugify(item.properties.nom_dpt)}/${item.properties[Code.Circ]}`,
-            }
-          }),
-        (o) => o.nom
-      )
+      return OMCircFile.features
+        .filter((item) => item.properties[Code.Dpt] === codes[Code.Dpt])
+        .map((item) => {
+          return {
+            feature: createFeature({ props: item.properties }),
+          }
+        })
     default:
       return []
   }
 }
 
 /**
- * Renvoie le breadcrumb entier
- * @param {AugoraMap.Feature} feature L'object feature dans lequel on se situe
+ * Renvoie le breadcrumb entier pour génération statique
+ * @param feature L'endroit où on se trouve
  */
 export const getBreadcrumb = (feature: AugoraMap.Feature): AugoraMap.Breadcrumb[] => {
-  const monde: AugoraMap.Breadcrumb = { url: "monde", nom: "Monde", children: getBreadcrumbChildren({ code_cont: 1 }) }
+  const monde: AugoraMap.Breadcrumb = { feature: WorldFeature, children: getBreadcrumbChildren({ code_cont: 1 }) }
   const france: AugoraMap.Breadcrumb = {
-    url: "france",
-    nom: "France Métropolitaine",
+    feature: createFeature({ props: MetroFranceContFile.features[0].properties }),
     children: getBreadcrumbChildren({ code_cont: 0 }),
   }
   const props = feature?.properties
+  const codes = getCodesFromFeature(feature)
 
   switch (getPosition(feature)) {
     case Pos.FrReg:
-      return [
-        monde,
-        france,
-        { url: `france/${slugify(props.nom)}`, nom: props.nom, children: getBreadcrumbChildren({ code_reg: props[Code.Reg] }) },
-      ]
+      return [monde, france, { feature: createFeature({ props: props }), children: getBreadcrumbChildren(codes) }]
     case Pos.FrDpt:
       return [
         monde,
         france,
         {
-          url: `france/${slugify(props.nom_reg)}`,
-          nom: props.nom_reg,
-          children: getBreadcrumbChildren({ code_reg: props[Code.Reg] }),
+          feature: createFeature({ props: getFeature({ [Code.Reg]: props[Code.Reg] }).properties }),
+          children: getBreadcrumbChildren({ [Code.Reg]: props[Code.Reg] }),
         },
         {
-          url: `france/${slugify(props.nom_reg)}/${slugify(props.nom)}`,
-          nom: `${props.nom} (${props[Code.Dpt]})`,
-          children: getBreadcrumbChildren({ code_dpt: props[Code.Dpt] }),
+          feature: createFeature({ props: props }),
+          children: getBreadcrumbChildren(codes),
         },
       ]
     case Pos.FrCirc:
@@ -267,40 +248,39 @@ export const getBreadcrumb = (feature: AugoraMap.Feature): AugoraMap.Breadcrumb[
         monde,
         france,
         {
-          url: `france/${slugify(props.nom_reg)}`,
-          nom: props.nom_reg,
-          children: getBreadcrumbChildren({ code_reg: props[Code.Reg] }),
+          feature: createFeature({ props: getFeature({ [Code.Reg]: props[Code.Reg] }).properties }),
+          children: getBreadcrumbChildren({ [Code.Reg]: props[Code.Reg] }),
         },
         {
-          url: `france/${slugify(props.nom_reg)}/${slugify(props.nom_dpt)}`,
-          nom: `${props.nom_dpt} (${props[Code.Dpt]})`,
-          children: getBreadcrumbChildren({ code_dpt: props[Code.Dpt] }),
+          feature: createFeature({ props: getFeature({ [Code.Dpt]: props[Code.Dpt] }).properties }),
+          children: getBreadcrumbChildren({ [Code.Dpt]: props[Code.Dpt] }),
         },
         {
-          url: `france/${slugify(props.nom_reg)}/${slugify(props.nom_dpt)}/${props.code_circ}`,
-          nom: getZoneName(feature),
+          feature: createFeature({ props: props }),
         },
       ]
     case Pos.OMDpt:
       return [
         monde,
-        { url: `om/${slugify(props.nom)}`, nom: props.nom, children: getBreadcrumbChildren({ code_dpt: props[Code.Dpt] }) },
+        {
+          feature: createFeature({ props: props }),
+          children: getBreadcrumbChildren(codes),
+        },
       ]
     case Pos.OMCirc:
       return [
         monde,
         {
-          url: `om/${slugify(props.nom_dpt)}`,
-          nom: `${props.nom_dpt} (${props[Code.Dpt]})`,
-          children: getBreadcrumbChildren({ code_dpt: props[Code.Dpt] }),
+          feature: createFeature({ props: getFeature({ [Code.Dpt]: props[Code.Dpt] }).properties }),
+          children: getBreadcrumbChildren({ [Code.Dpt]: props[Code.Dpt] }),
         },
         {
-          url: `om/${slugify(props.nom_dpt)}/${props.code_circ}`,
-          nom: getZoneName(feature),
+          feature: createFeature({ props: props }),
+          children: getBreadcrumbChildren(codes),
         },
       ]
     case Pos.WCirc:
-      return [monde, { url: `monde/${props.code_circ}}`, nom: getZoneName(feature) }]
+      return [monde, { feature: createFeature({ props: props }) }]
     case Pos.France:
       return [monde, france]
     case Pos.World:

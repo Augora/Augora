@@ -295,6 +295,30 @@ export const getZoneCode = <T extends GeoJSON.Feature>(feature: T): Code => {
   } else return null
 }
 
+/**
+ * Renvoie la position d'une feature
+ * @param {GeoJSON.Feature} feature
+ */
+export const getPosition = <T extends GeoJSON.Feature>(feature: T): Pos => {
+  if (feature?.properties) {
+    const featureKeys = Object.keys(feature.properties)
+
+    if (featureKeys.includes("code_circ")) {
+      if (feature.properties.code_dpt.length > 2) {
+        if (feature.properties.code_dpt === "999") return Pos.WCirc
+        else return Pos.OMCirc
+      } else return Pos.FrCirc
+    } else if (featureKeys.includes("code_dpt")) {
+      if (feature.properties.code_dpt.length > 2) return Pos.OMDpt
+      else return Pos.FrDpt
+    } else if (featureKeys.includes("code_reg")) return Pos.FrReg
+    else if (featureKeys.includes("code_cont")) {
+      if (feature.properties.code_cont === 0) return Pos.France
+      else if (feature.properties.code_cont === 1) return Pos.World
+    } else return null
+  } else return null
+}
+
 /** Renvoie le code d'une zone qui devrait être affiché selon une liste de de codes
  * @param codes Contient cont, reg, dpt, circ
  */
@@ -598,30 +622,6 @@ export const getPositionFromRoute = (route: string[]): Pos => {
       default:
         return null
     }
-  } else return null
-}
-
-/**
- * Renvoie la position d'une feature
- * @param {GeoJSON.Feature} feature
- */
-export const getPosition = <T extends GeoJSON.Feature>(feature: T): Pos => {
-  if (feature?.properties) {
-    const featureKeys = Object.keys(feature.properties)
-
-    if (featureKeys.includes("code_circ")) {
-      if (feature.properties.code_dpt.length > 2) {
-        if (feature.properties.code_dpt === "999") return Pos.WCirc
-        else return Pos.OMCirc
-      } else return Pos.FrCirc
-    } else if (featureKeys.includes("code_dpt")) {
-      if (feature.properties.code_dpt.length > 2) return Pos.OMDpt
-      else return Pos.FrDpt
-    } else if (featureKeys.includes("code_reg")) return Pos.FrReg
-    else if (featureKeys.includes("code_cont")) {
-      if (feature.properties.code_cont === 0) return Pos.France
-      else if (feature.properties.code_cont === 1) return Pos.World
-    } else return null
   } else return null
 }
 

@@ -93,9 +93,8 @@ declare namespace AugoraMap {
 
   /** Object pour un élément breadcrumb  */
   type Breadcrumb = {
-    /** L'url de la zone @example `/france/occitanie` */
-    url: string
-    nom: string
+    /** La feature de la zone, contient des coordonnées vides, donc inutilisable pour l'affichage */
+    feature: Feature
     /** Les enfants de la zone */
     children?: Breadcrumb[]
   }

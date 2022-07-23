@@ -46,8 +46,6 @@ interface IMapAugora {
   onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
   /** Callback de quand le clic droit est utilisé */
   onBack?(args?: any): void
-  /** Callback lorsque la map requete un changement d'url (Uniquement pour la page map) */
-  onURLRequest?(url: string): void
   /** Objet breadcrumb pour savoir quoi afficher */
   breadcrumb?: AugoraMap.Breadcrumb[]
   /** Le mode de vue sur les zones, par défaut zoomé */
@@ -129,13 +127,8 @@ export default function MapAugora(props: IMapAugora) {
    * @param {string} [opts.url] Pour requeter un changement d'url, ignoré si une feature et des coordonnées sont passées
    * @param {boolean} [opts.redirect] S'il faut changer pour la page détal en cas de clic sur une circonscription @default true
    */
-  const goToZone = <T extends GeoJSON.Feature>(opts: {
-    feature?: T
-    coords?: AugoraMap.Coordinates
-    url?: string
-    redirect?: boolean
-  }) => {
-    const { feature, coords, redirect = true, url } = opts
+  const goToZone = <T extends GeoJSON.Feature>(opts: { feature?: T; coords?: AugoraMap.Coordinates; redirect?: boolean }) => {
+    const { feature, coords, redirect = true } = opts
     if (feature) {
       const zoneCode = getZoneCode(feature)
       if (!compareFeatures(feature, zoneFeature)) {
@@ -147,9 +140,6 @@ export default function MapAugora(props: IMapAugora) {
     } else if (coords) {
       flyToCoords(mapRef.current, coords, { zoom: 3 })
       console.warn(`Pas de zone trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
-    } else if (url) {
-      if (asPath !== `/carte/${url}`) props.onURLRequest(url)
-      else flyToFeature(zoneFeature)
     }
   }
 
@@ -298,9 +288,11 @@ export default function MapAugora(props: IMapAugora) {
               handleHover={simulateHover}
             />
             {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
-            <MapControl position="top-left">
-              <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={(url) => goToZone({ url: url })} />
-            </MapControl>
+            {props.breadcrumb && (
+              <MapControl position="top-left">
+                <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={(feat) => goToZone({ feature: feat })} />
+              </MapControl>
+            )}
             <MapControl position="top-right" className="mapboxgl-ctrl-geo">
               <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
             </MapControl>

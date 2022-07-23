@@ -73,10 +73,9 @@ export default function MapPage(props: IMapProps) {
   }, [])
 
   useEffect(() => {
-    const allZones = [...props.geoJSON.features, ...props.ghostGeoJSON.features]
-
-    allZones.forEach((feat) => router.prefetch(`/carte/${getFeatureURL(feat)}`))
-    props.breadcrumb.forEach((breadcrumb) => router.prefetch(`/carte/${breadcrumb.url}`))
+    props.ghostGeoJSON.features.forEach((feat) => router.prefetch(`/carte/${getFeatureURL(feat)}`))
+    props.geoJSON.features.forEach((feat) => router.prefetch(`/carte/${getFeatureURL(feat)}`))
+    props.breadcrumb.forEach((breadcrumb) => router.prefetch(`/carte/${getFeatureURL(breadcrumb.feature)}`))
   }, [router]) //prefetch les pages des features visibles
 
   const zoneDeputies = getDeputies(props.feature, FilteredList)
@@ -124,7 +123,6 @@ export default function MapPage(props: IMapProps) {
             }}
             onZoneClick={changeZone}
             onBack={() => changeURL(getParentURL(props.feature))}
-            onURLRequest={(url) => changeURL(url)}
             breadcrumb={props.breadcrumb}
           />
         </div>

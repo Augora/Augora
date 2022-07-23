@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
+import { getZoneName } from "components/maps/maps-utils"
 import Tooltip from "components/tooltip/Tooltip"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
 import sortBy from "lodash/sortBy"
@@ -6,17 +7,17 @@ import { slugify } from "utils/utils"
 
 interface IMapBreadcrumb {
   breadcrumb: AugoraMap.Breadcrumb[]
-  handleClick: (url?: string) => void
+  handleClick: (feature: AugoraMap.Feature) => void
 }
 
 interface IBreadcrumbItem {
   zone: AugoraMap.Breadcrumb
-  handleClick: (url?: string) => void
+  handleClick: (feature: AugoraMap.Feature) => void
 }
 
 interface IBreadcrumbMenu {
   zones: AugoraMap.Breadcrumb[]
-  onClick: (url?: string) => void
+  onClick: (feature: AugoraMap.Feature) => void
   closeParent?: (args?: any) => any
   className?: string
 }
@@ -67,22 +68,23 @@ function BreadcrumbMenu(props: IBreadcrumbMenu) {
       {isOpen && (
         <Tooltip className="menu__tooltip">
           {props.zones.map((item, index) => {
+            const zoneName = getZoneName(item.feature)
             return (
-              <div className="tooltip__item" key={`tooltip-btn-${index}-${slugify(item.nom)}`}>
+              <div className="tooltip__item" key={`tooltip-btn-${index}-${slugify(zoneName)}`}>
                 <button
                   className="tooltip__btn"
                   onClick={() => {
-                    props.onClick(item.url)
+                    props.onClick(item.feature)
                     closeAll()
                   }}
-                  title={`Aller sur ${item.nom}`}
+                  title={`Aller sur ${zoneName}`}
                 >
-                  <div className="tooltip__name">{item.nom}</div>
+                  <div className="tooltip__name">{zoneName}</div>
                 </button>
                 {item.children && item.children.length > 0 && (
                   <BreadcrumbMenu
                     className="list"
-                    zones={sortBy(item.children, (o) => o.nom)}
+                    zones={sortBy(item.children, (o) => o.feature.properties.nom || o.feature.properties.code_circ)}
                     onClick={props.onClick}
                     closeParent={closeAll}
                   />
@@ -107,13 +109,17 @@ function BreadcrumbItem({ zone, handleClick }: IBreadcrumbItem) {
     <div className="breadcrumb__item">
       <button
         className={`breadcrumb__zone ${!zone.children || zone.children.length < 1 ? "breadcrumb__zone--solo" : ""}`}
-        onClick={() => handleClick(zone.url)}
-        title={`Revenir sur ${zone.nom}`}
+        onClick={() => handleClick(zone.feature)}
+        title={`Revenir sur ${getZoneName(zone.feature)}`}
       >
-        {zone.nom}
+        {getZoneName(zone.feature)}
       </button>
       {zone.children && zone.children.length > 0 && (
-        <BreadcrumbMenu className="zone" zones={sortBy(zone.children, (o) => o.nom)} onClick={handleClick} />
+        <BreadcrumbMenu
+          className="zone"
+          zones={sortBy(zone.children, (o) => o.feature.properties.nom || o.feature.properties.code_circ)}
+          onClick={handleClick}
+        />
       )}
     </div>
   )
@@ -128,7 +134,7 @@ export default function MapBreadcrumb({ breadcrumb, handleClick }: IMapBreadcrum
   return (
     <div className="map__breadcrumb">
       {breadcrumb.map((item, index) => (
-        <BreadcrumbItem key={`breadcrumb-${index}-${slugify(item.nom)}`} zone={item} handleClick={handleClick} />
+        <BreadcrumbItem key={`breadcrumb-${index}-${slugify(getZoneName(item.feature))}`} zone={item} handleClick={handleClick} />
       ))}
     </div>
   )
