@@ -1,15 +1,3 @@
-import GDR from "images/logos/groupes-parlementaires/gdr.svg"
-import LFI from "images/logos/groupes-parlementaires/lfi.svg"
-import ECO from "images/logos/groupes-parlementaires/eco.svg"
-import LR from "images/logos/groupes-parlementaires/lr.svg"
-import LIOT from "images/logos/groupes-parlementaires/lt.svg"
-import MODEM from "images/logos/groupes-parlementaires/modem.svg"
-import REN from "images/logos/groupes-parlementaires/ren.svg"
-import HOR from "images/logos/groupes-parlementaires/hor.svg"
-import NI from "images/logos/groupes-parlementaires/ni.svg"
-import PS from "images/logos/groupes-parlementaires/ps.svg"
-import RN from "images/logos/groupes-parlementaires/rn.svg"
-
 /**
  * Renvoie le nombre de députés d'un groupe donné
  * @param {Deputy.DeputiesList} list La liste à analyser
@@ -105,37 +93,4 @@ export const filterList = (
     .filter((depute) => {
       return depute.Age >= state.AgeDomain[0] && depute.Age <= state.AgeDomain[1]
     })
-}
-
-/**
- * Renvoie le SVG d'un groupe
- * @param {string} groupe Le sigle du groupe
- */
-export function getGroupLogo(groupe: string) {
-  switch (groupe) {
-    case "ECO":
-      return ECO
-    case "GDR":
-      return GDR
-    case "LFI":
-      return LFI
-    case "SOC":
-      return PS
-    case "LIOT":
-      return LIOT
-    case "REN":
-      return REN
-    case "MODEM":
-      return MODEM
-    case "HOR":
-      return HOR
-    case "LR":
-      return LR
-    case "RN":
-      return RN
-    case "NI":
-      return NI
-    default:
-      return NI
-  }
 }
