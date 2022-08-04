@@ -10,7 +10,16 @@ import { hydrateStoreWithInitialLists } from "stores/deputesStore"
 // Styles
 import "../styles/app.scss"
 
-export default withRouter(function MyApp({ Component, pageProps, router }: AppProps) {
+interface IApp extends AppProps {
+  pageProps: {
+    title?: string
+    deputes?: Deputy.DeputiesList
+    groupes?: Group.GroupsList
+    transparentHeader?: boolean
+  }
+}
+
+export default withRouter(function MyApp({ Component, pageProps, router }: IApp) {
   if (pageProps.deputes) {
     const orderedDeputes = pageProps.deputes
     const orderedGroupes = sortBy(pageProps.groupes, "Ordre")
@@ -27,8 +36,8 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
           rel="stylesheet"
         />
       </Head>
-      <Layout location={router} title={pageProps.title}>
-        <Component {...pageProps} />
+      <Layout location={router} title={pageProps.title} transparentHeader={pageProps.transparentHeader}>
+        <Component {...(pageProps as any)} />
       </Layout>
     </>
   )

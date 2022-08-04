@@ -16,6 +16,7 @@ import IconArrow from "images/ui-kit/icon-arrow.svg"
 interface ILayout {
   children: React.ReactElement
   title?: string
+  transparentHeader?: boolean
   location: NextRouter
 }
 
@@ -28,7 +29,7 @@ const allColors = colors.map((color) => {
  * @param {NextRouter} location Objet du react router contenant les infos de route
  * @param {string} [title] Titre de la page
  */
-const Layout = ({ children, location, title }: ILayout) => {
+const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
   const {
     state: { IsInitialState, Keyword },
     handleReset,
@@ -88,7 +89,9 @@ const Layout = ({ children, location, title }: ILayout) => {
 
   return (
     <div
-      className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${!hasLayout ? " no-layout" : ""}`}
+      className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${!hasLayout ? " no-layout" : ""}${
+        transparentHeader ? " transparent" : ""
+      }`}
     >
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>

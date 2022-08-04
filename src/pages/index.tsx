@@ -227,8 +227,8 @@ export async function getStaticProps() {
     props: {
       deputes: shuffle(deputes),
       groupes: groupes,
-      title: "Augora",
       PageType: PageType.Accueil,
+      transparentHeader: true,
     },
   }
 }
