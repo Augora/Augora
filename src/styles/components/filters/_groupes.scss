@@ -73,6 +73,7 @@
       // background: green !important;
     }
     &:not(.checked) {
+      opacity: 0.5;
       .groupe__img-container {
         .icon-wrapper {
           svg * {
@@ -83,6 +84,8 @@
     }
 
     &:hover {
+      opacity: 1;
+
       &.checked {
         border-color: rgba($white, 0.5) !important;
       }
