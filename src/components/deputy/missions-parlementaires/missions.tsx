@@ -11,7 +11,7 @@ import IconChevron from "images/ui-kit/icon-chevron.svg"
 const Missions = (props: Bloc.Organismes) => {
   const [IndexMission, setIndexMission] = useState(0)
   const [visible, setVisible] = useState(true)
-  const nombreMission = props.organismes.length
+  const nombreMission = props.organismes?.length
 
   const animationMissionChange = (index) => {
     setVisible(false)
@@ -25,7 +25,6 @@ const Missions = (props: Bloc.Organismes) => {
       setVisible(true)
     }, 100)
   }, [IndexMission])
-  
 
   return (
     <Block
@@ -77,16 +76,20 @@ const Missions = (props: Bloc.Organismes) => {
         </>
       }
     >
-      <div className={`missions__groupe ${visible ? 'visible' : 'hidden'}`}>
-        <Mission
-          key={`mission-${IndexMission}`}
-          color={props.color.HSL.Full}
-          nom={props.organismes[IndexMission].OrganismeNom}
-          fonction={props.organismes[IndexMission].Fonction}
-          permanente={props.organismes[IndexMission].Permanente}
-        />
+      <div className={`missions__groupe ${visible ? "visible" : "hidden"}`}>
+        {nombreMission ? (
+          <Mission
+            key={`mission-${IndexMission}`}
+            color={props.color.HSL.Full}
+            nom={props.organismes[IndexMission].OrganismeNom}
+            fonction={props.organismes[IndexMission].Fonction}
+            permanente={props.organismes[IndexMission].Permanente}
+          />
+        ) : (
+          <div className="missions__bloc">Pas de mission trouvée</div>
+        )}
       </div>
-      {nombreMission > 1 ? (
+      {nombreMission > 1 && (
         <>
           <div className="missions__circles">
             {props.organismes.map((o, i) => {
@@ -97,7 +100,7 @@ const Missions = (props: Bloc.Organismes) => {
                   onClick={() => {
                     animationMissionChange(i)
                   }}
-                  className={`circle${i == IndexMission ? ' active' : ''}`}
+                  className={`circle${i == IndexMission ? " active" : ""}`}
                   style={{
                     border: `2px solid ${props.color.RGB.Full}`,
                   }}
@@ -132,7 +135,7 @@ const Missions = (props: Bloc.Organismes) => {
             </button>
           </div>
         </>
-      ) : null}
+      )}
     </Block>
   )
 }
