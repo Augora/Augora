@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import styles from "./DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
-import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
+import { getGroupLogoImport } from "utils/augora-objects/deputy/image"
 import mapStore from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
 import { createFeatureCollection, getFeature, getLayerPaint, MetroFeature } from "components/maps/maps-utils"
@@ -46,7 +46,7 @@ export default function DeputeBanner({
   const refMapOpacity = { value: mapOpacity.value }
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
-  const GroupeLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
+  const GroupeLogo = getGroupLogoImport(depute.GroupeParlementaire.Sigle)
   const [oldDepute, setOldDepute] = useState(depute)
   const [oldHSL, setOldHSL] = useState(null)
   const [oldRGB, setOldRGB] = useState(RGB)

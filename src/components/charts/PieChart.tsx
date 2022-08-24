@@ -9,7 +9,7 @@ import { useRouter } from "next/router"
 
 export default function PieChart({ width, height, data }: Chart.BaseProps) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
-  const { handleGroupClick } = useDeputiesFilters()
+  const { isolateGroup } = useDeputiesFilters()
   const router = useRouter()
 
   const totalDeputies = data.reduce((a, b) => a + b.value, 0)
@@ -53,7 +53,6 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                 const [centroidX, centroidY] = pie.path.centroid(arc)
                 const hasSpaceForLabel = arc.endAngle - arc.startAngle >= (width < 450 ? 0.35 : 0.2)
                 const justifiedMidAngle = (arc.endAngle - arc.startAngle) / 2 + arc.startAngle - Math.PI / 2
-                const filterCurrentId = data.filter((f) => f.id !== arc.data.id)
                 return (
                   <g key={`arc-${groupeArc.id}-${index}`}>
                     {
@@ -100,7 +99,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                       onMouseLeave={handleMouseLeave}
                       onMouseMove={(event) => handleMouseMove(event, arc.data)}
                       onClick={() => {
-                        filterCurrentId.map((group) => handleGroupClick(group.id))
+                        isolateGroup(arc.data.id)
                         router.push("/")
                       }}
                     />

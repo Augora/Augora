@@ -82,7 +82,7 @@
   @import "reset";
   @import "icon";
 
-  transition: background-color 0.5s $ease-in-out-cubic, border-color 0.2s $ease-in-out-cubic;
+  transition: background-color 0.5s $ease-in-out-cubic, border-color 0.2s $ease-in-out-cubic, opacity 0.3s $ease-in-out-cubic;
 
   cursor: pointer;
 

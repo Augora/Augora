@@ -41,12 +41,11 @@ export function getDeputyPhotoURL(slug: string, height: number) {
 /**
  * Match the politic group's photo import with his acronym
  *
- * @export
- * @param {string} politicGroupAcronym
- * @returns politic group's photo import
+ * @param {string} group Sigle
+ * @returns politic group's logo
  */
-export function getPoliticGroupPhotoImport(politicGroupAcronym: string) {
-  switch (politicGroupAcronym) {
+export function getGroupLogoImport(group: string) {
+  switch (group) {
     case "ECO":
       return ECO
     case "GDR":
@@ -74,7 +73,12 @@ export function getPoliticGroupPhotoImport(politicGroupAcronym: string) {
   }
 }
 
-export function getPoliticPartyPhotoImport(party: string) {
+/**
+ *
+ * @param {string} party Sigle
+ * @returns politic party's logo
+ */
+export function getPartyLogoImport(party: string) {
   switch (party) {
     case "Parti radical de gauche":
       return PRG
