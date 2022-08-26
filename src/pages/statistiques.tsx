@@ -43,19 +43,6 @@ const Statistiques = () => {
   }).filter((groupe) => groupe.value !== 0)
 
   const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
-  const dataAgeRange = rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain), 6)
-  const isRange = dataAge.length < 30
-  const dataAgeFemme = isRange
-    ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F")
-    : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F"), 6)
-  const dataAgeHomme = isRange
-    ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H")
-    : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H"), 6)
-
-  const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.total))
-  const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
-  const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
-  const maxAgeCumul = Math.max(...dataAge.map((d) => d.total))
 
   const sumAge = dataAge.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
@@ -63,15 +50,6 @@ const Statistiques = () => {
   }, 0)
 
   const averageAge = sumAge > 0 ? Math.round(sumAge / state.FilteredList.length) : 0
-
-  const glyphSize = 120
-  const glyphPosition = 8
-  const shapeScaleGroups = scaleOrdinal<string, React.FC | React.ReactNode>({
-    domain: state.GroupesList.map((g) => g.Sigle),
-    range: state.GroupesList.map((g) => (
-      <GlyphSquare key={g.Sigle} size={glyphSize} top={glyphPosition} left={glyphPosition} fill={g.Couleur} />
-    )),
-  })
 
   return (
     <div className="statistiques__grid">
@@ -100,20 +78,12 @@ const Statistiques = () => {
                   <XYBarStack
                     width={parent.width}
                     height={parent.height}
-                    groups={state.GroupesList}
-                    dataAge={dataAge}
-                    dataAgeRange={dataAgeRange}
-                    totalDeputes={state.FilteredList.length}
-                    maxAge={maxAgeCumul}
                     axisLeft={true}
                     renderVertically={true}
-                    marginTop={30}
-                    marginLeft={20}
-                    normalHeight={15}
-                    responsiveHeight={30}
+                    deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
                   />
                 </div>
-                <ChartLegend shapeScale={shapeScaleGroups} />
+                <ChartLegend groupList={state.GroupesList} />
               </>
             )}
           </ParentSize>
@@ -150,21 +120,13 @@ const Statistiques = () => {
                   <PyramideBar
                     width={parent.width}
                     height={parent.height}
-                    dataAgeHomme={dataAgeHomme}
-                    dataAgeFemme={dataAgeFemme}
-                    totalDeputes={state.FilteredList.length}
-                    maxAge={maxAge}
+                    deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
                   />
                 ) : (
                   <PyramideBarStack
                     width={parent.width}
                     height={parent.height}
-                    groups={state.GroupesList}
-                    dataAgeFemme={dataAgeFemme}
-                    dataAgeHomme={dataAgeHomme}
-                    totalDeputes={state.FilteredList.length}
-                    maxAge={maxAge}
-                    shapes={shapeScaleGroups}
+                    deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
                   />
                 )
               }

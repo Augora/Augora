@@ -2,24 +2,28 @@ import React from "react"
 import { Group } from "@visx/group"
 import XYBarStack from "src/components/charts/XYBarStack"
 import ChartLegend from "src/components/charts/ChartLegend"
+import { getAgeData, rangifyAgeData } from "../chart-utils"
+import { scaleOrdinal } from "@visx/scale"
+import { GlyphSquare } from "@visx/glyph"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  dataAgeFemme: Chart.AgeData[]
-  dataAgeHomme: Chart.AgeData[]
-  groups: Group.GroupsList
-  totalDeputes: number
-  maxAge: number
-  shapes: any
+  deputesData: { groupList: Group.GroupsList; deputes: Deputy.DeputiesList; ageDomain: Filter.AgeDomain }
 }
 
 export default function PyramideBarStack(props: BarStackProps) {
-  const { width, height, dataAgeFemme, dataAgeHomme, groups, totalDeputes, maxAge, shapes } = props
-
+  const {
+    width,
+    height,
+    deputesData: { groupList, deputes, ageDomain },
+  } = props
   // bounds
   const marginTop = 20
   const marginLeft = 30
-  const normalHeight = 15
-  const responsiveHeight = width <= 585 ? 50 : width <= 735 ? 35 : 0
+
+  const deputesFemmes = deputes.filter((depute) => depute.Sexe === "F")
+  const deputesHommes = deputes.filter((depute) => depute.Sexe === "H")
+
+  // const ageDomainFemme =
 
   return (
     <div className="pyramidechart chart">
@@ -28,16 +32,11 @@ export default function PyramideBarStack(props: BarStackProps) {
           <XYBarStack
             width={width / 2}
             height={height}
-            dataAge={dataAgeHomme}
-            groups={groups}
-            totalDeputes={totalDeputes}
-            maxAge={maxAge}
+            deputesData={{ groupList: groupList, deputes: deputesHommes, ageDomain: ageDomain }}
             axisLeft={false}
             renderVertically={false}
-            marginTop={marginTop}
-            marginLeft={marginLeft}
-            normalHeight={normalHeight}
-            responsiveHeight={responsiveHeight}
+            margin={{ top: marginTop, left: marginLeft }}
+            modulableHeight={{ normal: 15, responsive: width <= 585 ? 50 : width <= 735 ? 35 : 0 }}
           />
         </Group>
       </svg>
@@ -46,20 +45,15 @@ export default function PyramideBarStack(props: BarStackProps) {
           <XYBarStack
             width={width / 2}
             height={height}
-            dataAge={dataAgeFemme}
-            groups={groups}
-            totalDeputes={totalDeputes}
-            maxAge={maxAge}
+            deputesData={{ groupList: groupList, deputes: deputesFemmes, ageDomain: ageDomain }}
             axisLeft={true}
             renderVertically={false}
-            marginTop={marginTop}
-            marginLeft={marginLeft}
-            normalHeight={normalHeight}
-            responsiveHeight={responsiveHeight}
+            margin={{ top: marginTop, left: marginLeft }}
+            modulableHeight={{ normal: 15, responsive: width <= 585 ? 50 : width <= 735 ? 35 : 0 }}
           />
         </Group>
       </svg>
-      <ChartLegend shapeScale={shapes} />
+      <ChartLegend groupList={groupList} />
     </div>
   )
 }

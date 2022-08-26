@@ -1,20 +1,32 @@
 import React from "react"
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { scaleOrdinal } from "@visx/scale"
+import { GlyphSquare } from "@visx/glyph"
 
 interface IChartLegend {
-  shapeScale: any
+  groupList: Group.GroupsList
+  glyphSize?: number
+  glyphPosition?: number
 }
 
 export default function ChartLegend(props: IChartLegend) {
-  const { shapeScale } = props
+  const { groupList, glyphSize = 120, glyphPosition = 8 } = props
   const { state, handleGroupClick } = useDeputiesFilters()
+
+  const shapes = scaleOrdinal<string, React.FC | React.ReactNode>({
+    domain: groupList.map((g) => g.Sigle),
+    range: groupList.map((g) => (
+      <GlyphSquare key={g.Sigle} size={glyphSize} top={glyphPosition} left={glyphPosition} fill={g.Couleur} />
+    )),
+  })
+
   return (
-    <Legend scale={shapeScale}>
+    <Legend scale={shapes}>
       {(labels) => (
         <div className="chart__legend">
           {labels.map((label, i) => {
-            const shape = shapeScale(label.datum)
+            const shape = shapes(label.datum)
             const isValidElement = React.isValidElement(shape)
             return (
               <LegendItem
