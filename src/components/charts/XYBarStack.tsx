@@ -6,7 +6,18 @@ import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getAgeData, rangifyAgeData } from "./chart-utils"
 
 interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  deputesData: { groupList: Group.GroupsList; deputes: Deputy.DeputiesList; ageDomain: Filter.AgeDomain }
+  deputesData: {
+    /** Liste des groupes parlementaires */
+    groupList: Group.GroupsList
+    /** Liste des députés */
+    deputes: Deputy.DeputiesList
+    /** Liste des députés par sexe, utilisé notamment pour la pyramide des âges */
+    deputesBySexe?: Chart.AgeData[]
+    /** Liste des âges pour les abscisses / ordonnées des graphes */
+    ageDomain: Filter.AgeDomain
+    /** Âge maximum à utiliser en limite pour les graphes. Cette props est définie pour la pyramide des âges */
+    maxAgeSexe?: number
+  }
   /** Add an axis on the left of the graph
    * @default true */
   axisLeft?: boolean
@@ -28,20 +39,22 @@ export default function XYBarStack(props: BarStackProps) {
   const {
     width,
     height,
-    deputesData: { groupList, deputes, ageDomain },
+    deputesData: { groupList, deputes, deputesBySexe, ageDomain, maxAgeSexe },
     axisLeft,
     renderVertically,
     margin = { top: 30, left: 20 },
     modulableHeight = { normal: 15, responsive: 30 },
   } = props
 
-  const isRange = width < 460
-  const dataAge = getAgeData(groupList, deputes, ageDomain)
+  const marginRight = 30
+
+  const dataAge = renderVertically ? getAgeData(groupList, deputes, ageDomain) : deputesBySexe
   const dataAgeRange = rangifyAgeData(getAgeData(groupList, deputes, ageDomain), 6)
-  const maxAge = Math.max(...dataAge.map((d) => d.total))
+  const maxAge = renderVertically ? Math.max(...getAgeData(groupList, deputes, ageDomain).map((d) => d.total)) : maxAgeSexe
+
+  const isRange = width < 460
   const isAxisRange = /^\d\d$/.test(dataAge[0].age as string)
 
-  const marginRight = 30
   const listSigles = groupList.map((g) => g.Sigle)
 
   // bounds
@@ -63,7 +76,7 @@ export default function XYBarStack(props: BarStackProps) {
           }
           yScale={
             renderVertically
-              ? { type: "linear", domain: [0, maxAge] }
+              ? { type: "linear", range: [yMax, 0], domain: [0, maxAge] }
               : {
                   type: "band",
                   range: [yMax - (width / height < 0.9 ? 15 : width / height < 0.4 ? 10 : width / height > 0.6 ? 20 : 0), 0],
@@ -135,7 +148,7 @@ export default function XYBarStack(props: BarStackProps) {
                   <AugoraTooltip
                     title={getGroupNomComplet(key, groupList)}
                     nbDeputes={datum.groups[key].length}
-                    totalDeputes={deputes.length}
+                    totalDeputes={renderVertically ? deputes.length : deputesBySexe.length}
                     color={getGroupColor(key, groupList)}
                     age={datum.age}
                   />

@@ -20,10 +20,18 @@ export default function PyramideBarStack(props: BarStackProps) {
   const marginTop = 20
   const marginLeft = 30
 
-  const deputesFemmes = deputes.filter((depute) => depute.Sexe === "F")
-  const deputesHommes = deputes.filter((depute) => depute.Sexe === "H")
+  const dataAge = getAgeData(groupList, deputes, ageDomain)
+  const isRange = dataAge.length < 30
+  const deputesFemmes = isRange
+    ? getAgeData(groupList, deputes, ageDomain, "F")
+    : rangifyAgeData(getAgeData(groupList, deputes, ageDomain, "F"), 6)
+  const deputesHommes = isRange
+    ? getAgeData(groupList, deputes, ageDomain, "H")
+    : rangifyAgeData(getAgeData(groupList, deputes, ageDomain, "H"), 6)
 
-  // const ageDomainFemme =
+  const maxAgeFemme = Math.max(...deputesFemmes.map((d) => d.total))
+  const maxAgeHomme = Math.max(...deputesHommes.map((d) => d.total))
+  const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
 
   return (
     <div className="pyramidechart chart">
@@ -32,7 +40,13 @@ export default function PyramideBarStack(props: BarStackProps) {
           <XYBarStack
             width={width / 2}
             height={height}
-            deputesData={{ groupList: groupList, deputes: deputesHommes, ageDomain: ageDomain }}
+            deputesData={{
+              groupList: groupList,
+              deputes: deputes,
+              deputesBySexe: deputesHommes,
+              ageDomain: ageDomain,
+              maxAgeSexe: maxAge,
+            }}
             axisLeft={false}
             renderVertically={false}
             margin={{ top: marginTop, left: marginLeft }}
@@ -45,7 +59,13 @@ export default function PyramideBarStack(props: BarStackProps) {
           <XYBarStack
             width={width / 2}
             height={height}
-            deputesData={{ groupList: groupList, deputes: deputesFemmes, ageDomain: ageDomain }}
+            deputesData={{
+              groupList: groupList,
+              deputes: deputes,
+              deputesBySexe: deputesFemmes,
+              ageDomain: ageDomain,
+              maxAgeSexe: maxAge,
+            }}
             axisLeft={true}
             renderVertically={false}
             margin={{ top: marginTop, left: marginLeft }}
