@@ -48,20 +48,38 @@ export default function useDeputiesFilters() {
    * @param sigle Le sigle du groupe
    */
   const handleGroupClick = (sigle: string) => {
-    const groupesAsArray = Object.entries(GroupeValue)
-    const allActive = groupesAsArray.every(([key, value]) => value)
+    GroupeValue[sigle] = !GroupeValue[sigle]
+    setGroupeValue(GroupeValue)
+  }
 
-    let newGroupValue: Filter.GroupValue = GroupeValue
-
+  /**
+   * Isole un seul groupe dans les filtres
+   * @param sigle Le sigle du groupe
+   */
+  const isolateGroup = (sigle: string) => {
     Object.keys(GroupeValue).forEach((key) => {
-      if (allActive) {
-        newGroupValue[key] = key !== sigle ? true : false
-      } else {
-        if (key === sigle) newGroupValue[sigle] = !newGroupValue[sigle]
-      }
+      if (key === sigle) GroupeValue[key] = true
+      else GroupeValue[key] = false
     })
 
-    setGroupeValue(newGroupValue)
+    setGroupeValue(GroupeValue)
+  }
+
+  /**
+   * Retire le groupe de la liste et active tous les autres ou toggle si des filtres sont deja actifs
+   * @param sigle Le sigle du groupe
+   */
+  const filterGroup = (sigle: string) => {
+    const allGroupsOff = Object.values(state.GroupeValue).every((value) => !value)
+
+    if (allGroupsOff)
+      Object.keys(GroupeValue).forEach((key) => {
+        if (key === sigle) GroupeValue[key] = false
+        else GroupeValue[key] = true
+      })
+    else GroupeValue[sigle] = !GroupeValue[sigle]
+
+    setGroupeValue(GroupeValue)
   }
 
   /**
@@ -69,20 +87,25 @@ export default function useDeputiesFilters() {
    * @param clickedSex L'initiale du sexe séléctionné, "H", ou "F"
    */
   const handleSexClick = (clickedSex: Filter.Gender) => {
-    const otherSex = clickedSex === "F" ? "H" : "F"
-    let newSexValue = {
-      F: true,
-      H: true,
-    }
+    SexValue[clickedSex] = !SexValue[clickedSex]
+    setSexValue(SexValue)
+  }
 
-    if (SexValue[otherSex]) {
-      newSexValue[clickedSex] = true
-      newSexValue[otherSex] = false
+  /**
+   * Retire le sexe de la liste ou le réactive s'il est off
+   * @param sex "H" ou "F"
+   */
+  const filterSex = (sex: Filter.Gender) => {
+    const allSexesOff = Object.values(state.SexValue).every((value) => !value)
+    const otherSex = sex === "F" ? "H" : "F"
+
+    if (allSexesOff) {
+      SexValue[otherSex] = true
     } else {
-      newSexValue[clickedSex] = true
-      newSexValue[otherSex] = true
+      if (!SexValue[otherSex]) SexValue[otherSex] = !SexValue[otherSex]
+      SexValue[sex] = !SexValue[sex]
     }
-    setSexValue(newSexValue)
+    setSexValue(SexValue)
   }
 
   /**
@@ -99,7 +122,7 @@ export default function useDeputiesFilters() {
   const handleReset = () => {
     search("")
     setGroupeValue(getGroupValue(initialGroupesList.map((g) => g.Sigle)))
-    setSexValue({ H: true, F: true })
+    setSexValue({ H: false, F: false })
     setAgeDomain(getAgeDomain(initialDeputesList))
   }
 
@@ -121,5 +144,8 @@ export default function useDeputiesFilters() {
     handleSexClick,
     handleAgeSlider,
     handleReset,
+    isolateGroup,
+    filterGroup,
+    filterSex,
   }
 }

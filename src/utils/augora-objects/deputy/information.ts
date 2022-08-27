@@ -1,4 +1,4 @@
-import { getPoliticGroupPhotoImport, getPoliticPartyPhotoImport } from "./image"
+import { getGroupLogoImport, getPartyLogoImport } from "./image"
 
 export function getGeneralInformation(deputy: Deputy.Deputy) {
   return {
@@ -6,8 +6,8 @@ export function getGeneralInformation(deputy: Deputy.Deputy) {
     lastName: deputy.NomDeFamille,
     firstName: deputy.Prenom,
     picture: deputy.URLPhotoAugora,
-    pictureGroup: getPoliticGroupPhotoImport(deputy.GroupeParlementaire.Sigle),
-    pictureParty: getPoliticPartyPhotoImport(deputy.RattachementFinancier),
+    pictureGroup: getGroupLogoImport(deputy.GroupeParlementaire.Sigle),
+    pictureParty: getPartyLogoImport(deputy.RattachementFinancier),
     party: deputy.RattachementFinancier,
     groupe: deputy.GroupeParlementaire.Sigle,
     groupeComplet: deputy.GroupeParlementaire.NomComplet,
@@ -21,8 +21,8 @@ export function getGeneralInformation(deputy: Deputy.Deputy) {
 
 export function getGroupesInformation(deputy: Deputy.Deputy) {
   return {
-    photoGroupe: getPoliticGroupPhotoImport(deputy.GroupeParlementaire.Sigle),
-    photoRattachement: getPoliticPartyPhotoImport(deputy.RattachementFinancier),
+    photoGroupe: getGroupLogoImport(deputy.GroupeParlementaire.Sigle),
+    photoRattachement: getPartyLogoImport(deputy.RattachementFinancier),
     rattachement: deputy.RattachementFinancier,
     groupe: deputy.GroupeParlementaire.NomComplet,
     responsabiliteGroupe: deputy.ResponsabiliteGroupe.Fonction,

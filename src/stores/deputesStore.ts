@@ -134,7 +134,7 @@ export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, g
       deputesInitialList: deputesList.map((d) => Object.assign({}, d, { NomToSearch: deburr(d.Nom) })),
       deputesFilteredList: applyFilters(
         deputesList,
-        getGroupValue(groupSigles),
+        getGroupValue(groupSigles, true),
         {
           H: true,
           F: true,
@@ -145,8 +145,8 @@ export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, g
       groupesInitialList: groupesList,
       selectedGroupes: getGroupValue(groupSigles),
       selectedGenders: {
-        H: true,
-        F: true,
+        H: false,
+        F: false,
       },
       ageDomain: getAgeDomain(deputesList),
       keyword: "",
