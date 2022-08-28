@@ -23,7 +23,7 @@ import { useRouter } from "next/router"
 // import { Lyrics } from "../static/lyrics"
 
 const Statistiques = () => {
-  const { state, isolateGroup } = useDeputiesFilters()
+  const { state, isolateGroup, isolateSex, handleAgeSlider } = useDeputiesFilters()
   const router = useRouter()
 
   const [HasPyramideBarStack, setHasPyramideBarStack] = useState(true)
@@ -125,6 +125,11 @@ const Statistiques = () => {
                     width={parent.width}
                     height={parent.height}
                     deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
+                    onClick={(age: Filter.AgeDomain, sex: Filter.Gender) => {
+                      handleAgeSlider(age)
+                      isolateSex(sex)
+                      router.push("/")
+                    }}
                   />
                 ) : (
                   <PyramideBarStack

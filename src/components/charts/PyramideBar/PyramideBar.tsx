@@ -9,6 +9,8 @@ import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 
 interface BarStackProps extends Chart.BaseProps {
   deputesData: Chart.BaseDataAge
+  /** Callback au click d'une barre */
+  onClick?: (age: Filter.AgeDomain, sex: Filter.Gender) => void
 }
 
 export default function PyramideBar(props: BarStackProps) {
@@ -71,6 +73,7 @@ export default function PyramideBar(props: BarStackProps) {
             xMax={xMax}
             yMax={yMax}
             pyramideRight={false}
+            onClick={props.onClick && props.onClick}
           />
         </Group>
       </svg>
@@ -87,6 +90,7 @@ export default function PyramideBar(props: BarStackProps) {
             xMax={xMax}
             yMax={yMax}
             pyramideRight={true}
+            onClick={props.onClick && props.onClick}
           />
         </Group>
       </svg>
