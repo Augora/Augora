@@ -2,12 +2,10 @@ import React from "react"
 import { Group } from "@visx/group"
 import XYBarStack from "src/components/charts/XYBarStack"
 import ChartLegend from "src/components/charts/ChartLegend"
-import { getAgeData, rangifyAgeData } from "../chart-utils"
-import { scaleOrdinal } from "@visx/scale"
-import { GlyphSquare } from "@visx/glyph"
+import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 
 interface BarStackProps extends Chart.BaseProps {
-  deputesData: { groupList: Group.GroupsList; deputes: Deputy.DeputiesList; ageDomain: Filter.AgeDomain }
+  deputesData: Chart.BaseDataAge
 }
 
 export default function PyramideBarStack(props: BarStackProps) {

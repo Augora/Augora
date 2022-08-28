@@ -10,7 +10,7 @@ import ChartTooltip from "components/charts/ChartTooltip"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 
 interface IBarChart extends Chart.BaseProps {
-  deputesData: { groupList: Group.GroupsList; deputes: Deputy.DeputiesList }
+  deputesData: Chart.BaseData
   /** Callback au click d'un groupe */
   onClick?: (sigle?: string) => void
 }

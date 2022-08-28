@@ -2,22 +2,17 @@ import React from "react"
 import AugoraTooltip from "components/tooltip/Tooltip"
 import { Group } from "@visx/group"
 import { XYChart, AnimatedGrid, AnimatedAxis, Tooltip, BarSeries, BarStack } from "@visx/xychart"
-import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { getAgeData, rangifyAgeData } from "./chart-utils"
+import { getAgeData, getGroupColor, getGroupNomComplet, rangifyAgeData } from "components/charts/chart-utils"
+
+interface XYBarStackData extends Chart.BaseDataAge {
+  /** Liste des députés par sexe, utilisé notamment pour la pyramide des âges */
+  deputesBySexe?: Chart.AgeData[]
+  /** Âge maximum à utiliser en limite pour les graphes. Cette props est définie pour la pyramide des âges */
+  maxAgeSexe?: number
+}
 
 interface BarStackProps extends Chart.BaseProps {
-  deputesData: {
-    /** Liste des groupes parlementaires */
-    groupList: Group.GroupsList
-    /** Liste des députés */
-    deputes: Deputy.DeputiesList
-    /** Liste des députés par sexe, utilisé notamment pour la pyramide des âges */
-    deputesBySexe?: Chart.AgeData[]
-    /** Liste des âges pour les abscisses / ordonnées des graphes */
-    ageDomain: Filter.AgeDomain
-    /** Âge maximum à utiliser en limite pour les graphes. Cette props est définie pour la pyramide des âges */
-    maxAgeSexe?: number
-  }
+  deputesData: XYBarStackData
   /** Add an axis on the left of the graph
    * @default true */
   axisLeft?: boolean
@@ -28,13 +23,6 @@ interface BarStackProps extends Chart.BaseProps {
   modulableHeight?: { normal: number; responsive: number }
 }
 
-const getGroupNomComplet = (sigle: string, groups: Group.GroupsList) => {
-  return groups.find((group) => group.Sigle === sigle).NomComplet
-}
-
-const getGroupColor = (sigle: string, groups: Group.GroupsList): string => {
-  return groups.find((group) => group.Sigle === sigle).Couleur
-}
 export default function XYBarStack(props: BarStackProps) {
   const {
     width,

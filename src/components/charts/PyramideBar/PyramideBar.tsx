@@ -5,10 +5,10 @@ import { scaleOrdinal } from "@visx/scale"
 import { GlyphSquare } from "@visx/glyph"
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { getAgeData, rangifyAgeData } from "../chart-utils"
+import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 
 interface BarStackProps extends Chart.BaseProps {
-  deputesData: { groupList: Group.GroupsList; deputes: Deputy.DeputiesList; ageDomain: Filter.AgeDomain }
+  deputesData: Chart.BaseDataAge
 }
 
 export default function PyramideBar(props: BarStackProps) {
