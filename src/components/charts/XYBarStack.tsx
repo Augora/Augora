@@ -5,7 +5,7 @@ import { XYChart, AnimatedGrid, AnimatedAxis, Tooltip, BarSeries, BarStack } fro
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getAgeData, rangifyAgeData } from "./chart-utils"
 
-interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
+interface BarStackProps extends Chart.BaseProps {
   deputesData: {
     /** Liste des groupes parlementaires */
     groupList: Group.GroupsList

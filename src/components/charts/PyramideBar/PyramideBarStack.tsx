@@ -6,7 +6,7 @@ import { getAgeData, rangifyAgeData } from "../chart-utils"
 import { scaleOrdinal } from "@visx/scale"
 import { GlyphSquare } from "@visx/glyph"
 
-interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
+interface BarStackProps extends Chart.BaseProps {
   deputesData: { groupList: Group.GroupsList; deputes: Deputy.DeputiesList; ageDomain: Filter.AgeDomain }
 }
 

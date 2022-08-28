@@ -10,7 +10,11 @@ import ChartTooltip from "components/charts/ChartTooltip"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { useRouter } from "next/router"
 
-export default function BarChart({ width, height, data }: Chart.BaseProps) {
+interface IBarChart extends Chart.BaseProps {
+  data: Chart.GroupData[]
+}
+
+export default function BarChart({ width, height, data }: IBarChart) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
   const { isolateGroup } = useDeputiesFilters()
   const router = useRouter()
@@ -42,7 +46,7 @@ export default function BarChart({ width, height, data }: Chart.BaseProps) {
     hideTooltip()
   }
 
-  const handleMouseMove = (event, data: Chart.Data) => {
+  const handleMouseMove = (event, data: Chart.GroupData) => {
     showTooltip({
       tooltipData: {
         key: data.label,

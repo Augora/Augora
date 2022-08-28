@@ -5,10 +5,6 @@ declare namespace Chart {
   interface BaseProps {
     width: number
     height: number
-    /**
-     * Data qui feed les charts
-     */
-    data?: Data[]
   }
 
   /**
@@ -40,7 +36,7 @@ declare namespace Chart {
   /**
    * Object contenant les infos des groupes pour les components visx
    */
-  interface Data {
+  interface GroupData {
     /**
      * Sigle du groupe
      */
