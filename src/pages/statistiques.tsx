@@ -78,8 +78,6 @@ const Statistiques = () => {
                   <XYBarStack
                     width={parent.width}
                     height={parent.height}
-                    axisLeft={true}
-                    renderVertically={true}
                     deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
                   />
                 </div>

@@ -66,7 +66,6 @@ export default function PyramideBarStack(props: BarStackProps) {
               ageDomain: ageDomain,
               maxAgeSexe: maxAge,
             }}
-            axisLeft={true}
             renderVertically={false}
             margin={{ top: marginTop, left: marginLeft }}
             modulableHeight={{ normal: 15, responsive: width <= 585 ? 50 : width <= 735 ? 35 : 0 }}

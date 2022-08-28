@@ -40,14 +40,13 @@ export default function XYBarStack(props: BarStackProps) {
     width,
     height,
     deputesData: { groupList, deputes, deputesBySexe, ageDomain, maxAgeSexe },
-    axisLeft,
-    renderVertically,
+    axisLeft = true,
+    renderVertically = true,
     margin = { top: 30, left: 20 },
     modulableHeight = { normal: 15, responsive: 30 },
   } = props
 
   const marginRight = 30
-
   const dataAge = renderVertically ? getAgeData(groupList, deputes, ageDomain) : deputesBySexe
   const dataAgeRange = rangifyAgeData(getAgeData(groupList, deputes, ageDomain), 6)
   const maxAge = renderVertically ? Math.max(...getAgeData(groupList, deputes, ageDomain).map((d) => d.total)) : maxAgeSexe
@@ -62,7 +61,7 @@ export default function XYBarStack(props: BarStackProps) {
   const tickTwoOrOne = maxAge == 2 ? 2 : maxAge == 1 ? 1 : 4
   const ratio = renderVertically && isRange ? (width > 300 ? 1 : width > 176 ? 0.9 : 0.8) : 1
   const yMax = height * ratio - margin.top * 2 - (width > 368 ? modulableHeight.normal : modulableHeight.responsive)
-
+  console.log(props)
   return (
     <svg width={width} height={height}>
       <Group top={renderVertically ? margin.top / 2 : 0} left={renderVertically ? margin.left : 0}>
