@@ -7,19 +7,28 @@ import { scaleBand, scaleLinear } from "@visx/scale"
 import { Text } from "@visx/text"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
-import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { useRouter } from "next/router"
+import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 
 interface IBarChart extends Chart.BaseProps {
-  data: Chart.GroupData[]
+  deputesData: { groupList: Group.GroupsList; deputes: Deputy.DeputiesList }
+  /** Callback au click d'un groupe */
+  onClick?: (sigle?: string) => void
 }
 
-export default function BarChart({ width, height, data }: IBarChart) {
+export default function BarChart({ width, height, deputesData: { groupList, deputes }, onClick }: IBarChart) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
-  const { isolateGroup } = useDeputiesFilters()
-  const router = useRouter()
 
-  const totalDeputies = data.reduce((a, b) => a + b.value, 0)
+  const groupesData: Chart.GroupData[] = groupList
+    .map((groupe) => {
+      const nbDeputeGroup = getNbDeputiesGroup(deputes, groupe.Sigle)
+      return {
+        id: groupe.Sigle,
+        label: groupe.NomComplet,
+        value: nbDeputeGroup,
+        color: groupe.Couleur,
+      }
+    })
+    .filter((groupe) => groupe.value !== 0)
 
   // bounds
   const marginTop = 30
@@ -32,14 +41,14 @@ export default function BarChart({ width, height, data }: IBarChart) {
   const xScale = scaleBand<string>({
     range: [xMax, 0],
     round: true,
-    domain: data.map((d) => d.id).reverse(),
+    domain: groupesData.map((d) => d.id).reverse(),
     paddingInner: 0.2,
   })
 
   const yScale = scaleLinear<number>({
     range: [yMax, 0],
     round: true,
-    domain: [0, Math.max(...data.map((d) => d.value))],
+    domain: [0, Math.max(...groupesData.map((d) => d.value))],
   })
 
   const handleMouseLeave = () => {
@@ -79,7 +88,7 @@ export default function BarChart({ width, height, data }: IBarChart) {
           />
         </Group>
         <Group top={marginTop / 2} left={marginGraph / 2}>
-          {data.map((d, index) => {
+          {groupesData.map((d, index) => {
             const barWidth = xScale.bandwidth()
             const barHeight = yMax - (yScale(d.value) ?? 0)
             const barX = xScale(d.id)
@@ -96,10 +105,7 @@ export default function BarChart({ width, height, data }: IBarChart) {
                   fill={d.color}
                   onMouseLeave={handleMouseLeave}
                   onMouseMove={(event) => handleMouseMove(event, d)}
-                  onClick={() => {
-                    isolateGroup(d.id)
-                    router.push("/")
-                  }}
+                  onClick={() => onClick && onClick(d.id)}
                 />
                 {barHeight >= 25 && (
                   <Text
@@ -175,7 +181,7 @@ export default function BarChart({ width, height, data }: IBarChart) {
           tooltipLeft={tooltipLeft}
           title={tooltipData.key}
           nbDeputes={tooltipData.bar}
-          totalDeputes={totalDeputies}
+          totalDeputes={deputes.length}
           color={tooltipData.color}
         />
       )}

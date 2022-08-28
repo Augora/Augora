@@ -17,30 +17,16 @@ import shuffle from "lodash/shuffle"
 import { scaleOrdinal } from "@visx/scale"
 import { GlyphSquare } from "@visx/glyph"
 import ChartLegend from "src/components/charts/ChartLegend"
+import { useRouter } from "next/router"
 
 // import WordCloud from "src/components/charts/WordCloud"
 // import { Lyrics } from "../static/lyrics"
 
-type Groups = {
-  id: string
-  label: string
-  value: number
-  color: string
-}
-
 const Statistiques = () => {
-  const { state } = useDeputiesFilters()
-  const [HasPyramideBarStack, setHasPyramideBarStack] = useState(true)
+  const { state, isolateGroup } = useDeputiesFilters()
+  const router = useRouter()
 
-  const groupesData: Groups[] = state.GroupesList.map((groupe) => {
-    const nbDeputeGroup = getNbDeputiesGroup(state.FilteredList, groupe.Sigle)
-    return {
-      id: groupe.Sigle,
-      label: groupe.NomComplet,
-      value: nbDeputeGroup,
-      color: groupe.Couleur,
-    }
-  }).filter((groupe) => groupe.value !== 0)
+  const [HasPyramideBarStack, setHasPyramideBarStack] = useState(true)
 
   const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
 
@@ -59,7 +45,17 @@ const Statistiques = () => {
       <Frame className="frame-chart frame-pie" title="Hémicycle">
         {state.FilteredList.length > 0 ? (
           <ParentSize debounceTime={400}>
-            {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
+            {(parent) => (
+              <PieChart
+                width={parent.width}
+                height={parent.height}
+                deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
+                onClick={(sigle) => {
+                  isolateGroup(sigle)
+                  router.push("/")
+                }}
+              />
+            )}
           </ParentSize>
         ) : (
           <div className="no-deputy">Il n'y a pas de députés correspondant à votre recherche.</div>
@@ -92,7 +88,17 @@ const Statistiques = () => {
       <Frame className="frame-chart frame-bar" title="Députés par groupe">
         {state.FilteredList.length > 0 ? (
           <ParentSize className="bar__container" debounceTime={400}>
-            {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
+            {(parent) => (
+              <BarChart
+                width={parent.width}
+                height={parent.height}
+                deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
+                onClick={(sigle) => {
+                  isolateGroup(sigle)
+                  router.push("/")
+                }}
+              />
+            )}
           </ParentSize>
         ) : (
           <div className="no-deputy">Il n'y a pas de députés correspondant à votre recherche.</div>
