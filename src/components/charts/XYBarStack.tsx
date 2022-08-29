@@ -51,7 +51,7 @@ export default function XYBarStack(props: BarStackProps) {
   const yMax = height * ratio - margin.top * 2 - (width > 368 ? modulableHeight.normal : modulableHeight.responsive)
 
   return (
-    <svg width={width} height={height}>
+    <svg width={width} height={height * 0.95}>
       <Group top={renderVertically ? margin.top / 2 : 0} left={renderVertically ? margin.left : 0}>
         <XYChart
           margin={{ top: 0, right: 20, bottom: margin.top + (renderVertically ? 30 : 0), left: 0 }}
