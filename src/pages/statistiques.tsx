@@ -6,16 +6,13 @@ import BarChart from "components/charts/BarChart"
 import XYBarStack from "src/components/charts/XYBarStack"
 import Frame from "components/frames/Frame"
 import { ParentSize } from "@visx/responsive"
-import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes, getGroupes } from "../lib/deputes/Wrapper"
 import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
 import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
-import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
+import { getAgeData } from "components/charts/chart-utils"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
 import shuffle from "lodash/shuffle"
-import { scaleOrdinal } from "@visx/scale"
-import { GlyphSquare } from "@visx/glyph"
 import ChartLegend from "src/components/charts/ChartLegend"
 import { useRouter } from "next/router"
 
@@ -29,12 +26,10 @@ const Statistiques = () => {
   const [HasPyramideBarStack, setHasPyramideBarStack] = useState(true)
 
   const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
-
   const sumAge = dataAge.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
     return acc + curSum * (cur.age as number)
   }, 0)
-
   const averageAge = sumAge > 0 ? Math.round(sumAge / state.FilteredList.length) : 0
 
   return (
