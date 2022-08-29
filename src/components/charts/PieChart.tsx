@@ -4,15 +4,28 @@ import { Group } from "@visx/group"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 import { Annotation, Label, Connector } from "@visx/annotation"
-import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { useRouter } from "next/router"
+import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 
-export default function PieChart({ width, height, data }: Chart.BaseProps) {
+interface IPieChart extends Chart.BaseProps {
+  deputesData: Chart.BaseData
+  /** Callback au click d'un groupe */
+  onClick?: (sigle?: string) => void
+}
+
+export default function PieChart({ width, height, deputesData: { groupList, deputes }, onClick }: IPieChart) {
   const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<Chart.Tooltip>()
-  const { isolateGroup } = useDeputiesFilters()
-  const router = useRouter()
 
-  const totalDeputies = data.reduce((a, b) => a + b.value, 0)
+  const groupesData: Chart.GroupData[] = groupList
+    .map((groupe) => {
+      const nbDeputeGroup = getNbDeputiesGroup(deputes, groupe.Sigle)
+      return {
+        id: groupe.Sigle,
+        label: groupe.NomComplet,
+        value: nbDeputeGroup,
+        color: groupe.Couleur,
+      }
+    })
+    .filter((groupe) => groupe.value !== 0)
   const ratio = width / height
   const conditionRatio = ratio > 3 ? 0.55 : ratio > 1.5 ? 0.65 : 0.45
   const rayon = ((width + height) * conditionRatio) / 2.5
@@ -21,7 +34,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
     hideTooltip()
   }
 
-  const handleMouseMove = (event, data: Chart.Data) => {
+  const handleMouseMove = (event, data: Chart.GroupData) => {
     showTooltip({
       tooltipData: {
         key: data.label,
@@ -37,7 +50,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
       <svg>
         <Group top={ratio < 1.5 ? height * 0.72 : ratio < 1.8 ? height * 0.9 : height * 0.95} left={width / 2}>
           <Pie
-            data={data}
+            data={groupesData}
             pieValue={(d) => d.value}
             pieSort={null}
             outerRadius={rayon}
@@ -98,10 +111,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
                       fill={groupeArc.color}
                       onMouseLeave={handleMouseLeave}
                       onMouseMove={(event) => handleMouseMove(event, arc.data)}
-                      onClick={() => {
-                        isolateGroup(arc.data.id)
-                        router.push("/")
-                      }}
+                      onClick={() => onClick && onClick(arc.data.id)}
                     />
 
                     {hasSpaceForLabel && (
@@ -122,7 +132,7 @@ export default function PieChart({ width, height, data }: Chart.BaseProps) {
           tooltipLeft={tooltipLeft}
           title={tooltipData.key}
           nbDeputes={tooltipData.bar}
-          totalDeputes={totalDeputies}
+          totalDeputes={deputes.length}
           color={tooltipData.color}
         />
       )}

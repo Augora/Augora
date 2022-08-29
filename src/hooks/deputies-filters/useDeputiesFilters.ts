@@ -109,6 +109,19 @@ export default function useDeputiesFilters() {
   }
 
   /**
+   * Active le filtre du sexe fourni (n'affiche que les hommes si "H")
+   * @param sex "H" ou "F"
+   */
+  const isolateSex = (sex: Filter.Gender) => {
+    const otherSex = sex === "F" ? "H" : "F"
+
+    SexValue[otherSex] = false
+    SexValue[sex] = true
+
+    setSexValue(SexValue)
+  }
+
+  /**
    * Change l'état des filtres au changement du slider âge
    * @param domain Range des âges
    */
@@ -145,6 +158,7 @@ export default function useDeputiesFilters() {
     handleAgeSlider,
     handleReset,
     isolateGroup,
+    isolateSex,
     filterGroup,
     filterSex,
   }

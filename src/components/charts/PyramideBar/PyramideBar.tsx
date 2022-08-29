@@ -5,16 +5,20 @@ import { scaleOrdinal } from "@visx/scale"
 import { GlyphSquare } from "@visx/glyph"
 import { Legend, LegendItem, LegendLabel } from "@visx/legend"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 
-interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  dataAgeFemme: Chart.AgeData[]
-  dataAgeHomme: Chart.AgeData[]
-  totalDeputes: number
-  maxAge: number
+interface BarStackProps extends Chart.BaseProps {
+  deputesData: Chart.BaseDataAge
+  /** Callback au click d'une barre */
+  onClick?: (age: Filter.AgeDomain, sex: Filter.Gender) => void
 }
 
 export default function PyramideBar(props: BarStackProps) {
-  const { width, height, dataAgeHomme, dataAgeFemme, totalDeputes, maxAge } = props
+  const {
+    width,
+    height,
+    deputesData: { groupList, deputes, ageDomain },
+  } = props
   const {
     state: { SexValue },
     filterSex,
@@ -36,6 +40,18 @@ export default function PyramideBar(props: BarStackProps) {
     domain: domain,
     range: domain.map((d) => <GlyphSquare key={d} size={glyphSize} top={glyphPosition} left={glyphPosition} />),
   })
+  const isRange = deputes.length < 30
+  const dataAgeFemme = isRange
+    ? getAgeData(groupList, deputes, ageDomain, "F")
+    : rangifyAgeData(getAgeData(groupList, deputes, ageDomain, "F"), 6)
+
+  const dataAgeHomme = isRange
+    ? getAgeData(groupList, deputes, ageDomain, "H")
+    : rangifyAgeData(getAgeData(groupList, deputes, ageDomain, "H"), 6)
+
+  const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.total))
+  const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
+  const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
 
   const isCrossed = (sex: Filter.Gender) => {
     if (Object.values(SexValue).every((value) => !value)) return false
@@ -52,11 +68,12 @@ export default function PyramideBar(props: BarStackProps) {
             data={dataAgeHomme}
             dataKey={"hommes"}
             color={"#14ccae"}
-            totalDeputes={totalDeputes}
+            totalDeputes={deputes.length}
             maxAge={maxAge}
             xMax={xMax}
             yMax={yMax}
             pyramideRight={false}
+            onClick={props.onClick && props.onClick}
           />
         </Group>
       </svg>
@@ -68,11 +85,12 @@ export default function PyramideBar(props: BarStackProps) {
             data={dataAgeFemme}
             dataKey={"femmes"}
             color={"#00bbcc"}
-            totalDeputes={totalDeputes}
+            totalDeputes={deputes.length}
             maxAge={maxAge}
             xMax={xMax}
             yMax={yMax}
             pyramideRight={true}
+            onClick={props.onClick && props.onClick}
           />
         </Group>
       </svg>

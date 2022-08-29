@@ -2,67 +2,64 @@ import React from "react"
 import AugoraTooltip from "components/tooltip/Tooltip"
 import { Group } from "@visx/group"
 import { XYChart, AnimatedGrid, AnimatedAxis, Tooltip, BarSeries, BarStack } from "@visx/xychart"
-import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
+import { getAgeData, getGroupColor, getGroupNomComplet, rangifyAgeData } from "components/charts/chart-utils"
 
-interface BarStackProps extends Omit<Chart.BaseProps, "data"> {
-  dataAge: Chart.AgeData[]
-  dataAgeRange?: Chart.AgeData[]
-  groups: Group.GroupsList
-  totalDeputes: number
-  axisLeft: boolean
-  maxAge?: number
-  renderVertically: boolean
-  marginTop: number
-  marginLeft: number
-  normalHeight: number
-  responsiveHeight: number
+interface XYBarStackData extends Chart.BaseDataAge {
+  /** Liste des députés par sexe, utilisé notamment pour la pyramide des âges */
+  deputesBySexe?: Chart.AgeData[]
+  /** Âge maximum à utiliser en limite pour les graphes. Cette props est définie pour la pyramide des âges */
+  maxAgeSexe?: number
 }
 
-const getGroupNomComplet = (sigle: string, groups: Group.GroupsList) => {
-  return groups.find((group) => group.Sigle === sigle).NomComplet
-}
-
-const getGroupColor = (sigle: string, groups: Group.GroupsList): string => {
-  return groups.find((group) => group.Sigle === sigle).Couleur
+interface BarStackProps extends Chart.BaseProps {
+  deputesData: XYBarStackData
+  /** Add an axis on the left of the graph
+   * @default true */
+  axisLeft?: boolean
+  /** Render vertically or horizontally a graph
+   * @default true */
+  renderVertically?: boolean
+  margin?: { top: number; left: number }
+  modulableHeight?: { normal: number; responsive: number }
 }
 
 export default function XYBarStack(props: BarStackProps) {
   const {
     width,
     height,
-    groups,
-    dataAge,
-    dataAgeRange,
-    maxAge,
-    totalDeputes,
-    axisLeft,
-    renderVertically,
-    marginTop,
-    marginLeft,
-    normalHeight,
-    responsiveHeight,
+    deputesData: { groupList, deputes, deputesBySexe, ageDomain, maxAgeSexe },
+    axisLeft = true,
+    renderVertically = true,
+    margin = { top: 30, left: 20 },
+    modulableHeight = { normal: 15, responsive: 30 },
   } = props
-  const isAxisRange = /^\d\d$/.test(dataAge[0].age as string)
-  const isRange = width < 460
+
   const marginRight = 30
-  const listSigles = groups.map((g) => g.Sigle)
+  const dataAge = renderVertically ? getAgeData(groupList, deputes, ageDomain) : deputesBySexe
+  const dataAgeRange = rangifyAgeData(getAgeData(groupList, deputes, ageDomain), 6)
+  const maxAge = renderVertically ? Math.max(...getAgeData(groupList, deputes, ageDomain).map((d) => d.total)) : maxAgeSexe
+
+  const isRange = width < 460
+  const isAxisRange = /^\d\d$/.test(dataAge[0].age as string)
+
+  const listSigles = groupList.map((g) => g.Sigle)
 
   // bounds
-  const xMax = width - marginLeft
+  const xMax = width - margin.left
   const tickTwoOrOne = maxAge == 2 ? 2 : maxAge == 1 ? 1 : 4
   const ratio = renderVertically && isRange ? (width > 300 ? 1 : width > 176 ? 0.9 : 0.8) : 1
-  const yMax = height * ratio - marginTop * 2 - (width > 368 ? normalHeight : responsiveHeight)
+  const yMax = height * ratio - margin.top * 2 - (width > 368 ? modulableHeight.normal : modulableHeight.responsive)
 
   return (
-    <svg width={width} height={height}>
-      <Group top={renderVertically ? marginTop / 2 : 0} left={renderVertically ? marginLeft : 0}>
+    <svg width={width} height={height * 0.95}>
+      <Group top={renderVertically ? margin.top / 2 : 0} left={renderVertically ? margin.left : 0}>
         <XYChart
-          margin={{ top: 0, right: 20, bottom: marginTop + (renderVertically ? 30 : 0), left: 0 }}
+          margin={{ top: 0, right: 20, bottom: margin.top + (renderVertically ? 30 : 0), left: 0 }}
           width={width}
           height={
             height * ratio -
-            marginTop * (!renderVertically && (width / height < 0.9 ? 1.5 : 2)) -
-            (width > 368 ? normalHeight : responsiveHeight)
+            margin.top * (!renderVertically && (width / height < 0.9 ? 1.5 : 2)) -
+            (width > 368 ? modulableHeight.normal : modulableHeight.responsive)
           }
           yScale={
             renderVertically
@@ -122,7 +119,7 @@ export default function XYBarStack(props: BarStackProps) {
                     renderVertically ? data.age : axisLeft ? data.groups[sigle].length : -data.groups[sigle].length
                   }
                   yAccessor={(data) => (renderVertically ? data.groups[sigle].length : data.age)}
-                  colorAccessor={() => getGroupColor(sigle, groups)}
+                  colorAccessor={() => getGroupColor(sigle, groupList)}
                 />
               )
             })}
@@ -136,10 +133,10 @@ export default function XYBarStack(props: BarStackProps) {
               return (
                 datum.groups[key].length > 0 && (
                   <AugoraTooltip
-                    title={getGroupNomComplet(key, groups)}
+                    title={getGroupNomComplet(key, groupList)}
                     nbDeputes={datum.groups[key].length}
-                    totalDeputes={totalDeputes}
-                    color={getGroupColor(key, groups)}
+                    totalDeputes={renderVertically ? deputes.length : deputesBySexe.length}
+                    color={getGroupColor(key, groupList)}
                     age={datum.age}
                   />
                 )
