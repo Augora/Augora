@@ -1,6 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import { getGroupLogo } from "../deputies-list-utils"
+import { getGroupLogoImport } from "utils/augora-objects/deputy/image"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 
 interface IOneDeputy {
@@ -9,7 +9,7 @@ interface IOneDeputy {
 }
 
 export default function OneDeputy({ depute, groupNumber }: IOneDeputy) {
-  const GroupLogo = getGroupLogo(depute.GroupeParlementaire.Sigle)
+  const GroupLogo = getGroupLogoImport(depute.GroupeParlementaire.Sigle)
   const isPresidentGroupe =
     depute.ResponsabiliteGroupe.Fonction === "président" || depute.ResponsabiliteGroupe.Fonction === "présidente"
   return (

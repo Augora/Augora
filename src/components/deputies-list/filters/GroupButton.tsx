@@ -1,6 +1,6 @@
 import React from "react"
 import ButtonInput from "components/buttons/ButtonInput"
-import { getGroupLogo } from "components/deputies-list/deputies-list-utils"
+import { getGroupLogoImport } from "utils/augora-objects/deputy/image"
 
 interface IGroupButton {
   group: Group.Group
@@ -17,7 +17,7 @@ interface IGroupButton {
  */
 export default function GroupButton(props: IGroupButton) {
   const { checked = true, group, onClick, children, ...restProps } = props
-  const GroupeLogo = getGroupLogo(group.Sigle)
+  const GroupeLogo = getGroupLogoImport(group.Sigle)
 
   return (
     <ButtonInput
