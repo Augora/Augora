@@ -4,7 +4,8 @@ import { gsap } from "gsap"
 import { getGroupLogoImport } from "utils/augora-objects/deputy/image"
 import mapStore from "stores/mapStore"
 import MapAugora from "components/maps/MapAugora"
-import { createFeatureCollection, getFeature, getLayerPaint, MetroFeature } from "components/maps/maps-utils"
+import { createFeatureCollection, getLayerPaint } from "components/maps/maps-utils"
+import { getFeature } from "components/maps/maps-imports"
 import _ from "lodash"
 import Question from "./DeputeBanner/Question"
 import TopBackground from "./DeputeBanner/TopBackground"
@@ -42,7 +43,9 @@ export default function DeputeBanner({
           code_circ: NumeroCirconscription,
           code_dpt: NumeroDepartement,
         })
-      : MetroFeature
+      : getFeature({
+          code_cont: 0,
+        })
   const refMapOpacity = { value: mapOpacity.value }
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
@@ -269,7 +272,7 @@ export default function DeputeBanner({
             mapView={{
               geoJSON: createFeatureCollection([feature]),
               feature: feature,
-              paint: getLayerPaint(`rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, ${mapOpacity.value})`),
+              paint: getLayerPaint({ color: `rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, ${mapOpacity.value})` }),
             }}
           />
         </div>

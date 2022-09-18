@@ -1,16 +1,12 @@
 import React from "react"
 import MapAugora from "components/maps/MapAugora"
-import { buildURLFromFeature, createFeatureCollection, getFeature, getLayerPaint } from "components/maps/maps-utils"
+import { createFeatureCollection, getFeatureURL, getLayerPaint } from "components/maps/maps-utils"
 import Block from "components/deputy/_block/_Block"
 import Link from "next/link"
 import mapStore from "stores/mapStore"
+import IconExpand from "images/ui-kit/icon-expand.svg"
 
 export default function MapDistrict(props: Bloc.Map) {
-  const { NomCirconscription, NumeroCirconscription, NumeroDepartement } = props.deputy
-  const feature = getFeature({
-    code_circ: NumeroCirconscription,
-    code_dpt: NumeroDepartement,
-  })
   const { viewstate, setViewstate } = mapStore()
 
   return (
@@ -20,8 +16,8 @@ export default function MapDistrict(props: Bloc.Map) {
       color={props.color}
       size={props.size}
       circ={{
-        region: NomCirconscription,
-        circNb: NumeroCirconscription,
+        region: props.deputy.NomCirconscription,
+        circNb: props.deputy.NumeroCirconscription,
       }}
     >
       <div className="map__container">
@@ -31,13 +27,17 @@ export default function MapDistrict(props: Bloc.Map) {
           viewstate={viewstate}
           setViewstate={setViewstate}
           mapView={{
-            geoJSON: createFeatureCollection([feature]),
-            feature: feature,
-            paint: getLayerPaint(props.deputy.GroupeParlementaire.Couleur),
+            geoJSON: createFeatureCollection([props.deputeCirc]),
+            feature: props.deputeCirc,
+            paint: getLayerPaint({ color: props.deputy.GroupeParlementaire.Couleur }),
           }}
         />
-        <Link href={buildURLFromFeature(feature)}>
-          <div className="map__redirect"></div>
+        <Link href={`/carte/${getFeatureURL(props.deputeCirc)}`}>
+          <div className="map__redirect" title="Voir sur la carte">
+            <div className="icon-wrapper">
+              <IconExpand style={{ fill: props.color.HSL.Full }} />
+            </div>
+          </div>
         </Link>
       </div>
     </Block>
