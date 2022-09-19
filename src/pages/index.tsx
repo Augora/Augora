@@ -6,13 +6,13 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ViewState } from "react-map-gl"
 import MapAugora from "components/maps/MapAugora"
-import {
-  MetroFeature,
-  getLayerPaint,
-  createFeatureCollection,
-  buildURLFromFeature,
-  getZoneName,
-} from "components/maps/maps-utils"
+// import {
+//   MetroFeature,
+//   getLayerPaint,
+//   createFeatureCollection,
+//   buildURLFromFeature,
+//   getZoneName,
+// } from "components/maps/maps-utils"
 import { getDeputes, getGroupes } from "src/lib/deputes/Wrapper"
 import GroupButton from "components/deputies-list/filters/GroupButton"
 import shuffle from "lodash/shuffle"
@@ -59,16 +59,16 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
     },
   })
 
-  const [feature, setFeature] = useState<AugoraMap.Feature>(MetroFeature)
-  const allFeatures = useMemo(() => [MetroFeature, ...MetroCircFile.features, ...OMCircFile.features], [])
+  // const [feature, setFeature] = useState<AugoraMap.Feature>(MetroFeature)
+  // const allFeatures = useMemo(() => [MetroFeature, ...MetroCircFile.features, ...OMCircFile.features], [])
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log("Changing feature...")
-      setFeature(allFeatures[random(0, allFeatures.length - 1)])
-    }, 10000)
-    return () => clearInterval(interval)
-  }, [])
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     console.log("Changing feature...")
+  //     setFeature(allFeatures[random(0, allFeatures.length - 1)])
+  //   }, 10000)
+  //   return () => clearInterval(interval)
+  // }, [])
 
   return (
     <>
@@ -128,7 +128,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
             </div>
           </div>
           <div className="panel__map">
-            <MapAugora
+            {/* <MapAugora
               overlay={false}
               viewstate={viewstate}
               setViewstate={setViewstate}
@@ -143,7 +143,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
                   <span>{`${getZoneName(feature)}${feature.properties.nom_dpt ? ` de ${feature.properties.nom_dpt}` : ""}`}</span>
                 </div>
               </Link>
-            </MapAugora>
+            </MapAugora> */}
           </div>
         </div>
         <div className="home__stats panel panel--center">
