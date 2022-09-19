@@ -57,7 +57,7 @@
 
     @media (max-width: 1600px) {
       .filters {
-        grid-column-end: span 10;
+        grid-column-end: span 7;
       }
 
       .frame-pie {
@@ -66,6 +66,9 @@
     }
 
     @media (max-width: 1200px) {
+      .filters {
+        grid-column-end: span 10;
+      }
       .frame {
         grid-column-end: span 10;
         grid-row-end: span 3;

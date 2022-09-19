@@ -84,7 +84,7 @@ export const SidebarLinks = ({ location }: { location: NextRouter }) => {
       <SidebarLink title="Accueil" href="/" isCurrent={location.pathname === "/"} />
       <SidebarLink title="Députés" href="/deputes" isCurrent={location.pathname === "/deputes"} />
       <SidebarLink title="Statistiques" href="/statistiques" isCurrent={location.pathname === "/statistiques"} />
-      <SidebarLink title="Carte" href="/carte" isCurrent={location.pathname === "/map"} />
+      <SidebarLink title="Carte" href="/carte" isCurrent={location.pathname.startsWith("/map")} />
       <SidebarLink title="FAQ" href="/faq" isCurrent={location.pathname === "/faq"} />
     </div>
   )
