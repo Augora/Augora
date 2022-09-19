@@ -41,10 +41,7 @@ import OMCircFile from "static/circ-om.geojson"
 export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
   const router = useRouter()
 
-  const {
-    state: { GroupeValue },
-    handleGroupClick,
-  } = useDeputiesFilters()
+  const { isolateGroup } = useDeputiesFilters()
   const [viewstate, setViewstate] = useState<ViewState>({
     zoom: 2,
     longitude: 2.23,
@@ -173,10 +170,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
                 title={group.NomComplet}
                 key={`groupe--${group.Sigle}`}
                 onClick={() => {
-                  groupes.forEach((grp) => {
-                    if (grp.Sigle !== group.Sigle && GroupeValue[grp.Sigle]) handleGroupClick(grp.Sigle)
-                    else if (grp.Sigle === group.Sigle && !GroupeValue[grp.Sigle]) handleGroupClick(grp.Sigle)
-                  })
+                  isolateGroup(group.Sigle)
                   router.push("/deputes")
                 }}
               />
