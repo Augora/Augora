@@ -6,13 +6,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ViewState } from "react-map-gl"
 import MapAugora from "components/maps/MapAugora"
-// import {
-//   MetroFeature,
-//   getLayerPaint,
-//   createFeatureCollection,
-//   buildURLFromFeature,
-//   getZoneName,
-// } from "components/maps/maps-utils"
+import { getLayerPaint, createFeatureCollection, getFeatureURL, getZoneName, createFeature } from "components/maps/maps-utils"
 import { getDeputes, getGroupes } from "src/lib/deputes/Wrapper"
 import GroupButton from "components/deputies-list/filters/GroupButton"
 import shuffle from "lodash/shuffle"
@@ -23,6 +17,7 @@ import IconGroup from "images/ui-kit/icon-group.svg"
 import IconFrance from "images/ui-kit/icon-france.svg"
 import IconStat from "images/ui-kit/icon-stat.svg"
 import IconInfo from "images/ui-kit/icon-info.svg"
+import MetroFeature from "static/cont-france.geojson"
 import MetroCircFile from "static/circ-metro.geojson"
 import OMCircFile from "static/circ-om.geojson"
 
@@ -38,7 +33,7 @@ import OMCircFile from "static/circ-om.geojson"
 //   )
 // }
 
-export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
+export default function IndexPage({ groupes, features }: { groupes: Group.GroupsList; features: AugoraMap.Feature[] }) {
   const router = useRouter()
 
   const { isolateGroup } = useDeputiesFilters()
@@ -56,39 +51,20 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
     },
   })
 
-  // const [feature, setFeature] = useState<AugoraMap.Feature>(MetroFeature)
-  // const allFeatures = useMemo(() => [MetroFeature, ...MetroCircFile.features, ...OMCircFile.features], [])
+  const [feature, setFeature] = useState<AugoraMap.Feature>(features[random(0, features.length - 1)])
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     console.log("Changing feature...")
-  //     setFeature(allFeatures[random(0, allFeatures.length - 1)])
-  //   }, 10000)
-  //   return () => clearInterval(interval)
-  // }, [])
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Changing feature...")
+      setFeature(features[random(0, features.length - 1)])
+    }, 10000)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <>
       <SEO pageType={PageType.Accueil} />
       <div className="page page__home page__landing">
-        {/* <div className="grid">
-          <button className="home__deputes home__block">
-            <h2>Liste</h2>
-            <div className="deputes__dummy-grid">
-              <div className="deputes__dummy-grid-wrapper">
-                {Array.apply(0, Array(dummyBlockNumber)).map((_, i) => {
-                  return <DummyBlock key={`home-dummy-block-${i}`} />
-                })}
-              </div>
-            </div>
-          </button>
-          <button className="home__map home__block">
-            <h2>Carte</h2>
-          </button>
-          <button className="home__stats home__block">
-            <h2>Statistiques</h2>
-          </button>
-        </div> */}
         <div className="home__intro panel panel--right">
           <div className="background">
             <img className="background__img" src="images/photos/hemicycle.jpg" />
@@ -125,7 +101,7 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
             </div>
           </div>
           <div className="panel__map">
-            {/* <MapAugora
+            <MapAugora
               overlay={false}
               viewstate={viewstate}
               setViewstate={setViewstate}
@@ -135,12 +111,12 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
                 paint: getLayerPaint(),
               }}
             >
-              <Link href={buildURLFromFeature(feature)}>
+              <Link href={`carte/${getFeatureURL(feature)}`}>
                 <div className="map__redirect">
                   <span>{`${getZoneName(feature)}${feature.properties.nom_dpt ? ` de ${feature.properties.nom_dpt}` : ""}`}</span>
                 </div>
               </Link>
-            </MapAugora> */}
+            </MapAugora>
           </div>
         </div>
         <div className="home__stats panel panel--center">
@@ -216,12 +192,15 @@ export default function IndexPage({ groupes }: { groupes: Group.GroupsList }) {
 
 export async function getStaticProps() {
   const [deputes, groupes] = await Promise.all([getDeputes(), getGroupes()])
+  const allFeatures = [...MetroFeature.features, ...MetroCircFile.features, ...OMCircFile.features]
+  const rdmFeatures = Array.from({ length: 10 }, () => allFeatures[random(0, allFeatures.length - 1)])
 
   return {
     props: {
       deputes: shuffle(deputes),
       groupes: groupes,
       PageType: PageType.Accueil,
+      features: rdmFeatures,
       transparentHeader: true,
     },
   }
