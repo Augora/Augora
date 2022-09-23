@@ -36,6 +36,53 @@
 
           margin-top: 40px;
         }
+
+        &__carousel {
+          width: 100vw;
+          height: 70%;
+          display: flex;
+          justify-content: space-between;
+
+          .carousel {
+            &__content {
+              background: white;
+              height: 100%;
+              width: 80%;
+              border-radius: 10px;
+            }
+
+            &__arrow {
+              width: 10%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              button {
+                height: 100%;
+                border: none;
+                background: none;
+                cursor: pointer;
+
+                svg {
+                  width: 30%;
+                  min-width: 30px;
+                  fill: white;
+                }
+              }
+
+              &--left {
+                button > svg {
+                  transform: rotate(90deg);
+                }
+              }
+              &--right {
+                button > svg {
+                  transform: rotate(-90deg);
+                }
+              }
+            }
+          }
+        }
       }
     }
 
@@ -68,6 +115,7 @@
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          align-items: center;
 
           padding: 50px;
           text-align: center;

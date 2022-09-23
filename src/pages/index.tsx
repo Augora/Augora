@@ -17,21 +17,10 @@ import IconGroup from "images/ui-kit/icon-group.svg"
 import IconFrance from "images/ui-kit/icon-france.svg"
 import IconStat from "images/ui-kit/icon-stat.svg"
 import IconInfo from "images/ui-kit/icon-info.svg"
+import IconChevron from "images/ui-kit/icon-chevron.svg"
 import MetroFeature from "static/cont-france.geojson"
 import MetroCircFile from "static/circ-metro.geojson"
 import OMCircFile from "static/circ-om.geojson"
-
-// const dummyBlockNumber = 20
-// const DummyBlock = () => {
-//   return (
-//     <div
-//       className="deputes__dummy-block"
-//       style={{
-//         backgroundColor: `hsl(${random(170, 185)}, 90%, 40%)`,
-//       }}
-//     ></div>
-//   )
-// }
 
 export default function IndexPage({ groupes, features }: { groupes: Group.GroupsList; features: AugoraMap.Feature[] }) {
   const router = useRouter()
@@ -126,6 +115,19 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           </div>
           <div className="panel__content">
             <h2 className="content__title content__title--center">Des Statistiques</h2>
+            <div className="content__carousel">
+              <div className="carousel__arrow carousel__arrow--left">
+                <button title="Graphe précédent">
+                  <IconChevron />
+                </button>
+              </div>
+              <div className="carousel__content"></div>
+              <div className="carousel__arrow carousel__arrow--right">
+                <button title="Graphe suivant">
+                  <IconChevron />
+                </button>
+              </div>
+            </div>
             <div className="content__buttons">
               <HomeButton
                 text="Les Statistiques"
