@@ -9,8 +9,10 @@ import MapAugora from "components/maps/MapAugora"
 import { getLayerPaint, createFeatureCollection, getFeatureURL, getZoneName, createFeature } from "components/maps/maps-utils"
 import { getDeputes, getGroupes } from "src/lib/deputes/Wrapper"
 import GroupButton from "components/deputies-list/filters/GroupButton"
+import BarChart from "components/charts/BarChart"
 import shuffle from "lodash/shuffle"
 import random from "lodash/random"
+import { ParentSize } from "@visx/responsive"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import IconPin from "images/ui-kit/icon-pin.svg"
 import IconGroup from "images/ui-kit/icon-group.svg"
@@ -25,7 +27,7 @@ import OMCircFile from "static/circ-om.geojson"
 export default function IndexPage({ groupes, features }: { groupes: Group.GroupsList; features: AugoraMap.Feature[] }) {
   const router = useRouter()
 
-  const { isolateGroup } = useDeputiesFilters()
+  const { state, isolateGroup } = useDeputiesFilters()
   const [viewstate, setViewstate] = useState<ViewState>({
     zoom: 2,
     longitude: 2.23,
@@ -121,7 +123,17 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                   <IconChevron />
                 </button>
               </div>
-              <div className="carousel__content"></div>
+              <div className="carousel__content">
+                <ParentSize debounceTime={400}>
+                  {(parent) => (
+                    <BarChart
+                      width={parent.width}
+                      height={parent.height}
+                      deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
+                    />
+                  )}
+                </ParentSize>
+              </div>
               <div className="carousel__arrow carousel__arrow--right">
                 <button title="Graphe suivant">
                   <IconChevron />
