@@ -44,6 +44,9 @@
           height: 70%;
           display: flex;
           justify-content: space-between;
+          svg {
+            overflow: visible;
+          }
 
           .carousel {
             &__content {
@@ -52,6 +55,19 @@
               width: 80%;
               border-radius: 10px;
               padding: 50px;
+              .chart {
+                &__number {
+                  font-size: 16px;
+                  fill: white;
+                  font-weight: bold;
+                }
+                &__axislabel {
+                  g > svg > text {
+                    font-size: 14px;
+                    font-weight: 400;
+                  }
+                }
+              }
             }
 
             &__arrow {
