@@ -130,6 +130,10 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                       width={parent.width}
                       height={parent.height}
                       deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
+                      onClick={(sigle) => {
+                        isolateGroup(sigle)
+                        router.push("/deputes")
+                      }}
                     />
                   )}
                 </ParentSize>

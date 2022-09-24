@@ -90,7 +90,7 @@ const Statistiques = () => {
                 deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
                 onClick={(sigle) => {
                   isolateGroup(sigle)
-                  router.push("/")
+                  router.push("/deputes")
                 }}
               />
             )}

@@ -68,6 +68,11 @@
                   }
                 }
               }
+              .barchart {
+                .visx-bar {
+                  cursor: pointer;
+                }
+              }
             }
 
             &__arrow {
