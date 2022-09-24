@@ -33,8 +33,10 @@
         &__buttons {
           display: flex;
           justify-content: space-evenly;
-
           margin-top: 40px;
+          &--right {
+            justify-content: end;
+          }
         }
 
         &__carousel {

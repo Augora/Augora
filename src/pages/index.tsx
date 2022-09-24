@@ -172,7 +172,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               Classés par leur groupe parlementaire, à ne pas confondre avec leur parti politique. Pour plus d’informations,
               consultez la FAQ.
             </p>
-            <div className="content__buttons">
+            <div className="content__buttons content__buttons--right">
               <HomeButton text="L'assemblée" icon={<IconGroup />} onClick="/deputes" title="Voir tous les députés" />
             </div>
           </div>
