@@ -129,7 +129,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                     <BarChart
                       width={parent.width}
                       height={parent.height}
-                      deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
+                      deputesData={{ groupList: state.GroupesList, deputes: state.DeputiesList }}
                       onClick={(sigle) => {
                         isolateGroup(sigle)
                         router.push("/deputes")
