@@ -62,6 +62,11 @@
                   font-weight: bold;
                 }
                 &__axislabel {
+                  &.bar {
+                    g > svg > text {
+                      transform: translate(0px, 10px);
+                    }
+                  }
                   g > svg > text {
                     font-size: 14px;
                     font-weight: 400;
