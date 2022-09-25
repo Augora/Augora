@@ -50,15 +50,8 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
   const [IndexGraphes, setIndexGraphes] = useState(0)
   const maxGraphes = 4
 
-  const animationMissionChange = (index) => {
-    setTimeout(() => {
-      setIndexGraphes(index)
-    }, 350)
-  }
-
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("Changing feature...")
       setFeature(features[random(0, features.length - 1)])
     }, 10000)
     return () => clearInterval(interval)
@@ -142,7 +135,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                 <button
                   title="Graphe précédent"
                   onClick={() => {
-                    IndexGraphes != 0 ? animationMissionChange(IndexGraphes - 1) : animationMissionChange(maxGraphes - 1)
+                    IndexGraphes !== 0 ? setIndexGraphes(IndexGraphes - 1) : setIndexGraphes(maxGraphes - 1)
                   }}
                 >
                   <IconChevron />
@@ -221,8 +214,8 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                             groupList: state.GroupesList,
                             deputes: state.DeputiesList,
                             ageDomain: state.AgeDomain,
-                            legendClass: "pyramide",
                           }}
+                          legendClass="pyramide"
                         />
                       )}
                     </ParentSize>
@@ -233,7 +226,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                 <button
                   title="Graphe suivant"
                   onClick={() => {
-                    IndexGraphes == maxGraphes - 1 ? animationMissionChange(0) : animationMissionChange(IndexGraphes + 1)
+                    IndexGraphes === maxGraphes - 1 ? setIndexGraphes(0) : setIndexGraphes(IndexGraphes + 1)
                   }}
                 >
                   <IconChevron />

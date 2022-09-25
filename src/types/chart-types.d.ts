@@ -12,7 +12,6 @@ declare namespace Chart {
 
   interface BaseDataAge extends BaseData {
     ageDomain: Filter.AgeDomain
-    legendClass?: string
   }
 
   /** Data des tooltip pour le component tooltip visx */

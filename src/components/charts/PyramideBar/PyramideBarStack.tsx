@@ -4,15 +4,23 @@ import XYBarStack from "src/components/charts/XYBarStack"
 import ChartLegend from "src/components/charts/ChartLegend"
 import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
 
+interface BarStackData extends Chart.BaseDataAge {
+  groupeValue?: Filter.GroupValue
+}
+
 interface BarStackProps extends Chart.BaseProps {
-  deputesData: Chart.BaseDataAge
+  deputesData: BarStackData
+  legendClass?: string
+  onLegendClick?: (sigle?: string) => void
 }
 
 export default function PyramideBarStack(props: BarStackProps) {
   const {
     width,
     height,
-    deputesData: { groupList, deputes, ageDomain, legendClass },
+    deputesData: { groupList, deputes, ageDomain, groupeValue },
+    legendClass,
+    onLegendClick,
   } = props
   // bounds
   const marginTop = 20
@@ -70,7 +78,7 @@ export default function PyramideBarStack(props: BarStackProps) {
           />
         </Group>
       </svg>
-      <ChartLegend groupList={groupList} legendClass={legendClass} />
+      <ChartLegend groupList={groupList} className={legendClass} groupeValue={groupeValue} onClick={onLegendClick} />
     </div>
   )
 }

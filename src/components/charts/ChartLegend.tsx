@@ -6,17 +6,15 @@ import { GlyphSquare } from "@visx/glyph"
 
 interface IChartLegend {
   groupList: Group.GroupsList
-  legendClass?: string
+  groupeValue?: Filter.GroupValue
+  onClick?: (sigle?: string) => void
+  className?: string
   glyphSize?: number
   glyphPosition?: number
 }
 
 export default function ChartLegend(props: IChartLegend) {
-  const { groupList, legendClass, glyphSize = 120, glyphPosition = 8 } = props
-  const {
-    state: { GroupeValue },
-    filterGroup,
-  } = useDeputiesFilters()
+  const { groupList, groupeValue, className, glyphSize = 120, glyphPosition = 8, onClick } = props
 
   const shapes = scaleOrdinal<string, React.FC | React.ReactNode>({
     domain: groupList.map((g) => g.Sigle),
@@ -24,15 +22,17 @@ export default function ChartLegend(props: IChartLegend) {
       <GlyphSquare key={g.Sigle} size={glyphSize} top={glyphPosition} left={glyphPosition} fill={g.Couleur} />
     )),
   })
+
   const isCrossed = (sigle: string): boolean => {
-    if (!Object.values(GroupeValue).every((value) => !value)) return !GroupeValue[sigle]
+    if (!groupeValue) return false
+    if (!Object.values(groupeValue).every((value) => !value)) return !groupeValue[sigle]
     else return false
   }
 
   return (
     <Legend scale={shapes}>
       {(labels) => (
-        <div className={`chart__legend${legendClass ? " " + legendClass : ""}`}>
+        <div className={`chart__legend${className ? " " + className : ""}`}>
           {labels.map((label, i) => {
             const shape = shapes(label.datum)
             const isValidElement = React.isValidElement(shape)
@@ -41,9 +41,7 @@ export default function ChartLegend(props: IChartLegend) {
                 className="chart__legend-item item"
                 key={`legend-quantile-${i}`}
                 style={undefined}
-                onClick={() => {
-                  filterGroup(label.datum as string)
-                }}
+                onClick={() => onClick && onClick(label.datum as string)}
               >
                 <svg className={`square__${label.datum}`}>
                   {isValidElement
