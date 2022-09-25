@@ -1,13 +1,13 @@
 import React from "react"
 import { Bar, Line } from "@visx/shape"
 import { Group } from "@visx/group"
-import { AxisLeft, AxisBottom } from "@visx/axis"
-import { GridRows } from "@visx/grid"
 import { scaleBand, scaleLinear } from "@visx/scale"
 import { Text } from "@visx/text"
 import { useTooltip } from "@visx/tooltip"
 import ChartTooltip from "components/charts/ChartTooltip"
 import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
+import { AnimatedAxis, AnimatedGridRows } from "@visx/react-spring"
+import { animated, useSpring } from "react-spring"
 
 interface IBarChart extends Chart.BaseProps {
   deputesData: Chart.BaseData
@@ -51,6 +51,12 @@ export default function BarChart({ width, height, deputesData: { groupList, depu
     domain: [0, Math.max(...groupesData.map((d) => d.value))],
   })
 
+  const { scale } = useSpring({
+    from: { scale: 0 },
+    to: { scale: 1 },
+  })
+  const AnimatedBar = animated(Bar)
+
   const handleMouseLeave = () => {
     hideTooltip()
   }
@@ -71,20 +77,23 @@ export default function BarChart({ width, height, deputesData: { groupList, depu
     <div className="barchart chart">
       <svg width={width} height={height}>
         <Group top={marginTop / 2} left={marginLeft / 2}>
-          <AxisLeft
+          <AnimatedAxis
             axisClassName="chart__axislabel"
+            orientation="left"
             scale={yScale.range([yMax, 0])}
             numTicks={6}
             hideAxisLine={true}
             hideTicks={true}
+            left={-10}
+            top={4}
           />
-          <GridRows
+          <AnimatedGridRows
             className="chart__rows"
             scale={yScale.range([yMax, 0])}
             width={xMax}
-            height={yMax}
             numTicks={6}
             strokeWidth={2}
+            stroke={"#EAF0F6"}
           />
         </Group>
         <Group top={marginTop / 2} left={marginGraph / 2}>
@@ -95,13 +104,13 @@ export default function BarChart({ width, height, deputesData: { groupList, depu
             const barY = yMax - barHeight
             return (
               <Group key={`bar-${d.id}-${index}`}>
-                <Bar
+                <AnimatedBar
                   x={barX}
-                  y={barY}
+                  y={scale.to((s) => yMax - s * barHeight)}
                   rx="3" //border radius
                   ry="3"
                   width={barWidth}
-                  height={barHeight}
+                  height={scale.to((s) => s * barHeight)}
                   fill={d.color}
                   onMouseLeave={handleMouseLeave}
                   onMouseMove={(event) => handleMouseMove(event, d)}
@@ -125,9 +134,10 @@ export default function BarChart({ width, height, deputesData: { groupList, depu
         </Group>
         <Group top={marginTop / 2} left={marginGraph / 2}>
           {width < 450 ? (
-            <AxisBottom
+            <AnimatedAxis
               axisClassName="chart__axislabel axislabel__bottom"
               tickClassName="chart__axistick"
+              orientation="bottom"
               scale={xScale.range([xMax, 0])}
               top={yMax}
               hideAxisLine={true}
@@ -162,11 +172,12 @@ export default function BarChart({ width, height, deputesData: { groupList, depu
                   </g>
                 )
               }}
-            </AxisBottom>
+            </AnimatedAxis>
           ) : (
-            <AxisBottom
-              axisClassName="chart__axislabel axislabel__bottom"
+            <AnimatedAxis
+              axisClassName="chart__axislabel axislabel__bottom bar"
               tickClassName="chart__axistick"
+              orientation="bottom"
               scale={xScale.range([xMax, 0])}
               top={yMax}
               hideAxisLine={true}
