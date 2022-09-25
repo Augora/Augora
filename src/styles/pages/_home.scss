@@ -55,6 +55,22 @@
               width: 80%;
               border-radius: 10px;
               padding: 50px;
+
+              .sexe {
+                position: relative;
+                top:-30px;
+                margin-bottom:-30px;
+                width: 100%;
+                display: flex;
+                justify-content: space-evenly;
+                font-weight: bold;
+                font-family: "Open Sans";
+                color: $darkergrey;
+          
+                @media (max-width: 1020px) {
+                  top:-20px;
+                }
+              }
               .chart {
                 &__number {
                   font-size: 16px;
@@ -62,6 +78,11 @@
                   font-weight: bold;
                 }
                 &__axislabel {
+                  &.vertical {
+                    g > svg > text {
+                      transform: translate(-5px, 6px) rotate(-45deg);
+                    }
+                  }
                   &.bar {
                     g > svg > text {
                       transform: translate(0px, 10px);
@@ -72,27 +93,142 @@
                     font-weight: 400;
                   }
                 }
+                &__legend {
+                  position: relative;
+                  width: 100%;
+                  margin-bottom:2px;
+                  display: flex;
+                  justify-content: center;
+                  bottom:-15px;
+                  &.pyramide {
+                    bottom:-3px;
+                  }
+        
+                  @media (max-width: 1550px) {
+                    font-size: 18px;
+                  }
+                  @media (max-width: 1400px) {
+                    font-size: 16px;
+                  }
+                  @media (max-width: 1020px) {
+                    font-size: 14px;
+                  }
+                  @media (max-width: 950px) {
+                    font-size: 12px;
+                    margin-left: 2%;
+                    display: grid;
+                    grid-template-columns: repeat(6, 20%);
+                    grid-template-rows: repeat(2, 24px);
+                    &.pyramide {
+                      bottom: 15px;
+                      left: 3%;
+                    }
+                  }
+                  @media (max-width: 585px) {
+                      font-size: 16px;
+                      margin-left: 5%;
+                      grid-template-columns: repeat(4, 25%);
+                      grid-template-rows: repeat(3, 20px);
+                      bottom:4px;
+                    &.pyramide {
+                      bottom: 23px;
+                      left: 0%;
+                    }
+                  }
+                  @media (max-width: 500px) {
+                    margin-left: 14%;
+                    grid-template-columns: repeat(3, 50%);
+                    grid-template-rows: repeat(4, 25px);
+                    bottom: 40px;
+                    &.pyramide {
+                      grid-template-columns: repeat(3, 50%);
+                      grid-template-rows: repeat(4, 20px);
+                      bottom:32px;
+                    }
+                  }
+                  @media (max-width: 345px) {
+                    bottom: 70px;
+                    &.pyramide {
+                      left:-5%;
+                    }
+                  }
+                }
+
+                &__sexe {
+                    position: absolute;
+                    width: 100%;
+                    bottom: 17%;
+                    left: 0;
+                    margin-bottom:2px;
+                    display: flex;
+                    justify-content: center;
+                    
+        
+                    @media (max-width: 1550px) {
+                      font-size: 16px;
+                    }
+                    @media (max-width: 1400px) {
+                      font-size: 18px;
+                    }
+                    @media (max-width: 1020px) {
+                      font-size: 14px;
+                    }
+                    @media (max-width: 565px) {
+                      font-size: 12px;
+                  }
+                }
+              
+                &__legend-item, &__sexe-item {
+                  display: flex;
+                  align-items: center;
+                  margin-left: 10px;
+                  margin-right: 10px;
+                  flex-direction: row;
+                  cursor: pointer;
+                  
+                  .item__label {
+                    margin: 0 0 12px;
+                    font-size: 12px;
+                    font-family: Arial;
+                    color: $darkergrey;
+                  }
+                  .line {
+                    text-decoration: line-through;
+                  }
+                  &:hover {
+                    transform: scale(1.05);
+                  }
+                  svg {
+                    width: 25px;
+                    height: 25px;
+                    margin-bottom: 3px;
+                  }
+                  .square {
+                    &__hommes {
+                      fill: $teal;
+                    }
+                    &__femmes {
+                      fill: $turquoise;
+                    }
+                  }
+                  .visx-legend-label {
+                    margin-bottom: 12px;
+                  }
+                  @media (max-width: 875px) {
+                    margin-left: 0px;
+                    margin-right: 0px;
+                  }
+                }
+                &__sexe-item {
+                  .square__femmes {
+                    margin-left: 20px;
+                  }
+                }
               }
               .barchart {
                 .visx-bar {
                   cursor: pointer;
                 }
-              }
-              .piechart {
-                // svg {
-                //   width: 100%;
-                //   height: auto;
-                // }
-                // &__label {
-                //   svg text {
-                //     font-weight: normal !important;
-                //     font-size: 14px !important;
-                //     fill: $text-color !important;
-                //   }
-                // }
-                // .arc {
-                //   cursor: pointer;
-                // }
               }
             }
 

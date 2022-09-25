@@ -23,11 +23,15 @@ import IconChevron from "images/ui-kit/icon-chevron.svg"
 import MetroFeature from "static/cont-france.geojson"
 import MetroCircFile from "static/circ-metro.geojson"
 import OMCircFile from "static/circ-om.geojson"
+import XYBarStack from "src/components/charts/XYBarStack"
+import ChartLegend from "src/components/charts/ChartLegend"
+import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
+import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
 
 export default function IndexPage({ groupes, features }: { groupes: Group.GroupsList; features: AugoraMap.Feature[] }) {
   const router = useRouter()
 
-  const { state, isolateGroup } = useDeputiesFilters()
+  const { state, isolateGroup, handleAgeSlider, isolateSex } = useDeputiesFilters()
   const [viewstate, setViewstate] = useState<ViewState>({
     zoom: 2,
     longitude: 2.23,
@@ -137,6 +141,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                 </button>
               </div>
               <div className="carousel__content">
+                {IndexGraphes == 0 && (
                 <ParentSize debounceTime={400}>
                   {(parent) => (
                     <BarChart
@@ -150,6 +155,71 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                     />
                   )}
                 </ParentSize>
+                )}
+                {IndexGraphes == 1 && (
+                  <ParentSize debounceTime={400}>
+                    {(parent) => (
+                      <>
+                        <div className="barstackchart chart">
+                          <XYBarStack
+                            width={parent.width}
+                            height={parent.height}
+                            deputesData={{
+                              groupList: state.GroupesList,
+                              deputes: state.DeputiesList,
+                              ageDomain: state.AgeDomain,
+                            }}
+                          />
+                        </div>
+                        <ChartLegend groupList={state.GroupesList} />
+                      </>
+                    )}
+                  </ParentSize>
+                )}
+                {IndexGraphes == 2 && (
+                  <>
+                    <div className="sexe">
+                      <div>Hommes</div>
+                      <div>Femmes</div>
+                    </div>
+                    <ParentSize debounceTime={400}>
+                      {(parent) => (
+                        <PyramideBar
+                          width={parent.width}
+                          height={parent.height}
+                          deputesData={{ groupList: state.GroupesList, deputes: state.DeputiesList, ageDomain: state.AgeDomain }}
+                          onClick={(age: Filter.AgeDomain, sex: Filter.Gender) => {
+                            handleAgeSlider(age)
+                            isolateSex(sex)
+                            router.push("/deputes")
+                          }}
+                        />
+                      )}
+                    </ParentSize>
+                  </>
+                )}
+                {IndexGraphes == 3 && (
+                  <>
+                    <div className="sexe">
+                      <div>Hommes</div>
+                      <div>Femmes</div>
+                    </div>
+                    <ParentSize debounceTime={400}>
+                      {(parent) => (
+                        <PyramideBarStack
+                          width={parent.width}
+                          height={parent.height}
+                          deputesData={{
+                            groupList: state.GroupesList,
+                            deputes: state.DeputiesList,
+                            ageDomain: state.AgeDomain,
+                            legendClass: "pyramide",
+                          }}
+                        />
+                      )}
+                    </ParentSize>
+                  </>
+                )}
               </div>
               <div className="carousel__arrow carousel__arrow--right">
                 <button
