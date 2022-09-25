@@ -122,26 +122,25 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           </div>
           <div className="panel__content">
             <h2 className="content__title content__title--center">Des Statistiques</h2>
-            {IndexGraphes == 0 && (
-              <h3 className="content__subtitle content__subtitle--center">Députés par groupes parlementaires</h3>
-            )}
-            {IndexGraphes == 1 && <h3 className="content__subtitle content__subtitle--center">Cumul des âges des députés</h3>}
-            {IndexGraphes == 2 && <h3 className="content__subtitle content__subtitle--center">Pyramide des âges par sexe</h3>}
-            {IndexGraphes == 3 && (
-              <h3 className="content__subtitle content__subtitle--center">Pyramide des âges par groupe parlementaire</h3>
-            )}
             <div className="content__carousel">
               <div className="carousel__arrow carousel__arrow--left">
                 <button
                   title="Graphe précédent"
-                  onClick={() => {
-                    IndexGraphes !== 0 ? setIndexGraphes(IndexGraphes - 1) : setIndexGraphes(maxGraphes - 1)
-                  }}
+                  onClick={() => (IndexGraphes !== 0 ? setIndexGraphes(IndexGraphes - 1) : setIndexGraphes(maxGraphes - 1))}
                 >
                   <IconChevron />
                 </button>
               </div>
               <div className="carousel__content">
+                <span className="carousel__subtitle carousel__subtitle--center">
+                  {IndexGraphes === 0
+                    ? "Députés par groupes parlementaires"
+                    : IndexGraphes == 1
+                    ? "Cumul des âges des députés"
+                    : IndexGraphes == 2
+                    ? "Pyramide des âges par sexe"
+                    : "Pyramide des âges par groupe parlementaire"}
+                </span>
                 {IndexGraphes == 0 && (
                   <ParentSize debounceTime={400}>
                     {(parent) => (
@@ -231,9 +230,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               <div className="carousel__arrow carousel__arrow--right">
                 <button
                   title="Graphe suivant"
-                  onClick={() => {
-                    IndexGraphes === maxGraphes - 1 ? setIndexGraphes(0) : setIndexGraphes(IndexGraphes + 1)
-                  }}
+                  onClick={() => (IndexGraphes === maxGraphes - 1 ? setIndexGraphes(0) : setIndexGraphes(IndexGraphes + 1))}
                 >
                   <IconChevron />
                 </button>
