@@ -129,6 +129,14 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           </div>
           <div className="panel__content">
             <h2 className="content__title content__title--center">Des Statistiques</h2>
+            {IndexGraphes == 0 && (
+              <h3 className="content__subtitle content__subtitle--center">Députés par groupes parlementaires</h3>
+            )}
+            {IndexGraphes == 1 && <h3 className="content__subtitle content__subtitle--center">Cumul des âges des députés</h3>}
+            {IndexGraphes == 2 && <h3 className="content__subtitle content__subtitle--center">Pyramide des âges par sexe</h3>}
+            {IndexGraphes == 3 && (
+              <h3 className="content__subtitle content__subtitle--center">Pyramide des âges par groupe parlementaire</h3>
+            )}
             <div className="content__carousel">
               <div className="carousel__arrow carousel__arrow--left">
                 <button
@@ -142,19 +150,19 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               </div>
               <div className="carousel__content">
                 {IndexGraphes == 0 && (
-                <ParentSize debounceTime={400}>
-                  {(parent) => (
-                    <BarChart
-                      width={parent.width}
-                      height={parent.height}
-                      deputesData={{ groupList: state.GroupesList, deputes: state.DeputiesList }}
-                      onClick={(sigle) => {
-                        isolateGroup(sigle)
-                        router.push("/deputes")
-                      }}
-                    />
-                  )}
-                </ParentSize>
+                  <ParentSize debounceTime={400}>
+                    {(parent) => (
+                      <BarChart
+                        width={parent.width}
+                        height={parent.height}
+                        deputesData={{ groupList: state.GroupesList, deputes: state.DeputiesList }}
+                        onClick={(sigle) => {
+                          isolateGroup(sigle)
+                          router.push("/deputes")
+                        }}
+                      />
+                    )}
+                  </ParentSize>
                 )}
                 {IndexGraphes == 1 && (
                   <ParentSize debounceTime={400}>

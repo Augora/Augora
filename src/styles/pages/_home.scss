@@ -30,6 +30,19 @@
             -webkit-text-fill-color: unset;
           }
         }
+        &__subtitle {
+          font-size: 24px;
+          background: linear-gradient(to right, $main-color, $secondary-color);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          white-space: nowrap;
+
+          &--center {
+            color: white;
+            background: none;
+            -webkit-text-fill-color: unset;
+          }
+        }
         &__buttons {
           display: flex;
           justify-content: space-evenly;
