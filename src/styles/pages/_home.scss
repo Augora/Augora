@@ -70,17 +70,17 @@
 
               .sexe {
                 position: relative;
-                top:-30px;
-                margin-bottom:-30px;
+                top: -30px;
+                margin-bottom: -30px;
                 width: 100%;
                 display: flex;
                 justify-content: space-evenly;
                 font-weight: bold;
                 font-family: "Open Sans";
                 color: $darkergrey;
-          
+
                 @media (max-width: 1020px) {
-                  top:-20px;
+                  top: -20px;
                 }
               }
               .chart {
@@ -108,14 +108,14 @@
                 &__legend {
                   position: relative;
                   width: 100%;
-                  margin-bottom:2px;
+                  margin-bottom: 2px;
                   display: flex;
                   justify-content: center;
-                  bottom:-15px;
+                  bottom: -15px;
                   &.pyramide {
-                    bottom:-3px;
+                    bottom: -3px;
                   }
-        
+
                   @media (max-width: 1550px) {
                     font-size: 18px;
                   }
@@ -137,11 +137,11 @@
                     }
                   }
                   @media (max-width: 585px) {
-                      font-size: 16px;
-                      margin-left: 5%;
-                      grid-template-columns: repeat(4, 25%);
-                      grid-template-rows: repeat(3, 20px);
-                      bottom:4px;
+                    font-size: 16px;
+                    margin-left: 5%;
+                    grid-template-columns: repeat(4, 25%);
+                    grid-template-rows: repeat(3, 20px);
+                    bottom: 4px;
                     &.pyramide {
                       bottom: 23px;
                       left: 0%;
@@ -155,49 +155,49 @@
                     &.pyramide {
                       grid-template-columns: repeat(3, 50%);
                       grid-template-rows: repeat(4, 20px);
-                      bottom:32px;
+                      bottom: 32px;
                     }
                   }
                   @media (max-width: 345px) {
                     bottom: 70px;
                     &.pyramide {
-                      left:-5%;
+                      left: -5%;
                     }
                   }
                 }
 
                 &__sexe {
-                    position: absolute;
-                    width: 100%;
-                    bottom: 17%;
-                    left: 0;
-                    margin-bottom:2px;
-                    display: flex;
-                    justify-content: center;
-                    
-        
-                    @media (max-width: 1550px) {
-                      font-size: 16px;
-                    }
-                    @media (max-width: 1400px) {
-                      font-size: 18px;
-                    }
-                    @media (max-width: 1020px) {
-                      font-size: 14px;
-                    }
-                    @media (max-width: 565px) {
-                      font-size: 12px;
+                  position: absolute;
+                  width: 100%;
+                  bottom: 17%;
+                  left: 0;
+                  margin-bottom: 2px;
+                  display: flex;
+                  justify-content: center;
+
+                  @media (max-width: 1550px) {
+                    font-size: 16px;
+                  }
+                  @media (max-width: 1400px) {
+                    font-size: 18px;
+                  }
+                  @media (max-width: 1020px) {
+                    font-size: 14px;
+                  }
+                  @media (max-width: 565px) {
+                    font-size: 12px;
                   }
                 }
-              
-                &__legend-item, &__sexe-item {
+
+                &__legend-item,
+                &__sexe-item {
                   display: flex;
                   align-items: center;
                   margin-left: 10px;
                   margin-right: 10px;
                   flex-direction: row;
                   cursor: pointer;
-                  
+
                   .item__label {
                     margin: 0 0 12px;
                     font-size: 12px;
@@ -260,17 +260,29 @@
                   width: 30%;
                   min-width: 30px;
                   fill: white;
+
+                  transition: transform 0.2s $ease-in-out-cubic;
                 }
               }
 
               &--left {
-                button > svg {
-                  transform: rotate(90deg);
+                button {
+                  &:hover > svg {
+                    transform: scale(1.5) rotate(90deg);
+                  }
+                  svg {
+                    transform: rotate(90deg);
+                  }
                 }
               }
               &--right {
-                button > svg {
-                  transform: rotate(-90deg);
+                button {
+                  svg {
+                    transform: rotate(-90deg);
+                  }
+                  &:hover > svg {
+                    transform: scale(1.5) rotate(-90deg);
+                  }
                 }
               }
             }
