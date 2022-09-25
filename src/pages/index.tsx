@@ -43,6 +43,14 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
   })
 
   const [feature, setFeature] = useState<AugoraMap.Feature>(features[random(0, features.length - 1)])
+  const [IndexGraphes, setIndexGraphes] = useState(0)
+  const maxGraphes = 4
+
+  const animationMissionChange = (index) => {
+    setTimeout(() => {
+      setIndexGraphes(index)
+    }, 350)
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -119,7 +127,12 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
             <h2 className="content__title content__title--center">Des Statistiques</h2>
             <div className="content__carousel">
               <div className="carousel__arrow carousel__arrow--left">
-                <button title="Graphe précédent">
+                <button
+                  title="Graphe précédent"
+                  onClick={() => {
+                    IndexGraphes != 0 ? animationMissionChange(IndexGraphes - 1) : animationMissionChange(maxGraphes - 1)
+                  }}
+                >
                   <IconChevron />
                 </button>
               </div>
@@ -139,7 +152,12 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                 </ParentSize>
               </div>
               <div className="carousel__arrow carousel__arrow--right">
-                <button title="Graphe suivant">
+                <button
+                  title="Graphe suivant"
+                  onClick={() => {
+                    IndexGraphes == maxGraphes - 1 ? animationMissionChange(0) : animationMissionChange(IndexGraphes + 1)
+                  }}
+                >
                   <IconChevron />
                 </button>
               </div>
