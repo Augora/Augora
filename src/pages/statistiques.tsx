@@ -47,7 +47,7 @@ const Statistiques = () => {
                 deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
                 onClick={(sigle) => {
                   isolateGroup(sigle)
-                  router.push("/")
+                  router.push("/deputes")
                 }}
               />
             )}
@@ -123,7 +123,7 @@ const Statistiques = () => {
                     onClick={(age: Filter.AgeDomain, sex: Filter.Gender) => {
                       handleAgeSlider(age)
                       isolateSex(sex)
-                      router.push("/")
+                      router.push("/deputes")
                     }}
                   />
                 ) : (
