@@ -168,7 +168,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                             deputesData={{
                               groupList: state.GroupesList,
                               deputes: state.DeputiesList,
-                              ageDomain: state.AgeDomain,
+                              ageDomain: state.InitialAgeDomain,
                             }}
                           />
                         </div>
@@ -188,7 +188,11 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                         <PyramideBar
                           width={parent.width}
                           height={parent.height}
-                          deputesData={{ groupList: state.GroupesList, deputes: state.DeputiesList, ageDomain: state.AgeDomain }}
+                          deputesData={{
+                            groupList: state.GroupesList,
+                            deputes: state.DeputiesList,
+                            ageDomain: state.InitialAgeDomain,
+                          }}
                           onClick={(age: Filter.AgeDomain, sex: Filter.Gender) => {
                             handleAgeSlider(age)
                             isolateSex(sex)
@@ -213,7 +217,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                           deputesData={{
                             groupList: state.GroupesList,
                             deputes: state.DeputiesList,
-                            ageDomain: state.AgeDomain,
+                            ageDomain: state.InitialAgeDomain,
                           }}
                           legendClass="pyramide"
                         />
