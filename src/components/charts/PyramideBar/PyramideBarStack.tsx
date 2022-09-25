@@ -12,7 +12,7 @@ export default function PyramideBarStack(props: BarStackProps) {
   const {
     width,
     height,
-    deputesData: { groupList, deputes, ageDomain },
+    deputesData: { groupList, deputes, ageDomain, legendClass },
   } = props
   // bounds
   const marginTop = 20
@@ -70,7 +70,7 @@ export default function PyramideBarStack(props: BarStackProps) {
           />
         </Group>
       </svg>
-      <ChartLegend groupList={groupList} />
+      <ChartLegend groupList={groupList} legendClass={legendClass} />
     </div>
   )
 }

@@ -6,12 +6,13 @@ import { GlyphSquare } from "@visx/glyph"
 
 interface IChartLegend {
   groupList: Group.GroupsList
+  legendClass?: string
   glyphSize?: number
   glyphPosition?: number
 }
 
 export default function ChartLegend(props: IChartLegend) {
-  const { groupList, glyphSize = 120, glyphPosition = 8 } = props
+  const { groupList, legendClass, glyphSize = 120, glyphPosition = 8 } = props
   const {
     state: { GroupeValue },
     filterGroup,
@@ -31,7 +32,7 @@ export default function ChartLegend(props: IChartLegend) {
   return (
     <Legend scale={shapes}>
       {(labels) => (
-        <div className="chart__legend">
+        <div className={`chart__legend${legendClass ? " " + legendClass : ""}`}>
           {labels.map((label, i) => {
             const shape = shapes(label.datum)
             const isValidElement = React.isValidElement(shape)
