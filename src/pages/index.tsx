@@ -170,6 +170,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                               deputes: state.DeputiesList,
                               ageDomain: state.InitialAgeDomain,
                             }}
+                            animation={true}
                           />
                         </div>
                         <ChartLegend groupList={state.GroupesList} />
@@ -220,6 +221,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                             ageDomain: state.InitialAgeDomain,
                           }}
                           legendClass="pyramide"
+                          animation={true}
                         />
                       )}
                     </ParentSize>

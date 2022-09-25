@@ -11,6 +11,7 @@ interface BarStackData extends Chart.BaseDataAge {
 interface BarStackProps extends Chart.BaseProps {
   deputesData: BarStackData
   legendClass?: string
+  animation?: boolean
   onLegendClick?: (sigle?: string) => void
 }
 
@@ -21,6 +22,7 @@ export default function PyramideBarStack(props: BarStackProps) {
     deputesData: { groupList, deputes, ageDomain, groupeValue },
     legendClass,
     onLegendClick,
+    animation = false,
   } = props
   // bounds
   const marginTop = 20
@@ -57,6 +59,7 @@ export default function PyramideBarStack(props: BarStackProps) {
             renderVertically={false}
             margin={{ top: marginTop, left: marginLeft }}
             modulableHeight={{ normal: 15, responsive: width <= 585 ? 50 : width <= 735 ? 35 : 0 }}
+            animation={animation}
           />
         </Group>
       </svg>
@@ -75,6 +78,7 @@ export default function PyramideBarStack(props: BarStackProps) {
             renderVertically={false}
             margin={{ top: marginTop, left: marginLeft }}
             modulableHeight={{ normal: 15, responsive: width <= 585 ? 50 : width <= 735 ? 35 : 0 }}
+            animation={animation}
           />
         </Group>
       </svg>
