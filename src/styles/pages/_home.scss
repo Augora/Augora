@@ -8,11 +8,16 @@
   .panel {
     position: relative;
     width: 100vw;
-    height: 100vh;
+    min-height: 80vh;
+    padding: 50px 0;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    &:first-child {
+      min-height: 100vh;
+    }
 
     // Global
     &__content {
@@ -20,7 +25,8 @@
 
       .content {
         &__title {
-          font-size: 36px;
+          font-family: $font-title;
+          font-size: 50px;
           background: linear-gradient(to right, $main-color, $secondary-color);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -31,27 +37,22 @@
             -webkit-text-fill-color: unset;
           }
         }
+        &__text {
+          font-size: 20px;
+          line-height: 1.5;
+        }
         &__buttons {
           display: flex;
-          justify-content: space-evenly;
           margin-top: 40px;
-          &--left {
-            justify-content: start;
-            a:not(:last-child) {
-              margin-left: 20px;
-            }
-          }
-          &--right {
-            justify-content: end;
-            a:not(:first-child) {
-              margin-left: 20px;
-            }
+          justify-content: start;
+          a:not(:last-child) {
+            margin-right: 20px;
           }
         }
 
         &__carousel {
           width: 100vw;
-          height: 70%;
+          height: 70vh;
           display: flex;
           justify-content: space-between;
           svg {
@@ -307,7 +308,7 @@
       .panel {
         &__content {
           margin-right: 7vw;
-          text-align: right;
+          // text-align: right;
         }
       }
     }
@@ -335,6 +336,10 @@
 
           padding: 50px;
           text-align: center;
+
+          .content__buttons {
+            justify-content: center;
+          }
         }
       }
     }
@@ -471,7 +476,7 @@
       display: flex;
       align-items: center;
 
-      padding: 10px 15px;
+      padding: 10px 30px;
       border: 3px solid $secondary-color;
       border-radius: 50px;
       background-image: linear-gradient(to right, $secondary-color, $main-color);
@@ -482,8 +487,8 @@
       transition: border-color 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
 
       &__icon {
-        width: 40px;
-        height: 40px;
+        width: 24px;
+        height: 24px;
 
         svg {
           height: 100%;
@@ -492,7 +497,7 @@
       }
 
       &__text {
-        margin: 0 5px 0 7px;
+        margin: 0 5px 0 15px;
 
         color: white;
         font-weight: bold;
