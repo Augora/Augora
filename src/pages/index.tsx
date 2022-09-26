@@ -63,9 +63,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
   }, [])
 
   // Home intro parallax
-  useEffect(() => {
-
-  }, []);
+  useEffect(() => {}, [])
 
   // Render
   return (
@@ -127,9 +125,13 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
         </Panel>
         <Panel className="home__stats" orientation="center">
           <Parallax img="images/photos/bibliotheque.jpg" gradient />
-          <div className="panel__content">
+          <div className="panel__content panel__content--center">
             <h2 className="content__title content__title--center">Des statistiques</h2>
-            <p>Nous essayons de rendre plus accessible l'immense quantité de données publique à travers des représentations graphiques simples et intéractives. De nouveaux graphiques sont ajoutés au fil du temps pour mieux rendre compte de l'activité et des contextes sociaux de l'Assemblée nationale.</p>
+            <p>
+              Nous essayons de rendre plus accessible l'immense quantité de données publique à travers des représentations
+              graphiques simples et intéractives. De nouveaux graphiques sont ajoutés au fil du temps pour mieux rendre compte de
+              l'activité et des contextes sociaux de l'Assemblée nationale.
+            </p>
             <div className="content__carousel">
               <div className="carousel__arrow carousel__arrow--left">
                 <button
@@ -273,10 +275,17 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           <div className="panel__content">
             <h2 className="content__title">Vos Députés</h2>
             <p className="content__text">
-              Les députés sont organisés en groupe parlementaire.<br/><strong>Différents des partis politiques</strong>, ces groupes ont un fonctionnement propre à l'Assemblée nationale.
+              Les députés sont organisés en groupe parlementaire.
+              <br />
+              <strong>Différents des partis politiques</strong>, ces groupes ont un fonctionnement propre à l'Assemblée nationale.
             </p>
             <div className="content__buttons content__buttons--right">
-              <HomeButton text="En savoir plus" icon={<IconInfo />} onClick="/faq#quest-ce-quun-groupe-parlementaire" title="Plus d'informations sur les groupes parlementaires" />
+              <HomeButton
+                text="En savoir plus"
+                icon={<IconInfo />}
+                onClick="/faq#quest-ce-quun-groupe-parlementaire"
+                title="Plus d'informations sur les groupes parlementaires"
+              />
             </div>
           </div>
         </Panel>
@@ -285,16 +294,19 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           <div className="panel__content">
             <div className="panel__wrapper">
               <h2 className="content__title content__title--center">À propos de nous</h2>
-              <div style={{ display: "flex", flexDirection: "column", alignItems:"center" }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <p className="content__text">
-                  Nous sommes une association à but non lucratif visant à proposer un site d’information publique utilisant les données ouvertes, des outils et des concepts graphiques modernes.
+                  Nous sommes une association à but non lucratif visant à proposer un site d’information publique utilisant les
+                  données ouvertes, des outils et des concepts graphiques modernes.
                 </p>
                 <p className="content__text">
-                  Nous ne sommes pas associés à l’assemblée nationale ou aux députés, vous pourrez trouver des liens pour contacter
-                  ceux-ci sur leurs page personelles dédiées.
+                  Nous ne sommes pas associés à l’assemblée nationale ou aux députés, vous pourrez trouver des liens pour
+                  contacter ceux-ci sur leurs page personelles dédiées.
                 </p>
-                <hr style={{border: 'none', backgroundColor: "white", height: "2px", width: "50%"}}/>
-                <p className="content__text">Pour toute question concernant le site ou le fonctionnement de l’assemblée, vous pouvez consultez notre FAQ.</p>
+                <hr style={{ border: "none", backgroundColor: "white", height: "2px", width: "50%" }} />
+                <p className="content__text">
+                  Pour toute question concernant le site ou le fonctionnement de l’assemblée, vous pouvez consultez notre FAQ.
+                </p>
               </div>
               <div className="content__buttons">
                 <HomeButton text="Notre FAQ" icon={<IconInfo />} inverted={true} onClick="/faq" title="Aller consulter la FAQ" />

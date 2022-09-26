@@ -24,6 +24,10 @@
     &__content {
       max-width: 40vw;
 
+      &--center {
+        max-width: 90vw;
+      }
+
       .content {
         &__title {
           font-family: $font-title;
@@ -53,7 +57,7 @@
 
         &__carousel {
           width: 100vw;
-          height: 70vh;
+          height: 60vh;
           display: flex;
           justify-content: space-between;
           svg {
