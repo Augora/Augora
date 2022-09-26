@@ -105,22 +105,40 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
             </div>
           </div>
           <div className="panel__map">
-            <MapAugora
-              overlay={false}
-              viewstate={viewstate}
-              setViewstate={setViewstate}
-              mapView={{
-                geoJSON: createFeatureCollection([feature]),
-                feature: feature,
-                paint: getLayerPaint(),
-              }}
+            <button
+              className="map__arrow map__arrow--left"
+              title="Circonscription précédente"
+              // onClick={() => (IndexGraphes !== 0 ? setIndexGraphes(IndexGraphes - 1) : setIndexGraphes(maxGraphes - 1))}
             >
-              <Link href={`carte/${getFeatureURL(feature)}`}>
-                <div className="map__redirect">
-                  <span>{`${getZoneName(feature)}${feature.properties.nom_dpt ? ` de ${feature.properties.nom_dpt}` : ""}`}</span>
-                </div>
-              </Link>
-            </MapAugora>
+              <IconChevron />
+            </button>
+            <div className="map__container">
+              <MapAugora
+                overlay={false}
+                viewstate={viewstate}
+                setViewstate={setViewstate}
+                mapView={{
+                  geoJSON: createFeatureCollection([feature]),
+                  feature: feature,
+                  paint: getLayerPaint(),
+                }}
+              >
+                <Link href={`carte/${getFeatureURL(feature)}`}>
+                  <div className="map__redirect">
+                    <span>{`${getZoneName(feature)}${
+                      feature.properties.nom_dpt ? ` de ${feature.properties.nom_dpt}` : ""
+                    }`}</span>
+                  </div>
+                </Link>
+              </MapAugora>
+            </div>
+            <button
+              className="map__arrow map__arrow--right"
+              title="Circonscription suivante"
+              // onClick={() => (IndexGraphes !== 0 ? setIndexGraphes(IndexGraphes - 1) : setIndexGraphes(maxGraphes - 1))}
+            >
+              <IconChevron />
+            </button>
           </div>
         </Panel>
         <Panel className="home__stats" orientation="center">
