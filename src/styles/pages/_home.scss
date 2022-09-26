@@ -24,10 +24,6 @@
     &__content {
       max-width: 40vw;
 
-      &--center {
-        max-width: 90vw;
-      }
-
       .content {
         &__title {
           font-family: $font-title;
@@ -556,6 +552,10 @@
     .panel {
       &__content {
         max-width: 60vw;
+
+        &--center {
+          max-width: 80vw;
+        }
       }
 
       &--shared {
