@@ -22,6 +22,7 @@
     "@visx/wordcloud": "^2.10.0",
     "@visx/xychart": "^2.11.1",
     "dayjs": "^1.11.3",
+    "framer-motion": "^6.5.0",
     "fuse.js": "6.6.2",
     "gsap": "^3.10.4",
     "jsonwebtoken": "^8.5.1",
