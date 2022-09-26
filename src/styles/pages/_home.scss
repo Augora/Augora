@@ -52,7 +52,8 @@
             &__subtitle {
               position: absolute;
               top: 30px;
-              left: 70px;
+              left: 0;
+              width:100%;
               color: $text-color;
               font-weight: bold;
               text-transform: uppercase;
@@ -168,7 +169,7 @@
                 &__sexe {
                   position: absolute;
                   width: 100%;
-                  bottom: 17%;
+                  bottom: 0;
                   left: 0;
                   margin-bottom: 2px;
                   display: flex;
