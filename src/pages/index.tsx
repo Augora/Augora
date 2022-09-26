@@ -273,7 +273,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           <div className="panel__content">
             <h2 className="content__title">Vos Députés</h2>
             <p className="content__text">
-              Les députés sont organisés en groupe parlementaire.<br/><strong>Différent des partis politiques</strong>, ils ont un fonctionnement propre à l'Assemblée nationale.
+              Les députés sont organisés en groupe parlementaire.<br/><strong>Différents des partis politiques</strong>, ces groupes ont un fonctionnement propre à l'Assemblée nationale.
             </p>
             <div className="content__buttons content__buttons--right">
               <HomeButton text="En savoir plus" icon={<IconInfo />} onClick="/faq#quest-ce-quun-groupe-parlementaire" title="Plus d'informations sur les groupes parlementaires" />
