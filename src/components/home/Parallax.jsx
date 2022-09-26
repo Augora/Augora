@@ -9,9 +9,6 @@ function Parallax({ img, intro = false, gradient = false }) {
   const panelContainer = useRef()
 
   useEffect(() => {
-    console.log(panel)
-    console.log(panelContainer)
-    console.log(panelContainer.current.offsetHeight)
     gsap.fromTo(
       panel.current,
       {

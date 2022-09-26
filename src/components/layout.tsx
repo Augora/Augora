@@ -36,6 +36,7 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
     handleSearch,
   } = useDeputiesFilters()
   const [scrolled, setScrolled] = useState(false)
+  const [homeScrolled, setHomeScrolled] = useState(false)
   const [hasSidebar, setHasSidebar] = useState(false)
   const [isPopinVisible, setisPopinVisible] = useState(false)
   const [hasLayout, setHasLayout] = useState(true)
@@ -48,6 +49,14 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
     trackMouse: true, //doesn't seem to work
   })
 
+  function getScrollPercent() {
+    const h  = document.documentElement,
+          b  = document.body,
+          st = 'scrollTop',
+          sh = 'scrollHeight';
+    return (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
+  }
+
   const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
 
   const handleScroll = () => {
@@ -55,6 +64,14 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
       setScrolled(true)
     } else {
       setScrolled(false)
+    }
+
+    if (location.route === '/') {
+      if (getScrollPercent() >= 10) {
+        setHomeScrolled(true)
+      } else {
+        setHomeScrolled(false)
+      }
     }
   }
 
@@ -89,7 +106,7 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
 
   return (
     <div
-      className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${!hasLayout ? " no-layout" : ""}${
+      className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${homeScrolled ? " scrolled--home" : ""}${!hasLayout ? " no-layout" : ""}${
         transparentHeader ? " transparent" : ""
       }`}
     >

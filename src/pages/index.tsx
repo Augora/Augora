@@ -29,6 +29,7 @@ import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
 import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
 import Panel from "src/components/home/Panel"
 import Parallax from "src/components/home/Parallax"
+import MouseScroll from "src/components/home/MouseScroll"
 
 // Home Page
 export default function IndexPage({ groupes, features }: { groupes: Group.GroupsList; features: AugoraMap.Feature[] }) {
@@ -90,6 +91,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               />
             </div>
           </div>
+          <MouseScroll />
         </Panel>
         <Panel className="home__map" orientation="left" shared>
           <HomeGradientBar pos="left" />
