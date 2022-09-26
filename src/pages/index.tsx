@@ -27,7 +27,10 @@ import XYBarStack from "src/components/charts/XYBarStack"
 import ChartLegend from "src/components/charts/ChartLegend"
 import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
 import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
+import Panel from "src/components/home/Panel"
+import Parallax from "src/components/home/Parallax"
 
+// Home Page
 export default function IndexPage({ groupes, features }: { groupes: Group.GroupsList; features: AugoraMap.Feature[] }) {
   const router = useRouter()
 
@@ -50,6 +53,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
   const [IndexGraphes, setIndexGraphes] = useState(0)
   const maxGraphes = 4
 
+  // Home map auto-play random circo
   useEffect(() => {
     const interval = setInterval(() => {
       setFeature(features[random(0, features.length - 1)])
@@ -57,21 +61,25 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
     return () => clearInterval(interval)
   }, [])
 
+  // Home intro parallax
+  useEffect(() => {
+
+  }, []);
+
+  // Render
   return (
     <>
       <SEO pageType={PageType.Accueil} />
       <div className="page page__home page__landing">
-        <div className="home__intro panel panel--right">
-          <div className="background">
-            <img className="background__img" src="images/photos/hemicycle.jpg" />
-          </div>
+        <Panel className="home__intro" orientation="right">
+          <Parallax img="images/photos/hemicycle.jpg" intro />
           <div className="panel__content">
             <h2 className="content__title content__title--center">Reconnecter les citoyens avec les députés</h2>
             <p>
               Nous sommes une association qui met en avant une utilisation éthique des données publiques. Nous proposons une
               présentation moderne des députés de l’assemblée nationale pour faciliter au maximum l’accès à ces informations.
             </p>
-            <div className="content__buttons">
+            <div className="content__buttons content__buttons--right">
               <HomeButton text="Mon Député" icon={<IconPin />} inverted={true} onClick="/carte" title="Découvrir mon député" />
               <HomeButton
                 text="L'assemblée"
@@ -82,8 +90,8 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               />
             </div>
           </div>
-        </div>
-        <div className="home__map panel panel--left panel--shared">
+        </Panel>
+        <Panel className="home__map" orientation="left" shared>
           <HomeGradientBar pos="left" />
           <div className="panel__content">
             <h2 className="content__title">Une carte interactive</h2>
@@ -92,7 +100,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               Découvrez où chaque circonscription se situe, et son député associé, y compris les députés hors de france, le monde
               entier est couvert. Les filtres permettent un affinage des données géographiques recherchées.
             </p>
-            <div className="content__buttons">
+            <div className="content__buttons content__buttons--left">
               <HomeButton text="La Carte" icon={<IconFrance />} onClick="/carte" title="Aller sur la carte" />
             </div>
           </div>
@@ -114,12 +122,9 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               </Link>
             </MapAugora>
           </div>
-        </div>
-        <div className="home__stats panel panel--center">
-          <div className="background">
-            <div className="background__back" />
-            <img className="background__img background__img--transparent" src="images/photos/bibliotheque.jpg" />
-          </div>
+        </Panel>
+        <Panel className="home__stats" orientation="center">
+          <Parallax img="images/photos/bibliotheque.jpg" gradient />
           <div className="panel__content">
             <h2 className="content__title content__title--center">Des Statistiques</h2>
             <div className="content__carousel">
@@ -246,8 +251,8 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               />
             </div>
           </div>
-        </div>
-        <div className="home__groups panel panel--right panel--shared">
+        </Panel>
+        <Panel className="home__groups" orientation="right" shared>
           <HomeGradientBar pos="right" />
           <div className="panel__groups">
             {groupes.map((group) => (
@@ -272,29 +277,28 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               <HomeButton text="L'assemblée" icon={<IconGroup />} onClick="/deputes" title="Voir tous les députés" />
             </div>
           </div>
-        </div>
-        <div className="home__faq panel panel--center">
-          <div className="background">
-            <div className="background__back" />
-            <img className="background__img background__img--transparent" src="images/photos/colonnade.jpg" />
-          </div>
+        </Panel>
+        <Panel className="home__faq" orientation="center">
+          <Parallax img="images/photos/colonnade.jpg" gradient />
           <div className="panel__content">
-            <h2 className="content__title content__title--center">En savoir plus</h2>
-            <div>
-              <p>
-                Nous sommes une association à but non lucratif visant à proposer un site d’information publique au design moderne.
-              </p>
-              <p>
-                Nous ne sommes pas associés à l’assemblée nationale ou aux députés, vous pourrez trouver des liens pour contacter
-                ceux-ci sur leurs page personelles dédiées.{" "}
-              </p>
-              <p>Pour toute question concernant le site ou le fonctionnement de l’assemblée, consultez la FAQ.</p>
-            </div>
-            <div className="content__buttons">
-              <HomeButton text="La FAQ" icon={<IconInfo />} inverted={true} onClick="/faq" title="Aller consulter la FAQ" />
+            <div className="panel__text">
+              <h2 className="content__title content__title--center">En savoir plus</h2>
+              <div>
+                <p>
+                  Nous sommes une association à but non lucratif visant à proposer un site d’information publique au design moderne.
+                </p>
+                <p>
+                  Nous ne sommes pas associés à l’assemblée nationale ou aux députés, vous pourrez trouver des liens pour contacter
+                  ceux-ci sur leurs page personelles dédiées.{" "}
+                </p>
+                <p>Pour toute question concernant le site ou le fonctionnement de l’assemblée, consultez la FAQ.</p>
+              </div>
+              <div className="content__buttons">
+                <HomeButton text="La FAQ" icon={<IconInfo />} inverted={true} onClick="/faq" title="Aller consulter la FAQ" />
+              </div>
             </div>
           </div>
-        </div>
+        </Panel>
       </div>
     </>
   )
