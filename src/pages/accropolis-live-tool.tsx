@@ -42,32 +42,6 @@ const LogoTwitch = ({ size = 24 }) => {
   )
 }
 
-{
-  /* <div className="accropolis__login">
-<h2>Compté créé avec succès...</h2>
-<p>
-  Contactez un admin pour accéder à l'interface de contrôle
-  <br />
-  Puis rechargez cette page
-</p>
-<button
-  className="accropolis__logout-btn"
-  onClick={() => {
-    // if (socket) {
-    //   socket.auth.token = localStorage.getItem("jwt")
-    //   socket.connect()
-    // }
-  }}
->
-  Recharger la page
-</button>
-<br />
-<button className="accropolis__logout-btn" onClick={logOut}>
-  Se déconnecter
-</button>
-</div> */
-}
-
 // Component
 /*----------------------------------------------------*/
 export default function AccropolisLiveTools({ allAccroDeputes, allMinistres }) {

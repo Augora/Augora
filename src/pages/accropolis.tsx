@@ -3,8 +3,18 @@ import DeputeBanner from "components/accropolis/DeputeBanner"
 import deputeBannerStyles from "components/accropolis/DeputeBannerStyles.module.scss"
 import { gsap } from "gsap"
 import mapStore from "src/stores/mapStore"
+import { Auth } from "@supabase/ui"
+import supabaseClient from "lib/supabase/client"
+
+function handleSupabaseError({ error, ...rest }) {
+  if (error) {
+    throw error
+  }
+  return rest
+}
 
 export default function Accropolis() {
+  const { session } = Auth.useUser()
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
     type: null,
@@ -16,47 +26,69 @@ export default function Accropolis() {
   const { overview, setOverview } = mapStore()
   const [bannerState, setBannerState] = useState("intro")
 
-  // useEffect(() => {
-  //   if (socket) {
-  //     // socket.on('connect', () => {
-  //     //   socket.emit('message', 'CONNEXION : accropolis.tsx')
-  //     // })
+  useEffect(() => {
+    if (session) {
+      supabaseClient.auth.setAuth(session.access_token)
 
-  //     // socket.on('message', message => {
-  //     //     console.log('message Socket : ',message)
-  //     // })
+      supabaseClient
+        .from("Session")
+        .select(
+          `
+          *,
+          Depute (
+            *,
+            GroupeParlementaire (
+              *
+            )
+          )
+        `
+        )
+        .then(handleSupabaseError)
+        .then((d) => d.body[0])
+        .then((d) => {
+          console.log("d:", d)
+          setQuestion(d.Question)
+          setActiveDepute(d.Depute)
+          setBannerState(d.BannerState)
+        })
 
-  //     socket.on("people", (depute) => {
-  //       console.log("[READER] people received : ", depute)
-  //       if (activeDepute) {
-  //         const olderTL = olderBannerAnimation(setCurrentAnimation, depute)
-  //         olderTL.play()
-  //       } else {
-  //         setActiveDepute(depute)
-  //       }
-  //     })
+      var subscription = supabaseClient
+        .from("Session:id=eq.1234")
+        .on("UPDATE", async (payload) => {
+          const { data, error } = await supabaseClient
+            .from("Depute")
+            .select(
+              `
+              *,
+              GroupeParlementaire (
+                *
+              )
+            `
+            )
+            .eq("Slug", payload.new.Depute)
+            .then(handleSupabaseError)
 
-  //     socket.on("question", (question) => {
-  //       setQuestion(question)
-  //     })
+          if (activeDepute) {
+            const olderTL = olderBannerAnimation(setCurrentAnimation, data[0])
+            olderTL.play()
+          } else {
+            setActiveDepute(data[0])
+          }
 
-  //     socket.on("bannerState", (bannerState) => {
-  //       setBannerState(bannerState)
-  //       if (bannerState === "intro" || bannerState === "outro") {
-  //         setActiveDepute(null)
-  //       }
-  //     })
+          setQuestion(payload.new.Question)
+          setBannerState(payload.new.BannerState)
+        })
+        .subscribe()
 
-  //     socket.on("overview", (overview) => {
-  //       setOverview(overview)
-  //     })
-  //   }
-  // }, [socket])
+      return () => {
+        supabaseClient.removeSubscription(subscription)
+      }
+    }
+  }, [])
 
   // Animations
   /*----------------------------------------------------*/
   const olderBannerAnimation = (setCurrentAnimation, depute, index = null) => {
-    // Timeline
     const olderTL = gsap.timeline({
       onComplete: () => {
         setCurrentAnimation({
@@ -112,13 +144,7 @@ export default function Accropolis() {
     return olderTL
   }
 
-  // Render
-  /*----------------------------------------------------*/
-  return bannerState === "intro" ? (
-    <>Intro</>
-  ) : bannerState === "outro" ? (
-    <>Outro</>
-  ) : bannerState === "dep" || bannerState === "gov" ? (
+  return (bannerState === "dep" || bannerState === "gov") && activeDepute ? (
     <DeputeBanner
       debug={false}
       bannerState={bannerState}
