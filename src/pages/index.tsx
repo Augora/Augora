@@ -55,11 +55,11 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
 
   // Home map auto-play random circo
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       cycleFeatures()
     }, 10000)
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearTimeout(timeout)
+  }, [IndexFeature])
 
   // Home intro parallax
   useEffect(() => {}, [])
@@ -67,7 +67,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
   // Number of graphs for the carousel
   const maxGraphes = useMemo(() => 4, [])
 
-  //
+  // Switch zone function for map
   const cycleFeatures = (back?: boolean) => {
     if (back) {
       IndexFeature <= 0 ? setIndexFeature(features.length - 1) : setIndexFeature(IndexFeature - 1)
