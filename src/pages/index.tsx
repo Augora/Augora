@@ -50,20 +50,30 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
     },
   })
 
-  const [feature, setFeature] = useState<AugoraMap.Feature>(features[random(0, features.length - 1)])
+  const [IndexFeature, setIndexFeature] = useState(0)
   const [IndexGraphes, setIndexGraphes] = useState(0)
   const maxGraphes = 4
 
   // Home map auto-play random circo
   useEffect(() => {
     const interval = setInterval(() => {
-      setFeature(features[random(0, features.length - 1)])
+      cycleFeatures()
     }, 10000)
     return () => clearInterval(interval)
   }, [])
 
   // Home intro parallax
   useEffect(() => {}, [])
+
+  const cycleFeatures = (back?: boolean) => {
+    if (back) {
+      if (IndexFeature <= 0) setIndexFeature(features.length - 1)
+      else setIndexFeature(IndexFeature - 1)
+    } else {
+      if (IndexFeature >= features.length - 1) setIndexFeature(0)
+      else setIndexFeature(IndexFeature + 1)
+    }
+  }
 
   // Render
   return (
@@ -108,7 +118,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
             <button
               className="map__arrow map__arrow--left"
               title="Circonscription précédente"
-              // onClick={() => (IndexGraphes !== 0 ? setIndexGraphes(IndexGraphes - 1) : setIndexGraphes(maxGraphes - 1))}
+              onClick={() => cycleFeatures(true)}
             >
               <IconChevron />
             </button>
@@ -118,25 +128,21 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                 viewstate={viewstate}
                 setViewstate={setViewstate}
                 mapView={{
-                  geoJSON: createFeatureCollection([feature]),
-                  feature: feature,
+                  geoJSON: createFeatureCollection([features[IndexFeature]]),
+                  feature: features[IndexFeature],
                   paint: getLayerPaint(),
                 }}
               >
-                <Link href={`carte/${getFeatureURL(feature)}`}>
+                <Link href={`carte/${getFeatureURL(features[IndexFeature])}`}>
                   <div className="map__redirect">
-                    <span>{`${getZoneName(feature)}${
-                      feature.properties.nom_dpt ? ` de ${feature.properties.nom_dpt}` : ""
+                    <span>{`${getZoneName(features[IndexFeature])}${
+                      features[IndexFeature].properties.nom_dpt ? ` de ${features[IndexFeature].properties.nom_dpt}` : ""
                     }`}</span>
                   </div>
                 </Link>
               </MapAugora>
             </div>
-            <button
-              className="map__arrow map__arrow--right"
-              title="Circonscription suivante"
-              // onClick={() => (IndexGraphes !== 0 ? setIndexGraphes(IndexGraphes - 1) : setIndexGraphes(maxGraphes - 1))}
-            >
+            <button className="map__arrow map__arrow--right" title="Circonscription suivante" onClick={() => cycleFeatures()}>
               <IconChevron />
             </button>
           </div>
