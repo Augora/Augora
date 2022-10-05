@@ -52,7 +52,6 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
 
   const [IndexFeature, setIndexFeature] = useState(0)
   const [IndexGraphes, setIndexGraphes] = useState(0)
-  const maxGraphes = 4
 
   // Home map auto-play random circo
   useEffect(() => {
@@ -65,13 +64,15 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
   // Home intro parallax
   useEffect(() => {}, [])
 
+  // Number of graphs for the carousel
+  const maxGraphes = useMemo(() => 4, [])
+
+  //
   const cycleFeatures = (back?: boolean) => {
     if (back) {
-      if (IndexFeature <= 0) setIndexFeature(features.length - 1)
-      else setIndexFeature(IndexFeature - 1)
+      IndexFeature <= 0 ? setIndexFeature(features.length - 1) : setIndexFeature(IndexFeature - 1)
     } else {
-      if (IndexFeature >= features.length - 1) setIndexFeature(0)
-      else setIndexFeature(IndexFeature + 1)
+      IndexFeature >= features.length - 1 ? setIndexFeature(0) : setIndexFeature(IndexFeature + 1)
     }
   }
 
