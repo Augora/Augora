@@ -624,6 +624,12 @@
     .panel {
       &__content {
         max-width: 70vw;
+
+        .content {
+          &__buttons {
+            justify-content: center;
+          }
+        }
       }
 
       &--right,

@@ -89,7 +89,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               Nous sommes une association qui met en avant une utilisation éthique des données publiques. Nous proposons une
               présentation moderne des députés de l’assemblée nationale pour faciliter au maximum l’accès à ces informations.
             </p>
-            <div className="content__buttons content__buttons--right">
+            <div className="content__buttons">
               <HomeButton text="Mon Député" icon={<IconPin />} inverted={true} onClick="/carte" title="Découvrir mon député" />
               <HomeButton
                 text="L'assemblée"
@@ -111,7 +111,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               Découvrez où chaque circonscription se situe, et son député associé, y compris les députés hors de france, le monde
               entier est couvert. Les filtres permettent un affinage des données géographiques recherchées.
             </p>
-            <div className="content__buttons content__buttons--left">
+            <div className="content__buttons">
               <HomeButton text="La Carte" icon={<IconFrance />} onClick="/carte" title="Aller sur la carte" />
             </div>
           </div>
@@ -304,7 +304,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               <br />
               <strong>Différents des partis politiques</strong>, ces groupes ont un fonctionnement propre à l'Assemblée nationale.
             </p>
-            <div className="content__buttons content__buttons--right">
+            <div className="content__buttons">
               <HomeButton
                 text="En savoir plus"
                 icon={<IconInfo />}
