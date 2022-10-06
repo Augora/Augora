@@ -14,7 +14,10 @@ export default function MapPin({ coords, color, style, children }: IMapPin) {
   return (
     <Marker longitude={coords[0]} latitude={coords[1]} anchor={"bottom"} style={style}>
       {children ? (
-        children
+        <div className="marker__container">
+          <div className="marker__content">{children}</div>
+          <div className="marker__arrowdown" />
+        </div>
       ) : (
         <div className="icon-wrapper marker__pin">
           <IconPin style={{ fill: color ? color : "" }} />
