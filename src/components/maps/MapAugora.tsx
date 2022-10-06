@@ -48,15 +48,19 @@ interface IMapAugora {
   breadcrumb?: AugoraMap.Breadcrumb[]
   /** Le mode de vue sur les zones, par défaut zoomé */
   overview?: boolean
+  /** Pour passer du JSX custom dans un marker au milieu de la zone */
+  marker?: JSX.Element
   /** Liste de tous les députés. Inutile si on désactive les overlay */
   deputies?: Deputy.DeputiesList
   /** Liste des députés dans la zone actuelle. Inutile si on désactive les overlay */
   zoneDeputies?: Deputy.DeputiesList
-  /** Si les overlays doivent être affichés */
+  /** Si les overlays doivent être affichés,
+   * @default true */
   overlay?: boolean
   /** Délai optionel de la fonction flytobounds */
   delay?: number
-  /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire) */
+  /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire)
+   * @default true */
   attribution?: boolean
   /** S'il faut afficher les frontières */
   borders?: boolean
@@ -85,6 +89,7 @@ export default function MapAugora(props: IMapAugora) {
     attribution = true,
     delay = 0,
     borders = false,
+    marker = null,
   } = props
 
   const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
@@ -273,7 +278,8 @@ export default function MapAugora(props: IMapAugora) {
             <Layer id="zone-ghost-fill" type="fill" beforeId="road-label" paint={getLayerPaint({ ghost: true }).fill} />
           </Source>
         )}
-        {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
+        {overview && !marker && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
+        {marker && <MapPin coords={zoneFeature.properties.center}>{marker}</MapPin>}
         {overlay && (
           <>
             <MapPins
