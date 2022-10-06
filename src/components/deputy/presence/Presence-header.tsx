@@ -11,7 +11,9 @@ export default function PresenceHeader(props: IPresenceHeader) {
   var { width, data, setRange, color } = props
 
   const isMobile = width < 300
-  const [DateButton, setDateButton] = useState(isMobile ? 1 : 2)
+  const defaultDisplay = data.length < 14 ? 0 : data.length < 27 ? 1 : 2
+
+  const [DateButton, setDateButton] = useState(defaultDisplay)
 
   useEffect(() => {
     if (data.length < 14) {
@@ -31,9 +33,11 @@ export default function PresenceHeader(props: IPresenceHeader) {
     if (DateButton === 2) {
       setRange(data)
     } else if (DateButton === 1) {
-      setRange(data.slice(27, 53))
+      // 6 mois
+      setRange(data.length < 27 ? data : data.slice(data.length - 26, data.length))
     } else {
-      setRange(data.slice(40, 53))
+      // 3 mois
+      setRange(data.length < 14 ? data : data.slice(data.length - 13, data.length))
     }
   }, [DateButton])
 
