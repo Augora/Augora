@@ -361,8 +361,10 @@
       .map {
         &__container {
           border-radius: 50%;
-          width: 60vh;
-          height: 60vh;
+          width: 40vw;
+          height: 40vw;
+          max-height: 60vh;
+          max-width: 60vh;
 
           overflow: hidden;
         }
@@ -589,14 +591,14 @@
   }
 
   // Reponsive
-  @media (max-width: 1500px) {
-    .panel {
-      &__map {
-        width: 40vh;
-        height: 40vh;
-      }
-    }
-  }
+  // @media (max-width: 1500px) {
+  //   .panel {
+  //     &__map {
+  //       width: 40vh;
+  //       height: 40vh;
+  //     }
+  //   }
+  // }
 
   @media (max-width: 1200px) {
     .panel {
@@ -652,24 +654,57 @@
     }
 
     .home {
-      &__map > .panel__map {
-        position: absolute;
-        display: none;
+      &__map {
+        .panel {
+          &__content {
+            padding-top: 50px;
+            .content__buttons {
+              position: absolute;
+              margin: 0;
+              bottom: 100px;
+              left: 50%;
+              transform: translate(-50%, 0);
+            }
+          }
+
+          &__map {
+            width: 100%;
+            height: unset;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0 150px;
+
+            .map {
+              &__container {
+                width: 80vw;
+                height: 80vw;
+              }
+              &__arrow {
+                &--left {
+                  right: 90%;
+                }
+                &--right {
+                  left: 90%;
+                }
+              }
+            }
+          }
+        }
       }
 
       &__groups {
-        justify-content: space-evenly;
-
+        padding-top: 150px;
         .panel {
           &__content > .content__title {
             position: absolute;
-            top: 50px;
+            top: 150px;
             left: 50%;
             transform: translate(-50%, 0);
           }
 
           &__groups {
-            margin-top: 100px;
+            margin-bottom: 50px;
           }
         }
       }
