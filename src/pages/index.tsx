@@ -133,13 +133,14 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                   feature: features[IndexFeature],
                   paint: getLayerPaint(),
                 }}
+                marker={
+                  <span>{`${getZoneName(features[IndexFeature])}${
+                    features[IndexFeature].properties.nom_dpt ? ` de ${features[IndexFeature].properties.nom_dpt}` : ""
+                  }`}</span>
+                }
               >
                 <Link href={`carte/${getFeatureURL(features[IndexFeature])}`}>
-                  <div className="map__redirect">
-                    <span>{`${getZoneName(features[IndexFeature])}${
-                      features[IndexFeature].properties.nom_dpt ? ` de ${features[IndexFeature].properties.nom_dpt}` : ""
-                    }`}</span>
-                  </div>
+                  <div className="map__redirect"></div>
                 </Link>
               </MapAugora>
             </div>
