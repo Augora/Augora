@@ -1358,91 +1358,91 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.5.tgz#db5a11bf66bdab39569719555b0f76e138d7bd64"
   integrity sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==
 
-"@react-spring/animated@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/animated/-/animated-9.4.5.tgz#dd9921c716a4f4a3ed29491e0c0c9f8ca0eb1a54"
-  integrity sha512-KWqrtvJSMx6Fj9nMJkhTwM9r6LIriExDRV6YHZV9HKQsaolUFppgkOXpC+rsL1JEtEvKv6EkLLmSqHTnuYjiIA==
+"@react-spring/animated@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/animated/-/animated-9.5.5.tgz#d3bfd0f62ed13a337463a55d2c93bb23c15bbf3e"
+  integrity sha512-glzViz7syQ3CE6BQOwAyr75cgh0qsihm5lkaf24I0DfU63cMm/3+br299UEYkuaHNmfDfM414uktiPlZCNJbQA==
   dependencies:
-    "@react-spring/shared" "~9.4.5"
-    "@react-spring/types" "~9.4.5"
+    "@react-spring/shared" "~9.5.5"
+    "@react-spring/types" "~9.5.5"
 
-"@react-spring/core@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/core/-/core-9.4.5.tgz#4616e1adc18dd10f5731f100ebdbe9518b89ba3c"
-  integrity sha512-83u3FzfQmGMJFwZLAJSwF24/ZJctwUkWtyPD7KYtNagrFeQKUH1I05ZuhmCmqW+2w1KDW1SFWQ43RawqfXKiiQ==
+"@react-spring/core@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/core/-/core-9.5.5.tgz#1d8a4c64630ee26b2295361e1eedfd716a85b4ae"
+  integrity sha512-shaJYb3iX18Au6gkk8ahaF0qx0LpS0Yd+ajb4asBaAQf6WPGuEdJsbsNSgei1/O13JyEATsJl20lkjeslJPMYA==
   dependencies:
-    "@react-spring/animated" "~9.4.5"
-    "@react-spring/rafz" "~9.4.5"
-    "@react-spring/shared" "~9.4.5"
-    "@react-spring/types" "~9.4.5"
+    "@react-spring/animated" "~9.5.5"
+    "@react-spring/rafz" "~9.5.5"
+    "@react-spring/shared" "~9.5.5"
+    "@react-spring/types" "~9.5.5"
 
-"@react-spring/konva@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/konva/-/konva-9.4.5.tgz#28e6f6e0dfb7f7a93c6ba4f91295f3f7d5557f06"
-  integrity sha512-b3wTs7YT5102+Gs488r2JCNBoyZQd+SWg35AdxmiI6FARBFvBjIA0z7VJx8ILAlmTVBows5UwiDWvk2vmWmLLw==
+"@react-spring/konva@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/konva/-/konva-9.5.5.tgz#ddbb30cfa268219d69552aa71188832ca8ab4905"
+  integrity sha512-0CNh+1vCIjNUklTFwMvxg+H83Jo2OWykBrdEA28ccmnpZgkQ8Kq5xyvaPFLzcDKV67OXHnaWiCYKpRbhLy2wng==
   dependencies:
-    "@react-spring/animated" "~9.4.5"
-    "@react-spring/core" "~9.4.5"
-    "@react-spring/shared" "~9.4.5"
-    "@react-spring/types" "~9.4.5"
+    "@react-spring/animated" "~9.5.5"
+    "@react-spring/core" "~9.5.5"
+    "@react-spring/shared" "~9.5.5"
+    "@react-spring/types" "~9.5.5"
 
-"@react-spring/native@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/native/-/native-9.4.5.tgz#c8ec950cae02eb28a0246b912df844f526aab64c"
-  integrity sha512-11GcqFZfIhOOVQI25FcDLdeJLOSVOgIh2AF6WMXpCNWguhIv6N33zLL8d4cYfhYhsLOVXprU/8uefNorj7/h3g==
+"@react-spring/native@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/native/-/native-9.5.5.tgz#4ecc420c7b4c3fefeebd55d852640d36c29ec9c8"
+  integrity sha512-kauqmyJ8u7aVy2bBs22vl1SdB2i5uYIL4rP53k1KDWrFSqJh4j3efWkbTt9uzR5cMXuNVbkNo9OYVFUcQBz50A==
   dependencies:
-    "@react-spring/animated" "~9.4.5"
-    "@react-spring/core" "~9.4.5"
-    "@react-spring/shared" "~9.4.5"
-    "@react-spring/types" "~9.4.5"
+    "@react-spring/animated" "~9.5.5"
+    "@react-spring/core" "~9.5.5"
+    "@react-spring/shared" "~9.5.5"
+    "@react-spring/types" "~9.5.5"
 
-"@react-spring/rafz@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/rafz/-/rafz-9.4.5.tgz#84f809f287f2a66bbfbc66195db340482f886bd7"
-  integrity sha512-swGsutMwvnoyTRxvqhfJBtGM8Ipx6ks0RkIpNX9F/U7XmyPvBMGd3GgX/mqxZUpdlsuI1zr/jiYw+GXZxAlLcQ==
+"@react-spring/rafz@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/rafz/-/rafz-9.5.5.tgz#62a49c5e294104b79db2a8afdf4f3a274c7f44ca"
+  integrity sha512-F/CLwB0d10jL6My5vgzRQxCNY2RNyDJZedRBK7FsngdCmzoq3V4OqqNc/9voJb9qRC2wd55oGXUeXv2eIaFmsw==
 
-"@react-spring/shared@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/shared/-/shared-9.4.5.tgz#4c3ad817bca547984fb1539204d752a412a6d829"
-  integrity sha512-JhMh3nFKsqyag0KM5IIM8BQANGscTdd0mMv3BXsUiMZrcjQTskyfnv5qxEeGWbJGGar52qr5kHuBHtCjQOzniA==
+"@react-spring/shared@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/shared/-/shared-9.5.5.tgz#9be0b391d546e3e184a24ecbaf40acbaeab7fc73"
+  integrity sha512-YwW70Pa/YXPOwTutExHZmMQSHcNC90kJOnNR4G4mCDNV99hE98jWkIPDOsgqbYx3amIglcFPiYKMaQuGdr8dyQ==
   dependencies:
-    "@react-spring/rafz" "~9.4.5"
-    "@react-spring/types" "~9.4.5"
+    "@react-spring/rafz" "~9.5.5"
+    "@react-spring/types" "~9.5.5"
 
-"@react-spring/three@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/three/-/three-9.4.5.tgz#bd5b7844fde3338b05920654d81f127a5760f057"
-  integrity sha512-mArxfIhg9kyFL/8Y09TarS/ZKLd/qAWS4T3Ro/B46ILPfPnoPywDdw9/rknZihy/tslnviCgMrB4pZ29X1Dfxw==
+"@react-spring/three@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/three/-/three-9.5.5.tgz#c6fbee977007d1980406db20a28ac3f5dc2ce153"
+  integrity sha512-9kTIaSceqFIl5EIrdwM7Z53o5I+9BGNVzbp4oZZYMao+GMAWOosnlQdDG5GeqNsIqfW9fZCEquGqagfKAxftcA==
   dependencies:
-    "@react-spring/animated" "~9.4.5"
-    "@react-spring/core" "~9.4.5"
-    "@react-spring/shared" "~9.4.5"
-    "@react-spring/types" "~9.4.5"
+    "@react-spring/animated" "~9.5.5"
+    "@react-spring/core" "~9.5.5"
+    "@react-spring/shared" "~9.5.5"
+    "@react-spring/types" "~9.5.5"
 
-"@react-spring/types@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.4.5.tgz#9c71e5ff866b5484a7ef3db822bf6c10e77bdd8c"
-  integrity sha512-mpRIamoHwql0ogxEUh9yr4TP0xU5CWyZxVQeccGkHHF8kPMErtDXJlxyo0lj+telRF35XNihtPTWoflqtyARmg==
+"@react-spring/types@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.5.5.tgz#c8e94f1b9232ca7cb9d860ea67762ec401b1de14"
+  integrity sha512-7I/qY8H7Enwasxr4jU6WmtNK+RZ4Z/XvSlDvjXFVe7ii1x0MoSlkw6pD7xuac8qrHQRm9BTcbZNyeeKApYsvCg==
 
-"@react-spring/web@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/web/-/web-9.4.5.tgz#b92f05b87cdc0963a59ee149e677dcaff09f680e"
-  integrity sha512-NGAkOtKmOzDEctL7MzRlQGv24sRce++0xAY7KlcxmeVkR7LRSGkoXHaIfm9ObzxPMcPHQYQhf3+X9jepIFNHQA==
+"@react-spring/web@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/web/-/web-9.5.5.tgz#d416abc591aaed930401f0c98a991a8c5b90c382"
+  integrity sha512-+moT8aDX/ho/XAhU+HRY9m0LVV9y9CK6NjSRaI+30Re150pB3iEip6QfnF4qnhSCQ5drpMF0XRXHgOTY/xbtFw==
   dependencies:
-    "@react-spring/animated" "~9.4.5"
-    "@react-spring/core" "~9.4.5"
-    "@react-spring/shared" "~9.4.5"
-    "@react-spring/types" "~9.4.5"
+    "@react-spring/animated" "~9.5.5"
+    "@react-spring/core" "~9.5.5"
+    "@react-spring/shared" "~9.5.5"
+    "@react-spring/types" "~9.5.5"
 
-"@react-spring/zdog@~9.4.5":
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/@react-spring/zdog/-/zdog-9.4.5.tgz#66e35db08f93a0ef949f1fa1303513157c450f91"
-  integrity sha512-STrePM34ZK1T3oK8mo71pvKxvIzELJTpVi0U0qDh0s15e9rmN6XYkd406LqFtuchhmLoy24lD4ds7LAqhIEraw==
+"@react-spring/zdog@~9.5.5":
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/@react-spring/zdog/-/zdog-9.5.5.tgz#916dba337637d1151c3c2bc829b5105d15adacb5"
+  integrity sha512-LZgjo2kLlGmUqfE2fdVnvLXz+4eYyQARRvB9KQ4PTEynaETTG89Xgn9YxLrh1p57DzH7gEmTGDZ5hEw3pWqu8g==
   dependencies:
-    "@react-spring/animated" "~9.4.5"
-    "@react-spring/core" "~9.4.5"
-    "@react-spring/shared" "~9.4.5"
-    "@react-spring/types" "~9.4.5"
+    "@react-spring/animated" "~9.5.5"
+    "@react-spring/core" "~9.5.5"
+    "@react-spring/shared" "~9.5.5"
+    "@react-spring/types" "~9.5.5"
 
 "@socket.io/component-emitter@~3.1.0":
   version "3.1.0"
@@ -1771,32 +1771,32 @@
   dependencies:
     gl-matrix "^3.2.0"
 
-"@visx/annotation@2.11.1", "@visx/annotation@^2.11.1":
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/@visx/annotation/-/annotation-2.11.1.tgz#f10eb2ed7553b306d12567c83408d9308b4b8cca"
-  integrity sha512-YzqLr9SB/obwyoCF+yqXRtjMNZEHwwwW2HYTtZP7dWBVgVK9u23FOGNim1More+6RoPdMCUA2e4GpKceUu877A==
+"@visx/annotation@2.12.2", "@visx/annotation@^2.12.2":
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/@visx/annotation/-/annotation-2.12.2.tgz#2a3f4f910003efc0888aa1c3d8e1264fde36a52f"
+  integrity sha512-NhIexNL2QJKc5escOpCe5apNdqBUqmQzGLqc40L7GslYuS3KgxtMa4tdpI+WCct8b/EK3fyQmN9oqG0H5HTY9A==
   dependencies:
     "@types/react" "*"
     "@visx/drag" "2.10.0"
     "@visx/group" "2.10.0"
     "@visx/point" "2.6.0"
-    "@visx/shape" "2.11.1"
-    "@visx/text" "2.10.0"
+    "@visx/shape" "2.12.2"
+    "@visx/text" "2.12.2"
     classnames "^2.3.1"
     prop-types "^15.5.10"
     react-use-measure "^2.0.4"
 
-"@visx/axis@2.11.1", "@visx/axis@^2.11.1":
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/@visx/axis/-/axis-2.11.1.tgz#e1cc978ede9cce197cd7712183301e9e89c519e2"
-  integrity sha512-RZdT+yhAEOXtcLc3PgD14Xh5bJh5B64IG+zvHe3YVMkiFWGT1phy0sGTRRxritHke16ErB9vndx+pwVIGSkxAw==
+"@visx/axis@2.14.0", "@visx/axis@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@visx/axis/-/axis-2.14.0.tgz#4fe3bf42c20aae599dc94ef5387dfcb1ba3a85ea"
+  integrity sha512-/mJuPiAUN/YdatSlXkkXD/8Pb4gVclbucNZkpUk6JVhnrmow0a1x73QiMXKuH2qDO5GDaqQS0C3Ly9lI3qTQ5Q==
   dependencies:
     "@types/react" "*"
     "@visx/group" "2.10.0"
     "@visx/point" "2.6.0"
     "@visx/scale" "2.2.2"
-    "@visx/shape" "2.11.1"
-    "@visx/text" "2.10.0"
+    "@visx/shape" "2.12.2"
+    "@visx/text" "2.12.2"
     classnames "^2.3.1"
     prop-types "^15.6.0"
 
@@ -1847,17 +1847,17 @@
     d3-shape "^1.2.0"
     prop-types "^15.6.2"
 
-"@visx/grid@2.11.1", "@visx/grid@^2.11.1":
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/@visx/grid/-/grid-2.11.1.tgz#100ee2977a64a7af98c86ac3c319375ba1fd5297"
-  integrity sha512-mcF0OHIEm5LxkC7/seKq7GDgVfLgN1FS8XFiKHnvnA9BNkCMFdeHqnM8o46yS00/hYzh7El6jzu5OrGkSeuzaA==
+"@visx/grid@2.12.2", "@visx/grid@^2.12.2":
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/@visx/grid/-/grid-2.12.2.tgz#32956dbb2ca88b24a057a7d559a46ba5e617df08"
+  integrity sha512-lyMQvq5afjOh0nRqF0OBjgsLfsgUeLcFc95oj0FJ/NJ/MvtI6Gd5BxxbmYzuVfZ4f0Dm1pvtBu1swoB3451tkg==
   dependencies:
     "@types/react" "*"
     "@visx/curve" "2.1.0"
     "@visx/group" "2.10.0"
     "@visx/point" "2.6.0"
     "@visx/scale" "2.2.2"
-    "@visx/shape" "2.11.1"
+    "@visx/shape" "2.12.2"
     classnames "^2.3.1"
     prop-types "^15.6.2"
 
@@ -1886,16 +1886,16 @@
   resolved "https://registry.yarnpkg.com/@visx/point/-/point-2.6.0.tgz#c4316ca409b5b829c5455f07118d8c14a92cc633"
   integrity sha512-amBi7yMz4S2VSchlPdliznN41TuES64506ySI22DeKQ+mc1s1+BudlpnY90sM1EIw4xnqbKmrghTTGfy6SVqvQ==
 
-"@visx/react-spring@2.11.1":
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/@visx/react-spring/-/react-spring-2.11.1.tgz#fcd5fc9a2b4c585788801b45191aab03b2e01477"
-  integrity sha512-EFJMKj1rAh9bC+clROMREQd98kP1RoTy6y1j8IMeaNdhAF3gHxaG+OZH4e0dD3y+62NdeI+o+FLjHdw2NWQMDA==
+"@visx/react-spring@2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@visx/react-spring/-/react-spring-2.14.0.tgz#8b03c1d24f428cfe26d4f7b9cc7cfc68a134028b"
+  integrity sha512-3RZ5KoxRtIImwOKlb0udxdgKFZQ13OTtupYj2Vvm1qSh9CM8DQ8UwX+V/m3+qVkZI6F5jALnF7FcrIagP7A95w==
   dependencies:
     "@types/react" "*"
-    "@visx/axis" "2.11.1"
-    "@visx/grid" "2.11.1"
+    "@visx/axis" "2.14.0"
+    "@visx/grid" "2.12.2"
     "@visx/scale" "2.2.2"
-    "@visx/text" "2.10.0"
+    "@visx/text" "2.12.2"
     classnames "^2.3.1"
     prop-types "^15.6.2"
 
@@ -1922,10 +1922,10 @@
     d3-scale "^3.3.0"
     d3-time "^2.1.1"
 
-"@visx/shape@2.11.1", "@visx/shape@^2.11.1":
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/@visx/shape/-/shape-2.11.1.tgz#ff41d839ad689fea53504597bd4bfbc8b7c20bbb"
-  integrity sha512-0ak3wTkXjExH7kzU62yXPu+RtuG35G1sNL58Ax4NBr4yKh2nTHcLRsMZ7k6yUG+wSjb8DgG/ywZ0bBGWXJYGbg==
+"@visx/shape@2.12.2", "@visx/shape@^2.12.2":
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/@visx/shape/-/shape-2.12.2.tgz#81ed88bf823aa84a4f5f32a9c9daf8371a606897"
+  integrity sha512-4gN0fyHWYXiJ+Ck8VAazXX0i8TOnLJvOc5jZBnaJDVxgnSIfCjJn0+Nsy96l9Dy/bCMTh4DBYUBv9k+YICBUOA==
   dependencies:
     "@types/d3-path" "^1.0.8"
     "@types/d3-shape" "^1.3.1"
@@ -1940,10 +1940,10 @@
     lodash "^4.17.21"
     prop-types "^15.5.10"
 
-"@visx/text@2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@visx/text/-/text-2.10.0.tgz#2ff413f4dd35617e45b24d6082d7b856358afe4c"
-  integrity sha512-Wbt0Mq130akOahaby2Ziwkr62LuK6td9RcIWI9o4xsLE7GCIkxeUiVci0YUo2yewgwOLwR9F1guPuHPqYd+eYg==
+"@visx/text@2.12.2":
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/@visx/text/-/text-2.12.2.tgz#f4cd32424b1866d8a7f26bdc7cc8396727da06f0"
+  integrity sha512-Sv9YEolggfv2Nf6+l28ESG3VXVR1+s4u/Cz17QpgOxygcbOM8LfLtriWtBsBMKdMbYKeUpoUro0clx55TUwzew==
   dependencies:
     "@types/lodash" "^4.14.172"
     "@types/react" "*"
@@ -1952,10 +1952,10 @@
     prop-types "^15.7.2"
     reduce-css-calc "^1.3.0"
 
-"@visx/tooltip@2.10.0", "@visx/tooltip@^2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@visx/tooltip/-/tooltip-2.10.0.tgz#86d6a720af573dc9853d86d99ae35052bb1629f3"
-  integrity sha512-6Zrd79MIEfyuLBcZ1ypSeAkpQc8oLRNB7FQnegzl3Lje4LK5lJtuf5ST0mwK6G2Uv+GlOW9REJ6VK4gfAGkq9A==
+"@visx/tooltip@2.15.0", "@visx/tooltip@^2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@visx/tooltip/-/tooltip-2.15.0.tgz#c192e88a457e51fc92758b6e4c6087d6385d9035"
+  integrity sha512-rYRgpm7cCSJl0YFgj1MjZ2tqXdsakNqAxHlsHzY/24NWmiskyTb+3/xZUFwfZFnUsF6ml1ICUZ3xNJ4MrZhTuw==
   dependencies:
     "@types/react" "*"
     "@visx/bounds" "2.10.0"
@@ -1983,24 +1983,24 @@
     "@visx/group" "2.10.0"
     d3-cloud "^1.2.5"
 
-"@visx/xychart@^2.11.1":
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/@visx/xychart/-/xychart-2.11.1.tgz#f4516e8f2ef3b9fc9f71b317c4570a98310eb284"
-  integrity sha512-9BxWPa4vU/RxgyzwnGvspLyuKTvZ/APvS5razaBxYIe92T0uNL+ci5tmBJTCrs4QY7AM615cJI3i2KVriJ4CBw==
+"@visx/xychart@^2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@visx/xychart/-/xychart-2.15.0.tgz#d19cb955afb1dd1c19eec3f72f3655bfeb271f5c"
+  integrity sha512-3sbYH0sKv4f80TLeTNdtLQI3pQ8BKTUB0l8tYzVHSk80jtEl88bebetBDCTL0pFjM6XDkUQ9fj3YlBWcOHuTHA==
   dependencies:
     "@types/lodash" "^4.14.172"
     "@types/react" "*"
-    "@visx/annotation" "2.11.1"
-    "@visx/axis" "2.11.1"
+    "@visx/annotation" "2.12.2"
+    "@visx/axis" "2.14.0"
     "@visx/event" "2.6.0"
     "@visx/glyph" "2.10.0"
-    "@visx/grid" "2.11.1"
-    "@visx/react-spring" "2.11.1"
+    "@visx/grid" "2.12.2"
+    "@visx/react-spring" "2.14.0"
     "@visx/responsive" "2.10.0"
     "@visx/scale" "2.2.2"
-    "@visx/shape" "2.11.1"
-    "@visx/text" "2.10.0"
-    "@visx/tooltip" "2.10.0"
+    "@visx/shape" "2.12.2"
+    "@visx/text" "2.12.2"
+    "@visx/tooltip" "2.15.0"
     "@visx/voronoi" "2.10.0"
     classnames "^2.3.1"
     d3-array "^2.6.0"
@@ -3234,17 +3234,17 @@ react-map-gl@7.0.17:
   dependencies:
     "@types/mapbox-gl" "^2.6.0"
 
-react-spring@9.4.5:
-  version "9.4.5"
-  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-9.4.5.tgz#a2a56e72a7ad5075af4ee606f0b2ca9ee2474df0"
-  integrity sha512-FRIXQGR+jG+Fx4UcqhF0b5jMEU3Q5QcZ8rEVWKqZgrrn92C1HcqtuZy7dH+rZ6uNGjnlV7HBf8iprJaJ+350LA==
+react-spring@9.5.5:
+  version "9.5.5"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-9.5.5.tgz#314009a65efc04d0ef157d3d60590dbb9de65f3c"
+  integrity sha512-vMGVd2yjgxWcRCzoLn9AD1d24+WpunHBRg5DoehcRdiBocaOH6qgle0xN9C5LPplXfv4yIpS5QWGN5MKrWxSZg==
   dependencies:
-    "@react-spring/core" "~9.4.5"
-    "@react-spring/konva" "~9.4.5"
-    "@react-spring/native" "~9.4.5"
-    "@react-spring/three" "~9.4.5"
-    "@react-spring/web" "~9.4.5"
-    "@react-spring/zdog" "~9.4.5"
+    "@react-spring/core" "~9.5.5"
+    "@react-spring/konva" "~9.5.5"
+    "@react-spring/native" "~9.5.5"
+    "@react-spring/three" "~9.5.5"
+    "@react-spring/web" "~9.5.5"
+    "@react-spring/zdog" "~9.5.5"
 
 react-swipeable@^7.0.0:
   version "7.0.0"
