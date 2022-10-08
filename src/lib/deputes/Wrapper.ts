@@ -90,10 +90,10 @@ export function getDeputeAccropolis(slug: string) {
       `
       *,
       GroupeParlementaire (
-        *
+       *
       ),
       Activite (
-        *
+       *
       )
       `
     )
@@ -102,3 +102,37 @@ export function getDeputeAccropolis(slug: string) {
     .then((d) => d.body[0])
 }
 
+export function getDeputesMap() {
+  return supabase
+    .from("Depute")
+    .select(
+      `
+      Slug,
+      URLPhotoAugora,
+      Prenom,
+      NomDeFamille,
+      Nom,
+      Sexe,
+      Age,
+      NumeroDepartement,
+      NomDepartement,
+      NumeroRegion,
+      NomRegion,
+      NumeroCirconscription,
+      NomCirconscription,
+      RattachementFinancier,
+      ResponsabiliteGroupe,
+      GroupeParlementaire (
+        Sigle,
+        NomComplet,
+        Couleur,
+        CouleurDetail,
+        URLImage,
+        Ordre
+      )
+      `
+    )
+    .eq("EstEnMandat", true)
+    .then(handleSupabaseError)
+    .then((d) => d.body)
+}
