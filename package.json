@@ -5,9 +5,9 @@
   "version": "0.2.0",
   "author": "",
   "dependencies": {
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
-    "@mui/material": "^5.8.6",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.8",
     "@supabase/supabase-js": "^1.35.7",
     "@svgr/webpack": "^6.2.1",
     "@visx/annotation": "^2.12.2",
@@ -60,7 +60,7 @@
     "url": "https://github.com/Augora/Augora/issues"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^12.2.0",
+    "@next/bundle-analyzer": "^12.3.1",
     "@types/geojson": "^7946.0.7",
     "@types/lodash": "^4.14.182",
     "@types/mapbox-gl": "^2.7.3",
