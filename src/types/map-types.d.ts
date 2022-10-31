@@ -2,7 +2,7 @@ declare namespace AugoraMap {
   /** Un array de 2 nombres: longitude en premier et latitude, utilisable par mapbox pour les coordonées */
   type Coordinates = [number, number]
 
-  /** Un array de 2 coordonnées: southwest [lng, lat] & northeast [lng, lat] utilisable par mapbox pour les bounding boxes */
+  /** Un array de 2 coordonnées: southwest `[lng, lat]` & northeast `[lng, lat]` utilisable par mapbox pour les bounding boxes */
   type Bounds = [Coordinates, Coordinates]
 
   /** Un object GeoJSON geometry ne contenant que polygon ou multipolygon */
@@ -60,7 +60,11 @@ declare namespace AugoraMap {
     features: MapboxAPIFeature[]
   }
 
-  /** Objet contenant les codes de zone pour la map */
+  /**
+   * Objet contenant un code de zone pour la map
+   *
+   * Si circonscription, doit impérativement contenir à la fois `code_circ` et `code_dpt`
+   */
   interface Codes {
     /** ID continent (0 France, 1 World, 2 DROM-COM) */
     code_cont?: number
@@ -81,9 +85,17 @@ declare namespace AugoraMap {
     /** Feature contenant toutes les zones. */
     feature: Feature
     /** Objet paint pour les layers. Utilisé pour avoir une couleur dynamique */
-    paint: {
+    paint?: {
       fill: mapboxgl.FillPaint
       line: mapboxgl.LinePaint
     }
+  }
+
+  /** Object pour un élément breadcrumb  */
+  type Breadcrumb = {
+    /** La feature de la zone, contient des coordonnées vides, donc inutilisable pour l'affichage */
+    feature: Feature
+    /** Les enfants de la zone */
+    children?: Breadcrumb[]
   }
 }

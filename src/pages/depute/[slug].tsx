@@ -15,9 +15,11 @@ import SEO, { PageType } from "components/seo/seo"
 import GroupeEtParti from "src/components/deputy/groupes/groupe-parti"
 import Missions from "src/components/deputy/missions-parlementaires/missions"
 import { getOrganismes } from "src/utils/augora-objects/deputy/organismes"
+import { getFeature } from "components/maps/maps-imports"
 
 interface IDeputy {
   depute: Deputy.Deputy
+  deputeCirc: AugoraMap.Feature
   activites: { [Activites: string]: { [data: string]: Deputy.Activite[] } }[]
 }
 
@@ -25,7 +27,7 @@ interface IDeputy {
 //   return "--" + color.name + "-color :" + color.hex + ";\n"
 // })
 
-export default function Deputy({ depute }: IDeputy) {
+export default function Deputy({ depute, deputeCirc }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.CouleurDetail
   const organismes = getOrganismes(deputy)
@@ -40,7 +42,7 @@ export default function Deputy({ depute }: IDeputy) {
         <div className="deputy__content">
           <GeneralInformation {...getGeneralInformation(deputy)} color={color} size="medium" dateBegin={deputy.DateDeNaissance} />
           <GroupeEtParti {...getGroupesInformation(deputy)} sexe={deputy.Sexe} color={color} size="medium" />
-          <MapDistrict deputy={deputy} color={color} size="medium" />
+          <MapDistrict deputy={deputy} deputeCirc={deputeCirc} color={color} size="medium" />
           <Coworkers {...getCoworkers(deputy)} color={color} size="medium" />
           <Mandate {...getMandate(deputy)} color={color} size="medium" />
           <Contact color={color} size="medium" adresses={deputy.Adresses} />
@@ -54,10 +56,15 @@ export default function Deputy({ depute }: IDeputy) {
 
 export async function getStaticProps({ params: { slug } }: { params: { slug: string } }) {
   const depute: Deputy.Deputy = await getDepute(slug)
+  const feature = getFeature({
+    code_circ: depute.NumeroCirconscription,
+    code_dpt: depute.NumeroDepartement,
+  })
 
   return {
     props: {
       depute: depute,
+      deputeCirc: feature,
       title: depute.Nom,
     },
   }
