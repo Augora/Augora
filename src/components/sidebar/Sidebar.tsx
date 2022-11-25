@@ -69,10 +69,8 @@ export const SidebarFooter = () => {
 
 const SidebarLink = ({ href, title, isCurrent }: { href: string; title?: string; isCurrent?: boolean }) => {
   return (
-    <Link href={href}>
-      <a className={`link ${isCurrent ? "link--current" : ""}`} title={`Aller sur la page ${title ? title : ""}`}>
-        {title}
-      </a>
+    <Link href={href} className={`link ${isCurrent ? "link--current" : ""}`} title={`Aller sur la page ${title ? title : ""}`}>
+      {title}
     </Link>
   )
 }
