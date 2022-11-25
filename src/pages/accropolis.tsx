@@ -13,81 +13,53 @@ function handleSupabaseError({ error, ...rest }) {
   return rest
 }
 
-export default function Accropolis() {
-  const { session } = Auth.useUser()
+export default function Accropolis({ session }) {
   const [currentAnimation, setCurrentAnimation] = useState({
     animation: null,
     type: null,
   })
-  const [question, setQuestion] = useState("")
+  const [question, setQuestion] = useState(session.Question)
   const [mapOpacity, setMapOpacity] = useState({ value: 0 })
-  const [activeDepute, setActiveDepute] = useState(null)
+  const [activeDepute, setActiveDepute] = useState(session.Depute)
   const refMapOpacity = { value: 1 }
   const { overview, setOverview } = mapStore()
-  const [bannerState, setBannerState] = useState("intro")
+  const [bannerState, setBannerState] = useState(session.BannerState)
 
+  // Realtime client
   useEffect(() => {
-    if (session) {
-      supabaseClient.auth.setAuth(session.access_token)
-
-      supabaseClient
-        .from("Session")
-        .select(
-          `
-          *,
-          Depute (
-            *,
-            GroupeParlementaire (
-              *
-            )
-          )
-        `
-        )
-        .then(handleSupabaseError)
-        .then((d) => d.body[0])
-        .then((d) => {
-          console.log("d:", d)
-          setQuestion(d.Question)
-          setActiveDepute(d.Depute)
-          setBannerState(d.BannerState)
-        })
-
-      var subscription = supabaseClient
-        .from("Session:id=eq.1234")
-        .on("UPDATE", async (payload) => {
-          const { data, error } = await supabaseClient
-            .from("Depute")
-            .select(
-              `
+    var subscription = supabaseClient
+      .from("Session:id=eq.1234")
+      .on("UPDATE", async (payload) => {
+        const { data, error } = await supabaseClient
+          .from("Depute")
+          .select(
+            `
               *,
               GroupeParlementaire (
                 *
               )
             `
-            )
-            .eq("Slug", payload.new.Depute)
-            .then(handleSupabaseError)
+          )
+          .eq("Slug", payload.new.Depute)
+          .then(handleSupabaseError)
 
-          if (activeDepute) {
-            const olderTL = olderBannerAnimation(setCurrentAnimation, data[0])
-            olderTL.play()
-          } else {
-            setActiveDepute(data[0])
-          }
+        if (activeDepute) {
+          const olderTL = olderBannerAnimation(setCurrentAnimation, data[0])
+          olderTL.play()
+        } else {
+          setActiveDepute(data[0])
+        }
 
-          setQuestion(payload.new.Question)
-          setBannerState(payload.new.BannerState)
-        })
-        .subscribe()
+        setQuestion(payload.new.Question)
+        setBannerState(payload.new.BannerState)
+      })
+      .subscribe()
 
-      return () => {
-        supabaseClient.removeSubscription(subscription)
-      }
+    return () => {
+      supabaseClient.removeSubscription(subscription)
     }
   }, [])
 
-  // Animations
-  /*----------------------------------------------------*/
   const olderBannerAnimation = (setCurrentAnimation, depute, index = null) => {
     const olderTL = gsap.timeline({
       onComplete: () => {
@@ -157,4 +129,29 @@ export default function Accropolis() {
       forcedOverview={overview}
     />
   ) : null
+}
+
+export async function getServerSideProps() {
+  var res = await supabaseClient
+    .from("Session")
+    .select(
+      `
+        *,
+        Depute (
+          *,
+          GroupeParlementaire (
+            *
+          )
+        )
+      `
+    )
+    .then(handleSupabaseError)
+    .then((d) => d.body[0])
+
+  return {
+    props: {
+      session: res,
+      title: "Accropolis Live Tool",
+    },
+  }
 }
