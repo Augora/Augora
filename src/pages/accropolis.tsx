@@ -30,24 +30,50 @@ export default function Accropolis({ session }) {
     var subscription = supabaseClient
       .from("Session:id=eq.1234")
       .on("UPDATE", async (payload) => {
-        const { data, error } = await supabaseClient
-          .from("Depute")
-          .select(
-            `
-              *,
-              GroupeParlementaire (
-                *
-              )
-            `
-          )
-          .eq("Slug", payload.new.Depute)
-          .then(handleSupabaseError)
+        console.log("Update received", { payload })
+        if (payload.new.BannerState === "dep") {
+          const { data, error } = await supabaseClient
+            .from("Depute")
+            .select(
+              `
+                *,
+                GroupeParlementaire (
+                  *
+                )
+              `
+            )
+            .eq("Slug", payload.new.Depute)
+            .then(handleSupabaseError)
 
-        if (activeDepute) {
-          const olderTL = olderBannerAnimation(setCurrentAnimation, data[0])
-          olderTL.play()
+          if (activeDepute) {
+            const olderTL = olderBannerAnimation(setCurrentAnimation, data[0])
+            olderTL.play()
+          } else {
+            setActiveDepute(data[0])
+          }
         } else {
-          setActiveDepute(data[0])
+          const RENResult = await supabaseClient
+            .from("GroupeParlementaire")
+            .select("*")
+            .eq("Sigle", "REN")
+            .then(handleSupabaseError)
+
+          const { data, error } = await supabaseClient
+            .from("Ministre")
+            .select("*")
+            .eq("Slug", payload.new.Ministre)
+            .then(handleSupabaseError)
+
+          const ministreWithColors = Object.assign({}, data[0], {
+            GroupeParlementaire: RENResult.data[0],
+          })
+
+          if (activeDepute) {
+            const olderTL = olderBannerAnimation(setCurrentAnimation, ministreWithColors)
+            olderTL.play()
+          } else {
+            setActiveDepute(ministreWithColors)
+          }
         }
 
         setQuestion(payload.new.Question)

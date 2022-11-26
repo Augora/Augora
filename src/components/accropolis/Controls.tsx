@@ -3,6 +3,7 @@ import styles from "./ControlsStyles.module.scss"
 import { slugify } from "utils/utils"
 import debounce from "lodash/debounce"
 import mapStore from "src/stores/mapStore"
+import supabaseClient from "lib/supabase/client"
 
 export default function Controls({
   // socket,
@@ -148,7 +149,11 @@ export default function Controls({
           onChange={(e) => {
             if (e.target.value.length < 100) {
               setQuestion(e.target.value)
-              // socket.emit('question', e.target.value)
+              supabaseClient
+                .from("Session")
+                .update({ Question: e.target.value })
+                .match({ id: "1234" })
+                .then((r) => console.log("Question sent", { r }))
             }
           }}
         />
@@ -175,11 +180,11 @@ export default function Controls({
                         GroupeParlementaire: deputes.filter((d) => {
                           return d.GroupeParlementaire.Sigle === "REN"
                         })[0].GroupeParlementaire,
-                        Nom: `${gov.Nom}`,
+                        Nom: gov.Nom,
                         NomDeFamille: gov.Nom,
                         NomRegion: "France",
                         Prenom: gov.Nom,
-                        Slug: "gouvernement",
+                        Slug: gov.Slug,
                         Office: gov.Fonction,
                         RattOffice: gov.Charge,
                       })

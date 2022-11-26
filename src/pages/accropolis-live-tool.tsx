@@ -137,6 +137,20 @@ export default function AccropolisLiveTools({ allAccroDeputes, allMinistres }) {
     if (event) {
       event.preventDefault()
     }
+    console.log({ people })
+    if (people.type === "dep") {
+      supabase
+        .from("Session")
+        .update({ Depute: people.Slug, BannerState: people.type })
+        .match({ id: "1234" })
+        .then((r) => console.log("Depute sent", r))
+    } else {
+      supabase
+        .from("Session")
+        .update({ Ministre: people.Slug, BannerState: people.type })
+        .match({ id: "1234" })
+        .then((r) => console.log("Ministre sent", r))
+    }
     setBannerState(people.type)
     setActiveDepute(people)
     if (currentAnimation.animation) {
