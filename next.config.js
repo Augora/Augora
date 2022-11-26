@@ -7,9 +7,18 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 })
 
 module.exports = withBundleAnalyzer({
-  // images: {
-  //   domains: ["static.augora.fr"],
-  // },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "**.assemblee-nationale.fr",
+      },
+      {
+        protocol: "https",
+        hostname: "**.augora.fr",
+      },
+    ],
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, "src", "styles"), path.join(__dirname, "public")],
   },

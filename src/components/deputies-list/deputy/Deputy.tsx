@@ -24,7 +24,7 @@ export default function OneDeputy({ depute, groupNumber }: IOneDeputy) {
       >
         <h2>{depute.Nom}</h2>
         {isPresidentGroupe ? <h3>Président{depute.Sexe === "F" ? "e" : ""} du groupe</h3> : ""}
-        <DeputyImage src={depute.URLPhotoAugora} alt={depute.Slug} sex={depute.Sexe} />
+        <DeputyImage src={depute.URLPhotoAssembleeNationale} alt={depute.Slug} sex={depute.Sexe} />
         <div className="deputy__icon-container">
           <div className="icon-wrapper">
             <GroupLogo />
