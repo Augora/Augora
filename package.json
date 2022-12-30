@@ -27,7 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.11.0",
-    "next": "^13.0.5",
+    "next": "^13.1.1",
     "point-in-polygon": "^1.1.0",
     "polylabel": "^1.1.0",
     "prettier": "2.8.1",
