@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.2",
     "@supabase/supabase-js": "^1.35.7",
+    "@supabase/ui": "^0.36.5",
     "@svgr/webpack": "^6.5.1",
     "@visx/annotation": "^2.12.2",
     "@visx/axis": "^2.14.0",
