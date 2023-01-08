@@ -1,9 +1,9 @@
 import create, { State } from "zustand"
 
-interface AccropolisState extends State {
-  activeDepute: any,
-  activeDeputeIndex: number,
-  question: string,
+interface AccropolisState {
+  activeDepute: any
+  activeDeputeIndex: number
+  question: string
   setActiveDepute(value: any): void
   setActiveDeputeIndex(value: any): void
   setquestion(value: any): void
@@ -13,7 +13,7 @@ const accropolisStore = create<AccropolisState>((set) => ({
   // Variables
   activeDepute: null,
   activeDeputeIndex: 0,
-  question: '',
+  question: "",
 
   setActiveDepute(value: any) {
     set(() => {
