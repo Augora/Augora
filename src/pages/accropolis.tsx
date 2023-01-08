@@ -22,7 +22,7 @@ export default function Accropolis({ session }) {
   const [mapOpacity, setMapOpacity] = useState({ value: 0 })
   const [activeDepute, setActiveDepute] = useState(session.Depute)
   const [bannerState, setBannerState] = useState(session.BannerState)
-  const [overview, setOverview] = useState(false)
+  const [overview, setOverview] = useState(session.Overview)
 
   const refMapOpacity = { value: 1 }
   // Realtime client
@@ -75,8 +75,9 @@ export default function Accropolis({ session }) {
             setActiveDepute(ministreWithColors)
           }
         }
+
         setQuestion(payload.new.Question)
-        setOverview(payload.new.Overview)
+        setOverview(payload.new.Overview === "true")
         setBannerState(payload.new.BannerState)
       })
       .subscribe()
@@ -129,13 +130,13 @@ export default function Accropolis({ session }) {
       },
       "-=0.6"
     )
-    // olderTL.to(refMapOpacity, {
-    //   value: 0,
-    //   duration: 0.2,
-    //   onUpdate: () => {
-    //     setMapOpacity({ value: refMapOpacity.value })
-    //   },
-    // })
+    olderTL.to(refMapOpacity, {
+      value: 0,
+      duration: 0.2,
+      onUpdate: () => {
+        setMapOpacity({ value: refMapOpacity.value })
+      },
+    })
     olderTL.call(() => {
       setActiveDepute(depute)
     })

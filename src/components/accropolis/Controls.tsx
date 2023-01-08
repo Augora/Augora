@@ -149,12 +149,14 @@ export default function Controls({
           rows={5}
           onChange={(e) => {
             if (e.target.value.length < 100) {
-              setQuestion(e.target.value)
               supabaseClient
                 .from("Session")
                 .update({ Question: e.target.value })
                 .match({ id: "1234" })
-                .then((r) => console.log("Question sent", { r }))
+                .then((r) => {
+                  console.log("Question sent", { r })
+                  setQuestion(e.target.value)
+                })
             }
           }}
         />
@@ -211,8 +213,10 @@ export default function Controls({
               .from("Session")
               .update({ Overview: !overview })
               .match({ id: "1234" })
-              .then((r) => console.log("Overview mode :", r?.data[0].Overview))
-            setOverview(!overview)
+              .then((r) => {
+                console.log("Overview mode :", r?.data[0].Overview)
+                setOverview(!overview)
+              })
           }}
         >
           {overview ? "Zoomer" : "Dézoomer"}
