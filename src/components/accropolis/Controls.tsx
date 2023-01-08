@@ -9,6 +9,8 @@ export default function Controls({
   // socket,
   question,
   setQuestion,
+  overview,
+  setOverview,
   deputes,
   cycleBannerContent,
   activeDepute,
@@ -23,7 +25,6 @@ export default function Controls({
   const [governmentSearch, setGovernmentSearch] = useState("")
   const [searchedDeputes, setSearchedDeputes] = useState([])
   const [searchedGovernments, setSearchedGovernments] = useState([])
-  const { overview, setOverview } = mapStore()
 
   // Search
   /*----------------------------------------------------*/
@@ -203,7 +204,17 @@ export default function Controls({
       </div>
       <div className={`${styles.controls__block} ${styles.controls__map}`}>
         <h2>Carte</h2>
-        <button className={`${styles.btn}`} onClick={(f) => f /*socket.emit("overview", !overview)*/}>
+        <button
+          className={`${styles.btn}`}
+          onClick={() => {
+            supabaseClient
+              .from("Session")
+              .update({ Overview: !overview })
+              .match({ id: "1234" })
+              .then((r) => console.log("Overview mode :", r?.data[0].Overview))
+            setOverview(!overview)
+          }}
+        >
           {overview ? "Zoomer" : "Dézoomer"}
         </button>
       </div>

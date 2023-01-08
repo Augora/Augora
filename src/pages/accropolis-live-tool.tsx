@@ -45,8 +45,6 @@ const LogoTwitch = ({ size = 24 }) => {
 // Component
 /*----------------------------------------------------*/
 export default function AccropolisLiveTools({ allAccroDeputes, allMinistres }) {
-  const router = useRouter()
-
   // Core component states
   const { session } = Auth.useUser()
   const [loading, setLoading] = useState(false)
@@ -60,9 +58,9 @@ export default function AccropolisLiveTools({ allAccroDeputes, allMinistres }) {
     type: null,
   })
   const [question, setQuestion] = useState("")
+  const [overview, setOverview] = useState(false)
   const [mapOpacity, setMapOpacity] = useState({ value: 0 })
   const refMapOpacity = { value: 1 }
-  const { overview, setOverview } = mapStore()
 
   // Animations
   /*----------------------------------------------------*/
@@ -264,6 +262,7 @@ export default function AccropolisLiveTools({ allAccroDeputes, allMinistres }) {
                 mapOpacity={mapOpacity}
                 setMapOpacity={setMapOpacity}
                 question={question}
+                overview={overview}
               />
             ) : null}
           </div>
@@ -272,6 +271,8 @@ export default function AccropolisLiveTools({ allAccroDeputes, allMinistres }) {
               // socket={socket}
               question={question}
               setQuestion={setQuestion}
+              overview={overview}
+              setOverview={setOverview}
               deputes={allAccroDeputes}
               activeDepute={activeDepute}
               cycleBannerContent={cycleBannerContent}

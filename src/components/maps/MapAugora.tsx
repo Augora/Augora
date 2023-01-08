@@ -54,10 +54,12 @@ interface IMapAugora {
   deputies?: Deputy.DeputiesList
   /** Liste des députés dans la zone actuelle. Inutile si on désactive les overlay */
   zoneDeputies?: Deputy.DeputiesList
+  /** Overrides le padding des zones de la viewbox */
+  zonePadding?: number
   /** Si les overlays doivent être affichés,
    * @default true */
   overlay?: boolean
-  /** Délai optionel de la fonction flytobounds */
+  /** Délai optionel de la fonction flytobounds en ms */
   delay?: number
   /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire)
    * @default true */
@@ -85,6 +87,7 @@ export default function MapAugora(props: IMapAugora) {
     overlay = true,
     deputies = [],
     zoneDeputies = [],
+    zonePadding = 80,
     overview = false,
     attribution = true,
     delay = 0,
@@ -110,7 +113,7 @@ export default function MapAugora(props: IMapAugora) {
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
     setTimeout(() => {
-      if (mapRef.current) flyToBounds(feature, mapRef.current, isMobile)
+      if (mapRef.current) flyToBounds(feature, mapRef.current, { padding: !zonePadding ? (isMobile ? 20 : 80) : zonePadding })
     }, delay)
   }
 
@@ -118,7 +121,7 @@ export default function MapAugora(props: IMapAugora) {
   const flyToPin = <T extends GeoJSON.Feature>(feature: T) => {
     const pos = getPosition(feature)
     const zoom =
-      pos === Pos.World || pos === Pos.WCirc ? -1 : pos === Pos.OMDpt || pos === Pos.OMCirc ? 2 : pos === Pos.France ? 0 : 3.5
+      pos === Pos.World || pos === Pos.WCirc ? -1 : pos === Pos.OMDpt || pos === Pos.OMCirc ? 2 : pos === Pos.France ? 0 : 2.5
 
     if (mapRef.current) flyToCoords(mapRef.current, zoneFeature.properties.center, { zoom: zoom })
   }
@@ -126,7 +129,6 @@ export default function MapAugora(props: IMapAugora) {
   /** Change la zone affichée et transitionne
    * @param {T} [opts.feature] La feature à afficher
    * @param {AugoraMap.Coordinates} [opts.coords] Les coords sur lesquelles transitionner, ignoré si une feature est aussi passée
-   * @param {string} [opts.url] Pour requeter un changement d'url, ignoré si une feature et des coordonnées sont passées
    * @param {boolean} [opts.redirect] S'il faut changer pour la page détal en cas de clic sur une circonscription @default true
    */
   const goToZone = <T extends GeoJSON.Feature>(opts: { feature?: T; coords?: AugoraMap.Coordinates; redirect?: boolean }) => {

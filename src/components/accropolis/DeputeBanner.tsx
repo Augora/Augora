@@ -32,9 +32,9 @@ export default function DeputeBanner({
   mapOpacity,
   setMapOpacity,
   question,
-  forcedOverview = false,
+  overview,
 }) {
-  const { viewstate, setViewstate, overview } = mapStore()
+  const { viewstate, setViewstate } = mapStore()
   const [rectangles, setRectangles] = useState([])
   const { NumeroCirconscription, NumeroDepartement } = depute
   const feature =
@@ -267,8 +267,9 @@ export default function DeputeBanner({
             setViewstate={setViewstate}
             overlay={false}
             attribution={false}
-            overview={forcedOverview ? forcedOverview : overview}
+            overview={overview}
             borders={true}
+            zonePadding={30}
             mapView={{
               geoJSON: createFeatureCollection([feature]),
               feature: feature,

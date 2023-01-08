@@ -21,10 +21,10 @@ export default function Accropolis({ session }) {
   const [question, setQuestion] = useState(session.Question)
   const [mapOpacity, setMapOpacity] = useState({ value: 0 })
   const [activeDepute, setActiveDepute] = useState(session.Depute)
-  const refMapOpacity = { value: 1 }
-  const { overview, setOverview } = mapStore()
   const [bannerState, setBannerState] = useState(session.BannerState)
+  const [overview, setOverview] = useState(false)
 
+  const refMapOpacity = { value: 1 }
   // Realtime client
   useEffect(() => {
     var subscription = supabaseClient
@@ -75,8 +75,8 @@ export default function Accropolis({ session }) {
             setActiveDepute(ministreWithColors)
           }
         }
-
         setQuestion(payload.new.Question)
+        setOverview(payload.new.Overview)
         setBannerState(payload.new.BannerState)
       })
       .subscribe()
@@ -129,13 +129,13 @@ export default function Accropolis({ session }) {
       },
       "-=0.6"
     )
-    olderTL.to(refMapOpacity, {
-      value: 0,
-      duration: 0.2,
-      onUpdate: () => {
-        setMapOpacity({ value: refMapOpacity.value })
-      },
-    })
+    // olderTL.to(refMapOpacity, {
+    //   value: 0,
+    //   duration: 0.2,
+    //   onUpdate: () => {
+    //     setMapOpacity({ value: refMapOpacity.value })
+    //   },
+    // })
     olderTL.call(() => {
       setActiveDepute(depute)
     })
@@ -152,7 +152,7 @@ export default function Accropolis({ session }) {
       mapOpacity={mapOpacity}
       setMapOpacity={setMapOpacity}
       question={question}
-      forcedOverview={overview}
+      overview={overview}
     />
   ) : null
 }

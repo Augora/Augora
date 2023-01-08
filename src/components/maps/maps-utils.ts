@@ -1,5 +1,5 @@
 import { MapRef } from "react-map-gl"
-import { WebMercatorViewport } from "@math.gl/web-mercator"
+import { WebMercatorViewport, FitBoundsOptions } from "@math.gl/web-mercator"
 import polylabel from "polylabel"
 import pointInPolygon from "point-in-polygon"
 import { slugify } from "utils/utils"
@@ -242,18 +242,20 @@ export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordina
  * Transitionne de façon fluide vers une bounding box
  * @param {AugoraMap.Feature} feature La feature vers laquelle aller, dézoom sur le monde si la feature n'a pas de propriété bbox
  * @param {mapRef} mapRef Pointeur vers l'objet map
- * @param {boolean} isMobile Pour réduire le padding
+ * @param {Object} [opts] Webmercator fitbounds options
  */
-export const flyToBounds = <T extends GeoJSON.Feature>(feature: T, mapRef: MapRef, isMobile?: boolean): void => {
+export const flyToBounds = <T extends GeoJSON.Feature>(
+  feature: T,
+  mapRef: MapRef,
+  opts?: Omit<FitBoundsOptions, "width" | "height" | "bounds">
+): void => {
   if (feature && mapRef) {
     const bounds: AugoraMap.Bounds = feature?.properties?.bbox ? feature.properties.bbox : worldBox
 
     const { longitude, latitude, zoom } = new WebMercatorViewport({
       width: mapRef.getContainer().getBoundingClientRect().width,
       height: mapRef.getContainer().getBoundingClientRect().height,
-    }).fitBounds(bounds, {
-      padding: isMobile ? 20 : 80,
-    })
+    }).fitBounds(bounds, opts && opts)
 
     flyToCoords(mapRef, [longitude, latitude], { zoom: zoom })
   }
