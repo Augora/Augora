@@ -272,7 +272,10 @@ export default function DeputeBanner({
             mapView={{
               geoJSON: createFeatureCollection([feature]),
               feature: feature,
-              paint: getLayerPaint({ color: `rgba(${RGB.R}, ${RGB.G}, ${RGB.B}, ${mapOpacity.value})` }),
+              color: {
+                ...RGB,
+                A: mapOpacity.value,
+              },
             }}
           />
         </div>
