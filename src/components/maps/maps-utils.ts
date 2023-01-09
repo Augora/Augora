@@ -3,6 +3,7 @@ import { WebMercatorViewport, FitBoundsOptions } from "@math.gl/web-mercator"
 import polylabel from "polylabel"
 import pointInPolygon from "point-in-polygon"
 import { slugify } from "utils/utils"
+import { getCSSColor } from "utils/style/color"
 
 /**
  * Un enum pour simplifier visuellement les clés de numéro de zone de nos GeoJSON.
@@ -115,26 +116,27 @@ export const worldBox: AugoraMap.Bounds = [
  * @param {boolean} [opts.ghost] Si c'est la layer ghost
  */
 export const getLayerPaint = (opts?: {
-  color?: string
+  color?: string | Color.Any
   ghost?: boolean
 }): {
   fill: mapboxgl.FillPaint
   line: mapboxgl.LinePaint
 } => {
   const { color, ghost } = opts || {}
+  const cssColor = getCSSColor(color)
 
   return {
     fill: {
       "fill-color": [
         "case",
         ["boolean", ["feature-state", "hover"], false],
-        color ? color : "#14ccae",
-        color ? color : "#00bbcc",
+        cssColor ? cssColor : "#14ccae",
+        cssColor ? cssColor : "#00bbcc",
       ],
       "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.3, ghost ? 0.04 : 0.1],
     },
     line: {
-      "line-color": color ? color : "#00bbcc",
+      "line-color": cssColor ? cssColor : "#00bbcc",
       "line-width": 1,
       "line-opacity": ghost ? 0.2 : 1,
     },

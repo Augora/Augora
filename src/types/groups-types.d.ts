@@ -9,34 +9,13 @@ declare namespace Group {
     NomComplet?: string
     /** Format "hsl(255, 100%, 100%)" */
     Couleur?: string
-    CouleurDetail?: CouleurDetail
+    CouleurDetail?: Color.All
     URLImage?: string
     Ordre?: number
     Actif?: boolean
     DescriptionWikipedia?: string
     IDWikipedia?: string
     IDAssembleeNationale?: string
-  }
-
-  interface CouleurDetail {
-    HSL: HSLDetail
-    RGB: RGBDetail
-    HEX: string
-  }
-
-  interface HSLDetail {
-    /** Format "hsl(255, 100%, 100%)" */
-    Full: string
-    H: number
-    S: number
-    L: number
-  }
-
-  interface RGBDetail {
-    Full: string
-    R: number
-    G: number
-    B: number
   }
 
   interface ResponsabiliteGroupe {

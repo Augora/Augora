@@ -9,7 +9,7 @@ import { getHSLLightVariation } from "../utils/style/color"
 
 interface IHeader {
   siteTitle?: string
-  color?: Group.HSLDetail
+  color?: Color.HSL
   onBurgerClick?(): void
   location: NextRouter
 }
