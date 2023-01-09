@@ -75,9 +75,8 @@ export default function Accropolis({ session }) {
             setActiveDepute(ministreWithColors)
           }
         }
-
         setQuestion(payload.new.Question)
-        setOverview(payload.new.Overview === "true")
+        setOverview(payload.new.Overview)
         setBannerState(payload.new.BannerState)
       })
       .subscribe()
