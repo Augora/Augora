@@ -1,8 +1,8 @@
-import create, { State } from "zustand"
+import { create } from "zustand"
 import { ViewState } from "react-map-gl"
 import { createFeature, createFeatureCollection, France, getLayerPaint } from "src/components/maps/maps-utils"
 
-interface MapState extends State, AugoraMap.MapView {
+interface MapState extends AugoraMap.MapView {
   /** La hauteur & largeur en pixel du viewport */
   viewsize: { height: number; width: number }
   viewstate: ViewState

@@ -1,6 +1,6 @@
-import create, { State } from "zustand"
+import { create } from "zustand"
 
-interface AccropolisState extends State {
+interface AccropolisState {
   activeDepute: any,
   activeDeputeIndex: number,
   question: string,
