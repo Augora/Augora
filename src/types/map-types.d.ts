@@ -85,10 +85,7 @@ declare namespace AugoraMap {
     /** Feature contenant toutes les zones. */
     feature: Feature
     /** Objet paint pour les layers. Utilisé pour avoir une couleur dynamique */
-    paint?: {
-      fill: mapboxgl.FillPaint
-      line: mapboxgl.LinePaint
-    }
+    color?: Color.Any
   }
 
   /** Object pour un élément breadcrumb  */

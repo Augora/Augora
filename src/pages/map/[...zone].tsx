@@ -79,12 +79,12 @@ export default function MapPage(props: IMapProps) {
   }, [router]) //prefetch les pages des features visibles
 
   const zoneDeputies = getDeputies(props.feature, FilteredList)
-  const paint =
+  const color =
     zoneDeputies.length === 1 && getZoneCode(props.feature) === Code.Circ
-      ? getLayerPaint({ color: zoneDeputies[0]?.GroupeParlementaire?.Couleur })
+      ? zoneDeputies[0]?.GroupeParlementaire?.CouleurDetail.HSL
       : zoneDeputies.length === 0
-      ? getLayerPaint({ color: "#808080" })
-      : getLayerPaint()
+      ? "#808080"
+      : null
 
   const handleResize = (e) => {
     setViewsize({ height: e.target.innerHeight, width: e.target.innerWidth })
@@ -119,7 +119,7 @@ export default function MapPage(props: IMapProps) {
               geoJSON: props.geoJSON,
               ghostGeoJSON: props.ghostGeoJSON,
               feature: props.feature,
-              paint: paint,
+              color,
             }}
             onZoneClick={changeZone}
             onBack={() => changeURL(getParentURL(props.feature))}

@@ -18,5 +18,5 @@ export default function ContactTooltip({ links, ...props }: IContactTooltip) {
         </a>
       ))}
     </Tooltip>
-  )
+  );
 }

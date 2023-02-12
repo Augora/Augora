@@ -29,10 +29,10 @@ export default function MapDistrict(props: Bloc.Map) {
           mapView={{
             geoJSON: createFeatureCollection([props.deputeCirc]),
             feature: props.deputeCirc,
-            paint: getLayerPaint({ color: props.deputy.GroupeParlementaire.Couleur }),
+            color: props.deputy.GroupeParlementaire.CouleurDetail.RGB,
           }}
         />
-        <Link href={`/carte/${getFeatureURL(props.deputeCirc)}`}>
+        <Link href={`/carte/${getFeatureURL(props.deputeCirc)}`} legacyBehavior>
           <div className="map__redirect" title="Voir sur la carte">
             <div className="icon-wrapper">
               <IconExpand style={{ fill: props.color.HSL.Full }} />
