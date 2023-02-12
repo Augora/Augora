@@ -21,7 +21,7 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
     <>
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </Head>
       <Layout location={router} title={pageProps.title}>
         <Component {...pageProps} />
