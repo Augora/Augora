@@ -153,7 +153,7 @@ export default function PresenceParticipation(props: IPresence) {
               top={yMax}
               left={11}
               tickLength={6}
-              numTicks={changeDisplay ? 8 : 12}
+              numTicks={changeDisplay ? 8 : 10}
               animationTrajectory={"center"}
               tickFormat={(date: string) =>
                 width < 1000 ? getDates(date.split("T")[0]).MobileData : getDates(date.split("T")[0]).MonthData

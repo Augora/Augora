@@ -47,7 +47,7 @@ const Layout = ({ children, location, title }: ILayout) => {
     trackMouse: true, //doesn't seem to work
   })
 
-  const pageColor: Group.HSLDetail = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
+  const pageColor: Color.HSL = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
 
   const handleScroll = () => {
     if (window.scrollY > 50) {

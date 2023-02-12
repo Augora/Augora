@@ -10,7 +10,7 @@ import { getHSLLightVariation } from "utils/style/color"
  * @param {string} [title] Titre de la page, optionnel
  * @param {Group.HSLDetail} [color] Couleur de la bannière, optionnel
  */
-export default function PageTitle(props: { title?: string; color?: Group.HSLDetail }) {
+export default function PageTitle(props: { title?: string; color?: Color.HSL }) {
   const [hovered, setHovered] = useState(false)
 
   let style: React.CSSProperties = {}

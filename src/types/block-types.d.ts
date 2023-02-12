@@ -51,6 +51,7 @@ declare namespace Bloc {
 
   interface Map extends Base {
     deputy: Deputy.Deputy
+    deputeCirc: AugoraMap.Feature
   }
 
   interface Coworkers extends Base {
@@ -91,5 +92,4 @@ declare namespace Bloc {
   interface Organismes extends Base {
     organismes: Organisme.Contenu[]
   }
-
 }
