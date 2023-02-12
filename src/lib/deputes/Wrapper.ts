@@ -136,3 +136,11 @@ export function getDeputesMap() {
     .then(handleSupabaseError)
     .then((d) => d.body)
 }
+
+export function getMinistres() {
+  return supabase
+    .from("Ministre")
+    .select()
+    .then(handleSupabaseError)
+    .then((d) => d.body)
+}

@@ -1,4 +1,4 @@
-import create, { State } from "zustand"
+import create from "zustand"
 
 interface AccropolisState {
   activeDepute: any

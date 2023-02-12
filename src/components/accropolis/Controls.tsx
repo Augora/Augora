@@ -3,11 +3,14 @@ import styles from "./ControlsStyles.module.scss"
 import { slugify } from "utils/utils"
 import debounce from "lodash/debounce"
 import mapStore from "src/stores/mapStore"
+import supabaseClient from "lib/supabase/client"
 
 export default function Controls({
-  socket,
+  // socket,
   question,
   setQuestion,
+  overview,
+  setOverview,
   deputes,
   cycleBannerContent,
   activeDepute,
@@ -16,13 +19,12 @@ export default function Controls({
   olderBannerAnimation,
   government,
   bannerState,
-  setBannerState
+  setBannerState,
 }) {
   const [deputeSearch, setDeputeSearch] = useState("")
   const [governmentSearch, setGovernmentSearch] = useState("")
   const [searchedDeputes, setSearchedDeputes] = useState([])
   const [searchedGovernments, setSearchedGovernments] = useState([])
-  const { overview, setOverview } = mapStore()
 
   // Search
   /*----------------------------------------------------*/
@@ -33,6 +35,7 @@ export default function Controls({
       setSearchedDeputes([])
     }
   }, [deputeSearch])
+
   useEffect(() => {
     if (governmentSearch.length > 0) {
       verifyGovernment(governmentSearch, government)
@@ -58,12 +61,7 @@ export default function Controls({
   const verifyGovernment = useCallback(
     debounce((value, data) => {
       const filteredResults = data.filter((people) => {
-        const fullname = slugify(people.firstname) + ' ' + slugify(people.lastname)
-        return (
-          slugify(people.firstname).includes(slugify(value)) ||
-          slugify(people.lastname).includes(slugify(value)) ||
-          slugify(fullname).includes(slugify(value))
-        )
+        return slugify(people.Nom).includes(slugify(value))
       })
       setSearchedGovernments(filteredResults)
     }, 500),
@@ -100,18 +98,21 @@ export default function Controls({
       <div className={`${styles.controls__block} ${styles.controls__selected}`}>
         {activeDepute ? (
           <p className={`${styles.navigation__activeDepute}`}>
-            Député/Membre du gouvernement sélectionné : <span style={{ color: activeDepute.GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
+            Député/Membre du gouvernement sélectionné :{" "}
+            <span style={{ color: activeDepute.GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
           </p>
-        ) : <p>Aucun député sélectionné</p>}
+        ) : (
+          <p>Aucun député sélectionné</p>
+        )}
       </div>
-      <div className={`${styles.controls__block} ${styles.controls__introutro}`}>
-        <button className={`${styles.controls__intro}`} onClick={() => socket.emit('bannerState', 'intro')}>
+      {/* <div className={`${styles.controls__block} ${styles.controls__introutro}`}>
+        <button className={`${styles.controls__intro}`} onClick={() => setBannerState("intro")}>
           Intro
         </button>
-        <button className={`${styles.controls__outro}`} onClick={() => socket.emit('bannerState', 'outro')}>
+        <button className={`${styles.controls__outro}`} onClick={() => setBannerState("outro")}>
           Outro
         </button>
-      </div>
+      </div> */}
       <div className={`${styles.controls__block} ${styles.controls__navigation}`}>
         <h2>Députés</h2>
         <div className={`${styles.controls__form}`}>
@@ -128,7 +129,7 @@ export default function Controls({
                   <button
                     className={`${styles.search__depute}`}
                     style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}
-                    onClick={(e) => loadSearchedResult(e, Object.assign({}, depute, {type: 'dep'}))}
+                    onClick={(e) => loadSearchedResult(e, Object.assign({}, depute, { type: "dep" }))}
                     key={`search-depute-${depute.Slug}`}
                   >
                     {depute.Nom}
@@ -136,10 +137,8 @@ export default function Controls({
                 ))}
               </div>
             ) : deputeSearch.length && !searchedDeputes.length ? (
-              <div className={`${styles.navigation__searchResults}`}>
-                Aucun résultat
-              </div>
-            ) : null }
+              <div className={`${styles.navigation__searchResults}`}>Aucun résultat</div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -151,7 +150,13 @@ export default function Controls({
           onChange={(e) => {
             if (e.target.value.length < 100) {
               setQuestion(e.target.value)
-              socket.emit('question', e.target.value)
+              supabaseClient
+                .from("Session")
+                .update({ Question: e.target.value })
+                .match({ id: "1234" })
+                .then((r) => {
+                  console.log("Question sent", { r })
+                })
             }
           }}
         />
@@ -172,51 +177,48 @@ export default function Controls({
                   <button
                     className={`${styles.search__depute}`}
                     style={{ backgroundColor: "rgb(58, 156, 217)" }}
-                    onClick={(e) => loadSearchedResult(e, {
-                      type: 'gov',
-                      GroupeParlementaire: {
-                        Couleur: "hsl(203, 68%, 54%)",
-                        CouleurDetail: {
-                          HSL: {
-                            Full: "hsl(203, 68%, 54%)",
-                            H: 203,
-                            S: 68,
-                            L: 54,
-                          },
-                          RGB: {
-                            Full: "rgb(58, 156, 217)",
-                            R: 58,
-                            G: 156,
-                            B: 217,
-                          },
-                        },
-                        Sigle: "LREM",
-                      },
-                      Nom: `${gov.firstname} ${gov.lastname}`,
-                      NomDeFamille: gov.lastname,
-                      NomRegion: "France",
-                      Prenom: gov.firstname,
-                      Slug: "gouvernement",
-                      Office: gov.main_office,
-                      RattOffice: gov.ratt_offices
-                    })}
-                    key={`search-government-${slugify(gov.firstname.toLowerCase())} ${slugify(gov.lastname.toLowerCase())}`}
+                    onClick={(e) =>
+                      loadSearchedResult(e, {
+                        type: "gov",
+                        GroupeParlementaire: deputes.filter((d) => {
+                          return d.GroupeParlementaire.Sigle === "REN"
+                        })[0].GroupeParlementaire,
+                        Nom: gov.Nom,
+                        NomDeFamille: gov.Nom,
+                        NomRegion: "France",
+                        Prenom: gov.Nom,
+                        Slug: gov.Slug,
+                        Office: gov.Fonction,
+                        RattOffice: gov.Charge,
+                      })
+                    }
+                    key={`search-government-${slugify(gov.Nom.toLowerCase())}`}
                   >
-                    {gov.firstname} {gov.lastname}
+                    {gov.Nom}
                   </button>
                 ))}
               </div>
             ) : governmentSearch.length && !searchedGovernments.length ? (
-              <div className={`${styles.navigation__searchResults}`}>
-                Aucun résultat
-              </div>
-            ) : null }
+              <div className={`${styles.navigation__searchResults}`}>Aucun résultat</div>
+            ) : null}
           </div>
         </div>
       </div>
       <div className={`${styles.controls__block} ${styles.controls__map}`}>
         <h2>Carte</h2>
-        <button className={`${styles.btn}`} onClick={() => socket.emit('overview', !overview)}>
+        <button
+          className={`${styles.btn}`}
+          onClick={() => {
+            supabaseClient
+              .from("Session")
+              .update({ Overview: !overview })
+              .match({ id: "1234" })
+              .then((r) => {
+                console.log("Overview mode :", r?.data[0].Overview)
+                setOverview(!overview)
+              })
+          }}
+        >
           {overview ? "Zoomer" : "Dézoomer"}
         </button>
       </div>
