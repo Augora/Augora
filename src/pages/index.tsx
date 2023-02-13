@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState, useRef } from "react"
 import HomeButton from "components/buttons/HomeButton"
 import HomeGradientBar from "components/graphics/HomeGradientBar"
 import SEO, { PageType } from "../components/seo/seo"
@@ -61,9 +61,6 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
     return () => clearTimeout(timeout)
   }, [IndexFeature])
 
-  // Home intro parallax
-  useEffect(() => {}, [])
-
   // Number of graphs for the carousel
   const maxGraphes = useMemo(() => 4, [])
 
@@ -76,12 +73,14 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
     }
   }
 
+  const pageRef = useRef(null)
+
   // Render
   return (
     <>
       <SEO pageType={PageType.Accueil} />
-      <div className="page page__home page__landing">
-        <Panel className="home__intro" orientation="right">
+      <div className="page page__home page__landing" ref={pageRef}>
+        <Panel className="home__intro" orientation="right" pageRef={pageRef}>
           <Parallax img="images/photos/hemicycle.jpg" intro />
           <div className="panel__content">
             <h2 className="content__title content__title--center">Reconnecter les citoyens avec ses représentants</h2>

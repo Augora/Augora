@@ -855,6 +855,28 @@
       opacity: 1;
     }
   }
+
+  // Reveals
+  .panel {
+    .panel__content,
+    .panel__groups,
+    .panel__map {
+      opacity: 0;
+      transition: 0.4s $ease-in-out-cubic;
+    }
+    &.visible {
+      .panel__content,
+      .panel__groups,
+      .panel__map {
+        opacity: 1;
+      }
+    }
+    &.hidden {
+      .panel__content {
+        // 
+      }
+    }
+  }
 }
 
 .scrolled--home {
