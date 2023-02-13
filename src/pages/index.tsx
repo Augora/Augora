@@ -130,7 +130,6 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                 mapView={{
                   geoJSON: createFeatureCollection([features[IndexFeature]]),
                   feature: features[IndexFeature],
-                  paint: getLayerPaint(),
                 }}
                 marker={
                   <span>{`${getZoneName(features[IndexFeature])}${
