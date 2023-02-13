@@ -1,4 +1,4 @@
-import { MapRef } from "react-map-gl"
+import { MapRef, FillLayer, LineLayer } from "react-map-gl"
 import { WebMercatorViewport } from "@math.gl/web-mercator"
 import polylabel from "polylabel"
 import pointInPolygon from "point-in-polygon"
@@ -119,8 +119,8 @@ export const getLayerPaint = (opts?: {
   color?: string | Color.Any
   ghost?: boolean
 }): {
-  fill: mapboxgl.FillPaint
-  line: mapboxgl.LinePaint
+  fill: FillLayer["paint"]
+  line: LineLayer["paint"]
 } => {
   const { color, ghost } = opts || {}
   const cssColor = getCSSColor(color)
