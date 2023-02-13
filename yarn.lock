@@ -1696,19 +1696,12 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.191.tgz#09511e7f7cba275acd8b419ddac8da9a6a79e2fa"
   integrity sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==
 
-"@types/mapbox-gl@*", "@types/mapbox-gl@2.7.10", "@types/mapbox-gl@^2.6.0":
+"@types/mapbox-gl@^2.6.0":
   version "2.7.10"
   resolved "https://registry.yarnpkg.com/@types/mapbox-gl/-/mapbox-gl-2.7.10.tgz#a3a32a366bad8966c0a40b78209ed430ba018ce1"
   integrity sha512-nMVEcu9bAcenvx6oPWubQSPevsekByjOfKjlkr+8P91vawtkxTnopDoXXq1Qn/f4cg3zt0Z2W9DVsVsKRNXJTw==
   dependencies:
     "@types/geojson" "*"
-
-"@types/next@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@types/next/-/next-9.0.0.tgz#29aca06f8a5cfffc974a83b87e52ca57b2a506c4"
-  integrity sha512-gnBXM8rP1mnCgT1uE2z8SnpFTKRWReJlhbZLZkOLq/CH1ifvTNwjIVtXvsywTy1dwVklf+y/MB0Eh6FOa94yrg==
-  dependencies:
-    next "*"
 
 "@types/node@^18.11.18":
   version "18.13.0"
@@ -1754,16 +1747,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-map-gl@^6.1.3":
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/@types/react-map-gl/-/react-map-gl-6.1.3.tgz#b518a3ee0f51ed7be2b1574c77320c8b26266b3e"
-  integrity sha512-22R7vE/XT/S+Nwu7245llMW+vO8ITPQJHaiRCO9RxmUUdV2kio7mQWaL8M5ko3XMt+7Hyz5ComNI4AopXZsxMA==
-  dependencies:
-    "@types/geojson" "*"
-    "@types/mapbox-gl" "*"
-    "@types/react" "*"
-    "@types/viewport-mercator-project" "*"
-
 "@types/react-transition-group@^4.4.5":
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.5.tgz#aae20dcf773c5aa275d5b9f7cdbca638abc5e416"
@@ -1784,13 +1767,6 @@
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
-
-"@types/viewport-mercator-project@*":
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/@types/viewport-mercator-project/-/viewport-mercator-project-6.1.2.tgz#81c28c868625bb83d373a2b726cebb7958a71d8e"
-  integrity sha512-21U4s61ZMUx95F2Uc9DpXBlcSKlrkeChM+hbGWmpz8HtL+zwl/zP5pJarJmxKv/764iR9xf5870jYZ8Mby5xuQ==
-  dependencies:
-    gl-matrix "^3.2.0"
 
 "@visx/annotation@2.18.0", "@visx/annotation@^2.12.2":
   version "2.18.0"
@@ -2639,7 +2615,7 @@ get-stream@^6.0.1:
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-6.0.1.tgz#a262d8eef67aced57c2852ad6167526a43cbf7b7"
   integrity sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==
 
-gl-matrix@^3.2.0, gl-matrix@^3.4.0, gl-matrix@^3.4.3:
+gl-matrix@^3.4.0, gl-matrix@^3.4.3:
   version "3.4.3"
   resolved "https://registry.yarnpkg.com/gl-matrix/-/gl-matrix-3.4.3.tgz#fc1191e8320009fd4d20e9339595c6041ddc22c9"
   integrity sha512-wcCp8vu8FT22BnvKVPjXa/ICBWRq/zjFfdofZy1WSpQZpphblv12/bOQLBC1rMM7SGOFS9ltVmKOHil5+Ml7gA==
@@ -2988,7 +2964,7 @@ next-tick@^1.1.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
-next@*, next@^13.1.1:
+next@^13.1.1:
   version "13.1.6"
   resolved "https://registry.yarnpkg.com/next/-/next-13.1.6.tgz#054babe20b601f21f682f197063c9b0b32f1a27c"
   integrity sha512-hHlbhKPj9pW+Cymvfzc15lvhaOZ54l+8sXDXJWm3OBNBzgrVj6hwGPmqqsXg40xO1Leq+kXpllzRPuncpC0Phw==
