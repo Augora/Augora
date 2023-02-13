@@ -18,11 +18,9 @@ interface IHomeButton {
  */
 export default function HomeButton({ text, icon, onClick, title, inverted = false }: IHomeButton) {
   return typeof onClick === "string" ? (
-    <Link href={onClick}>
-      <a className={`home-btn${inverted ? " inverted" : ""}`} title={title ? title : ""}>
-        <div className="home-btn__icon icon-wrapper">{icon}</div>
-        <span className="home-btn__text">{text}</span>
-      </a>
+    <Link href={onClick} className={`home-btn${inverted ? " inverted" : ""}`} title={title ? title : ""}>
+      <div className="home-btn__icon icon-wrapper">{icon}</div>
+      <span className="home-btn__text">{text}</span>
     </Link>
   ) : (
     <button className={`home-btn${inverted ? " inverted" : ""}`} onClick={onClick} title={title ? title : ""}>
