@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import HomeButton from "components/buttons/HomeButton"
 import HomeGradientBar from "components/graphics/HomeGradientBar"
 import SEO, { PageType } from "../components/seo/seo"
@@ -73,14 +73,12 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
     }
   }
 
-  const pageRef = useRef(null)
-
   // Render
   return (
     <>
       <SEO pageType={PageType.Accueil} />
-      <div className="page page__home page__landing" ref={pageRef}>
-        <Panel className="home__intro" orientation="right" pageRef={pageRef}>
+      <div className="page page__home page__landing">
+        <Panel className="home__intro" orientation="right">
           <Parallax img="images/photos/hemicycle.jpg" intro />
           <div className="panel__content">
             <h2 className="content__title content__title--center">Reconnecter les citoyens avec ses représentants</h2>
@@ -101,7 +99,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           </div>
           <MouseScroll />
         </Panel>
-        <Panel className="home__map" orientation="left" shared pageRef={pageRef}>
+        <Panel className="home__map" orientation="left" shared>
           <HomeGradientBar pos="left" />
           <div className="panel__content">
             <h2 className="content__title">Une carte interactive</h2>
@@ -147,7 +145,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
             </button>
           </div>
         </Panel>
-        <Panel className="home__stats" orientation="center" pageRef={pageRef}>
+        <Panel className="home__stats" orientation="center">
           <Parallax img="images/photos/bibliotheque.jpg" gradient />
           <div className="panel__content panel__content--center">
             <h2 className="content__title content__title--center">Des statistiques</h2>
@@ -281,7 +279,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
             </div>
           </div>
         </Panel>
-        <Panel className="home__groups" orientation="right" shared pageRef={pageRef}>
+        <Panel className="home__groups" orientation="right" shared>
           <HomeGradientBar pos="right" />
           <div className="panel__groups">
             {groupes.map((group) => (
@@ -313,7 +311,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
             </div>
           </div>
         </Panel>
-        <Panel className="home__faq" orientation="center" pageRef={pageRef}>
+        <Panel className="home__faq" orientation="center">
           <Parallax img="images/photos/colonnade.jpg" gradient />
           <div className="panel__content">
             <div className="panel__wrapper">
