@@ -1,37 +1,42 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useLayoutEffect, useRef } from "react"
+import { useInView } from "react-intersection-observer"
+// import { gsap } from "gsap"
 
-function Panel({ className, orientation, shared = false, pageRef, children }) {
-  const [isVisible, setIsvisible] = useState(false)
+function Panel({ className, orientation, shared = false, children }) {
+  // Uses https://www.npmjs.com/package/react-intersection-observer
+  const { ref, inView, entry } = useInView({
+    /* Optional options */
+    triggerOnce: true,
+    threshold: 0.6,
+  })
 
-  const containerRef = useRef(null)
+  // let ctx
+  // Gsap Context
+  // useEffect(() => {
+  //   if (entry) {
+  //     ctx = gsap.context(() => {
+  //       gsap.set(".panel__shutter", {
+  //         scaleX: 0,
+  //       })
+  //     }, entry.target)
+  //   }
+  // }, [inView])
 
-  const callbackFunction = (entries) => {
-    const [entry] = entries
-    if (entry.isIntersecting) setIsvisible(true)
-  }
+  // On view change (going in/out of viewport)
+  // useEffect(() => {
+  //   return () => {
+  //     console.count("got out of home")
+  //     if (ctx) ctx.revert()
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    const options = {
-      root: pageRef ? pageRef.current : null,
-      rootMargin: "0px",
-      threshold: 0.6,
-      trackVisibility: true,
-      delay: 100,
-    }
-
-    const observer = new IntersectionObserver(callbackFunction, options)
-    if (containerRef.current) observer.observe(containerRef.current)
-
-    return () => {
-      if (containerRef.current) observer.unobserve(containerRef.current)
-    }
-  }, [pageRef])
-
+  // Render
   return (
     <div
-      className={`${className} panel panel--${orientation} ${shared ? "panel--shared" : ""} ${isVisible ? "visible" : "hidden"}`}
-      ref={containerRef}
+      className={`${className} panel panel--${orientation} ${shared ? "panel--shared" : ""} ${inView ? "visible" : "hidden"}`}
+      ref={ref}
     >
+      <div className="panel__shutter">{/* Silence is golden */}</div>
       {children}
     </div>
   )
