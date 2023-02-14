@@ -1,6 +1,5 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react"
+import React from "react"
 import { useInView } from "react-intersection-observer"
-// import { gsap } from "gsap"
 
 function Panel({ className, orientation, shared = false, children }) {
   // Uses https://www.npmjs.com/package/react-intersection-observer
@@ -9,26 +8,6 @@ function Panel({ className, orientation, shared = false, children }) {
     triggerOnce: true,
     threshold: 0.6,
   })
-
-  // let ctx
-  // Gsap Context
-  // useEffect(() => {
-  //   if (entry) {
-  //     ctx = gsap.context(() => {
-  //       gsap.set(".panel__shutter", {
-  //         scaleX: 0,
-  //       })
-  //     }, entry.target)
-  //   }
-  // }, [inView])
-
-  // On view change (going in/out of viewport)
-  // useEffect(() => {
-  //   return () => {
-  //     console.count("got out of home")
-  //     if (ctx) ctx.revert()
-  //   }
-  // }, [])
 
   // Render
   return (
