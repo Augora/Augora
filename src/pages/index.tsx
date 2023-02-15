@@ -144,6 +144,9 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               <IconChevron />
             </button>
           </div>
+          <div className="content__buttons--responsive">
+            <HomeButton text="La Carte" icon={<IconFrance />} onClick="/carte" title="Aller sur la carte" />
+          </div>
         </Panel>
         <Panel className="home__stats" orientation="center">
           <Parallax img="images/photos/bibliotheque.jpg" gradient />
@@ -309,6 +312,14 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                 title="Plus d'informations sur les groupes parlementaires"
               />
             </div>
+          </div>
+          <div className="content__buttons--responsive">
+            <HomeButton
+              text="En savoir plus"
+              icon={<IconInfo />}
+              onClick="/faq#quest-ce-quun-groupe-parlementaire"
+              title="Plus d'informations sur les groupes parlementaires"
+            />
           </div>
         </Panel>
         <Panel className="home__faq" orientation="center">

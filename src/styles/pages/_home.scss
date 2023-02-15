@@ -339,6 +339,10 @@
       }
     }
 
+    .content__buttons--responsive {
+      display: none;
+    }
+
     // Modifiers
     &--right {
       align-items: end;
@@ -669,12 +673,24 @@
 
   @media (max-width: 875px) {
     .panel {
+      &--center .panel__content {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
       &__content {
         max-width: 70vw;
 
         .content {
           &__buttons {
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            a {
+              margin-left: 0;
+              &:not(:last-child) {
+                margin-right: 0;
+                margin-bottom: 20px;
+              }
+            }
           }
         }
       }
@@ -682,9 +698,24 @@
       &--right,
       &--left {
         align-items: center;
+        .panel__groups {
+          order: 1;
+        }
         .panel__content {
           text-align: center;
           margin: 0;
+          order: 0;
+        }
+        .panel__title {
+          position: relative;
+        }
+        &:not(:first-child) .content__buttons {
+          display: none;
+          &--responsive {
+            order: 10;
+            display: block;
+            margin-top: 30px;
+          }
         }
       }
 
@@ -701,24 +732,13 @@
     .home {
       &__map {
         .panel {
-          &__content {
-            padding-top: 50px;
-            .content__buttons {
-              position: absolute;
-              margin: 0;
-              bottom: 100px;
-              left: 50%;
-              transform: translate(-50%, 0);
-            }
-          }
-
           &__map {
             width: 100%;
             height: unset;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 20px 0 150px;
+            margin: 50px 0 0px;
 
             .map {
               &__container {
@@ -739,17 +759,13 @@
       }
 
       &__groups {
-        padding-top: 150px;
+        padding-top: 50px;
         .panel {
           &__content > .content__title {
-            position: absolute;
-            top: 150px;
-            left: 50%;
-            transform: translate(-50%, 0);
           }
 
           &__groups {
-            margin-bottom: 50px;
+            margin-bottom: 20px;
           }
         }
       }
@@ -761,6 +777,15 @@
       &__content {
         max-width: 100%;
         padding: 0 15px;
+
+        .content {
+          &__title {
+            font-size: 30px;
+          }
+          &__text {
+            font-size: 16px;
+          }
+        }
       }
 
       &--shared > .panel__content {
