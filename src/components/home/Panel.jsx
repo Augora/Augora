@@ -6,7 +6,7 @@ function Panel({ className, orientation, shared = false, children }) {
   const { ref, inView, entry } = useInView({
     /* Optional options */
     triggerOnce: true,
-    threshold: 0.6,
+    threshold: 0.4,
   })
 
   // Render
@@ -15,7 +15,7 @@ function Panel({ className, orientation, shared = false, children }) {
       className={`${className} panel panel--${orientation} ${shared ? "panel--shared" : ""} ${inView ? "visible" : "hidden"}`}
       ref={ref}
     >
-      <div className="panel__shutter">{/* Silence is golden */}</div>
+      {/* <div className="panel__shutter"></div> */}
       {children}
     </div>
   )
