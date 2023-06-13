@@ -46,10 +46,7 @@ const FooterMenu = ({ title, children }: { title: string; children?: React.React
   )
 }
 
-/**
- * Renvoie le footer, pas d'arguments
- */
-const Footer = ({ togglePopup }) => {
+const Footer = ({ togglePopup }: { togglePopup: () => void }) => {
   return (
     <footer
       style={{

@@ -1,16 +1,16 @@
 import { useState } from "react"
 
 const usePopup = () => {
-  const [isShowing, setIsShowing] = useState(false)
+  const [isPopupVisible, setPopupVisible] = useState(false)
 
-  function toggle() {
+  function togglePopup() {
     document.querySelector("html").classList.toggle("unscrollable")
-    setIsShowing(!isShowing)
+    setPopupVisible(!isPopupVisible)
   }
 
   return {
-    isShowing,
-    toggle,
+    isPopupVisible,
+    togglePopup,
   }
 }
 

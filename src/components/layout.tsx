@@ -41,7 +41,7 @@ const Layout = ({ children, location, title }: ILayout) => {
   const [hasSidebar, setHasSidebar] = useState(false)
   const [isPopinVisible, setisPopinVisible] = useState(false)
   const [hasLayout, setHasLayout] = useState(true)
-  const { isShowing, toggle } = usePopup()
+  const { isPopupVisible, togglePopup } = usePopup()
 
   const { ref: documentRef } = useSwipeable({
     onSwiped: ({ dir }) => {
@@ -126,8 +126,8 @@ const Layout = ({ children, location, title }: ILayout) => {
       <div className={`scroll-to-top ${scrolled ? "visible" : "hidden"}`} onClick={() => handleScrollTop()}>
         <IconArrow />
       </div>
-      <Footer togglePopup={toggle} />
-      <Popup className="popup--contact" showing={isShowing} togglePopup={toggle}>
+      <Footer togglePopup={togglePopup} />
+      <Popup className="popup--contact" visible={isPopupVisible} togglePopup={togglePopup}>
         <Contact />
       </Popup>
     </div>
