@@ -79,7 +79,7 @@ const Footer = ({ togglePopup }: { togglePopup: () => void }) => {
               </div>
               Par e-mail
             </button>
-            <FooterLink label="@AugoraFR" link="https://twitter.com/AugoraFR" target={true} internal={false}>
+            <FooterLink label="Sur Twitter" link="https://twitter.com/AugoraFR" target={true} internal={false}>
               <div className="icon-wrapper">
                 <IconTwitter />
               </div>

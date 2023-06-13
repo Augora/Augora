@@ -17,15 +17,17 @@
     }
   }
 }
+
 #contact-form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  gap: 15px;
 
   // input general rules
-  input, textarea {
-    padding: 5px;
+  input,
+  textarea {
   }
   input {
     // honeypot
@@ -41,18 +43,21 @@
   .MuiFormControl-root {
     width: 100%;
   }
-  .MuiInput-root {
+  .MuiInputBase-root {
     color: $white;
-    margin-bottom: 15px;
     background-color: rgba($white, 0.1);
-  }
-  .MuiInputBase-root::before {
-    border-bottom-color: $white;
-  }
-  .MuiInputBase-root::after {
-    border-bottom: none;
-    background: linear-gradient(to left, $main-color, $secondary-color);
-    height: 2px;
+
+    &:hover {
+      fieldset {
+        border-color: rgba($secondary-color, 0.5);
+      }
+    }
+
+    &.Mui-focused {
+      fieldset {
+        border-color: $main-color;
+      }
+    }
   }
   .MuiFormHelperText-root {
     color: $white;
@@ -64,6 +69,7 @@
     margin-left: 0;
   }
   .MuiButton-root {
+    width: 100%;
     color: $white;
     border: 10px solid;
     border-image-slice: 1;
@@ -72,8 +78,10 @@
     border-radius: 5px;
   }
   .MuiFormControlLabel-root {
-    margin-bottom: 10px;
     text-align: left;
+    .MuiTypography-root {
+      font-size: 17px;
+    }
   }
   .MuiSvgIcon-root {
     color: $white;

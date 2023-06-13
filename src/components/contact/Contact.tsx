@@ -4,11 +4,13 @@ import { TextField, Button, Checkbox, FormControlLabel } from "@mui/material"
 import Link from "next/link"
 
 function Contact() {
+  const form = useRef<HTMLFormElement>()
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const form = e.target as HTMLFormElement
+    const target = e.target as HTMLFormElement
 
-    const honeypot = form.querySelector<HTMLInputElement>(".form__name")
+    const honeypot = target.querySelector<HTMLInputElement>(".form__name")
     if (honeypot?.value.length !== 0) return
 
     emailjs.sendForm("service_fua01f1", "template_e7atykl", form.current, "pWmj5Q30UXVFZ-C6n").then(
@@ -31,20 +33,12 @@ function Contact() {
           Ce formulaire ne permet pas de contacter un député directement
         </span>
       </p>
-      <form id="contact-form" onSubmit={handleSubmit}>
+      <form ref={form} id="contact-form" onSubmit={handleSubmit}>
         <input type="text" id="contact__name" name="form_name" />
-        <TextField id="contact__firstname" label="Prénom" variant="standard" name="form_firstname" />
-        <TextField id="contact__lastname" label="Nom" variant="standard" name="form_lastname" />
-        <TextField id="contact__email" label="E-mail" variant="standard" name="form_email" required />
-        <TextField
-          id="contact__message"
-          label="Votre message"
-          variant="standard"
-          name="from_message"
-          multiline
-          required
-          rows={5}
-        />
+        <TextField id="contact__firstname" label="Prénom" name="form_firstname" size="small" />
+        <TextField id="contact__lastname" label="Nom" name="form_lastname" size="small" />
+        <TextField id="contact__email" label="E-mail" name="form_email" required size="small" />
+        <TextField id="contact__message" label="Votre message" name="form_message" multiline required rows={10} size="small" />
         <FormControlLabel control={<Checkbox required />} label="Je souhaite contacter Augora et non pas un député" />
         <FormControlLabel
           control={<Checkbox required />}
