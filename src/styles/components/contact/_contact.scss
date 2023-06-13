@@ -49,6 +49,7 @@
     border-radius: 0;
 
     fieldset {
+      transition: border-color 0.3s $ease-in-out-cubic;
       border-color: rgba($white, 0.2);
     }
 
@@ -87,8 +88,9 @@
   }
   .MuiFormControlLabel-root {
     text-align: left;
-  }
-  .MuiSvgIcon-root {
-    color: $white;
+
+    .MuiSvgIcon-root {
+      color: $secondary-color;
+    }
   }
 }
