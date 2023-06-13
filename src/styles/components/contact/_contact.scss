@@ -48,9 +48,13 @@
     background-color: rgba($white, 0.1);
     border-radius: 0;
 
+    fieldset {
+      border-color: rgba($white, 0.2);
+    }
+
     &:hover {
       fieldset {
-        border-color: rgba($secondary-color, 0.5);
+        border-color: $secondary-color;
       }
     }
 
@@ -72,11 +76,14 @@
   .MuiButton-root {
     width: 100%;
     color: $white;
-    border: 10px solid;
+    border-style: solid;
     border-image-slice: 1;
     border-width: 2px;
     border-image-source: linear-gradient(to left, $main-color, $secondary-color);
-    border-radius: 5px;
+
+    .MuiTouchRipple-root {
+      border-radius: 0;
+    }
   }
   .MuiFormControlLabel-root {
     text-align: left;
