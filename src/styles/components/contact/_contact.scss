@@ -46,6 +46,7 @@
   .MuiInputBase-root {
     color: $white;
     background-color: rgba($white, 0.1);
+    border-radius: 0;
 
     &:hover {
       fieldset {
@@ -73,7 +74,7 @@
     color: $white;
     border: 10px solid;
     border-image-slice: 1;
-    border-width: 1px;
+    border-width: 2px;
     border-image-source: linear-gradient(to left, $main-color, $secondary-color);
     border-radius: 5px;
   }

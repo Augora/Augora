@@ -4,8 +4,8 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba($black, 0.8);
-  backdrop-filter: blur(3px) grayscale(50%) opacity(1);
+  background-color: rgba($black, 0.9);
+  backdrop-filter: blur(3px) grayscale(100%);
   z-index: 10000;
   color: $white;
   display: flex;
