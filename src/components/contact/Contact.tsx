@@ -30,8 +30,9 @@ function Contact() {
           <span>&#9888;</span>
           <br />
           <br />
-          Ce formulaire ne permet pas de contacter un député directement
+          Ce formulaire ne permet pas de contacter un député directement.
         </span>
+        <div>Pour ce faire, utilisez l'icône mail de la page d'un député.</div>
       </p>
       <form ref={form} id="contact-form" onSubmit={handleSubmit}>
         <input type="text" id="contact__name" name="form_name" />
