@@ -52,6 +52,7 @@ function Contact() {
             <div>
               J’autorise ce site à conserver mes données transmises via ce formulaire.&nbsp;
               <Link
+                className="link"
                 href={{
                   pathname: "/mention-legales",
                   hash: "cgu-formulaire-contact",

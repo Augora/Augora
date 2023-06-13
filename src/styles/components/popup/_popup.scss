@@ -4,7 +4,8 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background: rgba($black, 0.95);
+  background-color: rgba($black, 0.8);
+  backdrop-filter: blur(3px) grayscale(50%) opacity(1);
   z-index: 10000;
   color: $white;
   display: flex;
@@ -52,7 +53,7 @@
     }
   }
 
-  @media(max-width: 800px) {
+  @media (max-width: 800px) {
     &__wrapper {
       width: calc(100% - 40px);
     }
