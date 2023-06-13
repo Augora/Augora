@@ -27,10 +27,8 @@ const FooterLink = (props: IFooterLink) => {
     </a>
   ) : (
     <Link key={props.link} href={props.link}>
-      <a>
-        {props.children && props.children}
-        {props.label}
-      </a>
+      {props.children && props.children}
+      {props.label}
     </Link>
   )
 }

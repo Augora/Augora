@@ -3,12 +3,12 @@
 /*----------------------------------------------------*/
 &__sexes {
   position: relative;
-  margin-right: 40px;
+  margin-right: 30px;
   .sexes {
     &__btn {
       margin-bottom: 10px;
 
-      border-style: dashed;
+      border-style: solid;
       border-width: 2px;
 
       &.male .icon-wrapper {

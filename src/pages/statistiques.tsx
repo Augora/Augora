@@ -6,72 +6,31 @@ import BarChart from "components/charts/BarChart"
 import XYBarStack from "src/components/charts/XYBarStack"
 import Frame from "components/frames/Frame"
 import { ParentSize } from "@visx/responsive"
-import { getNbDeputiesGroup } from "components/deputies-list/deputies-list-utils"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { getDeputes, getGroupes } from "../lib/deputes/Wrapper"
 import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
 import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
-import { getAgeData, rangifyAgeData } from "components/charts/chart-utils"
+import { getAgeData } from "components/charts/chart-utils"
 import IconSwitch from "images/ui-kit/icon-chartswitch.svg"
 import shuffle from "lodash/shuffle"
-import { scaleOrdinal } from "@visx/scale"
-import { GlyphSquare } from "@visx/glyph"
 import ChartLegend from "src/components/charts/ChartLegend"
+import { useRouter } from "next/router"
 
 // import WordCloud from "src/components/charts/WordCloud"
 // import { Lyrics } from "../static/lyrics"
 
-type Groups = {
-  id: string
-  label: string
-  value: number
-  color: string
-}
-
 const Statistiques = () => {
-  const { state } = useDeputiesFilters()
+  const { state, isolateGroup, isolateSex, handleAgeSlider } = useDeputiesFilters()
+  const router = useRouter()
+
   const [HasPyramideBarStack, setHasPyramideBarStack] = useState(true)
 
-  const groupesData: Groups[] = state.GroupesList.map((groupe) => {
-    const nbDeputeGroup = getNbDeputiesGroup(state.FilteredList, groupe.Sigle)
-    return {
-      id: groupe.Sigle,
-      label: groupe.NomComplet,
-      value: nbDeputeGroup,
-      color: groupe.Couleur,
-    }
-  }).filter((groupe) => groupe.value !== 0)
-
   const dataAge = getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain)
-  const dataAgeRange = rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain), 6)
-  const isRange = dataAge.length < 30
-  const dataAgeFemme = isRange
-    ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F")
-    : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "F"), 6)
-  const dataAgeHomme = isRange
-    ? getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H")
-    : rangifyAgeData(getAgeData(state.GroupesList, state.FilteredList, state.AgeDomain, "H"), 6)
-
-  const maxAgeFemme = Math.max(...dataAgeFemme.map((d) => d.total))
-  const maxAgeHomme = Math.max(...dataAgeHomme.map((d) => d.total))
-  const maxAge = Math.max(maxAgeFemme, maxAgeHomme)
-  const maxAgeCumul = Math.max(...dataAge.map((d) => d.total))
-
   const sumAge = dataAge.reduce((acc, cur) => {
     const curSum = Object.values(cur.groups).reduce((a, b) => a + b.length, 0)
     return acc + curSum * (cur.age as number)
   }, 0)
-
   const averageAge = sumAge > 0 ? Math.round(sumAge / state.FilteredList.length) : 0
-
-  const glyphSize = 120
-  const glyphPosition = 8
-  const shapeScaleGroups = scaleOrdinal<string, React.FC | React.ReactNode>({
-    domain: state.GroupesList.map((g) => g.Sigle),
-    range: state.GroupesList.map((g) => (
-      <GlyphSquare key={g.Sigle} size={glyphSize} top={glyphPosition} left={glyphPosition} fill={g.Couleur} />
-    )),
-  })
 
   return (
     <div className="statistiques__grid">
@@ -81,7 +40,17 @@ const Statistiques = () => {
       <Frame className="frame-chart frame-pie" title="Hémicycle">
         {state.FilteredList.length > 0 ? (
           <ParentSize debounceTime={400}>
-            {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
+            {(parent) => (
+              <PieChart
+                width={parent.width}
+                height={parent.height}
+                deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
+                onClick={(sigle) => {
+                  isolateGroup(sigle)
+                  router.push("/")
+                }}
+              />
+            )}
           </ParentSize>
         ) : (
           <div className="no-deputy">Il n'y a pas de députés correspondant à votre recherche.</div>
@@ -100,20 +69,10 @@ const Statistiques = () => {
                   <XYBarStack
                     width={parent.width}
                     height={parent.height}
-                    groups={state.GroupesList}
-                    dataAge={dataAge}
-                    dataAgeRange={dataAgeRange}
-                    totalDeputes={state.FilteredList.length}
-                    maxAge={maxAgeCumul}
-                    axisLeft={true}
-                    renderVertically={true}
-                    marginTop={30}
-                    marginLeft={20}
-                    normalHeight={15}
-                    responsiveHeight={20}
+                    deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
                   />
                 </div>
-                <ChartLegend shapeScale={shapeScaleGroups} />
+                <ChartLegend groupList={state.GroupesList} />
               </>
             )}
           </ParentSize>
@@ -124,7 +83,17 @@ const Statistiques = () => {
       <Frame className="frame-chart frame-bar" title="Députés par groupe">
         {state.FilteredList.length > 0 ? (
           <ParentSize className="bar__container" debounceTime={400}>
-            {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
+            {(parent) => (
+              <BarChart
+                width={parent.width}
+                height={parent.height}
+                deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
+                onClick={(sigle) => {
+                  isolateGroup(sigle)
+                  router.push("/")
+                }}
+              />
+            )}
           </ParentSize>
         ) : (
           <div className="no-deputy">Il n'y a pas de députés correspondant à votre recherche.</div>
@@ -150,21 +119,18 @@ const Statistiques = () => {
                   <PyramideBar
                     width={parent.width}
                     height={parent.height}
-                    dataAgeHomme={dataAgeHomme}
-                    dataAgeFemme={dataAgeFemme}
-                    totalDeputes={state.FilteredList.length}
-                    maxAge={maxAge}
+                    deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
+                    onClick={(age: Filter.AgeDomain, sex: Filter.Gender) => {
+                      handleAgeSlider(age)
+                      isolateSex(sex)
+                      router.push("/")
+                    }}
                   />
                 ) : (
                   <PyramideBarStack
                     width={parent.width}
                     height={parent.height}
-                    groups={state.GroupesList}
-                    dataAgeFemme={dataAgeFemme}
-                    dataAgeHomme={dataAgeHomme}
-                    totalDeputes={state.FilteredList.length}
-                    maxAge={maxAge}
-                    shapes={shapeScaleGroups}
+                    deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
                   />
                 )
               }

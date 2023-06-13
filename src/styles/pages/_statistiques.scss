@@ -4,7 +4,7 @@
   .statistiques__grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    grid-auto-rows: 100px;
+    grid-auto-rows: minmax(100px, min-content);
     grid-gap: 50px;
     min-height: 100vh;
 
@@ -59,7 +59,7 @@
 
     @media (max-width: 1600px) {
       .filters {
-        grid-column-end: span 10;
+        grid-column-end: span 7;
       }
 
       .frame-pie {
@@ -68,6 +68,9 @@
     }
 
     @media (max-width: 1200px) {
+      .filters {
+        grid-column-end: span 10;
+      }
       .frame {
         grid-column-end: span 10;
         grid-row-end: span 3;

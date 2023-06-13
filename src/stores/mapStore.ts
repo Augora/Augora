@@ -1,19 +1,15 @@
-import create, { State } from "zustand"
+import { create } from "zustand"
 import { ViewState } from "react-map-gl"
 import { createFeature, createFeatureCollection, France, getLayerPaint } from "src/components/maps/maps-utils"
 
-interface MapState extends State, AugoraMap.MapView {
+interface MapState {
   /** La hauteur & largeur en pixel du viewport */
   viewsize: { height: number; width: number }
   viewstate: ViewState
-  /** Liste des députés de l'ensemble des zones */
-  deputies: Deputy.DeputiesList
   /** Si on affiche la zone en dézoomé avec un pin */
   overview: boolean
   setViewsize(newViewsize: { height: number; width: number }): void
   setViewstate(newViewstate: ViewState): void
-  setMapView(newMapView: AugoraMap.MapView): void
-  setDeputies(newDeputies: Deputy.DeputiesList): void
   setOverview(value: boolean): void
 }
 
@@ -36,11 +32,6 @@ const mapStore = create<MapState>((set) => ({
     },
   },
   overview: false,
-  geoJSON: createFeatureCollection(),
-  ghostGeoJSON: null,
-  feature: createFeature("Empty"),
-  deputies: [],
-  paint: getLayerPaint(),
 
   setViewsize(newViewsize: { height: number; width: number }) {
     set(() => {
@@ -51,18 +42,6 @@ const mapStore = create<MapState>((set) => ({
   setViewstate(newViewstate: ViewState) {
     set(() => {
       return { viewstate: newViewstate }
-    })
-  },
-
-  setMapView(newMapView: AugoraMap.MapView) {
-    set(() => {
-      return newMapView.ghostGeoJSON ? { ...newMapView } : { ...newMapView, ghostGeoJSON: null }
-    })
-  },
-
-  setDeputies(newDeputies: Deputy.DeputiesList) {
-    set(() => {
-      return { deputies: newDeputies }
     })
   },
 

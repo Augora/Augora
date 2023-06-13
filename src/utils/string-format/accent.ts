@@ -12,5 +12,5 @@ export function retirerAccentsFR(string: string) {
       .replace(/[ù]/g, "u")
       .replace(/[Ç]/g, "C")
       .replace(/[ç]/g, "c")
-      .replace(/[^a-z0-9']/gi, "-") // final clean up
+      .replace(/[^a-z0-9']/gi, "-"); // final clean up
   }
