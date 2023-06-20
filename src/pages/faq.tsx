@@ -25,7 +25,7 @@ const contentAbout: IContent = [
     description: (
       <p>
         Nous avons ouvert une page{" "}
-        <a href="https://utip.io/augora" target="_blank" rel="noreferrer">
+        <a className="link" href="https://utip.io/augora" target="_blank" rel="noreferrer">
           uTip
         </a>{" "}
         afin de recueillir des dons. Comme nous sommes bénévoles et que nous mettons à jour le site sur notre temps libre, vos
@@ -39,11 +39,11 @@ const contentAbout: IContent = [
       <>
         <p>
           L'Assemblée Nationale fonctionne avec des{" "}
-          <a href="https://fr.wikipedia.org/wiki/Groupe_parlementaire" target="_blank" rel="noreferrer">
+          <a className="link" href="https://fr.wikipedia.org/wiki/Groupe_parlementaire" target="_blank" rel="noreferrer">
             groupes parlementaires
           </a>
           , composés de minimum 15 députés. Les députés d'un groupe parlementaire peuvent faire partie d'un même{" "}
-          <a href="https://fr.wikipedia.org/wiki/Parti_politique" target="_blank" rel="noreferrer">
+          <a className="link" href="https://fr.wikipedia.org/wiki/Parti_politique" target="_blank" rel="noreferrer">
             parti politique
           </a>{" "}
           ou de partis différents (alliance de plusieurs partis politiques). Lorsqu'un député fait partie d'un groupe de moins de
@@ -53,6 +53,7 @@ const contentAbout: IContent = [
           Le temps de parole est distribué en fonction de l'effectif des groupes. Plus un groupe a de membres, plus il aura de
           temps de parole. Pour plus d'informations, vous pouvez vous référer à la{" "}
           <a
+            className="link"
             href="http://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-organes-de-l-assemblee-nationale/les-groupes-politiques"
             target="_blank"
             rel="noreferrer"
@@ -83,6 +84,7 @@ const contentAbout: IContent = [
         </ul>
         Pour plus d'informations, se référer à la page des{" "}
         <a
+          className="link"
           href="https://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/les-autres-structures-de-soutien-a-l-activite-parlementaire/les-collaborateurs-de-deputes"
           target="_blank"
           rel="noreferrer"
@@ -108,6 +110,7 @@ const contentAbout: IContent = [
         </p>
         Pour plus d'informations, se référer à la page des{" "}
         <a
+          className="link"
           href="https://www2.assemblee-nationale.fr/decouvrir-l-assemblee/role-et-pouvoirs-de-l-assemblee-nationale/le-depute/le-financement-de-la-vie-politique-partis-et-campagnes-electorales"
           target="_blank"
           rel="noreferrer"
@@ -142,6 +145,7 @@ const contentAbout: IContent = [
         <ul>
           <li>
             <a
+              className="link"
               href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-affaires-culturelles"
               target="_blank"
               rel="noreferrer"
@@ -151,6 +155,7 @@ const contentAbout: IContent = [
           </li>
           <li>
             <a
+              className="link"
               href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-affaires-economiques"
               target="_blank"
               rel="noreferrer"
@@ -160,6 +165,7 @@ const contentAbout: IContent = [
           </li>
           <li>
             <a
+              className="link"
               href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-affaires-etrangeres"
               target="_blank"
               rel="noreferrer"
@@ -169,6 +175,7 @@ const contentAbout: IContent = [
           </li>
           <li>
             <a
+              className="link"
               href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-affaires-sociales"
               target="_blank"
               rel="noreferrer"
@@ -178,6 +185,7 @@ const contentAbout: IContent = [
           </li>
           <li>
             <a
+              className="link"
               href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-de-la-defense"
               target="_blank"
               rel="noreferrer"
@@ -187,6 +195,7 @@ const contentAbout: IContent = [
           </li>
           <li>
             <a
+              className="link"
               href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-du-developpement-durable"
               target="_blank"
               rel="noreferrer"
@@ -196,6 +205,7 @@ const contentAbout: IContent = [
           </li>
           <li>
             <a
+              className="link"
               href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-finances"
               target="_blank"
               rel="noreferrer"
@@ -205,6 +215,7 @@ const contentAbout: IContent = [
           </li>
           <li>
             <a
+              className="link"
               href="https://www2.assemblee-nationale.fr/15/commissions-permanentes/commission-des-lois"
               target="_blank"
               rel="noreferrer"
@@ -219,7 +230,12 @@ const contentAbout: IContent = [
         </p>
         <p>
           Pour plus d'informations, se référer à la page des{" "}
-          <a href="https://www.assemblee-nationale.fr/13/commissions/commissions-index.asp" target="_blank" rel="noreferrer">
+          <a
+            className="link"
+            href="https://www.assemblee-nationale.fr/13/commissions/commissions-index.asp"
+            target="_blank"
+            rel="noreferrer"
+          >
             commissions
           </a>{" "}
           sur le site de l'Assemblée Nationale.
@@ -300,7 +316,7 @@ const contentAbout: IContent = [
       <>
         <p>
           Nous utilisons des données publiques (open-data) venant de :{" "}
-          <a href="https://www.regardscitoyens.org" target="_blank" rel="noreferrer">
+          <a className="link" href="https://www.regardscitoyens.org" target="_blank" rel="noreferrer">
             https://www.regardscitoyens.org
           </a>
         </p>
@@ -308,6 +324,7 @@ const contentAbout: IContent = [
           Leurs données étant sous licence ODbl, nous redistribuons également publiquement les données que nous générons. Pour
           plus d'informations, voir notre{" "}
           <a
+            className="link"
             href="https://github.com/Augora/Nucleus/blob/develop/Readme.md#acc%C3%A8s-aux-donn%C3%A9es"
             target="_blank"
             rel="noreferrer"
@@ -344,13 +361,14 @@ const contentAbout: IContent = [
         <ul>
           <li>
             Pour les départements et régions, nous utilisons :{" "}
-            <a href="https://github.com/gregoiredavid/france-geojson" target="_blank" rel="noreferrer">
+            <a className="link" href="https://github.com/gregoiredavid/france-geojson" target="_blank" rel="noreferrer">
               https://github.com/gregoiredavid/france-geojson
             </a>
           </li>
           <li>
             Pour les circonscriptions, nous utilisons :{" "}
             <a
+              className="link"
               href="https://www.data.gouv.fr/en/datasets/contours-detailles-des-circonscriptions-des-legislatives/"
               target="_blank"
               rel="noreferrer"
@@ -360,7 +378,7 @@ const contentAbout: IContent = [
           </li>
           <li>
             Enfin, pour les zones géographiques des députés des français établis hors de France, nous utilisons :{" "}
-            <a href="https://github.com/datasets/geo-countries" target="_blank" rel="noreferrer">
+            <a className="link" href="https://github.com/datasets/geo-countries" target="_blank" rel="noreferrer">
               https://github.com/datasets/geo-countries
             </a>
           </li>
@@ -383,7 +401,7 @@ const contentAbout: IContent = [
       <p>
         Les députés des "français établis hors de France" sont les représentants des français qui habitent plus de 6 mois dans un
         pays à l'étranger. Il faut qu'ils aient réalisé une{" "}
-        <a href="https://www.service-public.fr/particuliers/vosdroits/F33307" target="_blank" rel="noreferrer">
+        <a className="link" href="https://www.service-public.fr/particuliers/vosdroits/F33307" target="_blank" rel="noreferrer">
           inscription consulaire
         </a>
         .

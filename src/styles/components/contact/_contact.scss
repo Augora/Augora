@@ -1,0 +1,96 @@
+/*----------------------------------------------------*/
+// Contact component (popup)
+/*----------------------------------------------------*/
+
+.contact {
+  &__content {
+    text-align: center;
+  }
+  &__text {
+    .bigtext {
+      font-size: 150%;
+      font-weight: bold;
+      span {
+        font-weight: normal;
+        font-size: 300%;
+      }
+    }
+  }
+}
+
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 15px;
+
+  // input general rules
+  input,
+  textarea {
+  }
+  input {
+    // honeypot
+    &[id="contact__name"] {
+      display: none;
+    }
+  }
+  label {
+    margin-left: 5px;
+  }
+
+  // MUI Customization
+  .MuiFormControl-root {
+    width: 100%;
+  }
+  .MuiInputBase-root {
+    color: $white;
+    background-color: rgba($white, 0.1);
+    border-radius: 0;
+
+    fieldset {
+      transition: border-color 0.3s $ease-in-out-cubic;
+      border-color: rgba($white, 0.2);
+    }
+
+    &:hover {
+      fieldset {
+        border-color: $secondary-color;
+      }
+    }
+
+    &.Mui-focused {
+      fieldset {
+        border-color: $main-color;
+      }
+    }
+  }
+  .MuiFormHelperText-root {
+    color: $white;
+  }
+  .MuiInputLabel-root {
+    color: $white;
+  }
+  .MuiInputLabel-shrink {
+    margin-left: 0;
+  }
+  .MuiButton-root {
+    width: 100%;
+    color: $white;
+    border-style: solid;
+    border-image-slice: 1;
+    border-width: 2px;
+    border-image-source: linear-gradient(to left, $main-color, $secondary-color);
+
+    .MuiTouchRipple-root {
+      border-radius: 0;
+    }
+  }
+  .MuiFormControlLabel-root {
+    text-align: left;
+
+    .MuiSvgIcon-root {
+      color: $secondary-color;
+    }
+  }
+}

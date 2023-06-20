@@ -5,6 +5,9 @@ import Header from "./header"
 import Footer from "./footer"
 import PageTitle from "./titles/PageTitle"
 import Popin from "./popin/Popin"
+import Popup from "./popup/Popup"
+import Contact from "./contact/Contact"
+import usePopup from "hooks/popup/usePopup"
 import Sidebar, { SidebarCategory, SidebarFooter, SidebarHeader, SidebarLinks } from "components/sidebar/Sidebar"
 import { useSwipeable } from "react-swipeable"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
@@ -38,6 +41,7 @@ const Layout = ({ children, location, title }: ILayout) => {
   const [hasSidebar, setHasSidebar] = useState(false)
   const [isPopinVisible, setisPopinVisible] = useState(false)
   const [hasLayout, setHasLayout] = useState(true)
+  const { isPopupVisible, togglePopup } = usePopup()
 
   const { ref: documentRef } = useSwipeable({
     onSwiped: ({ dir }) => {
@@ -122,7 +126,10 @@ const Layout = ({ children, location, title }: ILayout) => {
       <div className={`scroll-to-top ${scrolled ? "visible" : "hidden"}`} onClick={() => handleScrollTop()}>
         <IconArrow />
       </div>
-      <Footer />
+      <Footer togglePopup={togglePopup} />
+      <Popup className="popup--contact" visible={isPopupVisible} togglePopup={togglePopup}>
+        <Contact />
+      </Popup>
     </div>
   )
 }
