@@ -25,7 +25,7 @@ function Contact() {
 
   return (
     <div className="contact__content">
-      <p className="contact__text">
+      <div className="contact__text">
         <span className="bigtext">
           <span>&#9888;</span>
           <br />
@@ -33,7 +33,7 @@ function Contact() {
           Ce formulaire ne permet pas de contacter un député directement.
         </span>
         <div>Pour ce faire, utilisez l'icône mail de la page d'un député.</div>
-      </p>
+      </div>
       <form ref={form} id="contact-form" onSubmit={handleSubmit}>
         <input type="text" id="contact__name" name="from_name" />
         <TextField id="contact__firstname" label="Prénom" name="from_firstname" size="small" />
