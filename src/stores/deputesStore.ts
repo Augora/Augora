@@ -1,4 +1,4 @@
-import create, { SetState, useStore, StoreApi } from "zustand"
+import { create } from "zustand"
 import Fuse from "fuse.js"
 import deburr from "lodash/deburr"
 
@@ -21,7 +21,7 @@ type FilterState = {
 
 const fuseOptions = {
   threshold: 0.4,
-  keys: ["NomToSearch", "Nom", "RattachementFinancier"],
+  keys: ["NomToSearch", "Nom", "RattachementFinancier", "GroupeParlementaire.NomComplet"],
 }
 
 function applyFilters(

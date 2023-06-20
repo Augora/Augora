@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useMemo } from "react"
 import { flushSync } from "react-dom"
 import { isMobile } from "react-device-detect"
 import Map, {
@@ -10,6 +10,8 @@ import Map, {
   ViewState,
   MapRef,
   GeolocateResultEvent,
+  MapboxGeoJSONFeature,
+  MapLayerMouseEvent,
 } from "react-map-gl"
 import {
   Code,
@@ -30,7 +32,6 @@ import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
 import Geocoder from "components/maps/Geocoder"
-import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
@@ -81,7 +82,7 @@ interface IMapAugora {
 export default function MapAugora(props: IMapAugora) {
   /** Default props */
   const {
-    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint = getLayerPaint() },
+    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, color = null },
     overlay = true,
     deputies = [],
     zoneDeputies = [],
@@ -92,10 +93,12 @@ export default function MapAugora(props: IMapAugora) {
     marker = null,
   } = props
 
+  const paint = useMemo(() => getLayerPaint(color && { color }), [color])
+
   const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
 
   /** useStates */
-  const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
+  const [hover, setHover] = useState<MapboxGeoJSONFeature>(null)
   const [cursor, setCursor] = useState<string>("grab")
   const [geoPin, setGeoPin] = useState<AugoraMap.Coordinates>(null)
 
@@ -146,17 +149,17 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   /** Renvoie la feature mapbox sous l'event pointeur fourni, undefined s'il n'y en a pas */
-  const getMouseEventFeature = (e: mapboxgl.MapLayerMouseEvent): mapboxgl.MapboxGeoJSONFeature => {
-    return mapRef.current
-      .queryRenderedFeatures(e.point)
+  const getMouseEventFeature = (e: MapLayerMouseEvent): MapboxGeoJSONFeature => {
+    return mapRef?.current
+      ?.queryRenderedFeatures(e.point)
       .find((feat) => feat.layer.id === "zone-fill" || feat.layer.id === "zone-ghost-fill")
   }
 
   /** Renvoie la feature mapbox actuellement affichée correspondant à la feature fournie, undefined si elle n'est pas rendered */
-  const getRenderedFeature = (feature: AugoraMap.Feature): mapboxgl.MapboxGeoJSONFeature => {
+  const getRenderedFeature = (feature: AugoraMap.Feature): MapboxGeoJSONFeature => {
     const zoneCode = getZoneCode(feature)
 
-    return mapRef.current.queryRenderedFeatures(null, { layers: ["zone-fill"] }).find((feat) => {
+    return mapRef?.current?.queryRenderedFeatures(null, { layers: ["zone-fill"] }).find((feat) => {
       return zoneCode !== Code.Circ
         ? feat.properties[zoneCode] === feature.properties[zoneCode]
         : feat.properties[zoneCode] === feature.properties[zoneCode] && feat.properties[Code.Dpt] === feature.properties[Code.Dpt]
@@ -177,7 +180,7 @@ export default function MapAugora(props: IMapAugora) {
    * Crée un effet de hover sur la rendered feature mapbox fournie
    * @param {MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
    */
-  const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
+  const renderHover = (renderedFeature?: MapboxGeoJSONFeature) => {
     if (!compareFeatures(hover, renderedFeature)) {
       if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
       if (renderedFeature)
@@ -200,7 +203,7 @@ export default function MapAugora(props: IMapAugora) {
     }
   }
 
-  const handleClick = (e: mapboxgl.MapLayerMouseEvent) => {
+  const handleClick = (e: MapLayerMouseEvent) => {
     const renderedFeature = getMouseEventFeature(e)
 
     if (renderedFeature) goToZone({ feature: renderedFeature })
@@ -278,7 +281,7 @@ export default function MapAugora(props: IMapAugora) {
             <Layer id="zone-ghost-fill" type="fill" beforeId="road-label" paint={getLayerPaint({ ghost: true }).fill} />
           </Source>
         )}
-        {overview && !marker && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
+        {overview && !marker && <MapPin coords={zoneFeature.properties.center} color={color} />}
         {marker && <MapPin coords={zoneFeature.properties.center}>{marker}</MapPin>}
         {overlay && (
           <>

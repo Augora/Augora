@@ -8,6 +8,10 @@ html {
   font-family: $font;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
+
+  &.unscrollable {
+    overflow: hidden;
+  }
 }
 body {
   margin: 0;

@@ -1,5 +1,5 @@
 import React from "react"
-import { Marker } from "react-map-gl"
+import { Marker, MapboxGeoJSONFeature } from "react-map-gl"
 import { Code, compareFeatures, getDeputies, getZoneCode, getPolygonCenter, getZoneName } from "components/maps/maps-utils"
 import DeputyImage from "components/deputy/general-information/deputy-image/DeputyImage"
 import orderBy from "lodash/orderBy"
@@ -12,7 +12,7 @@ interface IMapPins {
   features: AugoraMap.Feature[]
   deputies: Deputy.DeputiesList
   ghostFeatures?: AugoraMap.Feature[]
-  hoveredFeature?: mapboxgl.MapboxGeoJSONFeature
+  hoveredFeature?: MapboxGeoJSONFeature
   handleHover?: (args?: any) => any
   handleClick?: (args?: any) => any
 }

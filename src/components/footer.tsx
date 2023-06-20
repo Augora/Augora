@@ -27,10 +27,8 @@ const FooterLink = (props: IFooterLink) => {
     </a>
   ) : (
     <Link key={props.link} href={props.link}>
-      <a>
-        {props.children && props.children}
-        {props.label}
-      </a>
+      {props.children && props.children}
+      {props.label}
     </Link>
   )
 }
@@ -48,10 +46,7 @@ const FooterMenu = ({ title, children }: { title: string; children?: React.React
   )
 }
 
-/**
- * Renvoie le footer, pas d'arguments
- */
-const Footer = () => {
+const Footer = ({ togglePopup }: { togglePopup: () => void }) => {
   return (
     <footer
       style={{
@@ -78,12 +73,13 @@ const Footer = () => {
             <FooterLink label="Nous soutenir" link="https://utip.io/augora" target={true} internal={false} />
           </FooterMenu>
           <FooterMenu title="Nous Contacter">
-            <FooterLink label="contact@augora.fr" link="mailto:contact@augora.fr" target={true} internal={false}>
+            <button className="open-contact" onClick={togglePopup}>
               <div className="icon-wrapper">
                 <IconMail />
               </div>
-            </FooterLink>
-            <FooterLink label="@AugoraFR" link="https://twitter.com/AugoraFR" target={true} internal={false}>
+              Par e-mail
+            </button>
+            <FooterLink label="Sur Twitter" link="https://twitter.com/AugoraFR" target={true} internal={false}>
               <div className="icon-wrapper">
                 <IconTwitter />
               </div>
