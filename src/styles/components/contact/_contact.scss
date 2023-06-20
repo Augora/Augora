@@ -17,6 +17,10 @@
       }
     }
   }
+  &__error {
+    color: red;
+    font-weight: bold;
+  }
 }
 
 #contact-form {
@@ -83,12 +87,21 @@
     border-width: 2px;
     border-image-source: linear-gradient(to left, $main-color, $secondary-color);
 
+    &.Mui-disabled {
+      opacity: 0.2;
+    }
+
     .MuiTouchRipple-root {
       border-radius: 0;
     }
   }
   .MuiFormControlLabel-root {
     text-align: left;
+    font-weight: 400;
+
+    a {
+      font-weight: bold;
+    }
 
     .MuiSvgIcon-root {
       color: $secondary-color;
