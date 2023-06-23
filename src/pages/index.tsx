@@ -87,7 +87,13 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
               présentation moderne des députés de l’assemblée nationale pour faciliter au maximum l’accès à ces informations.
             </p>
             <div className="content__buttons">
-              <HomeButton text="Mon Député" icon={<IconPin />} inverted={true} onClick="/carte" title="Découvrir mon député" />
+              <HomeButton
+                text="Mon Député"
+                icon={<IconPin />}
+                inverted={true}
+                onClick="/carte?geolocate=true"
+                title="Découvrir mon député"
+              />
               <HomeButton
                 text="L'assemblée"
                 icon={<IconGroup />}

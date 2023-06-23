@@ -12,6 +12,7 @@ import Map, {
   GeolocateResultEvent,
   MapboxGeoJSONFeature,
   MapLayerMouseEvent,
+  GeolocateControlRef,
 } from "react-map-gl"
 import {
   Code,
@@ -65,6 +66,8 @@ interface IMapAugora {
   attribution?: boolean
   /** S'il faut afficher les frontières */
   borders?: boolean
+  /** S'il faut lancer la fonction de geolocate au chargement de la page */
+  geolocate?: boolean
   children?: React.ReactNode
 }
 
@@ -90,6 +93,7 @@ export default function MapAugora(props: IMapAugora) {
     attribution = true,
     delay = 0,
     borders = false,
+    geolocate = false,
     marker = null,
   } = props
 
@@ -109,6 +113,7 @@ export default function MapAugora(props: IMapAugora) {
 
   /** useRefs */
   const mapRef = useRef<MapRef>()
+  const geolocateRef = useRef<GeolocateControlRef>()
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
@@ -218,7 +223,9 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleLoad = () => {
-    if (!overview) flyToFeature(zoneFeature)
+    if (geolocate && geolocateRef.current) {
+      geolocateRef.current.trigger()
+    } else if (!overview) flyToFeature(zoneFeature)
     else flyToPin(zoneFeature)
   }
 
@@ -304,7 +311,7 @@ export default function MapAugora(props: IMapAugora) {
             </MapControl>
             <NavigationControl showCompass={false} />
             <FullscreenControl />
-            <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} />
+            <GeolocateControl ref={geolocateRef} onGeolocate={handleGeolocate} showUserLocation={false} />
             <div className="custom-control-container">
               <div className="ctrl-bottom">
                 <MapFilters zoneDeputies={zoneDeputies} />
