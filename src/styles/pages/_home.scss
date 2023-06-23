@@ -299,7 +299,7 @@
 
               button {
                 height: 10%;
-                width: 50%;
+                width: 80px;
                 border: none;
                 background: none;
                 cursor: pointer;
@@ -758,6 +758,16 @@
         }
       }
 
+      &__stats {
+        .panel__content .content {
+          &__carousel {
+            .carousel__arrow button {
+              width: 60px;
+            }
+          }
+        }
+      }
+
       &__groups {
         padding-top: 50px;
         .panel {
@@ -787,25 +797,44 @@
           }
         }
       }
-
-      &__map {
-        .map__container .marker__content {
-          padding: 8px;
-          max-width: 230px;
-
-          span {
-            font-size: 14px;
-            font-weight: 600;
-          }
-        }
-      }
-
       &--shared > .panel__content {
         max-width: 100%;
       }
     }
 
     .home {
+      &__map {
+        .panel__map {
+          .map {
+            &__container {
+              .marker__content {
+                padding: 8px;
+                max-width: 230px;
+
+                span {
+                  font-size: 14px;
+                  font-weight: 600;
+                }
+              }
+            }
+
+            &__arrow {
+              width: 40px;
+            }
+          }
+        }
+      }
+
+      &__stats {
+        .panel__content .content {
+          &__carousel {
+            .carousel__arrow button {
+              width: 40px;
+            }
+          }
+        }
+      }
+
       &__groups > .panel__groups {
         grid-template-columns: repeat(3, 1fr);
       }
