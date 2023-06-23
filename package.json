@@ -5,6 +5,7 @@
   "version": "0.2.0",
   "author": "",
   "dependencies": {
+    "@emailjs/browser": "^3.6.2",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.2",
