@@ -33,7 +33,7 @@ export default withRouter(function MyApp({ Component, pageProps, router }: IApp)
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </Head>
       <Layout location={router} title={pageProps.title} transparentHeader={pageProps.transparentHeader}>
-        <Component {...(pageProps as any)} />
+        <Component {...pageProps} />
       </Layout>
     </>
   )
