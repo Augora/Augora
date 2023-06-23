@@ -81,7 +81,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
         <Panel className="home__intro" orientation="right">
           <Parallax img="images/photos/hemicycle.jpg" intro />
           <div className="panel__content">
-            <h2 className="content__title content__title--center">Reconnecter les citoyens avec ses représentants</h2>
+            <h2 className="content__title content__title--center">Reconnecter les citoyens avec leurs représentants</h2>
             <p className="content__text">
               Nous sommes une association qui met en avant une utilisation éthique des données publiques. Nous proposons une
               présentation moderne des députés de l’assemblée nationale pour faciliter au maximum l’accès à ces informations.
@@ -104,9 +104,9 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           <div className="panel__content">
             <h2 className="content__title">Une carte interactive</h2>
             <p className="content__text">
-              Parcourez la terre avec une visualisation précise de chaque région, département, et territoire d’outre-mer.
-              Découvrez où chaque circonscription se situe, et son député associé, y compris les députés hors de france, le monde
-              entier est couvert. Les filtres permettent un affinage des données géographiques recherchées.
+              Parcourez la terre avec une visualisation précise de chaque région, département et territoire d'outre-mer. Découvrez
+              l'emplacement de chaque circonscription et son député associé, y compris les députés hors de France. Le monde entier
+              est couvert. Les filtres permettent de préciser les données géographiques recherchées.
             </p>
             <div className="content__buttons">
               <HomeButton text="La Carte" icon={<IconFrance />} onClick="/carte" title="Aller sur la carte" />
