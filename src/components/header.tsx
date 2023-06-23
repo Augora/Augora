@@ -60,12 +60,8 @@ function HeaderLinks({ pageGroup, location, styles }: { pageGroup: Pages; locati
   return (
     <>
       {Object.keys(pageGroup).map((page, index) => {
-        const className = `menu__item ${
-          location.pathname === pageGroup[page].path ||
-          (pageGroup[page].path === "/carte" && location.asPath.startsWith("/carte"))
-            ? "menu__item--current"
-            : ""
-        }`
+        const truePath = !(pageGroup[page].path === "/carte") ? pageGroup[page].path : "/map" //convert path "/carte" to "/map" to avoid server side mismatch
+        const className = `menu__item ${location.pathname.match(/^\/[^\/\?]*/)[0] === truePath ? "menu__item--current" : ""}` //remove subpaths and queries from pathname
 
         return (
           <div className="menu__link" key={pageGroup[page].path}>
