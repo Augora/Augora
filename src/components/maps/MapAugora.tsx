@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useMemo } from "react"
 import { flushSync } from "react-dom"
 import { isMobile } from "react-device-detect"
 import Map, {
@@ -7,24 +7,24 @@ import Map, {
   GeolocateControl,
   Source,
   Layer,
-  LayerProps,
   ViewState,
   MapRef,
   GeolocateResultEvent,
+  MapboxGeoJSONFeature,
+  MapLayerMouseEvent,
 } from "react-map-gl"
 import {
   Code,
   flyToBounds,
   getZoneCode,
-  getParentFeature,
   compareFeatures,
   getLayerPaint,
-  getDeputies,
   flyToCoords,
-  getContinent,
+  getPosition,
+  Pos,
+  localeFR,
   geolocateFromCoords,
   geolocateZone,
-  Cont,
 } from "components/maps/maps-utils"
 import MapControl from "components/maps/MapControl"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
@@ -32,7 +32,6 @@ import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
 import Geocoder from "components/maps/Geocoder"
-import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
@@ -44,71 +43,29 @@ interface IMapAugora {
   setViewstate(newViewport: ViewState): void
   /** Callback quand une zone de la map est cliquée */
   onZoneClick?<T extends GeoJSON.Feature>(feature: T): void
+  /** Callback de quand le clic droit est utilisé */
+  onBack?(args?: any): void
+  /** Objet breadcrumb pour savoir quoi afficher */
+  breadcrumb?: AugoraMap.Breadcrumb[]
   /** Le mode de vue sur les zones, par défaut zoomé */
   overview?: boolean
-  /** Liste de députés que la map va fouiller. Inutile si on désactive les overlay */
+  /** Pour passer du JSX custom dans un marker au milieu de la zone */
+  marker?: JSX.Element
+  /** Liste de tous les députés. Inutile si on désactive les overlay */
   deputies?: Deputy.DeputiesList
-  /** Si les overlays doivent être affichés */
+  /** Liste des députés dans la zone actuelle. Inutile si on désactive les overlay */
+  zoneDeputies?: Deputy.DeputiesList
+  /** Si les overlays doivent être affichés,
+   * @default true */
   overlay?: boolean
   /** Délai optionel de la fonction flytobounds */
   delay?: number
-  /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire) */
+  /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire)
+   * @default true */
   attribution?: boolean
   /** S'il faut afficher les frontières */
   borders?: boolean
   children?: React.ReactNode
-}
-
-const fillLayerProps: LayerProps = {
-  id: "zone-fill",
-  type: "fill",
-  beforeId: "road-label",
-  paint: getLayerPaint().fill,
-}
-
-const lineLayerProps: LayerProps = {
-  id: "zone-line",
-  type: "line",
-  beforeId: "road-label",
-  paint: getLayerPaint().line,
-}
-
-const fillGhostLayerProps: LayerProps = {
-  id: "zone-ghost-fill",
-  type: "fill",
-  beforeId: "road-label",
-  paint: getLayerPaint(null, true).fill,
-}
-
-const lineGhostLayerProps: LayerProps = {
-  id: "zone-ghost-line",
-  type: "line",
-  beforeId: "road-label",
-  paint: {
-    ...getLayerPaint().line,
-    "line-opacity": 0.2,
-  },
-}
-
-const localeFR = {
-  // "AttributionControl.ToggleAttribution": "Toggle attribution",
-  "AttributionControl.MapFeedback": "Retours sur la map",
-  "FullscreenControl.Enter": "Entrer en plein écran",
-  "FullscreenControl.Exit": "Sortir du plein écran",
-  "GeolocateControl.FindMyLocation": "Me géolocaliser",
-  "GeolocateControl.LocationNotAvailable": "Géolocalisation indisponible",
-  "LogoControl.Title": "Logo Mapbox ",
-  // "NavigationControl.ResetBearing": "Reset bearing to north",
-  "NavigationControl.ZoomIn": "Zoomer",
-  "NavigationControl.ZoomOut": "Dézoomer",
-  "ScaleControl.Feet": "pieds",
-  "ScaleControl.Meters": "m",
-  "ScaleControl.Kilometers": "km",
-  "ScaleControl.Miles": "miles",
-  "ScaleControl.NauticalMiles": "nm",
-  "ScrollZoomBlocker.CtrlMessage": "Utilisez control + molette pour zoomer la carte",
-  "ScrollZoomBlocker.CmdMessage": "Utilisez ⌘ + molette pour zoomer la carte",
-  "TouchPanBlocker.Message": "Utilisez deux doigts pour bouger la carte",
 }
 
 /**
@@ -125,54 +82,55 @@ const localeFR = {
 export default function MapAugora(props: IMapAugora) {
   /** Default props */
   const {
-    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, paint },
+    mapView: { geoJSON, ghostGeoJSON, feature: zoneFeature, color = null },
     overlay = true,
     deputies = [],
+    zoneDeputies = [],
     overview = false,
     attribution = true,
     delay = 0,
     borders = false,
+    marker = null,
   } = props
 
+  const paint = useMemo(() => getLayerPaint(color && { color }), [color])
+
+  const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
+
   /** useStates */
-  const [hover, setHover] = useState<mapboxgl.MapboxGeoJSONFeature>(null)
-  const [isMapLoaded, setIsMapLoaded] = useState(false)
+  const [hover, setHover] = useState<MapboxGeoJSONFeature>(null)
   const [cursor, setCursor] = useState<string>("grab")
   const [geoPin, setGeoPin] = useState<AugoraMap.Coordinates>(null)
 
   /** useEffects */
   useEffect(() => {
-    if (isMapLoaded) {
-      if (!overview) flyToFeature(zoneFeature)
-      else flyToPin(zoneFeature)
-    }
-  }, [zoneFeature, overview, isMapLoaded])
+    handleLoad()
+  }, [zoneFeature, overview]) //lance une transition entre zones lorsque l'affichage change
 
   /** useRefs */
   const mapRef = useRef<MapRef>()
 
-  const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
-
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
     setTimeout(() => {
-      flyToBounds(feature, mapRef.current, isMobile)
+      if (mapRef.current) flyToBounds(feature, mapRef.current, isMobile)
     }, delay)
   }
 
   /** Transitionne le viewport sur un pin en mode overview */
   const flyToPin = <T extends GeoJSON.Feature>(feature: T) => {
-    const contId = getContinent(feature)
-    const code = getZoneCode(feature)
-    const zoom = contId === Cont.World ? -1 : contId === Cont.OM ? 2 : code !== Code.Cont ? 3.5 : 0
+    const pos = getPosition(feature)
+    const zoom =
+      pos === Pos.World || pos === Pos.WCirc ? -1 : pos === Pos.OMDpt || pos === Pos.OMCirc ? 2 : pos === Pos.France ? 0 : 3.5
 
-    flyToCoords(mapRef.current, zoneFeature.properties.center, zoom)
+    if (mapRef.current) flyToCoords(mapRef.current, zoneFeature.properties.center, { zoom: zoom })
   }
 
   /** Change la zone affichée et transitionne
    * @param {T} [opts.feature] La feature à afficher
    * @param {AugoraMap.Coordinates} [opts.coords] Les coords sur lesquelles transitionner, ignoré si une feature est aussi passée
-   * @param {boolean} [opts.redirect] S'il faut changer pour la page détal en cas de clic sur une circonscription, defaut true
+   * @param {string} [opts.url] Pour requeter un changement d'url, ignoré si une feature et des coordonnées sont passées
+   * @param {boolean} [opts.redirect] S'il faut changer pour la page détal en cas de clic sur une circonscription @default true
    */
   const goToZone = <T extends GeoJSON.Feature>(opts: { feature?: T; coords?: AugoraMap.Coordinates; redirect?: boolean }) => {
     const { feature, coords, redirect = true } = opts
@@ -185,23 +143,23 @@ export default function MapAugora(props: IMapAugora) {
         props.onZoneClick && props.onZoneClick(feature)
       } else flyToFeature(feature)
     } else if (coords) {
-      flyToCoords(mapRef.current, coords, 3)
+      flyToCoords(mapRef.current, coords, { zoom: 3 })
       console.warn(`Pas de zone trouvée à ces coordonnées: ${coords[0]}, ${coords[1]}`)
     }
   }
 
   /** Renvoie la feature mapbox sous l'event pointeur fourni, undefined s'il n'y en a pas */
-  const getMouseEventFeature = (e: mapboxgl.MapLayerMouseEvent): mapboxgl.MapboxGeoJSONFeature => {
-    return mapRef.current
-      .queryRenderedFeatures(e.point)
+  const getMouseEventFeature = (e: MapLayerMouseEvent): MapboxGeoJSONFeature => {
+    return mapRef?.current
+      ?.queryRenderedFeatures(e.point)
       .find((feat) => feat.layer.id === "zone-fill" || feat.layer.id === "zone-ghost-fill")
   }
 
   /** Renvoie la feature mapbox actuellement affichée correspondant à la feature fournie, undefined si elle n'est pas rendered */
-  const getRenderedFeature = (feature: AugoraMap.Feature): mapboxgl.MapboxGeoJSONFeature => {
+  const getRenderedFeature = (feature: AugoraMap.Feature): MapboxGeoJSONFeature => {
     const zoneCode = getZoneCode(feature)
 
-    return mapRef.current.queryRenderedFeatures(null, { layers: ["zone-fill"] }).find((feat) => {
+    return mapRef?.current?.queryRenderedFeatures(null, { layers: ["zone-fill"] }).find((feat) => {
       return zoneCode !== Code.Circ
         ? feat.properties[zoneCode] === feature.properties[zoneCode]
         : feat.properties[zoneCode] === feature.properties[zoneCode] && feat.properties[Code.Dpt] === feature.properties[Code.Dpt]
@@ -210,7 +168,7 @@ export default function MapAugora(props: IMapAugora) {
 
   /** Active le hover de la feature si elle est actuellement affichée sur la map */
   const simulateHover = (feature: AugoraMap.Feature) => {
-    if (isMapLoaded) {
+    if (mapRef.current) {
       if (!compareFeatures(hover, feature)) {
         const renderedFeature = getRenderedFeature(feature)
         renderHover(renderedFeature)
@@ -222,7 +180,7 @@ export default function MapAugora(props: IMapAugora) {
    * Crée un effet de hover sur la rendered feature mapbox fournie
    * @param {MapboxGeoJSONFeature} [renderedFeature] Si ce paramètre est manquant ou incorrect, la fonction reset le hover
    */
-  const renderHover = (renderedFeature?: mapboxgl.MapboxGeoJSONFeature) => {
+  const renderHover = (renderedFeature?: MapboxGeoJSONFeature) => {
     if (!compareFeatures(hover, renderedFeature)) {
       if (hover) mapRef.current.setFeatureState({ source: hover.source, id: hover.id }, { hover: false })
       if (renderedFeature)
@@ -245,36 +203,47 @@ export default function MapAugora(props: IMapAugora) {
     }
   }
 
-  const handleClick = (e: mapboxgl.MapLayerMouseEvent) => {
+  const handleClick = (e: MapLayerMouseEvent) => {
     const renderedFeature = getMouseEventFeature(e)
 
     if (renderedFeature) goToZone({ feature: renderedFeature })
   }
 
   const handleBack = () => {
-    goToZone({ feature: getParentFeature(zoneFeature) })
+    props.onBack && props.onBack()
   }
 
   const handleResize = () => {
-    if (isMapLoaded) flyToFeature(zoneFeature)
+    if (mapRef.current) flyToFeature(zoneFeature)
   }
 
   const handleLoad = () => {
-    if (!isMapLoaded) setIsMapLoaded(true)
+    if (!overview) flyToFeature(zoneFeature)
+    else flyToPin(zoneFeature)
   }
 
   const handleGeolocate = (e: GeolocateResultEvent) => {
     const coords: AugoraMap.Coordinates = [+e.coords.longitude.toFixed(4), +e.coords.latitude.toFixed(4)]
     if (coords) {
-      setGeoPin(coords)
-      goToZone({ feature: geolocateFromCoords(coords, Code.Circ), coords: coords, redirect: false })
+      geolocateFromCoords(coords, Code.Circ).then(
+        (result) => {
+          goToZone({ feature: result, coords: coords, redirect: false })
+          setGeoPin(coords)
+        },
+        (error) => console.error(error)
+      )
     }
   }
 
   const handleGeocode = (feature: AugoraMap.MapboxAPIFeature) => {
     if (feature) {
-      setGeoPin(feature.center)
-      goToZone({ feature: geolocateZone(feature), coords: feature.center, redirect: false })
+      geolocateZone(feature).then(
+        (result) => {
+          goToZone({ feature: result, coords: feature.center, redirect: false })
+          setGeoPin(feature.center)
+        },
+        (error) => console.error(error)
+      )
     } else setGeoPin(null)
   }
 
@@ -286,7 +255,7 @@ export default function MapAugora(props: IMapAugora) {
       ref={mapRef}
       style={{ width: "100%", height: "100%" }}
       initialViewState={props.viewstate}
-      minZoom={0}
+      minZoom={-1}
       dragRotate={false}
       doubleClickZoom={false}
       // interactiveLayerIds={isMapLoaded ? (ghostGeoJSON ? ["zone-fill", "zone-ghost-fill"] : ["zone-fill"]) : []}
@@ -301,50 +270,50 @@ export default function MapAugora(props: IMapAugora) {
       reuseMaps={false}
       attributionControl={attribution}
     >
-      {isMapLoaded && (
-        <>
-          <Source type="geojson" data={geoJSON} generateId={true}>
-            {/* spread pour éviter un bug de typescript de react map gl, à changer quand c'est fix */}
-            <Layer {...lineLayerProps} {...{ paint: paint.line }} />
-            <Layer {...fillLayerProps} {...{ paint: paint.fill }} />
+      <>
+        <Source type="geojson" data={geoJSON} generateId={true}>
+          <Layer id="zone-line" type="line" beforeId="road-label" paint={paint.line} />
+          <Layer id="zone-fill" type="fill" beforeId="road-label" paint={paint.fill} />
+        </Source>
+        {ghostGeoJSON && (
+          <Source type="geojson" data={ghostGeoJSON} generateId={true}>
+            <Layer id="zone-ghost-line" type="line" beforeId="road-label" paint={getLayerPaint({ ghost: true }).line} />
+            <Layer id="zone-ghost-fill" type="fill" beforeId="road-label" paint={getLayerPaint({ ghost: true }).fill} />
           </Source>
-          {ghostGeoJSON && (
-            <Source type="geojson" data={ghostGeoJSON} generateId={true}>
-              <Layer {...lineGhostLayerProps} />
-              <Layer {...fillGhostLayerProps} />
-            </Source>
-          )}
-          {overview && <MapPin coords={zoneFeature.properties.center} color={paint.line["line-color"] as string} />}
-          {overlay && (
-            <>
-              <MapPins
-                features={geoJSON.features}
-                ghostFeatures={ghostGeoJSON?.features}
-                hoveredFeature={hover}
-                deputies={deputies}
-                handleClick={goToZone}
-                handleHover={simulateHover}
-              />
-              {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
+        )}
+        {overview && !marker && <MapPin coords={zoneFeature.properties.center} color={color} />}
+        {marker && <MapPin coords={zoneFeature.properties.center}>{marker}</MapPin>}
+        {overlay && (
+          <>
+            <MapPins
+              features={geoJSON.features}
+              ghostFeatures={ghostGeoJSON?.features}
+              hoveredFeature={hover}
+              deputies={deputies}
+              handleClick={goToZone}
+              handleHover={simulateHover}
+            />
+            {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
+            {props.breadcrumb && (
               <MapControl position="top-left">
-                <MapBreadcrumb feature={zoneFeature} handleClick={(feature) => goToZone({ feature: feature, redirect: false })} />
+                <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={(feat) => goToZone({ feature: feat })} />
               </MapControl>
-              <MapControl position="top-right" className="mapboxgl-ctrl-geo">
-                <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
-              </MapControl>
-              <NavigationControl showCompass={false} />
-              <FullscreenControl />
-              <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} />
-              <div className="custom-control-container">
-                <div className="ctrl-bottom">
-                  <MapFilters zoneDeputies={getDeputies(zoneFeature, deputies)} />
-                </div>
+            )}
+            <MapControl position="top-right" className="mapboxgl-ctrl-geo">
+              <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
+            </MapControl>
+            <NavigationControl showCompass={false} />
+            <FullscreenControl />
+            <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} />
+            <div className="custom-control-container">
+              <div className="ctrl-bottom">
+                <MapFilters zoneDeputies={zoneDeputies} />
               </div>
-            </>
-          )}
-          {props.children}
-        </>
-      )}
+            </div>
+          </>
+        )}
+        {props.children}
+      </>
     </Map>
   )
 }

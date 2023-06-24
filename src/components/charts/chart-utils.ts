@@ -79,3 +79,11 @@ export const rangifyAgeData = (data: Chart.AgeData[], range: number): Chart.AgeD
     }, {} as Chart.AgeData)
   })
 }
+
+export const getGroupNomComplet = (sigle: string, groups: Group.GroupsList) => {
+  return groups.find((group) => group.Sigle === sigle).NomComplet
+}
+
+export const getGroupColor = (sigle: string, groups: Group.GroupsList): string => {
+  return groups.find((group) => group.Sigle === sigle).Couleur
+}

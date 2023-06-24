@@ -1,35 +1,28 @@
 declare namespace Chart {
-  /**
-   * Props requis par toutes les chartes
-   */
+  /** Props requis par toutes les chartes */
   interface BaseProps {
     width: number
     height: number
-    /**
-     * Data qui feed les charts
-     */
-    data?: Data[]
   }
 
-  /**
-   * Data des tooltip pour le component tooltip visx
-   */
+  interface BaseData {
+    groupList: Group.GroupsList
+    deputes: Deputy.DeputiesList
+  }
+
+  interface BaseDataAge extends BaseData {
+    ageDomain: Filter.AgeDomain
+  }
+
+  /** Data des tooltip pour le component tooltip visx */
   interface Tooltip {
-    /**
-     * Nom Complet du groupe
-     */
+    /** Nom Complet du groupe */
     key: string
-    /**
-     * Nombre de députés du groupe
-     */
+    /** Nombre de députés du groupe */
     bar: number
-    /**
-     * Couleur du groupe
-     */
+    /** Couleur du groupe */
     color: string
-    /**
-     * Age, optionnel
-     */
+    /** Age, optionnel */
     age?: number | string
   }
 
@@ -37,25 +30,15 @@ declare namespace Chart {
     age: string
   }
 
-  /**
-   * Object contenant les infos des groupes pour les components visx
-   */
-  interface Data {
-    /**
-     * Sigle du groupe
-     */
+  /** Object contenant les infos des groupes pour les components visx */
+  interface GroupData {
+    /** Sigle du groupe */
     id: string
-    /**
-     * Nom Complet du groupe
-     */
+    /** Nom Complet du groupe */
     label: string
-    /**
-     * Nombre de députés du groupe
-     */
+    /** Nombre de députés du groupe */
     value: number
-    /**
-     * Couleur du groupe
-     */
+    /** Couleur du groupe */
     color: string
   }
 
@@ -63,11 +46,6 @@ declare namespace Chart {
   type AgeGroupData = { [x: string]: Deputy.DeputiesList }
 
   /** Object contenant les infos des députés sur un âge */
-  interface AgeData {
-    age: number | string
-    groups: AgeGroupData
-    total: number
-  }
   interface AgeData {
     age: number | string
     groups: AgeGroupData

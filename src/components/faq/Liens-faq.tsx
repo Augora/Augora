@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 
 interface IFAQLink {
   children: React.ReactNode
@@ -8,8 +9,8 @@ interface IFAQLink {
 
 export default function FAQLink({ children, link, colorHSL }: IFAQLink) {
   return (
-    <a href={`/faq#${link}`} style={{ color: colorHSL }}>
+    <Link href={`/faq#${link}`} style={{ color: colorHSL }}>
       {children}
-    </a>
+    </Link>
   )
 }

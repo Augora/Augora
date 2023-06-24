@@ -69,10 +69,8 @@ export const SidebarFooter = () => {
 
 const SidebarLink = ({ href, title, isCurrent }: { href: string; title?: string; isCurrent?: boolean }) => {
   return (
-    <Link href={href}>
-      <a className={`link ${isCurrent ? "link--current" : ""}`} title={`Aller sur la page ${title ? title : ""}`}>
-        {title}
-      </a>
+    <Link href={href} className={`link ${isCurrent ? "link--current" : ""}`} title={`Aller sur la page ${title ? title : ""}`}>
+      {title}
     </Link>
   )
 }
@@ -83,7 +81,7 @@ export const SidebarLinks = ({ location }: { location: NextRouter }) => {
     <div className="content__links">
       <SidebarLink title="Députés" href="/" isCurrent={location.pathname === "/"} />
       <SidebarLink title="Statistiques" href="/statistiques" isCurrent={location.pathname === "/statistiques"} />
-      <SidebarLink title="Carte" href="/carte" isCurrent={location.pathname === "/map"} />
+      <SidebarLink title="Carte" href="/carte" isCurrent={location.pathname.startsWith("/map")} />
       <SidebarLink title="FAQ" href="/faq" isCurrent={location.pathname === "/faq"} />
     </div>
   )

@@ -20,7 +20,7 @@ export function slugify(string: string) {
     .replace(/[^\w-]+/g, "") // Remove all non-word characters
     .replace(/--+/g, "-") // Replace multiple - with single -
     .replace(/^-+/, "") // Trim - from start of text
-    .replace(/-+$/, "") // Trim - from end of text
+    .replace(/-+$/, ""); // Trim - from end of text
 }
 
 export async function fetchQuery(path, params = null) {

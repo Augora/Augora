@@ -83,6 +83,10 @@
 
     .deputy {
       &__visuals {
+        img {
+          height: auto;
+        }
+
         &--opened {
           color: $text-color;
           height: 140px;

@@ -14,7 +14,7 @@ import IconAssemblee from "images/ui-kit/icon-palace.svg"
 import DeputiesWiki from "./DeputiesWiki"
 
 export default function DeputiesList() {
-  const { state } = useDeputiesFilters()
+  const { state, isolateGroup } = useDeputiesFilters()
 
   const [HasPieChart, setHasPieChart] = useState(true)
   const groupesData = state.GroupesList.map((groupe) => {
@@ -49,11 +49,25 @@ export default function DeputiesList() {
               </button>
               {HasPieChart ? (
                 <ParentSize debounceTime={400}>
-                  {(parent) => <PieChart width={parent.width} height={parent.height} data={groupesData} />}
+                  {(parent) => (
+                    <PieChart
+                      width={parent.width}
+                      height={parent.height}
+                      deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
+                      onClick={(sigle) => isolateGroup(sigle)}
+                    />
+                  )}
                 </ParentSize>
               ) : (
                 <ParentSize className="bar__container" debounceTime={400}>
-                  {(parent) => <BarChart width={parent.width} height={parent.height} data={groupesData} />}
+                  {(parent) => (
+                    <BarChart
+                      width={parent.width}
+                      height={parent.height}
+                      deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
+                      onClick={(sigle) => isolateGroup(sigle)}
+                    />
+                  )}
                 </ParentSize>
               )}
             </>

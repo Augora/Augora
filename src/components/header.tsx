@@ -9,7 +9,7 @@ import { getHSLLightVariation } from "../utils/style/color"
 
 interface IHeader {
   siteTitle?: string
-  color?: Group.HSLDetail
+  color?: Color.HSL
   onBurgerClick?(): void
   location: NextRouter
 }
@@ -40,7 +40,7 @@ const mainPages: Pages = {
     title: "Statistiques",
   },
   map: {
-    path: "/map",
+    path: "/carte",
     title: "Carte",
   },
 }
@@ -60,21 +60,18 @@ function HeaderLinks({ pageGroup, location, styles }: { pageGroup: Pages; locati
   return (
     <>
       {Object.keys(pageGroup).map((page, index) => {
-        const className = `menu__item ${location.pathname === pageGroup[page].path ? "menu__item--current" : ""}`
+        const truePath = !(pageGroup[page].path === "/carte") ? pageGroup[page].path : "/map" //convert path "/carte" to "/map" to avoid server side mismatch
+        const className = `menu__item ${location.pathname.match(/^\/[^\/\?]*/)[0] === truePath ? "menu__item--current" : ""}` //remove subpaths and queries from pathname
 
         return (
           <div className="menu__link" key={pageGroup[page].path}>
-            <Link href={pageGroup[page].path}>
-              <a className={className}>
-                <span>{pageGroup[page].title}</span>
-                <div className="link__underline"></div>
-              </a>
+            <Link href={pageGroup[page].path} className={className}>
+              <span>{pageGroup[page].title}</span>
+              <div className="link__underline"></div>
             </Link>
-            <Link href={pageGroup[page].path}>
-              <a className={className} style={styles.link}>
-                <span>{pageGroup[page].title}</span>
-                <div className="link__underline" style={styles.underline}></div>
-              </a>
+            <Link href={pageGroup[page].path} className={className} style={styles.link}>
+              <span>{pageGroup[page].title}</span>
+              <div className="link__underline" style={styles.underline}></div>
             </Link>
           </div>
         )
@@ -111,19 +108,17 @@ const Header = ({ siteTitle, location, color, onBurgerClick }: IHeader) => {
   return (
     <header id="header" className="header">
       <div className="header__wrapper wrapper">
-        <Link href="/">
-          <a className="header__home-btn" aria-label="Logo page d'accueil">
-            <div className="header__logo-wrapper">
-              <div className="header__logo">
-                <Logo className="logo" />
-                <Logo className="logo" style={styles.svg} />
-              </div>
-              <div className="header__text">
-                <LogoText className="text" />
-                <LogoTextThin className="text" style={styles.svg} />
-              </div>
+        <Link href="/" className="header__home-btn" aria-label="Logo page d'accueil">
+          <div className="header__logo-wrapper">
+            <div className="header__logo">
+              <Logo className="logo" />
+              <Logo className="logo" style={styles.svg} />
             </div>
-          </a>
+            <div className="header__text">
+              <LogoText className="text" />
+              <LogoTextThin className="text" style={styles.svg} />
+            </div>
+          </div>
         </Link>
         <div className="header__menu menu">
           <HeaderLinks pageGroup={mainPages} location={location} styles={styles} />
