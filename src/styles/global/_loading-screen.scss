@@ -14,10 +14,10 @@
   z-index: 10001;
   // pointer-events: none;
 
-  transform: scaleX(0);
-  transform-origin: right;
+  // transform: scaleX(0);
+  // transform-origin: right;
 
-  &.loading {
-    transform-origin: left;
-  }
+  // &.loading {
+  //   transform-origin: left;
+  // }
 }
