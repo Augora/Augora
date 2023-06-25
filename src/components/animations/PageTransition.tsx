@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import LoadingScreen from "components/frames/LoadingScreen"
 
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
-  const { asPath } = useRouter()
+  const { pathname } = useRouter()
 
   const [slideVisible, setSlideVisible] = useState(false)
 
@@ -12,7 +12,7 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
     <div className="page-transition">
       <AnimatePresence mode="wait">
         <motion.div
-          key={asPath}
+          key={pathname}
           animate={{ opacity: 1 }}
           initial={false}
           exit={{ opacity: 0.9 }}
