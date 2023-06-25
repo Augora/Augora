@@ -81,11 +81,11 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </Head>
-      <PageTransition>
-        <Layout location={router} title={pageProps.title}>
-          <Component {...pageProps} />
-        </Layout>
-      </PageTransition>
+      {/* <PageTransition> */}
+      <Layout location={router} title={pageProps.title}>
+        <Component {...pageProps} />
+      </Layout>
+      {/* </PageTransition> */}
       {/* <LoadingScreen /> */}
       {/* <AnimatePresence exitBeforeEnter> */}
       {/* <motion.div 
