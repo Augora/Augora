@@ -94,24 +94,6 @@
 
       transition: background-color 0.3s $ease-out-cubic, backdrop-filter 0.3s $ease-out-cubic;
 
-      .loading-spinner {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%) scale(0.1);
-        opacity: 0;
-
-        transition: transform 0.3s $ease-in-out-cubic;
-
-        .spinner {
-          width: 150px;
-          height: 150px;
-          circle {
-            stroke-width: 5px;
-          }
-        }
-      }
-
       &.visible {
         background-color: rgba($black, 0.2);
         backdrop-filter: blur(3px) grayscale(50%) opacity(1);

@@ -14,7 +14,7 @@ import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
 import PageTransition from "components/animations/PageTransition"
-
+import PageLoading from "components/animations/PageLoading"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
 
 interface ILayout {
@@ -126,6 +126,7 @@ const Layout = ({ children, location, title }: ILayout) => {
       <PageTransition>
         <main className="layout">{children}</main>
       </PageTransition>
+      <PageLoading />
       <div className={`scroll-to-top ${scrolled ? "visible" : "hidden"}`} onClick={() => handleScrollTop()}>
         <IconArrow />
       </div>

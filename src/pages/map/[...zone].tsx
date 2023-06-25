@@ -126,9 +126,7 @@ export default function MapPage(props: IMapProps) {
             breadcrumb={props.breadcrumb}
           />
         </div>
-        <div className={`map__loading${isLoading ? " visible" : ""}`}>
-          <LoadingSpinner />
-        </div>
+        <div className={`map__loading${isLoading ? " visible" : ""}`} />
       </div>
     </>
   )

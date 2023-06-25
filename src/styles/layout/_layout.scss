@@ -78,6 +78,16 @@
   }
 }
 
+// Spinner
+/*----------------------------------------------------*/
+.loading-spinner {
+  position: fixed;
+  bottom: 40px;
+  left: 20px;
+  pointer-events: none;
+  z-index: 1000;
+}
+
 // Scroll To Top
 /*----------------------------------------------------*/
 .scroll-to-top {
