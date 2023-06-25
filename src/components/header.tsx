@@ -14,95 +14,44 @@ interface IHeader {
   location: NextRouter
 }
 
-type Pages = {
-  [key: string]: {
-    path: string
-    title: string
-  }
-}
-
-type Styles = {
-  flat: {}
-  gradient: {}
-  link?: { color: string }
-  svg?: { fill: string }
-  underline?: { background: string }
-  separator?: { background: string }
-}
-
-const mainPages: Pages = {
-  home: {
-    path: "/",
-    title: "Députés",
-  },
-  statistiques: {
-    path: "/statistiques",
-    title: "Statistiques",
-  },
-  map: {
-    path: "/carte/france",
-    title: "Carte",
-  },
-}
-
-const secondaryPages: Pages = {
-  // about: {
-  //   path: "/about",
-  //   title: "A propos de nous",
-  // },
-  faq: {
-    path: "/faq",
-    title: "FAQ",
-  },
-}
-
-function HeaderLinks({ pageGroup, location, styles }: { pageGroup: Pages; location: NextRouter; styles: Styles }) {
-  return (
-    <>
-      {Object.keys(pageGroup).map((page, index) => {
-        const truePath = !(pageGroup[page].path === "/carte") ? pageGroup[page].path : "/map" //convert path "/carte" to "/map" to avoid server side mismatch
-        const className = `menu__item ${location.pathname.match(/^\/[^\/\?]*/)[0] === truePath ? "menu__item--current" : ""}` //remove subpaths and queries from pathname
-
-        return (
-          <div className="menu__link" key={pageGroup[page].path}>
-            <Link href={pageGroup[page].path} className={className}>
-              <span>{pageGroup[page].title}</span>
-              <div className="link__underline"></div>
-            </Link>
-            <Link href={pageGroup[page].path} className={className} style={styles.link}>
-              <span>{pageGroup[page].title}</span>
-              <div className="link__underline" style={styles.underline}></div>
-            </Link>
-          </div>
-        )
-      })}
-    </>
-  )
-}
-
 /**
  * Renvoie le header
  * @param {RouteProps} location Objet du react router contenant les infos de route
  * @param {Group.HSLDetail} [color] Couleur du header optionnelle
  */
-const Header = ({ siteTitle, location, color, onBurgerClick }: IHeader) => {
-  let styles: Styles = {
-    flat: {},
-    gradient: {},
+const Header = ({ siteTitle = "", location, color, onBurgerClick }: IHeader) => {
+  const decorationOpacity = 1
+
+  const gradient = color && { start: getHSLLightVariation(color, -20), end: getHSLLightVariation(color, -30) }
+
+  const styles = color && {
+    link: { color: `hsla(${color.H}, ${color.S}%, ${color.L}%)` },
+    svg: { fill: `hsla(${color.H}, ${color.S}%, ${color.L}%)` },
+    underline: {
+      background: `linear-gradient(to right, hsla(${color.H}, ${color.S}%, ${gradient.start}%, ${decorationOpacity}), hsla(${color.H}, ${color.S}%, ${gradient.end}%, ${decorationOpacity}))`,
+    },
+    separator: {
+      background: `linear-gradient(to bottom, hsla(${color.H}, ${color.S}%, ${gradient.start}%, ${decorationOpacity}), hsla(${color.H}, ${color.S}%, ${gradient.end}%, ${decorationOpacity}))`,
+    },
   }
 
-  if (color) {
-    const gradientStart = getHSLLightVariation(color, -20)
-    const gradientEnd = getHSLLightVariation(color, -30)
-    const decorationOpacity = 1
-    styles.link = { color: `hsla(${color.H}, ${color.S}%, ${color.L}%)` }
-    styles.svg = { fill: `hsla(${color.H}, ${color.S}%, ${color.L}%)` }
-    styles.underline = {
-      background: `linear-gradient(to right, hsla(${color.H}, ${color.S}%, ${gradientStart}%, ${decorationOpacity}), hsla(${color.H}, ${color.S}%, ${gradientEnd}%, ${decorationOpacity}))`,
-    }
-    styles.separator = {
-      background: `linear-gradient(to bottom, hsla(${color.H}, ${color.S}%, ${gradientStart}%, ${decorationOpacity}), hsla(${color.H}, ${color.S}%, ${gradientEnd}%, ${decorationOpacity}))`,
-    }
+  const HeaderLink = ({ href, title, isCurrent }: { href: string; title: string; isCurrent?: boolean }) => {
+    return (
+      <div className="menu__link" key={href}>
+        <Link href={href} className={`menu__item ${isCurrent ? "menu__item--current" : ""}`}>
+          <span>{title}</span>
+          <div className="link__underline"></div>
+        </Link>
+        <Link
+          href={href}
+          className={`menu__item ${isCurrent ? "menu__item--current" : ""}`}
+          {...(styles && { style: styles.link })}
+        >
+          <span>{title}</span>
+          <div className="link__underline" {...(styles && { style: styles.underline })}></div>
+        </Link>
+      </div>
+    )
   }
 
   return (
@@ -112,35 +61,33 @@ const Header = ({ siteTitle, location, color, onBurgerClick }: IHeader) => {
           <div className="header__logo-wrapper">
             <div className="header__logo">
               <Logo className="logo" />
-              <Logo className="logo" style={styles.svg} />
+              <Logo className="logo" {...(styles && { style: styles.svg })} />
             </div>
             <div className="header__text">
               <LogoText className="text" />
-              <LogoTextThin className="text" style={styles.svg} />
+              <LogoTextThin className="text" {...(styles && { style: styles.svg })} />
             </div>
           </div>
         </Link>
         <div className="header__menu menu">
-          <HeaderLinks pageGroup={mainPages} location={location} styles={styles} />
+          <HeaderLink href="/" title="Députés" isCurrent={location.pathname === "/"} />
+          <HeaderLink href="/statistiques" title="Statistiques" isCurrent={location.pathname === "/statistiques"} />
+          <HeaderLink href="/carte/france" title="Carte" isCurrent={location.pathname.startsWith("/map")} />
           <div className="menu__separator-container">
             <span className="menu__separator" />
-            <span className="menu__separator" style={styles.separator} />
+            <span className="menu__separator" {...(styles && { style: styles.separator })} />
           </div>
-          <HeaderLinks pageGroup={secondaryPages} location={location} styles={styles} />
+          <HeaderLink href="/faq" title="FAQ" isCurrent={location.pathname === "/faq"} />
           <button className="menu__burger-btn" onClick={() => onBurgerClick()}>
             <div className="menu__burger-icon">
               <IconBurger className="icon" />
-              <IconBurger className="icon" style={styles.svg} />
+              <IconBurger className="icon" {...(styles && { style: styles.svg })} />
             </div>
           </button>
         </div>
       </div>
     </header>
   )
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
 }
 
 export default Header
