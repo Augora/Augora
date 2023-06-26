@@ -28,12 +28,11 @@ export default function PageLoading() {
       {isLoading && (
         <motion.div
           className="loading-spinner"
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          exit={{ y: 100 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{
-            duration: 0.4,
-            ease: "easeOut",
+            duration: 0.5,
           }}
         >
           <LoadingSpinner />
