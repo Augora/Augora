@@ -8,8 +8,15 @@ export default function PageLoading() {
 
   const [isLoading, setLoading] = useState(false)
 
-  const onChange = () => setLoading(true)
-  const onComplete = () => setLoading(false)
+  let timer: NodeJS.Timeout
+
+  const onChange = () => {
+    timer = setTimeout(() => setLoading(true), 500)
+  }
+  const onComplete = () => {
+    clearTimeout(timer)
+    setLoading(false)
+  }
 
   useEffect(() => {
     router.events.on("routeChangeStart", onChange)
@@ -20,6 +27,8 @@ export default function PageLoading() {
       router.events.off("routeChangeStart", onChange)
       router.events.off("routeChangeComplete", onComplete)
       router.events.off("routeChangeError", onComplete)
+
+      clearTimeout(timer)
     }
   }, [])
 
