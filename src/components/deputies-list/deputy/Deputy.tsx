@@ -18,7 +18,6 @@ export default function OneDeputy({ depute, groupNumber }: IOneDeputy) {
         href={`/depute/${depute.Slug}`}
         id={"depute-" + depute.Slug}
         className={`depute${isPresidentGroupe && groupNumber == 1 ? " depute__president" : ""}`}
-        scroll={false}
         style={{
           backgroundColor: depute.GroupeParlementaire.Couleur,
         }}

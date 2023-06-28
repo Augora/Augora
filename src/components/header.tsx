@@ -38,13 +38,12 @@ const Header = ({ siteTitle = "", location, color, onBurgerClick }: IHeader) => 
   const HeaderLink = ({ href, title, isCurrent }: { href: string; title: string; isCurrent?: boolean }) => {
     return (
       <div className="menu__link" key={href}>
-        <Link href={href} scroll={false} className={`menu__item ${isCurrent ? "menu__item--current" : ""}`}>
+        <Link href={href} className={`menu__item ${isCurrent ? "menu__item--current" : ""}`}>
           <span>{title}</span>
           <div className="link__underline"></div>
         </Link>
         <Link
           href={href}
-          scroll={false}
           className={`menu__item ${isCurrent ? "menu__item--current" : ""}`}
           {...(styles && { style: styles.link })}
         >
@@ -58,7 +57,7 @@ const Header = ({ siteTitle = "", location, color, onBurgerClick }: IHeader) => 
   return (
     <header id="header" className="header">
       <div className="header__wrapper wrapper">
-        <Link href="/" scroll={false} className="header__home-btn" aria-label="Logo page d'accueil">
+        <Link href="/" className="header__home-btn" aria-label="Logo page d'accueil">
           <div className="header__logo-wrapper">
             <div className="header__logo">
               <Logo className="logo" />

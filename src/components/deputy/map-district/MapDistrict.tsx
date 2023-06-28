@@ -32,7 +32,7 @@ export default function MapDistrict(props: Bloc.Map) {
             color: props.deputy.GroupeParlementaire.CouleurDetail.RGB,
           }}
         />
-        <Link href={`/carte/${getFeatureURL(props.deputeCirc)}`} scroll={false}>
+        <Link href={`/carte/${getFeatureURL(props.deputeCirc)}`}>
           <div className="map__redirect" title="Voir sur la carte">
             <div className="icon-wrapper">
               <IconExpand style={{ fill: props.color.HSL.Full }} />
