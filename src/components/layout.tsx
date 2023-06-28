@@ -106,7 +106,7 @@ const Layout = ({ children, location, title }: ILayout) => {
       </Head>
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} onBurgerClick={() => setHasSidebar(!hasSidebar)} />
-        <PageTitle color={pageColor} title={title ? title : null} />
+        <PageTitle color={pageColor} title={title ? title : null} isScrolled={scrolled} />
         <Popin displayed={isPopinVisible && !IsInitialState}>
           <p>Certains filtres sont actifs</p>
           <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">

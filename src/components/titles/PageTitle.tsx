@@ -11,14 +11,14 @@ import { AnimatePresence, motion } from "framer-motion"
  * @param {string} [title] Titre de la page, optionnel
  * @param {Group.HSLDetail} [color] Couleur de la bannière, optionnel
  */
-export default function PageTitle(props: { title?: string; color?: Color.HSL }) {
+export default function PageTitle({ title, color, isScrolled }: { title?: string; color?: Color.HSL; isScrolled?: boolean }) {
   const [hovered, setHovered] = useState(false)
 
   let style: React.CSSProperties = {}
-  if (props.color) {
-    const gradientEnd = getHSLLightVariation(props.color, -10)
+  if (color) {
+    const gradientEnd = getHSLLightVariation(color, -10)
     style = {
-      backgroundImage: `linear-gradient(to right, hsl(${props.color.H}, ${props.color.S}%, ${props.color.L}%), hsl(${props.color.H}, ${props.color.S}%, ${gradientEnd}%)`,
+      backgroundImage: `linear-gradient(to right, hsl(${color.H}, ${color.S}%, ${color.L}%), hsl(${color.H}, ${color.S}%, ${gradientEnd}%)`,
     }
   }
 
@@ -30,17 +30,17 @@ export default function PageTitle(props: { title?: string; color?: Color.HSL }) 
       style={style}
     >
       <AnimatePresence mode="wait">
-        {props.title && (
+        {title && (
           <motion.div
-            key={props.title}
+            key={title}
             className="page-title__container"
             initial={{ x: -200, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -200, opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: "easeInOut", delay: isScrolled ? 0.3 : 0 }}
           >
-            <h1 className="page-title__title">{props.title}</h1>
-            <p className="page-title__title">{props.title}</p>
+            <h1 className="page-title__title">{title}</h1>
+            <p className="page-title__title">{title}</p>
           </motion.div>
         )}
       </AnimatePresence>
