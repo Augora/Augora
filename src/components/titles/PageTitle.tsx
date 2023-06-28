@@ -37,7 +37,7 @@ export default function PageTitle({ title, color, isScrolled }: { title?: string
             initial={{ x: -200, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -200, opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut", delay: isScrolled ? 0.3 : 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut", delay: isScrolled ? 0.7 : 0 }}
           >
             <h1 className="page-title__title">{title}</h1>
             <p className="page-title__title">{title}</p>

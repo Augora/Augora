@@ -9,7 +9,7 @@ interface IFAQLink {
 
 export default function FAQLink({ children, link, colorHSL }: IFAQLink) {
   return (
-    <Link href={`/faq#${link}`} style={{ color: colorHSL }}>
+    <Link href={`/faq#${link}`} style={{ color: colorHSL }} scroll={false}>
       {children}
     </Link>
   )
