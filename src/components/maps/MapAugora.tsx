@@ -110,6 +110,10 @@ export default function MapAugora(props: IMapAugora) {
     handleLoad()
   }, [zoneFeature, overview]) //lance une transition entre zones lorsque l'affichage change
 
+  useEffect(() => {
+    isLoading ? setCursor("wait") : setCursor("grab")
+  }, [isLoading])
+
   /** useRefs */
   const mapRef = useRef<MapRef>()
 
@@ -212,7 +216,6 @@ export default function MapAugora(props: IMapAugora) {
       const renderedFeature = getMouseEventFeature(e)
 
       if (renderedFeature) {
-        setCursor("wait")
         goToZone({ feature: renderedFeature })
       }
     }
@@ -221,7 +224,6 @@ export default function MapAugora(props: IMapAugora) {
   const handleBack = () => {
     if (!isLoading) {
       if (props.onBack) {
-        setCursor("wait")
         props.onBack()
       }
     }
@@ -229,7 +231,6 @@ export default function MapAugora(props: IMapAugora) {
 
   const handleBreadcrumb = (feat) => {
     if (!isLoading) {
-      setCursor("wait")
       goToZone({ feature: feat })
     }
   }
