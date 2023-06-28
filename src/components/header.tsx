@@ -14,6 +14,66 @@ interface IHeader {
   location: NextRouter
 }
 
+type Pages = {
+  [key: string]: {
+    path: string
+    title: string
+  }
+}
+
+const mainPages: Pages = {
+  home: {
+    path: "/",
+    title: "Députés",
+  },
+  statistiques: {
+    path: "/statistiques",
+    title: "Statistiques",
+  },
+  map: {
+    path: "/carte/france",
+    title: "Carte",
+  },
+}
+
+const secondaryPages: Pages = {
+  // about: {
+  //   path: "/about",
+  //   title: "A propos de nous",
+  // },
+  faq: {
+    path: "/faq",
+    title: "FAQ",
+  },
+}
+
+function HeaderLinks({ pageGroup, location, styles }: { pageGroup: Pages; location: NextRouter; styles? }) {
+  return (
+    <>
+      {Object.keys(pageGroup).map((page, index) => {
+        const isCurrent =
+          pageGroup[page].path !== "/carte/france"
+            ? location.pathname === pageGroup[page].path
+            : location.pathname.startsWith("/map")
+        const className = `menu__item ${isCurrent ? "menu__item--current" : ""}`
+
+        return (
+          <div className="menu__link" key={pageGroup[page].path}>
+            <Link href={pageGroup[page].path} className={className}>
+              <span>{pageGroup[page].title}</span>
+              <div className="link__underline"></div>
+            </Link>
+            <Link href={pageGroup[page].path} className={className} style={styles?.link}>
+              <span>{pageGroup[page].title}</span>
+              <div className="link__underline" style={styles?.underline}></div>
+            </Link>
+          </div>
+        )
+      })}
+    </>
+  )
+}
+
 /**
  * Renvoie le header
  * @param {RouteProps} location Objet du react router contenant les infos de route
@@ -35,25 +95,6 @@ const Header = ({ siteTitle = "", location, color, onBurgerClick }: IHeader) => 
     },
   }
 
-  const HeaderLink = ({ href, title, isCurrent }: { href: string; title: string; isCurrent?: boolean }) => {
-    return (
-      <div className="menu__link" key={href}>
-        <Link href={href} className={`menu__item ${isCurrent ? "menu__item--current" : ""}`}>
-          <span>{title}</span>
-          <div className="link__underline"></div>
-        </Link>
-        <Link
-          href={href}
-          className={`menu__item ${isCurrent ? "menu__item--current" : ""}`}
-          {...(styles && { style: styles.link })}
-        >
-          <span>{title}</span>
-          <div className="link__underline" {...(styles && { style: styles.underline })}></div>
-        </Link>
-      </div>
-    )
-  }
-
   return (
     <header id="header" className="header">
       <div className="header__wrapper wrapper">
@@ -70,14 +111,12 @@ const Header = ({ siteTitle = "", location, color, onBurgerClick }: IHeader) => 
           </div>
         </Link>
         <div className="header__menu menu">
-          <HeaderLink href="/" title="Députés" isCurrent={location.pathname === "/"} />
-          <HeaderLink href="/statistiques" title="Statistiques" isCurrent={location.pathname === "/statistiques"} />
-          <HeaderLink href="/carte/france" title="Carte" isCurrent={location.pathname.startsWith("/map")} />
+          <HeaderLinks pageGroup={mainPages} location={location} styles={styles} />
           <div className="menu__separator-container">
             <span className="menu__separator" />
             <span className="menu__separator" {...(styles && { style: styles.separator })} />
           </div>
-          <HeaderLink href="/faq" title="FAQ" isCurrent={location.pathname === "/faq"} />
+          <HeaderLinks pageGroup={secondaryPages} location={location} styles={styles} />
           <button className="menu__burger-btn" onClick={() => onBurgerClick()}>
             <div className="menu__burger-icon">
               <IconBurger className="icon" />
