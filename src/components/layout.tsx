@@ -13,7 +13,8 @@ import { useSwipeable } from "react-swipeable"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
 import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
-
+import PageTransition from "components/animations/PageTransition"
+import PageLoading from "components/animations/PageLoading"
 import IconArrow from "images/ui-kit/icon-arrow.svg"
 
 interface ILayout {
@@ -125,7 +126,7 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
       </Head>
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} onBurgerClick={() => setHasSidebar(!hasSidebar)} />
-        <PageTitle color={pageColor} title={title ? title : null} />
+        <PageTitle color={pageColor} title={title ? title : null} isScrolled={scrolled} />
         <Popin displayed={isPopinVisible && !IsInitialState}>
           <p>Certains filtres sont actifs</p>
           <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
@@ -142,7 +143,10 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
         </div>
         <SidebarFooter />
       </Sidebar>
-      <main className="layout">{children}</main>
+      <PageTransition>
+        <main className="layout">{children}</main>
+      </PageTransition>
+      <PageLoading />
       <div className={`scroll-to-top ${scrolled ? "visible" : "hidden"}`} onClick={() => handleScrollTop()}>
         <IconArrow />
       </div>
