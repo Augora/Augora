@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { withRouter } from "next/router"
 import Head from "next/head"
 import { AppProps } from "next/app"

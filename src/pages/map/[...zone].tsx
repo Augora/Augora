@@ -40,19 +40,9 @@ export default function MapPage(props: IMapProps) {
   const { viewsize, viewstate, setViewsize, setViewstate } = mapStore()
 
   useEffect(() => {
-    let timer: NodeJS.Timeout
+    const handleStart = () => setIsLoading(true)
+    const handleComplete = () => setIsLoading(false)
 
-    const handleStart = (url) => {
-      if (url.startsWith("/carte")) {
-        timer = setTimeout(() => {
-          setIsLoading(true)
-        }, 500)
-      }
-    }
-    const handleComplete = (url) => {
-      clearTimeout(timer)
-      setIsLoading(false)
-    }
     router.events.on("routeChangeStart", handleStart)
     router.events.on("routeChangeComplete", handleComplete)
     router.events.on("routeChangeError", handleComplete)
@@ -67,14 +57,12 @@ export default function MapPage(props: IMapProps) {
       router.events.off("routeChangeError", handleComplete)
 
       window.removeEventListener("resize", handleResize)
-
-      clearTimeout(timer)
     }
   }, [])
 
   useEffect(() => {
-    props.ghostGeoJSON.features.forEach((feat) => router.prefetch(`/carte/${getFeatureURL(feat)}`))
     props.geoJSON.features.forEach((feat) => router.prefetch(`/carte/${getFeatureURL(feat)}`))
+    props.ghostGeoJSON.features.forEach((feat) => router.prefetch(`/carte/${getFeatureURL(feat)}`))
     props.breadcrumb.forEach((breadcrumb) => router.prefetch(`/carte/${getFeatureURL(breadcrumb.feature)}`))
   }, [router]) //prefetch les pages des features visibles
 
@@ -124,10 +112,8 @@ export default function MapPage(props: IMapProps) {
             onZoneClick={changeZone}
             onBack={() => changeURL(getParentURL(props.feature))}
             breadcrumb={props.breadcrumb}
+            isLoading={isLoading}
           />
-        </div>
-        <div className={`map__loading${isLoading ? " visible" : ""}`}>
-          <LoadingSpinner />
         </div>
       </div>
     </>
