@@ -5,16 +5,13 @@
   .mandate {
     &__content {
       align-items: center;
+      text-align: center;
     }
     &__number,
     &__dates {
       height: 30%;
     }
     &__number {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       .number {
         &__holder {
           font-size: 60px;
@@ -34,34 +31,13 @@
       }
     }
     &__dates {
-      width: 100%;
       display: flex;
-      justify-content: center;
       align-items: center;
-      position: relative;
-      & > div {
-        position: absolute;
-        top: 0px;
-
-        width: 60%;
-        height: 100%;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        transition: 0.225s linear;
-      }
+      gap: 50px;
     }
     &__since {
-      opacity: 1;
-      pointer-events: all;
       p {
-        display: flex;
-        align-items: center;
-        text-transform: uppercase;
-        margin-bottom: 5px;
+        margin-bottom: 0;
         /* CSS specific to iOS devices */
         @supports (-webkit-touch-callout: none) {
           margin-bottom: 18px;
@@ -73,37 +49,23 @@
           font-size: 40px;
           font-weight: 900;
           display: inline-block;
-          margin-right: 10px;
           line-height: 1;
         }
       }
     }
     &__begin {
-      opacity: 0;
-      pointer-events: none;
       p {
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 0;
         span {
           font-size: 22px;
         }
         &.begin__year {
-          font-size: 40px;
+          font-size: 30px;
           font-weight: 900;
-          margin-top: 10px;
+          margin-top: 5px;
+          line-height: 1;
         }
-      }
-    }
-  }
-  &:hover {
-    .mandate {
-      &__since {
-        opacity: 0;
-        pointer-events: none;
-      }
-      &__begin {
-        opacity: 1;
-        pointer-events: all;
       }
     }
   }

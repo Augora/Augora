@@ -78,7 +78,6 @@ export default function Mandate(props: Bloc.Mandate) {
               <strong>{Date.daysPassed < 2 ? "Jour" : "Jours"}</strong>
             </p>
           ) : null}
-          <p></p>
           <p>
             <strong>d'activité</strong>
           </p>
