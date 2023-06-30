@@ -6,7 +6,7 @@ declare namespace Bloc {
 
   interface Base {
     /** Couleur du groupe parlementaire */
-    color: Group.CouleurDetail
+    color: Color.All
     /** "large", "medium" */
     size?: Size
     wip?: boolean
@@ -18,7 +18,7 @@ declare namespace Bloc {
 
   interface Header {
     /** Couleur du groupe parlementaire */
-    color: Group.CouleurDetail
+    color: Color.All
     title: string
     /** Identifier du bloc: "general", "mandate", "coworkers", "presence", "contact","map", "commission" ou "missions" */
     type: Type
