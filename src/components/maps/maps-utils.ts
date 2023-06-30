@@ -344,9 +344,9 @@ export const getCodeFromCodes = (codes: AugoraMap.Codes): Code => {
 export const getPosFromCodes = (codes: AugoraMap.Codes): Pos => {
   if (codes) {
     if (codes[Code.Circ]) {
-      return codes[Code.Dpt] === "999" ? Pos.WCirc : codes[Code.Dpt] > 900 ? Pos.OMCirc : Pos.FrCirc
+      return codes[Code.Dpt] === "999" ? Pos.WCirc : +codes[Code.Dpt] > 900 ? Pos.OMCirc : Pos.FrCirc
     } else if (codes[Code.Dpt]) {
-      return codes[Code.Dpt] > 900 ? Pos.OMDpt : Pos.FrDpt
+      return +codes[Code.Dpt] > 900 ? Pos.OMDpt : Pos.FrDpt
     } else if (codes[Code.Reg]) {
       return Pos.FrReg
     } else if (codes[Code.Cont] !== undefined) {

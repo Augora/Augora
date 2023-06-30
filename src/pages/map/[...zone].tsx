@@ -112,6 +112,7 @@ export default function MapPage(props: IMapProps) {
             onZoneClick={changeZone}
             onBack={() => changeURL(getParentURL(props.feature))}
             breadcrumb={props.breadcrumb}
+            geolocate={router.query["geolocate"] === "true"}
             isLoading={isLoading}
           />
         </div>

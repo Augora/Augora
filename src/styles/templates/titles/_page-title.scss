@@ -72,9 +72,18 @@
   .no-title & {
     transition: transform 0.2s $ease-in-out-cubic;
   }
+  .transparent & {
+    background-image: none;
+    box-shadow: 0px 0px 20px rgba($black, 0);
+  }
   .scrolled.no-title & {
     transform: translate3d(0, -15px, 0);
     transition: transform 0.3s $ease-in-circ;
+  }
+  .scrolled.transparent & {
+    transform: translate3d(0, -20px, 0);
+    box-shadow: 0px 0px 20px rgba($black, 0.15);
+    transition: box-shadow 0.3s $ease-in-circ;
   }
 
   // Media queries

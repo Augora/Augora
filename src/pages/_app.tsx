@@ -10,7 +10,16 @@ import { hydrateStoreWithInitialLists } from "stores/deputesStore"
 // Styles
 import "../styles/app.scss"
 
-export default withRouter(function MyApp({ Component, pageProps, router }: AppProps) {
+interface IApp extends AppProps {
+  pageProps: {
+    title?: string
+    deputes?: Deputy.DeputiesList
+    groupes?: Group.GroupsList
+    transparentHeader?: boolean
+  }
+}
+
+export default withRouter(function MyApp({ Component, pageProps, router }: IApp) {
   if (pageProps.deputes) {
     const orderedDeputes = pageProps.deputes
     const orderedGroupes = sortBy(pageProps.groupes, "Ordre")
@@ -23,7 +32,7 @@ export default withRouter(function MyApp({ Component, pageProps, router }: AppPr
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </Head>
-      <Layout location={router} title={pageProps.title}>
+      <Layout location={router} title={pageProps.title} transparentHeader={pageProps.transparentHeader}>
         <Component {...pageProps} />
       </Layout>
     </>

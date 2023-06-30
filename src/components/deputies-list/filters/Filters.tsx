@@ -7,7 +7,7 @@ import GroupButton from "components/deputies-list/filters/GroupButton"
 import SexButton from "components/deputies-list/filters/SexButton"
 import SearchForm from "components/deputies-list/filters/SearchForm"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { getAgeDomain, getNbDeputiesGroup, getNbDeputiesGender } from "components/deputies-list/deputies-list-utils"
+import { getNbDeputiesGroup, getNbDeputiesGender } from "components/deputies-list/deputies-list-utils"
 
 interface IFilters {
   filteredDeputes?: Deputy.DeputiesList
@@ -71,7 +71,7 @@ export default function Filters(props: IFilters) {
         </div>
         <ResetButton onClick={handleReset} />
       </div>
-      <AgeSlider selectedDomain={state.AgeDomain} domain={getAgeDomain(state.DeputiesList)} callback={handleAgeSlider}>
+      <AgeSlider selectedDomain={state.AgeDomain} domain={state.InitialAgeDomain} callback={handleAgeSlider}>
         <span className="filters__slider-label">ÂGE</span>
       </AgeSlider>
     </Frame>

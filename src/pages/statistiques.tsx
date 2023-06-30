@@ -7,7 +7,7 @@ import XYBarStack from "src/components/charts/XYBarStack"
 import Frame from "components/frames/Frame"
 import { ParentSize } from "@visx/responsive"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { getDeputes, getGroupes } from "../lib/deputes/Wrapper"
+import { getDeputes, getGroupes } from "lib/deputes/Wrapper"
 import PyramideBar from "src/components/charts/PyramideBar/PyramideBar"
 import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack"
 import { getAgeData } from "components/charts/chart-utils"
@@ -20,7 +20,7 @@ import { useRouter } from "next/router"
 // import { Lyrics } from "../static/lyrics"
 
 const Statistiques = () => {
-  const { state, isolateGroup, isolateSex, handleAgeSlider } = useDeputiesFilters()
+  const { state, isolateGroup, isolateSex, handleAgeSlider, filterGroup } = useDeputiesFilters()
   const router = useRouter()
 
   const [HasPyramideBarStack, setHasPyramideBarStack] = useState(true)
@@ -47,7 +47,7 @@ const Statistiques = () => {
                 deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
                 onClick={(sigle) => {
                   isolateGroup(sigle)
-                  router.push("/")
+                  router.push("/deputes")
                 }}
               />
             )}
@@ -72,7 +72,7 @@ const Statistiques = () => {
                     deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
                   />
                 </div>
-                <ChartLegend groupList={state.GroupesList} />
+                <ChartLegend groupList={state.GroupesList} groupeValue={state.GroupeValue} onClick={filterGroup} />
               </>
             )}
           </ParentSize>
@@ -90,7 +90,7 @@ const Statistiques = () => {
                 deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList }}
                 onClick={(sigle) => {
                   isolateGroup(sigle)
-                  router.push("/")
+                  router.push("/deputes")
                 }}
               />
             )}
@@ -123,14 +123,20 @@ const Statistiques = () => {
                     onClick={(age: Filter.AgeDomain, sex: Filter.Gender) => {
                       handleAgeSlider(age)
                       isolateSex(sex)
-                      router.push("/")
+                      router.push("/deputes")
                     }}
                   />
                 ) : (
                   <PyramideBarStack
                     width={parent.width}
                     height={parent.height}
-                    deputesData={{ groupList: state.GroupesList, deputes: state.FilteredList, ageDomain: state.AgeDomain }}
+                    deputesData={{
+                      groupList: state.GroupesList,
+                      deputes: state.FilteredList,
+                      ageDomain: state.AgeDomain,
+                      groupeValue: state.GroupeValue,
+                    }}
+                    onLegendClick={filterGroup}
                   />
                 )
               }
