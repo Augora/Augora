@@ -103,7 +103,7 @@ export default function GeneralInformation(props: Bloc.General) {
         <div className="main__info">
           <div className="main__age">
             <div className="main__age-date">
-              {props.age}
+              <strong>{props.age}</strong>
               <div>ans</div>
             </div>
             <div className="main__birthday">
