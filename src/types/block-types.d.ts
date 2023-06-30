@@ -1,6 +1,6 @@
 /** Tous les types concernant les blocs de la page détail */
 declare namespace Bloc {
-  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "groupes" | "commission" | "missions"
+  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "groupe" | "commission" | "missions"
 
   type Size = "large" | "medium"
 
@@ -41,7 +41,7 @@ declare namespace Bloc {
     responsabiliteGroupe: string
     rattachement: string
     photoGroupe: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
-    photoRattachement: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    photoRattachement: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | import("next/image").StaticImageData
     sexe: string
   }
 
@@ -74,7 +74,7 @@ declare namespace Bloc {
     firstName: string
     picture: string
     pictureGroup: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
-    pictureParty: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    pictureParty: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | import("next/image").StaticImageData
     party: string
     groupe: string
     groupeComplet: string

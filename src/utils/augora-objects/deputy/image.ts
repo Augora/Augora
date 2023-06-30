@@ -26,6 +26,7 @@ import TAVINI from "images/logos/partis-politiques/tavini.png"
 import CE from "images/logos/partis-politiques/ce.png"
 import PS_PARTI from "images/logos/partis-politiques/ps.svg"
 import EELV from "images/logos/partis-politiques/eelv.svg"
+import type { StaticImageData } from "next/image"
 
 /**
  * Match the politic group's photo import with his acronym
@@ -44,7 +45,7 @@ export function getDeputyPhotoURL(slug: string, height: number) {
  * @param {string} group Sigle
  * @returns politic group's logo
  */
-export function getGroupLogoImport(group: string) {
+export function getGroupLogoImport(group: string): React.FunctionComponent<React.SVGProps<SVGSVGElement>> {
   switch (group) {
     case "ECO":
       return ECO
@@ -78,7 +79,7 @@ export function getGroupLogoImport(group: string) {
  * @param {string} party Sigle
  * @returns politic party's logo
  */
-export function getPartyLogoImport(party: string) {
+export function getPartyLogoImport(party: string): React.FunctionComponent<React.SVGProps<SVGSVGElement>> | StaticImageData {
   switch (party) {
     case "Parti radical de gauche":
       return PRG
