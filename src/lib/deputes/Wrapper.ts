@@ -109,6 +109,7 @@ export function getDeputesMap() {
       `
       Slug,
       URLPhotoAugora,
+      URLPhotoAssembleeNationale,
       Prenom,
       NomDeFamille,
       Nom,

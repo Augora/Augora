@@ -112,6 +112,7 @@ export function MapPin(props: IMapPin) {
 
   const zoneCode = getZoneCode(props.feature)
   const coords = props.feature.properties.center ? props.feature.properties.center : getPolygonCenter(props.feature)
+
   return (
     <Marker longitude={coords[0]} latitude={coords[1]} anchor={"bottom"} style={{ zIndex: isExpanded ? 1 : 0 }}>
       <div className="pins__container">
