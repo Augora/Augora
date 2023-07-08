@@ -37,7 +37,7 @@ export default function PageTitle({ title, color, isScrolled }: { title?: string
             className="page-title__container"
             initial={{ x: -200, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={!isAnimating && { opacity: 0 }}
+            exit={!isAnimating && { x: -200, opacity: 0 }}
             onAnimationStart={() => setIsAnimating(true)}
             onAnimationComplete={() => setIsAnimating(false)}
             transition={{ duration: 0.4, ease: "easeInOut" }}
