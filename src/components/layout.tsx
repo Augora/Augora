@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Head from "next/head"
+import { useSwipeable } from "react-swipeable"
+import { NextRouter } from "next/router"
 import { colors } from "utils/variables"
 import Header from "./header"
 import Footer from "./footer"
@@ -9,9 +11,7 @@ import Popup from "./popup/Popup"
 import Contact from "./contact/Contact"
 import usePopup from "hooks/popup/usePopup"
 import Sidebar, { SidebarCategory, SidebarFooter, SidebarHeader, SidebarLinks } from "components/sidebar/Sidebar"
-import { useSwipeable } from "react-swipeable"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { NextRouter } from "next/router"
 import { getPageTypeFromRoute, PageType } from "./seo/seo-utils"
 import PageTransition from "components/animations/PageTransition"
 import PageLoading from "components/animations/PageLoading"
@@ -55,11 +55,11 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
   })
 
   function getScrollPercent() {
-    const h  = document.documentElement,
-          b  = document.body,
-          st = 'scrollTop',
-          sh = 'scrollHeight';
-    return (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
+    const h = document.documentElement,
+      b = document.body,
+      st = "scrollTop",
+      sh = "scrollHeight"
+    return ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100
   }
 
   const pageColor: Color.HSL = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
@@ -71,7 +71,7 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
       setScrolled(false)
     }
 
-    if (location.route === '/') {
+    if (location.route === "/") {
       if (getScrollPercent() >= 10) {
         setHomeScrolled(true)
       } else {
@@ -111,9 +111,9 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
 
   return (
     <div
-      className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${homeScrolled ? " scrolled--home" : ""}${!hasLayout ? " no-layout" : ""}${
-        transparentHeader ? " transparent" : ""
-      }`}
+      className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${
+        homeScrolled ? " scrolled--home" : ""
+      }${!hasLayout ? " no-layout" : ""}${transparentHeader ? " transparent" : ""}`}
     >
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>
@@ -126,7 +126,7 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
       </Head>
       <div className="header__container">
         <Header siteTitle={"Augora"} location={location} color={pageColor} onBurgerClick={() => setHasSidebar(!hasSidebar)} />
-        <PageTitle color={pageColor} title={title ? title : null} isScrolled={scrolled} />
+        <PageTitle color={pageColor} title={title ? title : null} isScrolled={scrolled} isTransparent={transparentHeader} />
         <Popin displayed={isPopinVisible && !IsInitialState}>
           <p>Certains filtres sont actifs</p>
           <button className="popin__reset" onClick={() => handleReset()} title="Réinitialiser les filtres">
