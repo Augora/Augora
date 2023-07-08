@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion"
 
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter()
+  const [isAnimating, setIsAnimating] = useState(false)
 
   return (
     <AnimatePresence mode="wait">
@@ -12,8 +13,10 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
         key={pathname}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        exit={!isAnimating && { opacity: 0 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
+        onAnimationStart={() => setIsAnimating(true)}
+        onAnimationComplete={() => setIsAnimating(false)}
       >
         {children}
       </motion.div>

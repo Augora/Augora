@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from "framer-motion"
  */
 export default function PageTitle({ title, color, isScrolled }: { title?: string; color?: Color.HSL; isScrolled?: boolean }) {
   const [hovered, setHovered] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
 
   let style: React.CSSProperties = {}
   if (color) {
@@ -36,7 +37,9 @@ export default function PageTitle({ title, color, isScrolled }: { title?: string
             className="page-title__container"
             initial={{ x: -200, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -200, opacity: 0 }}
+            exit={!isAnimating && { opacity: 0 }}
+            onAnimationStart={() => setIsAnimating(true)}
+            onAnimationComplete={() => setIsAnimating(false)}
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
             <h1 className="page-title__title">{title}</h1>
