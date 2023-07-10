@@ -32,8 +32,13 @@ function Parallax({ img, intro = false, gradient = false }) {
 
   return (
     <div className="background background--parallax" ref={panelContainer}>
-      {/* {gradient && <div className="background__back" />} */}
-      <Image className={`background__img ${gradient ? "background__img--transparent" : ""}`} src={img} ref={panel} />
+      <Image
+        className={`background__img ${gradient ? "background__img--transparent" : ""}`}
+        src={img}
+        alt="Photographie"
+        ref={panel}
+        placeholder="blur"
+      />
     </div>
   )
 }
