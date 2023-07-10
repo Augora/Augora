@@ -429,7 +429,20 @@ export default function FAQ() {
   const { asPath } = useRouter()
   const [hash, setHash] = useState("")
 
-  useEffect(() => setHash(asPath.split("#")[1]), [asPath])
+  useEffect(() => {
+    const id = asPath.split("#")[1]
+    setHash(id)
+
+    const targetElement = document.querySelector(`#${id}`) as HTMLElement
+
+    if (targetElement) {
+      const targetOffset = targetElement.offsetTop - 120
+      window.scrollTo({
+        top: targetOffset,
+        behavior: "smooth",
+      })
+    }
+  }, [])
 
   return (
     <>
