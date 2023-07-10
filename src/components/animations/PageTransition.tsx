@@ -2,13 +2,13 @@ import React, { useState } from "react"
 import { useRouter } from "next/router"
 import { AnimatePresence, motion } from "framer-motion"
 
-const PageTransition = ({ children }: { children: React.ReactNode }) => {
+const PageTransition = ({ children, paddingTop }: { children: React.ReactNode; paddingTop?: number }) => {
   const { pathname } = useRouter()
   const [isAnimating, setIsAnimating] = useState(false)
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div
+      <motion.main
         className="page-transition"
         key={pathname}
         initial={{ opacity: 0 }}
@@ -18,8 +18,10 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
         onAnimationStart={() => setIsAnimating(true)}
         onAnimationComplete={() => setIsAnimating(false)}
       >
-        {children}
-      </motion.div>
+        <motion.main className="layout" initial={false} animate={{ paddingTop: paddingTop ?? 0 }}>
+          {children}
+        </motion.main>
+      </motion.main>
     </AnimatePresence>
   )
 }

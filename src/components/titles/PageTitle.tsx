@@ -33,8 +33,6 @@ export default function PageTitle({
     }
   }
 
-  console.log(isScrolled, isTransparent)
-
   return (
     <motion.div
       className={`page-title ${hovered ? "page-title--hovered" : ""}`}

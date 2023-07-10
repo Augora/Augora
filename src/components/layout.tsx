@@ -143,9 +143,7 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
         </div>
         <SidebarFooter />
       </Sidebar>
-      <PageTransition>
-        <main className="layout">{children}</main>
-      </PageTransition>
+      <PageTransition paddingTop={title ? 175 : transparentHeader ? 0 : 60}>{children}</PageTransition>
       <PageLoading />
       <div className={`scroll-to-top ${scrolled ? "visible" : "hidden"}`} onClick={() => handleScrollTop()}>
         <IconArrow />
