@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import { getHSLLightVariation } from "utils/style/color"
 import { AnimatePresence, motion } from "framer-motion"
@@ -24,22 +24,24 @@ export default function PageTitle({
 }) {
   const [hovered, setHovered] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [bgColor, setBgColor] = useState<string>(null)
 
-  let style: React.CSSProperties = {}
-  if (color) {
-    const gradientEnd = getHSLLightVariation(color, -10)
-    style = {
-      backgroundImage: `linear-gradient(to right, hsl(${color.H}, ${color.S}%, ${color.L}%), hsl(${color.H}, ${color.S}%, ${gradientEnd}%)`,
-    }
-  }
+  useEffect(() => {
+    if (color)
+      setBgColor(
+        `linear-gradient(to right, hsl(${color.H}, ${color.S}%, ${color.L}%), hsl(${color.H}, ${color.S}%, ${getHSLLightVariation(
+          color,
+          -10
+        )}%)`
+      )
+  }, [color])
 
   return (
     <motion.div
       className={`page-title ${hovered ? "page-title--hovered" : ""}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={style}
-      initial={false}
+      style={color && { backgroundImage: bgColor }}
       animate={{
         y: isScrolled && !title ? -130 : isScrolled ? -75 : !title && isTransparent ? -175 : !title ? -115 : 0,
       }}
