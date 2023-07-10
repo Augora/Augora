@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react"
+import Image from "next/image"
 
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
@@ -32,7 +33,7 @@ function Parallax({ img, intro = false, gradient = false }) {
   return (
     <div className="background background--parallax" ref={panelContainer}>
       {/* {gradient && <div className="background__back" />} */}
-      <img className={`background__img ${gradient ? "background__img--transparent" : ""}`} src={img} ref={panel} />
+      <Image className={`background__img ${gradient ? "background__img--transparent" : ""}`} src={img} ref={panel} />
     </div>
   )
 }
