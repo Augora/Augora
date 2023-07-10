@@ -21,9 +21,6 @@
       }
       &--opened {
         .faq {
-          &__description {
-            display: block;
-          }
           &__title-container {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
@@ -79,10 +76,9 @@
         box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
       }
     }
+
     &__description {
       font-family: $opensans;
-      display: none;
-      margin-top: 30px;
       margin-bottom: 0px;
       padding: 0 30px;
       p {
