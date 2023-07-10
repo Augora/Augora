@@ -10,7 +10,7 @@ updates:
     target-branch: "develop"
     schedule:
       interval: "daily"
-      time: "20:40"
+      time: "21:30"
       timezone: "Europe/Paris"
       # Weekly Config
       # interval: "weekly"
