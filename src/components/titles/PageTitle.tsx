@@ -39,39 +39,26 @@ export default function PageTitle({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={style}
+      initial={false}
       animate={{
-        y: isScrolled && !title ? -15 : isScrolled ? -75 : 0,
-        height: title ? "auto" : 0,
-        padding: isTransparent && !isScrolled ? 0 : "60px 0 0",
+        y: isScrolled && !title ? -130 : isScrolled ? -75 : !title && isTransparent ? -175 : !title ? -115 : 0,
       }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <AnimatePresence mode="wait">
         {title && (
           <motion.div
             key={title}
             className="page-title__container"
-            initial={{ x: -200, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={!isAnimating && { x: -200, opacity: 0 }}
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={!isAnimating && { y: 100, opacity: 0 }}
             onAnimationStart={() => setIsAnimating(true)}
             onAnimationComplete={() => setIsAnimating(false)}
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <motion.h1
-              className="page-title__title"
-              animate={!isScrolled ? { y: 0, opacity: 1 } : { y: "-100%", opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-            >
-              {title}
-            </motion.h1>
-            <motion.p
-              className="page-title__title"
-              animate={isScrolled ? { y: "75%", opacity: 1 } : { y: "100%", opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-            >
-              {title}
-            </motion.p>
+            <h1 className="page-title__title">{title}</h1>
+            <p className="page-title__title">{title}</p>
           </motion.div>
         )}
       </AnimatePresence>

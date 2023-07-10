@@ -8,7 +8,7 @@ const PageTransition = ({ children, paddingTop }: { children: React.ReactNode; p
 
   return (
     <AnimatePresence mode="wait">
-      <motion.main
+      <motion.div
         className="page-transition"
         key={pathname}
         initial={{ opacity: 0 }}
@@ -21,7 +21,7 @@ const PageTransition = ({ children, paddingTop }: { children: React.ReactNode; p
         <motion.main className="layout" initial={false} animate={{ paddingTop: paddingTop ?? 0 }}>
           {children}
         </motion.main>
-      </motion.main>
+      </motion.div>
     </AnimatePresence>
   )
 }
