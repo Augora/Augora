@@ -90,6 +90,12 @@
       p:last-child {
         margin-bottom: 0;
       }
+      ul:last-child {
+        margin-bottom: 0;
+        li:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
   }
   @media (max-width: 1400px) {
