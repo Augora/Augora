@@ -52,9 +52,9 @@ export default function PageTitle({
           <motion.div
             key={title}
             className="page-title__container"
-            initial={{ y: 100, opacity: 0 }}
+            initial={{ y: 150, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={!isAnimating && { y: 100, opacity: 0 }}
+            exit={!isAnimating && { y: 150, opacity: 0 }}
             onAnimationStart={() => setIsAnimating(true)}
             onAnimationComplete={() => setIsAnimating(false)}
             transition={{ duration: 0.4, ease: "easeInOut" }}
