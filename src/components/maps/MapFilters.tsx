@@ -12,8 +12,6 @@ interface IMapFilters {
   zoneDeputies: Deputy.DeputiesList
 }
 
-const timer = 0.2
-
 /**
  * Renvoie le mini filtre et filtre qui s'intervertissent au clic
  * @param {Deputy.DeputiesList} zoneDeputies La liste de députés dans la zone visible actuellement
