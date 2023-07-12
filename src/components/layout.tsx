@@ -89,6 +89,8 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
       handleScroll()
     })
 
+    handleScroll()
+
     documentRef(document as any)
 
     return () => {
