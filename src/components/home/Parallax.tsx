@@ -5,16 +5,16 @@ function Parallax({ img, intro = false, gradient = false }: { img: string; intro
   const ref = useRef<HTMLImageElement>(null)
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
-  const yRange = useTransform(scrollYProgress, [0, 1], !intro ? [100, -350] : [400, -450]) // intro has double the range because `scrollYProgress` starts at 0.5 on the top of the page
+  const yRange = useTransform(scrollYProgress, [!intro ? 0 : 0.5, 1], !intro ? [100, -350] : [0, -450]) // intro uses 0.5-1 range instead of 0-1 because `scrollYProgress` starts at 0.5 on the top of the page
   const y = useSpring(yRange, { damping: 90 })
 
   return (
     <div className="background background--parallax">
       <motion.img
-        className={`background__img ${gradient ? "background__img--transparent" : ""}`}
         ref={ref}
-        src={img}
+        className={`background__img ${gradient ? "background__img--transparent" : ""}`}
         style={{ y, scale: 0.7 }}
+        src={img}
       />
     </div>
   )
