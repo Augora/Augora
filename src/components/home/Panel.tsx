@@ -1,5 +1,5 @@
 import React from "react"
-import { useInView } from "react-intersection-observer"
+import { motion } from "framer-motion"
 
 function Panel({
   className,
@@ -12,22 +12,16 @@ function Panel({
   shared?: boolean
   children: React.ReactNode
 }) {
-  // Uses https://www.npmjs.com/package/react-intersection-observer
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
-    triggerOnce: true,
-    threshold: 0.4,
-  })
-
-  // Render
   return (
-    <div
-      className={`${className} panel panel--${orientation} ${shared ? "panel--shared" : ""} ${inView ? "visible" : "hidden"}`}
-      ref={ref}
+    <motion.div
+      className={`${className} panel panel--${orientation} ${shared ? "panel--shared" : ""}`}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
     >
-      {/* <div className="panel__shutter"></div> */}
       {children}
-    </div>
+    </motion.div>
   )
 }
 
