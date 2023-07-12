@@ -1,7 +1,17 @@
 import React from "react"
 import { useInView } from "react-intersection-observer"
 
-function Panel({ className, orientation, shared = false, children }) {
+function Panel({
+  className,
+  orientation,
+  shared = false,
+  children,
+}: {
+  className: string
+  orientation: string
+  shared?: boolean
+  children: React.ReactNode
+}) {
   // Uses https://www.npmjs.com/package/react-intersection-observer
   const { ref, inView, entry } = useInView({
     /* Optional options */
