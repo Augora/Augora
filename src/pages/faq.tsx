@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import Link from "next/link"
 import SEO, { PageType } from "../components/seo/seo"
 import { useRouter } from "next/router"
 import Question from "components/faq/Question"
@@ -139,8 +140,11 @@ const contentAbout: IContent = [
       <>
         <p>
           Une commission est un groupe de députés spécialisé dans un domaine. Il peut s'agir d'une commission dite{" "}
-          <a href="/faq#quest-ce-quune-commission-denquete">d'enquête</a> qui sera temporaire, ou d'une commission dite{" "}
-          <strong>permanente</strong> (on en compte 8). Ci-dessous la liste des commissions permanentes :
+          <Link className="link" href="/faq#quest-ce-quune-commission-denquete">
+            d'enquête
+          </Link>{" "}
+          qui sera temporaire, ou d'une commission dite <strong>permanente</strong> (on en compte 8). Ci-dessous la liste des
+          commissions permanentes :
         </p>
         <ul>
           <li>
@@ -442,7 +446,7 @@ export default function FAQ() {
         behavior: "smooth",
       })
     }
-  }, [])
+  }, [asPath])
 
   return (
     <>
