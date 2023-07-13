@@ -435,17 +435,25 @@ export default function FAQ() {
 
   useEffect(() => {
     const id = asPath.split("#")[1]
+
     setHash(id)
 
     const targetElement = document.querySelector(`#${id}`) as HTMLElement
 
-    if (targetElement) {
-      const targetOffset = targetElement.offsetTop - 120
-      window.scrollTo({
-        top: targetOffset,
-        behavior: "smooth",
-      })
-    }
+    if (!targetElement) return
+
+    const targetOffset = targetElement.offsetTop - 120
+
+    const timeout = setTimeout(
+      () =>
+        window.scrollTo({
+          top: targetOffset,
+          behavior: "smooth",
+        }),
+      100
+    )
+
+    return () => clearTimeout(timeout)
   }, [asPath])
 
   return (
