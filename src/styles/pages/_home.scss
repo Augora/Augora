@@ -541,7 +541,6 @@
       max-width: unset;
       min-height: 100%;
       margin: 0;
-      transform: scale(0.7);
 
       &--transparent {
         filter: grayscale(1);
@@ -954,31 +953,6 @@
     }
     100% {
       opacity: 1;
-    }
-  }
-
-  // Reveals
-  .panel {
-    .panel__content,
-    .panel__groups,
-    .panel__map {
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.6s $ease-in-out-cubic, transform 0.8s $ease-in-out-cubic;
-      // transition-delay: 0.5s;
-    }
-    &.visible {
-      .panel__content,
-      .panel__groups,
-      .panel__map {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    &.hidden {
-      .panel__content {
-        //
-      }
     }
   }
 }

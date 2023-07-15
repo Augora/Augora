@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
 import dynamic from "next/dynamic"
 import { slugify } from "src/utils/utils"
+import { AnimatePresence, motion } from "framer-motion"
 const GradientBanner = dynamic(() => import("../graphics/GradientBanner"), {
   ssr: false,
 })
@@ -14,7 +15,7 @@ interface IQuestion {
 }
 
 export default function Question(props: IQuestion) {
-  const [Open, setOpen] = useState(props.opened ? true : false)
+  const [open, setOpen] = useState(props.opened ? true : false)
 
   useEffect(() => {
     setOpen(props.opened)
@@ -24,14 +25,14 @@ export default function Question(props: IQuestion) {
     <div
       id={slugify(props.title)}
       style={{ scrollMarginTop: 114 }}
-      className={`faq__question ${Open ? "faq__question--opened" : ""}`}
+      className={`faq__question ${open ? "faq__question--opened" : ""}`}
     >
       <div
         className="faq__title-container"
-        onClick={() => setOpen(!Open)}
+        onClick={() => setOpen(!open)}
+        onKeyDown={() => setOpen(!open)}
         role="button"
         tabIndex={0}
-        onKeyDown={() => setOpen(!Open)}
       >
         <GradientBanner />
         <h2>{props.title}</h2>
@@ -39,7 +40,18 @@ export default function Question(props: IQuestion) {
           <IconChevron />
         </div>
       </div>
-      <div className="faq__description">{props.children}</div>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="faq__description"
+            initial={{ opacity: 0, height: 0, marginTop: 0 }}
+            animate={{ opacity: 1, height: "auto", marginTop: 30 }}
+            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+          >
+            {props.children}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
