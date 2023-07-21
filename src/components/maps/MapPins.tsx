@@ -56,7 +56,7 @@ function MissingContent({ feature, isOpen }: IMissingContent) {
 function DeputyContent({ deputy, feature, isOpen }: IDeputyContent) {
   return (
     <div className={`deputy__visuals ${isOpen ? "deputy__visuals--opened" : ""}`}>
-      <DeputyImage src={deputy.URLPhotoAugora} alt={deputy.Nom} sex={deputy.Sexe} />
+      <DeputyImage src={deputy.URLPhotoAssembleeNationale} alt={deputy.Nom} sex={deputy.Sexe} />
       {isOpen && (
         <div className="deputy__info" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }}>
           <div className="info__circ">{`${feature.properties.nom_dpt} (${feature.properties[Code.Circ]})`}</div>
@@ -112,6 +112,7 @@ export function MapPin(props: IMapPin) {
 
   const zoneCode = getZoneCode(props.feature)
   const coords = props.feature.properties.center ? props.feature.properties.center : getPolygonCenter(props.feature)
+
   return (
     <Marker longitude={coords[0]} latitude={coords[1]} anchor={"bottom"} style={{ zIndex: isExpanded ? 1 : 0 }}>
       <div className="pins__container">

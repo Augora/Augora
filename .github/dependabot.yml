@@ -1,0 +1,30 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 1
+updates:
+  - package-ecosystem: "yarn" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    target-branch: "develop"
+    schedule:
+      interval: "daily"
+      time: "21:30"
+      timezone: "Europe/Paris"
+      # Weekly Config
+      # interval: "weekly"
+      # day: "satursday"
+      # time: "09:00"
+      # timezone: "Europe/Paris"
+    assignees:
+      - "pierretusseau"
+    open-pull-requests-limit: 10
+    ignore:
+      # By default ignore major version and preferes manual updates
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+      # Breaks graphs last time we tried
+      - dependency-name: "@visx/*"
+      # Should be handled with care
+      - dependency-name: "mapbox-gl"

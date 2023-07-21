@@ -4,14 +4,17 @@
 
 // Layout & Home page
 /*----------------------------------------------------*/
-.layout {
-  .with-title & {
-    padding-top: 200px;
-  }
-  .no-title & {
-    padding-top: 60px;
-  }
-}
+// .layout {
+//   .with-title & {
+//     padding-top: 175px;
+//   }
+//   .no-title & {
+//     padding-top: 60px;
+//   }
+//   .transparent & {
+//     padding-top: 0;
+//   }
+// }
 
 // Globals
 /*----------------------------------------------------*/
@@ -54,8 +57,7 @@
 }
 
 .page {
-  padding: 0 7vw;
-  padding-bottom: 70px;
+  padding: 40px 7vw 70px 7vw;
 
   @media (max-width: 1700px) {
     padding-left: 30px;
@@ -76,6 +78,16 @@
     color: $secondary-color;
     text-decoration: underline;
   }
+}
+
+// Spinner
+/*----------------------------------------------------*/
+.loading-spinner {
+  position: fixed;
+  bottom: 40px;
+  left: 20px;
+  pointer-events: none;
+  z-index: 1000;
 }
 
 // Scroll To Top

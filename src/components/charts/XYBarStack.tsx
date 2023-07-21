@@ -1,7 +1,16 @@
 import React from "react"
 import AugoraTooltip from "components/tooltip/Tooltip"
 import { Group } from "@visx/group"
-import { XYChart, AnimatedGrid, AnimatedAxis, Tooltip, BarSeries, BarStack } from "@visx/xychart"
+import {
+  XYChart,
+  AnimatedGrid,
+  AnimatedAxis,
+  Tooltip,
+  BarSeries,
+  BarStack,
+  AnimatedBarSeries,
+  AnimatedBarStack,
+} from "@visx/xychart"
 import { getAgeData, getGroupColor, getGroupNomComplet, rangifyAgeData } from "components/charts/chart-utils"
 
 interface XYBarStackData extends Chart.BaseDataAge {
@@ -21,6 +30,7 @@ interface BarStackProps extends Chart.BaseProps {
   renderVertically?: boolean
   margin?: { top: number; left: number }
   modulableHeight?: { normal: number; responsive: number }
+  animation?: boolean
 }
 
 export default function XYBarStack(props: BarStackProps) {
@@ -28,6 +38,7 @@ export default function XYBarStack(props: BarStackProps) {
     width,
     height,
     deputesData: { groupList, deputes, deputesBySexe, ageDomain, maxAgeSexe },
+    animation = false,
     axisLeft = true,
     renderVertically = true,
     margin = { top: 30, left: 20 },
@@ -108,22 +119,41 @@ export default function XYBarStack(props: BarStackProps) {
             hideTicks={renderVertically ? false : true}
             tickFormat={(d: string) => (renderVertically ? d : d.toString().replace("-", ""))}
           />
-          <BarStack>
-            {listSigles.map((sigle, i) => {
-              return (
-                <BarSeries
-                  key={`${sigle}-${i}`}
-                  dataKey={sigle}
-                  data={isRange && renderVertically ? dataAgeRange : dataAge}
-                  xAccessor={(data) =>
-                    renderVertically ? data.age : axisLeft ? data.groups[sigle].length : -data.groups[sigle].length
-                  }
-                  yAccessor={(data) => (renderVertically ? data.groups[sigle].length : data.age)}
-                  colorAccessor={() => getGroupColor(sigle, groupList)}
-                />
-              )
-            })}
-          </BarStack>
+          {animation ? (
+            <AnimatedBarStack>
+              {listSigles.map((sigle, i) => {
+                return (
+                  <AnimatedBarSeries
+                    key={`${sigle}-${i}`}
+                    dataKey={sigle}
+                    data={isRange && renderVertically ? dataAgeRange : dataAge}
+                    xAccessor={(data) =>
+                      renderVertically ? data.age : axisLeft ? data.groups[sigle].length : -data.groups[sigle].length
+                    }
+                    yAccessor={(data) => (renderVertically ? data.groups[sigle].length : data.age)}
+                    colorAccessor={() => getGroupColor(sigle, groupList)}
+                  />
+                )
+              })}
+            </AnimatedBarStack>
+          ) : (
+            <BarStack>
+              {listSigles.map((sigle, i) => {
+                return (
+                  <BarSeries
+                    key={`${sigle}-${i}`}
+                    dataKey={sigle}
+                    data={isRange && renderVertically ? dataAgeRange : dataAge}
+                    xAccessor={(data) =>
+                      renderVertically ? data.age : axisLeft ? data.groups[sigle].length : -data.groups[sigle].length
+                    }
+                    yAccessor={(data) => (renderVertically ? data.groups[sigle].length : data.age)}
+                    colorAccessor={() => getGroupColor(sigle, groupList)}
+                  />
+                )
+              })}
+            </BarStack>
+          )}
           <Tooltip<Chart.AgeData>
             className="charttooltip__container"
             unstyled={true}

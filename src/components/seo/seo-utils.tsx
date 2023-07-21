@@ -1,5 +1,6 @@
 export enum PageType {
   Accueil,
+  Deputes,
   Depute,
   FAQ,
   NotFound,
@@ -49,6 +50,15 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
     return buildMetaTags(
       buildTitleFromPageType(pageType, depute),
       "Vous voulez en savoir plus sur les députés de l'Assemblée Nationale ? Augora est un projet open source qui permet à chacun d'être mieux renseigné sur la politique Française.",
+      process.env.NEXT_PUBLIC_ENV !== "production" ? "https://preprod.augora.fr" : "https://augora.fr",
+      "icons/icon-512x512.png",
+      process.env.NEXT_PUBLIC_ENV
+    )
+  }
+  if (pageType === PageType.Deputes) {
+    return buildMetaTags(
+      buildTitleFromPageType(pageType, depute),
+      "Liste de tout les députés français : organisés en groupes parlementaires les députés peuvent être filtrés en direct, consultez le graphique de répartition des groupes parlementaires",
       process.env.NEXT_PUBLIC_ENV !== "production" ? "https://preprod.augora.fr" : "https://augora.fr",
       "icons/icon-512x512.png",
       process.env.NEXT_PUBLIC_ENV
@@ -115,31 +125,36 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
 
 export function buildTitleFromPageType(pageType: PageType, depute: Deputy.Deputy) {
   if (pageType === PageType.Accueil) {
-    return "Liste des députés"
+    return "Augora"
+  }
+  if (pageType === PageType.Deputes) {
+    return "Liste des députés | Augora"
   }
   if (pageType === PageType.Depute) {
-    return `${depute.Nom} - ${depute.Sexe === "H" ? "Député" : "Députée"} ${depute.GroupeParlementaire.Sigle}`
+    return `${depute.Nom} - ${depute.Sexe === "H" ? "Député" : "Députée"} ${depute.GroupeParlementaire.Sigle} | Augora`
   }
   if (pageType === PageType.FAQ) {
-    return "Foire aux Questions"
+    return "Foire aux Questions | Augora"
   }
   if (pageType === PageType.Statistiques) {
-    return "Statistiques"
+    return "Statistiques | Augora"
   }
   if (pageType === PageType.Map) {
-    return "Carte du monde"
+    return "Carte du monde | Augora"
   }
   if (pageType === PageType.NotFound) {
-    return "Page introuvable"
+    return "Page introuvable | Augora"
   }
   if (pageType === PageType.MentionsLegales) {
-    return "Mentions légales"
+    return "Mentions légales | Augora"
   }
   return ""
 }
 
 export const getPageTypeFromRoute = (route: string) => {
-  if (route.startsWith("/depute")) {
+  if (route.startsWith("/deputes")) {
+    return PageType.Deputes
+  } else if (route.startsWith("/depute")) {
     return PageType.Depute
   } else if (route.startsWith("/carte") || route.startsWith("/map")) {
     return PageType.Map

@@ -16,6 +16,7 @@
 
 // Page
 // -----------------------------------------------------
+@import "pages/home";
 @import "pages/deputies";
 @import "pages/statistiques";
 @import "pages/404";
@@ -42,7 +43,14 @@
 @import "components/popup/popup";
 @import "components/contact/contact";
 @import "components/filters";
+@import "components/filters/groupes";
 @import "components/deputies-list/charts";
 @import "components/deputies-list/group-bar";
 @import "components/sidebar/sidebar";
+
+// Templates
+// -----------------------------------------------------
+@import "templates/deputy";
+@import "templates/frames/frame";
+@import "templates/titles/page-title";
 @import "components/spinners/loading-spinner";

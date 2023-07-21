@@ -12,6 +12,7 @@ type FilterState = {
   selectedGroupes: Filter.GroupValue
   selectedGenders: Filter.SelectedGenders
   ageDomain: Filter.AgeDomain
+  initialAgeDomain: Filter.AgeDomain
   keyword: string
   setSelectedGroupes(selectedGroupes: Filter.GroupValue): void
   setAgeDomain(ageDomain: Filter.AgeDomain): void
@@ -55,6 +56,7 @@ const deputeStore = create<FilterState>((set) => ({
     F: true,
   },
   ageDomain: [0, 100],
+  initialAgeDomain: [0, 100],
   keyword: "",
 
   setSelectedGroupes(selectedGroupes: Filter.GroupValue) {
@@ -130,6 +132,7 @@ export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, g
   const state = deputeStore.getState()
   const groupSigles = groupesList.map((g) => g.Sigle)
   if (state.deputesInitialList.length === 0 && deputesList && groupesList) {
+    const ageDomain = getAgeDomain(deputesList)
     deputeStore.setState({
       deputesInitialList: deputesList.map((d) => Object.assign({}, d, { NomToSearch: deburr(d.Nom) })),
       deputesFilteredList: applyFilters(
@@ -139,7 +142,7 @@ export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, g
           H: true,
           F: true,
         },
-        getAgeDomain(deputesList),
+        ageDomain,
         ""
       ),
       groupesInitialList: groupesList,
@@ -148,7 +151,8 @@ export function hydrateStoreWithInitialLists(deputesList: Deputy.DeputiesList, g
         H: false,
         F: false,
       },
-      ageDomain: getAgeDomain(deputesList),
+      ageDomain: ageDomain,
+      initialAgeDomain: ageDomain,
       keyword: "",
     })
   }

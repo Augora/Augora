@@ -5,7 +5,7 @@ export function getGeneralInformation(deputy: Deputy.Deputy) {
     id: deputy.Slug,
     lastName: deputy.NomDeFamille,
     firstName: deputy.Prenom,
-    picture: deputy.URLPhotoAugora,
+    picture: deputy.URLPhotoAssembleeNationale,
     pictureGroup: getGroupLogoImport(deputy.GroupeParlementaire.Sigle),
     pictureParty: getPartyLogoImport(deputy.RattachementFinancier),
     party: deputy.RattachementFinancier,

@@ -12,6 +12,7 @@ import Map, {
   GeolocateResultEvent,
   MapboxGeoJSONFeature,
   MapLayerMouseEvent,
+  GeolocateControlRef,
 } from "react-map-gl"
 import {
   Code,
@@ -63,8 +64,12 @@ interface IMapAugora {
   /** S'il faut afficher les infos légales mapbox en bas à droite (légalement obligatoire)
    * @default true */
   attribution?: boolean
+  /** Si la carte est en chargement. Désactive les différents évènements de routing (clic gauche, clic droit, breadcrumb, pins) */
+  isLoading?: boolean
   /** S'il faut afficher les frontières */
   borders?: boolean
+  /** S'il faut lancer la fonction de geolocate au chargement de la page */
+  geolocate?: boolean
   children?: React.ReactNode
 }
 
@@ -89,7 +94,9 @@ export default function MapAugora(props: IMapAugora) {
     overview = false,
     attribution = true,
     delay = 0,
+    isLoading = false,
     borders = false,
+    geolocate = false,
     marker = null,
   } = props
 
@@ -107,8 +114,13 @@ export default function MapAugora(props: IMapAugora) {
     handleLoad()
   }, [zoneFeature, overview]) //lance une transition entre zones lorsque l'affichage change
 
+  useEffect(() => {
+    isLoading ? setCursor("wait") : setCursor("grab")
+  }, [isLoading])
+
   /** useRefs */
   const mapRef = useRef<MapRef>()
+  const geolocateRef = useRef<GeolocateControlRef>()
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
@@ -134,6 +146,7 @@ export default function MapAugora(props: IMapAugora) {
    */
   const goToZone = <T extends GeoJSON.Feature>(opts: { feature?: T; coords?: AugoraMap.Coordinates; redirect?: boolean }) => {
     const { feature, coords, redirect = true } = opts
+
     if (feature) {
       const zoneCode = getZoneCode(feature)
       if (!compareFeatures(feature, zoneFeature)) {
@@ -194,23 +207,37 @@ export default function MapAugora(props: IMapAugora) {
       const renderedFeature = getMouseEventFeature(e)
 
       if (renderedFeature) {
-        if (cursor === "grab" || cursor === "grabbing") setCursor("pointer")
+        if (cursor !== "pointer" && !isLoading) setCursor("pointer")
         renderHover(renderedFeature)
       } else {
-        if (cursor !== "grab") setCursor("grab")
+        if (cursor !== "grab" && !isLoading) setCursor("grab")
         if (hover) renderHover()
       }
     }
   }
 
   const handleClick = (e: MapLayerMouseEvent) => {
-    const renderedFeature = getMouseEventFeature(e)
+    if (!isLoading) {
+      const renderedFeature = getMouseEventFeature(e)
 
-    if (renderedFeature) goToZone({ feature: renderedFeature })
+      if (renderedFeature) {
+        goToZone({ feature: renderedFeature })
+      }
+    }
   }
 
   const handleBack = () => {
-    props.onBack && props.onBack()
+    if (!isLoading) {
+      if (props.onBack) {
+        props.onBack()
+      }
+    }
+  }
+
+  const handleBreadcrumb = (feat) => {
+    if (!isLoading) {
+      goToZone({ feature: feat })
+    }
   }
 
   const handleResize = () => {
@@ -218,7 +245,9 @@ export default function MapAugora(props: IMapAugora) {
   }
 
   const handleLoad = () => {
-    if (!overview) flyToFeature(zoneFeature)
+    if (geolocate && geolocateRef.current) {
+      geolocateRef.current.trigger()
+    } else if (!overview) flyToFeature(zoneFeature)
     else flyToPin(zoneFeature)
   }
 
@@ -266,7 +295,7 @@ export default function MapAugora(props: IMapAugora) {
       onMouseMove={handlePointerMove}
       onClick={handleClick}
       onContextMenu={handleBack}
-      onMouseDown={() => setCursor("grabbing")}
+      onMouseDown={() => cursor !== "wait" && setCursor("grabbing")}
       reuseMaps={false}
       attributionControl={attribution}
     >
@@ -290,13 +319,13 @@ export default function MapAugora(props: IMapAugora) {
               ghostFeatures={ghostGeoJSON?.features}
               hoveredFeature={hover}
               deputies={deputies}
-              handleClick={goToZone}
+              handleClick={!isLoading && goToZone}
               handleHover={simulateHover}
             />
             {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
             {props.breadcrumb && (
               <MapControl position="top-left">
-                <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={(feat) => goToZone({ feature: feat })} />
+                <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={handleBreadcrumb} />
               </MapControl>
             )}
             <MapControl position="top-right" className="mapboxgl-ctrl-geo">
@@ -304,7 +333,7 @@ export default function MapAugora(props: IMapAugora) {
             </MapControl>
             <NavigationControl showCompass={false} />
             <FullscreenControl />
-            <GeolocateControl onGeolocate={handleGeolocate} showUserLocation={false} />
+            <GeolocateControl ref={geolocateRef} onGeolocate={handleGeolocate} showUserLocation={false} />
             <div className="custom-control-container">
               <div className="ctrl-bottom">
                 <MapFilters zoneDeputies={zoneDeputies} />
