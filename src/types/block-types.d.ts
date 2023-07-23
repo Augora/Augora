@@ -1,12 +1,12 @@
 /** Tous les types concernant les blocs de la page détail */
 declare namespace Bloc {
-  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "groupes" | "commission" | "missions"
+  type Type = "general" | "mandate" | "coworkers" | "presence" | "contact" | "map" | "groupe" | "commission" | "missions"
 
   type Size = "large" | "medium"
 
   interface Base {
     /** Couleur du groupe parlementaire */
-    color: Group.CouleurDetail
+    color: Color.All
     /** "large", "medium" */
     size?: Size
     wip?: boolean
@@ -18,7 +18,7 @@ declare namespace Bloc {
 
   interface Header {
     /** Couleur du groupe parlementaire */
-    color: Group.CouleurDetail
+    color: Color.All
     title: string
     /** Identifier du bloc: "general", "mandate", "coworkers", "presence", "contact","map", "commission" ou "missions" */
     type: Type
@@ -41,7 +41,7 @@ declare namespace Bloc {
     responsabiliteGroupe: string
     rattachement: string
     photoGroupe: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
-    photoRattachement: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    photoRattachement: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | import("next/image").StaticImageData
     sexe: string
   }
 
@@ -74,7 +74,7 @@ declare namespace Bloc {
     firstName: string
     picture: string
     pictureGroup: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
-    pictureParty: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
+    pictureParty: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | import("next/image").StaticImageData
     party: string
     groupe: string
     groupeComplet: string

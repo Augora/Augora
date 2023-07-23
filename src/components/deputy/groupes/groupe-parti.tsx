@@ -11,7 +11,7 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
   return (
     <Block
       title="Groupes et partis"
-      type="groupes"
+      type="groupe"
       color={props.color}
       size={props.size}
       wip={props.wip}
@@ -40,49 +40,37 @@ const GroupeEtParti = (props: Bloc.GroupeEtParti) => {
       }
       isLockedByDefault={false}
     >
-      <div className="groupes__title" style={{ color: props.color.HSL.Full }}>
-        Groupe Parlementaire
-      </div>
-      <div className="groupes__role" style={{ color: props.color.HSL.Full }}>
-        Fonction : {props.responsabiliteGroupe}
-      </div>
-      {props.groupe === "Députés Non Inscrits" ||
-      props.groupe === "Les Républicains" ||
-      props.groupe === "Libertés et Territoires" ||
-      props.groupe === "UDI et Indépendants" ? (
-        <div className="groupes__logo groupes__square" title={props.groupe}>
+      <div className="groupe">
+        <div className="groupe__title" style={{ color: props.color.HSL.Full }}>
+          Groupe Parlementaire
+        </div>
+        <div className="groupe__role" style={{ color: props.color.HSL.Full }}>
+          {props.responsabiliteGroupe}
+        </div>
+        <div className="groupe__logo" title={props.groupe}>
           <props.photoGroupe />
         </div>
-      ) : (
-        <div className="groupes__logo groupes__images" title={props.groupe}>
-          <props.photoGroupe />
-        </div>
-      )}
-
-      <div className="rattachement__title" style={{ color: props.color.HSL.Full }}>
-        Rattachement financier
       </div>
-      {props.photoRattachement != null ? (
-        typeof props.photoRattachement === "function" ? (
-          props.rattachement === "Les Républicains" || props.rattachement === "Parti socialiste" ? (
-            <div className="rattachement__image rattachement__square" title={props.rattachement}>
+      <div className="rattachement">
+        <div className="rattachement__title" style={{ color: props.color.HSL.Full }}>
+          Rattachement financier
+        </div>
+        {props.photoRattachement ? (
+          typeof props.photoRattachement === "function" ? (
+            <div className="rattachement__logo" title={props.rattachement}>
               <props.photoRattachement />
             </div>
           ) : (
-            <div className="rattachement__image rattachement__svg" title={props.rattachement}>
-              <props.photoRattachement />
+            <div className="rattachement__logo rattachement__png" title={props.rattachement}>
+              <Image src={props.photoRattachement} alt={props.rattachement} priority />
             </div>
           )
         ) : (
-          <div className="rattachement__image rattachement__png" title={props.rattachement}>
-            <Image src={props.photoRattachement} alt={props.rattachement} layout={"fill"} objectFit={"contain"} priority />
+          <div className="rattachement__nom" title={props.rattachement}>
+            {props.rattachement.includes("Non déclaré") ? `Non déclaré${props.sexe === "F" ? "e" : ""}` : props.rattachement}
           </div>
-        )
-      ) : (
-        <div className="rattachement__nom" title={props.rattachement}>
-          {props.rattachement.includes("Non déclaré") ? `Non déclaré${props.sexe === "F" ? "e" : ""}` : props.rattachement}
-        </div>
-      )}
+        )}
+      </div>
     </Block>
   )
 }
