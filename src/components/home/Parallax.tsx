@@ -8,7 +8,7 @@ function Parallax({ img, intro = false, gradient = false }: { img: StaticImageDa
   const ref = useRef<HTMLImageElement>(null)
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
-  const yRange = useTransform(scrollYProgress, [!intro ? 0 : 0.5, 1], !intro ? [100, -100] : [0, -200]) // intro uses 0.5-1 range instead of 0-1 because `scrollYProgress` starts at 0.5 on the top of the page
+  const yRange = useTransform(scrollYProgress, [!intro ? 0 : 0.5, 1], !intro ? [100, -250] : [0, -350]) // intro uses 0.5-1 range instead of 0-1 because `scrollYProgress` starts at 0.5 on the top of the page
   const y = useSpring(yRange, { damping: 90 })
 
   return (

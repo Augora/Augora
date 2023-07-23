@@ -537,9 +537,8 @@
 
     &__img {
       width: auto;
-      height: auto;
       max-width: unset;
-      min-height: 100%;
+      min-height: 200%;
       margin: 0;
 
       &--transparent {
