@@ -30,6 +30,9 @@ import PyramideBarStack from "src/components/charts/PyramideBar/PyramideBarStack
 import Panel from "src/components/home/Panel"
 import Parallax from "src/components/home/Parallax"
 import MouseScroll from "src/components/home/MouseScroll"
+import bibliotheque from "images/photos/bibliotheque.jpg"
+import hemicycle from "images/photos/hemicycle.jpg"
+import colonnade from "images/photos/colonnade.jpg"
 
 // Home Page
 export default function IndexPage({ groupes, features }: { groupes: Group.GroupsList; features: AugoraMap.Feature[] }) {
@@ -79,7 +82,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
       <SEO pageType={PageType.Accueil} />
       <div className="page page__home page__landing">
         <Panel className="home__intro" orientation="right">
-          <Parallax img="images/photos/hemicycle.jpg" intro />
+          <Parallax img={hemicycle} intro />
           <div className="panel__content">
             <h2 className="content__title content__title--center">Reconnecter les citoyens avec leurs représentants</h2>
             <p className="content__text">
@@ -155,7 +158,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           </div>
         </Panel>
         <Panel className="home__stats" orientation="center">
-          <Parallax img="images/photos/bibliotheque.jpg" gradient />
+          <Parallax img={bibliotheque} gradient />
           <div className="panel__content panel__content--center">
             <h2 className="content__title content__title--center">Des statistiques</h2>
             <p>
@@ -329,7 +332,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
           </div>
         </Panel>
         <Panel className="home__faq" orientation="center">
-          <Parallax img="images/photos/colonnade.jpg" gradient />
+          <Parallax img={colonnade} gradient />
           <div className="panel__content">
             <div className="panel__wrapper">
               <h2 className="content__title content__title--center">À propos de nous</h2>
