@@ -1,6 +1,7 @@
 name: Manual CI/CD Staging
 
 on:
+  workflow_dispatch:
   repository_dispatch:
     types: build-website-staging
 
