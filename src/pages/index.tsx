@@ -279,7 +279,7 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
             </div>
             <div className="content__buttons">
               <HomeButton
-                text="Tout nos graphiques"
+                text="Tous nos graphiques"
                 icon={<IconStat />}
                 inverted={true}
                 onClick="/statistiques"
