@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useRouter } from "next/router"
 import { AnimatePresence, motion } from "framer-motion"
 
-const PageTransition = ({ children }: { children: React.ReactNode }) => {
+const PageTransition = ({ children, paddingTop }: { children: React.ReactNode; paddingTop?: number }) => {
   const { pathname } = useRouter()
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -18,7 +18,9 @@ const PageTransition = ({ children }: { children: React.ReactNode }) => {
         onAnimationStart={() => setIsAnimating(true)}
         onAnimationComplete={() => setIsAnimating(false)}
       >
-        {children}
+        <motion.main className="layout" initial={false} animate={{ paddingTop: paddingTop ?? 0 }}>
+          {children}
+        </motion.main>
       </motion.div>
     </AnimatePresence>
   )

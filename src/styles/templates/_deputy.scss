@@ -123,7 +123,7 @@
       right: 0;
       top: 0;
       justify-content: center;
-      transform: translate3d(0, -50%, 0);
+      transform: translate(0, 0);
       transition: transform 0.5s $ease-in-out-cubic, opacity 0.4s $ease-in-cubic;
       transition-delay: 0.2s;
       opacity: 1;
@@ -134,7 +134,7 @@
       }
 
       .scrolled & {
-        transform: translate3d(0, -150%, 0);
+        transform: translate(0, -100%);
         opacity: 0;
         transition-delay: 0s;
       }

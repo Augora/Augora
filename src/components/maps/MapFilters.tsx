@@ -6,13 +6,11 @@ import Filters from "components//deputies-list/filters/Filters"
 import Button from "components/buttons/Button"
 import IconChevron from "images/ui-kit/icon-chevron.svg"
 import useDeputiesFilters from "hooks/deputies-filters/useDeputiesFilters"
-import { gsap } from "gsap"
+import { AnimatePresence, motion } from "framer-motion"
 
 interface IMapFilters {
   zoneDeputies: Deputy.DeputiesList
 }
-
-const timer = 0.2
 
 /**
  * Renvoie le mini filtre et filtre qui s'intervertissent au clic
@@ -28,87 +26,57 @@ export default function MapFilters({ zoneDeputies }: IMapFilters) {
     state: { DeputiesList },
   } = useDeputiesFilters()
 
-  const animateFilters = (filterState) => {
-    const tl = gsap.timeline()
-    tl.fromTo(
-      ".map__filters",
-      {
-        y: "0%",
-        autoAlpha: 1,
-      },
-      {
-        y: "100%",
-        autoAlpha: 0,
-        ease: "power1.out",
-        duration: timer,
-      }
-    )
-    tl.call(() => setIsBigFilter(filterState))
-    tl.play()
-  }
-
-  useEffect(() => {
-    const tl = gsap.timeline()
-    tl.fromTo(
-      ".map__filters",
-      {
-        y: "100%",
-        autoAlpha: 0,
-      },
-      {
-        y: "0%",
-        autoAlpha: 1,
-        ease: "power1.out",
-        delay: timer + 0.1,
-        duration: timer,
-      }
-    )
-
-    return () => {
-      tl.kill()
-    }
-  }, [isBigFilter])
-
   return (
     <div className="map__filters">
-      {!isBigFilter ? (
-        <div className="filters__container">
-          <div className="filters__close filters__close--mini">
-            <Button className="close__btn" onClick={() => animateFilters(true)} title="Agrandir les filtres">
-              <div className="icon-wrapper">
-                <IconChevron />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={isBigFilter ? "big" : "small"}
+          className="filters__container"
+          initial={{ y: "calc(100% + 40px)", opacity: 0 }}
+          animate={{ y: 0, opacity: 1, transition: { delay: 0.1, duration: 0.3, ease: "easeOut" } }}
+          exit={{ y: "calc(100% + 40px)", opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          {!isBigFilter ? (
+            <>
+              <div className="filters__close filters__close--mini">
+                <Button className="close__btn" onClick={() => setIsBigFilter(true)} title="Agrandir les filtres">
+                  <div className="icon-wrapper">
+                    <IconChevron />
+                  </div>
+                </Button>
               </div>
-            </Button>
-          </div>
-          <Tooltip className="filters__mini" onClick={() => animateFilters(true)}>
-            <button className="mini__btn" title="Agrandir les filtres" onClick={() => animateFilters(true)} />
-            <div className="mini__number">
-              <span>
-                {zoneDeputies.length}
-                <small>Députés</small>
-              </span>
-              <span>
-                <small>Total</small>
-                {DeputiesList.length}
-              </span>
-            </div>
-            <GroupBar className="mini__bar" deputiesList={zoneDeputies} />
-          </Tooltip>
-        </div>
-      ) : (
-        <div className="filters__container">
-          <div className="filters__close">
-            <Button className="close__btn" onClick={() => animateFilters(false)} title="Cacher les filtres">
-              <div className="icon-wrapper">
-                <IconChevron />
+              <Tooltip className="filters__mini" onClick={() => setIsBigFilter(true)}>
+                <button className="mini__btn" title="Agrandir les filtres" onClick={() => setIsBigFilter(true)} />
+                <div className="mini__number">
+                  <span>
+                    {zoneDeputies.length}
+                    <small>Députés</small>
+                  </span>
+                  <span>
+                    <small>Total</small>
+                    {DeputiesList.length}
+                  </span>
+                </div>
+                <GroupBar className="mini__bar" deputiesList={zoneDeputies} />
+              </Tooltip>
+            </>
+          ) : (
+            <>
+              <div className="filters__close">
+                <Button className="close__btn" onClick={() => setIsBigFilter(false)} title="Cacher les filtres">
+                  <div className="icon-wrapper">
+                    <IconChevron />
+                  </div>
+                </Button>
               </div>
-            </Button>
-          </div>
-          <div className="filters" style={viewsize.width < 875 ? { height: viewsize.height - 100 } : {}}>
-            <Filters filteredDeputes={zoneDeputies} />
-          </div>
-        </div>
-      )}
+              <div className="filters" style={viewsize.width < 875 ? { height: viewsize.height - 100 } : {}}>
+                <Filters filteredDeputes={zoneDeputies} />
+              </div>
+            </>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   )
 }

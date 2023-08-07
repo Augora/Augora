@@ -1,5 +1,6 @@
 .page-title {
   width: 100%;
+  height: 175px;
 
   padding: 60px 0 0;
 
@@ -7,10 +8,8 @@
 
   overflow: hidden;
 
-  box-shadow: 0px 0px 20px rgba($black, 0.15);
-
-  transform: translate3d(0, 0, 0);
-  transition: transform 0.3s $ease-in-out-cubic;
+  // transform: translate3d(0, 0, 0);
+  // transition: transform 0.3s $ease-in-out-cubic;
 
   pointer-events: all;
 
@@ -51,7 +50,7 @@
 
   // States
   .scrolled & {
-    transform: translate3d(0, -75px, 0);
+    // transform: translate3d(0, -75px, 0);
     &__title {
       &:first-child {
         transform: translateY(-100%);
@@ -70,20 +69,19 @@
     }
   }
   .no-title & {
-    transition: transform 0.2s $ease-in-out-cubic;
+    // transition: transform 0.2s $ease-in-out-cubic;
   }
   .transparent & {
-    background-image: none;
-    box-shadow: 0px 0px 20px rgba($black, 0);
+    // box-shadow: 0px 0px 20px rgba($black, 0);
   }
   .scrolled.no-title & {
-    transform: translate3d(0, -15px, 0);
-    transition: transform 0.3s $ease-in-circ;
+    // transform: translate3d(0, -15px, 0);
+    // transition: transform 0.3s $ease-in-circ;
   }
   .scrolled.transparent & {
-    transform: translate3d(0, -20px, 0);
-    box-shadow: 0px 0px 20px rgba($black, 0.15);
-    transition: box-shadow 0.3s $ease-in-circ;
+    // transform: translate3d(0, -20px, 0);
+    // box-shadow: 0px 0px 20px rgba($black, 0.15);
+    // transition: box-shadow 0.3s $ease-in-circ;
   }
 
   // Media queries
@@ -98,7 +96,7 @@
     }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 875px) {
     &__title {
       width: 100%;
       text-align: center;
