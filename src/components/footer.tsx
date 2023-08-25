@@ -70,7 +70,7 @@ const Footer = ({ togglePopup }: { togglePopup: () => void }) => {
             <FooterLink label="Regards Citoyens" link="https://www.regardscitoyens.org/" target={true} internal={false} />
             <FooterLink label="Accropolis.fr" link="http://accropolis.fr/" target={true} internal={false} />
             <FooterLink label="Mentions légales" link="/mention-legales" target={false} internal={true} />
-            <FooterLink label="Nous soutenir" link="https://utip.io/augora" target={true} internal={false} />
+            {/* <FooterLink label="Nous soutenir" link="https://utip.io/augora" target={true} internal={false} /> */}
           </FooterMenu>
           <FooterMenu title="Nous Contacter">
             <button className="open-contact" onClick={togglePopup}>
