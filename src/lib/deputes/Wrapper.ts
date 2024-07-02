@@ -18,18 +18,20 @@ export function getDeputes() {
       )
       `
     )
-    .eq("EstEnMandat", true)
+    //.eq("EstEnMandat", true)
     .then(handleSupabaseError)
-    .then((d) => d.body)
+    .then((d) => d.body )
+    .then((d: Deputy.Deputy[]) => d.filter((depute) => depute.AncienMandat.find((mandat) => mandat.DateDeFin === "2024-09-06T00:00:00")))
 }
 
 export function getDeputesSlugs() {
   return supabase
     .from("Depute")
-    .select("Slug")
-    .eq("EstEnMandat", true)
+    //.select("Slug")
+    //.eq("EstEnMandat", true)
     .then(handleSupabaseError)
     .then((d) => d.body)
+    .then((d: Deputy.Deputy[]) => d.filter((depute) => depute.AncienMandat.find((mandat) => mandat.DateDeFin === "2024-09-06T00:00:00")))
 }
 
 export function getGroupes() {

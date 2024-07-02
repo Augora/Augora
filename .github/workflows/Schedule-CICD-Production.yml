@@ -1,8 +1,6 @@
 name: Schedule CI/CD Production
 
-on:
-  schedule:
-    - cron: "0 6 * * *"
+on: {}
 
 jobs:
   deploy:
