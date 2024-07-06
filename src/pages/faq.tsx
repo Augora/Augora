@@ -21,19 +21,19 @@ const contentAbout: IContent = [
       </p>
     ),
   },
-  {
-    title: "Comment nous soutenir ?",
-    description: (
-      <p>
-        Nous avons ouvert une page{" "}
-        <a className="link" href="https://utip.io/augora" target="_blank" rel="noreferrer">
-          uTip
-        </a>{" "}
-        afin de recueillir des dons. Comme nous sommes bénévoles et que nous mettons à jour le site sur notre temps libre, vos
-        dons nous permettront de couvrir nos frais de fonctionnement, tel que l'hébergement du site.
-      </p>
-    ),
-  },
+  // {
+  //   title: "Comment nous soutenir ?",
+  //   description: (
+  //     <p>
+  //       Nous avons ouvert une page{" "}
+  //       <a className="link" href="https://utip.io/augora" target="_blank" rel="noreferrer">
+  //         uTip
+  //       </a>{" "}
+  //       afin de recueillir des dons. Comme nous sommes bénévoles et que nous mettons à jour le site sur notre temps libre, vos
+  //       dons nous permettront de couvrir nos frais de fonctionnement, tel que l'hébergement du site.
+  //     </p>
+  //   ),
+  // },
   {
     title: "Qu’est-ce qu’un groupe parlementaire ?",
     description: (

@@ -8,28 +8,38 @@ function handleSupabaseError({ error, ...rest }) {
 }
 
 export function getDeputes() {
-  return supabase
-    .from("Depute")
-    .select(
-      `
+  return (
+    supabase
+      .from("Depute")
+      .select(
+        `
       *,
       GroupeParlementaire (
         *
       )
       `
-    )
-    .eq("EstEnMandat", true)
-    .then(handleSupabaseError)
-    .then((d) => d.body)
+      )
+      //.eq("EstEnMandat", true)
+      .then(handleSupabaseError)
+      .then((d) => d.body)
+      .then((d: Deputy.Deputy[]) =>
+        d.filter((depute) => depute.AncienMandat.find((mandat) => mandat.DateDeFin === "2024-06-09T00:00:00"))
+      )
+  )
 }
 
 export function getDeputesSlugs() {
-  return supabase
-    .from("Depute")
-    .select("Slug")
-    .eq("EstEnMandat", true)
-    .then(handleSupabaseError)
-    .then((d) => d.body)
+  return (
+    supabase
+      .from("Depute")
+      //.select("Slug")
+      //.eq("EstEnMandat", true)
+      .then(handleSupabaseError)
+      .then((d) => d.body)
+      .then((d: Deputy.Deputy[]) =>
+        d.filter((depute) => depute.AncienMandat.find((mandat) => mandat.DateDeFin === "2024-06-09T00:00:00"))
+      )
+  )
 }
 
 export function getGroupes() {

@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [macOS-latest, windows-latest, ubuntu-latest]
-        node-version: [16.x]
+        os: [ubuntu-latest]
+        node-version: [22.x]
     steps:
       - uses: actions/checkout@v2
 
@@ -48,91 +48,23 @@ jobs:
           NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
         run: yarn build
 
-      - name: The build has failed
-        if: ${{ failure() }}
-        uses: 8398a7/action-slack@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          status: custom
-          fields: workflow,job,commit
-          custom_payload: |
-            {
-              username: "Github Actions",
-              icon_emoji: ":thunder_cloud_and_rain:",
-              attachments: [
-                {
-                  color: '#dc3545',
-                  "blocks": [
-                    {
-                      "type": "section",
-                      "text": {
-                        "type": "mrkdwn",
-                        "text": `Le build est en erreur :fire::fire_engine:\nCommit : ${process.env.AS_COMMIT}\nGitHub Action : ${process.env.AS_WORKFLOW}`,
-                      },
-                      "accessory": {
-                        "type": "image",
-                        "image_url": "https://i.imgur.com/skVMabZ.png",
-                        "alt_text": "Augora"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js 16.x
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
+          node-version: 18.x
 
-      - uses: amondnet/vercel-action@v20
+      - uses: amondnet/vercel-action@v25
         with:
-          vercel-token: ${{ secrets.ZEIT_TOKEN }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
           vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
           vercel-project-name: augora
           alias-domains: |
             {{PR_NUMBER}}.pullrequests.augora.fr
-
-      - name: The build has failed
-        if: ${{ failure() }}
-        uses: 8398a7/action-slack@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          status: custom
-          fields: workflow,job,commit
-          custom_payload: |
-            {
-              username: "Github Actions",
-              icon_emoji: ":thunder_cloud_and_rain:",
-              attachments: [
-                {
-                  color: '#dc3545',
-                  "blocks": [
-                    {
-                      "type": "section",
-                      "text": {
-                        "type": "mrkdwn",
-                        "text": `Le build est en erreur :fire::fire_engine:\nCommit : ${process.env.AS_COMMIT}\nGitHub Action : ${process.env.AS_WORKFLOW}`,
-                      },
-                      "accessory": {
-                        "type": "image",
-                        "image_url": "https://i.imgur.com/skVMabZ.png",
-                        "alt_text": "Augora"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
