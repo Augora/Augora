@@ -227,16 +227,18 @@ const getBoundingBoxSize = (bbox: AugoraMap.Bounds): number => {
  */
 export const getPolygonCenter = (polygon: AugoraMap.Feature): AugoraMap.Coordinates => {
   if (polygon.geometry.type === "Polygon") {
-    return polylabel(polygon.geometry.coordinates) as AugoraMap.Coordinates
+    const center = polylabel(polygon.geometry.coordinates)
+    return Array.from(center) as AugoraMap.Coordinates
   } else if (polygon.geometry.type === "MultiPolygon") {
-    return polylabel(
+    const center = polylabel(
       polygon.geometry.coordinates.reduce((acc, element) => {
         const elementSize = getBoundingBoxSize(getBoundingBoxFromCoordinates(element))
         const accSize = getBoundingBoxSize(getBoundingBoxFromCoordinates(acc))
 
         return elementSize > accSize ? element : acc
       })
-    ) as AugoraMap.Coordinates
+    )
+    return Array.from(center) as AugoraMap.Coordinates
   } else return [null, null]
 }
 
