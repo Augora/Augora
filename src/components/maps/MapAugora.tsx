@@ -12,7 +12,6 @@ import Map, {
   GeolocateResultEvent,
   MapboxGeoJSONFeature,
   MapLayerMouseEvent,
-  GeolocateControlRef,
 } from "react-map-gl"
 import {
   Code,
@@ -33,6 +32,7 @@ import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
 import Geocoder from "components/maps/Geocoder"
+import type { GeolocateControl as GeolocateControlType } from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
@@ -120,7 +120,7 @@ export default function MapAugora(props: IMapAugora) {
 
   /** useRefs */
   const mapRef = useRef<MapRef>()
-  const geolocateRef = useRef<GeolocateControlRef>()
+  const geolocateRef = useRef<GeolocateControlType>()
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
