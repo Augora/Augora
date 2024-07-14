@@ -6,9 +6,9 @@
   "author": "",
   "dependencies": {
     "@emailjs/browser": "^3.6.2",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@mui/material": "^5.11.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.16.1",
     "@supabase/supabase-js": "^1.35.7",
     "@svgr/webpack": "^6.5.1",
     "@visx/annotation": "^3.3.0",
