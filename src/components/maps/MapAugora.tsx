@@ -26,7 +26,6 @@ import {
   geolocateFromCoords,
   geolocateZone,
 } from "components/maps/maps-utils"
-import MapControl from "components/maps/MapControl"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
@@ -323,19 +322,17 @@ export default function MapAugora(props: IMapAugora) {
               handleHover={simulateHover}
             />
             {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
-            {props.breadcrumb && (
-              <MapControl position="top-left">
-                <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={handleBreadcrumb} />
-              </MapControl>
-            )}
-            <MapControl position="top-right" className="mapboxgl-ctrl-geo">
-              <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
-            </MapControl>
             <NavigationControl showCompass={false} />
             <FullscreenControl />
             <GeolocateControl ref={geolocateRef} onGeolocate={handleGeolocate} showUserLocation={false} />
             <div className="custom-control-container">
-              <div className="ctrl-bottom">
+              <div className="ctrl ctrl-top-left">
+                {props.breadcrumb && <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={handleBreadcrumb} />}
+              </div>
+              <div className="ctrl ctrl-top-right">
+                <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
+              </div>
+              <div className="ctrl ctrl-bottom">
                 <MapFilters zoneDeputies={zoneDeputies} />
               </div>
             </div>
