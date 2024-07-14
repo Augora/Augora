@@ -15,7 +15,7 @@ interface IChartTooltip extends Omit<ITooltip, "children"> {
 }
 
 export default function ChartTooltip({ tooltipTop = 0, tooltipLeft = 0, ...props }: IChartTooltip) {
-  const { TooltipInPortal } = useTooltipInPortal()
+  const { TooltipInPortal } = tooltip()
 
   const tooltipStyles = {
     ...defaultStyles,
@@ -29,4 +29,8 @@ export default function ChartTooltip({ tooltipTop = 0, tooltipLeft = 0, ...props
       <Tooltip {...props} />
     </TooltipInPortal>
   )
+
+  function tooltip(): { TooltipInPortal: any } {
+    return useTooltipInPortal()
+  }
 }
