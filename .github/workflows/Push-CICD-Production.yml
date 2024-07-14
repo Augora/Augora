@@ -13,10 +13,10 @@ jobs:
         with:
           ref: master
 
-      - name: Use Node.js 24.x
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v1
         with:
-          node-version: 24.x
+          node-version: 22.x
 
       - uses: amondnet/vercel-action@v25
         with:
