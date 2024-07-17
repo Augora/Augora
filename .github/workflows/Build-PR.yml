@@ -10,6 +10,7 @@ jobs:
         os: [ubuntu-latest]
         node-version: [22.x]
     steps:
+    
       - name: Send successful message to Discord
         env:
           DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
@@ -21,9 +22,11 @@ jobs:
           username: 'GitHub Actions'
           avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
           embed: |
-            title: Augora Deploy PR
-            description: `:white_check_mark: Testing Discord notification PR_NUMBER. ${PR_NUMBER}.pullrequests.augora.fr ${DISCORD_NOTIFICATION}`
-            color: 8311585
+            {
+              "title": Augora Deploy PR,
+              "description": `:white_check_mark: Testing Discord notification PR_NUMBER. ${PR_NUMBER}.pullrequests.augora.fr ${DISCORD_NOTIFICATION}`,
+              "color": 8311585
+            }
 
   #     - uses: actions/checkout@v4
 
