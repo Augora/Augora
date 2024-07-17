@@ -69,33 +69,13 @@ jobs:
   #         alias-domains: |
   #           {{PR_NUMBER}}.pullrequests.augora.fr
 
-      # - name: Send error message to Discord
-      #   env:
-      #     DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
-      #     RUN_ID: ${{ github.run_id }}
-      #     PR_NUMBER: ${{ github.event.number }}
-      #   uses: MineBartekSA/discord-webhook@v2
-      #   if: env.DISCORD_NOTIFICATION == 'true' && job.status != 'success'
-      #   with:
-      #     webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      #     username: 'GitHub Actions'
-      #     avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
-      #     embed: |
-      #       {
-      #         "title": "Augora Deploy PR",
-      #         "description": | 
-      #         ":fire::fire_engine: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }} !
-      #         https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}"
-      #         "color": 2205369
-      #       }
-
-      - name: Send successful message to Discord
+      - name: Send error message to Discord
         env:
           DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
           RUN_ID: ${{ github.run_id }}
           PR_NUMBER: ${{ github.event.number }}
         uses: MineBartekSA/discord-webhook@v2
-        if: env.DISCORD_NOTIFICATION == 'true' && job.status == 'success'
+        if: always() && env.DISCORD_NOTIFICATION == 'true' && job.status != 'success'
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
           username: 'GitHub Actions'
@@ -104,8 +84,26 @@ jobs:
             {
               "title": "Augora Deploy PR",
               "description": | 
-              "${{ job.status }} === 'success' ?:rocket: Le déploiement est prêt pour pour la PR ${{ env.PR_NUMBER }} !
-              https://${{ env.PR_NUMBER }}.pullrequests.augora.fr" : ":fire::fire_engine: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }}
-              https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}",
+              ":fire::fire_engine: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }} !
+              https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}"
+              "color": 2205369
+            }
+
+      - name: Send successful message to Discord
+        env:
+          DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
+          PR_NUMBER: ${{ github.event.number }}
+        uses: MineBartekSA/discord-webhook@v2
+        if: env.DISCORD_NOTIFICATION == 'true' && job.status == 'success'
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: 'GitHub Actions'
+          avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
+          embed: | 
+            {
+              "title": "Augora Deploy PR",
+              "description": | 
+              ":rocket: Le déploiement est prêt pour pour la PR ${{ env.PR_NUMBER }} !
+              https://${{ env.PR_NUMBER }}.pullrequests.augora.fr"
               "color": 8311585
             }
