@@ -68,7 +68,8 @@ jobs:
   #         vercel-version: "34.3.0"
   #         alias-domains: |
   #           {{PR_NUMBER}}.pullrequests.augora.fr
-
+      - name: Try to fail
+        run: exit 1
       - name: Send error message to Discord
         env:
           DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
