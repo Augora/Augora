@@ -23,8 +23,16 @@
             pointer-events: auto;
           }
 
+          &-top-right {
+            top: 45px;
+          }
+
           &-attrib {
-            font: 12px/20px "Helvetica Neue", "Arial", "Helvetica", "sans-serif";
+            font:
+              12px/20px "Helvetica Neue",
+              "Arial",
+              "Helvetica",
+              "sans-serif";
           }
         }
 
@@ -35,13 +43,26 @@
       }
 
       .custom-control-container {
-        .ctrl-bottom {
+        .ctrl {
           position: absolute;
           pointer-events: auto;
-          left: 50%;
-          transform: translate(-50%, 0);
-          bottom: 10px;
           z-index: 2;
+
+          &-top-left {
+            left: 10px;
+            top: 10px;
+          }
+
+          &-top-right {
+            right: 10px;
+            top: 10px;
+          }
+
+          &-bottom {
+            left: 50%;
+            transform: translate(-50%, 0);
+            bottom: 10px;
+          }
         }
       }
 

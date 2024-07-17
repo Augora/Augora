@@ -12,7 +12,6 @@ import Map, {
   GeolocateResultEvent,
   MapboxGeoJSONFeature,
   MapLayerMouseEvent,
-  GeolocateControlRef,
 } from "react-map-gl"
 import {
   Code,
@@ -27,12 +26,12 @@ import {
   geolocateFromCoords,
   geolocateZone,
 } from "components/maps/maps-utils"
-import MapControl from "components/maps/MapControl"
 import MapBreadcrumb from "components/maps/MapBreadcrumb"
 import MapPins from "components/maps/MapPins"
 import MapPin from "components/maps/MapPin"
 import MapFilters from "components/maps/MapFilters"
 import Geocoder from "components/maps/Geocoder"
+import type { GeolocateControl as GeolocateControlType } from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 interface IMapAugora {
@@ -120,7 +119,7 @@ export default function MapAugora(props: IMapAugora) {
 
   /** useRefs */
   const mapRef = useRef<MapRef>()
-  const geolocateRef = useRef<GeolocateControlRef>()
+  const geolocateRef = useRef<GeolocateControlType>()
 
   /** Transitionne le viewport sur une feature */
   const flyToFeature = <T extends GeoJSON.Feature>(feature: T) => {
@@ -323,19 +322,17 @@ export default function MapAugora(props: IMapAugora) {
               handleHover={simulateHover}
             />
             {geoPin && <MapPin coords={geoPin} style={{ zIndex: 1 }} />}
-            {props.breadcrumb && (
-              <MapControl position="top-left">
-                <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={handleBreadcrumb} />
-              </MapControl>
-            )}
-            <MapControl position="top-right" className="mapboxgl-ctrl-geo">
-              <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
-            </MapControl>
             <NavigationControl showCompass={false} />
             <FullscreenControl />
             <GeolocateControl ref={geolocateRef} onGeolocate={handleGeolocate} showUserLocation={false} />
             <div className="custom-control-container">
-              <div className="ctrl-bottom">
+              <div className="ctrl ctrl-top-left">
+                {props.breadcrumb && <MapBreadcrumb breadcrumb={props.breadcrumb} handleClick={handleBreadcrumb} />}
+              </div>
+              <div className="ctrl ctrl-top-right">
+                <Geocoder token={MAPBOX_TOKEN} handleClick={handleGeocode} isCollapsed={isMobile} />
+              </div>
+              <div className="ctrl ctrl-bottom">
                 <MapFilters zoneDeputies={zoneDeputies} />
               </div>
             </div>

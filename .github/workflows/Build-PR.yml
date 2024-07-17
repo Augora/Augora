@@ -10,10 +10,10 @@ jobs:
         os: [ubuntu-latest]
         node-version: [22.x]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -22,7 +22,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Yarn cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir.outputs.dir }}
@@ -52,12 +52,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 22.x
 
       - uses: amondnet/vercel-action@v25
         with:
@@ -65,7 +65,43 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
           vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
-          vercel-project-name: augora
           vercel-version: "34.3.0"
           alias-domains: |
             {{PR_NUMBER}}.pullrequests.augora.fr
+
+      - name: Send error message to Discord
+        env:
+          DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
+          RUN_ID: ${{ github.run_id }}
+          PR_NUMBER: ${{ github.event.number }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+        uses: MineBartekSA/discord-webhook@v2
+        if: always() && env.DISCORD_NOTIFICATION == 'true' && job.status != 'success'
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: 'GitHub Actions'
+          avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
+          embed: |
+            title: "Augora Pull Request ${{ env.BRANCH_NAME }}"
+            color: 15548997
+            fields:
+              - name: ":fire: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }} !"
+                value: "https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}"
+
+      - name: Send successful message to Discord
+        env:
+          DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
+          PR_NUMBER: ${{ github.event.number }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+        uses: MineBartekSA/discord-webhook@v2
+        if: env.DISCORD_NOTIFICATION == 'true' && job.status == 'success'
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: 'GitHub Actions'
+          avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
+          embed: | 
+            title: "Augora Pull Request ${{ env.BRANCH_NAME }}"
+            color: 8311585
+            fields:
+              - name: ":rocket: Le déploiement est prêt pour la PR ${{ env.PR_NUMBER }} !"
+                value: "https://${{ env.PR_NUMBER }}.pullrequests.augora.fr"
