@@ -13,6 +13,7 @@ jobs:
       - name: Send successful message to Discord
         env:
           DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
+          PR_NUMBER: ${{ github.event.number }}
         uses: MineBartekSA/discord-webhook@v2
         if: env.DISCORD_NOTIFICATION == 'true' && job.status == 'success'
         with:
@@ -23,7 +24,8 @@ jobs:
             title: Augora Deploy PR
             description: |
               `:white_check_mark: Testing Discord notification ${PR_NUMBER} !
-              ${PR_NUMBER}.pullrequests.augora.fr`
+              ${PR_NUMBER}.pullrequests.augora.fr
+              ${DISCORD_NOTIFICATION}`
             color: 8311585
 
   #     - uses: actions/checkout@v4
