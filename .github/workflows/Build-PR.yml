@@ -82,13 +82,11 @@ jobs:
           username: 'GitHub Actions'
           avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
           embed: |
-            {
-              "title": "Augora Deploy PR",
-              "description": ":fire: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }} !",
-              "color": 15548997,
-              "footer":
-                text: "https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}"
-            }
+            title: "Augora Deploy PR"
+            description: ":fire: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }} !"
+            color: 15548997
+            footer:
+              text: "https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}"
 
       - name: Send successful message to Discord
         env:
@@ -101,10 +99,8 @@ jobs:
           username: 'GitHub Actions'
           avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
           embed: | 
-            {
-              "title": "Augora Deploy PR",
-              "description": ":rocket: Le déploiement est prêt pour la PR ${{ env.PR_NUMBER }} !,
-              "color": 8311585,
-              "footer":
-                text: "https://${{ env.PR_NUMBER }}.pullrequests.augora.fr"
-            }
+            title: "Augora Deploy PR"
+            description: ":rocket: Le déploiement est prêt pour la PR ${{ env.PR_NUMBER }} !"
+            color: 8311585
+            footer:
+              text: "https://${{ env.PR_NUMBER }}.pullrequests.augora.fr"
