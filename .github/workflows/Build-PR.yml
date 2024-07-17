@@ -84,9 +84,10 @@ jobs:
           embed: |
             {
               "title": "Augora Deploy PR",
-              "description": ":fire::fire_engine: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }} !\nhttps://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}",
-              "color": 2205369
+              "description": ":fire::fire_engine: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }} !",
+              "color": 15548997
             }
+          footer: https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}
 
       - name: Send successful message to Discord
         env:
@@ -101,6 +102,7 @@ jobs:
           embed: | 
             {
               "title": "Augora Deploy PR",
-              "description": ":rocket: Le déploiement est prêt pour la PR ${{ env.PR_NUMBER }} !\nhttps://${{ env.PR_NUMBER }}.pullrequests.augora.fr",
+              "description": ":rocket: Le déploiement est prêt pour la PR ${{ env.PR_NUMBER }} !,
               "color": 8311585
             }
+          footer: https://${{ env.PR_NUMBER }}.pullrequests.augora.fr
