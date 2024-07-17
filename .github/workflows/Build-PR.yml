@@ -23,9 +23,9 @@ jobs:
           embed: |
             title: Augora Deploy PR
             description: |
-              `:white_check_mark: Testing Discord notification ${PR_NUMBER} !
-              ${PR_NUMBER}.pullrequests.augora.fr
-              ${DISCORD_NOTIFICATION}`
+              `:white_check_mark: Testing Discord notification PR_NUMBER !
+              PR_NUMBER.pullrequests.augora.fr
+              DISCORD_NOTIFICATION`
             color: 8311585
 
   #     - uses: actions/checkout@v4
