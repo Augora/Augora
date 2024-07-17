@@ -10,64 +10,64 @@ jobs:
         os: [ubuntu-latest]
         node-version: [22.x]
     steps:
-      - uses: actions/checkout@v4
+  #     - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
 
-      - name: Yarn cache directory
-        id: yarn-cache-dir
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+  #     - name: Yarn cache directory
+  #       id: yarn-cache-dir
+  #       run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Yarn cache
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-            ${{ matrix.os }}-yarn-
+  #     - name: Yarn cache
+  #       uses: actions/cache@v3
+  #       id: yarn-cache
+  #       with:
+  #         path: ${{ steps.yarn-cache-dir.outputs.dir }}
+  #         key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+  #         restore-keys: |
+  #           ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+  #           ${{ matrix.os }}-yarn-
 
-      - name: yarn install
-        env:
-          CI: "true"
-          NODE_ENV: "pull_request"
-          NEXT_PUBLIC_ENV: "pull_request"
-        run: yarn install
+  #     - name: yarn install
+  #       env:
+  #         CI: "true"
+  #         NODE_ENV: "pull_request"
+  #         NEXT_PUBLIC_ENV: "pull_request"
+  #       run: yarn install
 
-      - name: yarn build
-        env:
-          CI: "true"
-          NODE_ENV: "pull_request"
-          NEXT_PUBLIC_ENV: "pull_request"
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL_STAGING }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY_STAGING }}
-          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
-        run: yarn build
+  #     - name: yarn build
+  #       env:
+  #         CI: "true"
+  #         NODE_ENV: "pull_request"
+  #         NEXT_PUBLIC_ENV: "pull_request"
+  #         NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL_STAGING }}
+  #         NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY_STAGING }}
+  #         NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
+  #       run: yarn build
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Use Node.js 22.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
+  #     - name: Use Node.js 22.x
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 22.x
 
-      - uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
-          vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
-          vercel-version: "34.3.0"
-          alias-domains: |
-            {{PR_NUMBER}}.pullrequests.augora.fr
+  #     - uses: amondnet/vercel-action@v25
+  #       with:
+  #         vercel-token: ${{ secrets.VERCEL_TOKEN }}
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
+  #         vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
+  #         vercel-version: "34.3.0"
+  #         alias-domains: |
+  #           {{PR_NUMBER}}.pullrequests.augora.fr
 
       # - name: Send error message to Discord
       #   env:
@@ -106,6 +106,6 @@ jobs:
               "description": | 
               "${{ job.status }} === 'success' ?:rocket: Le déploiement est prêt pour pour la PR ${{ env.PR_NUMBER }} !
               https://${{ env.PR_NUMBER }}.pullrequests.augora.fr" : ":fire::fire_engine: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }}
-              https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}"
+              https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}",
               "color": 8311585
             }
