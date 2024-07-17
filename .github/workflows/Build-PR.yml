@@ -85,9 +85,10 @@ jobs:
             {
               "title": "Augora Deploy PR",
               "description": ":fire: Le déploiement est en erreur pour la PR ${{ env.PR_NUMBER }} !",
-              "color": 15548997
+              "color": 15548997,
+              "footer":
+                text: "https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}"
             }
-          footer: https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}
 
       - name: Send successful message to Discord
         env:
