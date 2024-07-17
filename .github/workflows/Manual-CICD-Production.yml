@@ -24,7 +24,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
           vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
-          vercel-project-name: augora
           vercel-args: --prod --force --skip-domain
           vercel-version: "34.3.0"
           alias-domains: |
