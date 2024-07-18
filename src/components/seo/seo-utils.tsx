@@ -67,7 +67,7 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
   if (pageType === PageType.Depute) {
     return buildMetaTags(
       buildTitleFromPageType(pageType, depute),
-      `Informations générales et coordonnées de ${depute.Nom}, ${depute.Sexe === "H" ? "député" : "députée"} ${depute.GroupeParlementaire.NomComplet
+      `Informations générales et coordonnées de ${depute.Nom}, ${depute.Sexe === "H" ? "député" : "députée"} ${depute.newSource_GroupeParlementaire.NomComplet
       } de la ${depute.NumeroCirconscription}${depute.NumeroCirconscription < 2 ? "ère" : "ème"} circonscription de ${depute.NomDepartement
       }.`,
       process.env.NEXT_PUBLIC_ENV !== "production"
@@ -129,7 +129,7 @@ export function buildTitleFromPageType(pageType: PageType, depute: Deputy.Deputy
     return "Liste des députés | Augora"
   }
   if (pageType === PageType.Depute) {
-    return `${depute.Nom} - ${depute.Sexe === "H" ? "Député" : "Députée"} ${depute.GroupeParlementaire.Sigle} | Augora`
+    return `${depute.Nom} - ${depute.Sexe === "H" ? "Député" : "Députée"} ${depute.newSource_GroupeParlementaire.Sigle} | Augora`
   }
   if (pageType === PageType.FAQ) {
     return "Foire aux Questions | Augora"

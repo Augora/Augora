@@ -67,11 +67,11 @@ declare namespace Deputy {
      */
     AutreMandat?: AutreMandat[]
     AncienMandat?: AncienMandat[]
-    GroupeParlementaire?: Group.Group
+    newSource_GroupeParlementaire?: Group.Group
     ResponsabiliteGroupe?: Group.ResponsabiliteGroupe
     Activite?: Activite[]
     RattachementFinancier?: string
-    Depute_OrganismeParlementaire?: Organisme.Organisme[]
+    newSource_Depute_OrganismeParlementaire?: Organisme.Organisme[]
   }
 
   /**

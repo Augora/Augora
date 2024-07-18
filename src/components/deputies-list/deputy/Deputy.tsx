@@ -9,7 +9,7 @@ interface IOneDeputy {
 }
 
 export default function OneDeputy({ depute, groupNumber }: IOneDeputy) {
-  const GroupLogo = getGroupLogoImport(depute.GroupeParlementaire.Sigle)
+  const GroupLogo = getGroupLogoImport(depute.newSource_GroupeParlementaire.Sigle)
   const isPresidentGroupe =
     depute.ResponsabiliteGroupe.Fonction === "président" || depute.ResponsabiliteGroupe.Fonction === "présidente"
   return (
@@ -19,7 +19,7 @@ export default function OneDeputy({ depute, groupNumber }: IOneDeputy) {
         id={"depute-" + depute.Slug}
         className={`depute${isPresidentGroupe && groupNumber == 1 ? " depute__president" : ""}`}
         style={{
-          backgroundColor: depute.GroupeParlementaire.Couleur,
+          backgroundColor: depute.newSource_GroupeParlementaire.Couleur,
         }}
       >
         <h2>{`${depute.Prenom} ${depute.Nom}`}</h2>

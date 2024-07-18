@@ -25,7 +25,7 @@ interface IDeputy {
 
 export default function Deputy({ depute, deputeCirc }: IDeputy) {
   const deputy = depute
-  const color = deputy.GroupeParlementaire.CouleurDetail
+  const color = deputy.newSource_GroupeParlementaire.CouleurDetail
   const organismes = getOrganismes(deputy)
   return (
     <>
