@@ -56,10 +56,10 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
         className="btn--mail"
         title={"Adresse(s) e-mail"}
         deactivated={deputy.Emails.length < 1}
-        color={deputy.newSource_GroupeParlementaire.Couleur}
+        color={deputy.GroupeParlementaire.Couleur}
       >
         <div className="icon-wrapper">
-          <IconMail style={{ fill: deputy.newSource_GroupeParlementaire.Couleur }} />
+          <IconMail style={{ fill: deputy.GroupeParlementaire.Couleur }} />
         </div>
         {isMailTooltipVisible && <ContactTooltip links={deputy.Emails} />}
       </ButtonIcon>
@@ -71,7 +71,7 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
         target="_blank"
       >
         <div className="icon-wrapper" style={{ width: "30px" }}>
-          <IconWebsite style={{ fill: deputy.newSource_GroupeParlementaire.Couleur }} />
+          <IconWebsite style={{ fill: deputy.GroupeParlementaire.Couleur }} />
         </div>
         {isSiteTooltipVisible && <ContactTooltip links={deputy.SitesWeb} title="Visiter le site" target="_blank" />}
       </ButtonIcon>
@@ -83,7 +83,7 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
         target="_blank"
       >
         <div className="icon-wrapper" style={{ width: "30px" }}>
-          <IconAssemblee style={{ fill: deputy.newSource_GroupeParlementaire.Couleur }} />
+          <IconAssemblee style={{ fill: deputy.GroupeParlementaire.Couleur }} />
         </div>
       </ButtonIcon>
       <ButtonIcon
@@ -94,7 +94,7 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
         target="_blank"
       >
         <div className="icon-wrapper" style={{ width: "30px" }}>
-          <IconTwitter style={{ fill: deputy.newSource_GroupeParlementaire.Couleur }} />
+          <IconTwitter style={{ fill: deputy.GroupeParlementaire.Couleur }} />
         </div>
       </ButtonIcon>
       <ButtonIcon
@@ -105,20 +105,20 @@ export default function Socials({ deputy }: { deputy: Deputy.Deputy }) {
         target="_blank"
       >
         <div className="icon-wrapper" style={{ width: "30px" }}>
-          <IconFacebook style={{ fill: deputy.newSource_GroupeParlementaire.Couleur }} />
+          <IconFacebook style={{ fill: deputy.GroupeParlementaire.Couleur }} />
         </div>
       </ButtonIcon>
       {deputy.URLInstagram && (
         <ButtonIcon onClick={deputy.URLInstagram} className="btn--instagram" title={"Instagram"} target="_blank">
           <div className="icon-wrapper" style={{ width: "30px" }}>
-            <IconInstagram style={{ fill: deputy.newSource_GroupeParlementaire.Couleur }} />
+            <IconInstagram style={{ fill: deputy.GroupeParlementaire.Couleur }} />
           </div>
         </ButtonIcon>
       )}
       {deputy.URLLinkedIn && (
         <ButtonIcon onClick={deputy.URLLinkedIn} className="btn--linkedin" title={"LinkedIn"} target="_blank">
           <div className="icon-wrapper" style={{ width: "30px" }}>
-            <IconLinkedIn style={{ fill: deputy.newSource_GroupeParlementaire.Couleur }} />
+            <IconLinkedIn style={{ fill: deputy.GroupeParlementaire.Couleur }} />
           </div>
         </ButtonIcon>
       )}
