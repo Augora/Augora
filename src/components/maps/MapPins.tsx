@@ -136,7 +136,7 @@ export function MapPin(props: IMapPin) {
         <div
           className="pins__arrowdown"
           style={{
-            borderTopColor: props.deputies.length && zoneCode === Code.Circ ? props.deputies[0].GroupeParlementaire.Couleur : "",
+            borderTopColor: props.deputies.length && zoneCode === Code.Circ ? props.deputies[0].newSource_GroupeParlementaire.Couleur : "",
           }}
         />
       </div>

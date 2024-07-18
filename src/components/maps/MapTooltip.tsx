@@ -56,10 +56,10 @@ export default function MapTooltip(props: IMapTooltip) {
               <div
                 className="tooltip__groupe"
                 style={{
-                  color: deputies[0].GroupeParlementaire.Couleur,
+                  color: deputies[0].newSource_GroupeParlementaire.Couleur,
                 }}
               >
-                {deputies[0].GroupeParlementaire.NomComplet}
+                {deputies[0].newSource_GroupeParlementaire.NomComplet}
               </div>
               <div className="tooltip__savoirplus">Cliquer pour en savoir plus...</div>
             </>

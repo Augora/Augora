@@ -69,10 +69,10 @@ export default function MapPage(props: IMapProps) {
   const zoneDeputies = getDeputies(props.feature, FilteredList)
   const color =
     zoneDeputies.length === 1 && getZoneCode(props.feature) === Code.Circ
-      ? zoneDeputies[0]?.GroupeParlementaire?.CouleurDetail.HSL
+      ? zoneDeputies[0]?.newSource_GroupeParlementaire?.CouleurDetail.HSL
       : zoneDeputies.length === 0
-      ? "#808080"
-      : null
+        ? "#808080"
+        : null
 
   const handleResize = (e) => {
     setViewsize({ height: e.target.innerHeight, width: e.target.innerWidth })
