@@ -17,7 +17,7 @@ import {
   getDeputies,
 } from "components/maps/maps-utils"
 import { getMapFeature, getMapGeoJSON, getMapGhostGeoJSON, getBreadcrumb } from "components/maps/maps-imports"
-import { getDeputesMap, getGroupes } from "lib/deputes/Wrapper"
+import { getDeputes, getGroupes } from "lib/deputes/Wrapper"
 import shuffle from "lodash/shuffle"
 
 interface IMapProps {
@@ -122,7 +122,7 @@ export default function MapPage(props: IMapProps) {
 }
 
 export const getStaticProps: GetStaticProps<IMapProps> = async ({ params: { zone = null } }: { params: { zone: string[] } }) => {
-  const [deputes, groupes] = await Promise.all([getDeputesMap(), getGroupes()])
+  const [deputes, groupes] = await Promise.all([getDeputes(), getGroupes()])
   const feature = getMapFeature(zone)
 
   return {
