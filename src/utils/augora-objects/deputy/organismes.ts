@@ -3,7 +3,6 @@
  * @param deputy
  */
 export function getOrganismes(deputy: Deputy.Deputy) {
-  console.log(deputy)
   const organismesSorted = deputy.newSource_Depute_OrganismeParlementaire.sort(function (o, b) {
     return o.OrganismeParlementaire.EstPermanent === b.OrganismeParlementaire.EstPermanent
       ? 0
