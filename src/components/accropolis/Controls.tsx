@@ -100,7 +100,7 @@ export default function Controls({
       <div className={`${styles.controls__block} ${styles.controls__selected}`}>
         {activeDepute ? (
           <p className={`${styles.navigation__activeDepute}`}>
-            Député/Membre du gouvernement sélectionné : <span style={{ color: activeDepute.newSource_GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
+            Député/Membre du gouvernement sélectionné : <span style={{ color: activeDepute.GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
           </p>
         ) : <p>Aucun député sélectionné</p>}
       </div>

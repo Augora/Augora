@@ -61,7 +61,7 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
       sh = "scrollHeight"
     return ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100
   }
-  const pageColor: Color.HSL = children.props.depute ? children.props.depute.newSource_GroupeParlementaire.CouleurDetail.HSL : null
+  const pageColor: Color.HSL = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
 
   const handleScroll = () => {
     if (window.scrollY > 50) {

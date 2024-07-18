@@ -22,7 +22,7 @@ export const getAgeData = (
       const groups = groupList.reduce((acc, cur) => {
         return {
           ...acc,
-          [cur.Sigle]: ageDeputies.filter((depute) => depute.newSource_GroupeParlementaire.Sigle === cur.Sigle),
+          [cur.Sigle]: ageDeputies.filter((depute) => depute.GroupeParlementaire.Sigle === cur.Sigle),
         }
       }, {})
       return {

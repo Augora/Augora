@@ -6,7 +6,7 @@
 export const getNbDeputiesGroup = (list: Deputy.DeputiesList, value: string): number => {
   if (list.length > 0) {
     return list.filter((depute) => {
-      return depute.newSource_GroupeParlementaire.Sigle === value ? true : false
+      return depute.GroupeParlementaire.Sigle === value ? true : false
     }).length
   } else return 0
 }
@@ -85,7 +85,7 @@ export const filterList = (
 
   return list
     .filter((depute) => {
-      return allGroupsOff ? true : state.GroupeValue[depute.newSource_GroupeParlementaire.Sigle] ? true : false
+      return allGroupsOff ? true : state.GroupeValue[depute.GroupeParlementaire.Sigle] ? true : false
     })
     .filter((depute) => {
       return allSexesOff ? true : state.SexValue[depute.Sexe] ? true : false
