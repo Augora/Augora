@@ -7,65 +7,107 @@ function handleSupabaseError({ error, ...rest }) {
   return rest
 }
 
+// export function getDeputes() {
+//   return (
+//     supabase
+//       .from("Depute")
+//       .select(
+//         `
+//       *,
+//       GroupeParlementaire (
+//         *
+//       )
+//       `
+//       )
+//       // .eq("EstEnMandat", true)
+//       .then(handleSupabaseError)
+//       .then((d) => d.body)
+//   )
+// }
+
 export function getDeputes() {
-  return (
-    supabase
-      .from("Depute")
-      .select(
-        `
+  return supabase
+    .from("newSource_Depute")
+    .select(
+      `
       *,
-      GroupeParlementaire (
+      newSource_GroupeParlementaire (
         *
       )
       `
-      )
-      //.eq("EstEnMandat", true)
-      .then(handleSupabaseError)
-      .then((d) => d.body)
-      .then((d: Deputy.Deputy[]) =>
-        d.filter((depute) => depute.AncienMandat.find((mandat) => mandat.DateDeFin === "2024-06-09T00:00:00"))
-      )
-  )
+    )
+    .eq("EstEnMandat", true)
+    .then(handleSupabaseError)
+    .then((d) => d.body)
 }
 
 export function getDeputesSlugs() {
   return (
     supabase
-      .from("Depute")
-      //.select("Slug")
-      //.eq("EstEnMandat", true)
+      .from("newSource_Depute")
+      .select("Slug")
+      .eq("EstEnMandat", true)
       .then(handleSupabaseError)
       .then((d) => d.body)
-      .then((d: Deputy.Deputy[]) =>
-        d.filter((depute) => depute.AncienMandat.find((mandat) => mandat.DateDeFin === "2024-06-09T00:00:00"))
-      )
   )
 }
 
+// export function getGroupes() {
+//   return supabase
+//     .from("GroupeParlementaire")
+//     .select()
+//     .eq("Actif", true)
+//     .then(handleSupabaseError)
+//     .then((d) => d.body)
+// }
+
 export function getGroupes() {
   return supabase
-    .from("GroupeParlementaire")
+    .from("newSource_GroupeParlementaire")
     .select()
-    .eq("Actif", true)
+    // .eq("Actif", true)
     .then(handleSupabaseError)
     .then((d) => d.body)
 }
 
+// export function getDepute(slug: string) {
+//   return supabase
+//     .from("newSource_Depute")
+//     .select(
+//       `
+//       *,
+//       GroupeParlementaire (
+//         *
+//       ),
+//       Activite (
+//         *
+//       ),
+//       Depute_OrganismeParlementaire (
+//         *,
+//         OrganismeParlementaire (
+//           Nom,
+//           EstPermanent
+//         )
+//       )
+//       `
+//     )
+//     .eq("Slug", slug)
+//     .then(handleSupabaseError)
+//     .then((d) => d.body[0])
+// }
+
 export function getDepute(slug: string) {
   return supabase
-    .from("Depute")
+    .from("newSource_Depute")
     .select(
       `
       *,
-      GroupeParlementaire (
+      newSource_GroupeParlementaire (
         *
       ),
-      Activite (
-        *
-      ),
-      Depute_OrganismeParlementaire (
+      newSource_Depute_OrganismeParlementaire (
         *,
-        OrganismeParlementaire (
+        newSource_OrganismeParlementaire (
           Nom,
           EstPermanent
         )
@@ -114,7 +156,7 @@ export function getDeputeAccropolis(slug: string) {
 
 export function getDeputesMap() {
   return supabase
-    .from("Depute")
+    .from("newSource_Depute")
     .select(
       `
       Slug,
@@ -134,6 +176,7 @@ export function getDeputesMap() {
       RattachementFinancier,
       ResponsabiliteGroupe,
       GroupeParlementaire (
+        Slug,
         Sigle,
         NomComplet,
         Couleur,

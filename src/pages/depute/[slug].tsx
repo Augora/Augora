@@ -23,10 +23,6 @@ interface IDeputy {
   activites: { [Activites: string]: { [data: string]: Deputy.Activite[] } }[]
 }
 
-// const allColors = colors.map((color) => {
-//   return "--" + color.name + "-color :" + color.hex + ";\n"
-// })
-
 export default function Deputy({ depute, deputeCirc }: IDeputy) {
   const deputy = depute
   const color = deputy.GroupeParlementaire.CouleurDetail
@@ -65,7 +61,7 @@ export async function getStaticProps({ params: { slug } }: { params: { slug: str
     props: {
       depute: depute,
       deputeCirc: feature,
-      title: depute.Nom,
+      title: `${depute.Prenom} ${depute.Nom}`,
     },
   }
 }

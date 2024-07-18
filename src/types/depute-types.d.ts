@@ -20,6 +20,7 @@ declare namespace Deputy {
     /**
      * Format "yyyy-mm-dd"
      */
+    Suppleant?: string
     DateDeNaissance?: string
     LieuDeNaissance?: string
     NumeroDepartement?: string
@@ -37,8 +38,6 @@ declare namespace Deputy {
     PlaceEnHemicycle?: string
     URLAssembleeNationale?: string
     IDAssembleeNationale?: string
-    URLNosdeputes?: string
-    URLNosdeputesAPI?: string
     NombreMandats?: number
     Twitter?: string
     EstEnMandat?: boolean
@@ -60,17 +59,17 @@ declare namespace Deputy {
     /**
      * Array de toutes les adresses renseignées
      */
+    Collaborateurs?: string[]
     Adresses?: Adresse[]
     /**
      * Array des noms des assistants parlementaires
      * Exemple: ["Luc Derai", "Julie Phan-Pérain",...]
      */
-    Collaborateurs?: string[]
-    ResponsabiliteGroupe?: Group.ResponsabiliteGroupe
-    GroupeParlementaire?: Group.Group
-    Activite: Activite[]
     AutreMandat?: AutreMandat[]
     AncienMandat?: AncienMandat[]
+    GroupeParlementaire?: Group.Group
+    ResponsabiliteGroupe?: Group.ResponsabiliteGroupe
+    Activite?: Activite[]
     RattachementFinancier?: string
     Depute_OrganismeParlementaire?: Organisme.Organisme[]
   }

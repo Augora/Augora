@@ -100,7 +100,7 @@ export default function Controls({
       <div className={`${styles.controls__block} ${styles.controls__selected}`}>
         {activeDepute ? (
           <p className={`${styles.navigation__activeDepute}`}>
-            Député/Membre du gouvernement sélectionné : <span style={{ color: activeDepute.GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
+            Député/Membre du gouvernement sélectionné : <span style={{ color: activeDepute.newSource_GroupeParlementaire.Couleur }}>{activeDepute.Nom}</span>
           </p>
         ) : <p>Aucun député sélectionné</p>}
       </div>
@@ -128,7 +128,7 @@ export default function Controls({
                   <button
                     className={`${styles.search__depute}`}
                     style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}
-                    onClick={(e) => loadSearchedResult(e, Object.assign({}, depute, {type: 'dep'}))}
+                    onClick={(e) => loadSearchedResult(e, Object.assign({}, depute, { type: 'dep' }))}
                     key={`search-depute-${depute.Slug}`}
                   >
                     {depute.Nom}
@@ -139,7 +139,7 @@ export default function Controls({
               <div className={`${styles.navigation__searchResults}`}>
                 Aucun résultat
               </div>
-            ) : null }
+            ) : null}
           </div>
         </div>
       </div>
@@ -210,7 +210,7 @@ export default function Controls({
               <div className={`${styles.navigation__searchResults}`}>
                 Aucun résultat
               </div>
-            ) : null }
+            ) : null}
           </div>
         </div>
       </div>

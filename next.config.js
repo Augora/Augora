@@ -10,7 +10,7 @@ module.exports = withBundleAnalyzer({
   images: {
     remotePatterns: [
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "**.assemblee-nationale.fr",
       },
       {

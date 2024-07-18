@@ -3,10 +3,12 @@ declare namespace Group {
 
   /** Objet groupe de la database */
   interface Group {
-    /** Exemple: "LFI" */
-    Sigle: string
-    /** Exemple: "La France Insoumise" */
+    /** Exemple: "deputes-non-inscrits" */
+    Slug: string
+    /** Exemple: "Députés non inscrits" */
     NomComplet?: string
+    /** Exemple: "NI" */
+    Sigle?: string
     /** Format "hsl(255, 100%, 100%)" */
     Couleur?: string
     CouleurDetail?: Color.All
