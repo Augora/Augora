@@ -47,9 +47,9 @@ export default function DeputeBanner({
         code_cont: 0,
       })
   const refMapOpacity = { value: mapOpacity.value }
-  const HSL = depute.newSource_GroupeParlementaire.CouleurDetail.HSL
-  const RGB = depute.newSource_GroupeParlementaire.CouleurDetail.RGB
-  const GroupeLogo = getGroupLogoImport(depute.newSource_GroupeParlementaire.Sigle)
+  const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
+  const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
+  const GroupeLogo = getGroupLogoImport(depute.GroupeParlementaire.Sigle)
   const [oldDepute, setOldDepute] = useState(depute)
   const [oldHSL, setOldHSL] = useState(null)
   const [oldRGB, setOldRGB] = useState(RGB)
@@ -190,7 +190,7 @@ export default function DeputeBanner({
         <div
           className={styles.deputeBanner__bottomBackground}
           style={{
-            backgroundColor: oldDepute.newSource_GroupeParlementaire.Couleur,
+            backgroundColor: oldDepute.GroupeParlementaire.Couleur,
           }}
         >
           <svg
@@ -237,12 +237,12 @@ export default function DeputeBanner({
           <div
             className={styles.deputeBanner__bottomBackgroundTransition}
             style={{
-              backgroundColor: depute.newSource_GroupeParlementaire.Couleur,
+              backgroundColor: depute.GroupeParlementaire.Couleur,
             }}
           ></div>
         </div>
         <div className={styles.deputeBanner__logoGroup}>
-          <GroupeLogo style={{ fill: depute.newSource_GroupeParlementaire.Couleur }} />
+          <GroupeLogo style={{ fill: depute.GroupeParlementaire.Couleur }} />
         </div>
         <div className={styles.deputeBanner__logoBackground}>{/* Silence is golden... */}</div>
         <div className={styles.deputeBanner__content}>
@@ -254,7 +254,7 @@ export default function DeputeBanner({
 
       {/* MAP PART --------------------------------------------------------------------------------- */}
       <section className={styles.deputeBanner__map}>
-        <div className={styles.deputeBanner__mapHeader} style={{ backgroundColor: depute.newSource_GroupeParlementaire.Couleur }}>
+        <div className={styles.deputeBanner__mapHeader} style={{ backgroundColor: depute.GroupeParlementaire.Couleur }}>
           <p>
             {depute.NomRegion}
             <br />

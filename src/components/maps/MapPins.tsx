@@ -58,14 +58,14 @@ function DeputyContent({ deputy, feature, isOpen }: IDeputyContent) {
     <div className={`deputy__visuals ${isOpen ? "deputy__visuals--opened" : ""}`}>
       <DeputyImage src={deputy.URLPhotoAssembleeNationale} alt={deputy.Nom} sex={deputy.Sexe} />
       {isOpen && (
-        <div className="deputy__info" style={{ backgroundColor: deputy.newSource_GroupeParlementaire.Couleur }}>
+        <div className="deputy__info" style={{ backgroundColor: deputy.GroupeParlementaire.Couleur }}>
           <div className="info__circ">{`${feature.properties.nom_dpt} (${feature.properties[Code.Circ]})`}</div>
           <div className="info__name">
             <div>{deputy.Prenom}</div>
             <div>{deputy.Nom}</div>
           </div>
-          <div className="info__group">{deputy.newSource_GroupeParlementaire.NomComplet}</div>
-          {!deputy.newSource_GroupeParlementaire.NomComplet.toUpperCase().includes(deputy.RattachementFinancier.toUpperCase()) &&
+          <div className="info__group">{deputy.GroupeParlementaire.NomComplet}</div>
+          {!deputy.GroupeParlementaire.NomComplet.toUpperCase().includes(deputy.RattachementFinancier.toUpperCase()) &&
             deputy.RattachementFinancier !== "Non déclaré(s)" && (
               <div className="info__parti">({deputy.RattachementFinancier})</div>
             )}
@@ -136,7 +136,7 @@ export function MapPin(props: IMapPin) {
         <div
           className="pins__arrowdown"
           style={{
-            borderTopColor: props.deputies.length && zoneCode === Code.Circ ? props.deputies[0].newSource_GroupeParlementaire.Couleur : "",
+            borderTopColor: props.deputies.length && zoneCode === Code.Circ ? props.deputies[0].GroupeParlementaire.Couleur : "",
           }}
         />
       </div>

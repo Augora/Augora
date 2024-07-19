@@ -27,11 +27,11 @@ function handleSupabaseError({ error, ...rest }) {
 
 export function getDeputes() {
   return supabase
-    .from("newSource_Depute")
+    .from("Depute")
     .select(
       `
       *,
-      newSource_GroupeParlementaire (
+      GroupeParlementaire (
         *
       )
       `
@@ -44,7 +44,7 @@ export function getDeputes() {
 export function getDeputesSlugs() {
   return (
     supabase
-      .from("newSource_Depute")
+      .from("Depute")
       .select("Slug")
       .eq("EstEnMandat", true)
       .then(handleSupabaseError)
@@ -63,7 +63,7 @@ export function getDeputesSlugs() {
 
 export function getGroupes() {
   return supabase
-    .from("newSource_GroupeParlementaire")
+    .from("GroupeParlementaire")
     .select()
     // .eq("Actif", true)
     .then(handleSupabaseError)
@@ -72,7 +72,7 @@ export function getGroupes() {
 
 // export function getDepute(slug: string) {
 //   return supabase
-//     .from("newSource_Depute")
+//     .from("Depute")
 //     .select(
 //       `
 //       *,
@@ -98,16 +98,16 @@ export function getGroupes() {
 
 export function getDepute(slug: string) {
   return supabase
-    .from("newSource_Depute")
+    .from("Depute")
     .select(
       `
       *,
-      newSource_GroupeParlementaire (
+      GroupeParlementaire (
         *
       ),
-      newSource_Depute_OrganismeParlementaire (
+      Depute_OrganismeParlementaire (
         *,
-        newSource_OrganismeParlementaire (
+        OrganismeParlementaire (
           Nom,
           EstPermanent
         )
