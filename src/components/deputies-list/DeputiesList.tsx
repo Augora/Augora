@@ -90,7 +90,7 @@ export default function DeputiesList() {
                 <IconWikipedia className="icon-wikipedia" style={{ fill: groupesData[0].color }} />
               </a>
               <a
-                href={`https://www2.assemblee-nationale.fr/16/les-groupes-politiques/${groupesData[0].IdAssembleeNationale}`}
+                href={`https://www2.assemblee-nationale.fr/17/les-groupes-politiques/${groupesData[0].IdAssembleeNationale}`}
                 target="_blank"
                 rel="noreferrer"
                 className="lien lien__assemblee"
