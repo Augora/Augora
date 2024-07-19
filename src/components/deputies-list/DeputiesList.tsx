@@ -76,7 +76,7 @@ export default function DeputiesList() {
           )}
         </Frame>
       </section>
-      {groupesData.length === 1 ? (
+      {groupesData.length === 1 && groupesData[0].IdWikipedia ? (
         <>
           <section className="wikipedia__section">
             <Frame className="frame-wikipedia" title={`Groupe ${groupesData[0].label}`} style={{ color: groupesData[0].color }}>
@@ -98,7 +98,7 @@ export default function DeputiesList() {
               >
                 <IconAssemblee className="icon-assemblee" style={{ fill: groupesData[0].color }} />
               </a>
-              <DeputiesWiki content={groupesData[0].descriptionWikipedia} />
+              <DeputiesWiki content={groupesData[0].descriptionWikipedia.split('\n')} />
             </Frame>
           </section>
         </>
