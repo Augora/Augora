@@ -6,61 +6,15 @@ on:
       - develop
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node-version: [22.x]
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Yarn cache directory
-        id: yarn-cache-dir
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Yarn cache
-        uses: actions/cache@v1
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-            ${{ matrix.os }}-yarn-
-
-      - name: yarn install
-        env:
-          CI: "true"
-          NODE_ENV: "staging"
-          NEXT_PUBLIC_ENV: "staging"
-        run: yarn install
-
-      - name: yarn build
-        env:
-          CI: "true"
-          NODE_ENV: "staging"
-          NEXT_PUBLIC_ENV: "staging"
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL_STAGING }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY_STAGING }}
-          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
-        run: yarn build
-
-  deploy:
-    needs: build
+   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js 18.x
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v1
         with:
-          node-version: 18.x
+          node-version: 22.x
 
       - uses: amondnet/vercel-action@v25
         with:
@@ -68,7 +22,39 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
           vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
-          vercel-project-name: augora
           vercel-version: "34.3.0"
           alias-domains: |
             preprod.augora.fr
+      
+      - name: Send error message to Discord
+        env:
+          DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
+          RUN_ID: ${{ github.run_id }}
+        uses: MineBartekSA/discord-webhook@v2
+        if: always() && env.DISCORD_NOTIFICATION == 'true' && job.status != 'success'
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: 'GitHub Actions'
+          avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
+          embed: |
+            title: "Augora Staging"
+            color: 15548997
+            fields:
+              - name: ":fire: Le déploiement est en erreur !"
+                value: "https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}"
+
+      - name: Send successful message to Discord
+        env:
+          DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
+        uses: MineBartekSA/discord-webhook@v2
+        if: env.DISCORD_NOTIFICATION == 'true' && job.status == 'success'
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: 'GitHub Actions'
+          avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
+          embed: | 
+            title: "Augora Staging"
+            color: 8311585
+            fields:
+              - name: ":tada::tada: Site mis à jour en preprod ! :tada::tada:"
+                value: "https://preprod.augora.fr"

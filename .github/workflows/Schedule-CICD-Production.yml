@@ -23,8 +23,40 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_AUGORA_ORGID }}
           vercel-project-id: ${{ secrets.VERCEL_AUGORA_PROJECTID }}
-          vercel-project-name: augora
           vercel-args: --prod --force --skip-domain
           vercel-version: "34.3.0"
           alias-domains: |
             augora.fr
+      
+      - name: Send error message to Discord
+        env:
+          DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
+          RUN_ID: ${{ github.run_id }}
+        uses: MineBartekSA/discord-webhook@v2
+        if: always() && env.DISCORD_NOTIFICATION == 'true' && job.status != 'success'
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: 'GitHub Actions'
+          avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
+          embed: |
+            title: "Augora Production"
+            color: 15548997
+            fields:
+              - name: ":fire: Le déploiement est en erreur !"
+                value: "https://github.com/Augora/Augora/actions/runs/${{ env.RUN_ID }}"
+
+      - name: Send successful message to Discord
+        env:
+          DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
+        uses: MineBartekSA/discord-webhook@v2
+        if: env.DISCORD_NOTIFICATION == 'true' && job.status == 'success'
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: 'GitHub Actions'
+          avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
+          embed: | 
+            title: "Augora Production"
+            color: 8311585
+            fields:
+              - name: ":rocket::rocket: Site mis à jour en production ! :rocket::rocket:"
+                value: "https://augora.fr"
