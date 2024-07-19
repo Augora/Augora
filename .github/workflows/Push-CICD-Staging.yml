@@ -7,10 +7,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-latest]
         node-version: [22.x]
     steps:
       - uses: actions/checkout@v2
