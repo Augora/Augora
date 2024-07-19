@@ -58,14 +58,14 @@ export function getGroupLogoImport(group: string): React.FunctionComponent<React
       return PS
     case "LIOT":
       return LIOT
-    // case "EPR":
-    //   return EPR
+    case "EPR":
+      return EPR
     case "DEM":
       return DEM
     case "HOR":
       return HOR
-    // case "LDR":
-    //   return LDR
+    case "LDR":
+      return LDR
     // case "AD":
     //   return AD
     case "RN":
