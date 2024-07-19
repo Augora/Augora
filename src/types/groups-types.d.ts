@@ -12,7 +12,6 @@ declare namespace Group {
     /** Format "hsl(255, 100%, 100%)" */
     Couleur?: string
     CouleurDetail?: Color.All
-    URLImage?: string
     Ordre?: number
     Actif?: boolean
     DescriptionWikipedia?: string

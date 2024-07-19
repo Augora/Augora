@@ -11,7 +11,6 @@ declare namespace Deputy {
      * Exemple: "Cédric Roussel"
      */
     Nom?: string
-    NomDeFamille?: string
     Prenom?: string
     /**
      * "H" ou "F"
