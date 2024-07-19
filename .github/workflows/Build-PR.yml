@@ -3,53 +3,8 @@ name: CI Pull Request
 on: pull_request
 
 jobs:
-  build:
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        os: [macos-latest]
-        node-version: [22.x]
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Yarn cache directory
-        id: yarn-cache-dir
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Yarn cache
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-            ${{ matrix.os }}-yarn-
-
-      - name: yarn install
-        env:
-          CI: "true"
-          NODE_ENV: "pull_request"
-          NEXT_PUBLIC_ENV: "pull_request"
-        run: yarn install
-
-      - name: yarn build
-        env:
-          CI: "true"
-          NODE_ENV: "pull_request"
-          NEXT_PUBLIC_ENV: "pull_request"
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL_STAGING }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY_STAGING }}
-          NEXT_PUBLIC_MAPBOX_TOKEN: ${{ secrets.NEXT_PUBLIC_MAPBOX_TOKEN }}
-        run: yarn build
-
+  
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
