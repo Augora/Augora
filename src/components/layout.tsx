@@ -61,7 +61,6 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
       sh = "scrollHeight"
     return ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100
   }
-
   const pageColor: Color.HSL = children.props.depute ? children.props.depute.GroupeParlementaire.CouleurDetail.HSL : null
 
   const handleScroll = () => {
@@ -113,9 +112,8 @@ const Layout = ({ children, location, title, transparentHeader }: ILayout) => {
 
   return (
     <div
-      className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${
-        homeScrolled ? " scrolled--home" : ""
-      }${!hasLayout ? " no-layout" : ""}${transparentHeader ? " transparent" : ""}`}
+      className={`page-body${title ? " with-title" : " no-title"}${scrolled ? " scrolled" : ""}${homeScrolled ? " scrolled--home" : ""
+        }${!hasLayout ? " no-layout" : ""}${transparentHeader ? " transparent" : ""}`}
     >
       <Head>
         <style>{`:root {\n${allColors.join("")}}`}</style>

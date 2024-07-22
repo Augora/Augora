@@ -1,10 +1,11 @@
 import GDR from "images/logos/groupes-parlementaires/gdr.svg"
 import LFI from "images/logos/groupes-parlementaires/lfi.svg"
 import ECO from "images/logos/groupes-parlementaires/eco.svg"
-import LR from "images/logos/groupes-parlementaires/lr.svg"
-import LIOT from "images/logos/groupes-parlementaires/lt.svg"
-import MODEM from "images/logos/groupes-parlementaires/modem.svg"
-import REN from "images/logos/groupes-parlementaires/ren.svg"
+import LDR from "images/logos/groupes-parlementaires/ldr.svg"
+import AD from "images/logos/groupes-parlementaires/ad.svg"
+import LIOT from "images/logos/groupes-parlementaires/liot.svg"
+import DEM from "images/logos/groupes-parlementaires/dem.svg"
+import EPR from "images/logos/groupes-parlementaires/epr.svg"
 import HOR from "images/logos/groupes-parlementaires/hor.svg"
 import NI from "images/logos/groupes-parlementaires/ni.svg"
 import PS from "images/logos/groupes-parlementaires/ps.svg"
@@ -57,14 +58,16 @@ export function getGroupLogoImport(group: string): React.FunctionComponent<React
       return PS
     case "LIOT":
       return LIOT
-    case "REN":
-      return REN
-    case "MODEM":
-      return MODEM
+    case "EPR":
+      return EPR
+    case "DEM":
+      return DEM
     case "HOR":
       return HOR
-    case "LR":
-      return LR
+    case "LDR":
+      return LDR
+    case "AD":
+      return AD
     case "RN":
       return RN
     case "NI":

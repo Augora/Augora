@@ -67,10 +67,8 @@ export function buildMetaTagsFromPageType(pageType: PageType, depute: any) {
   if (pageType === PageType.Depute) {
     return buildMetaTags(
       buildTitleFromPageType(pageType, depute),
-      `Informations générales et coordonnées de ${depute.Nom}, ${depute.Sexe === "H" ? "député" : "députée"} ${
-        depute.GroupeParlementaire.NomComplet
-      } de la ${depute.NumeroCirconscription}${depute.NumeroCirconscription < 2 ? "ère" : "ème"} circonscription de ${
-        depute.NomDepartement
+      `Informations générales et coordonnées de ${depute.Nom}, ${depute.Sexe === "H" ? "député" : "députée"} ${depute.GroupeParlementaire.NomComplet
+      } de la ${depute.NumeroCirconscription}${depute.NumeroCirconscription < 2 ? "ère" : "ème"} circonscription de ${depute.NomDepartement
       }.`,
       process.env.NEXT_PUBLIC_ENV !== "production"
         ? `https://preprod.augora.fr/depute/${depute.Slug}`

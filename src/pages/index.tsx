@@ -139,9 +139,8 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                   feature: features[IndexFeature],
                 }}
                 marker={
-                  <span>{`${getZoneName(features[IndexFeature])}${
-                    features[IndexFeature].properties.nom_dpt ? ` de ${features[IndexFeature].properties.nom_dpt}` : ""
-                  }`}</span>
+                  <span>{`${getZoneName(features[IndexFeature])}${features[IndexFeature].properties.nom_dpt ? ` de ${features[IndexFeature].properties.nom_dpt}` : ""
+                    }`}</span>
                 }
               >
                 <Link href={`carte/${getFeatureURL(features[IndexFeature])}`}>
@@ -180,10 +179,10 @@ export default function IndexPage({ groupes, features }: { groupes: Group.Groups
                   {IndexGraphes === 0
                     ? "Députés par groupes parlementaires"
                     : IndexGraphes == 1
-                    ? "Cumul des âges des députés"
-                    : IndexGraphes == 2
-                    ? "Pyramide des âges par sexe"
-                    : "Pyramide des âges par groupe parlementaire"}
+                      ? "Cumul des âges des députés"
+                      : IndexGraphes == 2
+                        ? "Pyramide des âges par sexe"
+                        : "Pyramide des âges par groupe parlementaire"}
                 </span>
                 {IndexGraphes == 0 && (
                   <ParentSize debounceTime={400}>

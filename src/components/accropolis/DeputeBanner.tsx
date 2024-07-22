@@ -40,12 +40,12 @@ export default function DeputeBanner({
   const feature =
     NumeroCirconscription && NumeroDepartement
       ? getFeature({
-          code_circ: NumeroCirconscription,
-          code_dpt: NumeroDepartement,
-        })
+        code_circ: NumeroCirconscription,
+        code_dpt: NumeroDepartement,
+      })
       : getFeature({
-          code_cont: 0,
-        })
+        code_cont: 0,
+      })
   const refMapOpacity = { value: mapOpacity.value }
   const HSL = depute.GroupeParlementaire.CouleurDetail.HSL
   const RGB = depute.GroupeParlementaire.CouleurDetail.RGB
