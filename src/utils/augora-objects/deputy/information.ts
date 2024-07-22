@@ -3,7 +3,7 @@ import { getGroupLogoImport, getPartyLogoImport } from "./image"
 export function getGeneralInformation(deputy: Deputy.Deputy) {
   return {
     id: deputy.Slug,
-    lastName: deputy.NomDeFamille,
+    lastName: deputy.Nom,
     firstName: deputy.Prenom,
     picture: deputy.URLPhotoAssembleeNationale,
     pictureGroup: getGroupLogoImport(deputy.GroupeParlementaire.Sigle),

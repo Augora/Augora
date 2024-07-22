@@ -7,8 +7,8 @@ export function getOrganismes(deputy: Deputy.Deputy) {
     return o.OrganismeParlementaire.EstPermanent === b.OrganismeParlementaire.EstPermanent
       ? 0
       : o.OrganismeParlementaire.EstPermanent
-      ? -1
-      : 1
+        ? -1
+        : 1
   })
 
   const organismes = organismesSorted.map((o) => {
