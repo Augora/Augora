@@ -41,6 +41,7 @@ export default function DeputyImage(props: IDeputyImageInformation) {
     }
   }
 
+
   return (
     <Image
       className={HasErrored ? "icon-wrapper deputy__photo deputy__photo--errored" : "deputy__photo"}
@@ -48,6 +49,7 @@ export default function DeputyImage(props: IDeputyImageInformation) {
       alt={props.alt}
       placeholder={"blur"}
       blurDataURL={DeputyDefaultPlaceholder(props.sex)}
+      unoptimized={HasErrored}
       width={150}
       height={192}
       onError={() => onError()}
