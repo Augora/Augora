@@ -29,18 +29,30 @@ export function DeputyDefaultPlaceholder(sex: string) {
  * @param {IDeputyImageInformation} props
  * @returns <img> deputy image </img>
  */
+
+async function checkIfUrlExists(url: string, setSrc: React.Dispatch<React.SetStateAction<string>>, placeholder: string): Promise<boolean> {
+  try {
+    const response = await fetch(url, {
+      method: 'HEAD'
+    })
+    return response.status !== 404
+  } catch (error) {
+    setSrc(DeputyDefaultPlaceholder(placeholder))
+    return false
+  }
+}
+
 export default function DeputyImage(props: IDeputyImageInformation) {
   const [Src, setSrc] = useState(props.src)
+
   const [HasErrored, setHasErrored] = useState(false)
 
   function onError() {
-    // Prevent modifying state on error loop
     if (!HasErrored) {
       setHasErrored(true)
-      setSrc(DeputyDefaultPlaceholder(props.sex))
+      checkIfUrlExists(Src, setSrc, props.sex)
     }
   }
-
 
   return (
     <Image
@@ -52,7 +64,7 @@ export default function DeputyImage(props: IDeputyImageInformation) {
       unoptimized={HasErrored}
       width={150}
       height={192}
-      onError={() => onError()}
+      onError={onError}
     />
   )
 }
