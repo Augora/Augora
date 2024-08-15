@@ -8,12 +8,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: master
 
       - name: Use Node.js 22.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 22.x
 
@@ -27,7 +27,7 @@ jobs:
           vercel-version: "34.3.0"
           alias-domains: |
             augora.fr
-      
+
       - name: Send error message to Discord
         env:
           DISCORD_NOTIFICATION: ${{ secrets.DISCORD_NOTIFICATION }}
@@ -36,7 +36,7 @@ jobs:
         if: always() && env.DISCORD_NOTIFICATION == 'true' && job.status != 'success'
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          username: 'GitHub Actions'
+          username: "GitHub Actions"
           avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
           embed: |
             title: "Augora Production"
@@ -52,9 +52,9 @@ jobs:
         if: env.DISCORD_NOTIFICATION == 'true' && job.status == 'success'
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          username: 'GitHub Actions'
+          username: "GitHub Actions"
           avatar_url: https://avatars.githubusercontent.com/u/44036562?s=200&v=4
-          embed: | 
+          embed: |
             title: "Augora Production"
             color: 8311585
             fields:
