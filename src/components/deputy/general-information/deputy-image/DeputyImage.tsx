@@ -30,16 +30,15 @@ export function DeputyDefaultPlaceholder(sex: string) {
  * @returns <img> deputy image </img>
  */
 
-async function checkIfUrlExists(url: string, setSrc: React.Dispatch<React.SetStateAction<string>>, placeholder: string): Promise<boolean> {
-  try {
-    const response = await fetch(url, {
-      method: 'HEAD'
+async function checkIfUrlExists(url: string, setSrc: React.Dispatch<React.SetStateAction<string>>, placeholder: string) {
+  fetch(`/api/check-image-status?url=${encodeURIComponent(url)}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 404) {
+        setSrc(DeputyDefaultPlaceholder(placeholder))
+      }
     })
-    return response.status !== 404
-  } catch (error) {
-    setSrc(DeputyDefaultPlaceholder(placeholder))
-    return false
-  }
+    .catch(error => console.error('Fetch error:', error))
 }
 
 export default function DeputyImage(props: IDeputyImageInformation) {
