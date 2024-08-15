@@ -44,10 +44,11 @@ async function checkIfUrlExists(url: string, setSrc: React.Dispatch<React.SetSta
 
 export default function DeputyImage(props: IDeputyImageInformation) {
   const [Src, setSrc] = useState(props.src)
-
+  const [HasErrored, setHasErrored] = useState(false)
   const [IsPlaceholder, setIsPlaceholder] = useState(false)
 
   function onError() {
+    setHasErrored(true)
     checkIfUrlExists(Src, setSrc, props.sex, setIsPlaceholder)
   }
 
@@ -57,6 +58,7 @@ export default function DeputyImage(props: IDeputyImageInformation) {
       src={Src}
       alt={props.alt}
       placeholder={"blur"}
+      unoptimized={HasErrored}
       blurDataURL={DeputyDefaultPlaceholder(props.sex)}
       width={150}
       height={192}
